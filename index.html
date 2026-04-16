@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midnight & Light 🌙 Language Corner</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8394D;
+    --red-light: #ff6b7a;
+    --cream: #FFF8F0;
+    --ink: #1a1a2e;
+    --gold: #F5A623;
+    --green: #2ECC71;
+    --blue: #3498DB;
+    --purple: #9B59B6;
+    --card-shadow: 0 8px 32px rgba(232,57,77,0.12);
+    --radius: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 15% 20%, rgba(232,57,77,0.06) 0%, transparent 50%), radial-gradient(circle at 85% 80%, rgba(245,166,35,0.07) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+
+  /* DOWNLOAD BANNER */
+  .download-banner {
+    background: linear-gradient(135deg, #1a1a2e, #2d2d5e);
+    color: white; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap; text-align: center; position: relative; z-index: 200;
+  }
+  .download-banner p { font-size: 14px; font-weight: 700; opacity: 0.9; }
+  .download-btn-big {
+    background: var(--gold); color: var(--ink);
+    padding: 10px 24px; border-radius: 12px; border: none;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .download-btn-big:hover { transform: scale(1.05); background: #ffc043; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,248,240,0.92); backdrop-filter: blur(12px); border-bottom: 2px solid rgba(232,57,77,0.12); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; font-weight: 900; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .nav-logo em { color: var(--red); font-style: normal; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 8px 14px; border-radius: 12px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; color: #888; cursor: pointer; transition: all 0.2s; }
+  .nav-tab.active, .nav-tab:hover { background: var(--red); color: white; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--red), var(--gold)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 15px; cursor: pointer; }
+
+  .page { display: none; padding: 32px 24px; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .page.active { display: block; }
+
+  .hero { text-align: center; padding: 60px 20px 40px; }
+  .hero-badge { display: inline-block; background: rgba(232,57,77,0.1); color: var(--red); padding: 6px 16px; border-radius: 99px; font-size: 13px; font-weight: 700; margin-bottom: 20px; border: 1.5px solid rgba(232,57,77,0.2); }
+  .hero h1 { font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; line-height: 1.15; margin-bottom: 16px; }
+  .hero h1 em { color: var(--red); font-style: normal; }
+  .hero p { font-size: 17px; color: #666; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 14px 28px; border-radius: 14px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: var(--red); color: white; box-shadow: 0 4px 20px rgba(232,57,77,0.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,57,77,0.45); }
+  .btn-secondary { background: white; color: var(--ink); border: 2px solid #e8e8e8; }
+  .btn-secondary:hover { border-color: var(--red); color: var(--red); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 40px 0; }
+  .stat-card { background: white; border-radius: var(--radius); padding: 24px 20px; text-align: center; box-shadow: var(--card-shadow); border: 1.5px solid rgba(232,57,77,0.08); transition: transform 0.2s; }
+  .stat-card:hover { transform: translateY(-4px); }
+  .stat-num { font-family: 'Zen Maru Gothic', sans-serif; font-size: 36px; font-weight: 900; color: var(--red); }
+  .stat-label { font-size: 13px; color: #888; margin-top: 4px; font-weight: 600; }
+
+  .section-title { font-family: 'Zen Maru Gothic', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  .module-card { background: white; border-radius: var(--radius); padding: 28px 24px; cursor: pointer; box-shadow: var(--card-shadow); border: 2px solid transparent; transition: all 0.25s; position: relative; overflow: hidden; }
+  .module-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .module-card.red::before { background: var(--red); }
+  .module-card.gold::before { background: var(--gold); }
+  .module-card.green::before { background: var(--green); }
+  .module-card.blue::before { background: var(--blue); }
+  .module-card.purple::before { background: var(--purple); }
+  .module-card:hover { transform: translateY(-6px); border-color: var(--red); }
+  .module-icon { font-size: 44px; margin-bottom: 14px; display: block; }
+  .module-card h3 { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+  .module-card p { font-size: 14px; color: #888; line-height: 1.6; margin-bottom: 16px; }
+  .module-progress { height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
+  .module-progress-fill { height: 100%; border-radius: 99px; background: var(--red); }
+  .module-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .module-count { font-size: 12px; color: #aaa; font-weight: 600; }
+  .module-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; background: rgba(232,57,77,0.1); color: var(--red); }
+
+  .vocab-controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; align-items: center; }
+  .search-box { flex: 1; min-width: 200px; padding: 12px 18px; border: 2px solid #e8e8e8; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 15px; background: white; transition: border-color 0.2s; }
+  .search-box:focus { outline: none; border-color: var(--red); }
+  .filter-btn { padding: 10px 18px; border-radius: 12px; border: 2px solid #e8e8e8; background: white; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; color: #666; }
+  .filter-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .vocab-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.2s; border: 2px solid transparent; text-align: center; }
+  .vocab-card:hover { transform: translateY(-4px); border-color: var(--red); }
+  .vocab-card.flipped { background: var(--red); color: white; }
+  .vocab-kana { font-family: 'Zen Maru Gothic', sans-serif; font-size: 32px; font-weight: 700; }
+  .vocab-romaji { font-size: 13px; color: #aaa; margin: 4px 0; }
+  .vocab-card.flipped .vocab-romaji { color: rgba(255,255,255,0.7); }
+  .vocab-meaning { font-size: 15px; font-weight: 700; margin-top: 8px; }
+  .vocab-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; background: rgba(232,57,77,0.1); color: var(--red); font-weight: 700; margin-top: 8px; }
+  .vocab-card.flipped .vocab-tag { background: rgba(255,255,255,0.2); color: white; }
+
+  .game-container { background: white; border-radius: var(--radius); padding: 40px 32px; box-shadow: var(--card-shadow); text-align: center; max-width: 600px; margin: 0 auto; }
+  .game-score-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  .score-badge { background: var(--red); color: white; padding: 8px 20px; border-radius: 99px; font-weight: 800; font-size: 15px; }
+  .game-question { font-family: 'Zen Maru Gothic', sans-serif; font-size: 72px; font-weight: 900; color: var(--ink); margin: 20px 0; line-height: 1; animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .game-prompt { font-size: 16px; color: #888; margin-bottom: 28px; font-weight: 600; }
+  .game-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .game-option { padding: 16px; border-radius: 14px; border: 2px solid #e8e8e8; background: white; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; color: var(--ink); }
+  .game-option:hover { border-color: var(--red); background: rgba(232,57,77,0.05); transform: scale(1.02); }
+  .game-option.correct { background: var(--green); border-color: var(--green); color: white; transform: scale(1.05); }
+  .game-option.wrong { background: #ff4757; border-color: #ff4757; color: white; }
+  .game-option:disabled { cursor: not-allowed; }
+  .progress-bar-wrap { background: #f0f0f0; border-radius: 99px; height: 8px; margin: 24px 0 0; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 99px; transition: width 0.4s; }
+
+  .exercise-list { display: flex; flex-direction: column; gap: 16px; }
+  .exercise-item { background: white; border-radius: 16px; padding: 20px 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 20px; transition: transform 0.2s; }
+  .exercise-item:hover { transform: translateX(6px); }
+  .exercise-icon { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .exercise-info { flex: 1; }
+  .exercise-info h4 { font-family: 'Zen Maru Gothic', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .exercise-info p { font-size: 13px; color: #999; }
+  .exercise-status { padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+  .status-new { background: rgba(232,57,77,0.1); color: var(--red); }
+  .status-done { background: rgba(46,204,113,0.12); color: var(--green); }
+  .status-graded { background: rgba(245,166,35,0.12); color: var(--gold); }
+
+  .writing-section { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .writing-section { grid-template-columns: 1fr; } }
+  .writing-panel { background: white; border-radius: var(--radius); padding: 28px; box-shadow: var(--card-shadow); }
+  .writing-panel h3 { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 16px; }
+  #writingCanvas { border: 2px dashed #e0e0e0; border-radius: 14px; width: 100%; touch-action: none; background: #fafafa; cursor: crosshair; }
+  .canvas-controls { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .canvas-btn { padding: 8px 16px; border-radius: 10px; border: 2px solid #e8e8e8; background: white; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+  .canvas-btn:hover, .canvas-btn.active-pen { background: var(--red); border-color: var(--red); color: white; }
+  .char-display { font-family: 'Zen Maru Gothic', sans-serif; font-size: 120px; text-align: center; line-height: 1; color: rgba(232,57,77,0.15); padding: 20px 0; cursor: pointer; transition: color 0.2s; }
+  .char-display:hover { color: rgba(232,57,77,0.3); }
+
+  .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+  .teacher-card { background: white; border-radius: var(--radius); padding: 24px; box-shadow: var(--card-shadow); }
+  .teacher-card h3 { font-family: 'Zen Maru Gothic', sans-serif; font-size: 18px; font-weight: 900; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .student-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+  .student-row:last-child { border-bottom: none; }
+  .student-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: white; flex-shrink: 0; }
+  .student-name { flex: 1; font-weight: 700; font-size: 14px; }
+  .mini-bar { height: 4px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-top: 4px; width: 60px; }
+  .mini-bar-fill { height: 100%; border-radius: 99px; background: var(--green); }
+  .student-score { font-size: 13px; font-weight: 800; color: var(--red); }
+  .pending-list { display: flex; flex-direction: column; gap: 8px; }
+  .pending-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(232,57,77,0.04); border-radius: 12px; border: 1.5px solid rgba(232,57,77,0.1); }
+  .pending-info { flex: 1; }
+  .pending-info strong { display: block; font-size: 14px; font-weight: 700; }
+  .pending-info span { font-size: 12px; color: #aaa; }
+  .mark-btn { padding: 6px 14px; background: var(--red); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .mark-btn:hover { background: var(--red-light); transform: scale(1.05); }
+
+  .hiragana-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 10px; margin-bottom: 24px; }
+  .hira-cell { background: white; border-radius: 12px; padding: 10px 6px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+  .hira-cell:hover { border-color: var(--red); transform: scale(1.08); }
+  .hira-kana { font-family: 'Zen Maru Gothic', sans-serif; font-size: 24px; font-weight: 700; }
+  .hira-roma { font-size: 11px; color: #aaa; margin-top: 2px; font-weight: 600; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: white; padding: 14px 24px; border-radius: 14px; font-weight: 700; font-size: 15px; z-index: 999; transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 2px solid #f0f0f0; padding: 8px 0; z-index: 100; }
+  @media (max-width: 600px) { .bottom-nav { display: flex; } body { padding-bottom: 70px; } .nav-tabs { display: none; } .modules-grid { grid-template-columns: 1fr 1fr; } }
+  .bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; color: #aaa; cursor: pointer; padding: 6px 0; transition: color 0.2s; border: none; background: none; }
+  .bottom-nav-item.active { color: var(--red); }
+  .bottom-nav-item .icon { font-size: 22px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .page.active > * { animation: fadeUp 0.4s ease both; }
+  .page.active > *:nth-child(2) { animation-delay: 0.05s; }
+  .page.active > *:nth-child(3) { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<!-- DOWNLOAD BANNER -->
+<div class="download-banner">
+  <p>🌙 This is your Midnight & Light website file!</p>
+  <a class="download-btn-big" id="downloadBtn" href="#" onclick="downloadFile()">
+    ⬇️ Download This File
+  </a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🌙 <em>Midnight</em> & Light</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="showPage('vocab')">📚 Vocabulary</button>
+    <button class="nav-tab" onclick="showPage('game')">🎮 Mini Game</button>
+    <button class="nav-tab" onclick="showPage('exercises')">✏️ Exercises</button>
+    <button class="nav-tab" onclick="showPage('writing')">🖊️ Writing</button>
+    <button class="nav-tab" onclick="showPage('teacher')">👩‍🏫 Teacher</button>
+  </div>
+  <div class="nav-right">
+    <div class="avatar">Y</div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">🌙 JLPT N5 • Hiragana • Katakana</div>
+    <h1>Welcome to<br><em>Midnight & Light</em> 🌸</h1>
+    <p>Japanese & Mandarin learning — games, exercises and writing practice for all ages!</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('vocab')">🚀 Start Learning</button>
+      <button class="btn btn-secondary" onclick="showPage('game')">🎮 Play a Game</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">46</div><div class="stat-label">Hiragana chars</div></div>
+    <div class="stat-card"><div class="stat-num">800+</div><div class="stat-label">N5 Vocabulary</div></div>
+    <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">Mini Games</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Active Students</div></div>
+  </div>
+  <div class="section-title"><span>📖</span> Your Learning Path</div>
+  <div class="modules-grid">
+    <div class="module-card red" onclick="showPage('vocab')">
+      <span class="module-icon">あ</span>
+      <h3>Hiragana</h3>
+      <p>Master all 46 hiragana characters with audio and writing practice.</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:65%"></div></div>
+      <div class="module-meta"><span class="module-count">46 chars</span><span class="module-badge">65%</span></div>
+    </div>
+    <div class="module-card gold" onclick="showPage('vocab')">
+      <span class="module-icon">ア</span>
+      <h3>Katakana</h3>
+      <p>Learn katakana for foreign words and special vocabulary.</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:30%;background:var(--gold)"></div></div>
+      <div class="module-meta"><span class="module-count">46 chars</span><span class="module-badge">30%</span></div>
+    </div>
+    <div class="module-card green" onclick="showPage('vocab')">
+      <span class="module-icon">🗣️</span>
+      <h3>N5 Vocabulary</h3>
+      <p>Essential 800 words for JLPT N5 — nouns, verbs, adjectives and more.</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:20%;background:var(--green)"></div></div>
+      <div class="module-meta"><span class="module-count">800 words</span><span class="module-badge">20%</span></div>
+    </div>
+    <div class="module-card blue" onclick="showPage('exercises')">
+      <span class="module-icon">📝</span>
+      <h3>Grammar N5</h3>
+      <p>Basic sentence patterns, particles and verb conjugation.</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:10%;background:var(--blue)"></div></div>
+      <div class="module-meta"><span class="module-count">15 lessons</span><span class="module-badge">New!</span></div>
+    </div>
+    <div class="module-card purple" onclick="showPage('game')">
+      <span class="module-icon">🎮</span>
+      <h3>Mini Games</h3>
+      <p>Quiz battles, memory match — learn while having fun!</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:80%;background:var(--purple)"></div></div>
+      <div class="module-meta"><span class="module-count">12 games</span><span class="module-badge">🔥 Hot</span></div>
+    </div>
+    <div class="module-card red" onclick="showPage('writing')">
+      <span class="module-icon">🖊️</span>
+      <h3>Writing Practice</h3>
+      <p>Trace characters on phone, tablet or computer with stroke guides.</p>
+      <div class="module-progress"><div class="module-progress-fill" style="width:45%"></div></div>
+      <div class="module-meta"><span class="module-count">Draw & submit</span><span class="module-badge">Touch ✓</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="page" id="page-vocab">
+  <div class="section-title"><span>📚</span> N5 Vocabulary</div>
+  <div style="background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--card-shadow);margin-bottom:28px;">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;margin-bottom:16px;">あ Hiragana Chart — tap to hear!</div>
+    <div class="hiragana-grid" id="hiraganaGrid"></div>
+  </div>
+  <div class="vocab-controls">
+    <input class="search-box" type="text" placeholder="🔍 Search words..." oninput="filterVocab(this.value)" id="vocabSearch">
+    <button class="filter-btn active" onclick="filterCat('all',this)">All</button>
+    <button class="filter-btn" onclick="filterCat('noun',this)">Nouns 🧩</button>
+    <button class="filter-btn" onclick="filterCat('verb',this)">Verbs 🏃</button>
+    <button class="filter-btn" onclick="filterCat('adj',this)">Adjectives 🌈</button>
+    <button class="filter-btn" onclick="filterCat('number',this)">Numbers 🔢</button>
+  </div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</div>
+
+<!-- GAME -->
+<div class="page" id="page-game">
+  <div class="section-title"><span>🎮</span> Vocabulary Quiz</div>
+  <div class="game-container">
+    <div class="game-score-bar">
+      <div class="score-badge">⭐ Score: <span id="scoreNum">0</span></div>
+      <div id="livesDisplay">❤️❤️❤️</div>
+      <div style="font-size:13px;color:#aaa;font-weight:700;">Q <span id="qNum">1</span>/10</div>
+    </div>
+    <div class="game-question" id="gameQuestion">?</div>
+    <div class="game-prompt" id="gamePrompt">What does this mean in English?</div>
+    <div class="game-options" id="gameOptions"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="gameProgress" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- EXERCISES -->
+<div class="page" id="page-exercises">
+  <div class="section-title"><span>✏️</span> Exercises</div>
+  <div class="exercise-list">
+    <div class="exercise-item">
+      <div class="exercise-icon" style="background:rgba(232,57,77,0.1)">📝</div>
+      <div class="exercise-info"><h4>Hiragana Writing Sheet — Week 1</h4><p>Practice あ い う え お rows • Due: Friday</p></div>
+      <span class="exercise-status status-new">New</span>
+    </div>
+    <div class="exercise-item">
+      <div class="exercise-icon" style="background:rgba(46,204,113,0.1)">✅</div>
+      <div class="exercise-info"><h4>N5 Vocabulary Quiz — Animals</h4><p>Score: 8/10 • Submitted 2 days ago</p></div>
+      <span class="exercise-status status-graded">⭐ 80%</span>
+    </div>
+    <div class="exercise-item">
+      <div class="exercise-icon" style="background:rgba(245,166,35,0.1)">🔢</div>
+      <div class="exercise-info"><h4>Numbers 1–100 Fill-in</h4><p>Submitted • Waiting for teacher to mark</p></div>
+      <span class="exercise-status status-done">Submitted</span>
+    </div>
+    <div class="exercise-item">
+      <div class="exercise-icon" style="background:rgba(52,152,219,0.1)">🗣️</div>
+      <div class="exercise-info"><h4>Grammar: は vs が Worksheet</h4><p>New exercise • 20 questions • ~15 min</p></div>
+      <span class="exercise-status status-new">New</span>
+    </div>
+  </div>
+  <div style="margin-top:28px;background:white;border-radius:var(--radius);padding:28px;box-shadow:var(--card-shadow);">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;margin-bottom:12px;">📤 Submit Your Work</div>
+    <p style="color:#888;font-size:14px;margin-bottom:16px;">Write your answers below and tap Submit!</p>
+    <textarea style="width:100%;padding:16px;border:2px solid #e8e8e8;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;resize:vertical;min-height:120px;" placeholder="Write your answers here..."></textarea>
+    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="submitExercise()">📤 Submit</button>
+      <button class="btn btn-secondary">📎 Attach Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div class="page" id="page-writing">
+  <div class="section-title"><span>🖊️</span> Writing Practice</div>
+  <div class="writing-section">
+    <div class="writing-panel">
+      <h3>Draw the character</h3>
+      <div class="char-display" id="charDisplay" onclick="nextChar()">あ</div>
+      <p style="text-align:center;font-size:13px;color:#aaa;margin-bottom:12px;font-weight:600;">Tap character for next • Draw below</p>
+      <canvas id="writingCanvas" width="320" height="260"></canvas>
+      <div class="canvas-controls">
+        <button class="canvas-btn" onclick="clearCanvas()">🗑️ Clear</button>
+        <button class="canvas-btn active-pen" onclick="setPen(4,this)">✏️ Pen</button>
+        <button class="canvas-btn" onclick="setPen(2,this)">🖊️ Fine</button>
+        <button class="canvas-btn" onclick="setPen(8,this)">🖌️ Bold</button>
+        <button class="canvas-btn" onclick="submitDrawing()" style="background:var(--red);color:white;border-color:var(--red)">📤 Submit</button>
+      </div>
+    </div>
+    <div class="writing-panel">
+      <h3>Choose character</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <button class="filter-btn active">Hiragana</button>
+        <button class="filter-btn">Katakana</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;" id="writingChars"></div>
+      <div style="margin-top:20px;padding:16px;background:#fff8f0;border-radius:12px;border:1.5px solid rgba(232,57,77,0.15);">
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px;">💡 Stroke order tip</div>
+        <p style="font-size:13px;color:#888;line-height:1.7;">Always write top → bottom, left → right.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER -->
+<div class="page" id="page-teacher">
+  <div class="section-title"><span>👩‍🏫</span> Teacher Dashboard</div>
+  <div class="teacher-grid">
+    <div class="teacher-card">
+      <h3><span>👥</span> Students Progress</h3>
+      <div id="studentList"></div>
+    </div>
+    <div class="teacher-card">
+      <h3><span>📬</span> Pending to Mark</h3>
+      <div class="pending-list" id="pendingList"></div>
+    </div>
+    <div class="teacher-card">
+      <h3><span>📊</span> This Week</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:#fff0f2;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;color:var(--red)">5</div><div style="font-size:12px;color:#aaa;font-weight:600">Submissions</div></div>
+        <div style="background:#f0fff6;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;color:var(--green)">3</div><div style="font-size:12px;color:#aaa;font-weight:600">Marked</div></div>
+        <div style="background:#fffbf0;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;color:var(--gold)">82%</div><div style="font-size:12px;color:#aaa;font-weight:600">Avg Score</div></div>
+        <div style="background:#f0f5ff;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;color:var(--blue)">12</div><div style="font-size:12px;color:#aaa;font-weight:600">Games Played</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:white;border-radius:var(--radius);padding:28px;box-shadow:var(--card-shadow);">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;margin-bottom:16px;">📤 Upload Learning Materials</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showToast('📎 File upload coming soon!')">📎 Upload PDF / Worksheet</button>
+      <button class="btn btn-secondary" onclick="showToast('📝 Exercise builder coming soon!')">📝 Create Exercise</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bottom-nav-item active" onclick="showPage('home')"><div class="icon">🏠</div>Home</button>
+  <button class="bottom-nav-item" onclick="showPage('vocab')"><div class="icon">📚</div>Learn</button>
+  <button class="bottom-nav-item" onclick="showPage('game')"><div class="icon">🎮</div>Game</button>
+  <button class="bottom-nav-item" onclick="showPage('writing')"><div class="icon">🖊️</div>Write</button>
+  <button class="bottom-nav-item" onclick="showPage('teacher')"><div class="icon">👩‍🏫</div>Teacher</button>
+</div>
+
+<div class="toast" id="toast">🌙 <span id="toastMsg"></span></div>
+
+<script>
+const hiragana = [
+  {k:'あ',r:'a'},{k:'い',r:'i'},{k:'う',r:'u'},{k:'え',r:'e'},{k:'お',r:'o'},
+  {k:'か',r:'ka'},{k:'き',r:'ki'},{k:'く',r:'ku'},{k:'け',r:'ke'},{k:'こ',r:'ko'},
+  {k:'さ',r:'sa'},{k:'し',r:'shi'},{k:'す',r:'su'},{k:'せ',r:'se'},{k:'そ',r:'so'},
+  {k:'た',r:'ta'},{k:'ち',r:'chi'},{k:'つ',r:'tsu'},{k:'て',r:'te'},{k:'と',r:'to'},
+  {k:'な',r:'na'},{k:'に',r:'ni'},{k:'ぬ',r:'nu'},{k:'ね',r:'ne'},{k:'の',r:'no'},
+  {k:'は',r:'ha'},{k:'ひ',r:'hi'},{k:'ふ',r:'fu'},{k:'へ',r:'he'},{k:'ほ',r:'ho'},
+  {k:'ま',r:'ma'},{k:'み',r:'mi'},{k:'む',r:'mu'},{k:'め',r:'me'},{k:'も',r:'mo'},
+  {k:'や',r:'ya'},{k:'ゆ',r:'yu'},{k:'よ',r:'yo'},
+  {k:'ら',r:'ra'},{k:'り',r:'ri'},{k:'る',r:'ru'},{k:'れ',r:'re'},{k:'ろ',r:'ro'},
+  {k:'わ',r:'wa'},{k:'を',r:'wo'},{k:'ん',r:'n'}
+];
+
+const vocab = [
+  {k:'ねこ',r:'neko',m:'cat',c:'noun'},{k:'いぬ',r:'inu',m:'dog',c:'noun'},
+  {k:'さかな',r:'sakana',m:'fish',c:'noun'},{k:'とり',r:'tori',m:'bird',c:'noun'},
+  {k:'はな',r:'hana',m:'flower',c:'noun'},{k:'き',r:'ki',m:'tree',c:'noun'},
+  {k:'みず',r:'mizu',m:'water',c:'noun'},{k:'やま',r:'yama',m:'mountain',c:'noun'},
+  {k:'たべる',r:'taberu',m:'to eat',c:'verb'},{k:'のむ',r:'nomu',m:'to drink',c:'verb'},
+  {k:'みる',r:'miru',m:'to see',c:'verb'},{k:'きく',r:'kiku',m:'to listen',c:'verb'},
+  {k:'はなす',r:'hanasu',m:'to speak',c:'verb'},{k:'よむ',r:'yomu',m:'to read',c:'verb'},
+  {k:'かく',r:'kaku',m:'to write',c:'verb'},{k:'いく',r:'iku',m:'to go',c:'verb'},
+  {k:'おおきい',r:'ookii',m:'big',c:'adj'},{k:'ちいさい',r:'chiisai',m:'small',c:'adj'},
+  {k:'あかい',r:'akai',m:'red',c:'adj'},{k:'あおい',r:'aoi',m:'blue',c:'adj'},
+  {k:'いち',r:'ichi',m:'one (1)',c:'number'},{k:'に',r:'ni',m:'two (2)',c:'number'},
+  {k:'さん',r:'san',m:'three (3)',c:'number'},{k:'し',r:'shi',m:'four (4)',c:'number'},
+  {k:'ご',r:'go',m:'five (5)',c:'number'},{k:'ろく',r:'roku',m:'six (6)',c:'number'},
+];
+
+const students = [
+  {name:'Yuki',color:'#E8394D',score:85,progress:78},
+  {name:'Hana',color:'#3498DB',score:92,progress:90},
+  {name:'Riku',color:'#2ECC71',score:67,progress:55},
+  {name:'Mio',color:'#F5A623',score:74,progress:62},
+  {name:'Sota',color:'#9B59B6',score:88,progress:80},
+];
+
+const pending = [
+  {name:'Yuki',ex:'Hiragana Writing Sheet',time:'2h ago'},
+  {name:'Riku',ex:'N5 Vocabulary Quiz',time:'5h ago'},
+  {name:'Mio',ex:'Numbers 1–100',time:'1d ago'},
+];
+
+// DOWNLOAD
+function downloadFile() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'midnight-and-light.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ File downloaded! Check your Downloads folder 🌙');
+}
+
+function buildHiragana() {
+  document.getElementById('hiraganaGrid').innerHTML = hiragana.map(h =>
+    `<div class="hira-cell" onclick="speak('${h.r}')"><div class="hira-kana">${h.k}</div><div class="hira-roma">${h.r}</div></div>`).join('');
+}
+
+function buildVocab(list) {
+  document.getElementById('vocabGrid').innerHTML = list.map(v =>
+    `<div class="vocab-card" onclick="this.classList.toggle('flipped')">
+      <div class="vocab-kana">${v.k}</div>
+      <div class="vocab-romaji">${v.r}</div>
+      <div class="vocab-meaning">${v.m}</div>
+      <div class="vocab-tag">${v.c}</div>
+    </div>`).join('');
+}
+
+let currentCat = 'all';
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters(document.getElementById('vocabSearch').value.toLowerCase(), cat);
+}
+function filterVocab(val) { applyFilters(val.toLowerCase(), currentCat); }
+function applyFilters(search, cat) {
+  buildVocab(vocab.filter(v => (cat==='all'||v.c===cat) && (!search||v.k.includes(search)||v.r.includes(search)||v.m.includes(search))));
+}
+
+function buildStudents() {
+  document.getElementById('studentList').innerHTML = students.map(s =>
+    `<div class="student-row">
+      <div class="student-avatar" style="background:${s.color}">${s.name[0]}</div>
+      <div style="flex:1"><div class="student-name">${s.name}</div><div class="mini-bar"><div class="mini-bar-fill" style="width:${s.progress}%"></div></div></div>
+      <div class="student-score">${s.score}%</div>
+    </div>`).join('');
+  document.getElementById('pendingList').innerHTML = pending.map(p =>
+    `<div class="pending-item">
+      <div style="font-size:22px">📝</div>
+      <div class="pending-info"><strong>${p.name} — ${p.ex}</strong><span>${p.time}</span></div>
+      <button class="mark-btn" onclick="markItem(this,'${p.name}')">Mark ✓</button>
+    </div>`).join('');
+}
+
+function buildWritingChars() {
+  document.getElementById('writingChars').innerHTML = hiragana.slice(0,20).map(h =>
+    `<div class="hira-cell" style="padding:8px 4px" onclick="selectChar('${h.k}','${h.r}')">
+      <div class="hira-kana" style="font-size:20px">${h.k}</div>
+      <div class="hira-roma" style="font-size:10px">${h.r}</div>
+    </div>`).join('');
+}
+
+// GAME
+let score=0, lives=3, qIndex=0, answered=false;
+const questions = vocab.slice(0,10);
+
+function buildGame() {
+  score=0; lives=3; qIndex=0;
+  updateGameUI(); nextQuestion();
+}
+function nextQuestion() {
+  if (qIndex>=10||lives<=0) { endGame(); return; }
+  answered=false;
+  const q=questions[qIndex];
+  document.getElementById('gameQuestion').textContent=q.k;
+  document.getElementById('gameProgress').style.width=(qIndex/10*100)+'%';
+  document.getElementById('qNum').textContent=qIndex+1;
+  let opts=[q.m];
+  while(opts.length<4){const r=vocab[Math.floor(Math.random()*vocab.length)].m;if(!opts.includes(r))opts.push(r);}
+  opts=opts.sort(()=>Math.random()-0.5);
+  document.getElementById('gameOptions').innerHTML=opts.map(o=>
+    `<button class="game-option" onclick="checkAnswer(this,'${o}','${q.m}')">${o}</button>`).join('');
+}
+function checkAnswer(btn,chosen,correct) {
+  if(answered)return; answered=true;
+  document.querySelectorAll('.game-option').forEach(b=>b.disabled=true);
+  if(chosen===correct){btn.classList.add('correct');score+=10;showToast('✅ Correct! +10 points');}
+  else{btn.classList.add('wrong');lives--;document.querySelectorAll('.game-option').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});showToast('❌ It was: '+correct);}
+  updateGameUI(); qIndex++; setTimeout(nextQuestion,1400);
+}
+function updateGameUI() {
+  document.getElementById('scoreNum').textContent=score;
+  document.getElementById('livesDisplay').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives);
+}
+function endGame() {
+  document.getElementById('gameQuestion').textContent=score>=70?'🎉':'😊';
+  document.getElementById('gamePrompt').textContent=`Game Over! Score: ${score}/100`;
+  document.getElementById('gameOptions').innerHTML=`<button class="game-option" style="grid-column:1/-1" onclick="buildGame()">🔄 Play Again</button>`;
+  document.getElementById('gameProgress').style.width='100%';
+}
+
+// CANVAS
+let canvas,ctx,drawing=false,penSize=4;
+function initCanvas() {
+  canvas=document.getElementById('writingCanvas');
+  if(!canvas||canvas._init)return; canvas._init=true;
+  ctx=canvas.getContext('2d');
+  ctx.strokeStyle='#1a1a2e'; ctx.lineWidth=penSize; ctx.lineCap='round'; ctx.lineJoin='round';
+  canvas.addEventListener('mousedown',startDraw);
+  canvas.addEventListener('mousemove',draw);
+  canvas.addEventListener('mouseup',stopDraw);
+  canvas.addEventListener('mouseleave',stopDraw);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startDraw(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();draw(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchend',stopDraw);
+}
+function getPos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)};}
+function startDraw(e){drawing=true;const p=getPos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function draw(e){if(!drawing)return;const p=getPos(e);ctx.lineTo(p.x,p.y);ctx.stroke();}
+function stopDraw(){drawing=false;}
+function clearCanvas(){if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);}
+function setPen(size,btn){penSize=size;if(ctx)ctx.lineWidth=size;document.querySelectorAll('.canvas-btn').forEach(b=>b.classList.remove('active-pen'));btn.classList.add('active-pen');}
+
+let charList=hiragana.map(h=>h.k), charIdx=0;
+function nextChar(){charIdx=(charIdx+1)%charList.length;document.getElementById('charDisplay').textContent=charList[charIdx];clearCanvas();}
+function selectChar(k,r){document.getElementById('charDisplay').textContent=k;clearCanvas();showToast('✏️ Now write: '+k+' ('+r+')');}
+
+function speak(text){if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.8;speechSynthesis.speak(u);}showToast('🔊 '+text);}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function submitExercise(){showToast('📤 Submitted! Your teacher will mark it soon 🌸');}
+function submitDrawing(){showToast('🖊️ Writing submitted to teacher!');}
+function markItem(btn,name){btn.textContent='✅ Marked';btn.style.background='var(--green)';btn.disabled=true;showToast('✅ '+name+"'s work marked!");}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  ['home','vocab','game','exercises','writing','teacher'].forEach((p,i)=>{
+    document.querySelectorAll('.nav-tab')[i]?.classList.toggle('active',p===id);
+  });
+  ['home','vocab','game','writing','teacher'].forEach((p,i)=>{
+    document.querySelectorAll('.bottom-nav-item')[i]?.classList.toggle('active',p===id);
+  });
+  if(id==='game')buildGame();
+  if(id==='writing'){buildWritingChars();setTimeout(initCanvas,150);}
+}
+
+buildHiragana();
+buildVocab(vocab);
+buildStudents();
+</script>
+</body>
+</html>
