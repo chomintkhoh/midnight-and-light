@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midnight & Light 🌙 Language Corner</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E8394D;--red-light:#ff6b7a;--cream:#FFF8F0;--ink:#1a1a2e;
+  --gold:#F5A623;--green:#2ECC71;--blue:#3498DB;--purple:#9B59B6;
+  --shadow:0 8px 32px rgba(232,57,77,0.10);--radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(232,57,77,0.06),transparent 50%),radial-gradient(circle at 85% 80%,rgba(245,166,35,0.07),transparent 50%);pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,248,240,0.93);backdrop-filter:blur(12px);border-bottom:2px solid rgba(232,57,77,0.12);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px;gap:8px;}
+.nav-logo{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;}
+.nav-logo em{color:var(--red);font-style:normal;}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:6px 11px;border-radius:9px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;color:#888;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.nav-tab.active,.nav-tab:hover{background:var(--red);color:white;}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--gold));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;}
+
+/* PAGES */
+.page{display:none;padding:24px 16px;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.page.active>*{animation:fadeUp 0.3s ease both;}
+.page.active>*:nth-child(2){animation-delay:.04s;}
+.page.active>*:nth-child(3){animation-delay:.08s;}
+.page.active>*:nth-child(4){animation-delay:.12s;}
+
+/* COMMON */
+.btn{padding:11px 22px;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--red);color:white;box-shadow:0 4px 14px rgba(232,57,77,0.28);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:white;color:var(--ink);border:2px solid #e8e8e8;}
+.btn-secondary:hover{border-color:var(--red);color:var(--red);}
+.section-title{font-family:'Zen Maru Gothic',sans-serif;font-size:21px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.card-box{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+.pill-btn{padding:7px 14px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;color:#666;}
+.pill-btn.active{background:var(--red);border-color:var(--red);color:white;}
+
+/* RUBY */
+ruby{display:inline-flex;flex-direction:column-reverse;align-items:center;line-height:1.1;}
+rt{font-size:0.46em;font-family:'Zen Maru Gothic',sans-serif;color:var(--red);font-weight:700;line-height:1.6;text-align:center;}
+
+/* HOME */
+.hero{text-align:center;padding:44px 12px 32px;}
+.hero-badge{display:inline-block;background:rgba(232,57,77,0.1);color:var(--red);padding:5px 13px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:16px;border:1.5px solid rgba(232,57,77,0.2);}
+.hero h1{font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:900;line-height:1.2;margin-bottom:12px;}
+.hero h1 em{color:var(--red);font-style:normal;}
+.hero p{font-size:15px;color:#666;max-width:460px;margin:0 auto 26px;line-height:1.7;}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:28px 0;}
+.stat-card{background:white;border-radius:var(--radius);padding:18px 14px;text-align:center;box-shadow:var(--shadow);transition:transform 0.2s;}
+.stat-card:hover{transform:translateY(-3px);}
+.stat-num{font-family:'Zen Maru Gothic',sans-serif;font-size:30px;font-weight:900;color:var(--red);}
+.stat-label{font-size:11px;color:#888;margin-top:2px;font-weight:600;}
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+.mod-card{background:white;border-radius:var(--radius);padding:22px 18px;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent;transition:all 0.25s;position:relative;overflow:hidden;}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.mod-card.cr::before{background:var(--red);}
+.mod-card.cg::before{background:var(--gold);}
+.mod-card.cgr::before{background:var(--green);}
+.mod-card.cb::before{background:var(--blue);}
+.mod-card.cp::before{background:var(--purple);}
+.mod-card:hover{transform:translateY(-5px);border-color:var(--red);}
+.mod-icon{font-size:36px;margin-bottom:10px;display:block;}
+.mod-card h3{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;margin-bottom:5px;}
+.mod-card p{font-size:12px;color:#888;line-height:1.6;margin-bottom:12px;}
+.mod-bar{height:5px;background:#f0f0f0;border-radius:99px;overflow:hidden;}
+.mod-bar-fill{height:100%;border-radius:99px;background:var(--red);}
+.mod-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.mod-count{font-size:10px;color:#aaa;font-weight:600;}
+.mod-badge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);}
+
+/* VOCAB / CHART */
+.chart-section{margin-bottom:10px;}
+.chart-group-title{font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:900;color:var(--red);margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.hira-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px;}
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:7px;}
+.hira-cell{background:white;border-radius:10px;padding:8px 5px;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+.hira-cell:hover{border-color:var(--red);transform:scale(1.08);}
+.hira-cell.played{border-color:var(--green);}
+.hira-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:700;}
+.hira-roma{font-size:10px;color:#aaa;margin-top:1px;font-weight:600;}
+.chart-tabs{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
+
+/* CALENDAR VOCAB */
+.cal-section{margin-bottom:14px;}
+.cal-subtitle{font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:900;color:var(--red);margin:14px 0 8px;}
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;}
+.cal-card{background:white;border-radius:12px;padding:12px;border:1.5px solid rgba(232,57,77,0.1);transition:all 0.2s;text-align:center;}
+.cal-card:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 12px rgba(232,57,77,0.1);}
+.cal-kanji{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:700;display:flex;justify-content:center;margin-bottom:3px;}
+.cal-kanji ruby{font-size:20px;}
+.cal-kanji rt{font-size:10px;color:var(--red);}
+.cal-roma{font-size:10px;color:#aaa;font-weight:600;margin-bottom:5px;}
+.cal-en-wrap{overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
+.cal-en-wrap.open{max-height:50px;}
+.cal-en{font-size:12px;font-weight:700;color:var(--ink);padding-top:4px;border-top:1px solid #f0f0f0;margin-top:3px;}
+.cal-toggle{font-size:10px;padding:2px 9px;border-radius:99px;border:1.5px solid #e8e8e8;background:white;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;color:#aaa;transition:all 0.2s;}
+.cal-toggle.open{border-color:var(--red);color:var(--red);}
+
+/* GENERAL VOCAB CARDS */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.vocab-card{background:white;border-radius:13px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;text-align:center;}
+.vocab-card:hover{transform:translateY(-3px);border-color:var(--red);}
+.vocab-card.flipped{background:var(--red);color:white;}
+.vocab-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:700;}
+.vocab-roma{font-size:11px;color:#aaa;margin:3px 0;}
+.vocab-card.flipped .vocab-roma{color:rgba(255,255,255,0.7);}
+.vocab-mean{font-size:13px;font-weight:700;margin-top:5px;}
+.vocab-tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);font-weight:700;margin-top:5px;}
+.vocab-card.flipped .vocab-tag{background:rgba(255,255,255,0.2);color:white;}
+
+/* FLASHCARD PAGE */
+.fc-page-layout{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start;}
+@media(max-width:720px){.fc-page-layout{grid-template-columns:1fr;}}
+
+/* Flashcard selector panel */
+.fc-selector{background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.fc-selector h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:14px;}
+.fc-section-label{font-size:10px;font-weight:800;color:#aaa;letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 7px;}
+.fc-section-label:first-of-type{margin-top:0;}
+.fc-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+.fc-cat-btn{padding:6px 12px;border-radius:9px;border:2px solid #f0f0f0;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;color:var(--ink);display:flex;align-items:center;gap:5px;}
+.fc-cat-btn:hover:not(.locked){border-color:var(--red);background:rgba(232,57,77,0.04);}
+.fc-cat-btn.selected{border-color:var(--red);background:var(--red);color:white;}
+.fc-cat-btn.locked{opacity:0.4;cursor:not-allowed;}
+.fc-cat-icon{font-size:14px;}
+.fc-start-area{margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0;}
+.fc-selected-info{font-size:12px;color:#888;margin-bottom:10px;font-weight:600;}
+.fc-mode-row{display:flex;gap:6px;margin-bottom:10px;}
+.fc-mode-btn{flex:1;padding:7px 6px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:all 0.2s;color:#666;text-align:center;}
+.fc-mode-btn.active{background:var(--ink);border-color:var(--ink);color:white;}
+
+/* Flashcard display */
+.fc-area{background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+.fc-dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;min-height:14px;}
+.fc-dot{width:9px;height:9px;border-radius:50%;background:#e8e8e8;transition:all 0.3s;flex-shrink:0;}
+.fc-dot.got{background:var(--green);}
+.fc-dot.retry{background:var(--red);}
+.fc-dot.cur{background:var(--gold);transform:scale(1.35);}
+.fc-wrap{perspective:1000px;width:100%;max-width:420px;margin:0 auto 18px;height:200px;cursor:pointer;}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);border-radius:20px;}
+.fc-inner.flipped{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;padding:22px;}
+.fc-front{background:linear-gradient(135deg,#1a1a2e,#2d2d5e);color:white;box-shadow:0 8px 30px rgba(26,26,46,0.25);}
+.fc-back{background:linear-gradient(135deg,var(--red),#c0392b);color:white;transform:rotateY(180deg);box-shadow:0 8px 30px rgba(232,57,77,0.28);}
+.fc-lbl{font-size:10px;font-weight:800;opacity:0.55;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px;}
+.fc-main{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;text-align:center;line-height:1.2;}
+.fc-main ruby{font-size:inherit;}
+.fc-main rt{color:rgba(255,255,255,0.8);}
+.fc-sub{font-size:12px;opacity:0.7;margin-top:6px;font-weight:600;}
+.fc-hint{font-size:11px;opacity:0.4;margin-top:12px;}
+.fc-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;}
+.fc-counter{font-size:13px;font-weight:800;color:#aaa;min-width:65px;text-align:center;}
+.fc-nav-btn{width:38px;height:38px;border-radius:50%;border:2px solid #e8e8e8;background:white;font-size:15px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.fc-nav-btn:hover{border-color:var(--red);}
+.fc-actions{display:flex;gap:9px;justify-content:center;margin-top:10px;}
+.fc-got{padding:10px 22px;border-radius:11px;background:var(--green);color:white;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.fc-got:hover{transform:translateY(-2px);}
+.fc-retry-btn{padding:10px 22px;border-radius:11px;background:white;color:var(--ink);border:2px solid #e8e8e8;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.fc-retry-btn:hover{border-color:var(--red);color:var(--red);}
+.fc-empty{text-align:center;padding:40px 20px;color:#aaa;}
+.fc-empty p{font-size:14px;margin-top:8px;}
+.fc-summary{text-align:center;padding:24px 14px;}
+.fc-summary h3{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;margin-bottom:8px;}
+.fc-summary p{color:#888;font-size:13px;margin-bottom:16px;line-height:1.7;}
+.fc-stats{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+.fc-stat{background:white;border-radius:11px;padding:11px 16px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);min-width:75px;}
+.fc-stat-num{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;}
+.fc-stat-label{font-size:10px;color:#aaa;font-weight:700;margin-top:1px;}
+
+/* GAME */
+.game-layout{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start;}
+@media(max-width:680px){.game-layout{grid-template-columns:1fr;}}
+.cat-sidebar{background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.cat-sidebar h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;}
+.cat-list{display:flex;flex-direction:column;gap:6px;}
+.cat-btn{display:flex;align-items:center;gap:8px;padding:10px 11px;border-radius:11px;border:2px solid #f0f0f0;cursor:pointer;transition:all 0.2s;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;color:var(--ink);text-align:left;width:100%;}
+.cat-btn:hover:not(.locked){border-color:var(--red);background:rgba(232,57,77,0.04);}
+.cat-btn.active{border-color:var(--red);background:var(--red);color:white;}
+.cat-btn.active .cat-count{background:rgba(255,255,255,0.25);color:white;}
+.cat-btn.locked{opacity:0.4;cursor:not-allowed;}
+.cat-icon{font-size:17px;flex-shrink:0;}
+.cat-info{flex:1;}
+.cat-name{display:block;font-size:12px;}
+.cat-words{font-size:10px;opacity:0.65;font-weight:600;}
+.cat-count{font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);white-space:nowrap;}
+.soon{font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;background:#f0f0f0;color:#aaa;white-space:nowrap;}
+.game-box{background:white;border-radius:var(--radius);padding:28px 22px;box-shadow:var(--shadow);text-align:center;}
+.game-cat-lbl{font-size:12px;color:#aaa;font-weight:700;margin-bottom:16px;}
+.game-scorebar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.score-badge{background:var(--red);color:white;padding:6px 15px;border-radius:99px;font-weight:800;font-size:13px;}
+.game-q{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;color:var(--ink);margin:10px 0;line-height:1.2;animation:pop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);}
+@keyframes pop{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.game-prompt{font-size:13px;color:#888;margin-bottom:18px;font-weight:600;}
+.game-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.game-opt{padding:12px 8px;border-radius:11px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;color:var(--ink);}
+.game-opt:hover:not(:disabled){border-color:var(--red);background:rgba(232,57,77,0.05);}
+.game-opt.correct{background:var(--green);border-color:var(--green);color:white;}
+.game-opt.wrong{background:#ff4757;border-color:#ff4757;color:white;}
+.game-opt:disabled{cursor:not-allowed;}
+.prog-wrap{background:#f0f0f0;border-radius:99px;height:6px;margin:16px 0 0;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px;transition:width 0.4s;}
+.cat-intro{padding:14px 6px;}
+.cat-intro-icon{font-size:52px;margin-bottom:10px;}
+.cat-intro h2{font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:900;margin-bottom:7px;}
+.cat-intro p{font-size:13px;color:#888;margin-bottom:20px;line-height:1.7;}
+
+/* EXERCISES */
+.ex-list{display:flex;flex-direction:column;gap:12px;}
+.ex-item{background:white;border-radius:13px;padding:16px 20px;box-shadow:0 3px 12px rgba(0,0,0,0.06);display:flex;align-items:center;gap:14px;transition:transform 0.2s;}
+.ex-item:hover{transform:translateX(4px);}
+.ex-icon{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ex-info{flex:1;}
+.ex-info h4{font-family:'Zen Maru Gothic',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px;}
+.ex-info p{font-size:11px;color:#999;}
+.ex-status{padding:4px 11px;border-radius:99px;font-size:11px;font-weight:800;white-space:nowrap;}
+.s-new{background:rgba(232,57,77,0.1);color:var(--red);}
+.s-done{background:rgba(46,204,113,0.12);color:var(--green);}
+.s-graded{background:rgba(245,166,35,0.12);color:var(--gold);}
+
+/* WRITING */
+.writing-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:660px){.writing-layout{grid-template-columns:1fr;}}
+.writing-panel{background:white;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+.writing-panel h3{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;margin-bottom:12px;}
+
+/* Canvas area */
+.canvas-wrap{position:relative;margin-bottom:10px;}
+#writingCanvas{border:2px dashed #e0e0e0;border-radius:12px;width:100%;touch-action:none;cursor:crosshair;display:block;}
+#strokeCanvas{position:absolute;top:0;left:0;border-radius:12px;width:100%;pointer-events:none;}
+.stroke-toggle{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700;color:#666;}
+.stroke-toggle input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--red);}
+.canvas-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.canvas-btn{padding:6px 13px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;}
+.canvas-btn:hover,.canvas-btn.ap{background:var(--red);border-color:var(--red);color:white;}
+
+/* Character picker */
+.char-pick-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.char-pick-section{margin-bottom:10px;}
+.char-pick-label{font-size:10px;font-weight:800;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.char-pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:5px;}
+.char-pick-cell{background:white;border-radius:8px;padding:6px 3px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+.char-pick-cell:hover{border-color:var(--red);transform:scale(1.08);}
+.char-pick-cell.selected{border-color:var(--red);background:rgba(232,57,77,0.06);}
+.char-pick-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:700;}
+.char-pick-roma{font-size:9px;color:#aaa;font-weight:600;}
+.char-display-big{font-family:'Zen Maru Gothic',sans-serif;font-size:90px;text-align:center;line-height:1;color:rgba(232,57,77,0.14);padding:14px 0;transition:color 0.2s;cursor:pointer;}
+.char-display-big:hover{color:rgba(232,57,77,0.26);}
+
+/* TEACHER */
+.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:24px;}
+.teacher-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+.teacher-card h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.stu-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #f5f5f5;}
+.stu-row:last-child{border-bottom:none;}
+.stu-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:white;flex-shrink:0;}
+.stu-name{flex:1;font-weight:700;font-size:13px;}
+.mini-bar{height:3px;background:#f0f0f0;border-radius:99px;overflow:hidden;margin-top:3px;width:50px;}
+.mini-fill{height:100%;border-radius:99px;background:var(--green);}
+.stu-score{font-size:11px;font-weight:800;color:var(--red);}
+.pending-list{display:flex;flex-direction:column;gap:6px;}
+.pending-item{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(232,57,77,0.04);border-radius:9px;border:1.5px solid rgba(232,57,77,0.1);}
+.pend-info{flex:1;}
+.pend-info strong{display:block;font-size:12px;font-weight:700;}
+.pend-info span{font-size:10px;color:#aaa;}
+.mark-btn{padding:4px 11px;background:var(--red);color:white;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.mark-btn:hover{background:var(--red-light);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:white;padding:11px 20px;border-radius:11px;font-weight:700;font-size:13px;z-index:999;transition:transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:7px;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #f0f0f0;padding:5px 0;z-index:100;}
+@media(max-width:560px){.bottom-nav{display:flex;}body{padding-bottom:62px;}.nav-tabs{display:none;}}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;font-weight:700;color:#aaa;cursor:pointer;padding:4px 0;transition:color 0.2s;border:none;background:none;}
+.bnav-item.active{color:var(--red);}
+.bnav-item .bicon{font-size:19px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🌙 <em>Midnight</em> & Light</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="go('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="go('vocab')">📚 Vocab</button>
+    <button class="nav-tab" onclick="go('flashcard')">🃏 Flashcards</button>
+    <button class="nav-tab" onclick="go('game')">🎮 Game</button>
+    <button class="nav-tab" onclick="go('exercises')">✏️ Exercises</button>
+    <button class="nav-tab" onclick="go('writing')">🖊️ Writing</button>
+    <button class="nav-tab" onclick="go('teacher')">👩‍🏫 Teacher</button>
+  </div>
+  <div class="avatar">Y</div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">🌙 JLPT N5 • Hiragana • Katakana</div>
+    <h1>Welcome to<br><em>Midnight & Light</em> 🌸</h1>
+    <p>Japanese & Mandarin learning — flashcards, games, writing and more for all ages!</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="go('vocab')">🚀 Start Learning</button>
+      <button class="btn btn-secondary" onclick="go('game')">🎮 Play a Game</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">104</div><div class="stat-label">Hiragana sounds</div></div>
+    <div class="stat-card"><div class="stat-num">110</div><div class="stat-label">Katakana sounds</div></div>
+    <div class="stat-card"><div class="stat-num">50</div><div class="stat-label">Calendar words</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Students active</div></div>
+  </div>
+  <div class="section-title">📖 Your Learning Path</div>
+  <div class="modules-grid">
+    <div class="mod-card cr" onclick="go('vocab')"><span class="mod-icon">あ</span><h3>Hiragana</h3><p>All sounds including dakuten and combinations with your teacher's voice.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:65%"></div></div><div class="mod-meta"><span class="mod-count">104 sounds</span><span class="mod-badge">65%</span></div></div>
+    <div class="mod-card cg" onclick="go('vocab')"><span class="mod-icon">ア</span><h3>Katakana</h3><p>All sounds including foreign sound combinations.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:30%;background:var(--gold)"></div></div><div class="mod-meta"><span class="mod-count">110 sounds</span><span class="mod-badge">30%</span></div></div>
+    <div class="mod-card cgr" onclick="go('vocab')"><span class="mod-icon">📅</span><h3>Calendar</h3><p>Days, months and dates with kanji + furigana.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:50%;background:var(--green)"></div></div><div class="mod-meta"><span class="mod-count">50 words</span><span class="mod-badge">New!</span></div></div>
+    <div class="mod-card cb" onclick="go('flashcard')"><span class="mod-icon">🃏</span><h3>Flashcards</h3><p>Choose any category — JP→EN, EN→JP with Got It tracking.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:60%;background:var(--blue)"></div></div><div class="mod-meta"><span class="mod-count">All categories</span><span class="mod-badge">New!</span></div></div>
+    <div class="mod-card cp" onclick="go('game')"><span class="mod-icon">🎮</span><h3>Mini Games</h3><p>Quiz by category — Calendar, Numbers, Colors and more!</p><div class="mod-bar"><div class="mod-bar-fill" style="width:80%;background:var(--purple)"></div></div><div class="mod-meta"><span class="mod-count">8 categories</span><span class="mod-badge">🔥 Hot</span></div></div>
+    <div class="mod-card cr" onclick="go('writing')"><span class="mod-icon">🖊️</span><h3>Writing</h3><p>Hiragana, Katakana and Kanji with animated stroke guide.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:45%"></div></div><div class="mod-meta"><span class="mod-count">3 tabs</span><span class="mod-badge">Upgraded!</span></div></div>
+  </div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="page" id="page-vocab">
+  <div class="section-title">📚 Vocabulary</div>
+
+  <!-- Chart tabs -->
+  <div class="card-box" style="margin-bottom:18px;">
+    <div class="chart-tabs">
+      <button class="pill-btn active" onclick="showChart('hiragana',this)">あ Hiragana</button>
+      <button class="pill-btn" onclick="showChart('katakana',this)">ア Katakana</button>
+    </div>
+    <div id="chartHiragana" class="chart-section"></div>
+    <div id="chartKatakana" class="chart-section" style="display:none"></div>
+  </div>
+
+  <!-- Calendar vocab -->
+  <div class="card-box" style="margin-bottom:18px;">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:3px;">📅 Calendar Vocabulary</div>
+    <p style="font-size:11px;color:#aaa;margin-bottom:10px;">Tap <b>Show English</b> to reveal the meaning!</p>
+    <div class="cal-subtitle">📆 Days of the Week</div>
+    <div class="cal-grid" id="calDays"></div>
+    <div class="cal-subtitle">🗓️ Months</div>
+    <div class="cal-grid" id="calMonths"></div>
+    <div class="cal-subtitle">🔢 Dates</div>
+    <div class="cal-grid" id="calDates"></div>
+  </div>
+
+  <!-- General vocab -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
+    <input id="vocabSearch" class="pill-btn" style="flex:1;min-width:160px;text-align:left;" type="text" placeholder="🔍 Search..." oninput="filterVocab(this.value)">
+    <button class="pill-btn active" onclick="filterCat('all',this)">All</button>
+    <button class="pill-btn" onclick="filterCat('noun',this)">Nouns</button>
+    <button class="pill-btn" onclick="filterCat('verb',this)">Verbs</button>
+    <button class="pill-btn" onclick="filterCat('adj',this)">Adj</button>
+    <button class="pill-btn" onclick="filterCat('number',this)">Numbers</button>
+  </div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="page" id="page-flashcard">
+  <div class="section-title">🃏 Flashcards</div>
+  <div class="fc-page-layout">
+
+    <!-- LEFT: Category selector -->
+    <div class="fc-selector">
+      <h3>📂 Choose Categories</h3>
+
+      <div class="fc-section-label">Characters</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('hiragana_basic',this)" data-cat="hiragana_basic"><span class="fc-cat-icon">あ</span>Hiragana</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('katakana_basic',this)" data-cat="katakana_basic"><span class="fc-cat-icon">ア</span>Katakana</button>
+      </div>
+
+      <div class="fc-section-label">Vocab Themes</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_days',this)" data-cat="cal_days"><span class="fc-cat-icon">📆</span>Days</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_months',this)" data-cat="cal_months"><span class="fc-cat-icon">🗓️</span>Months</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_dates',this)" data-cat="cal_dates"><span class="fc-cat-icon">🔢</span>Dates</button>
+      </div>
+      <div class="fc-row" style="margin-top:5px">
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Body Parts coming soon!')"><span class="fc-cat-icon">🧍</span>Body</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Colors coming soon!')"><span class="fc-cat-icon">🌈</span>Colors</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Clothes coming soon!')"><span class="fc-cat-icon">👕</span>Clothes</button>
+      </div>
+      <div class="fc-row" style="margin-top:5px">
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Animals coming soon!')"><span class="fc-cat-icon">🐾</span>Animals</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Food coming soon!')"><span class="fc-cat-icon">🍱</span>Food</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 Numbers coming soon!')"><span class="fc-cat-icon">🔢</span>Numbers</button>
+      </div>
+
+      <div class="fc-section-label">N5</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Kanji coming soon!')"><span class="fc-cat-icon">漢</span>Kanji</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Verbs coming soon!')"><span class="fc-cat-icon">動</span>Verbs</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Adj coming soon!')"><span class="fc-cat-icon">形</span>Adj</button>
+      </div>
+      <div class="fc-row" style="margin-top:5px">
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Grammar coming soon!')"><span class="fc-cat-icon">文</span>Grammar</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Listening coming soon!')"><span class="fc-cat-icon">🎧</span>Listening</button>
+      </div>
+
+      <div class="fc-section-label">N4 <span style="font-size:9px;background:#f0f0f0;padding:1px 6px;border-radius:99px;color:#aaa;font-weight:700;margin-left:4px">Soon</span></div>
+      <div class="fc-row">
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N4 coming soon!')"><span class="fc-cat-icon">漢</span>Kanji</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N4 coming soon!')"><span class="fc-cat-icon">動</span>Verbs</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N4 coming soon!')"><span class="fc-cat-icon">🎧</span>Listen</button>
+      </div>
+
+      <!-- Mode + Start -->
+      <div class="fc-start-area">
+        <div class="fc-selected-info" id="fcSelInfo">No categories selected</div>
+        <div class="fc-mode-row">
+          <button class="fc-mode-btn active" id="modeJP" onclick="setFcMode('jp',this)">🇯🇵 JP→EN</button>
+          <button class="fc-mode-btn" id="modeEN" onclick="setFcMode('en',this)">🇬🇧 EN→JP</button>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="startFC()">🚀 Start Flashcards!</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Flashcard display -->
+    <div class="fc-area">
+      <!-- Empty state -->
+      <div class="fc-empty" id="fcEmpty">
+        <div style="font-size:48px">🃏</div>
+        <p>Select at least one category on the left to start studying!</p>
+      </div>
+
+      <!-- Card study area -->
+      <div id="fcStudy" style="display:none">
+        <div class="fc-dots" id="fcDots"></div>
+        <div class="fc-wrap" onclick="fcFlip()">
+          <div class="fc-inner" id="fcInner">
+            <div class="fc-front">
+              <div class="fc-lbl" id="fcFrontLbl">JAPANESE</div>
+              <div class="fc-main" id="fcFront" style="font-size:30px">-</div>
+              <div class="fc-sub" id="fcFrontSub"></div>
+              <div class="fc-hint">👆 Tap to flip</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-lbl" id="fcBackLbl">ENGLISH</div>
+              <div class="fc-main" id="fcBack" style="font-size:26px">-</div>
+              <div class="fc-sub" id="fcBackSub"></div>
+              <div class="fc-hint">👆 Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-nav">
+          <button class="fc-nav-btn" onclick="fcPrev()">◀</button>
+          <div class="fc-counter" id="fcCounter">1 / 1</div>
+          <button class="fc-nav-btn" onclick="fcNext()">▶</button>
+        </div>
+        <div class="fc-actions" id="fcActions" style="display:none">
+          <button class="fc-retry-btn" onclick="fcMark('retry')">❌ Try Again</button>
+          <button class="fc-got" onclick="fcMark('got')">✅ Got It!</button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="fc-summary" id="fcSummary" style="display:none">
+        <div style="font-size:48px;margin-bottom:8px" id="fcEmoji">🎉</div>
+        <h3 id="fcSumTitle">Round Complete!</h3>
+        <p id="fcSumMsg">Great work!</p>
+        <div class="fc-stats">
+          <div class="fc-stat"><div class="fc-stat-num" id="fcGot" style="color:var(--green)">0</div><div class="fc-stat-label">Got It ✅</div></div>
+          <div class="fc-stat"><div class="fc-stat-num" id="fcRetry" style="color:var(--red)">0</div><div class="fc-stat-label">Try Again ❌</div></div>
+        </div>
+        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="fcRestart()">🔄 Study Again</button>
+          <button class="btn btn-secondary" id="fcRetryWrongBtn" onclick="fcRetryWrong()">❌ Wrong Only</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="page" id="page-game">
+  <div class="section-title">🎮 Mini Game</div>
+  <div class="game-layout">
+    <div class="cat-sidebar">
+      <h3>📂 Categories</h3>
+      <div class="cat-list">
+        <button class="cat-btn active" onclick="selectCat('calendar',this)"><span class="cat-icon">📅</span><span class="cat-info"><span class="cat-name">Calendar</span><span class="cat-words">Days • Months • Dates</span></span><span class="cat-count">50</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🔢</span><span class="cat-info"><span class="cat-name">Numbers</span><span class="cat-words">1–100</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🌈</span><span class="cat-info"><span class="cat-name">Colors</span><span class="cat-words">Basic colors</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🧍</span><span class="cat-info"><span class="cat-name">Body Parts</span><span class="cat-words">Head to toe</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🍱</span><span class="cat-info"><span class="cat-name">Food</span><span class="cat-words">Japanese food</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">👨‍👩‍👧</span><span class="cat-info"><span class="cat-name">Family</span><span class="cat-words">Family members</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🐾</span><span class="cat-info"><span class="cat-name">Animals</span><span class="cat-words">Common animals</span></span><span class="soon">Soon</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🏠</span><span class="cat-info"><span class="cat-name">Daily Life</span><span class="cat-words">Home & school</span></span><span class="soon">Soon</span></button>
+      </div>
+    </div>
+    <div>
+      <div class="game-box" id="gameIntro">
+        <div class="cat-intro"><div class="cat-intro-icon">📅</div><h2>Calendar</h2><p>Practice days, months and dates in Japanese! 10 questions per round.</p><button class="btn btn-primary" onclick="startGame()">🚀 Start Quiz!</button></div>
+      </div>
+      <div class="game-box" id="gameArea" style="display:none">
+        <div class="game-cat-lbl" id="gameCatLbl">📅 Calendar</div>
+        <div class="game-scorebar">
+          <div class="score-badge">⭐ <span id="scoreNum">0</span> pts</div>
+          <div id="livesDisplay">❤️❤️❤️</div>
+          <div style="font-size:12px;color:#aaa;font-weight:700;">Q <span id="qNum">1</span>/10</div>
+        </div>
+        <div class="game-q" id="gameQ" style="font-size:40px">?</div>
+        <div class="game-prompt" id="gamePrompt">What does this mean in English?</div>
+        <div class="game-opts" id="gameOpts"></div>
+        <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISES -->
+<div class="page" id="page-exercises">
+  <div class="section-title">✏️ Exercises</div>
+  <div class="ex-list">
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(232,57,77,0.1)">📝</div><div class="ex-info"><h4>Hiragana Writing Sheet — Week 1</h4><p>Practice あ い う え お rows • Due: Friday</p></div><span class="ex-status s-new">New</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(46,204,113,0.1)">✅</div><div class="ex-info"><h4>N5 Vocabulary Quiz — Animals</h4><p>Score: 8/10 • Submitted 2 days ago</p></div><span class="ex-status s-graded">⭐ 80%</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(245,166,35,0.1)">🔢</div><div class="ex-info"><h4>Numbers 1–100 Fill-in</h4><p>Submitted • Waiting for teacher to mark</p></div><span class="ex-status s-done">Submitted</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(46,204,113,0.1)">📅</div><div class="ex-info"><h4>Calendar — Days of the Week</h4><p>Write Monday to Sunday in Japanese • ~10 min</p></div><span class="ex-status s-new">New</span></div>
+  </div>
+  <div class="card-box" style="margin-top:20px;">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:10px;">📤 Submit Your Work</div>
+    <textarea style="width:100%;padding:13px;border:2px solid #e8e8e8;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;min-height:100px;" placeholder="Write your answers here..."></textarea>
+    <div style="display:flex;gap:9px;margin-top:9px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showToast('📤 Submitted! Teacher will mark it soon 🌸')">📤 Submit</button>
+      <button class="btn btn-secondary">📎 Attach Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div class="page" id="page-writing">
+  <div class="section-title">🖊️ Writing Practice</div>
+  <div class="writing-layout">
+
+    <!-- LEFT: Canvas -->
+    <div class="writing-panel">
+      <h3>Draw the character</h3>
+      <div class="char-display-big" id="charDisp" onclick="nextChar()">あ</div>
+      <p style="text-align:center;font-size:11px;color:#aaa;margin-bottom:10px;font-weight:600;">Tap character for next one</p>
+
+      <!-- Stroke toggle -->
+      <label class="stroke-toggle">
+        <input type="checkbox" id="strokeToggle" checked onchange="toggleStrokes()">
+        Show stroke guide
+      </label>
+
+      <div class="canvas-wrap">
+        <canvas id="strokeCanvas" width="300" height="240"></canvas>
+        <canvas id="writingCanvas" width="300" height="240"></canvas>
+      </div>
+
+      <div class="canvas-btns" style="margin-top:8px">
+        <button class="canvas-btn" onclick="clearCanvas()">🗑️ Clear</button>
+        <button class="canvas-btn ap" id="penBtn" onclick="setPen(4,this)">✏️ Pen</button>
+        <button class="canvas-btn" onclick="setPen(2,this)">🖊️ Fine</button>
+        <button class="canvas-btn" onclick="setPen(8,this)">🖌️ Bold</button>
+        <button class="canvas-btn" onclick="showToast('🖊️ Submitted to teacher!')" style="background:var(--red);color:white;border-color:var(--red)">📤 Submit</button>
+      </div>
+
+      <div style="margin-top:10px;padding:12px;background:#fff8f0;border-radius:10px;border:1.5px solid rgba(232,57,77,0.15);">
+        <div style="font-weight:700;font-size:12px;margin-bottom:4px;">💡 Stroke order tip</div>
+        <p style="font-size:11px;color:#888;line-height:1.7;" id="strokeTip">Top → bottom, left → right. Tap a character on the right to begin!</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Character picker -->
+    <div class="writing-panel">
+      <h3>Choose character</h3>
+      <div class="char-pick-tabs">
+        <button class="pill-btn active" onclick="showWriteTab('hiragana',this)">あ Hiragana</button>
+        <button class="pill-btn" onclick="showWriteTab('katakana',this)">ア Katakana</button>
+        <button class="pill-btn" onclick="showWriteTab('kanji',this)">漢 Kanji N5</button>
+      </div>
+      <div id="writePicker"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER -->
+<div class="page" id="page-teacher">
+  <div class="section-title">👩‍🏫 Teacher Dashboard</div>
+  <div class="teacher-grid">
+    <div class="teacher-card"><h3>👥 Students Progress</h3><div id="stuList"></div></div>
+    <div class="teacher-card"><h3>📬 Pending to Mark</h3><div class="pending-list" id="pendList"></div></div>
+    <div class="teacher-card">
+      <h3>📊 This Week</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:#fff0f2;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--red)">5</div><div style="font-size:10px;color:#aaa;font-weight:600">Submissions</div></div>
+        <div style="background:#f0fff6;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--green)">3</div><div style="font-size:10px;color:#aaa;font-weight:600">Marked</div></div>
+        <div style="background:#fffbf0;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--gold)">82%</div><div style="font-size:10px;color:#aaa;font-weight:600">Avg Score</div></div>
+        <div style="background:#f0f5ff;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--blue)">12</div><div style="font-size:10px;color:#aaa;font-weight:600">Games Played</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-box">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;">📤 Upload Materials</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showToast('📎 File upload coming soon!')">📎 Upload PDF</button>
+      <button class="btn btn-secondary" onclick="showToast('📝 Exercise builder coming soon!')">📝 Create Exercise</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bnav-item active" onclick="go('home')"><div class="bicon">🏠</div>Home</button>
+  <button class="bnav-item" onclick="go('vocab')"><div class="bicon">📚</div>Learn</button>
+  <button class="bnav-item" onclick="go('flashcard')"><div class="bicon">🃏</div>Cards</button>
+  <button class="bnav-item" onclick="go('game')"><div class="bicon">🎮</div>Game</button>
+  <button class="bnav-item" onclick="go('teacher')"><div class="bicon">👩‍🏫</div>Teacher</button>
+</div>
+
+<div class="toast" id="toast">🌙 <span id="toastMsg"></span></div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+
+// HIRAGANA — basic + dakuten + handakuten + combinations
+const hiraBasic=[
+  {k:'あ',r:'a'},{k:'い',r:'i'},{k:'う',r:'u'},{k:'え',r:'e'},{k:'お',r:'o'},
+  {k:'か',r:'ka'},{k:'き',r:'ki'},{k:'く',r:'ku'},{k:'け',r:'ke'},{k:'こ',r:'ko'},
+  {k:'さ',r:'sa'},{k:'し',r:'shi'},{k:'す',r:'su'},{k:'せ',r:'se'},{k:'そ',r:'so'},
+  {k:'た',r:'ta'},{k:'ち',r:'chi'},{k:'つ',r:'tsu'},{k:'て',r:'te'},{k:'と',r:'to'},
+  {k:'な',r:'na'},{k:'に',r:'ni'},{k:'ぬ',r:'nu'},{k:'ね',r:'ne'},{k:'の',r:'no'},
+  {k:'は',r:'ha'},{k:'ひ',r:'hi'},{k:'ふ',r:'fu'},{k:'へ',r:'he'},{k:'ほ',r:'ho'},
+  {k:'ま',r:'ma'},{k:'み',r:'mi'},{k:'む',r:'mu'},{k:'め',r:'me'},{k:'も',r:'mo'},
+  {k:'や',r:'ya'},{k:'ゆ',r:'yu'},{k:'よ',r:'yo'},
+  {k:'ら',r:'ra'},{k:'り',r:'ri'},{k:'る',r:'ru'},{k:'れ',r:'re'},{k:'ろ',r:'ro'},
+  {k:'わ',r:'wa'},{k:'を',r:'wo'},{k:'ん',r:'n'}
+];
+const hiraDaku=[
+  {k:'が',r:'ga'},{k:'ぎ',r:'gi'},{k:'ぐ',r:'gu'},{k:'げ',r:'ge'},{k:'ご',r:'go'},
+  {k:'ざ',r:'za'},{k:'じ',r:'ji'},{k:'ず',r:'zu'},{k:'ぜ',r:'ze'},{k:'ぞ',r:'zo'},
+  {k:'だ',r:'da'},{k:'ぢ',r:'di'},{k:'づ',r:'du'},{k:'で',r:'de'},{k:'ど',r:'do'},
+  {k:'ば',r:'ba'},{k:'び',r:'bi'},{k:'ぶ',r:'bu'},{k:'べ',r:'be'},{k:'ぼ',r:'bo'},
+  {k:'ぱ',r:'pa'},{k:'ぴ',r:'pi'},{k:'ぷ',r:'pu'},{k:'ぺ',r:'pe'},{k:'ぽ',r:'po'}
+];
+const hiraCombo=[
+  {k:'きゃ',r:'kya'},{k:'きゅ',r:'kyu'},{k:'きょ',r:'kyo'},
+  {k:'しゃ',r:'sha'},{k:'しゅ',r:'shu'},{k:'しょ',r:'sho'},
+  {k:'ちゃ',r:'cha'},{k:'ちゅ',r:'chu'},{k:'ちょ',r:'cho'},
+  {k:'にゃ',r:'nya'},{k:'にゅ',r:'nyu'},{k:'にょ',r:'nyo'},
+  {k:'ひゃ',r:'hya'},{k:'ひゅ',r:'hyu'},{k:'ひょ',r:'hyo'},
+  {k:'みゃ',r:'mya'},{k:'みゅ',r:'myu'},{k:'みょ',r:'myo'},
+  {k:'りゃ',r:'rya'},{k:'りゅ',r:'ryu'},{k:'りょ',r:'ryo'},
+  {k:'ぎゃ',r:'gya'},{k:'ぎゅ',r:'gyu'},{k:'ぎょ',r:'gyo'},
+  {k:'じゃ',r:'ja'},{k:'じゅ',r:'ju'},{k:'じょ',r:'jo'},
+  {k:'びゃ',r:'bya'},{k:'びゅ',r:'byu'},{k:'びょ',r:'byo'},
+  {k:'ぴゃ',r:'pya'},{k:'ぴゅ',r:'pyu'},{k:'ぴょ',r:'pyo'}
+];
+
+// KATAKANA
+const kataBasic=[
+  {k:'ア',r:'a'},{k:'イ',r:'i'},{k:'ウ',r:'u'},{k:'エ',r:'e'},{k:'オ',r:'o'},
+  {k:'カ',r:'ka'},{k:'キ',r:'ki'},{k:'ク',r:'ku'},{k:'ケ',r:'ke'},{k:'コ',r:'ko'},
+  {k:'サ',r:'sa'},{k:'シ',r:'shi'},{k:'ス',r:'su'},{k:'セ',r:'se'},{k:'ソ',r:'so'},
+  {k:'タ',r:'ta'},{k:'チ',r:'chi'},{k:'ツ',r:'tsu'},{k:'テ',r:'te'},{k:'ト',r:'to'},
+  {k:'ナ',r:'na'},{k:'ニ',r:'ni'},{k:'ヌ',r:'nu'},{k:'ネ',r:'ne'},{k:'ノ',r:'no'},
+  {k:'ハ',r:'ha'},{k:'ヒ',r:'hi'},{k:'フ',r:'fu'},{k:'ヘ',r:'he'},{k:'ホ',r:'ho'},
+  {k:'マ',r:'ma'},{k:'ミ',r:'mi'},{k:'ム',r:'mu'},{k:'メ',r:'me'},{k:'モ',r:'mo'},
+  {k:'ヤ',r:'ya'},{k:'ユ',r:'yu'},{k:'ヨ',r:'yo'},
+  {k:'ラ',r:'ra'},{k:'リ',r:'ri'},{k:'ル',r:'ru'},{k:'レ',r:'re'},{k:'ロ',r:'ro'},
+  {k:'ワ',r:'wa'},{k:'ヲ',r:'wo'},{k:'ン',r:'n'}
+];
+const kataDaku=[
+  {k:'ガ',r:'ga'},{k:'ギ',r:'gi'},{k:'グ',r:'gu'},{k:'ゲ',r:'ge'},{k:'ゴ',r:'go'},
+  {k:'ザ',r:'za'},{k:'ジ',r:'ji'},{k:'ズ',r:'zu'},{k:'ゼ',r:'ze'},{k:'ゾ',r:'zo'},
+  {k:'ダ',r:'da'},{k:'ヂ',r:'di'},{k:'ヅ',r:'du'},{k:'デ',r:'de'},{k:'ド',r:'do'},
+  {k:'バ',r:'ba'},{k:'ビ',r:'bi'},{k:'ブ',r:'bu'},{k:'ベ',r:'be'},{k:'ボ',r:'bo'},
+  {k:'パ',r:'pa'},{k:'ピ',r:'pi'},{k:'プ',r:'pu'},{k:'ペ',r:'pe'},{k:'ポ',r:'po'}
+];
+const kataCombo=[
+  {k:'キャ',r:'kya'},{k:'キュ',r:'kyu'},{k:'キョ',r:'kyo'},
+  {k:'シャ',r:'sha'},{k:'シュ',r:'shu'},{k:'ショ',r:'sho'},
+  {k:'チャ',r:'cha'},{k:'チュ',r:'chu'},{k:'チョ',r:'cho'},
+  {k:'ニャ',r:'nya'},{k:'ニュ',r:'nyu'},{k:'ニョ',r:'nyo'},
+  {k:'ヒャ',r:'hya'},{k:'ヒュ',r:'hyu'},{k:'ヒョ',r:'hyo'},
+  {k:'ミャ',r:'mya'},{k:'ミュ',r:'myu'},{k:'ミョ',r:'myo'},
+  {k:'リャ',r:'rya'},{k:'リュ',r:'ryu'},{k:'リョ',r:'ryo'},
+  {k:'ギャ',r:'gya'},{k:'ギュ',r:'gyu'},{k:'ギョ',r:'gyo'},
+  {k:'ジャ',r:'ja'},{k:'ジュ',r:'ju'},{k:'ジョ',r:'jo'},
+  {k:'ビャ',r:'bya'},{k:'ビュ',r:'byu'},{k:'ビョ',r:'byo'},
+  {k:'ピャ',r:'pya'},{k:'ピュ',r:'pyu'},{k:'ピョ',r:'pyo'}
+];
+const kataForeign=[
+  {k:'ファ',r:'fa'},{k:'フィ',r:'fi'},{k:'フェ',r:'fe'},{k:'フォ',r:'fo'},
+  {k:'ティ',r:'ti'},{k:'トゥ',r:'tu'},
+  {k:'ウィ',r:'wi'},{k:'ウェ',r:'we'},{k:'ウォ',r:'wo2'},
+  {k:'ヴァ',r:'va'},{k:'ヴィ',r:'vi'},{k:'ヴ',r:'vu'},{k:'ヴェ',r:'ve'},{k:'ヴォ',r:'vo'}
+];
+
+// N5 KANJI placeholder
+const kanjiN5=[
+  {k:'日',r:'nichi/hi',m:'day/sun',tip:'2 strokes'},
+  {k:'月',r:'getsu/tsuki',m:'month/moon',tip:'4 strokes'},
+  {k:'火',r:'ka/hi',m:'fire/Tuesday',tip:'4 strokes'},
+  {k:'水',r:'sui/mizu',m:'water/Wednesday',tip:'4 strokes'},
+  {k:'木',r:'moku/ki',m:'tree/Thursday',tip:'4 strokes'},
+  {k:'金',r:'kin/kana',m:'gold/Friday',tip:'8 strokes'},
+  {k:'土',r:'do/tsuchi',m:'earth/Saturday',tip:'3 strokes'},
+  {k:'山',r:'san/yama',m:'mountain',tip:'3 strokes'},
+  {k:'川',r:'sen/kawa',m:'river',tip:'3 strokes'},
+  {k:'田',r:'den/ta',m:'rice field',tip:'5 strokes'},
+  {k:'人',r:'jin/hito',m:'person',tip:'2 strokes'},
+  {k:'口',r:'kou/kuchi',m:'mouth',tip:'3 strokes'},
+  {k:'大',r:'dai/oo',m:'big/large',tip:'3 strokes'},
+  {k:'小',r:'shou/chii',m:'small',tip:'3 strokes'},
+  {k:'中',r:'chuu/naka',m:'middle/inside',tip:'4 strokes'},
+  {k:'上',r:'jou/ue',m:'up/above',tip:'3 strokes'},
+  {k:'下',r:'ka/shita',m:'down/below',tip:'3 strokes'},
+  {k:'一',r:'ichi',m:'one',tip:'1 stroke'},
+  {k:'二',r:'ni',m:'two',tip:'2 strokes'},
+  {k:'三',r:'san',m:'three',tip:'3 strokes'},
+];
+
+// CALENDAR DATA
+const calData={
+  days:[
+    {kanji:'日曜日',furi:'にちようび',r:'nichiyoubi',m:'Sunday'},
+    {kanji:'月曜日',furi:'げつようび',r:'getsuyoubi',m:'Monday'},
+    {kanji:'火曜日',furi:'かようび',r:'kayoubi',m:'Tuesday'},
+    {kanji:'水曜日',furi:'すいようび',r:'suiyoubi',m:'Wednesday'},
+    {kanji:'木曜日',furi:'もくようび',r:'mokuyoubi',m:'Thursday'},
+    {kanji:'金曜日',furi:'きんようび',r:'kinyoubi',m:'Friday'},
+    {kanji:'土曜日',furi:'どようび',r:'doyoubi',m:'Saturday'},
+  ],
+  months:[
+    {kanji:'一月',furi:'いちがつ',r:'ichigatsu',m:'January'},
+    {kanji:'二月',furi:'にがつ',r:'nigatsu',m:'February'},
+    {kanji:'三月',furi:'さんがつ',r:'sangatsu',m:'March'},
+    {kanji:'四月',furi:'しがつ',r:'shigatsu',m:'April'},
+    {kanji:'五月',furi:'ごがつ',r:'gogatsu',m:'May'},
+    {kanji:'六月',furi:'ろくがつ',r:'rokugatsu',m:'June'},
+    {kanji:'七月',furi:'しちがつ',r:'shichigatsu',m:'July'},
+    {kanji:'八月',furi:'はちがつ',r:'hachigatsu',m:'August'},
+    {kanji:'九月',furi:'くがつ',r:'kugatsu',m:'September'},
+    {kanji:'十月',furi:'じゅうがつ',r:'juugatsu',m:'October'},
+    {kanji:'十一月',furi:'じゅういちがつ',r:'juuichigatsu',m:'November'},
+    {kanji:'十二月',furi:'じゅうにがつ',r:'juunigatsu',m:'December'},
+  ],
+  dates:[
+    {kanji:'一日',furi:'ついたち',r:'tsuitachi',m:'1st'},
+    {kanji:'二日',furi:'ふつか',r:'futsuka',m:'2nd'},
+    {kanji:'三日',furi:'みっか',r:'mikka',m:'3rd'},
+    {kanji:'四日',furi:'よっか',r:'yokka',m:'4th'},
+    {kanji:'五日',furi:'いつか',r:'itsuka',m:'5th'},
+    {kanji:'六日',furi:'むいか',r:'muika',m:'6th'},
+    {kanji:'七日',furi:'なのか',r:'nanoka',m:'7th'},
+    {kanji:'八日',furi:'ようか',r:'youka',m:'8th'},
+    {kanji:'九日',furi:'ここのか',r:'kokonoka',m:'9th'},
+    {kanji:'十日',furi:'とおか',r:'tooka',m:'10th'},
+    {kanji:'十一日',furi:'じゅういちにち',r:'juuichinichi',m:'11th'},
+    {kanji:'十二日',furi:'じゅうににち',r:'juuninichi',m:'12th'},
+    {kanji:'十三日',furi:'じゅうさんにち',r:'juusannichi',m:'13th'},
+    {kanji:'十四日',furi:'じゅうよっか',r:'juuyokka',m:'14th'},
+    {kanji:'十五日',furi:'じゅうごにち',r:'juugonichi',m:'15th'},
+    {kanji:'十六日',furi:'じゅうろくにち',r:'juurokuninchi',m:'16th'},
+    {kanji:'十七日',furi:'じゅうしちにち',r:'juushichinichi',m:'17th'},
+    {kanji:'十八日',furi:'じゅうはちにち',r:'juuhachinichi',m:'18th'},
+    {kanji:'十九日',furi:'じゅうくにち',r:'juukunichi',m:'19th'},
+    {kanji:'二十日',furi:'はつか',r:'hatsuka',m:'20th'},
+    {kanji:'二十一日',furi:'にじゅういちにち',r:'nijuuichinichi',m:'21st'},
+    {kanji:'二十二日',furi:'にじゅうににち',r:'nijuuninichi',m:'22nd'},
+    {kanji:'二十三日',furi:'にじゅうさんにち',r:'nijuusannichi',m:'23rd'},
+    {kanji:'二十四日',furi:'にじゅうよっか',r:'nijuuyokka',m:'24th'},
+    {kanji:'二十五日',furi:'にじゅうごにち',r:'nijuugonichi',m:'25th'},
+    {kanji:'二十六日',furi:'にじゅうろくにち',r:'nijuurokuninchi',m:'26th'},
+    {kanji:'二十七日',furi:'にじゅうしちにち',r:'nijuushichinichi',m:'27th'},
+    {kanji:'二十八日',furi:'にじゅうはちにち',r:'nijuuhachinichi',m:'28th'},
+    {kanji:'二十九日',furi:'にじゅうくにち',r:'nijuukunichi',m:'29th'},
+    {kanji:'三十日',furi:'さんじゅうにち',r:'sanjuunichi',m:'30th'},
+    {kanji:'三十一日',furi:'さんじゅういちにち',r:'sanjuuichinichi',m:'31st'},
+  ]
+};
+const calAll=[...calData.days,...calData.months,...calData.dates];
+
+// Vocab
+const vocab=[
+  {k:'猫',f:'ねこ',r:'neko',m:'cat',c:'noun'},
+  {k:'犬',f:'いぬ',r:'inu',m:'dog',c:'noun'},
+  {k:'魚',f:'さかな',r:'sakana',m:'fish',c:'noun'},
+  {k:'鳥',f:'とり',r:'tori',m:'bird',c:'noun'},
+  {k:'花',f:'はな',r:'hana',m:'flower',c:'noun'},
+  {k:'木',f:'き',r:'ki',m:'tree',c:'noun'},
+  {k:'水',f:'みず',r:'mizu',m:'water',c:'noun'},
+  {k:'山',f:'やま',r:'yama',m:'mountain',c:'noun'},
+  {k:'食べる',f:'たべる',r:'taberu',m:'to eat',c:'verb'},
+  {k:'飲む',f:'のむ',r:'nomu',m:'to drink',c:'verb'},
+  {k:'見る',f:'みる',r:'miru',m:'to see',c:'verb'},
+  {k:'聞く',f:'きく',r:'kiku',m:'to listen',c:'verb'},
+  {k:'話す',f:'はなす',r:'hanasu',m:'to speak',c:'verb'},
+  {k:'読む',f:'よむ',r:'yomu',m:'to read',c:'verb'},
+  {k:'書く',f:'かく',r:'kaku',m:'to write',c:'verb'},
+  {k:'行く',f:'いく',r:'iku',m:'to go',c:'verb'},
+  {k:'大きい',f:'おおきい',r:'ookii',m:'big',c:'adj'},
+  {k:'小さい',f:'ちいさい',r:'chiisai',m:'small',c:'adj'},
+  {k:'赤い',f:'あかい',r:'akai',m:'red',c:'adj'},
+  {k:'青い',f:'あおい',r:'aoi',m:'blue',c:'adj'},
+  {k:'一',f:'いち',r:'ichi',m:'one (1)',c:'number'},
+  {k:'二',f:'に',r:'ni',m:'two (2)',c:'number'},
+  {k:'三',f:'さん',r:'san',m:'three (3)',c:'number'},
+  {k:'四',f:'し',r:'shi',m:'four (4)',c:'number'},
+  {k:'五',f:'ご',r:'go',m:'five (5)',c:'number'},
+  {k:'六',f:'ろく',r:'roku',m:'six (6)',c:'number'},
+];
+
+// Students
+const students=[
+  {name:'Yuki',color:'#E8394D',score:85,progress:78},
+  {name:'Hana',color:'#3498DB',score:92,progress:90},
+  {name:'Riku',color:'#2ECC71',score:67,progress:55},
+  {name:'Mio',color:'#F5A623',score:74,progress:62},
+  {name:'Sota',color:'#9B59B6',score:88,progress:80},
+];
+const pending=[
+  {name:'Yuki',ex:'Hiragana Writing Sheet',time:'2h ago'},
+  {name:'Riku',ex:'Calendar — Days',time:'5h ago'},
+  {name:'Mio',ex:'Numbers 1–100',time:'1d ago'},
+];
+
+// FC category registry
+const fcCats={
+  hiragana_basic:{label:'Hiragana',words:hiraBasic.map(h=>({front:h.k,frontSub:h.r,back:h.r,backSub:h.k,type:'hira'}))},
+  katakana_basic:{label:'Katakana',words:kataBasic.map(h=>({front:h.k,frontSub:h.r,back:h.r,backSub:h.k,type:'kata'}))},
+  cal_days:{label:'Days',words:calData.days.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:d.r,back:d.m,backSub:d.furi,type:'cal'}))},
+  cal_months:{label:'Months',words:calData.months.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:d.r,back:d.m,backSub:d.furi,type:'cal'}))},
+  cal_dates:{label:'Dates',words:calData.dates.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:d.r,back:d.m,backSub:d.furi,type:'cal'}))},
+};
+
+// Game categories
+const gameCats={calendar:{name:'Calendar',icon:'📅',words:calAll}};
+
+// ══════════════════════════════════════════
+// BUILD CHART
+// ══════════════════════════════════════════
+function buildCharts(){
+  // Hiragana
+  document.getElementById('chartHiragana').innerHTML=
+    chartGroup('Basic (清音)','hira-grid',hiraBasic,'speak')+
+    chartGroup('Voiced & Semi-voiced (濁音・半濁音)','hira-grid',hiraDaku,'speak')+
+    chartGroup('Combinations (拗音)','combo-grid',hiraCombo,'speak');
+  // Katakana
+  document.getElementById('chartKatakana').innerHTML=
+    chartGroup('Basic (清音)','hira-grid',kataBasic,'speakKata')+
+    chartGroup('Voiced & Semi-voiced (濁音・半濁音)','hira-grid',kataDaku,'speakKata')+
+    chartGroup('Combinations (拗音)','combo-grid',kataCombo,'speakKata')+
+    chartGroup('Foreign sounds (外来語)','combo-grid',kataForeign,'speakKata');
+}
+function chartGroup(title,gridClass,arr,fn){
+  return `<div class="chart-group-title">${title}</div>
+  <div class="${gridClass}">${arr.map(h=>
+    `<div class="hira-cell" onclick="${fn}('${h.r}',this)">
+      <div class="hira-kana">${h.k}</div>
+      <div class="hira-roma">${h.r}</div>
+    </div>`).join('')}</div>`;
+}
+function showChart(tab,btn){
+  document.querySelectorAll('.chart-tabs .pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chartHiragana').style.display=tab==='hiragana'?'block':'none';
+  document.getElementById('chartKatakana').style.display=tab==='katakana'?'block':'none';
+}
+
+// ══════════════════════════════════════════
+// BUILD CALENDAR VOCAB
+// ══════════════════════════════════════════
+function buildCalVocab(){
+  const card=(d,i)=>`
+    <div class="cal-card">
+      <div class="cal-kanji"><ruby>${d.kanji}<rt>${d.furi}</rt></ruby></div>
+      <div class="cal-roma">${d.r}</div>
+      <div class="cal-en-wrap" id="en${i}"><div class="cal-en">${d.m}</div></div>
+      <button class="cal-toggle" id="btn${i}" onclick="toggleCal(${i})">Show English</button>
+    </div>`;
+  document.getElementById('calDays').innerHTML=calData.days.map((d,i)=>card(d,i)).join('');
+  document.getElementById('calMonths').innerHTML=calData.months.map((d,i)=>card(d,i+100)).join('');
+  document.getElementById('calDates').innerHTML=calData.dates.map((d,i)=>card(d,i+200)).join('');
+}
+function toggleCal(i){
+  const w=document.getElementById('en'+i),b=document.getElementById('btn'+i);
+  const open=w.classList.toggle('open');
+  b.textContent=open?'Hide English':'Show English';
+  b.classList.toggle('open',open);
+}
+
+// ══════════════════════════════════════════
+// BUILD VOCAB
+// ══════════════════════════════════════════
+function buildVocab(list){
+  document.getElementById('vocabGrid').innerHTML=list.map(v=>
+    `<div class="vocab-card" onclick="this.classList.toggle('flipped')">
+      <div class="vocab-kana"><ruby>${v.k}<rt>${v.f}</rt></ruby></div>
+      <div class="vocab-roma">${v.r}</div>
+      <div class="vocab-mean">${v.m}</div>
+      <div class="vocab-tag">${v.c}</div>
+    </div>`).join('');
+}
+let curCat='all';
+function filterCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('.pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyVocab(document.getElementById('vocabSearch').value.toLowerCase(),cat);
+}
+function filterVocab(val){applyVocab(val.toLowerCase(),curCat);}
+function applyVocab(s,cat){
+  buildVocab(vocab.filter(v=>(cat==='all'||v.c===cat)&&(!s||v.k.includes(s)||v.r.includes(s)||v.m.includes(s)||v.f.includes(s))));
+}
+
+// ══════════════════════════════════════════
+// BUILD STUDENTS
+// ══════════════════════════════════════════
+function buildStudents(){
+  document.getElementById('stuList').innerHTML=students.map(s=>
+    `<div class="stu-row">
+      <div class="stu-av" style="background:${s.color}">${s.name[0]}</div>
+      <div style="flex:1"><div class="stu-name">${s.name}</div><div class="mini-bar"><div class="mini-fill" style="width:${s.progress}%"></div></div></div>
+      <div class="stu-score">${s.score}%</div>
+    </div>`).join('');
+  document.getElementById('pendList').innerHTML=pending.map(p=>
+    `<div class="pending-item">
+      <div style="font-size:16px">📝</div>
+      <div class="pend-info"><strong>${p.name} — ${p.ex}</strong><span>${p.time}</span></div>
+      <button class="mark-btn" onclick="markItem(this,'${p.name}')">Mark ✓</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// FLASHCARD — Option B
+// ══════════════════════════════════════════
+let fcSelected=new Set();
+let fcMode='jp';
+let fcDeck=[],fcIdx=0,fcResults=[];
+
+function toggleFcCat(cat,btn){
+  if(fcSelected.has(cat)){fcSelected.delete(cat);btn.classList.remove('selected');}
+  else{fcSelected.add(cat);btn.classList.add('selected');}
+  updateFcInfo();
+}
+function setFcMode(mode,btn){
+  fcMode=mode;
+  document.querySelectorAll('.fc-mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function updateFcInfo(){
+  const total=[...fcSelected].reduce((s,cat)=>s+(fcCats[cat]?.words.length||0),0);
+  document.getElementById('fcSelInfo').textContent=
+    fcSelected.size===0?'No categories selected':`${fcSelected.size} category${fcSelected.size>1?'s':''} — ${total} cards`;
+}
+function startFC(){
+  if(fcSelected.size===0){showToast('⚠️ Please select at least one category!');return;}
+  fcDeck=[];
+  fcSelected.forEach(cat=>{if(fcCats[cat])fcDeck.push(...fcCats[cat].words);});
+  fcDeck=fcDeck.sort(()=>Math.random()-0.5);
+  fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  document.getElementById('fcEmpty').style.display='none';
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='block';
+  renderFC();
+}
+function renderFC(){
+  if(!fcDeck.length)return;
+  const d=fcDeck[fcIdx];
+  document.getElementById('fcInner').classList.remove('flipped');
+  document.getElementById('fcActions').style.display='none';
+  if(fcMode==='jp'){
+    // FRONT: Japanese only — NO romaji shown
+    document.getElementById('fcFrontLbl').textContent='JAPANESE';
+    document.getElementById('fcFront').innerHTML=d.front;
+    document.getElementById('fcFront').style.fontSize=d.front.length>10?'20px':d.front.length>5?'26px':'32px';
+    document.getElementById('fcFrontSub').textContent='';
+    // BACK: English + romaji revealed
+    document.getElementById('fcBackLbl').textContent='ENGLISH';
+    document.getElementById('fcBack').textContent=d.back;
+    document.getElementById('fcBack').style.fontSize='24px';
+    document.getElementById('fcBackSub').textContent=d.frontSub||'';
+  } else {
+    // FRONT: English only — NO Japanese shown
+    document.getElementById('fcFrontLbl').textContent='ENGLISH';
+    document.getElementById('fcFront').textContent=d.back;
+    document.getElementById('fcFront').style.fontSize='24px';
+    document.getElementById('fcFrontSub').textContent='';
+    // BACK: Japanese + romaji revealed
+    document.getElementById('fcBackLbl').textContent='JAPANESE';
+    document.getElementById('fcBack').innerHTML=d.front;
+    document.getElementById('fcBack').style.fontSize=d.front.length>10?'20px':d.front.length>5?'26px':'32px';
+    document.getElementById('fcBackSub').textContent=d.frontSub||'';
+  }
+  document.getElementById('fcCounter').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  document.getElementById('fcDots').innerHTML=fcDeck.map((_,i)=>{
+    let c='fc-dot';
+    if(i===fcIdx)c+=' cur';
+    else if(fcResults[i]==='got')c+=' got';
+    else if(fcResults[i]==='retry')c+=' retry';
+    return `<div class="${c}"></div>`;
+  }).join('');
+}
+function fcFlip(){
+  const inner=document.getElementById('fcInner');
+  inner.classList.toggle('flipped');
+  document.getElementById('fcActions').style.display=inner.classList.contains('flipped')?'flex':'none';
+}
+function fcMark(result){
+  fcResults[fcIdx]=result;
+  showToast(result==='got'?'✅ Got it!':'❌ Keep practicing!');
+  const allDone=fcResults.every(r=>r!==null);
+  if(allDone){setTimeout(showFCSummary,600);}
+  else{
+    setTimeout(()=>{
+      let next=fcIdx;
+      for(let i=1;i<=fcDeck.length;i++){const idx=(fcIdx+i)%fcDeck.length;if(fcResults[idx]===null){next=idx;break;}}
+      fcIdx=next;renderFC();
+    },500);
+  }
+}
+function fcNext(){fcIdx=(fcIdx+1)%fcDeck.length;renderFC();}
+function fcPrev(){fcIdx=(fcIdx-1+fcDeck.length)%fcDeck.length;renderFC();}
+function showFCSummary(){
+  const got=fcResults.filter(r=>r==='got').length;
+  const retry=fcResults.filter(r=>r==='retry').length;
+  document.getElementById('fcStudy').style.display='none';
+  document.getElementById('fcSummary').style.display='block';
+  const pct=Math.round((got/fcDeck.length)*100);
+  document.getElementById('fcEmoji').textContent=pct>=80?'🎉':pct>=50?'😊':'💪';
+  document.getElementById('fcSumTitle').textContent=pct>=80?'Excellent!':pct>=50?'Good Progress!':'Keep Going!';
+  document.getElementById('fcSumMsg').textContent=`${got} of ${fcDeck.length} correct (${pct}%)`;
+  document.getElementById('fcGot').textContent=got;
+  document.getElementById('fcRetry').textContent=retry;
+  document.getElementById('fcRetryWrongBtn').style.display=retry>0?'inline-flex':'none';
+}
+function fcRestart(){
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='block';
+  fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  fcDeck=fcDeck.sort(()=>Math.random()-0.5);
+  renderFC();
+}
+function fcRetryWrong(){
+  const wrong=fcDeck.filter((_,i)=>fcResults[i]==='retry');
+  fcDeck=wrong;fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='block';
+  renderFC();
+}
+
+// ══════════════════════════════════════════
+// GAME
+// ══════════════════════════════════════════
+let score=0,lives=3,qIdx=0,answered=false,curGameCat='calendar',gameQs=[];
+function selectCat(cat,btn){
+  curGameCat=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const c=gameCats[cat];
+  document.getElementById('gameIntro').style.display='block';
+  document.getElementById('gameArea').style.display='none';
+  document.getElementById('gameIntro').innerHTML=`
+    <div class="cat-intro"><div class="cat-intro-icon">${c.icon}</div><h2>${c.name}</h2>
+    <p>Practice ${c.name.toLowerCase()} vocabulary! 10 questions per round.</p>
+    <button class="btn btn-primary" onclick="startGame()">🚀 Start Quiz!</button></div>`;
+}
+function startGame(){
+  const c=gameCats[curGameCat];
+  gameQs=[...c.words].sort(()=>Math.random()-0.5).slice(0,10);
+  score=0;lives=3;qIdx=0;
+  document.getElementById('gameIntro').style.display='none';
+  document.getElementById('gameArea').style.display='block';
+  document.getElementById('gameCatLbl').textContent=gameCats[curGameCat].icon+' '+gameCats[curGameCat].name;
+  updateGameUI();nextQ();
+}
+function nextQ(){
+  if(qIdx>=10||lives<=0){endGame();return;}
+  answered=false;
+  const q=gameQs[qIdx];
+  const all=gameCats[curGameCat].words;
+  const el=document.getElementById('gameQ');
+  el.innerHTML=`<ruby>${q.kanji}<rt>${q.furi}</rt></ruby>`;
+  el.style.fontSize=q.kanji.length>4?'26px':'40px';
+  document.getElementById('gamePrompt').textContent='What does this mean in English?';
+  document.getElementById('progFill').style.width=(qIdx/10*100)+'%';
+  document.getElementById('qNum').textContent=qIdx+1;
+  let opts=[q.m],tries=0;
+  while(opts.length<4&&tries<200){const r=all[Math.floor(Math.random()*all.length)].m;if(!opts.includes(r))opts.push(r);tries++;}
+  opts=opts.sort(()=>Math.random()-0.5);
+  document.getElementById('gameOpts').innerHTML=opts.map(o=>
+    `<button class="game-opt" onclick="checkAns(this,'${o.replace(/'/g,"\\'")}','${q.m.replace(/'/g,"\\'")}')">${o}</button>`).join('');
+}
+function checkAns(btn,chosen,correct){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.game-opt').forEach(b=>b.disabled=true);
+  if(chosen===correct){btn.classList.add('correct');score+=10;showToast('✅ Correct! +10');}
+  else{btn.classList.add('wrong');lives--;document.querySelectorAll('.game-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});showToast('❌ It was: '+correct);}
+  updateGameUI();qIdx++;setTimeout(nextQ,1400);
+}
+function updateGameUI(){
+  document.getElementById('scoreNum').textContent=score;
+  document.getElementById('livesDisplay').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives);
+}
+function endGame(){
+  const el=document.getElementById('gameQ');
+  el.textContent=score>=80?'🎉':score>=50?'😊':'💪';el.style.fontSize='52px';
+  document.getElementById('gamePrompt').textContent=`Game Over! Score: ${score}/100`;
+  document.getElementById('gameOpts').innerHTML=
+    `<button class="game-opt" style="grid-column:1/-1;background:var(--red);border-color:var(--red);color:white" onclick="startGame()">🔄 Play Again</button>
+     <button class="game-opt" style="grid-column:1/-1" onclick="document.getElementById('gameIntro').style.display='block';document.getElementById('gameArea').style.display='none'">📂 Change Category</button>`;
+  document.getElementById('progFill').style.width='100%';
+}
+
+// ══════════════════════════════════════════
+// WRITING — upgraded with 3 tabs + animated strokes
+// ══════════════════════════════════════════
+let canvas,sCanvas,ctx,sCtx,drawing=false,penSize=4;
+let showStrokes=true;
+let currentChar={k:'あ',r:'a',tip:'3 strokes: horizontal line → curve → hook',tab:'hiragana'};
+let strokeAnim=null;
+
+// Stroke data — simplified animated paths per character
+// Each entry: array of stroke paths [{points:[{x,y},...]}]
+const strokeData={
+  'あ':[
+    [{x:0.5,y:0.2},{x:0.5,y:0.55}],
+    [{x:0.2,y:0.35},{x:0.8,y:0.35}],
+    [{x:0.65,y:0.35},{x:0.55,y:0.7},{x:0.25,y:0.85},{x:0.5,y:0.75},{x:0.75,y:0.65}]
+  ],
+  'い':[
+    [{x:0.35,y:0.2},{x:0.3,y:0.75}],
+    [{x:0.65,y:0.2},{x:0.65,y:0.6},{x:0.6,y:0.75}]
+  ],
+  'う':[
+    [{x:0.4,y:0.18},{x:0.6,y:0.18}],
+    [{x:0.5,y:0.18},{x:0.5,y:0.45},{x:0.3,y:0.7},{x:0.5,y:0.82},{x:0.72,y:0.72}]
+  ],
+  'か':[
+    [{x:0.3,y:0.2},{x:0.3,y:0.8}],
+    [{x:0.2,y:0.45},{x:0.75,y:0.45}],
+    [{x:0.6,y:0.45},{x:0.75,y:0.75}]
+  ],
+  'ア':[
+    [{x:0.25,y:0.3},{x:0.75,y:0.3}],
+    [{x:0.5,y:0.3},{x:0.45,y:0.8}]
+  ],
+  'イ':[
+    [{x:0.35,y:0.2},{x:0.55,y:0.5}],
+    [{x:0.62,y:0.2},{x:0.62,y:0.8}]
+  ],
+};
+
+function initCanvas(){
+  canvas=document.getElementById('writingCanvas');
+  sCanvas=document.getElementById('strokeCanvas');
+  if(!canvas||canvas._init)return;canvas._init=true;
+  // Size canvases to match display
+  const w=canvas.parentElement.clientWidth||300;
+  canvas.width=w;canvas.height=Math.round(w*0.8);
+  sCanvas.width=w;sCanvas.height=canvas.height;
+  ctx=canvas.getContext('2d');
+  sCtx=sCanvas.getContext('2d');
+  ctx.strokeStyle='#1a1a2e';ctx.lineWidth=penSize;ctx.lineCap='round';ctx.lineJoin='round';
+  canvas.addEventListener('mousedown',sd);canvas.addEventListener('mousemove',dr);
+  canvas.addEventListener('mouseup',stopD);canvas.addEventListener('mouseleave',stopD);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();sd(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();dr(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchend',stopD);
+  if(showStrokes)animateStrokes();
+}
+function gp(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)};}
+function sd(e){drawing=true;const p=gp(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function dr(e){if(!drawing)return;const p=gp(e);ctx.lineTo(p.x,p.y);ctx.stroke();}
+function stopD(){drawing=false;}
+function clearCanvas(){if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);}
+function setPen(s,btn){penSize=s;if(ctx)ctx.lineWidth=s;document.querySelectorAll('.canvas-btn').forEach(b=>b.classList.remove('ap'));btn.classList.add('ap');}
+function toggleStrokes(){
+  showStrokes=document.getElementById('strokeToggle').checked;
+  if(sCtx)sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  if(strokeAnim){clearTimeout(strokeAnim);strokeAnim=null;}
+  if(showStrokes)animateStrokes();
+}
+
+function animateStrokes(){
+  if(!sCtx||!showStrokes)return;
+  sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  const strokes=strokeData[currentChar.k];
+  if(!strokes){
+    // Draw placeholder ghost character
+    sCtx.save();
+    sCtx.font=`${sCanvas.height*0.7}px 'Zen Maru Gothic',serif`;
+    sCtx.fillStyle='rgba(232,57,77,0.08)';
+    sCtx.textAlign='center';sCtx.textBaseline='middle';
+    sCtx.fillText(currentChar.k,sCanvas.width/2,sCanvas.height/2);
+    sCtx.restore();
+    return;
+  }
+  let si=0,pi=0,progress=0;
+  const colors=['rgba(232,57,77,0.7)','rgba(52,152,219,0.7)','rgba(46,204,113,0.7)','rgba(245,166,35,0.7)'];
+  function drawFrame(){
+    if(!showStrokes)return;
+    sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+    // Draw completed strokes
+    for(let i=0;i<si;i++){
+      drawStroke(strokes[i],colors[i%colors.length],1,sCanvas.width,sCanvas.height);
+      drawArrow(strokes[i],colors[i%colors.length],sCanvas.width,sCanvas.height);
+    }
+    // Draw current stroke partially
+    if(si<strokes.length){
+      const pts=strokes[si];
+      const end=Math.floor(progress*pts.length);
+      if(end>0)drawStroke(pts.slice(0,end+1),colors[si%colors.length],1,sCanvas.width,sCanvas.height);
+      // Stroke number
+      sCtx.save();
+      sCtx.fillStyle=colors[si%colors.length];
+      sCtx.font='bold 13px Nunito,sans-serif';
+      sCtx.fillText(''+(si+1),pts[0].x*sCanvas.width-14,pts[0].y*sCanvas.height-6);
+      sCtx.restore();
+    }
+    progress+=0.08;
+    if(progress>=1){progress=0;si++;}
+    if(si<strokes.length){strokeAnim=setTimeout(drawFrame,60);}
+    else{
+      // Pause then restart
+      strokeAnim=setTimeout(()=>{si=0;progress=0;if(showStrokes)drawFrame();},2000);
+    }
+  }
+  drawFrame();
+}
+
+function drawStroke(pts,color,alpha,W,H){
+  if(pts.length<2)return;
+  sCtx.save();
+  sCtx.strokeStyle=color;sCtx.lineWidth=4;sCtx.lineCap='round';sCtx.lineJoin='round';sCtx.globalAlpha=alpha;
+  sCtx.beginPath();
+  sCtx.moveTo(pts[0].x*W,pts[0].y*H);
+  for(let i=1;i<pts.length;i++)sCtx.lineTo(pts[i].x*W,pts[i].y*H);
+  sCtx.stroke();sCtx.restore();
+}
+function drawArrow(pts,color,W,H){
+  if(pts.length<2)return;
+  const last=pts[pts.length-1];
+  const prev=pts[pts.length-2];
+  const angle=Math.atan2((last.y-prev.y)*H,(last.x-prev.x)*W);
+  const ax=last.x*W,ay=last.y*H;
+  sCtx.save();sCtx.fillStyle=color;
+  sCtx.translate(ax,ay);sCtx.rotate(angle);
+  sCtx.beginPath();sCtx.moveTo(0,0);sCtx.lineTo(-10,-5);sCtx.lineTo(-10,5);sCtx.closePath();
+  sCtx.fill();sCtx.restore();
+}
+
+function selectWriteChar(ch){
+  currentChar=ch;
+  document.getElementById('charDisp').textContent=ch.k;
+  document.getElementById('strokeTip').textContent=ch.tip||'Top → bottom, left → right';
+  clearCanvas();
+  if(sCtx)sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  if(strokeAnim){clearTimeout(strokeAnim);strokeAnim=null;}
+  // Mark selected
+  document.querySelectorAll('.char-pick-cell').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.char-pick-cell').forEach(c=>{if(c.dataset.char===ch.k)c.classList.add('selected');});
+  if(showStrokes)animateStrokes();
+}
+function nextChar(){
+  const tab=currentChar.tab||'hiragana';
+  const arr=tab==='hiragana'?hiraBasic:tab==='katakana'?kataBasic:kanjiN5;
+  const idx=arr.findIndex(c=>c.k===currentChar.k);
+  const next=arr[(idx+1)%arr.length];
+  selectWriteChar({...next,tip:next.tip||(next.r?`Read as "${next.r}"`:''),tab});
+}
+
+let currentWriteTab='hiragana';
+function showWriteTab(tab,btn){
+  currentWriteTab=tab;
+  document.querySelectorAll('.char-pick-tabs .pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildWritePicker(tab);
+}
+function buildWritePicker(tab){
+  let html='';
+  if(tab==='hiragana'){
+    html+=pickerGroup('Basic',hiraBasic,'hiragana');
+    html+=pickerGroup('Voiced & Semi-voiced',hiraDaku,'hiragana');
+    html+=pickerGroup('Combinations',hiraCombo,'hiragana');
+  } else if(tab==='katakana'){
+    html+=pickerGroup('Basic',kataBasic,'katakana');
+    html+=pickerGroup('Voiced & Semi-voiced',kataDaku,'katakana');
+    html+=pickerGroup('Combinations',kataCombo,'katakana');
+    html+=pickerGroup('Foreign sounds',kataForeign,'katakana');
+  } else {
+    html+=pickerGroup('N5 Kanji (placeholder — your content goes here)',kanjiN5,'kanji');
+  }
+  document.getElementById('writePicker').innerHTML=html;
+}
+function pickerGroup(title,arr,tab){
+  return `<div class="char-pick-section">
+    <div class="char-pick-label">${title}</div>
+    <div class="char-pick-grid">${arr.map(c=>
+      `<div class="char-pick-cell" data-char="${c.k}" onclick="selectWriteChar({k:'${c.k}',r:'${c.r}',tip:'${c.tip||"Read as: "+c.r}',tab:'${tab}'})">
+        <div class="char-pick-kana">${c.k}</div>
+        <div class="char-pick-roma">${c.r}</div>
+      </div>`).join('')}
+    </div></div>`;
+}
+
+// ══════════════════════════════════════════
+// SPEAK
+// ══════════════════════════════════════════
+function speak(r,cell){
+  playAudio(r);
+  if(cell){cell.classList.add('played');setTimeout(()=>cell.classList.remove('played'),1000);}
+  showToast('🔊 '+r);
+}
+function speakKata(r,cell){speak(r,cell);}
+function playAudio(r){
+  const a=new Audio(r+'.mp3');
+  a.play().catch(()=>{
+    if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(r);u.lang='ja-JP';u.rate=0.8;speechSynthesis.speak(u);}
+  });
+}
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);
+}
+function markItem(btn,name){btn.textContent='✅ Marked';btn.style.background='var(--green)';btn.disabled=true;showToast('✅ '+name+"'s work marked!");}
+
+// ══════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  ['home','vocab','flashcard','game','exercises','writing','teacher'].forEach((p,i)=>{
+    document.querySelectorAll('.nav-tab')[i]?.classList.toggle('active',p===id);
+  });
+  ['home','vocab','flashcard','game','teacher'].forEach((p,i)=>{
+    document.querySelectorAll('.bnav-item')[i]?.classList.toggle('active',p===id);
+  });
+  if(id==='writing'){
+    buildWritePicker('hiragana');
+    setTimeout(initCanvas,150);
+  }
+}
+
+// ══════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════
+buildCharts();
+buildCalVocab();
+buildVocab(vocab);
+buildStudents();
+</script>
+</body>
+</html>
