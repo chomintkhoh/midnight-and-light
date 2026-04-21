@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midnight & Light 🌙 Language Corner</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E8394D;--red-light:#ff6b7a;--cream:#FFF8F0;--ink:#1a1a2e;
+  --gold:#F5A623;--green:#2ECC71;--blue:#3498DB;--purple:#9B59B6;
+  --shadow:0 8px 32px rgba(232,57,77,0.10);--radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(232,57,77,0.06),transparent 50%),radial-gradient(circle at 85% 80%,rgba(245,166,35,0.07),transparent 50%);pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,248,240,0.93);backdrop-filter:blur(12px);border-bottom:2px solid rgba(232,57,77,0.12);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px;gap:8px;}
+.nav-logo{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;}
+.nav-logo em{color:var(--red);font-style:normal;}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:6px 11px;border-radius:9px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;color:#888;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.nav-tab.active,.nav-tab:hover{background:var(--red);color:white;}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--gold));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;}
+
+/* PAGES */
+.page{display:none;padding:24px 16px;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.page.active>*{animation:fadeUp 0.3s ease both;}
+.page.active>*:nth-child(2){animation-delay:.04s;}
+.page.active>*:nth-child(3){animation-delay:.08s;}
+.page.active>*:nth-child(4){animation-delay:.12s;}
+
+/* COMMON */
+.btn{padding:11px 22px;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--red);color:white;box-shadow:0 4px 14px rgba(232,57,77,0.28);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:white;color:var(--ink);border:2px solid #e8e8e8;}
+.btn-secondary:hover{border-color:var(--red);color:var(--red);}
+.section-title{font-family:'Zen Maru Gothic',sans-serif;font-size:21px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.card-box{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+.pill-btn{padding:7px 14px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;color:#666;}
+.pill-btn.active{background:var(--red);border-color:var(--red);color:white;}
+
+/* RUBY */
+ruby{display:inline-flex;flex-direction:column-reverse;align-items:center;line-height:1.1;}
+rt{font-size:0.46em;font-family:'Zen Maru Gothic',sans-serif;color:var(--red);font-weight:700;line-height:1.6;text-align:center;}
+
+/* HOME */
+.hero{text-align:center;padding:44px 12px 32px;}
+.hero-badge{display:inline-block;background:rgba(232,57,77,0.1);color:var(--red);padding:5px 13px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:16px;border:1.5px solid rgba(232,57,77,0.2);}
+.hero h1{font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:900;line-height:1.2;margin-bottom:12px;}
+.hero h1 em{color:var(--red);font-style:normal;}
+.hero p{font-size:15px;color:#666;max-width:460px;margin:0 auto 26px;line-height:1.7;}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:28px 0;}
+.stat-card{background:white;border-radius:var(--radius);padding:18px 14px;text-align:center;box-shadow:var(--shadow);transition:transform 0.2s;}
+.stat-card:hover{transform:translateY(-3px);}
+.stat-num{font-family:'Zen Maru Gothic',sans-serif;font-size:30px;font-weight:900;color:var(--red);}
+.stat-label{font-size:11px;color:#888;margin-top:2px;font-weight:600;}
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+.mod-card{background:white;border-radius:var(--radius);padding:22px 18px;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent;transition:all 0.25s;position:relative;overflow:hidden;}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.mod-card.cr::before{background:var(--red);}
+.mod-card.cg::before{background:var(--gold);}
+.mod-card.cgr::before{background:var(--green);}
+.mod-card.cb::before{background:var(--blue);}
+.mod-card.cp::before{background:var(--purple);}
+.mod-card:hover{transform:translateY(-5px);border-color:var(--red);}
+.mod-icon{font-size:36px;margin-bottom:10px;display:block;}
+.mod-card h3{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;margin-bottom:5px;}
+.mod-card p{font-size:12px;color:#888;line-height:1.6;margin-bottom:12px;}
+.mod-bar{height:5px;background:#f0f0f0;border-radius:99px;overflow:hidden;}
+.mod-bar-fill{height:100%;border-radius:99px;background:var(--red);}
+.mod-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.mod-count{font-size:10px;color:#aaa;font-weight:600;}
+.mod-badge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);}
+
+/* VOCAB / CHART */
+.chart-section{margin-bottom:10px;}
+.chart-group-title{font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:900;color:var(--red);margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.hira-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px;}
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:7px;}
+.hira-cell{background:white;border-radius:10px;padding:8px 5px;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+.hira-cell:hover{border-color:var(--red);transform:scale(1.08);}
+.hira-cell.played{border-color:var(--green);}
+.hira-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:700;}
+.hira-roma{font-size:10px;color:#aaa;margin-top:1px;font-weight:600;}
+.chart-tabs{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
+
+/* CALENDAR VOCAB */
+.cal-section{margin-bottom:14px;}
+.cal-subtitle{font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:900;color:var(--red);margin:14px 0 8px;}
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;}
+.cal-card{background:white;border-radius:12px;padding:12px;border:1.5px solid rgba(232,57,77,0.1);transition:all 0.2s;text-align:center;}
+.cal-card:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 12px rgba(232,57,77,0.1);}
+.cal-kanji{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:700;display:flex;justify-content:center;margin-bottom:3px;}
+.cal-kanji ruby{font-size:20px;}
+.cal-kanji rt{font-size:10px;color:var(--red);}
+.cal-roma{font-size:10px;color:#aaa;font-weight:600;margin-bottom:5px;}
+.cal-en-wrap{overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
+.cal-en-wrap.open{max-height:50px;}
+.cal-en{font-size:12px;font-weight:700;color:var(--ink);padding-top:4px;border-top:1px solid #f0f0f0;margin-top:3px;}
+.cal-toggle{font-size:10px;padding:2px 9px;border-radius:99px;border:1.5px solid #e8e8e8;background:white;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;color:#aaa;transition:all 0.2s;}
+.cal-toggle.open{border-color:var(--red);color:var(--red);}
+
+/* GENERAL VOCAB CARDS */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.vocab-card{background:white;border-radius:13px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;text-align:center;}
+.vocab-card:hover{transform:translateY(-3px);border-color:var(--red);}
+.vocab-card.flipped{background:var(--red);color:white;}
+.vocab-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:700;}
+.vocab-roma{font-size:11px;color:#aaa;margin:3px 0;}
+.vocab-card.flipped .vocab-roma{color:rgba(255,255,255,0.7);}
+.vocab-mean{font-size:13px;font-weight:700;margin-top:5px;}
+.vocab-tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);font-weight:700;margin-top:5px;}
+.vocab-card.flipped .vocab-tag{background:rgba(255,255,255,0.2);color:white;}
+
+/* FLASHCARD PAGE */
+.fc-page-layout{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start;min-height:calc(85vh - 80px);}
+@media(max-width:720px){.fc-page-layout{grid-template-columns:1fr;min-height:unset;}}
+.fc-selector{background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.fc-selector h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:14px;}
+.fc-section-label{font-size:10px;font-weight:800;color:#aaa;letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 7px;}
+.fc-section-label:first-of-type{margin-top:0;}
+.fc-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+.fc-cat-btn{padding:6px 12px;border-radius:9px;border:2px solid #f0f0f0;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;color:var(--ink);display:flex;align-items:center;gap:5px;}
+.fc-cat-btn:hover:not(.locked){border-color:var(--red);background:rgba(232,57,77,0.04);}
+.fc-cat-btn.selected{border-color:var(--red);background:var(--red);color:white;}
+.fc-cat-btn.locked{opacity:0.4;cursor:not-allowed;}
+.fc-cat-icon{font-size:14px;}
+.fc-start-area{margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0;}
+.fc-selected-info{font-size:12px;color:#888;margin-bottom:10px;font-weight:600;}
+.fc-mode-row{display:flex;gap:6px;margin-bottom:10px;}
+.fc-mode-btn{flex:1;padding:7px 6px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:all 0.2s;color:#666;text-align:center;}
+.fc-mode-btn.active{background:var(--ink);border-color:var(--ink);color:white;}
+.fc-area{background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:calc(85vh - 80px);}
+@media(max-width:720px){.fc-area{min-height:unset;}}
+.fc-dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;min-height:14px;}
+.fc-dot{width:9px;height:9px;border-radius:50%;background:#e8e8e8;transition:all 0.3s;flex-shrink:0;}
+.fc-dot.got{background:var(--green);}
+.fc-dot.retry{background:var(--red);}
+.fc-dot.cur{background:var(--gold);transform:scale(1.35);}
+.fc-wrap{perspective:1000px;width:100%;max-width:560px;margin:0 auto 18px;flex:1;min-height:220px;cursor:pointer;}
+@media(max-width:720px){.fc-wrap{min-height:260px;height:52vw;flex:unset;}}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);border-radius:20px;}
+.fc-inner.flipped{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;padding:28px;}
+.fc-front{background:linear-gradient(135deg,#1a1a2e,#2d2d5e);color:white;box-shadow:0 8px 30px rgba(26,26,46,0.25);}
+.fc-back{background:linear-gradient(135deg,var(--red),#c0392b);color:white;transform:rotateY(180deg);box-shadow:0 8px 30px rgba(232,57,77,0.28);}
+.fc-lbl{font-size:10px;font-weight:800;opacity:0.55;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px;}
+.fc-main{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;text-align:center;line-height:1.2;}
+.fc-main ruby{font-size:inherit;}
+.fc-main rt{color:rgba(255,255,255,0.8);}
+.fc-sub{font-size:14px;opacity:0.7;margin-top:8px;font-weight:600;}
+.fc-hint{font-size:12px;opacity:0.4;margin-top:14px;}
+#fcStudy{display:flex;flex-direction:column;flex:1;}
+.fc-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;}
+.fc-counter{font-size:13px;font-weight:800;color:#aaa;min-width:65px;text-align:center;}
+.fc-nav-btn{width:38px;height:38px;border-radius:50%;border:2px solid #e8e8e8;background:white;font-size:15px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.fc-nav-btn:hover{border-color:var(--red);}
+.fc-actions{display:flex;gap:9px;justify-content:center;margin-top:10px;}
+.fc-got{padding:10px 22px;border-radius:11px;background:var(--green);color:white;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.fc-got:hover{transform:translateY(-2px);}
+.fc-retry-btn{padding:10px 22px;border-radius:11px;background:white;color:var(--ink);border:2px solid #e8e8e8;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.fc-retry-btn:hover{border-color:var(--red);color:var(--red);}
+.fc-empty{text-align:center;padding:40px 20px;color:#aaa;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.fc-empty p{font-size:14px;margin-top:8px;}
+.fc-summary{text-align:center;padding:24px 14px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.fc-summary h3{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;margin-bottom:8px;}
+.fc-summary p{color:#888;font-size:13px;margin-bottom:16px;line-height:1.7;}
+.fc-stats{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+.fc-stat{background:white;border-radius:11px;padding:11px 16px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);min-width:75px;}
+.fc-stat-num{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;}
+.fc-stat-label{font-size:10px;color:#aaa;font-weight:700;margin-top:1px;}
+
+/* GAME */
+.game-layout{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start;}
+@media(max-width:680px){.game-layout{grid-template-columns:1fr;}}
+.cat-sidebar{background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.cat-sidebar h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;}
+.cat-list{display:flex;flex-direction:column;gap:6px;}
+.cat-btn{display:flex;align-items:center;gap:8px;padding:10px 11px;border-radius:11px;border:2px solid #f0f0f0;cursor:pointer;transition:all 0.2s;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;color:var(--ink);text-align:left;width:100%;}
+.cat-btn:hover:not(.locked){border-color:var(--red);background:rgba(232,57,77,0.04);}
+.cat-btn.active{border-color:var(--red);background:var(--red);color:white;}
+.cat-btn.active .cat-count{background:rgba(255,255,255,0.25);color:white;}
+.cat-btn.locked{opacity:0.4;cursor:not-allowed;}
+.cat-icon{font-size:17px;flex-shrink:0;}
+.cat-info{flex:1;}
+.cat-name{display:block;font-size:12px;}
+.cat-words{font-size:10px;opacity:0.65;font-weight:600;}
+.cat-count{font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;background:rgba(232,57,77,0.1);color:var(--red);white-space:nowrap;}
+.soon{font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;background:#f0f0f0;color:#aaa;white-space:nowrap;}
+.game-box{background:white;border-radius:var(--radius);padding:28px 22px;box-shadow:var(--shadow);text-align:center;}
+.game-cat-lbl{font-size:12px;color:#aaa;font-weight:700;margin-bottom:16px;}
+.game-scorebar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.score-badge{background:var(--red);color:white;padding:6px 15px;border-radius:99px;font-weight:800;font-size:13px;}
+.game-q{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;color:var(--ink);margin:10px 0;line-height:1.2;animation:pop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);}
+@keyframes pop{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.game-prompt{font-size:13px;color:#888;margin-bottom:18px;font-weight:600;}
+.game-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.game-opt{padding:12px 8px;border-radius:11px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;color:var(--ink);}
+.game-opt:hover:not(:disabled){border-color:var(--red);background:rgba(232,57,77,0.05);}
+.game-opt.correct{background:var(--green);border-color:var(--green);color:white;}
+.game-opt.wrong{background:#ff4757;border-color:#ff4757;color:white;}
+.game-opt:disabled{cursor:not-allowed;}
+.prog-wrap{background:#f0f0f0;border-radius:99px;height:6px;margin:16px 0 0;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px;transition:width 0.4s;}
+.cat-intro{padding:14px 6px;}
+.cat-intro-icon{font-size:52px;margin-bottom:10px;}
+.cat-intro h2{font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:900;margin-bottom:7px;}
+.cat-intro p{font-size:13px;color:#888;margin-bottom:20px;line-height:1.7;}
+
+/* EXERCISES */
+.ex-list{display:flex;flex-direction:column;gap:12px;}
+.ex-item{background:white;border-radius:13px;padding:16px 20px;box-shadow:0 3px 12px rgba(0,0,0,0.06);display:flex;align-items:center;gap:14px;transition:transform 0.2s;}
+.ex-item:hover{transform:translateX(4px);}
+.ex-icon{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ex-info{flex:1;}
+.ex-info h4{font-family:'Zen Maru Gothic',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px;}
+.ex-info p{font-size:11px;color:#999;}
+.ex-status{padding:4px 11px;border-radius:99px;font-size:11px;font-weight:800;white-space:nowrap;}
+.s-new{background:rgba(232,57,77,0.1);color:var(--red);}
+.s-done{background:rgba(46,204,113,0.12);color:var(--green);}
+.s-graded{background:rgba(245,166,35,0.12);color:var(--gold);}
+
+/* WRITING */
+.writing-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:660px){.writing-layout{grid-template-columns:1fr;}}
+.writing-panel{background:white;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+.writing-panel h3{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;margin-bottom:12px;}
+.canvas-wrap{position:relative;margin-bottom:10px;}
+#writingCanvas{border:2px dashed #e0e0e0;border-radius:12px;width:100%;touch-action:none;cursor:crosshair;display:block;}
+#strokeCanvas{position:absolute;top:0;left:0;border-radius:12px;width:100%;pointer-events:none;}
+.stroke-toggle{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700;color:#666;}
+.stroke-toggle input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--red);}
+.canvas-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.canvas-btn{padding:6px 13px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;}
+.canvas-btn:hover,.canvas-btn.ap{background:var(--red);border-color:var(--red);color:white;}
+.char-pick-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.char-pick-section{margin-bottom:10px;}
+.char-pick-label{font-size:10px;font-weight:800;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.char-pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:5px;}
+.char-pick-cell{background:white;border-radius:8px;padding:6px 3px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+.char-pick-cell:hover{border-color:var(--red);transform:scale(1.08);}
+.char-pick-cell.selected{border-color:var(--red);background:rgba(232,57,77,0.06);}
+.char-pick-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:700;}
+.char-pick-roma{font-size:9px;color:#aaa;font-weight:600;}
+.char-display-big{font-family:'Zen Maru Gothic',sans-serif;font-size:90px;text-align:center;line-height:1;color:rgba(232,57,77,0.14);padding:14px 0;transition:color 0.2s;cursor:pointer;}
+.char-display-big:hover{color:rgba(232,57,77,0.26);}
+/* Stroke order image reference */
+.stroke-ref-panel{margin-top:14px;padding:14px;background:#fff8f0;border-radius:12px;border:1.5px solid rgba(232,57,77,0.15);}
+.stroke-ref-title{font-weight:800;font-size:12px;margin-bottom:8px;color:var(--ink);}
+.stroke-ref-img{width:80px;height:80px;border-radius:8px;border:1.5px solid #e8e8e8;background:white;display:flex;align-items:center;justify-content:center;font-family:'Zen Maru Gothic',sans-serif;font-size:46px;color:rgba(232,57,77,0.18);}
+.stroke-ref-src{font-size:10px;color:#aaa;margin-top:5px;}
+.stroke-ref-link{font-size:11px;color:var(--red);font-weight:700;text-decoration:none;}
+.stroke-ref-link:hover{text-decoration:underline;}
+
+/* TEACHER */
+.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:24px;}
+.teacher-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+.teacher-card h3{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.stu-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #f5f5f5;}
+.stu-row:last-child{border-bottom:none;}
+.stu-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:white;flex-shrink:0;}
+.stu-name{flex:1;font-weight:700;font-size:13px;}
+.mini-bar{height:3px;background:#f0f0f0;border-radius:99px;overflow:hidden;margin-top:3px;width:50px;}
+.mini-fill{height:100%;border-radius:99px;background:var(--green);}
+.stu-score{font-size:11px;font-weight:800;color:var(--red);}
+.pending-list{display:flex;flex-direction:column;gap:6px;}
+.pending-item{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(232,57,77,0.04);border-radius:9px;border:1.5px solid rgba(232,57,77,0.1);}
+.pend-info{flex:1;}
+.pend-info strong{display:block;font-size:12px;font-weight:700;}
+.pend-info span{font-size:10px;color:#aaa;}
+.mark-btn{padding:4px 11px;background:var(--red);color:white;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.mark-btn:hover{background:var(--red-light);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:white;padding:11px 20px;border-radius:11px;font-weight:700;font-size:13px;z-index:999;transition:transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275);display:flex;align-items:center;gap:7px;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #f0f0f0;padding:5px 0;z-index:100;}
+@media(max-width:560px){.bottom-nav{display:flex;}body{padding-bottom:62px;}.nav-tabs{display:none;}}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;font-weight:700;color:#aaa;cursor:pointer;padding:4px 0;transition:color 0.2s;border:none;background:none;}
+.bnav-item.active{color:var(--red);}
+.bnav-item .bicon{font-size:19px;}
+
+/* BODY PARTS PAGE */
+.body-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+@media(max-width:760px){.body-layout{grid-template-columns:1fr;}}
+.body-svg-wrap{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;}
+.body-svg-wrap svg{max-width:320px;width:100%;}
+.body-hotspot{cursor:pointer;transition:opacity 0.2s;}
+.body-hotspot:hover .bp-circle{opacity:1 !important;}
+.body-hotspot:hover .bp-label{font-weight:900;}
+.bp-circle{opacity:0.55;transition:opacity 0.2s;}
+.body-info-panel{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+.body-info-panel h3{font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:900;margin-bottom:14px;}
+.bp-selected{background:rgba(232,57,77,0.06);border-radius:14px;padding:18px;margin-bottom:16px;border:1.5px solid rgba(232,57,77,0.15);display:none;}
+.bp-selected.show{display:block;}
+.bp-sel-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:38px;font-weight:900;color:var(--red);}
+.bp-sel-furi{font-size:13px;color:#888;font-weight:600;margin:2px 0;}
+.bp-sel-roma{font-size:12px;color:#aaa;font-weight:600;}
+.bp-sel-en{font-size:18px;font-weight:800;color:var(--ink);margin-top:6px;}
+.bp-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.bp-item{background:#f9f6f3;border-radius:10px;padding:8px 10px;cursor:pointer;border:1.5px solid transparent;transition:all 0.2s;}
+.bp-item:hover,.bp-item.active{border-color:var(--red);background:rgba(232,57,77,0.05);}
+.bp-item-kana{font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:700;}
+.bp-item-en{font-size:11px;color:#888;font-weight:600;}
+
+/* CALENDAR POPUP */
+.cal-popup-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;}
+.cal-popup-overlay.open{display:flex;}
+.cal-popup{background:white;border-radius:24px;padding:28px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;}
+.cal-popup-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.cal-popup-title{font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;}
+.cal-popup-close{width:32px;height:32px;border-radius:50%;border:2px solid #e8e8e8;background:white;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.cal-popup-close:hover{background:var(--red);border-color:var(--red);color:white;}
+.cal-popup-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;}
+.cal-popup-nav button{width:34px;height:34px;border-radius:50%;border:2px solid #e8e8e8;background:white;cursor:pointer;font-size:14px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.cal-popup-nav button:hover{border-color:var(--red);}
+.cal-popup-month{font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:900;min-width:120px;text-align:center;}
+.cal-popup-jp{font-size:13px;color:var(--red);font-weight:700;margin-top:2px;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;}
+.cal-wd{text-align:center;font-size:10px;font-weight:800;color:#aaa;padding:4px 0;}
+.cal-wd:first-child{color:#E8394D;}
+.cal-wd:last-child{color:#3498DB;}
+.cal-days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;border:1.5px solid transparent;}
+.cal-day:hover{border-color:var(--red);background:rgba(232,57,77,0.05);}
+.cal-day.today{background:var(--red);color:white;}
+.cal-day.today .cal-day-jp{color:rgba(255,255,255,0.7);}
+.cal-day.other-month{opacity:0.3;}
+.cal-day-num{font-size:13px;font-weight:800;line-height:1;}
+.cal-day-jp{font-family:'Zen Maru Gothic',sans-serif;font-size:9px;color:var(--red);margin-top:1px;line-height:1;}
+.cal-day.today .cal-day-jp{color:rgba(255,255,255,0.8);}
+.cal-selected-day{margin-top:16px;padding:14px;background:rgba(232,57,77,0.06);border-radius:12px;border:1.5px solid rgba(232,57,77,0.15);display:none;}
+.cal-selected-day.show{display:block;}
+.cal-open-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;margin-bottom:14px;}
+.cal-open-btn:hover{transform:translateY(-2px);}
+
+/* MONOPOLY */
+.mono-layout{display:flex;flex-direction:column;gap:18px;}
+.mono-topbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+.mono-players{display:flex;gap:10px;}
+.mono-player-card{background:white;border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);min-width:130px;border:2px solid transparent;transition:border-color 0.3s;}
+.mono-player-card.current{border-color:var(--gold);}
+.mono-player-name{font-weight:800;font-size:13px;margin-bottom:3px;}
+.mono-player-money{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;color:var(--green);}
+.mono-player-pos{font-size:10px;color:#aaa;font-weight:600;margin-top:2px;}
+.mono-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.mono-board-wrap{background:white;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);overflow-x:auto;}
+.mono-canvas{display:block;border-radius:12px;}
+.mono-log{background:white;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);max-height:140px;overflow-y:auto;}
+.mono-log-title{font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:900;margin-bottom:8px;color:var(--red);}
+.mono-log-entry{font-size:12px;color:#666;padding:4px 0;border-bottom:1px solid #f5f5f5;line-height:1.5;}
+.mono-log-entry:last-child{border-bottom:none;}
+.mono-setup{text-align:center;padding:40px 20px;}
+.mono-setup h2{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;margin-bottom:8px;}
+.mono-setup p{font-size:13px;color:#888;margin-bottom:24px;line-height:1.7;}
+.mono-setup-options{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.mono-option-group{text-align:left;}
+.mono-option-label{font-size:11px;font-weight:800;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.mono-option-btns{display:flex;gap:6px;}
+.mono-opt-btn{padding:7px 14px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;color:#666;}
+.mono-opt-btn.sel{background:var(--red);border-color:var(--red);color:white;}
+.mono-card-popup{position:fixed;inset:0;background:rgba(26,26,46,0.55);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;}
+.mono-card-popup.open{display:flex;}
+.mono-card-inner{background:white;border-radius:20px;padding:24px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.mono-card-icon{font-size:48px;margin-bottom:10px;}
+.mono-card-title{font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;margin-bottom:6px;}
+.mono-card-body{font-size:13px;color:#666;line-height:1.7;margin-bottom:16px;}
+.mono-q-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;}
+.mono-q-opt{padding:9px;border-radius:9px;border:2px solid #e8e8e8;background:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;}
+.mono-q-opt:hover:not(:disabled){border-color:var(--red);}
+.mono-q-opt.correct{background:var(--green);border-color:var(--green);color:white;}
+.mono-q-opt.wrong{background:#ff4757;border-color:#ff4757;color:white;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🌙 <em>Midnight</em> & Light</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="go('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="go('vocab')">📚 Vocab</button>
+    <button class="nav-tab" onclick="go('flashcard')">🃏 Flashcards</button>
+    <button class="nav-tab" onclick="go('body')">🧍 Body</button>
+    <button class="nav-tab" onclick="go('game')">🎮 Game</button>
+    <button class="nav-tab" onclick="go('exercises')">✏️ Exercises</button>
+    <button class="nav-tab" onclick="go('writing')">🖊️ Writing</button>
+    <button class="nav-tab" onclick="go('monopoly')">🏫 Monopoly</button>
+    <button class="nav-tab" onclick="go('teacher')">👩‍🏫 Teacher</button>
+  </div>
+  <div class="avatar">Y</div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">🌙 JLPT N5/N4 • Hiragana • Katakana • 235+ words</div>
+    <h1>Welcome to<br><em>Midnight & Light</em> 🌸</h1>
+    <p>Japanese & Mandarin learning — flashcards, games, writing and more for all ages!</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="go('vocab')">🚀 Start Learning</button>
+      <button class="btn btn-secondary" onclick="go('monopoly')">🏫 Play Monopoly</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">104</div><div class="stat-label">Hiragana sounds</div></div>
+    <div class="stat-card"><div class="stat-num">110</div><div class="stat-label">Katakana sounds</div></div>
+    <div class="stat-card"><div class="stat-num">235+</div><div class="stat-label">Vocab words</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Students active</div></div>
+  </div>
+  <div class="section-title">📖 Your Learning Path</div>
+  <div class="modules-grid">
+    <div class="mod-card cr" onclick="go('vocab')"><span class="mod-icon">あ</span><h3>Hiragana</h3><p>All sounds including dakuten and combinations with your teacher's voice.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:65%"></div></div><div class="mod-meta"><span class="mod-count">104 sounds</span><span class="mod-badge">65%</span></div></div>
+    <div class="mod-card cg" onclick="go('vocab')"><span class="mod-icon">ア</span><h3>Katakana</h3><p>All sounds including foreign sound combinations.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:30%;background:var(--gold)"></div></div><div class="mod-meta"><span class="mod-count">110 sounds</span><span class="mod-badge">30%</span></div></div>
+    <div class="mod-card cgr" onclick="go('vocab')"><span class="mod-icon">📅</span><h3>Calendar</h3><p>Days, months and dates with kanji + furigana. Full interactive calendar!</p><div class="mod-bar"><div class="mod-bar-fill" style="width:50%;background:var(--green)"></div></div><div class="mod-meta"><span class="mod-count">50 words</span><span class="mod-badge">Updated!</span></div></div>
+    <div class="mod-card cb" onclick="go('flashcard')"><span class="mod-icon">🃏</span><h3>Flashcards</h3><p>235+ words across Locations, Body, N5/N4 Adj+Verbs with Got It tracking.</p><div class="mod-bar"><div class="mod-bar-fill" style="width:60%;background:var(--blue)"></div></div><div class="mod-meta"><span class="mod-count">All categories</span><span class="mod-badge">Upgraded!</span></div></div>
+    <div class="mod-card cp" onclick="go('body')"><span class="mod-icon">🧍</span><h3>Body Parts</h3><p>Interactive human diagram — tap each part to learn the Japanese word!</p><div class="mod-bar"><div class="mod-bar-fill" style="width:100%;background:var(--purple)"></div></div><div class="mod-meta"><span class="mod-count">25 parts</span><span class="mod-badge">New!</span></div></div>
+    <div class="mod-card cr" onclick="go('monopoly')"><span class="mod-icon">🏫</span><h3>School Monopoly</h3><p>Pixel art campus board — 1-2 players, 3 difficulty levels. Earn ¥ by answering!</p><div class="mod-bar"><div class="mod-bar-fill" style="width:100%"></div></div><div class="mod-meta"><span class="mod-count">1-2 players</span><span class="mod-badge">New!</span></div></div>
+  </div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="page" id="page-vocab">
+  <div class="section-title">📚 Vocabulary</div>
+
+  <div class="card-box" style="margin-bottom:18px;">
+    <div class="chart-tabs">
+      <button class="pill-btn active" onclick="showChart('hiragana',this)">あ Hiragana</button>
+      <button class="pill-btn" onclick="showChart('katakana',this)">ア Katakana</button>
+    </div>
+    <div id="chartHiragana" class="chart-section"></div>
+    <div id="chartKatakana" class="chart-section" style="display:none"></div>
+  </div>
+
+  <div class="card-box" style="margin-bottom:18px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;">📅 Calendar Vocabulary</div>
+      <button class="cal-open-btn" onclick="openCal()">📅 Open Full Calendar</button>
+    </div>
+    <p style="font-size:11px;color:#aaa;margin-bottom:10px;">Tap <b>Show English</b> to reveal the meaning!</p>
+    <div class="cal-subtitle">📆 Days of the Week</div>
+    <div class="cal-grid" id="calDays"></div>
+    <div class="cal-subtitle">🗓️ Months</div>
+    <div class="cal-grid" id="calMonths"></div>
+    <div class="cal-subtitle">🔢 Dates</div>
+    <div class="cal-grid" id="calDates"></div>
+  </div>
+
+  <div class="card-box">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:10px;">📖 General Vocabulary</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
+      <input id="vocabSearch" class="pill-btn" style="flex:1;min-width:160px;text-align:left;" type="text" placeholder="🔍 Search..." oninput="filterVocab(this.value)">
+      <button class="pill-btn active" onclick="filterCat('all',this)">All</button>
+      <button class="pill-btn" onclick="filterCat('noun',this)">Nouns</button>
+      <button class="pill-btn" onclick="filterCat('verb',this)">Verbs</button>
+      <button class="pill-btn" onclick="filterCat('adj',this)">Adj</button>
+      <button class="pill-btn" onclick="filterCat('number',this)">Numbers</button>
+      <button class="pill-btn" onclick="filterCat('location',this)">Locations</button>
+      <button class="pill-btn" onclick="filterCat('body',this)">Body</button>
+    </div>
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="page" id="page-flashcard">
+  <div class="section-title">🃏 Flashcards</div>
+  <div class="fc-page-layout">
+    <div class="fc-selector">
+      <h3>📂 Choose Categories</h3>
+      <div class="fc-section-label">Characters</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('hiragana_basic',this)"><span class="fc-cat-icon">あ</span>Hiragana</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('katakana_basic',this)"><span class="fc-cat-icon">ア</span>Katakana</button>
+      </div>
+      <div class="fc-section-label">Calendar</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_days',this)"><span class="fc-cat-icon">📆</span>Days</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_months',this)"><span class="fc-cat-icon">🗓️</span>Months</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('cal_dates',this)"><span class="fc-cat-icon">🔢</span>Dates</button>
+      </div>
+      <div class="fc-section-label">Vocab Themes</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_body',this)"><span class="fc-cat-icon">🧍</span>Body</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_location',this)"><span class="fc-cat-icon">📍</span>Locations</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_adj_n5',this)"><span class="fc-cat-icon">形</span>N5 Adj</button>
+      </div>
+      <div class="fc-row" style="margin-top:5px">
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_verb_n5',this)"><span class="fc-cat-icon">動</span>N5 Verbs</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_adj_n4',this)"><span class="fc-cat-icon">形</span>N4 Adj</button>
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_verb_n4',this)"><span class="fc-cat-icon">動</span>N4 Verbs</button>
+      </div>
+      <div class="fc-section-label">N5 Kanji</div>
+      <div class="fc-row">
+        <button class="fc-cat-btn" onclick="toggleFcCat('fc_kanji_n5',this)"><span class="fc-cat-icon">漢</span>N5 Kanji</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N5 Grammar coming soon!')"><span class="fc-cat-icon">文</span>Grammar</button>
+        <button class="fc-cat-btn locked" onclick="showToast('🔒 N4 Kanji coming soon!')"><span class="fc-cat-icon">漢</span>N4 Kanji</button>
+      </div>
+      <div class="fc-start-area">
+        <div class="fc-selected-info" id="fcSelInfo">No categories selected</div>
+        <div class="fc-mode-row">
+          <button class="fc-mode-btn active" id="modeJP" onclick="setFcMode('jp',this)">🇯🇵 JP→EN</button>
+          <button class="fc-mode-btn" id="modeEN" onclick="setFcMode('en',this)">🇬🇧 EN→JP</button>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="startFC()">🚀 Start Flashcards!</button>
+      </div>
+    </div>
+    <div class="fc-area">
+      <div class="fc-empty" id="fcEmpty">
+        <div style="font-size:48px">🃏</div>
+        <p>Select at least one category on the left to start studying!</p>
+      </div>
+      <div id="fcStudy" style="display:none">
+        <div class="fc-dots" id="fcDots"></div>
+        <div class="fc-wrap" onclick="fcFlip()">
+          <div class="fc-inner" id="fcInner">
+            <div class="fc-front">
+              <div class="fc-lbl" id="fcFrontLbl">JAPANESE</div>
+              <div class="fc-main" id="fcFront" style="font-size:52px">-</div>
+              <div class="fc-sub" id="fcFrontSub"></div>
+              <div class="fc-hint">👆 Tap to flip</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-lbl" id="fcBackLbl">ENGLISH</div>
+              <div class="fc-main" id="fcBack" style="font-size:34px">-</div>
+              <div class="fc-sub" id="fcBackSub"></div>
+              <div class="fc-hint">👆 Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-nav">
+          <button class="fc-nav-btn" onclick="fcPrev()">◀</button>
+          <div class="fc-counter" id="fcCounter">1 / 1</div>
+          <button class="fc-nav-btn" onclick="fcNext()">▶</button>
+        </div>
+        <div class="fc-actions" id="fcActions" style="display:none">
+          <button class="fc-retry-btn" onclick="fcMark('retry')">❌ Try Again</button>
+          <button class="fc-got" onclick="fcMark('got')">✅ Got It!</button>
+        </div>
+      </div>
+      <div class="fc-summary" id="fcSummary" style="display:none">
+        <div style="font-size:48px;margin-bottom:8px" id="fcEmoji">🎉</div>
+        <h3 id="fcSumTitle">Round Complete!</h3>
+        <p id="fcSumMsg">Great work!</p>
+        <div class="fc-stats">
+          <div class="fc-stat"><div class="fc-stat-num" id="fcGot" style="color:var(--green)">0</div><div class="fc-stat-label">Got It ✅</div></div>
+          <div class="fc-stat"><div class="fc-stat-num" id="fcRetry" style="color:var(--red)">0</div><div class="fc-stat-label">Try Again ❌</div></div>
+        </div>
+        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="fcRestart()">🔄 Study Again</button>
+          <button class="btn btn-secondary" id="fcRetryWrongBtn" onclick="fcRetryWrong()">❌ Wrong Only</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY PARTS -->
+<div class="page" id="page-body">
+  <div class="section-title">🧍 Body Parts</div>
+  <div class="body-layout">
+    <div class="body-svg-wrap">
+      <p style="font-size:12px;color:#aaa;margin-bottom:12px;font-weight:600;">Tap any highlighted part to learn the Japanese word!</p>
+      <svg viewBox="0 0 220 480" xmlns="http://www.w3.org/2000/svg" id="bodySvg">
+        <!-- Body silhouette -->
+        <!-- Head -->
+        <ellipse cx="110" cy="52" rx="32" ry="36" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Neck -->
+        <rect x="100" y="82" width="20" height="18" rx="4" fill="#fde8c8" stroke="#ddd" stroke-width="1"/>
+        <!-- Torso -->
+        <rect x="70" y="98" width="80" height="100" rx="14" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Left arm -->
+        <rect x="42" y="100" width="28" height="85" rx="12" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Right arm -->
+        <rect x="150" y="100" width="28" height="85" rx="12" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Left hand -->
+        <ellipse cx="56" cy="196" rx="14" ry="11" fill="#fde8c8" stroke="#ddd" stroke-width="1"/>
+        <!-- Right hand -->
+        <ellipse cx="164" cy="196" rx="14" ry="11" fill="#fde8c8" stroke="#ddd" stroke-width="1"/>
+        <!-- Left leg -->
+        <rect x="77" y="196" width="28" height="110" rx="12" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Right leg -->
+        <rect x="115" y="196" width="28" height="110" rx="12" fill="#fde8c8" stroke="#ddd" stroke-width="1.5"/>
+        <!-- Left foot -->
+        <ellipse cx="91" cy="312" rx="16" ry="10" fill="#fde8c8" stroke="#ddd" stroke-width="1"/>
+        <!-- Right foot -->
+        <ellipse cx="129" cy="312" rx="16" ry="10" fill="#fde8c8" stroke="#ddd" stroke-width="1"/>
+
+        <!-- Hotspots -->
+        <g class="body-hotspot" onclick="selectBP('head')" data-part="head">
+          <circle cx="110" cy="52" r="34" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="110" cy="20" r="7" fill="var(--red)" opacity="0.6"/>
+          <text x="110" y="14" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">頭</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('face')" data-part="face">
+          <circle cx="110" cy="45" r="20" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="145" cy="35" r="6" fill="var(--purple)" opacity="0.6"/>
+          <text x="145" y="30" text-anchor="middle" font-size="9" fill="var(--purple)" font-family="Nunito" font-weight="700">顔</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('eye')" data-part="eye">
+          <rect x="92" y="42" width="10" height="7" rx="3" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="6"/>
+          <circle class="bp-circle" cx="75" cy="38" r="6" fill="var(--blue)" opacity="0.6"/>
+          <text x="75" y="33" text-anchor="middle" font-size="9" fill="var(--blue)" font-family="Nunito" font-weight="700">目</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('nose')" data-part="nose">
+          <ellipse cx="110" cy="55" rx="5" ry="4" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="135" cy="55" r="6" fill="var(--gold)" opacity="0.6"/>
+          <text x="135" y="50" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Nunito" font-weight="700">鼻</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('mouth')" data-part="mouth">
+          <ellipse cx="110" cy="68" rx="10" ry="5" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="80" cy="68" r="6" fill="var(--red)" opacity="0.6"/>
+          <text x="80" y="63" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">口</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('ear')" data-part="ear">
+          <ellipse cx="78" cy="52" rx="6" ry="9" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="60" cy="55" r="6" fill="var(--green)" opacity="0.6"/>
+          <text x="60" y="50" text-anchor="middle" font-size="9" fill="var(--green)" font-family="Nunito" font-weight="700">耳</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('neck')" data-part="neck">
+          <rect x="98" y="82" width="24" height="18" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="6"/>
+          <circle class="bp-circle" cx="145" cy="90" r="6" fill="var(--purple)" opacity="0.6"/>
+          <text x="145" y="85" text-anchor="middle" font-size="9" fill="var(--purple)" font-family="Nunito" font-weight="700">首</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('shoulder')" data-part="shoulder">
+          <ellipse cx="70" cy="105" rx="12" ry="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="50" cy="100" r="6" fill="var(--blue)" opacity="0.6"/>
+          <text x="50" y="95" text-anchor="middle" font-size="9" fill="var(--blue)" font-family="Nunito" font-weight="700">肩</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('chest')" data-part="chest">
+          <ellipse cx="110" cy="125" rx="30" ry="22" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="110" cy="105" r="6" fill="var(--red)" opacity="0.6"/>
+          <text x="110" y="100" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">胸</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('stomach')" data-part="stomach">
+          <ellipse cx="110" cy="165" rx="28" ry="18" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="155" cy="158" r="6" fill="var(--gold)" opacity="0.6"/>
+          <text x="155" y="153" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Nunito" font-weight="700">お腹</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('arm')" data-part="arm">
+          <rect x="40" y="105" width="30" height="70" rx="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="22" cy="140" r="6" fill="var(--green)" opacity="0.6"/>
+          <text x="22" y="135" text-anchor="middle" font-size="9" fill="var(--green)" font-family="Nunito" font-weight="700">腕</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('elbow')" data-part="elbow">
+          <ellipse cx="56" cy="155" rx="10" ry="8" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="24" cy="165" r="6" fill="var(--red)" opacity="0.6"/>
+          <text x="24" y="160" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">肘</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('hand')" data-part="hand">
+          <ellipse cx="56" cy="196" rx="14" ry="11" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="26" cy="196" r="6" fill="var(--purple)" opacity="0.6"/>
+          <text x="26" y="191" text-anchor="middle" font-size="9" fill="var(--purple)" font-family="Nunito" font-weight="700">手</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('finger')" data-part="finger">
+          <ellipse cx="56" cy="205" rx="10" ry="6" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="26" cy="210" r="6" fill="var(--blue)" opacity="0.6"/>
+          <text x="26" y="205" text-anchor="middle" font-size="9" fill="var(--blue)" font-family="Nunito" font-weight="700">指</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('back')" data-part="back">
+          <ellipse cx="110" cy="148" rx="28" ry="30" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="170" cy="130" r="6" fill="var(--blue)" opacity="0.6"/>
+          <text x="170" y="125" text-anchor="middle" font-size="9" fill="var(--blue)" font-family="Nunito" font-weight="700">背中</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('hip')" data-part="hip">
+          <ellipse cx="110" cy="200" rx="28" ry="12" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="165" cy="200" r="6" fill="var(--gold)" opacity="0.6"/>
+          <text x="165" y="195" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Nunito" font-weight="700">腰</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('thigh')" data-part="thigh">
+          <rect x="75" y="200" width="30" height="55" rx="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="55" cy="235" r="6" fill="var(--red)" opacity="0.6"/>
+          <text x="55" y="230" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">腿</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('knee')" data-part="knee">
+          <ellipse cx="91" cy="260" rx="12" ry="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="55" cy="265" r="6" fill="var(--purple)" opacity="0.6"/>
+          <text x="55" y="260" text-anchor="middle" font-size="9" fill="var(--purple)" font-family="Nunito" font-weight="700">膝</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('leg')" data-part="leg">
+          <rect x="75" y="265" width="30" height="45" rx="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="50" cy="290" r="6" fill="var(--green)" opacity="0.6"/>
+          <text x="50" y="285" text-anchor="middle" font-size="9" fill="var(--green)" font-family="Nunito" font-weight="700">足</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('ankle')" data-part="ankle">
+          <ellipse cx="91" cy="308" rx="12" ry="7" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="55" cy="313" r="6" fill="var(--gold)" opacity="0.6"/>
+          <text x="55" y="308" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Nunito" font-weight="700">足首</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('foot')" data-part="foot">
+          <ellipse cx="91" cy="318" rx="16" ry="10" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="91" cy="336" r="6" fill="var(--red)" opacity="0.6"/>
+          <text x="91" y="346" text-anchor="middle" font-size="9" fill="var(--red)" font-family="Nunito" font-weight="700">足の裏</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('hair')" data-part="hair">
+          <ellipse cx="110" cy="22" rx="30" ry="12" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="140" cy="18" r="6" fill="var(--green)" opacity="0.6"/>
+          <text x="140" y="13" text-anchor="middle" font-size="9" fill="var(--green)" font-family="Nunito" font-weight="700">髪</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('tooth')" data-part="tooth">
+          <ellipse cx="110" cy="70" rx="8" ry="4" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="152" cy="72" r="6" fill="var(--blue)" opacity="0.6"/>
+          <text x="152" y="67" text-anchor="middle" font-size="9" fill="var(--blue)" font-family="Nunito" font-weight="700">歯</text>
+        </g>
+        <g class="body-hotspot" onclick="selectBP('eyebrow')" data-part="eyebrow">
+          <ellipse cx="110" cy="40" rx="20" ry="5" fill="rgba(232,57,77,0.0)" stroke="transparent" stroke-width="8"/>
+          <circle class="bp-circle" cx="75" cy="36" r="6" fill="var(--gold)" opacity="0.6"/>
+          <text x="75" y="31" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Nunito" font-weight="700">眉毛</text>
+        </g>
+      </svg>
+    </div>
+    <div class="body-info-panel">
+      <h3>🧍 Body Vocabulary</h3>
+      <div class="bp-selected" id="bpSelected">
+        <div class="bp-sel-kana" id="bpKana">頭</div>
+        <div class="bp-sel-furi" id="bpFuri">あたま</div>
+        <div class="bp-sel-roma" id="bpRoma">atama</div>
+        <div class="bp-sel-en" id="bpEn">Head</div>
+        <button class="btn btn-secondary" style="margin-top:10px;font-size:12px;padding:7px 14px;" onclick="speakBP()">🔊 Listen</button>
+      </div>
+      <div class="bp-list" id="bpList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="page" id="page-game">
+  <div class="section-title">🎮 Mini Game</div>
+  <div class="game-layout">
+    <div class="cat-sidebar">
+      <h3>📂 Categories</h3>
+      <div class="cat-list">
+        <button class="cat-btn active" onclick="selectCat('calendar',this)"><span class="cat-icon">📅</span><span class="cat-info"><span class="cat-name">Calendar</span><span class="cat-words">Days • Months • Dates</span></span><span class="cat-count">50</span></button>
+        <button class="cat-btn" onclick="selectCat('body',this)"><span class="cat-icon">🧍</span><span class="cat-info"><span class="cat-name">Body Parts</span><span class="cat-words">Head to toe</span></span><span class="cat-count">25</span></button>
+        <button class="cat-btn" onclick="selectCat('location',this)"><span class="cat-icon">📍</span><span class="cat-info"><span class="cat-name">Locations</span><span class="cat-words">Places & directions</span></span><span class="cat-count">30</span></button>
+        <button class="cat-btn" onclick="selectCat('adj_n5',this)"><span class="cat-icon">形</span><span class="cat-info"><span class="cat-name">N5 Adjectives</span><span class="cat-words">Basic descriptions</span></span><span class="cat-count">30</span></button>
+        <button class="cat-btn" onclick="selectCat('verb_n5',this)"><span class="cat-icon">動</span><span class="cat-info"><span class="cat-name">N5 Verbs</span><span class="cat-words">Common actions</span></span><span class="cat-count">35</span></button>
+        <button class="cat-btn locked" onclick="showToast('🔒 Coming soon!')"><span class="cat-icon">🔢</span><span class="cat-info"><span class="cat-name">Numbers</span><span class="cat-words">1–100</span></span><span class="soon">Soon</span></button>
+      </div>
+    </div>
+    <div>
+      <div class="game-box" id="gameIntro">
+        <div class="cat-intro"><div class="cat-intro-icon">📅</div><h2>Calendar</h2><p>Practice days, months and dates in Japanese! 10 questions per round.</p><button class="btn btn-primary" onclick="startGame()">🚀 Start Quiz!</button></div>
+      </div>
+      <div class="game-box" id="gameArea" style="display:none">
+        <div class="game-cat-lbl" id="gameCatLbl">📅 Calendar</div>
+        <div class="game-scorebar">
+          <div class="score-badge">⭐ <span id="scoreNum">0</span> pts</div>
+          <div id="livesDisplay">❤️❤️❤️</div>
+          <div style="font-size:12px;color:#aaa;font-weight:700;">Q <span id="qNum">1</span>/10</div>
+        </div>
+        <div class="game-q" id="gameQ" style="font-size:40px">?</div>
+        <div class="game-prompt" id="gamePrompt">What does this mean in English?</div>
+        <div class="game-opts" id="gameOpts"></div>
+        <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISES -->
+<div class="page" id="page-exercises">
+  <div class="section-title">✏️ Exercises</div>
+  <div class="ex-list">
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(232,57,77,0.1)">📝</div><div class="ex-info"><h4>Hiragana Writing Sheet — Week 1</h4><p>Practice あ い う え お rows • Due: Friday</p></div><span class="ex-status s-new">New</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(46,204,113,0.1)">✅</div><div class="ex-info"><h4>N5 Vocabulary Quiz — Animals</h4><p>Score: 8/10 • Submitted 2 days ago</p></div><span class="ex-status s-graded">⭐ 80%</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(245,166,35,0.1)">🔢</div><div class="ex-info"><h4>Numbers 1–100 Fill-in</h4><p>Submitted • Waiting for teacher to mark</p></div><span class="ex-status s-done">Submitted</span></div>
+    <div class="ex-item"><div class="ex-icon" style="background:rgba(46,204,113,0.1)">📅</div><div class="ex-info"><h4>Calendar — Days of the Week</h4><p>Write Monday to Sunday in Japanese • ~10 min</p></div><span class="ex-status s-new">New</span></div>
+  </div>
+  <div class="card-box" style="margin-top:20px;">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:10px;">📤 Submit Your Work</div>
+    <textarea style="width:100%;padding:13px;border:2px solid #e8e8e8;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;min-height:100px;" placeholder="Write your answers here..."></textarea>
+    <div style="display:flex;gap:9px;margin-top:9px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showToast('📤 Submitted! Teacher will mark it soon 🌸')">📤 Submit</button>
+      <button class="btn btn-secondary">📎 Attach Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div class="page" id="page-writing">
+  <div class="section-title">🖊️ Writing Practice</div>
+  <div class="writing-layout">
+    <div class="writing-panel">
+      <h3>Draw the character</h3>
+      <div class="char-display-big" id="charDisp" onclick="nextChar()">あ</div>
+      <p style="text-align:center;font-size:11px;color:#aaa;margin-bottom:10px;font-weight:600;">Tap character for next one</p>
+      <label class="stroke-toggle">
+        <input type="checkbox" id="strokeToggle" checked onchange="toggleStrokes()">
+        Show stroke guide
+      </label>
+      <div class="canvas-wrap">
+        <canvas id="strokeCanvas" width="300" height="240"></canvas>
+        <canvas id="writingCanvas" width="300" height="240"></canvas>
+      </div>
+      <div class="canvas-btns" style="margin-top:8px">
+        <button class="canvas-btn" onclick="clearCanvas()">🗑️ Clear</button>
+        <button class="canvas-btn ap" id="penBtn" onclick="setPen(4,this)">✏️ Pen</button>
+        <button class="canvas-btn" onclick="setPen(2,this)">🖊️ Fine</button>
+        <button class="canvas-btn" onclick="setPen(8,this)">🖌️ Bold</button>
+        <button class="canvas-btn" onclick="showToast('🖊️ Submitted to teacher!')" style="background:var(--red);color:white;border-color:var(--red)">📤 Submit</button>
+      </div>
+      <div style="margin-top:10px;padding:12px;background:#fff8f0;border-radius:10px;border:1.5px solid rgba(232,57,77,0.15);">
+        <div style="font-weight:700;font-size:12px;margin-bottom:4px;">💡 Stroke order tip</div>
+        <p style="font-size:11px;color:#888;line-height:1.7;" id="strokeTip">Top → bottom, left → right. Tap a character on the right to begin!</p>
+      </div>
+      <!-- Stroke order image reference -->
+      <div class="stroke-ref-panel">
+        <div class="stroke-ref-title">📸 Stroke Order Reference</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="stroke-ref-img" id="strokeRefImg">あ</div>
+          <div>
+            <div style="font-size:11px;color:#666;line-height:1.6;margin-bottom:4px;" id="strokeRefDesc">Stroke by stroke reference for <strong id="strokeRefChar">あ</strong></div>
+            <a class="stroke-ref-link" id="strokeRefLink" href="https://jisho.org/search/あ%20%23kanji" target="_blank" rel="noopener">🔗 View on Jisho →</a>
+          </div>
+        </div>
+        <div class="stroke-ref-src">Reference: jisho.org — tap a character to update</div>
+      </div>
+    </div>
+    <div class="writing-panel">
+      <h3>Choose character</h3>
+      <div class="char-pick-tabs">
+        <button class="pill-btn active" onclick="showWriteTab('hiragana',this)">あ Hiragana</button>
+        <button class="pill-btn" onclick="showWriteTab('katakana',this)">ア Katakana</button>
+        <button class="pill-btn" onclick="showWriteTab('kanji',this)">漢 Kanji N5</button>
+      </div>
+      <div id="writePicker"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOL MONOPOLY -->
+<div class="page" id="page-monopoly">
+  <div class="section-title">🏫 School Monopoly</div>
+  <div id="monoSetupDiv">
+    <div class="card-box mono-setup">
+      <div style="font-size:56px;margin-bottom:10px;">🏫</div>
+      <h2>School Monopoly</h2>
+      <p>Move around the pixel art school campus. Land on spaces, answer Japanese questions and earn ¥! Buy properties to win!</p>
+      <div class="mono-setup-options">
+        <div class="mono-option-group">
+          <div class="mono-option-label">Players</div>
+          <div class="mono-option-btns">
+            <button class="mono-opt-btn sel" id="optP1" onclick="setMonoOpt('players',1,this)">1 Player</button>
+            <button class="mono-opt-btn" id="optP2" onclick="setMonoOpt('players',2,this)">2 Players</button>
+          </div>
+        </div>
+        <div class="mono-option-group">
+          <div class="mono-option-label">Difficulty</div>
+          <div class="mono-option-btns">
+            <button class="mono-opt-btn sel" id="optD1" onclick="setMonoOpt('diff',1,this)">Easy</button>
+            <button class="mono-opt-btn" id="optD2" onclick="setMonoOpt('diff',2,this)">Normal</button>
+            <button class="mono-opt-btn" id="optD3" onclick="setMonoOpt('diff',3,this)">Hard</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="font-size:15px;padding:13px 32px;" onclick="startMonopoly()">🚀 Start Game!</button>
+    </div>
+  </div>
+
+  <div id="monoGameDiv" style="display:none">
+    <div class="mono-layout">
+      <div class="mono-topbar">
+        <div class="mono-players" id="monoPlayers"></div>
+        <div class="mono-controls">
+          <button class="btn btn-primary" id="rollBtn" onclick="monoRoll()">🎲 Roll Dice</button>
+          <button class="btn btn-secondary" onclick="monoReset()">🔄 New Game</button>
+        </div>
+      </div>
+      <div class="mono-board-wrap">
+        <canvas id="monoCanvas" class="mono-canvas" width="600" height="600"></canvas>
+      </div>
+      <div class="mono-log">
+        <div class="mono-log-title">📋 Game Log</div>
+        <div id="monoLogEntries"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER -->
+<div class="page" id="page-teacher">
+  <div class="section-title">👩‍🏫 Teacher Dashboard</div>
+  <div class="teacher-grid">
+    <div class="teacher-card"><h3>👥 Students Progress</h3><div id="stuList"></div></div>
+    <div class="teacher-card"><h3>📬 Pending to Mark</h3><div class="pending-list" id="pendList"></div></div>
+    <div class="teacher-card">
+      <h3>📊 This Week</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:#fff0f2;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--red)">5</div><div style="font-size:10px;color:#aaa;font-weight:600">Submissions</div></div>
+        <div style="background:#f0fff6;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--green)">3</div><div style="font-size:10px;color:#aaa;font-weight:600">Marked</div></div>
+        <div style="background:#fffbf0;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--gold)">82%</div><div style="font-size:10px;color:#aaa;font-weight:600">Avg Score</div></div>
+        <div style="background:#f0f5ff;border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;color:var(--blue)">12</div><div style="font-size:10px;color:#aaa;font-weight:600">Games Played</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-box">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;">📤 Upload Materials</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showToast('📎 File upload coming soon!')">📎 Upload PDF</button>
+      <button class="btn btn-secondary" onclick="showToast('📝 Exercise builder coming soon!')">📝 Create Exercise</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR POPUP -->
+<div class="cal-popup-overlay" id="calPopup" onclick="closeCalIfOutside(event)">
+  <div class="cal-popup">
+    <div class="cal-popup-header">
+      <div class="cal-popup-title">📅 Japanese Calendar</div>
+      <button class="cal-popup-close" onclick="closeCal()">✕</button>
+    </div>
+    <div class="cal-popup-nav">
+      <button onclick="calNav(-1)">◀</button>
+      <div>
+        <div class="cal-popup-month" id="calPopupMonth">April 2026</div>
+        <div class="cal-popup-jp" id="calPopupMonthJP">2026年4月</div>
+      </div>
+      <button onclick="calNav(1)">▶</button>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-wd">日</div><div class="cal-wd">月</div><div class="cal-wd">火</div>
+      <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div><div class="cal-wd">土</div>
+    </div>
+    <div class="cal-days-grid" id="calDaysGrid"></div>
+    <div class="cal-selected-day" id="calSelDay">
+      <div style="font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:900;" id="calSelDayJP"></div>
+      <div style="font-size:12px;color:#888;margin-top:4px;" id="calSelDayInfo"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MONOPOLY CARD POPUP -->
+<div class="mono-card-popup" id="monoCardPopup">
+  <div class="mono-card-inner">
+    <div class="mono-card-icon" id="monoPopIcon">🏫</div>
+    <div class="mono-card-title" id="monoPopTitle">Question!</div>
+    <div class="mono-card-body" id="monoPopBody"></div>
+    <div class="mono-q-opts" id="monoPopOpts"></div>
+    <button class="btn btn-secondary" style="width:100%;justify-content:center;" id="monoPopClose" onclick="closeMonoCard()">Continue →</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bnav-item active" onclick="go('home')"><div class="bicon">🏠</div>Home</button>
+  <button class="bnav-item" onclick="go('vocab')"><div class="bicon">📚</div>Learn</button>
+  <button class="bnav-item" onclick="go('flashcard')"><div class="bicon">🃏</div>Cards</button>
+  <button class="bnav-item" onclick="go('game')"><div class="bicon">🎮</div>Game</button>
+  <button class="bnav-item" onclick="go('monopoly')"><div class="bicon">🏫</div>Monopoly</button>
+</div>
+
+<div class="toast" id="toast">🌙 <span id="toastMsg"></span></div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+const hiraBasic=[
+  {k:'あ',r:'a'},{k:'い',r:'i'},{k:'う',r:'u'},{k:'え',r:'e'},{k:'お',r:'o'},
+  {k:'か',r:'ka'},{k:'き',r:'ki'},{k:'く',r:'ku'},{k:'け',r:'ke'},{k:'こ',r:'ko'},
+  {k:'さ',r:'sa'},{k:'し',r:'shi'},{k:'す',r:'su'},{k:'せ',r:'se'},{k:'そ',r:'so'},
+  {k:'た',r:'ta'},{k:'ち',r:'chi'},{k:'つ',r:'tsu'},{k:'て',r:'te'},{k:'と',r:'to'},
+  {k:'な',r:'na'},{k:'に',r:'ni'},{k:'ぬ',r:'nu'},{k:'ね',r:'ne'},{k:'の',r:'no'},
+  {k:'は',r:'ha'},{k:'ひ',r:'hi'},{k:'ふ',r:'fu'},{k:'へ',r:'he'},{k:'ほ',r:'ho'},
+  {k:'ま',r:'ma'},{k:'み',r:'mi'},{k:'む',r:'mu'},{k:'め',r:'me'},{k:'も',r:'mo'},
+  {k:'や',r:'ya'},{k:'ゆ',r:'yu'},{k:'よ',r:'yo'},
+  {k:'ら',r:'ra'},{k:'り',r:'ri'},{k:'る',r:'ru'},{k:'れ',r:'re'},{k:'ろ',r:'ro'},
+  {k:'わ',r:'wa'},{k:'を',r:'wo'},{k:'ん',r:'n'}
+];
+const hiraDaku=[
+  {k:'が',r:'ga'},{k:'ぎ',r:'gi'},{k:'ぐ',r:'gu'},{k:'げ',r:'ge'},{k:'ご',r:'go'},
+  {k:'ざ',r:'za'},{k:'じ',r:'ji'},{k:'ず',r:'zu'},{k:'ぜ',r:'ze'},{k:'ぞ',r:'zo'},
+  {k:'だ',r:'da'},{k:'ぢ',r:'di'},{k:'づ',r:'du'},{k:'で',r:'de'},{k:'ど',r:'do'},
+  {k:'ば',r:'ba'},{k:'び',r:'bi'},{k:'ぶ',r:'bu'},{k:'べ',r:'be'},{k:'ぼ',r:'bo'},
+  {k:'ぱ',r:'pa'},{k:'ぴ',r:'pi'},{k:'ぷ',r:'pu'},{k:'ぺ',r:'pe'},{k:'ぽ',r:'po'}
+];
+const hiraCombo=[
+  {k:'きゃ',r:'kya'},{k:'きゅ',r:'kyu'},{k:'きょ',r:'kyo'},
+  {k:'しゃ',r:'sha'},{k:'しゅ',r:'shu'},{k:'しょ',r:'sho'},
+  {k:'ちゃ',r:'cha'},{k:'ちゅ',r:'chu'},{k:'ちょ',r:'cho'},
+  {k:'にゃ',r:'nya'},{k:'にゅ',r:'nyu'},{k:'にょ',r:'nyo'},
+  {k:'ひゃ',r:'hya'},{k:'ひゅ',r:'hyu'},{k:'ひょ',r:'hyo'},
+  {k:'みゃ',r:'mya'},{k:'みゅ',r:'myu'},{k:'みょ',r:'myo'},
+  {k:'りゃ',r:'rya'},{k:'りゅ',r:'ryu'},{k:'りょ',r:'ryo'},
+  {k:'ぎゃ',r:'gya'},{k:'ぎゅ',r:'gyu'},{k:'ぎょ',r:'gyo'},
+  {k:'じゃ',r:'ja'},{k:'じゅ',r:'ju'},{k:'じょ',r:'jo'},
+  {k:'びゃ',r:'bya'},{k:'びゅ',r:'byu'},{k:'びょ',r:'byo'},
+  {k:'ぴゃ',r:'pya'},{k:'ぴゅ',r:'pyu'},{k:'ぴょ',r:'pyo'}
+];
+const kataBasic=[
+  {k:'ア',r:'a'},{k:'イ',r:'i'},{k:'ウ',r:'u'},{k:'エ',r:'e'},{k:'オ',r:'o'},
+  {k:'カ',r:'ka'},{k:'キ',r:'ki'},{k:'ク',r:'ku'},{k:'ケ',r:'ke'},{k:'コ',r:'ko'},
+  {k:'サ',r:'sa'},{k:'シ',r:'shi'},{k:'ス',r:'su'},{k:'セ',r:'se'},{k:'ソ',r:'so'},
+  {k:'タ',r:'ta'},{k:'チ',r:'chi'},{k:'ツ',r:'tsu'},{k:'テ',r:'te'},{k:'ト',r:'to'},
+  {k:'ナ',r:'na'},{k:'ニ',r:'ni'},{k:'ヌ',r:'nu'},{k:'ネ',r:'ne'},{k:'ノ',r:'no'},
+  {k:'ハ',r:'ha'},{k:'ヒ',r:'hi'},{k:'フ',r:'fu'},{k:'ヘ',r:'he'},{k:'ホ',r:'ho'},
+  {k:'マ',r:'ma'},{k:'ミ',r:'mi'},{k:'ム',r:'mu'},{k:'メ',r:'me'},{k:'モ',r:'mo'},
+  {k:'ヤ',r:'ya'},{k:'ユ',r:'yu'},{k:'ヨ',r:'yo'},
+  {k:'ラ',r:'ra'},{k:'リ',r:'ri'},{k:'ル',r:'ru'},{k:'レ',r:'re'},{k:'ロ',r:'ro'},
+  {k:'ワ',r:'wa'},{k:'ヲ',r:'wo'},{k:'ン',r:'n'}
+];
+const kataDaku=[
+  {k:'ガ',r:'ga'},{k:'ギ',r:'gi'},{k:'グ',r:'gu'},{k:'ゲ',r:'ge'},{k:'ゴ',r:'go'},
+  {k:'ザ',r:'za'},{k:'ジ',r:'ji'},{k:'ズ',r:'zu'},{k:'ゼ',r:'ze'},{k:'ゾ',r:'zo'},
+  {k:'ダ',r:'da'},{k:'ヂ',r:'di'},{k:'ヅ',r:'du'},{k:'デ',r:'de'},{k:'ド',r:'do'},
+  {k:'バ',r:'ba'},{k:'ビ',r:'bi'},{k:'ブ',r:'bu'},{k:'ベ',r:'be'},{k:'ボ',r:'bo'},
+  {k:'パ',r:'pa'},{k:'ピ',r:'pi'},{k:'プ',r:'pu'},{k:'ペ',r:'pe'},{k:'ポ',r:'po'}
+];
+const kataCombo=[
+  {k:'キャ',r:'kya'},{k:'キュ',r:'kyu'},{k:'キョ',r:'kyo'},
+  {k:'シャ',r:'sha'},{k:'シュ',r:'shu'},{k:'ショ',r:'sho'},
+  {k:'チャ',r:'cha'},{k:'チュ',r:'chu'},{k:'チョ',r:'cho'},
+  {k:'ニャ',r:'nya'},{k:'ニュ',r:'nyu'},{k:'ニョ',r:'nyo'},
+  {k:'ヒャ',r:'hya'},{k:'ヒュ',r:'hyu'},{k:'ヒョ',r:'hyo'},
+  {k:'ミャ',r:'mya'},{k:'ミュ',r:'myu'},{k:'ミョ',r:'myo'},
+  {k:'リャ',r:'rya'},{k:'リュ',r:'ryu'},{k:'リョ',r:'ryo'},
+  {k:'ギャ',r:'gya'},{k:'ギュ',r:'gyu'},{k:'ギョ',r:'gyo'},
+  {k:'ジャ',r:'ja'},{k:'ジュ',r:'ju'},{k:'ジョ',r:'jo'},
+  {k:'ビャ',r:'bya'},{k:'ビュ',r:'byu'},{k:'ビョ',r:'byo'},
+  {k:'ピャ',r:'pya'},{k:'ピュ',r:'pyu'},{k:'ピョ',r:'pyo'}
+];
+const kataForeign=[
+  {k:'ファ',r:'fa'},{k:'フィ',r:'fi'},{k:'フェ',r:'fe'},{k:'フォ',r:'fo'},
+  {k:'ティ',r:'ti'},{k:'トゥ',r:'tu'},
+  {k:'ウィ',r:'wi'},{k:'ウェ',r:'we'},{k:'ウォ',r:'wo2'},
+  {k:'ヴァ',r:'va'},{k:'ヴィ',r:'vi'},{k:'ヴ',r:'vu'},{k:'ヴェ',r:'ve'},{k:'ヴォ',r:'vo'}
+];
+const kanjiN5=[
+  {k:'日',r:'nichi/hi',m:'day/sun',tip:'2 strokes'},
+  {k:'月',r:'getsu/tsuki',m:'month/moon',tip:'4 strokes'},
+  {k:'火',r:'ka/hi',m:'fire/Tuesday',tip:'4 strokes'},
+  {k:'水',r:'sui/mizu',m:'water/Wednesday',tip:'4 strokes'},
+  {k:'木',r:'moku/ki',m:'tree/Thursday',tip:'4 strokes'},
+  {k:'金',r:'kin/kana',m:'gold/Friday',tip:'8 strokes'},
+  {k:'土',r:'do/tsuchi',m:'earth/Saturday',tip:'3 strokes'},
+  {k:'山',r:'san/yama',m:'mountain',tip:'3 strokes'},
+  {k:'川',r:'sen/kawa',m:'river',tip:'3 strokes'},
+  {k:'田',r:'den/ta',m:'rice field',tip:'5 strokes'},
+  {k:'人',r:'jin/hito',m:'person',tip:'2 strokes'},
+  {k:'口',r:'kou/kuchi',m:'mouth',tip:'3 strokes'},
+  {k:'大',r:'dai/oo',m:'big/large',tip:'3 strokes'},
+  {k:'小',r:'shou/chii',m:'small',tip:'3 strokes'},
+  {k:'中',r:'chuu/naka',m:'middle/inside',tip:'4 strokes'},
+  {k:'上',r:'jou/ue',m:'up/above',tip:'3 strokes'},
+  {k:'下',r:'ka/shita',m:'down/below',tip:'3 strokes'},
+  {k:'一',r:'ichi',m:'one',tip:'1 stroke'},
+  {k:'二',r:'ni',m:'two',tip:'2 strokes'},
+  {k:'三',r:'san',m:'three',tip:'3 strokes'},
+];
+
+// CALENDAR
+const calData={
+  days:[
+    {kanji:'日曜日',furi:'にちようび',r:'nichiyoubi',m:'Sunday'},
+    {kanji:'月曜日',furi:'げつようび',r:'getsuyoubi',m:'Monday'},
+    {kanji:'火曜日',furi:'かようび',r:'kayoubi',m:'Tuesday'},
+    {kanji:'水曜日',furi:'すいようび',r:'suiyoubi',m:'Wednesday'},
+    {kanji:'木曜日',furi:'もくようび',r:'mokuyoubi',m:'Thursday'},
+    {kanji:'金曜日',furi:'きんようび',r:'kinyoubi',m:'Friday'},
+    {kanji:'土曜日',furi:'どようび',r:'doyoubi',m:'Saturday'},
+  ],
+  months:[
+    {kanji:'一月',furi:'いちがつ',r:'ichigatsu',m:'January'},
+    {kanji:'二月',furi:'にがつ',r:'nigatsu',m:'February'},
+    {kanji:'三月',furi:'さんがつ',r:'sangatsu',m:'March'},
+    {kanji:'四月',furi:'しがつ',r:'shigatsu',m:'April'},
+    {kanji:'五月',furi:'ごがつ',r:'gogatsu',m:'May'},
+    {kanji:'六月',furi:'ろくがつ',r:'rokugatsu',m:'June'},
+    {kanji:'七月',furi:'しちがつ',r:'shichigatsu',m:'July'},
+    {kanji:'八月',furi:'はちがつ',r:'hachigatsu',m:'August'},
+    {kanji:'九月',furi:'くがつ',r:'kugatsu',m:'September'},
+    {kanji:'十月',furi:'じゅうがつ',r:'juugatsu',m:'October'},
+    {kanji:'十一月',furi:'じゅういちがつ',r:'juuichigatsu',m:'November'},
+    {kanji:'十二月',furi:'じゅうにがつ',r:'juunigatsu',m:'December'},
+  ],
+  dates:[
+    {kanji:'一日',furi:'ついたち',r:'tsuitachi',m:'1st'},{kanji:'二日',furi:'ふつか',r:'futsuka',m:'2nd'},
+    {kanji:'三日',furi:'みっか',r:'mikka',m:'3rd'},{kanji:'四日',furi:'よっか',r:'yokka',m:'4th'},
+    {kanji:'五日',furi:'いつか',r:'itsuka',m:'5th'},{kanji:'六日',furi:'むいか',r:'muika',m:'6th'},
+    {kanji:'七日',furi:'なのか',r:'nanoka',m:'7th'},{kanji:'八日',furi:'ようか',r:'youka',m:'8th'},
+    {kanji:'九日',furi:'ここのか',r:'kokonoka',m:'9th'},{kanji:'十日',furi:'とおか',r:'tooka',m:'10th'},
+    {kanji:'十一日',furi:'じゅういちにち',r:'juuichinichi',m:'11th'},{kanji:'十二日',furi:'じゅうににち',r:'juuninichi',m:'12th'},
+    {kanji:'十三日',furi:'じゅうさんにち',r:'juusannichi',m:'13th'},{kanji:'十四日',furi:'じゅうよっか',r:'juuyokka',m:'14th'},
+    {kanji:'十五日',furi:'じゅうごにち',r:'juugonichi',m:'15th'},{kanji:'十六日',furi:'じゅうろくにち',r:'juurokuninchi',m:'16th'},
+    {kanji:'十七日',furi:'じゅうしちにち',r:'juushichinichi',m:'17th'},{kanji:'十八日',furi:'じゅうはちにち',r:'juuhachinichi',m:'18th'},
+    {kanji:'十九日',furi:'じゅうくにち',r:'juukunichi',m:'19th'},{kanji:'二十日',furi:'はつか',r:'hatsuka',m:'20th'},
+    {kanji:'二十一日',furi:'にじゅういちにち',r:'nijuuichinichi',m:'21st'},{kanji:'二十二日',furi:'にじゅうににち',r:'nijuuninichi',m:'22nd'},
+    {kanji:'二十三日',furi:'にじゅうさんにち',r:'nijuusannichi',m:'23rd'},{kanji:'二十四日',furi:'にじゅうよっか',r:'nijuuyokka',m:'24th'},
+    {kanji:'二十五日',furi:'にじゅうごにち',r:'nijuugonichi',m:'25th'},{kanji:'二十六日',furi:'にじゅうろくにち',r:'nijuurokuninchi',m:'26th'},
+    {kanji:'二十七日',furi:'にじゅうしちにち',r:'nijuushichinichi',m:'27th'},{kanji:'二十八日',furi:'にじゅうはちにち',r:'nijuuhachinichi',m:'28th'},
+    {kanji:'二十九日',furi:'にじゅうくにち',r:'nijuukunichi',m:'29th'},{kanji:'三十日',furi:'さんじゅうにち',r:'sanjuunichi',m:'30th'},
+    {kanji:'三十一日',furi:'さんじゅういちにち',r:'sanjuuichinichi',m:'31st'},
+  ]
+};
+const calAll=[...calData.days,...calData.months,...calData.dates];
+
+// BODY PARTS DATA
+const bodyParts={
+  head:{k:'頭',f:'あたま',r:'atama',m:'Head'},
+  face:{k:'顔',f:'かお',r:'kao',m:'Face'},
+  hair:{k:'髪',f:'かみ',r:'kami',m:'Hair'},
+  eye:{k:'目',f:'め',r:'me',m:'Eye'},
+  eyebrow:{k:'眉毛',f:'まゆげ',r:'mayuge',m:'Eyebrow'},
+  nose:{k:'鼻',f:'はな',r:'hana',m:'Nose'},
+  mouth:{k:'口',f:'くち',r:'kuchi',m:'Mouth'},
+  tooth:{k:'歯',f:'は',r:'ha',m:'Tooth'},
+  ear:{k:'耳',f:'みみ',r:'mimi',m:'Ear'},
+  neck:{k:'首',f:'くび',r:'kubi',m:'Neck'},
+  shoulder:{k:'肩',f:'かた',r:'kata',m:'Shoulder'},
+  chest:{k:'胸',f:'むね',r:'mune',m:'Chest'},
+  back:{k:'背中',f:'せなか',r:'senaka',m:'Back'},
+  stomach:{k:'お腹',f:'おなか',r:'onaka',m:'Stomach'},
+  arm:{k:'腕',f:'うで',r:'ude',m:'Arm'},
+  elbow:{k:'肘',f:'ひじ',r:'hiji',m:'Elbow'},
+  hand:{k:'手',f:'て',r:'te',m:'Hand'},
+  finger:{k:'指',f:'ゆび',r:'yubi',m:'Finger'},
+  hip:{k:'腰',f:'こし',r:'koshi',m:'Hip/Waist'},
+  thigh:{k:'腿',f:'もも',r:'momo',m:'Thigh'},
+  knee:{k:'膝',f:'ひざ',r:'hiza',m:'Knee'},
+  leg:{k:'足',f:'あし',r:'ashi',m:'Leg/Foot'},
+  ankle:{k:'足首',f:'あしくび',r:'ashikubi',m:'Ankle'},
+  foot:{k:'足の裏',f:'あしのうら',r:'ashi no ura',m:'Sole of foot'},
+};
+
+// LOCATIONS ~30 words
+const locationVocab=[
+  {k:'学校',f:'がっこう',r:'gakkou',m:'school',c:'location'},
+  {k:'図書館',f:'としょかん',r:'toshokan',m:'library',c:'location'},
+  {k:'病院',f:'びょういん',r:'byouin',m:'hospital',c:'location'},
+  {k:'駅',f:'えき',r:'eki',m:'train station',c:'location'},
+  {k:'空港',f:'くうこう',r:'kuukou',m:'airport',c:'location'},
+  {k:'スーパー',f:'スーパー',r:'suupaa',m:'supermarket',c:'location'},
+  {k:'コンビニ',f:'コンビニ',r:'konbini',m:'convenience store',c:'location'},
+  {k:'レストラン',f:'レストラン',r:'resutoran',m:'restaurant',c:'location'},
+  {k:'公園',f:'こうえん',r:'kouen',m:'park',c:'location'},
+  {k:'銀行',f:'ぎんこう',r:'ginkou',m:'bank',c:'location'},
+  {k:'郵便局',f:'ゆうびんきょく',r:'yuubinkyoku',m:'post office',c:'location'},
+  {k:'ホテル',f:'ホテル',r:'hoteru',m:'hotel',c:'location'},
+  {k:'映画館',f:'えいがかん',r:'eigakan',m:'cinema',c:'location'},
+  {k:'薬局',f:'やっきょく',r:'yakkyoku',m:'pharmacy',c:'location'},
+  {k:'交番',f:'こうばん',r:'kouban',m:'police box',c:'location'},
+  {k:'神社',f:'じんじゃ',r:'jinja',m:'shrine',c:'location'},
+  {k:'お寺',f:'おてら',r:'otera',m:'temple',c:'location'},
+  {k:'海',f:'うみ',r:'umi',m:'sea/beach',c:'location'},
+  {k:'山',f:'やま',r:'yama',m:'mountain',c:'location'},
+  {k:'川',f:'かわ',r:'kawa',m:'river',c:'location'},
+  {k:'道',f:'みち',r:'michi',m:'road/street',c:'location'},
+  {k:'橋',f:'はし',r:'hashi',m:'bridge',c:'location'},
+  {k:'右',f:'みぎ',r:'migi',m:'right',c:'location'},
+  {k:'左',f:'ひだり',r:'hidari',m:'left',c:'location'},
+  {k:'まっすぐ',f:'まっすぐ',r:'massugu',m:'straight ahead',c:'location'},
+  {k:'近く',f:'ちかく',r:'chikaku',m:'nearby',c:'location'},
+  {k:'遠い',f:'とおい',r:'tooi',m:'far',c:'location'},
+  {k:'隣',f:'となり',r:'tonari',m:'next to',c:'location'},
+  {k:'前',f:'まえ',r:'mae',m:'in front of',c:'location'},
+  {k:'後ろ',f:'うしろ',r:'ushiro',m:'behind',c:'location'},
+];
+
+// N5 ADJECTIVES ~30
+const adjN5=[
+  {k:'大きい',f:'おおきい',r:'ookii',m:'big',c:'adj'},{k:'小さい',f:'ちいさい',r:'chiisai',m:'small',c:'adj'},
+  {k:'長い',f:'ながい',r:'nagai',m:'long',c:'adj'},{k:'短い',f:'みじかい',r:'mijikai',m:'short',c:'adj'},
+  {k:'高い',f:'たかい',r:'takai',m:'tall/expensive',c:'adj'},{k:'低い',f:'ひくい',r:'hikui',m:'low/short',c:'adj'},
+  {k:'新しい',f:'あたらしい',r:'atarashii',m:'new',c:'adj'},{k:'古い',f:'ふるい',r:'furui',m:'old',c:'adj'},
+  {k:'赤い',f:'あかい',r:'akai',m:'red',c:'adj'},{k:'青い',f:'あおい',r:'aoi',m:'blue',c:'adj'},
+  {k:'白い',f:'しろい',r:'shiroi',m:'white',c:'adj'},{k:'黒い',f:'くろい',r:'kuroi',m:'black',c:'adj'},
+  {k:'暑い',f:'あつい',r:'atsui',m:'hot (weather)',c:'adj'},{k:'寒い',f:'さむい',r:'samui',m:'cold (weather)',c:'adj'},
+  {k:'熱い',f:'あつい',r:'atsui',m:'hot (touch)',c:'adj'},{k:'冷たい',f:'つめたい',r:'tsumetai',m:'cold (touch)',c:'adj'},
+  {k:'速い',f:'はやい',r:'hayai',m:'fast',c:'adj'},{k:'遅い',f:'おそい',r:'osoi',m:'slow/late',c:'adj'},
+  {k:'良い',f:'よい',r:'yoi',m:'good',c:'adj'},{k:'悪い',f:'わるい',r:'warui',m:'bad',c:'adj'},
+  {k:'多い',f:'おおい',r:'ooi',m:'many',c:'adj'},{k:'少ない',f:'すくない',r:'sukunai',m:'few',c:'adj'},
+  {k:'難しい',f:'むずかしい',r:'muzukashii',m:'difficult',c:'adj'},{k:'易しい',f:'やさしい',r:'yasashii',m:'easy',c:'adj'},
+  {k:'楽しい',f:'たのしい',r:'tanoshii',m:'fun',c:'adj'},{k:'つまらない',f:'つまらない',r:'tsumaranai',m:'boring',c:'adj'},
+  {k:'かわいい',f:'かわいい',r:'kawaii',m:'cute',c:'adj'},{k:'きれい',f:'きれい',r:'kirei',m:'pretty/clean',c:'adj'},
+  {k:'おいしい',f:'おいしい',r:'oishii',m:'delicious',c:'adj'},{k:'まずい',f:'まずい',r:'mazui',m:'bad tasting',c:'adj'},
+];
+
+// N5 VERBS ~35
+const verbN5=[
+  {k:'食べる',f:'たべる',r:'taberu',m:'to eat',c:'verb'},{k:'飲む',f:'のむ',r:'nomu',m:'to drink',c:'verb'},
+  {k:'見る',f:'みる',r:'miru',m:'to see/watch',c:'verb'},{k:'聞く',f:'きく',r:'kiku',m:'to listen/hear',c:'verb'},
+  {k:'話す',f:'はなす',r:'hanasu',m:'to speak',c:'verb'},{k:'読む',f:'よむ',r:'yomu',m:'to read',c:'verb'},
+  {k:'書く',f:'かく',r:'kaku',m:'to write',c:'verb'},{k:'行く',f:'いく',r:'iku',m:'to go',c:'verb'},
+  {k:'来る',f:'くる',r:'kuru',m:'to come',c:'verb'},{k:'帰る',f:'かえる',r:'kaeru',m:'to return',c:'verb'},
+  {k:'買う',f:'かう',r:'kau',m:'to buy',c:'verb'},{k:'売る',f:'うる',r:'uru',m:'to sell',c:'verb'},
+  {k:'作る',f:'つくる',r:'tsukuru',m:'to make',c:'verb'},{k:'使う',f:'つかう',r:'tsukau',m:'to use',c:'verb'},
+  {k:'起きる',f:'おきる',r:'okiru',m:'to wake up',c:'verb'},{k:'寝る',f:'ねる',r:'neru',m:'to sleep',c:'verb'},
+  {k:'立つ',f:'たつ',r:'tatsu',m:'to stand',c:'verb'},{k:'座る',f:'すわる',r:'suwaru',m:'to sit',c:'verb'},
+  {k:'走る',f:'はしる',r:'hashiru',m:'to run',c:'verb'},{k:'歩く',f:'あるく',r:'aruku',m:'to walk',c:'verb'},
+  {k:'泳ぐ',f:'およぐ',r:'oyogu',m:'to swim',c:'verb'},{k:'遊ぶ',f:'あそぶ',r:'asobu',m:'to play',c:'verb'},
+  {k:'勉強する',f:'べんきょうする',r:'benkyou suru',m:'to study',c:'verb'},{k:'仕事する',f:'しごとする',r:'shigoto suru',m:'to work',c:'verb'},
+  {k:'分かる',f:'わかる',r:'wakaru',m:'to understand',c:'verb'},{k:'知る',f:'しる',r:'shiru',m:'to know',c:'verb'},
+  {k:'思う',f:'おもう',r:'omou',m:'to think',c:'verb'},{k:'言う',f:'いう',r:'iu',m:'to say',c:'verb'},
+  {k:'見せる',f:'みせる',r:'miseru',m:'to show',c:'verb'},{k:'教える',f:'おしえる',r:'oshieru',m:'to teach/tell',c:'verb'},
+  {k:'持つ',f:'もつ',r:'motsu',m:'to hold/have',c:'verb'},{k:'開ける',f:'あける',r:'akeru',m:'to open',c:'verb'},
+  {k:'閉める',f:'しめる',r:'shimeru',m:'to close',c:'verb'},{k:'入る',f:'はいる',r:'hairu',m:'to enter',c:'verb'},
+  {k:'出る',f:'でる',r:'deru',m:'to exit/leave',c:'verb'},
+];
+
+// N4 ADJECTIVES ~25
+const adjN4=[
+  {k:'嬉しい',f:'うれしい',r:'ureshii',m:'happy',c:'adj'},{k:'悲しい',f:'かなしい',r:'kanashii',m:'sad',c:'adj'},
+  {k:'怖い',f:'こわい',r:'kowai',m:'scary',c:'adj'},{k:'恥ずかしい',f:'はずかしい',r:'hazukashii',m:'embarrassing',c:'adj'},
+  {k:'暖かい',f:'あたたかい',r:'atatakai',m:'warm',c:'adj'},{k:'涼しい',f:'すずしい',r:'suzushii',m:'cool (weather)',c:'adj'},
+  {k:'広い',f:'ひろい',r:'hiroi',m:'wide/spacious',c:'adj'},{k:'狭い',f:'せまい',r:'semai',m:'narrow/small',c:'adj'},
+  {k:'重い',f:'おもい',r:'omoi',m:'heavy',c:'adj'},{k:'軽い',f:'かるい',r:'karui',m:'light',c:'adj'},
+  {k:'硬い',f:'かたい',r:'katai',m:'hard/stiff',c:'adj'},{k:'柔らかい',f:'やわらかい',r:'yawarakai',m:'soft',c:'adj'},
+  {k:'忙しい',f:'いそがしい',r:'isogashii',m:'busy',c:'adj'},{k:'暇',f:'ひま',r:'hima',m:'free time',c:'adj'},
+  {k:'丁寧',f:'ていねい',r:'teinei',m:'polite',c:'adj'},{k:'親切',f:'しんせつ',r:'shinsetsu',m:'kind',c:'adj'},
+  {k:'真面目',f:'まじめ',r:'majime',m:'serious/diligent',c:'adj'},{k:'元気',f:'げんき',r:'genki',m:'healthy/energetic',c:'adj'},
+  {k:'大切',f:'たいせつ',r:'taisetsu',m:'important/precious',c:'adj'},{k:'必要',f:'ひつよう',r:'hitsuyou',m:'necessary',c:'adj'},
+  {k:'有名',f:'ゆうめい',r:'yuumei',m:'famous',c:'adj'},{k:'便利',f:'べんり',r:'benri',m:'convenient',c:'adj'},
+  {k:'不便',f:'ふべん',r:'fuben',m:'inconvenient',c:'adj'},{k:'複雑',f:'ふくざつ',r:'fukuzatsu',m:'complicated',c:'adj'},
+  {k:'簡単',f:'かんたん',r:'kantan',m:'simple/easy',c:'adj'},
+];
+
+// N4 VERBS ~25
+const verbN4=[
+  {k:'覚える',f:'おぼえる',r:'oboeru',m:'to memorize',c:'verb'},{k:'忘れる',f:'わすれる',r:'wasureru',m:'to forget',c:'verb'},
+  {k:'決める',f:'きめる',r:'kimeru',m:'to decide',c:'verb'},{k:'始める',f:'はじめる',r:'hajimeru',m:'to begin',c:'verb'},
+  {k:'終わる',f:'おわる',r:'owaru',m:'to end/finish',c:'verb'},{k:'続ける',f:'つづける',r:'tsuzukeru',m:'to continue',c:'verb'},
+  {k:'変える',f:'かえる',r:'kaeru',m:'to change',c:'verb'},{k:'調べる',f:'しらべる',r:'shiraberu',m:'to investigate',c:'verb'},
+  {k:'集める',f:'あつめる',r:'atsumeru',m:'to collect',c:'verb'},{k:'諦める',f:'あきらめる',r:'akirameru',m:'to give up',c:'verb'},
+  {k:'頑張る',f:'がんばる',r:'ganbaru',m:'to do one\'s best',c:'verb'},{k:'困る',f:'こまる',r:'komaru',m:'to be troubled',c:'verb'},
+  {k:'喜ぶ',f:'よろこぶ',r:'yorokobu',m:'to rejoice',c:'verb'},{k:'怒る',f:'おこる',r:'okoru',m:'to get angry',c:'verb'},
+  {k:'笑う',f:'わらう',r:'warau',m:'to laugh/smile',c:'verb'},{k:'泣く',f:'なく',r:'naku',m:'to cry',c:'verb'},
+  {k:'心配する',f:'しんぱいする',r:'shinpai suru',m:'to worry',c:'verb'},{k:'相談する',f:'そうだんする',r:'soudan suru',m:'to consult',c:'verb'},
+  {k:'練習する',f:'れんしゅうする',r:'renshuu suru',m:'to practice',c:'verb'},{k:'説明する',f:'せつめいする',r:'setsumei suru',m:'to explain',c:'verb'},
+  {k:'準備する',f:'じゅんびする',r:'junbi suru',m:'to prepare',c:'verb'},{k:'連絡する',f:'れんらくする',r:'renraku suru',m:'to contact',c:'verb'},
+  {k:'確認する',f:'かくにんする',r:'kakunin suru',m:'to confirm',c:'verb'},{k:'旅行する',f:'りょこうする',r:'ryokou suru',m:'to travel',c:'verb'},
+  {k:'卒業する',f:'そつぎょうする',r:'sotsugyou suru',m:'to graduate',c:'verb'},
+];
+
+// BASE VOCAB (original + combined)
+const baseVocab=[
+  {k:'猫',f:'ねこ',r:'neko',m:'cat',c:'noun'},{k:'犬',f:'いぬ',r:'inu',m:'dog',c:'noun'},
+  {k:'魚',f:'さかな',r:'sakana',m:'fish',c:'noun'},{k:'鳥',f:'とり',r:'tori',m:'bird',c:'noun'},
+  {k:'花',f:'はな',r:'hana',m:'flower',c:'noun'},{k:'木',f:'き',r:'ki',m:'tree',c:'noun'},
+  {k:'水',f:'みず',r:'mizu',m:'water',c:'noun'},{k:'山',f:'やま',r:'yama',m:'mountain',c:'noun'},
+  {k:'一',f:'いち',r:'ichi',m:'one (1)',c:'number'},{k:'二',f:'に',r:'ni',m:'two (2)',c:'number'},
+  {k:'三',f:'さん',r:'san',m:'three (3)',c:'number'},{k:'四',f:'し',r:'shi',m:'four (4)',c:'number'},
+  {k:'五',f:'ご',r:'go',m:'five (5)',c:'number'},{k:'六',f:'ろく',r:'roku',m:'six (6)',c:'number'},
+];
+const bodyVocabList=Object.entries(bodyParts).map(([,v])=>({k:v.k,f:v.f,r:v.r,m:v.m,c:'body'}));
+const vocab=[...baseVocab,...locationVocab,...adjN5,...verbN5,...adjN4,...verbN4,...bodyVocabList];
+
+// Students
+const students=[
+  {name:'Yuki',color:'#E8394D',score:85,progress:78},{name:'Hana',color:'#3498DB',score:92,progress:90},
+  {name:'Riku',color:'#2ECC71',score:67,progress:55},{name:'Mio',color:'#F5A623',score:74,progress:62},
+  {name:'Sota',color:'#9B59B6',score:88,progress:80},
+];
+const pending=[
+  {name:'Yuki',ex:'Hiragana Writing Sheet',time:'2h ago'},
+  {name:'Riku',ex:'Calendar — Days',time:'5h ago'},
+  {name:'Mio',ex:'Numbers 1–100',time:'1d ago'},
+];
+
+// FC category registry
+const fcCats={
+  hiragana_basic:{label:'Hiragana',words:hiraBasic.map(h=>({front:h.k,frontSub:'',back:h.r,backSub:h.k,type:'hira'}))},
+  katakana_basic:{label:'Katakana',words:kataBasic.map(h=>({front:h.k,frontSub:'',back:h.r,backSub:h.k,type:'kata'}))},
+  cal_days:{label:'Days',words:calData.days.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:'',back:d.m,backSub:d.furi,type:'cal'}))},
+  cal_months:{label:'Months',words:calData.months.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:'',back:d.m,backSub:d.furi,type:'cal'}))},
+  cal_dates:{label:'Dates',words:calData.dates.map(d=>({front:`<ruby>${d.kanji}<rt>${d.furi}</rt></ruby>`,frontSub:'',back:d.m,backSub:d.furi,type:'cal'}))},
+  fc_body:{label:'Body Parts',words:Object.values(bodyParts).map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'body'}))},
+  fc_location:{label:'Locations',words:locationVocab.map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'loc'}))},
+  fc_adj_n5:{label:'N5 Adj',words:adjN5.map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'adj'}))},
+  fc_verb_n5:{label:'N5 Verbs',words:verbN5.map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'verb'}))},
+  fc_adj_n4:{label:'N4 Adj',words:adjN4.map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'adj'}))},
+  fc_verb_n4:{label:'N4 Verbs',words:verbN4.map(v=>({front:v.k,frontSub:'',back:v.m,backSub:v.f,type:'verb'}))},
+  fc_kanji_n5:{label:'N5 Kanji',words:kanjiN5.map(k=>({front:k.k,frontSub:'',back:k.m,backSub:k.r,type:'kanji'}))},
+};
+
+// Game categories
+const gameCats={
+  calendar:{name:'Calendar',icon:'📅',words:calAll},
+  body:{name:'Body Parts',icon:'🧍',words:Object.values(bodyParts).map(v=>({kanji:v.k,furi:v.f,r:v.r,m:v.m}))},
+  location:{name:'Locations',icon:'📍',words:locationVocab.map(v=>({kanji:v.k,furi:v.f,r:v.r,m:v.m}))},
+  adj_n5:{name:'N5 Adjectives',icon:'形',words:adjN5.map(v=>({kanji:v.k,furi:v.f,r:v.r,m:v.m}))},
+  verb_n5:{name:'N5 Verbs',icon:'動',words:verbN5.map(v=>({kanji:v.k,furi:v.f,r:v.r,m:v.m}))},
+};
+
+// ══════════════════════════════════════════
+// BUILD CHART
+// ══════════════════════════════════════════
+function buildCharts(){
+  document.getElementById('chartHiragana').innerHTML=
+    chartGroup('Basic (清音)','hira-grid',hiraBasic,'speak')+
+    chartGroup('Voiced & Semi-voiced (濁音・半濁音)','hira-grid',hiraDaku,'speak')+
+    chartGroup('Combinations (拗音)','combo-grid',hiraCombo,'speak');
+  document.getElementById('chartKatakana').innerHTML=
+    chartGroup('Basic (清音)','hira-grid',kataBasic,'speakKata')+
+    chartGroup('Voiced & Semi-voiced (濁音・半濁音)','hira-grid',kataDaku,'speakKata')+
+    chartGroup('Combinations (拗音)','combo-grid',kataCombo,'speakKata')+
+    chartGroup('Foreign sounds (外来語)','combo-grid',kataForeign,'speakKata');
+}
+function chartGroup(title,gridClass,arr,fn){
+  return `<div class="chart-group-title">${title}</div>
+  <div class="${gridClass}">${arr.map(h=>
+    `<div class="hira-cell" onclick="${fn}('${h.r}',this)">
+      <div class="hira-kana">${h.k}</div>
+      <div class="hira-roma">${h.r}</div>
+    </div>`).join('')}</div>`;
+}
+function showChart(tab,btn){
+  document.querySelectorAll('.chart-tabs .pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chartHiragana').style.display=tab==='hiragana'?'block':'none';
+  document.getElementById('chartKatakana').style.display=tab==='katakana'?'block':'none';
+}
+
+// ══════════════════════════════════════════
+// BUILD CALENDAR VOCAB
+// ══════════════════════════════════════════
+function buildCalVocab(){
+  const card=(d,i)=>`
+    <div class="cal-card">
+      <div class="cal-kanji"><ruby>${d.kanji}<rt>${d.furi}</rt></ruby></div>
+      <div class="cal-roma">${d.r}</div>
+      <div class="cal-en-wrap" id="en${i}"><div class="cal-en">${d.m}</div></div>
+      <button class="cal-toggle" id="btn${i}" onclick="toggleCal(${i})">Show English</button>
+    </div>`;
+  document.getElementById('calDays').innerHTML=calData.days.map((d,i)=>card(d,i)).join('');
+  document.getElementById('calMonths').innerHTML=calData.months.map((d,i)=>card(d,i+100)).join('');
+  document.getElementById('calDates').innerHTML=calData.dates.map((d,i)=>card(d,i+200)).join('');
+}
+function toggleCal(i){
+  const w=document.getElementById('en'+i),b=document.getElementById('btn'+i);
+  const open=w.classList.toggle('open');
+  b.textContent=open?'Hide English':'Show English';
+  b.classList.toggle('open',open);
+}
+
+// ══════════════════════════════════════════
+// INTERACTIVE CALENDAR POPUP
+// ══════════════════════════════════════════
+const jpMonths=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+const jpDays=['日','月','火','水','木','金','土'];
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
+function openCal(){
+  calYear=new Date().getFullYear();calMonth=new Date().getMonth();
+  document.getElementById('calPopup').classList.add('open');
+  renderCalPopup();
+}
+function closeCal(){document.getElementById('calPopup').classList.remove('open');}
+function closeCalIfOutside(e){if(e.target===document.getElementById('calPopup'))closeCal();}
+function calNav(d){
+  calMonth+=d;
+  if(calMonth>11){calMonth=0;calYear++;}
+  if(calMonth<0){calMonth=11;calYear--;}
+  renderCalPopup();
+}
+function renderCalPopup(){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calPopupMonth').textContent=months[calMonth]+' '+calYear;
+  document.getElementById('calPopupMonthJP').textContent=calYear+'年'+jpMonths[calMonth];
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  let html='';
+  for(let i=0;i<first;i++){
+    const pd=new Date(calYear,calMonth,1-first+i);
+    html+=`<div class="cal-day other-month"><div class="cal-day-num">${pd.getDate()}</div><div class="cal-day-jp">${jpDays[pd.getDay()]}</div></div>`;
+  }
+  for(let d=1;d<=days;d++){
+    const isToday=d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear();
+    const dow=new Date(calYear,calMonth,d).getDay();
+    const jpDate=d<=calData.dates.length?calData.dates[d-1].furi:'';
+    html+=`<div class="cal-day${isToday?' today':''}" onclick="selectCalDay(${d},${dow})">
+      <div class="cal-day-num">${d}</div>
+      <div class="cal-day-jp">${jpDays[dow]}</div>
+    </div>`;
+  }
+  document.getElementById('calDaysGrid').innerHTML=html;
+  document.getElementById('calSelDay').classList.remove('show');
+}
+function selectCalDay(d,dow){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateInfo=d<=calData.dates.length?calData.dates[d-1]:null;
+  const dayInfo=calData.days[dow];
+  document.getElementById('calSelDayJP').textContent=calYear+'年'+jpMonths[calMonth]+(dateInfo?dateInfo.kanji:'');
+  document.getElementById('calSelDayInfo').innerHTML=
+    `${months[calMonth]} ${d} — ${dayInfo.kanji} (${dayInfo.furi}) ${dayInfo.m}`+
+    (dateInfo?` | Date: ${dateInfo.kanji} (${dateInfo.furi}) ${dateInfo.r}`:'');
+  document.getElementById('calSelDay').classList.add('show');
+}
+
+// ══════════════════════════════════════════
+// BUILD VOCAB
+// ══════════════════════════════════════════
+function buildVocab(list){
+  document.getElementById('vocabGrid').innerHTML=list.map(v=>
+    `<div class="vocab-card" onclick="this.classList.toggle('flipped')">
+      <div class="vocab-kana"><ruby>${v.k}<rt>${v.f}</rt></ruby></div>
+      <div class="vocab-roma">${v.r}</div>
+      <div class="vocab-mean">${v.m}</div>
+      <div class="vocab-tag">${v.c}</div>
+    </div>`).join('');
+}
+let curCat='all';
+function filterCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('.pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyVocab(document.getElementById('vocabSearch').value.toLowerCase(),cat);
+}
+function filterVocab(val){applyVocab(val.toLowerCase(),curCat);}
+function applyVocab(s,cat){
+  buildVocab(vocab.filter(v=>(cat==='all'||v.c===cat)&&(!s||v.k.includes(s)||v.r.includes(s)||v.m.includes(s)||v.f.includes(s))));
+}
+
+// ══════════════════════════════════════════
+// BODY PARTS
+// ══════════════════════════════════════════
+function buildBPList(){
+  const list=document.getElementById('bpList');
+  list.innerHTML=Object.entries(bodyParts).map(([key,v])=>
+    `<div class="bp-item" id="bpItem_${key}" onclick="selectBP('${key}')">
+      <div class="bp-item-kana">${v.k}</div>
+      <div class="bp-item-en">${v.m}</div>
+    </div>`).join('');
+}
+let currentBP='head';
+function selectBP(key){
+  const p=bodyParts[key];if(!p)return;
+  currentBP=key;
+  document.getElementById('bpKana').textContent=p.k;
+  document.getElementById('bpFuri').textContent=p.f;
+  document.getElementById('bpRoma').textContent=p.r;
+  document.getElementById('bpEn').textContent=p.m;
+  document.getElementById('bpSelected').classList.add('show');
+  document.querySelectorAll('.bp-item').forEach(el=>el.classList.remove('active'));
+  const item=document.getElementById('bpItem_'+key);
+  if(item){item.classList.add('active');item.scrollIntoView({block:'nearest'});}
+  showToast('🧍 '+p.k+' — '+p.m);
+}
+function speakBP(){
+  const p=bodyParts[currentBP];
+  if(p)playAudio(p.r);
+}
+
+// ══════════════════════════════════════════
+// BUILD STUDENTS
+// ══════════════════════════════════════════
+function buildStudents(){
+  document.getElementById('stuList').innerHTML=students.map(s=>
+    `<div class="stu-row">
+      <div class="stu-av" style="background:${s.color}">${s.name[0]}</div>
+      <div style="flex:1"><div class="stu-name">${s.name}</div><div class="mini-bar"><div class="mini-fill" style="width:${s.progress}%"></div></div></div>
+      <div class="stu-score">${s.score}%</div>
+    </div>`).join('');
+  document.getElementById('pendList').innerHTML=pending.map(p=>
+    `<div class="pending-item">
+      <div style="font-size:16px">📝</div>
+      <div class="pend-info"><strong>${p.name} — ${p.ex}</strong><span>${p.time}</span></div>
+      <button class="mark-btn" onclick="markItem(this,'${p.name}')">Mark ✓</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// FLASHCARD
+// ══════════════════════════════════════════
+let fcSelected=new Set(),fcMode='jp',fcDeck=[],fcIdx=0,fcResults=[];
+function toggleFcCat(cat,btn){
+  if(fcSelected.has(cat)){fcSelected.delete(cat);btn.classList.remove('selected');}
+  else{fcSelected.add(cat);btn.classList.add('selected');}
+  updateFcInfo();
+}
+function setFcMode(mode,btn){
+  fcMode=mode;
+  document.querySelectorAll('.fc-mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function updateFcInfo(){
+  const total=[...fcSelected].reduce((s,cat)=>s+(fcCats[cat]?.words.length||0),0);
+  document.getElementById('fcSelInfo').textContent=
+    fcSelected.size===0?'No categories selected':`${fcSelected.size} category${fcSelected.size>1?'s':''} — ${total} cards`;
+}
+function startFC(){
+  if(fcSelected.size===0){showToast('⚠️ Please select at least one category!');return;}
+  fcDeck=[];
+  fcSelected.forEach(cat=>{if(fcCats[cat])fcDeck.push(...fcCats[cat].words);});
+  fcDeck=fcDeck.sort(()=>Math.random()-0.5);
+  fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  document.getElementById('fcEmpty').style.display='none';
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='flex';
+  renderFC();
+}
+function renderFC(){
+  if(!fcDeck.length)return;
+  const d=fcDeck[fcIdx];
+  document.getElementById('fcInner').classList.remove('flipped');
+  document.getElementById('fcActions').style.display='none';
+  if(fcMode==='jp'){
+    document.getElementById('fcFrontLbl').textContent='JAPANESE';
+    document.getElementById('fcFront').innerHTML=d.front;
+    document.getElementById('fcFront').style.fontSize=d.front.length>10?'28px':d.front.length>5?'38px':'52px';
+    document.getElementById('fcFrontSub').textContent='';
+    document.getElementById('fcBackLbl').textContent='ENGLISH';
+    document.getElementById('fcBack').textContent=d.back;
+    document.getElementById('fcBack').style.fontSize='34px';
+    document.getElementById('fcBackSub').textContent=d.frontSub||'';
+  } else {
+    document.getElementById('fcFrontLbl').textContent='ENGLISH';
+    document.getElementById('fcFront').textContent=d.back;
+    document.getElementById('fcFront').style.fontSize='34px';
+    document.getElementById('fcFrontSub').textContent='';
+    document.getElementById('fcBackLbl').textContent='JAPANESE';
+    document.getElementById('fcBack').innerHTML=d.front;
+    document.getElementById('fcBack').style.fontSize=d.front.length>10?'28px':d.front.length>5?'38px':'52px';
+    document.getElementById('fcBackSub').textContent=d.frontSub||'';
+  }
+  document.getElementById('fcCounter').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  document.getElementById('fcDots').innerHTML=fcDeck.map((_,i)=>{
+    let c='fc-dot';
+    if(i===fcIdx)c+=' cur';
+    else if(fcResults[i]==='got')c+=' got';
+    else if(fcResults[i]==='retry')c+=' retry';
+    return `<div class="${c}"></div>`;
+  }).join('');
+}
+function fcFlip(){
+  const inner=document.getElementById('fcInner');
+  inner.classList.toggle('flipped');
+  document.getElementById('fcActions').style.display=inner.classList.contains('flipped')?'flex':'none';
+}
+function fcMark(result){
+  fcResults[fcIdx]=result;
+  showToast(result==='got'?'✅ Got it!':'❌ Keep practicing!');
+  if(fcResults.every(r=>r!==null)){setTimeout(showFCSummary,600);}
+  else{setTimeout(()=>{
+    let next=fcIdx;
+    for(let i=1;i<=fcDeck.length;i++){const idx=(fcIdx+i)%fcDeck.length;if(fcResults[idx]===null){next=idx;break;}}
+    fcIdx=next;renderFC();
+  },500);}
+}
+function fcNext(){fcIdx=(fcIdx+1)%fcDeck.length;renderFC();}
+function fcPrev(){fcIdx=(fcIdx-1+fcDeck.length)%fcDeck.length;renderFC();}
+function showFCSummary(){
+  const got=fcResults.filter(r=>r==='got').length;
+  const retry=fcResults.filter(r=>r==='retry').length;
+  document.getElementById('fcStudy').style.display='none';
+  document.getElementById('fcSummary').style.display='flex';
+  const pct=Math.round((got/fcDeck.length)*100);
+  document.getElementById('fcEmoji').textContent=pct>=80?'🎉':pct>=50?'😊':'💪';
+  document.getElementById('fcSumTitle').textContent=pct>=80?'Excellent!':pct>=50?'Good Progress!':'Keep Going!';
+  document.getElementById('fcSumMsg').textContent=`${got} of ${fcDeck.length} correct (${pct}%)`;
+  document.getElementById('fcGot').textContent=got;
+  document.getElementById('fcRetry').textContent=retry;
+  document.getElementById('fcRetryWrongBtn').style.display=retry>0?'inline-flex':'none';
+}
+function fcRestart(){
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='flex';
+  fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  fcDeck=fcDeck.sort(()=>Math.random()-0.5);renderFC();
+}
+function fcRetryWrong(){
+  const wrong=fcDeck.filter((_,i)=>fcResults[i]==='retry');
+  fcDeck=wrong;fcIdx=0;fcResults=new Array(fcDeck.length).fill(null);
+  document.getElementById('fcSummary').style.display='none';
+  document.getElementById('fcStudy').style.display='flex';
+  renderFC();
+}
+
+// ══════════════════════════════════════════
+// GAME
+// ══════════════════════════════════════════
+let score=0,lives=3,qIdx=0,answered=false,curGameCat='calendar',gameQs=[];
+function selectCat(cat,btn){
+  curGameCat=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const c=gameCats[cat];
+  document.getElementById('gameIntro').style.display='block';
+  document.getElementById('gameArea').style.display='none';
+  document.getElementById('gameIntro').innerHTML=
+    `<div class="cat-intro"><div class="cat-intro-icon">${c.icon}</div><h2>${c.name}</h2>
+    <p>Practice ${c.name.toLowerCase()} vocabulary! 10 questions per round.</p>
+    <button class="btn btn-primary" onclick="startGame()">🚀 Start Quiz!</button></div>`;
+}
+function startGame(){
+  const c=gameCats[curGameCat];
+  gameQs=[...c.words].sort(()=>Math.random()-0.5).slice(0,10);
+  score=0;lives=3;qIdx=0;
+  document.getElementById('gameIntro').style.display='none';
+  document.getElementById('gameArea').style.display='block';
+  document.getElementById('gameCatLbl').textContent=gameCats[curGameCat].icon+' '+gameCats[curGameCat].name;
+  updateGameUI();nextQ();
+}
+function nextQ(){
+  if(qIdx>=10||lives<=0){endGame();return;}
+  answered=false;
+  const q=gameQs[qIdx];
+  const all=gameCats[curGameCat].words;
+  const el=document.getElementById('gameQ');
+  el.innerHTML=`<ruby>${q.kanji}<rt>${q.furi}</rt></ruby>`;
+  el.style.fontSize=q.kanji.length>4?'26px':'40px';
+  document.getElementById('gamePrompt').textContent='What does this mean in English?';
+  document.getElementById('progFill').style.width=(qIdx/10*100)+'%';
+  document.getElementById('qNum').textContent=qIdx+1;
+  let opts=[q.m],tries=0;
+  while(opts.length<4&&tries<200){const r=all[Math.floor(Math.random()*all.length)].m;if(!opts.includes(r))opts.push(r);tries++;}
+  opts=opts.sort(()=>Math.random()-0.5);
+  document.getElementById('gameOpts').innerHTML=opts.map(o=>
+    `<button class="game-opt" onclick="checkAns(this,'${o.replace(/'/g,"\\'")}','${q.m.replace(/'/g,"\\'")}')">${o}</button>`).join('');
+}
+function checkAns(btn,chosen,correct){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.game-opt').forEach(b=>b.disabled=true);
+  if(chosen===correct){btn.classList.add('correct');score+=10;showToast('✅ Correct! +10');}
+  else{btn.classList.add('wrong');lives--;document.querySelectorAll('.game-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});showToast('❌ It was: '+correct);}
+  updateGameUI();qIdx++;setTimeout(nextQ,1400);
+}
+function updateGameUI(){
+  document.getElementById('scoreNum').textContent=score;
+  document.getElementById('livesDisplay').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives);
+}
+function endGame(){
+  const el=document.getElementById('gameQ');
+  el.textContent=score>=80?'🎉':score>=50?'😊':'💪';el.style.fontSize='52px';
+  document.getElementById('gamePrompt').textContent=`Game Over! Score: ${score}/100`;
+  document.getElementById('gameOpts').innerHTML=
+    `<button class="game-opt" style="grid-column:1/-1;background:var(--red);border-color:var(--red);color:white" onclick="startGame()">🔄 Play Again</button>
+     <button class="game-opt" style="grid-column:1/-1" onclick="document.getElementById('gameIntro').style.display='block';document.getElementById('gameArea').style.display='none'">📂 Change Category</button>`;
+  document.getElementById('progFill').style.width='100%';
+}
+
+// ══════════════════════════════════════════
+// WRITING
+// ══════════════════════════════════════════
+let canvas,sCanvas,ctx,sCtx,drawing=false,penSize=4;
+let showStrokes=true;
+let currentChar={k:'あ',r:'a',tip:'3 strokes: horizontal line → curve → hook',tab:'hiragana'};
+let strokeAnim=null;
+const strokeData={
+  'あ':[
+    [{x:0.5,y:0.2},{x:0.5,y:0.55}],
+    [{x:0.2,y:0.35},{x:0.8,y:0.35}],
+    [{x:0.65,y:0.35},{x:0.55,y:0.7},{x:0.25,y:0.85},{x:0.5,y:0.75},{x:0.75,y:0.65}]
+  ],
+  'い':[
+    [{x:0.35,y:0.2},{x:0.3,y:0.75}],
+    [{x:0.65,y:0.2},{x:0.65,y:0.6},{x:0.6,y:0.75}]
+  ],
+  'う':[
+    [{x:0.4,y:0.18},{x:0.6,y:0.18}],
+    [{x:0.5,y:0.18},{x:0.5,y:0.45},{x:0.3,y:0.7},{x:0.5,y:0.82},{x:0.72,y:0.72}]
+  ],
+  'か':[
+    [{x:0.3,y:0.2},{x:0.3,y:0.8}],
+    [{x:0.2,y:0.45},{x:0.75,y:0.45}],
+    [{x:0.6,y:0.45},{x:0.75,y:0.75}]
+  ],
+  'ア':[
+    [{x:0.25,y:0.3},{x:0.75,y:0.3}],
+    [{x:0.5,y:0.3},{x:0.45,y:0.8}]
+  ],
+  'イ':[
+    [{x:0.35,y:0.2},{x:0.55,y:0.5}],
+    [{x:0.62,y:0.2},{x:0.62,y:0.8}]
+  ],
+};
+function initCanvas(){
+  canvas=document.getElementById('writingCanvas');
+  sCanvas=document.getElementById('strokeCanvas');
+  if(!canvas||canvas._init)return;canvas._init=true;
+  const w=canvas.parentElement.clientWidth||300;
+  canvas.width=w;canvas.height=Math.round(w*0.8);
+  sCanvas.width=w;sCanvas.height=canvas.height;
+  ctx=canvas.getContext('2d');sCtx=sCanvas.getContext('2d');
+  ctx.strokeStyle='#1a1a2e';ctx.lineWidth=penSize;ctx.lineCap='round';ctx.lineJoin='round';
+  canvas.addEventListener('mousedown',sd);canvas.addEventListener('mousemove',dr);
+  canvas.addEventListener('mouseup',stopD);canvas.addEventListener('mouseleave',stopD);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();sd(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();dr(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchend',stopD);
+  if(showStrokes)animateStrokes();
+}
+function gp(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)};}
+function sd(e){drawing=true;const p=gp(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function dr(e){if(!drawing)return;const p=gp(e);ctx.lineTo(p.x,p.y);ctx.stroke();}
+function stopD(){drawing=false;}
+function clearCanvas(){if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);}
+function setPen(s,btn){penSize=s;if(ctx)ctx.lineWidth=s;document.querySelectorAll('.canvas-btn').forEach(b=>b.classList.remove('ap'));btn.classList.add('ap');}
+function toggleStrokes(){
+  showStrokes=document.getElementById('strokeToggle').checked;
+  if(sCtx)sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  if(strokeAnim){clearTimeout(strokeAnim);strokeAnim=null;}
+  if(showStrokes)animateStrokes();
+}
+function animateStrokes(){
+  if(!sCtx||!showStrokes)return;
+  sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  const strokes=strokeData[currentChar.k];
+  if(!strokes){
+    sCtx.save();
+    sCtx.font=`${sCanvas.height*0.7}px 'Zen Maru Gothic',serif`;
+    sCtx.fillStyle='rgba(232,57,77,0.08)';
+    sCtx.textAlign='center';sCtx.textBaseline='middle';
+    sCtx.fillText(currentChar.k,sCanvas.width/2,sCanvas.height/2);
+    sCtx.restore();return;
+  }
+  let si=0,progress=0;
+  const colors=['rgba(232,57,77,0.7)','rgba(52,152,219,0.7)','rgba(46,204,113,0.7)','rgba(245,166,35,0.7)'];
+  function drawFrame(){
+    if(!showStrokes)return;
+    sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+    for(let i=0;i<si;i++){
+      drawStroke(strokes[i],colors[i%colors.length],1,sCanvas.width,sCanvas.height);
+      drawArrow(strokes[i],colors[i%colors.length],sCanvas.width,sCanvas.height);
+    }
+    if(si<strokes.length){
+      const pts=strokes[si];
+      const end=Math.floor(progress*pts.length);
+      if(end>0)drawStroke(pts.slice(0,end+1),colors[si%colors.length],1,sCanvas.width,sCanvas.height);
+      sCtx.save();sCtx.fillStyle=colors[si%colors.length];
+      sCtx.font='bold 13px Nunito,sans-serif';
+      sCtx.fillText(''+(si+1),pts[0].x*sCanvas.width-14,pts[0].y*sCanvas.height-6);
+      sCtx.restore();
+    }
+    progress+=0.08;
+    if(progress>=1){progress=0;si++;}
+    if(si<strokes.length){strokeAnim=setTimeout(drawFrame,60);}
+    else{strokeAnim=setTimeout(()=>{si=0;progress=0;if(showStrokes)drawFrame();},2000);}
+  }
+  drawFrame();
+}
+function drawStroke(pts,color,alpha,W,H){
+  if(pts.length<2)return;
+  sCtx.save();sCtx.strokeStyle=color;sCtx.lineWidth=4;sCtx.lineCap='round';sCtx.lineJoin='round';sCtx.globalAlpha=alpha;
+  sCtx.beginPath();sCtx.moveTo(pts[0].x*W,pts[0].y*H);
+  for(let i=1;i<pts.length;i++)sCtx.lineTo(pts[i].x*W,pts[i].y*H);
+  sCtx.stroke();sCtx.restore();
+}
+function drawArrow(pts,color,W,H){
+  if(pts.length<2)return;
+  const last=pts[pts.length-1],prev=pts[pts.length-2];
+  const angle=Math.atan2((last.y-prev.y)*H,(last.x-prev.x)*W);
+  const ax=last.x*W,ay=last.y*H;
+  sCtx.save();sCtx.fillStyle=color;
+  sCtx.translate(ax,ay);sCtx.rotate(angle);
+  sCtx.beginPath();sCtx.moveTo(0,0);sCtx.lineTo(-10,-5);sCtx.lineTo(-10,5);sCtx.closePath();
+  sCtx.fill();sCtx.restore();
+}
+function selectWriteChar(ch){
+  currentChar=ch;
+  document.getElementById('charDisp').textContent=ch.k;
+  document.getElementById('strokeTip').textContent=ch.tip||'Top → bottom, left → right';
+  // Update stroke order reference
+  document.getElementById('strokeRefImg').textContent=ch.k;
+  document.getElementById('strokeRefChar').textContent=ch.k;
+  document.getElementById('strokeRefDesc').innerHTML=`Stroke reference for <strong>${ch.k}</strong> (${ch.r})`;
+  document.getElementById('strokeRefLink').href=`https://jisho.org/search/${encodeURIComponent(ch.k)}%20%23kanji`;
+  document.getElementById('strokeRefLink').textContent=`🔗 View ${ch.k} on Jisho →`;
+  clearCanvas();
+  if(sCtx)sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  if(strokeAnim){clearTimeout(strokeAnim);strokeAnim=null;}
+  document.querySelectorAll('.char-pick-cell').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.char-pick-cell').forEach(c=>{if(c.dataset.char===ch.k)c.classList.add('selected');});
+  if(showStrokes)animateStrokes();
+}
+function nextChar(){
+  const tab=currentChar.tab||'hiragana';
+  const arr=tab==='hiragana'?hiraBasic:tab==='katakana'?kataBasic:kanjiN5;
+  const idx=arr.findIndex(c=>c.k===currentChar.k);
+  const next=arr[(idx+1)%arr.length];
+  selectWriteChar({...next,tip:next.tip||(next.r?`Read as "${next.r}"`:''),tab});
+}
+let currentWriteTab='hiragana';
+function showWriteTab(tab,btn){
+  currentWriteTab=tab;
+  document.querySelectorAll('.char-pick-tabs .pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');buildWritePicker(tab);
+}
+function buildWritePicker(tab){
+  let html='';
+  if(tab==='hiragana'){
+    html+=pickerGroup('Basic',hiraBasic,'hiragana')+pickerGroup('Voiced & Semi-voiced',hiraDaku,'hiragana')+pickerGroup('Combinations',hiraCombo,'hiragana');
+  } else if(tab==='katakana'){
+    html+=pickerGroup('Basic',kataBasic,'katakana')+pickerGroup('Voiced & Semi-voiced',kataDaku,'katakana')+pickerGroup('Combinations',kataCombo,'katakana')+pickerGroup('Foreign sounds',kataForeign,'katakana');
+  } else {
+    html+=pickerGroup('N5 Kanji',kanjiN5,'kanji');
+  }
+  document.getElementById('writePicker').innerHTML=html;
+}
+function pickerGroup(title,arr,tab){
+  return `<div class="char-pick-section">
+    <div class="char-pick-label">${title}</div>
+    <div class="char-pick-grid">${arr.map(c=>
+      `<div class="char-pick-cell" data-char="${c.k}" onclick="selectWriteChar({k:'${c.k}',r:'${c.r||''}',tip:'${(c.tip||'Read as: '+(c.r||'')).replace(/'/g,"\\'")}',tab:'${tab}'})">
+        <div class="char-pick-kana">${c.k}</div>
+        <div class="char-pick-roma">${c.r||''}</div>
+      </div>`).join('')}
+    </div></div>`;
+}
+
+// ══════════════════════════════════════════
+// SCHOOL MONOPOLY
+// ══════════════════════════════════════════
+let monoPlayers=1,monoDiff=1;
+let monoState={};
+let monoCanvas,monoCtx;
+
+// Board spaces (28 spaces around the board)
+const monoSpaces=[
+  {type:'go',name:'出発！',icon:'🏫',color:'#2ECC71'},{type:'property',name:'図書館',icon:'📚',color:'#3498DB',price:60,rent:10},
+  {type:'question',name:'問題！',icon:'❓',color:'#F5A623'},{type:'property',name:'体育館',icon:'🏃',color:'#3498DB',price:80,rent:14},
+  {type:'tax',name:'授業料',icon:'💰',color:'#E8394D',amount:200},{type:'property',name:'音楽室',icon:'🎵',color:'#9B59B6',price:100,rent:18},
+  {type:'question',name:'問題！',icon:'❓',color:'#F5A623'},{type:'property',name:'理科室',icon:'🔬',color:'#9B59B6',price:120,rent:22},
+  {type:'rest',name:'休憩',icon:'😴',color:'#95a5a6'},{type:'property',name:'美術室',icon:'🎨',color:'#E8394D',price:140,rent:26},
+  {type:'question',name:'問題！',icon:'❓',color:'#F5A623'},{type:'property',name:'コンピュータ室',icon:'💻',color:'#E8394D',price:160,rent:30},
+  {type:'property',name:'家庭科室',icon:'🍳',color:'#F5A623',price:180,rent:34},{type:'question',name:'問題！',icon:'❓',color:'#F5A623'},
+  {type:'property',name:'保健室',icon:'🏥',color:'#F5A623',price:200,rent:38},{type:'lucky',name:'ラッキー！',icon:'⭐',color:'#2ECC71'},
+  {type:'property',name:'校長室',icon:'🏆',color:'#E8394D',price:220,rent:42},{type:'question',name:'問題！',icon:'❓',color:'#F5A623'},
+  {type:'property',name:'先生室',icon:'👩‍🏫',color:'#E8394D',price:240,rent:46},{type:'rest',name:'昼休み',icon:'🍱',color:'#95a5a6'},
+  {type:'property',name:'グラウンド',icon:'⚽',color:'#2ECC71',price:260,rent:50},{type:'question',name:'問題！',icon:'❓',color:'#F5A623'},
+  {type:'property',name:'プール',icon:'🏊',color:'#2ECC71',price:280,rent:54},{type:'property',name:'図工室',icon:'✂️',color:'#3498DB',price:300,rent:58},
+  {type:'question',name:'問題！',icon:'❓',color:'#F5A623'},{type:'property',name:'給食室',icon:'🍜',color:'#3498DB',price:320,rent:62},
+  {type:'tax',name:'クラブ費',icon:'💸',color:'#E8394D',amount:100},{type:'property',name:'屋上',icon:'🌟',color:'#9B59B6',price:350,rent:70},
+];
+
+// Questions per difficulty
+function getQuestions(diff){
+  const easy=[
+    {q:'「日曜日」means?',opts:['Sunday','Monday','Tuesday','Wednesday'],a:0},
+    {q:'「月曜日」means?',opts:['Tuesday','Monday','Sunday','Thursday'],a:1},
+    {q:'「赤い」means?',opts:['Blue','Green','Red','Yellow'],a:2},
+    {q:'「食べる」means?',opts:['To drink','To sleep','To walk','To eat'],a:3},
+    {q:'「大きい」means?',opts:['Small','Big','Fast','Slow'],a:1},
+    {q:'「学校」means?',opts:['Hospital','Park','School','Library'],a:2},
+    {q:'「目」means?',opts:['Ear','Nose','Mouth','Eye'],a:3},
+    {q:'「手」means?',opts:['Foot','Head','Hand','Arm'],a:2},
+    {q:'「行く」means?',opts:['To come','To eat','To go','To run'],a:2},
+    {q:'「小さい」means?',opts:['Big','Small','Heavy','Light'],a:1},
+  ];
+  const normal=[
+    {q:'「頭」(あたま) means?',opts:['Face','Neck','Head','Shoulder'],a:2},
+    {q:'「図書館」(としょかん) means?',opts:['Hospital','Library','Station','Park'],a:1},
+    {q:'「難しい」(むずかしい) means?',opts:['Easy','Fun','Difficult','Beautiful'],a:2},
+    {q:'「覚える」(おぼえる) means?',opts:['To forget','To decide','To memorize','To change'],a:2},
+    {q:'「右」(みぎ) means?',opts:['Left','Right','Straight','Behind'],a:1},
+    {q:'「楽しい」(たのしい) means?',opts:['Sad','Boring','Scary','Fun'],a:3},
+    {q:'「病院」(びょういん) means?',opts:['School','Hotel','Hospital','Bank'],a:2},
+    {q:'「肩」(かた) means?',opts:['Knee','Elbow','Shoulder','Hip'],a:2},
+    {q:'「便利」(べんり) means?',opts:['Inconvenient','Convenient','Important','Famous'],a:1},
+    {q:'「始める」(はじめる) means?',opts:['To end','To begin','To continue','To forget'],a:1},
+  ];
+  const hard=[
+    {q:'「眉毛」(まゆげ) means?',opts:['Eyelash','Eyebrow','Eyelid','Forehead'],a:1},
+    {q:'「諦める」(あきらめる) means?',opts:['To try harder','To practice','To give up','To continue'],a:2},
+    {q:'「交番」(こうばん) means?',opts:['Post office','Police box','Pharmacy','Bank'],a:1},
+    {q:'「複雑」(ふくざつ) means?',opts:['Simple','Famous','Convenient','Complicated'],a:3},
+    {q:'「足首」(あしくび) means?',opts:['Knee','Ankle','Thigh','Sole'],a:1},
+    {q:'「郵便局」(ゆうびんきょく) means?',opts:['Bank','Police box','Post office','Library'],a:2},
+    {q:'「恥ずかしい」(はずかしい) means?',opts:['Scary','Sad','Happy','Embarrassing'],a:3},
+    {q:'「確認する」(かくにんする) means?',opts:['To prepare','To explain','To confirm','To contact'],a:2},
+    {q:'「膝」(ひざ) means?',opts:['Hip','Ankle','Thigh','Knee'],a:3},
+    {q:'「卒業する」(そつぎょうする) means?',opts:['To study','To graduate','To enter','To teach'],a:1},
+  ];
+  return diff===1?easy:diff===2?normal:hard;
+}
+
+function setMonoOpt(type,val,btn){
+  if(type==='players'){
+    monoPlayers=val;
+    document.querySelectorAll('#optP1,#optP2').forEach(b=>b.classList.remove('sel'));
+  } else {
+    monoDiff=val;
+    document.querySelectorAll('#optD1,#optD2,#optD3').forEach(b=>b.classList.remove('sel'));
+  }
+  btn.classList.add('sel');
+}
+
+function startMonopoly(){
+  document.getElementById('monoSetupDiv').style.display='none';
+  document.getElementById('monoGameDiv').style.display='block';
+  const questions=getQuestions(monoDiff);
+  monoState={
+    players:monoPlayers,
+    current:0,
+    data:[
+      {name:'Player 1',icon:'🐱',pos:0,money:1500,properties:[],color:'#E8394D'},
+      {name:'Player 2',icon:'🐶',pos:0,money:1500,properties:[],color:'#3498DB'},
+    ].slice(0,monoPlayers),
+    spaces:monoSpaces.map(s=>({...s,owner:-1})),
+    log:[],
+    questions:[...questions].sort(()=>Math.random()-0.5),
+    qIdx:0,
+    rolling:false,
+    gameOver:false,
+  };
+  renderMonoPlayers();
+  monoCanvas=document.getElementById('monoCanvas');
+  monoCtx=monoCanvas.getContext('2d');
+  drawMonoBoard();
+  monoLog('🎮 Game started! Good luck! がんばれ！');
+}
+
+function monoReset(){
+  document.getElementById('monoGameDiv').style.display='none';
+  document.getElementById('monoSetupDiv').style.display='block';
+  document.getElementById('monoLogEntries').innerHTML='';
+}
+
+function renderMonoPlayers(){
+  document.getElementById('monoPlayers').innerHTML=monoState.data.map((p,i)=>
+    `<div class="mono-player-card${i===monoState.current?' current':''}">
+      <div class="mono-player-name">${p.icon} ${p.name}</div>
+      <div class="mono-player-money">¥${p.money.toLocaleString()}</div>
+      <div class="mono-player-pos">📍 ${monoState.spaces[p.pos].name}</div>
+    </div>`).join('');
+  document.getElementById('rollBtn').disabled=monoState.rolling||monoState.gameOver;
+  document.getElementById('rollBtn').textContent=monoState.gameOver?'Game Over!':'🎲 Roll Dice';
+}
+
+function monoLog(msg){
+  monoState.log.push(msg);
+  const el=document.getElementById('monoLogEntries');
+  el.innerHTML=monoState.log.slice().reverse().map(m=>`<div class="mono-log-entry">${m}</div>`).join('');
+}
+
+const BOARD_SIZE=600,CELL=72,COLS=7,ROWS=7;
+function drawMonoBoard(){
+  const c=monoCtx,w=BOARD_SIZE,h=BOARD_SIZE;
+  c.clearRect(0,0,w,h);
+  // Background
+  c.fillStyle='#f0ede8';c.fillRect(0,0,w,h);
+  // Center decoration
+  c.fillStyle='white';c.fillRect(CELL,CELL,w-2*CELL,h-2*CELL);
+  c.fillStyle='#1a1a2e';c.font='bold 22px Zen Maru Gothic,sans-serif';c.textAlign='center';c.fillText('🏫',w/2,h/2-20);
+  c.font='bold 14px Nunito,sans-serif';c.fillText('School',w/2,h/2+5);c.fillText('Monopoly',w/2,h/2+22);
+
+  // Draw 28 spaces around the border
+  const positions=getBoardPositions();
+  positions.forEach((pos,i)=>{
+    const sp=monoState.spaces[i%monoSpaces.length];
+    // Cell background
+    c.fillStyle=sp.color+'33';
+    roundRect(c,pos.x,pos.y,CELL-4,CELL-4,6);c.fill();
+    c.strokeStyle=sp.color;c.lineWidth=2;
+    roundRect(c,pos.x,pos.y,CELL-4,CELL-4,6);c.stroke();
+    // Icon
+    c.font='18px serif';c.textAlign='center';
+    c.fillStyle='#333';c.fillText(sp.icon,pos.x+(CELL-4)/2,pos.y+(CELL-4)/2+4);
+    // Owner indicator
+    if(sp.owner>=0){
+      c.fillStyle=monoState.data[sp.owner].color;
+      c.beginPath();c.arc(pos.x+CELL-10,pos.y+8,5,0,Math.PI*2);c.fill();
+    }
+  });
+  // Draw players
+  monoState.data.forEach((p,pi)=>{
+    const pos=positions[p.pos];
+    c.font='20px serif';c.textAlign='center';
+    const offset=pi*18-9;
+    c.fillText(p.icon,pos.x+(CELL-4)/2+offset,pos.y+(CELL-4)/2+24);
+  });
+}
+
+function getBoardPositions(){
+  const positions=[];
+  const s=CELL,m=4;
+  // Bottom row: left to right (spaces 0-6)
+  for(let i=0;i<7;i++) positions.push({x:m+i*s,y:BOARD_SIZE-s-m});
+  // Right column: bottom to top (spaces 7-12)
+  for(let i=1;i<6;i++) positions.push({x:BOARD_SIZE-s-m,y:BOARD_SIZE-s-m-i*s});
+  // Top row: right to left (spaces 13-19)
+  for(let i=6;i>=0;i--) positions.push({x:m+i*s,y:m});
+  // Left column: top to bottom (spaces 20-25)
+  for(let i=1;i<6;i++) positions.push({x:m,y:m+i*s});
+  return positions;
+}
+
+function roundRect(c,x,y,w,h,r){
+  c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);
+  c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);
+  c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);
+  c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();
+}
+
+function monoRoll(){
+  if(monoState.rolling||monoState.gameOver)return;
+  monoState.rolling=true;
+  const roll=Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2;
+  const p=monoState.data[monoState.current];
+  monoLog(`${p.icon} ${p.name} rolled 🎲 ${roll}!`);
+  // Animate movement
+  let steps=0;
+  const moveInterval=setInterval(()=>{
+    p.pos=(p.pos+1)%monoSpaces.length;
+    steps++;drawMonoBoard();renderMonoPlayers();
+    if(steps>=roll){
+      clearInterval(moveInterval);
+      setTimeout(()=>landOnSpace(monoState.current),200);
+    }
+  },180);
+}
+
+function landOnSpace(pi){
+  const p=monoState.data[pi];
+  const sp=monoState.spaces[p.pos];
+  monoLog(`${p.icon} landed on ${sp.icon} ${sp.name}`);
+  if(sp.type==='go'){
+    p.money+=200;monoLog(`${p.icon} collected ¥200 salary!`);
+    endTurn();
+  } else if(sp.type==='tax'){
+    p.money=Math.max(0,p.money-sp.amount);
+    showMonoCard('💰',`${sp.name}`,`You paid ¥${sp.amount}. Remaining: ¥${p.money}`,null,endTurn);
+  } else if(sp.type==='lucky'){
+    const bonus=Math.floor(Math.random()*200)+50;
+    p.money+=bonus;
+    showMonoCard('⭐','Lucky!',`You found ¥${bonus} in your school bag!`,null,endTurn);
+  } else if(sp.type==='rest'){
+    showMonoCard(sp.icon,sp.name,'Take a break! 休憩しましょう！',null,endTurn);
+  } else if(sp.type==='question'){
+    askQuestion();
+  } else if(sp.type==='property'){
+    if(sp.owner===-1){
+      if(p.money>=sp.price){
+        showMonoCard(sp.icon,`Buy ${sp.name}?`,
+          `Price: ¥${sp.price} | Your money: ¥${p.money}\nBuy this property?`,
+          [
+            {label:'✅ Buy! (¥'+sp.price+')',action:()=>{sp.owner=pi;p.money-=sp.price;p.properties.push(sp.name);monoLog(`${p.icon} bought ${sp.name} for ¥${sp.price}!`);drawMonoBoard();endTurn();}},
+            {label:'❌ Skip',action:endTurn}
+          ],null);
+      } else {
+        showMonoCard(sp.icon,sp.name,`Price: ¥${sp.price} — not enough money!`,null,endTurn);
+      }
+    } else if(sp.owner===pi){
+      showMonoCard(sp.icon,`Your property!`,`${sp.name} is yours!`,null,endTurn);
+    } else {
+      const owner=monoState.data[sp.owner];
+      const rent=sp.rent*(monoDiff);
+      p.money=Math.max(0,p.money-rent);
+      owner.money+=rent;
+      monoLog(`${p.icon} paid ¥${rent} rent to ${owner.icon}!`);
+      showMonoCard('🏠','Pay Rent!',`Paid ¥${rent} rent to ${owner.icon} ${owner.name}`,null,endTurn);
+    }
+  }
+  renderMonoPlayers();
+}
+
+function askQuestion(){
+  const p=monoState.data[monoState.current];
+  const questions=getQuestions(monoDiff);
+  const q=questions[monoState.qIdx%questions.length];
+  monoState.qIdx++;
+  const reward=monoDiff===1?100:monoDiff===2?150:200;
+  let answered=false;
+  const opts=q.opts.map((o,i)=>({
+    label:o,
+    action:()=>{
+      if(answered)return;answered=true;
+      if(i===q.a){
+        p.money+=reward;
+        monoLog(`${p.icon} answered correctly! +¥${reward}`);
+        document.getElementById('monoPopTitle').textContent='✅ Correct! +¥'+reward;
+        document.querySelectorAll('.mono-q-opt').forEach((b,bi)=>{
+          b.disabled=true;if(bi===q.a)b.classList.add('correct');
+        });
+      } else {
+        monoLog(`${p.icon} got it wrong...`);
+        document.getElementById('monoPopTitle').textContent='❌ Wrong!';
+        document.querySelectorAll('.mono-q-opt').forEach((b,bi)=>{
+          b.disabled=true;if(bi===q.a)b.classList.add('correct');else if(bi===i)b.classList.add('wrong');
+        });
+      }
+      renderMonoPlayers();
+      setTimeout(()=>{closeMonoCard();endTurn();},1200);
+    }
+  }));
+  showMonoCard('❓','Japanese Question!',q.q,opts,null);
+}
+
+let monoCloseAction=null;
+function showMonoCard(icon,title,body,opts,onClose){
+  monoCloseAction=onClose;
+  document.getElementById('monoPopIcon').textContent=icon;
+  document.getElementById('monoPopTitle').textContent=title;
+  document.getElementById('monoPopBody').textContent=body;
+  document.getElementById('monoPopClose').style.display=onClose?'flex':'none';
+  if(opts&&opts.length){
+    document.getElementById('monoPopOpts').innerHTML=opts.map((o,i)=>
+      `<button class="mono-q-opt" onclick="monoOptClick(${i})">${o.label}</button>`).join('');
+    document.getElementById('monoPopOpts').style.display='grid';
+    document._monoOpts=opts;
+  } else {
+    document.getElementById('monoPopOpts').innerHTML='';
+    document.getElementById('monoPopOpts').style.display='none';
+  }
+  document.getElementById('monoCardPopup').classList.add('open');
+}
+function monoOptClick(i){document._monoOpts[i].action();}
+function closeMonoCard(){
+  document.getElementById('monoCardPopup').classList.remove('open');
+  if(monoCloseAction){monoCloseAction();monoCloseAction=null;}
+}
+
+function endTurn(){
+  monoState.rolling=false;
+  // Check bankruptcy
+  const bankrupt=monoState.data.findIndex(p=>p.money<=0);
+  if(bankrupt>=0&&monoState.data.length>1){
+    monoState.gameOver=true;
+    const winner=monoState.data.find((_,i)=>i!==bankrupt);
+    monoLog(`💥 ${monoState.data[bankrupt].icon} is bankrupt! ${winner.icon} ${winner.name} wins!`);
+    showMonoCard('🏆','Game Over!',`${winner.icon} ${winner.name} wins with ¥${winner.money}! おめでとう！`,null,monoReset);
+    renderMonoPlayers();return;
+  }
+  if(monoPlayers===1){
+    // Solo: check if all properties bought or player broke
+    const allBought=monoState.spaces.filter(s=>s.type==='property').every(s=>s.owner>=0);
+    if(allBought||monoState.data[0].money<=0){
+      monoState.gameOver=true;
+      monoLog('🎉 Game complete!');
+      showMonoCard('🏆','Finished!',`You ended with ¥${monoState.data[0].money}! Great game!`,null,monoReset);
+      renderMonoPlayers();return;
+    }
+  }
+  monoState.current=(monoState.current+1)%monoState.data.length;
+  monoLog(`🎲 ${monoState.data[monoState.current].icon} ${monoState.data[monoState.current].name}'s turn!`);
+  renderMonoPlayers();drawMonoBoard();
+}
+
+// ══════════════════════════════════════════
+// SPEAK
+// ══════════════════════════════════════════
+function speak(r,cell){
+  playAudio(r);
+  if(cell){cell.classList.add('played');setTimeout(()=>cell.classList.remove('played'),1000);}
+  showToast('🔊 '+r);
+}
+function speakKata(r,cell){speak(r,cell);}
+function playAudio(r){
+  const a=new Audio(r+'.mp3');
+  a.play().catch(()=>{
+    if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(r);u.lang='ja-JP';u.rate=0.8;speechSynthesis.speak(u);}
+  });
+}
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);
+}
+function markItem(btn,name){btn.textContent='✅ Marked';btn.style.background='var(--green)';btn.disabled=true;showToast('✅ '+name+"'s work marked!");}
+
+// ══════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const tabs=['home','vocab','flashcard','body','game','exercises','writing','monopoly','teacher'];
+  tabs.forEach((p,i)=>{document.querySelectorAll('.nav-tab')[i]?.classList.toggle('active',p===id);});
+  ['home','vocab','flashcard','game','monopoly'].forEach((p,i)=>{
+    document.querySelectorAll('.bnav-item')[i]?.classList.toggle('active',p===id);
+  });
+  if(id==='writing'){buildWritePicker('hiragana');setTimeout(initCanvas,150);}
+}
+
+// ══════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════
+buildCharts();
+buildCalVocab();
+buildVocab(vocab);
+buildStudents();
+buildBPList();
+</script>
+</body>
+</html>
