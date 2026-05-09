@@ -1,155 +1,476 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Language Foundation Program</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Midnight & Light — Learn Japanese Through Play</title>
+  <meta name="description" content="Mission-based Japanese lessons. Real conversations. Level up from beginner to fluent speaker through interactive role-play and game-based private instruction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<body style="margin:0; font-family:Arial; background:#f6fbf8; color:#1f2d2a;">
-
-<!-- TOP BAR -->
-<div style="padding:15px 20px; text-align:center; background:white; border-bottom:1px solid #e6e6e6;">
-  <b>Language Foundation Program</b>
-</div>
-
-<!-- HERO -->
-<section style="padding:100px 20px; text-align:center; background:linear-gradient(135deg,#7fdcc0,#4fbf9f); color:white;">
-
-  <h1 style="font-size:40px; margin:0;">
-    Build Strong Language Foundations
-  </h1>
-
-  <p style="max-width:650px; margin:20px auto; font-size:18px;">
-    Structured learning system for Chinese & Japanese beginners who want clarity and stability.
-  </p>
-
-</section>
-
-<!-- CONTENT GRID -->
-<section style="max-width:1000px; margin:auto; padding:60px 20px;">
-
-  <!-- CARD 1 -->
-  <div style="background:white; padding:35px; border-radius:16px; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
-
-    <h2 style="margin-top:0;">📘 Learning Approach</h2>
-
-    <p style="color:#4b5c56; line-height:1.7;">
-      This program focuses on building stable foundations before moving into fluency.
-    </p>
-
-    <div style="display:grid; gap:8px; margin-top:15px;">
-      <div>• Sentence structure training</div>
-      <div>• Pronunciation correction</div>
-      <div>• Core pattern reinforcement</div>
+  <!-- ══ NAV ══════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="nav-logo-jp">夜と光</span>
+        <span class="nav-logo-en">Midnight <span class="amp">&</span> Light</span>
+      </div>
+      <a href="#cta" class="nav-cta">Start Your Mission →</a>
     </div>
+  </nav>
 
-  </div>
+  <!-- ══ HERO ═════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
 
-  <!-- CARD 2 -->
-  <div style="background:white; padding:35px; border-radius:16px; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
-
-    <h2>📚 Lesson Options</h2>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:20px;">
-
-      <div style="background:#f3fbf7; padding:20px; border-radius:12px; text-align:center;">
-        Online<br><b>RM90</b>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Game-based · Private · Structured
       </div>
 
-      <div style="background:#f3fbf7; padding:20px; border-radius:12px; text-align:center;">
-        Language<br><b>RM100</b>
+      <h1 class="hero-h1">
+        Learn Japanese<br />
+        by <em>Actually</em><br />
+        Using&nbsp;It
+      </h1>
+
+      <p class="hero-kana" aria-hidden="true">日本語を話そう</p>
+
+      <p class="hero-sub">
+        Mission-based lessons. Real conversations. Zero boredom.<br />
+        Level up through role-play, games, and speaking challenges —<br />
+        the way language <em>actually</em> sticks.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">🎮 Start Your First Mission</a>
+        <a href="#how" class="btn-ghost">See how it works ↓</a>
       </div>
 
-      <div style="background:#f3fbf7; padding:20px; border-radius:12px; text-align:center;">
-        Home<br><b>RM135</b>
+      <div class="hero-trust">
+        <span>✦ No prior experience needed</span>
+        <span>✦ Beginner to conversational</span>
+        <span>✦ Real teacher-guided lessons</span>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">scroll ↓</div>
+  </section>
+
+  <!-- ══ PROBLEM ════════════════════════════════════════ -->
+  <section class="section problem-section" id="problem">
+    <div class="container">
+      <div class="section-label">The problem</div>
+      <h2 class="section-title">Why Most People Quit Japanese <em>After 3 Months</em></h2>
+      <p class="section-intro">Traditional learning sets you up to memorise — not to speak. Sound familiar?</p>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-icon">📚</div>
+          <p><strong>You memorise vocabulary lists</strong> — but freeze the moment someone actually speaks to you.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📐</div>
+          <p><strong>You study grammar rules</strong> — but can't form a sentence when it counts.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📺</div>
+          <p><strong>You watch anime with subtitles</strong> — and feel like you're making progress, but aren't.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📱</div>
+          <p><strong>You open an app every day</strong> — earn streaks, but never hold a real conversation.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🏫</div>
+          <p><strong>You attend classes</strong> — copy notes, pass tests, and forget everything by Friday.</p>
+        </div>
+        <div class="problem-card problem-card-highlight">
+          <div class="problem-icon">💡</div>
+          <p>The real problem isn't your ability. <strong>It's that you've never been put in a situation where you <em>have</em> to speak.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SOLUTION ═══════════════════════════════════════ -->
+  <section class="section solution-section" id="solution">
+    <div class="container">
+      <div class="section-label">The solution</div>
+      <h2 class="section-title">A Different Kind of<br /><em>Japanese Lesson</em></h2>
+
+      <p class="section-intro solution-question">What if learning Japanese felt like playing a game you couldn't put down?</p>
+
+      <p class="solution-body">
+        Midnight &amp; Light teaches Japanese through <strong>interactive speaking missions</strong> — structured scenarios where <em>you</em> are the main character. This is not an app. This is structured, game-based private instruction — guided by a real teacher.
+      </p>
+
+      <div class="solution-pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-icon">🎮</div>
+          <h3>Play Real-Life Scenarios</h3>
+          <p>Ordering food, shopping, asking directions — every lesson is a situation you'll actually face.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-icon">🗣️</div>
+          <h3>Speak to Respond</h3>
+          <p>Every mission requires you to produce language — not just recognise it. No passive learning here.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-icon">🏆</div>
+          <h3>Earn Levels</h3>
+          <p>Progress through a structured system that builds on itself. Your growth is visible and satisfying.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04</div>
+          <div class="pillar-icon">🔄</div>
+          <h3>Repeat Naturally</h3>
+          <p>The same language appears across missions — so it sticks without rote memorisation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ═══════════════════════════════════ -->
+  <section class="section how-section" id="how">
+    <div class="container">
+      <div class="section-label">The process</div>
+      <h2 class="section-title">Three Steps to<br /><em>Speaking Japanese</em></h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Get Placed</h3>
+            <p>Start with a short placement session. We figure out where you are — complete beginner, returning learner, or somewhere in between — and put you at the right level immediately.</p>
+          </div>
+        </div>
+        <div class="step-connector" aria-hidden="true">↓</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Enter the Game World</h3>
+            <p>Each lesson is built around a mission. You receive a scenario, a goal, and a set of language tools. Your job is to complete the mission — in Japanese.</p>
+          </div>
+        </div>
+        <div class="step-connector" aria-hidden="true">↓</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Level Up</h3>
+            <p>Clear a mission → unlock the next one. Each level introduces new vocabulary, grammar, and speaking challenges. Progress is visible, tangible, and satisfying.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LEVELS ═════════════════════════════════════════ -->
+  <section class="section levels-section" id="levels">
+    <div class="container">
+      <div class="section-label">The game system</div>
+      <h2 class="section-title">Your Journey from<br /><em>Beginner to Confident Speaker</em></h2>
+
+      <div class="levels-grid">
+        <!-- Level 1 -->
+        <div class="level-card level-1">
+          <div class="level-badge">🟢 Level 1</div>
+          <div class="level-mode">Survival Mode</div>
+          <div class="level-tagline">"I can handle basic situations"</div>
+          <p class="level-desc">Learn the Japanese you need to survive daily life. Short sentences. High-frequency phrases. Real contexts.</p>
+          <ul class="level-list">
+            <li>Greet people naturally and respond to greetings</li>
+            <li>Introduce yourself and ask simple questions</li>
+            <li>Order food and drinks confidently</li>
+            <li>Count, ask prices, handle basic transactions</li>
+            <li>Understand slow, clear spoken Japanese</li>
+          </ul>
+          <div class="level-bar">
+            <div class="level-bar-fill" style="width: 33%"></div>
+          </div>
+        </div>
+
+        <!-- Level 2 -->
+        <div class="level-card level-2">
+          <div class="level-badge">🔵 Level 2</div>
+          <div class="level-mode">Explorer Mode</div>
+          <div class="level-tagline">"I can navigate real situations"</div>
+          <p class="level-desc">Go deeper. Longer conversations, connected sentences, more complex scenarios. Start to think in Japanese.</p>
+          <ul class="level-list">
+            <li>Hold a back-and-forth conversation on familiar topics</li>
+            <li>Describe people, places, and situations</li>
+            <li>Handle unexpected responses in a conversation</li>
+            <li>Express preferences, opinions, and simple feelings</li>
+            <li>Navigate school, shopping, travel, and social settings</li>
+          </ul>
+          <div class="level-bar">
+            <div class="level-bar-fill" style="width: 66%"></div>
+          </div>
+        </div>
+
+        <!-- Level 3 -->
+        <div class="level-card level-3">
+          <div class="level-badge">🟣 Level 3</div>
+          <div class="level-mode">Fluency Mode</div>
+          <div class="level-tagline">"I can express myself freely"</div>
+          <p class="level-desc">Move from scripted situations to open conversation. The training wheels come off. Handle real, unpredictable dialogue.</p>
+          <ul class="level-list">
+            <li>Speak with natural rhythm and response speed</li>
+            <li>Handle corrections and recover mid-conversation</li>
+            <li>Express complex ideas with appropriate nuance</li>
+            <li>Understand native-speed Japanese in context</li>
+            <li>Carry a genuine conversation with a Japanese speaker</li>
+          </ul>
+          <div class="level-bar">
+            <div class="level-bar-fill" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MISSIONS ═══════════════════════════════════════ -->
+  <section class="section missions-section" id="missions">
+    <div class="container">
+      <div class="section-label">Example game types</div>
+      <h2 class="section-title">The Missions<br /><em>You'll Play</em></h2>
+      <p class="section-intro">Every mission is a real-world situation you'll actually encounter. Here's a taste:</p>
+
+      <div class="missions-grid">
+        <div class="mission-card">
+          <div class="mission-header">
+            <span class="mission-icon">🛒</span>
+            <div>
+              <div class="mission-type">Mission 01</div>
+              <div class="mission-name">The Shopping Mission</div>
+            </div>
+          </div>
+          <div class="mission-location">📍 Japanese convenience store &amp; clothing shop</div>
+          <p class="mission-story">You need to find a specific item, ask about sizes, compare prices, and check out — all in Japanese. The shopkeeper doesn't speak English. Neither do you... <em>at first.</em></p>
+          <div class="mission-tags">
+            <span>numbers</span>
+            <span>colours &amp; sizes</span>
+            <span>polite requests</span>
+            <span>transactions</span>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-header">
+            <span class="mission-icon">🏫</span>
+            <div>
+              <div class="mission-type">Mission 02</div>
+              <div class="mission-name">The School Mission</div>
+            </div>
+          </div>
+          <div class="mission-location">📍 Japanese high school or language class</div>
+          <p class="mission-story">You're a new exchange student. Introduce yourself to the class, ask a classmate for help, navigate the timetable, and survive your first day.</p>
+          <div class="mission-tags">
+            <span>self-introduction</span>
+            <span>asking for help</span>
+            <span>schedules</span>
+            <span>making friends</span>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-header">
+            <span class="mission-icon">🍜</span>
+            <div>
+              <div class="mission-type">Mission 03</div>
+              <div class="mission-name">The Restaurant Mission</div>
+            </div>
+          </div>
+          <div class="mission-location">📍 Ramen shop, izakaya, or family restaurant</div>
+          <p class="mission-story">Read the menu, ask the server questions, place your order, deal with an unexpected substitution, and settle the bill — including splitting it with friends.</p>
+          <div class="mission-tags">
+            <span>food vocab</span>
+            <span>ordering</span>
+            <span>preferences</span>
+            <span>payment</span>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-header">
+            <span class="mission-icon">✈️</span>
+            <div>
+              <div class="mission-type">Mission 04</div>
+              <div class="mission-name">The Travel Mission</div>
+            </div>
+          </div>
+          <div class="mission-location">📍 Tokyo station, hotel lobby, or tourist attraction</div>
+          <p class="mission-story">You're lost. Your phone has no signal. Ask for directions, understand the response, buy a train ticket, and find your hotel — all before closing time.</p>
+          <div class="mission-tags">
+            <span>directions</span>
+            <span>transport</span>
+            <span>time expressions</span>
+            <span>emergency phrases</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WHO IT'S FOR ═══════════════════════════════════ -->
+  <section class="section fit-section" id="fit">
+    <div class="container">
+      <div class="section-label">Is this right for you?</div>
+      <h2 class="section-title">Made for<br /><em>Motivated Learners</em></h2>
+
+      <div class="fit-grid">
+        <div class="fit-card fit-yes">
+          <div class="fit-header">
+            <span class="fit-icon">✓</span>
+            <h3>This is for you if…</h3>
+          </div>
+          <ul class="fit-list">
+            <li>You've always wanted to learn Japanese but traditional classes haven't worked</li>
+            <li>You're a complete beginner who wants to start <em>speaking</em> — not just memorising</li>
+            <li>You've studied Japanese before but feel stuck and unable to use what you know</li>
+            <li>You love games, anime, travel, or Japanese culture and want to connect more deeply</li>
+            <li>You want a structured path — not a random collection of YouTube videos and apps</li>
+            <li>You're a student, young professional, or adult learner who learns best by <em>doing</em></li>
+            <li>You want lessons that are actually fun to show up to</li>
+          </ul>
+        </div>
+
+        <div class="fit-card fit-no">
+          <div class="fit-header">
+            <span class="fit-icon">✕</span>
+            <h3>Not the right fit if…</h3>
+          </div>
+          <ul class="fit-list">
+            <li>You want to pass a written grammar exam with no interest in speaking</li>
+            <li>You're looking for the cheapest possible option with no commitment</li>
+            <li>You're not willing to speak during lessons — even when it feels uncomfortable</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OUTCOMES ═══════════════════════════════════════ -->
+  <section class="section outcomes-section" id="outcomes">
+    <div class="container">
+      <div class="section-label">Learning outcomes</div>
+      <h2 class="section-title">What You'll<br /><em>Walk Away With</em></h2>
+
+      <div class="outcomes-grid">
+        <div class="outcome-card">
+          <div class="outcome-icon">🗣️</div>
+          <h3>Speaking</h3>
+          <ul>
+            <li>Initiate and sustain conversations in everyday Japanese situations</li>
+            <li>Respond naturally without long pauses to translate in your head</li>
+            <li>Recover confidently when you don't understand something</li>
+          </ul>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-icon">👂</div>
+          <h3>Listening</h3>
+          <ul>
+            <li>Follow spoken Japanese at a conversational pace</li>
+            <li>Pick up keywords and context even when you miss individual words</li>
+            <li>Understand different tones — friendly, formal, casual</li>
+          </ul>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-icon">📖</div>
+          <h3>Vocabulary &amp; Grammar</h3>
+          <ul>
+            <li>Know the words that actually come up in real life — not textbook lists</li>
+            <li>Use grammar naturally because you've practised it in context</li>
+            <li>Construct new sentences — not just recall memorised phrases</li>
+          </ul>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-icon">⚡</div>
+          <h3>Confidence</h3>
+          <ul>
+            <li>Stop avoiding Japanese — start seeking it out</li>
+            <li>Stop panicking when a Japanese person speaks to you</li>
+            <li>Feel genuine excitement about using the language</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ════════════════════════════════════════════ -->
+  <section class="section cta-section" id="cta">
+    <div class="cta-glow-1"></div>
+    <div class="cta-glow-2"></div>
+    <div class="container">
+      <p class="cta-kana" aria-hidden="true">始めましょう</p>
+      <h2 class="cta-title">Your First Mission<br /><em>Starts Here</em></h2>
+      <p class="cta-body">
+        Japanese isn't hard. The way it's usually taught is.<br />
+        Join learners who are done with passive study — and ready to actually <em>speak.</em>
+      </p>
+
+      <div class="cta-actions">
+        <a href="https://wa.me/YOUR_NUMBER" class="btn-cta-primary">🎮 Book Your First Mission →</a>
+        <p class="cta-note">Limited spots available each intake · Structured levels · Real teacher-guided lessons</p>
       </div>
 
+      <div class="cta-divider">or</div>
+
+      <div class="cta-secondary">
+        <p>Not sure if this is right for you?</p>
+        <a href="https://wa.me/YOUR_NUMBER" class="btn-wa">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Message us on WhatsApp
+        </a>
+        <span class="cta-wa-note">Tell us your current level — we'll recommend the best starting point</span>
+      </div>
     </div>
+  </section>
 
-  </div>
-
-  <!-- CARD 3 -->
-  <div style="background:white; padding:35px; border-radius:16px; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
-
-    <h2>🎯 Suitable For</h2>
-
-    <div style="line-height:1.8;">
-      ✔ Beginners or unstable learners<br>
-      ✔ Students who want structured progress<br>
-      ✔ Long-term improvement mindset
+  <!-- ══ FOOTER ═════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="footer-logo-jp">夜と光</span>
+        <span class="footer-logo-en">Midnight & Light</span>
+      </div>
+      <p class="footer-copy">© 2025 Midnight & Light · Japanese &amp; Chinese Language Learning · Game-based Private Lessons</p>
     </div>
+  </footer>
 
-    <h3 style="margin-top:20px;">Not Suitable For</h3>
+  <script>
+    // Sticky nav shadow on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav-scrolled', window.scrollY > 40);
+    });
 
-    <div style="line-height:1.8;">
-      ✘ Fast fluency seekers<br>
-      ✘ Casual learning mindset
-    </div>
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll(
+      '.problem-card, .pillar, .step, .level-card, .mission-card, .fit-card, .outcome-card'
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
 
-  </div>
-
-  <!-- CARD 4 -->
-  <div style="background:white; padding:35px; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
-
-    <h2>💳 Booking Policy</h2>
-
-    <p style="color:#4b5c56; line-height:1.7;">
-      Lessons must be paid in advance to confirm booking. Monthly students pay at the start of each month. Single sessions also require advance payment.
-    </p>
-
-    <p style="margin-top:15px; color:#4b5c56;">
-      This ensures structured scheduling and committed learning progress.
-    </p>
-
-  </div>
-
-</section>
-
-<!-- FOOTER -->
-<div style="text-align:center; padding:40px; color:#8a8a8a;">
-  Structured Learning System ©
-</div>
-<div style="
-  position:fixed;
-  bottom:16px;
-  left:50%;
-  transform:translateX(-50%);
-  width:92%;
-  max-width:900px;
-  background:rgba(255,255,255,0.85);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(0,0,0,0.08);
-  border-radius:14px;
-  padding:12px 16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 8px 25px rgba(0,0,0,0.08);
-">
-
-  <!-- LEFT INFO -->
-  <div style="font-size:13px; color:#2f3b38;">
-    <b>1:1 Language Lessons</b><br>
-    <span style="font-size:12px; color:#6b7a76;">
-      Limited weekly slots available
-    </span>
-  </div>
-
-  <!-- RIGHT BUTTON -->
-  <a href="https://wa.me/60172522209" style="text-decoration:none;">
-    <button style="
-      padding:10px 16px;
-      border:none;
-      border-radius:10px;
-      background:#1f7a5c;
-      color:white;
-      font-size:13px;
-      font-weight:600;
-      cursor:pointer;">
-      Enquire
-    </button>
-  </a>
-
-</div>
 </body>
 </html>
