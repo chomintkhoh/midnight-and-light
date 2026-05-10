@@ -3,229 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google Analytics — replace GA_MEASUREMENT_ID -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'GA_MEASUREMENT_ID');
-  </script> -->
-
-  <title data-i18n="meta.title">Midnight & Light — Learn Japanese Through Play</title>
-  <meta name="description" data-i18n="meta.desc" content="Mission-based Japanese lessons for real-life conversation. Private, structured, game-based instruction for learners worldwide." />
-
+  <title>Midnight & Light — Learn Japanese Through Play</title>
+  <meta name="description" content="Mission-based Japanese lessons for real-life conversation. Private, structured, game-based instruction for learners worldwide." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Sans+TC:wght@200;300;400&family=Noto+Sans+SC:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Sans+TC:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Atmospheric canvas -->
-  <canvas id="nightCanvas" aria-hidden="true"></canvas>
-
   <!-- ══ NAV ══════════════════════════════════════════ -->
   <header class="nav" id="nav">
     <div class="nav-inner">
-
-      <!-- Logo -->
       <div class="nav-logo">
-        <span class="nav-logo-jp" aria-hidden="true">夜と光</span>
-        <span class="nav-logo-en">Midnight <span class="amp">&</span> Light</span>
+        <span class="nav-logo-mark" aria-hidden="true">夜光</span>
+        <div class="nav-logo-text">
+          <span class="nav-logo-en">Midnight & Light</span>
+        </div>
       </div>
 
-      <!-- Desktop section tabs -->
-      <nav class="nav-tabs" aria-label="Page sections">
-        <button class="nav-tab active" data-section="hero"    data-i18n="nav.home">Home</button>
-        <button class="nav-tab"        data-section="how"     data-i18n="nav.how">How it Works</button>
-        <button class="nav-tab"        data-section="levels"  data-i18n="nav.levels">Levels</button>
-        <button class="nav-tab"        data-section="missions"data-i18n="nav.missions">Missions</button>
-        <button class="nav-tab"        data-section="fit"     data-i18n="nav.fit">For You?</button>
+      <nav class="nav-tabs" aria-label="Sections">
+        <button class="nav-tab active" data-section="hero"     data-i18n="nav.home">Home</button>
+        <button class="nav-tab"        data-section="how"      data-i18n="nav.how">Process</button>
+        <button class="nav-tab"        data-section="levels"   data-i18n="nav.levels">Levels</button>
+        <button class="nav-tab"        data-section="missions" data-i18n="nav.missions">Missions</button>
+        <button class="nav-tab"        data-section="fit"      data-i18n="nav.fit">For You</button>
       </nav>
 
-      <!-- Right: lang switcher + CTA -->
       <div class="nav-right">
-        <div class="lang-switcher" role="group" aria-label="Language">
+        <div class="lang-switcher">
           <button class="lang-btn active" data-lang="en">EN</button>
           <button class="lang-btn"        data-lang="zh-TW">繁</button>
           <button class="lang-btn"        data-lang="zh-CN">简</button>
         </div>
-        <button class="nav-cta" id="navCta" data-i18n="nav.cta">Book a Consultation</button>
+        <button class="btn-nav-cta" id="navCta" data-i18n="nav.cta">Book a Consultation</button>
       </div>
-
     </div>
   </header>
 
-  <!-- ══ SECTIONS WRAPPER ═══════════════════════════════ -->
-  <main class="sections-wrapper">
+  <!-- ══ MAIN ══════════════════════════════════════════ -->
+  <main>
 
     <!-- ── HERO ─────────────────────────────────────── -->
-    <section class="section active" id="hero" aria-label="Hero">
-      <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
-      <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
-      <canvas id="nightCanvas2" aria-hidden="true"></canvas>
+    <section class="section active" id="hero">
 
-      <div class="hero-inner">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-moon" aria-hidden="true">◌</span>
-          <span data-i18n="hero.eyebrow">Private · Structured · Game-based</span>
-        </div>
+      <!-- Dark top zone -->
+      <div class="hero-top">
+        <div class="hero-top-inner">
+          <p class="hero-eyebrow" data-i18n="hero.eyebrow">Private · Structured · Game-based</p>
 
-        <h1 class="hero-h1" data-i18n-html="hero.h1">
-          Learn Japanese<br />by <em>Actually</em><br />Using&nbsp;It
-        </h1>
+          <h1 class="hero-h1">
+            <span class="hero-h1-line" data-i18n-html="hero.h1a">Learn Japanese</span>
+            <span class="hero-h1-line hero-h1-em" data-i18n-html="hero.h1b">by <em>Actually</em></span>
+            <span class="hero-h1-line" data-i18n-html="hero.h1c">Using It</span>
+          </h1>
 
-        <p class="hero-kana" aria-hidden="true">日本語を話そう</p>
+          <p class="hero-jp" aria-hidden="true">日本語を話そう</p>
 
-        <p class="hero-sub" data-i18n="hero.sub">
-          Mission-based lessons. Real conversations. Zero boredom.
-          The way language actually sticks.
-        </p>
+          <p class="hero-sub" data-i18n="hero.sub">
+            Mission-based lessons. Real conversations. Zero boredom.
+          </p>
 
-        <div class="hero-actions">
-          <button class="btn-primary" id="heroCta" data-i18n="hero.cta">Book a Free Consultation</button>
-          <button class="btn-ghost"   data-section="how" data-i18n="hero.ghost">How it works →</button>
-        </div>
-
-        <div class="hero-trust">
-          <span data-i18n="hero.trust1">No prior experience needed</span>
-          <span data-i18n="hero.trust2">Beginner to conversational</span>
-          <span data-i18n="hero.trust3">Students worldwide</span>
-        </div>
-
-        <!-- Testimonial strip -->
-        <div class="testimonial-strip">
-          <div class="testimonial">
-            <p class="testimonial-quote" data-i18n="testimonial.1.quote">"I could finally order food in Japanese after just 3 lessons."</p>
-            <p class="testimonial-name" data-i18n="testimonial.1.name">— Student, Malaysia</p>
+          <div class="hero-actions">
+            <button class="btn-primary" id="heroCta" data-i18n="hero.cta">Book a Free Consultation</button>
+            <button class="btn-text"    data-section="how" data-i18n="hero.ghost">See how it works →</button>
           </div>
-          <div class="testimonial">
-            <p class="testimonial-quote" data-i18n="testimonial.2.quote">"The game-based approach made me actually look forward to every lesson."</p>
-            <p class="testimonial-name" data-i18n="testimonial.2.name">— Student, Malaysia</p>
-          </div>
+        </div>
+
+        <!-- Floating kana decoration -->
+        <div class="hero-kana-deco" aria-hidden="true">
+          <span>学</span><span>話</span><span>語</span>
         </div>
       </div>
 
-      <div class="hero-scroll-hint" aria-hidden="true">↓</div>
+      <!-- Light bottom zone — trust + testimonials -->
+      <div class="hero-bottom">
+        <div class="hero-bottom-inner">
+
+          <div class="trust-row">
+            <div class="trust-item">
+              <span class="trust-icon">✦</span>
+              <span data-i18n="hero.trust1">No prior experience needed</span>
+            </div>
+            <div class="trust-divider" aria-hidden="true"></div>
+            <div class="trust-item">
+              <span class="trust-icon">✦</span>
+              <span data-i18n="hero.trust2">Beginner to conversational</span>
+            </div>
+            <div class="trust-divider" aria-hidden="true"></div>
+            <div class="trust-item">
+              <span class="trust-icon">✦</span>
+              <span data-i18n="hero.trust3">Students worldwide</span>
+            </div>
+          </div>
+
+          <div class="testimonials">
+            <div class="testimonial-card">
+              <p class="t-quote" data-i18n="t1.quote">"I could finally order food in Japanese after just 3 lessons."</p>
+              <p class="t-name" data-i18n="t1.name">— Student, Malaysia</p>
+            </div>
+            <div class="testimonial-card">
+              <p class="t-quote" data-i18n="t2.quote">"The game-based approach made me actually look forward to every lesson."</p>
+              <p class="t-name" data-i18n="t2.name">— Student, Malaysia</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </section>
 
     <!-- ── HOW IT WORKS ──────────────────────────────── -->
-    <section class="section" id="how" aria-label="How it works">
+    <section class="section light-section" id="how">
       <div class="container">
-        <div class="section-label" data-i18n="how.label">The Process</div>
-        <h2 class="section-title" data-i18n-html="how.title">Three Steps to<br /><em>Speaking Japanese</em></h2>
+        <div class="section-header">
+          <p class="section-eyebrow" data-i18n="how.label">The Process</p>
+          <h2 class="section-title" data-i18n-html="how.title">Three Steps to<br /><em>Speaking Japanese</em></h2>
+        </div>
 
-        <div class="steps">
-          <div class="step reveal">
-            <div class="step-num">一</div>
-            <div class="step-content">
-              <h3 data-i18n="how.step1.title">Get Placed</h3>
-              <p data-i18n="how.step1.desc">A short placement session puts you at exactly the right level — whether you're a complete beginner or a returning learner.</p>
-            </div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">01</div>
+            <h3 data-i18n="how.s1.title">Get Placed</h3>
+            <p data-i18n="how.s1.desc">A short placement session puts you at exactly the right level — complete beginner or returning learner.</p>
           </div>
-          <div class="step reveal">
-            <div class="step-num">二</div>
-            <div class="step-content">
-              <h3 data-i18n="how.step2.title">Enter the Mission</h3>
-              <p data-i18n="how.step2.desc">Each lesson is a real-world scenario. You receive a goal and language tools. Your job: complete the mission in Japanese.</p>
-            </div>
+          <div class="step-card reveal">
+            <div class="step-number">02</div>
+            <h3 data-i18n="how.s2.title">Enter the Mission</h3>
+            <p data-i18n="how.s2.desc">Each lesson is a real-world scenario. You get a goal and language tools. Complete the mission — in Japanese.</p>
           </div>
-          <div class="step reveal">
-            <div class="step-num">三</div>
-            <div class="step-content">
-              <h3 data-i18n="how.step3.title">Level Up</h3>
-              <p data-i18n="how.step3.desc">Clear a mission, unlock the next. Each level builds on the last. Progress is visible, tangible, and satisfying.</p>
-            </div>
+          <div class="step-card reveal">
+            <div class="step-number">03</div>
+            <h3 data-i18n="how.s3.title">Level Up</h3>
+            <p data-i18n="how.s3.desc">Clear a mission, unlock the next. Each level builds on the last. Progress is visible and satisfying.</p>
           </div>
         </div>
 
-        <!-- Mid-page CTA -->
-        <div class="mid-cta">
-          <p data-i18n="mid.cta.text">Ready to find your level?</p>
-          <button class="btn-primary" data-modal="contact" data-i18n="mid.cta.btn">Book a Free Consultation</button>
+        <div class="mid-cta-bar reveal">
+          <p data-i18n="mid.q">Ready to find your level?</p>
+          <button class="btn-primary" data-modal data-i18n="mid.btn">Book a Free Consultation</button>
         </div>
       </div>
     </section>
 
     <!-- ── LEVELS ────────────────────────────────────── -->
-    <section class="section" id="levels" aria-label="Levels">
+    <section class="section dark-section" id="levels">
       <div class="container">
-        <div class="section-label" data-i18n="levels.label">The Path</div>
-        <h2 class="section-title" data-i18n-html="levels.title">Your Journey from<br /><em>Beginner to Fluent</em></h2>
+        <div class="section-header light-header">
+          <p class="section-eyebrow gold" data-i18n="levels.label">The Path</p>
+          <h2 class="section-title light-title" data-i18n-html="levels.title">Your Journey from<br /><em>Beginner to Fluent</em></h2>
+        </div>
 
-        <div class="levels-accordion">
+        <div class="levels-list">
 
-          <div class="level-card level-1 reveal">
-            <button class="level-header" aria-expanded="false">
-              <div class="level-header-left">
-                <span class="level-num-jp" aria-hidden="true">一</span>
-                <div>
-                  <div class="level-mode" data-i18n="levels.1.mode">Survival Mode</div>
-                  <div class="level-tagline" data-i18n="levels.1.tagline">"I can handle basic situations"</div>
+          <div class="level-item level-1 reveal">
+            <button class="level-btn" aria-expanded="false">
+              <div class="level-btn-left">
+                <span class="level-jp-num" aria-hidden="true">一</span>
+                <div class="level-btn-text">
+                  <span class="level-name" data-i18n="l1.name">Survival Mode</span>
+                  <span class="level-sub"  data-i18n="l1.sub">"I can handle basic situations"</span>
                 </div>
               </div>
-              <span class="level-toggle" aria-hidden="true">+</span>
+              <span class="level-chevron" aria-hidden="true">+</span>
             </button>
-            <div class="level-body" hidden>
-              <p class="level-desc" data-i18n="levels.1.desc">Short sentences. High-frequency phrases. Real contexts. The Japanese you need to survive daily life.</p>
-              <ul class="level-list">
-                <li data-i18n="levels.1.li1">Greet people and respond naturally</li>
-                <li data-i18n="levels.1.li2">Introduce yourself and ask simple questions</li>
-                <li data-i18n="levels.1.li3">Order food and drinks confidently</li>
-                <li data-i18n="levels.1.li4">Handle basic transactions and prices</li>
-                <li data-i18n="levels.1.li5">Understand slow, clear spoken Japanese</li>
+            <div class="level-panel" hidden>
+              <p class="level-desc" data-i18n="l1.desc">Short sentences. High-frequency phrases. Real contexts. The Japanese you need to survive daily life.</p>
+              <ul class="level-ul">
+                <li data-i18n="l1.a">Greet people and respond naturally</li>
+                <li data-i18n="l1.b">Introduce yourself and ask simple questions</li>
+                <li data-i18n="l1.c">Order food and drinks confidently</li>
+                <li data-i18n="l1.d">Handle basic transactions and prices</li>
+                <li data-i18n="l1.e">Understand slow, clear spoken Japanese</li>
               </ul>
-              <div class="level-bar"><div class="level-bar-fill" data-width="33"></div></div>
+              <div class="level-progress">
+                <div class="level-progress-fill" data-w="33"></div>
+              </div>
             </div>
           </div>
 
-          <div class="level-card level-2 reveal">
-            <button class="level-header" aria-expanded="false">
-              <div class="level-header-left">
-                <span class="level-num-jp" aria-hidden="true">二</span>
-                <div>
-                  <div class="level-mode" data-i18n="levels.2.mode">Explorer Mode</div>
-                  <div class="level-tagline" data-i18n="levels.2.tagline">"I can navigate real situations"</div>
+          <div class="level-item level-2 reveal">
+            <button class="level-btn" aria-expanded="false">
+              <div class="level-btn-left">
+                <span class="level-jp-num" aria-hidden="true">二</span>
+                <div class="level-btn-text">
+                  <span class="level-name" data-i18n="l2.name">Explorer Mode</span>
+                  <span class="level-sub"  data-i18n="l2.sub">"I can navigate real situations"</span>
                 </div>
               </div>
-              <span class="level-toggle" aria-hidden="true">+</span>
+              <span class="level-chevron" aria-hidden="true">+</span>
             </button>
-            <div class="level-body" hidden>
-              <p class="level-desc" data-i18n="levels.2.desc">Longer conversations. Connected sentences. You start to think in Japanese rather than translate.</p>
-              <ul class="level-list">
-                <li data-i18n="levels.2.li1">Hold a back-and-forth conversation</li>
-                <li data-i18n="levels.2.li2">Describe people, places, and situations</li>
-                <li data-i18n="levels.2.li3">Handle unexpected responses</li>
-                <li data-i18n="levels.2.li4">Express preferences and opinions</li>
-                <li data-i18n="levels.2.li5">Navigate school, shopping, travel settings</li>
+            <div class="level-panel" hidden>
+              <p class="level-desc" data-i18n="l2.desc">Longer conversations. Connected sentences. You start thinking in Japanese rather than translating.</p>
+              <ul class="level-ul">
+                <li data-i18n="l2.a">Hold a back-and-forth conversation</li>
+                <li data-i18n="l2.b">Describe people, places and situations</li>
+                <li data-i18n="l2.c">Handle unexpected responses</li>
+                <li data-i18n="l2.d">Express preferences and opinions</li>
+                <li data-i18n="l2.e">Navigate school, shopping, travel settings</li>
               </ul>
-              <div class="level-bar"><div class="level-bar-fill" data-width="66"></div></div>
+              <div class="level-progress">
+                <div class="level-progress-fill" data-w="66"></div>
+              </div>
             </div>
           </div>
 
-          <div class="level-card level-3 reveal">
-            <button class="level-header" aria-expanded="false">
-              <div class="level-header-left">
-                <span class="level-num-jp" aria-hidden="true">三</span>
-                <div>
-                  <div class="level-mode" data-i18n="levels.3.mode">Fluency Mode</div>
-                  <div class="level-tagline" data-i18n="levels.3.tagline">"I can express myself freely"</div>
+          <div class="level-item level-3 reveal">
+            <button class="level-btn" aria-expanded="false">
+              <div class="level-btn-left">
+                <span class="level-jp-num" aria-hidden="true">三</span>
+                <div class="level-btn-text">
+                  <span class="level-name" data-i18n="l3.name">Fluency Mode</span>
+                  <span class="level-sub"  data-i18n="l3.sub">"I can express myself freely"</span>
                 </div>
               </div>
-              <span class="level-toggle" aria-hidden="true">+</span>
+              <span class="level-chevron" aria-hidden="true">+</span>
             </button>
-            <div class="level-body" hidden>
-              <p class="level-desc" data-i18n="levels.3.desc">Open conversation. Unpredictable dialogue. The training wheels come off.</p>
-              <ul class="level-list">
-                <li data-i18n="levels.3.li1">Speak with natural rhythm and speed</li>
-                <li data-i18n="levels.3.li2">Recover confidently mid-conversation</li>
-                <li data-i18n="levels.3.li3">Express complex ideas with nuance</li>
-                <li data-i18n="levels.3.li4">Understand native-speed Japanese</li>
-                <li data-i18n="levels.3.li5">Hold a genuine conversation with a native speaker</li>
+            <div class="level-panel" hidden>
+              <p class="level-desc" data-i18n="l3.desc">Open conversation. Unpredictable dialogue. The training wheels come off completely.</p>
+              <ul class="level-ul">
+                <li data-i18n="l3.a">Speak with natural rhythm and speed</li>
+                <li data-i18n="l3.b">Recover confidently mid-conversation</li>
+                <li data-i18n="l3.c">Express complex ideas with nuance</li>
+                <li data-i18n="l3.d">Understand native-speed Japanese</li>
+                <li data-i18n="l3.e">Hold a genuine conversation with a native speaker</li>
               </ul>
-              <div class="level-bar"><div class="level-bar-fill" data-width="100"></div></div>
+              <div class="level-progress">
+                <div class="level-progress-fill" data-w="100"></div>
+              </div>
             </div>
           </div>
 
@@ -234,92 +239,98 @@
     </section>
 
     <!-- ── MISSIONS ──────────────────────────────────── -->
-    <section class="section" id="missions" aria-label="Missions">
+    <section class="section light-section" id="missions">
       <div class="container">
-        <div class="section-label" data-i18n="missions.label">The Scenarios</div>
-        <h2 class="section-title" data-i18n-html="missions.title">The Missions<br /><em>You'll Play</em></h2>
-        <p class="section-intro" data-i18n="missions.intro">Every mission is a real-world situation. Here's a taste.</p>
+        <div class="section-header">
+          <p class="section-eyebrow" data-i18n="missions.label">The Scenarios</p>
+          <h2 class="section-title" data-i18n-html="missions.title">Missions<br /><em>You'll Play</em></h2>
+          <p class="section-sub" data-i18n="missions.sub">Every mission is a real-world situation you'll actually encounter.</p>
+        </div>
 
         <div class="missions-grid">
           <div class="mission-card reveal">
-            <div class="mission-header">
+            <div class="mission-top">
+              <span class="mission-num">01</span>
               <span class="mission-icon" aria-hidden="true">🛒</span>
-              <div>
-                <div class="mission-type" data-i18n="missions.1.type">Mission 01</div>
-                <div class="mission-name" data-i18n="missions.1.name">The Shopping Mission</div>
-              </div>
             </div>
-            <div class="mission-location" data-i18n="missions.1.location">Japanese convenience store &amp; clothing shop</div>
-            <p class="mission-story" data-i18n="missions.1.story">Find an item, ask about sizes, compare prices, check out — all in Japanese. The shopkeeper doesn't speak English. Neither do you... <em>at first.</em></p>
-            <div class="mission-tags">
-              <span data-i18n="missions.1.tag1">numbers</span>
-              <span data-i18n="missions.1.tag2">polite requests</span>
-              <span data-i18n="missions.1.tag3">transactions</span>
+            <h3 class="mission-name" data-i18n="m1.name">The Shopping Mission</h3>
+            <p class="mission-where" data-i18n="m1.where">Japanese convenience store & clothing shop</p>
+            <p class="mission-story" data-i18n="m1.story">Find an item, ask about sizes, compare prices, check out — all in Japanese. The shopkeeper doesn't speak English. Neither do you... at first.</p>
+            <div class="mission-chips">
+              <span data-i18n="m1.c1">numbers</span>
+              <span data-i18n="m1.c2">polite requests</span>
+              <span data-i18n="m1.c3">transactions</span>
             </div>
           </div>
 
           <div class="mission-card reveal">
-            <div class="mission-header">
+            <div class="mission-top">
+              <span class="mission-num">02</span>
               <span class="mission-icon" aria-hidden="true">🍜</span>
-              <div>
-                <div class="mission-type" data-i18n="missions.2.type">Mission 02</div>
-                <div class="mission-name" data-i18n="missions.2.name">The Restaurant Mission</div>
-              </div>
             </div>
-            <div class="mission-location" data-i18n="missions.2.location">Ramen shop, izakaya, or family restaurant</div>
-            <p class="mission-story" data-i18n="missions.2.story">Read the menu, ask questions, order, handle a substitution, split the bill. A complete dining experience — in Japanese.</p>
-            <div class="mission-tags">
-              <span data-i18n="missions.2.tag1">food vocab</span>
-              <span data-i18n="missions.2.tag2">ordering</span>
-              <span data-i18n="missions.2.tag3">payment</span>
+            <h3 class="mission-name" data-i18n="m2.name">The Restaurant Mission</h3>
+            <p class="mission-where" data-i18n="m2.where">Ramen shop, izakaya, or family restaurant</p>
+            <p class="mission-story" data-i18n="m2.story">Read the menu, ask questions, place your order, handle a substitution, split the bill — a complete dining experience in Japanese.</p>
+            <div class="mission-chips">
+              <span data-i18n="m2.c1">food vocab</span>
+              <span data-i18n="m2.c2">ordering</span>
+              <span data-i18n="m2.c3">payment</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── WHO IT'S FOR ──────────────────────────────── -->
-    <section class="section" id="fit" aria-label="Who it's for">
+    <!-- ── FOR YOU ───────────────────────────────────── -->
+    <section class="section cream-section" id="fit">
       <div class="container">
-        <div class="section-label" data-i18n="fit.label">Is This For You?</div>
-        <h2 class="section-title" data-i18n-html="fit.title">Made for<br /><em>Motivated Learners</em></h2>
+        <div class="section-header">
+          <p class="section-eyebrow" data-i18n="fit.label">Is This For You?</p>
+          <h2 class="section-title" data-i18n-html="fit.title">Made for<br /><em>Motivated Learners</em></h2>
+        </div>
 
-        <div class="fit-grid">
-          <div class="fit-card fit-yes reveal">
-            <div class="fit-header">
-              <span class="fit-icon">✓</span>
-              <h3 data-i18n="fit.yes.title">This is for you if…</h3>
+        <div class="fit-split">
+          <div class="fit-col fit-yes reveal">
+            <div class="fit-col-label yes-label">
+              <span class="fit-mark">✓</span>
+              <h3 data-i18n="fit.yes.h">This is for you if…</h3>
             </div>
-            <ul class="fit-list">
-              <li data-i18n="fit.yes.1">Traditional classes haven't worked for you</li>
-              <li data-i18n="fit.yes.2">You want to actually <em>speak</em>, not just memorise</li>
-              <li data-i18n="fit.yes.3">You feel stuck and can't use what you know</li>
-              <li data-i18n="fit.yes.4">You love Japanese culture — games, anime, travel</li>
-              <li data-i18n="fit.yes.5">You want a structured path, not scattered resources</li>
-              <li data-i18n="fit.yes.6">You learn best by doing</li>
+            <ul class="fit-ul">
+              <li data-i18n="f.y1">Traditional classes haven't worked for you</li>
+              <li data-i18n="f.y2">You want to actually speak, not just memorise</li>
+              <li data-i18n="f.y3">You feel stuck and can't use what you know</li>
+              <li data-i18n="f.y4">You love Japanese culture — games, anime, travel</li>
+              <li data-i18n="f.y5">You want a structured path, not scattered resources</li>
+              <li data-i18n="f.y6">You learn best by doing</li>
             </ul>
           </div>
 
-          <div class="fit-card fit-no reveal">
-            <div class="fit-header">
-              <span class="fit-icon">—</span>
-              <h3 data-i18n="fit.no.title">Not the right fit if…</h3>
+          <div class="fit-col fit-no reveal">
+            <div class="fit-col-label no-label">
+              <span class="fit-mark">—</span>
+              <h3 data-i18n="fit.no.h">Not the right fit if…</h3>
             </div>
-            <ul class="fit-list">
-              <li data-i18n="fit.no.1">You only want to pass a written grammar exam</li>
-              <li data-i18n="fit.no.2">You're looking for the cheapest option with no commitment</li>
-              <li data-i18n="fit.no.3">You're not ready to speak — even when it's uncomfortable</li>
+            <ul class="fit-ul">
+              <li data-i18n="f.n1">You only want to pass a written grammar exam</li>
+              <li data-i18n="f.n2">You're looking for the cheapest option with no commitment</li>
+              <li data-i18n="f.n3">You're not ready to speak — even when uncomfortable</li>
             </ul>
           </div>
         </div>
 
         <!-- Final CTA -->
         <div class="final-cta reveal">
-          <p class="final-cta-kana" aria-hidden="true">始めましょう</p>
-          <h2 class="final-cta-title" data-i18n-html="cta.title">Your First Mission<br /><em>Starts Here</em></h2>
-          <p class="final-cta-sub" data-i18n="cta.sub">Japanese isn't hard. The way it's usually taught is.</p>
-          <button class="btn-cta-primary" data-modal="contact" data-i18n="cta.btn">Book a Free Consultation →</button>
-          <p class="final-cta-note" data-i18n="cta.note">Limited spots · Private lessons · Students worldwide</p>
+          <div class="final-cta-inner">
+            <div class="final-cta-text">
+              <p class="final-cta-jp" aria-hidden="true">始めましょう</p>
+              <h2 data-i18n-html="cta.title">Your First Mission<br /><em>Starts Here</em></h2>
+              <p data-i18n="cta.sub">Japanese isn't hard. The way it's usually taught is.</p>
+            </div>
+            <div class="final-cta-action">
+              <button class="btn-cta-main" data-modal data-i18n="cta.btn">Book a Free Consultation →</button>
+              <p class="final-cta-note" data-i18n="cta.note">Limited spots · Private lessons · Students worldwide</p>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -327,84 +338,78 @@
 
   </main>
 
-  <!-- ══ MOBILE BOTTOM NAV ══════════════════════════════ -->
-  <nav class="mobile-nav" aria-label="Mobile navigation">
-    <button class="mobile-nav-item active" data-section="hero">
-      <span class="mobile-nav-icon" aria-hidden="true">🌙</span>
+  <!-- ══ MOBILE NAV ════════════════════════════════════ -->
+  <nav class="mobile-nav" aria-label="Navigation">
+    <button class="mnav-item active" data-section="hero">
+      <span aria-hidden="true">🌙</span>
       <span data-i18n="nav.home">Home</span>
     </button>
-    <button class="mobile-nav-item" data-section="how">
-      <span class="mobile-nav-icon" aria-hidden="true">一</span>
+    <button class="mnav-item" data-section="how">
+      <span aria-hidden="true">一</span>
       <span data-i18n="nav.how">Process</span>
     </button>
-    <button class="mobile-nav-item" data-section="levels">
-      <span class="mobile-nav-icon" aria-hidden="true">二</span>
+    <button class="mnav-item" data-section="levels">
+      <span aria-hidden="true">二</span>
       <span data-i18n="nav.levels">Levels</span>
     </button>
-    <button class="mobile-nav-item" data-section="missions">
-      <span class="mobile-nav-icon" aria-hidden="true">三</span>
+    <button class="mnav-item" data-section="missions">
+      <span aria-hidden="true">三</span>
       <span data-i18n="nav.missions">Missions</span>
     </button>
-    <button class="mobile-nav-item" data-section="fit">
-      <span class="mobile-nav-icon" aria-hidden="true">✓</span>
+    <button class="mnav-item" data-section="fit">
+      <span aria-hidden="true">✓</span>
       <span data-i18n="nav.fit">For You</span>
     </button>
   </nav>
 
-  <!-- ══ CONTACT MODAL ══════════════════════════════════ -->
-  <div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-      <div class="modal-header">
-        <p class="modal-kana" aria-hidden="true">始めましょう</p>
-        <h2 class="modal-title" id="modalTitle" data-i18n="modal.title">Begin Your Journey</h2>
-        <p class="modal-sub" data-i18n="modal.sub">I'll reply within 24 hours to find the right starting point for you.</p>
+  <!-- ══ MODAL ════════════════════════════════════════ -->
+  <div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalH">
+    <div class="modal-box">
+      <button class="modal-x" id="modalClose" aria-label="Close">×</button>
+
+      <div class="modal-top">
+        <p class="modal-jp" aria-hidden="true">始めましょう</p>
+        <h2 class="modal-h" id="modalH" data-i18n="modal.title">Begin Your Journey</h2>
+        <p class="modal-p"  data-i18n="modal.sub">I'll reply within 24 hours to find the right starting point for you.</p>
       </div>
 
-      <!-- Replace mrejokpw with your actual Formspree form ID -->
-      <form class="contact-form" id="contactForm"
+      <form class="modal-form" id="contactForm"
             action="https://formspree.io/f/mrejokpw"
             method="POST">
-
-        <div class="form-group">
-          <label for="name" data-i18n="form.name">Your Name</label>
-          <input type="text" id="name" name="name" required
-                 data-i18n-placeholder="form.name.placeholder" placeholder="Your name" />
+        <div class="field">
+          <label for="fname" data-i18n="form.name">Your Name</label>
+          <input id="fname" type="text" name="name" required
+                 data-i18n-ph="form.name.ph" placeholder="Your name" />
         </div>
-
-        <div class="form-group">
-          <label for="email" data-i18n="form.email">Email Address</label>
-          <input type="email" id="email" name="email" required
-                 data-i18n-placeholder="form.email.placeholder" placeholder="your@email.com" />
+        <div class="field">
+          <label for="femail" data-i18n="form.email">Email Address</label>
+          <input id="femail" type="email" name="email" required
+                 placeholder="your@email.com" />
         </div>
-
-        <div class="form-group">
-          <label for="level" data-i18n="form.level">Current Japanese Level</label>
-          <select id="level" name="level">
-            <option value="" data-i18n="form.level.0">Select your level…</option>
-            <option value="complete-beginner" data-i18n="form.level.1">Complete beginner</option>
-            <option value="some-basics"       data-i18n="form.level.2">I know some basics</option>
-            <option value="intermediate"      data-i18n="form.level.3">Intermediate — but stuck</option>
-            <option value="not-sure"          data-i18n="form.level.4">Not sure</option>
+        <div class="field">
+          <label for="flevel" data-i18n="form.level">Current Level</label>
+          <select id="flevel" name="level">
+            <option value=""              data-i18n="fl.0">Select your level…</option>
+            <option value="beginner"      data-i18n="fl.1">Complete beginner</option>
+            <option value="some-basics"   data-i18n="fl.2">I know some basics</option>
+            <option value="intermediate"  data-i18n="fl.3">Intermediate — but stuck</option>
+            <option value="not-sure"      data-i18n="fl.4">Not sure</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label for="message" data-i18n="form.message">Anything else? (optional)</label>
-          <textarea id="message" name="message" rows="3"
-                    data-i18n-placeholder="form.message.placeholder"
+        <div class="field">
+          <label for="fmsg" data-i18n="form.msg">Anything else? (optional)</label>
+          <textarea id="fmsg" name="message" rows="3"
+                    data-i18n-ph="form.msg.ph"
                     placeholder="Your goals, questions, or anything you'd like me to know…"></textarea>
         </div>
-
-        <input type="hidden" name="_subject" value="New consultation request — Midnight & Light" />
-
-        <button type="submit" class="btn-form-submit" data-i18n="form.submit">Send →</button>
+        <input type="hidden" name="_subject" value="New consultation — Midnight & Light" />
+        <button type="submit" class="btn-submit" data-i18n="form.send">Send →</button>
       </form>
 
-      <div class="form-success" id="formSuccess" hidden>
-        <p class="success-icon" aria-hidden="true">🌙</p>
-        <h3 data-i18n="form.success.title">Message sent.</h3>
-        <p data-i18n="form.success.sub">I'll be in touch within 24 hours.</p>
+      <div class="modal-success" id="formSuccess" hidden>
+        <p class="success-moon" aria-hidden="true">🌙</p>
+        <h3 data-i18n="form.ok.h">Message sent.</h3>
+        <p  data-i18n="form.ok.p">I'll be in touch within 24 hours.</p>
       </div>
     </div>
   </div>
@@ -412,579 +417,263 @@
   <!-- ══ FOOTER ════════════════════════════════════════ -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-left">
-        <span class="footer-creatures" aria-hidden="true">𓃠 ✦ 𓅇</span>
+      <div class="footer-brand">
+        <span class="footer-glyph" aria-hidden="true">𓃠 ✦ 𓅇</span>
         <span class="footer-name">Midnight &amp; Light</span>
-        <span class="footer-jp" aria-hidden="true">夜と光</span>
+        <span class="footer-jp"   aria-hidden="true">夜と光</span>
       </div>
       <p class="footer-copy" data-i18n="footer.copy">© 2025 Midnight & Light · Japanese & Chinese · Private Game-based Lessons</p>
     </div>
   </footer>
 
 <script>
-/* ══════════════════════════════════════════════════════
-   TRANSLATIONS
-══════════════════════════════════════════════════════ */
-const i18n = {
+/* ══ TRANSLATIONS ══════════════════════════════════ */
+const T = {
   en: {
-    'meta.title':        'Midnight & Light — Learn Japanese Through Play',
-    'meta.desc':         'Mission-based Japanese lessons for real-life conversation. Private, structured, game-based instruction for learners worldwide.',
-    'nav.home':          'Home',
-    'nav.how':           'How it Works',
-    'nav.levels':        'Levels',
-    'nav.missions':      'Missions',
-    'nav.fit':           'For You?',
-    'nav.cta':           'Book a Consultation',
-    'hero.eyebrow':      'Private · Structured · Game-based',
-    'hero.h1':           'Learn Japanese<br />by <em>Actually</em><br />Using&nbsp;It',
-    'hero.sub':          'Mission-based lessons. Real conversations. Zero boredom. The way language actually sticks.',
-    'hero.cta':          'Book a Free Consultation',
-    'hero.ghost':        'How it works →',
-    'hero.trust1':       'No prior experience needed',
-    'hero.trust2':       'Beginner to conversational',
-    'hero.trust3':       'Students worldwide',
-    'testimonial.1.quote': '"I could finally order food in Japanese after just 3 lessons."',
-    'testimonial.1.name':  '— Student, Malaysia',
-    'testimonial.2.quote': '"The game-based approach made me actually look forward to every lesson."',
-    'testimonial.2.name':  '— Student, Malaysia',
-    'how.label':         'The Process',
-    'how.title':         'Three Steps to<br /><em>Speaking Japanese</em>',
-    'how.step1.title':   'Get Placed',
-    'how.step1.desc':    'A short placement session puts you at exactly the right level — whether you\'re a complete beginner or a returning learner.',
-    'how.step2.title':   'Enter the Mission',
-    'how.step2.desc':    'Each lesson is a real-world scenario. You receive a goal and language tools. Your job: complete the mission in Japanese.',
-    'how.step3.title':   'Level Up',
-    'how.step3.desc':    'Clear a mission, unlock the next. Each level builds on the last. Progress is visible, tangible, and satisfying.',
-    'mid.cta.text':      'Ready to find your level?',
-    'mid.cta.btn':       'Book a Free Consultation',
-    'levels.label':      'The Path',
-    'levels.title':      'Your Journey from<br /><em>Beginner to Fluent</em>',
-    'levels.1.mode':     'Survival Mode',
-    'levels.1.tagline':  '"I can handle basic situations"',
-    'levels.1.desc':     'Short sentences. High-frequency phrases. Real contexts. The Japanese you need to survive daily life.',
-    'levels.1.li1':      'Greet people and respond naturally',
-    'levels.1.li2':      'Introduce yourself and ask simple questions',
-    'levels.1.li3':      'Order food and drinks confidently',
-    'levels.1.li4':      'Handle basic transactions and prices',
-    'levels.1.li5':      'Understand slow, clear spoken Japanese',
-    'levels.2.mode':     'Explorer Mode',
-    'levels.2.tagline':  '"I can navigate real situations"',
-    'levels.2.desc':     'Longer conversations. Connected sentences. You start to think in Japanese rather than translate.',
-    'levels.2.li1':      'Hold a back-and-forth conversation',
-    'levels.2.li2':      'Describe people, places, and situations',
-    'levels.2.li3':      'Handle unexpected responses',
-    'levels.2.li4':      'Express preferences and opinions',
-    'levels.2.li5':      'Navigate school, shopping, travel settings',
-    'levels.3.mode':     'Fluency Mode',
-    'levels.3.tagline':  '"I can express myself freely"',
-    'levels.3.desc':     'Open conversation. Unpredictable dialogue. The training wheels come off.',
-    'levels.3.li1':      'Speak with natural rhythm and speed',
-    'levels.3.li2':      'Recover confidently mid-conversation',
-    'levels.3.li3':      'Express complex ideas with nuance',
-    'levels.3.li4':      'Understand native-speed Japanese',
-    'levels.3.li5':      'Hold a genuine conversation with a native speaker',
-    'missions.label':    'The Scenarios',
-    'missions.title':    'The Missions<br /><em>You\'ll Play</em>',
-    'missions.intro':    'Every mission is a real-world situation. Here\'s a taste.',
-    'missions.1.type':   'Mission 01',
-    'missions.1.name':   'The Shopping Mission',
-    'missions.1.location':'Japanese convenience store & clothing shop',
-    'missions.1.story':  'Find an item, ask about sizes, compare prices, check out — all in Japanese. The shopkeeper doesn\'t speak English. Neither do you... at first.',
-    'missions.1.tag1':   'numbers',
-    'missions.1.tag2':   'polite requests',
-    'missions.1.tag3':   'transactions',
-    'missions.2.type':   'Mission 02',
-    'missions.2.name':   'The Restaurant Mission',
-    'missions.2.location':'Ramen shop, izakaya, or family restaurant',
-    'missions.2.story':  'Read the menu, ask questions, order, handle a substitution, split the bill. A complete dining experience — in Japanese.',
-    'missions.2.tag1':   'food vocab',
-    'missions.2.tag2':   'ordering',
-    'missions.2.tag3':   'payment',
-    'fit.label':         'Is This For You?',
-    'fit.title':         'Made for<br /><em>Motivated Learners</em>',
-    'fit.yes.title':     'This is for you if…',
-    'fit.yes.1':         'Traditional classes haven\'t worked for you',
-    'fit.yes.2':         'You want to actually speak, not just memorise',
-    'fit.yes.3':         'You feel stuck and can\'t use what you know',
-    'fit.yes.4':         'You love Japanese culture — games, anime, travel',
-    'fit.yes.5':         'You want a structured path, not scattered resources',
-    'fit.yes.6':         'You learn best by doing',
-    'fit.no.title':      'Not the right fit if…',
-    'fit.no.1':          'You only want to pass a written grammar exam',
-    'fit.no.2':          'You\'re looking for the cheapest option with no commitment',
-    'fit.no.3':          'You\'re not ready to speak — even when it\'s uncomfortable',
-    'cta.title':         'Your First Mission<br /><em>Starts Here</em>',
-    'cta.sub':           'Japanese isn\'t hard. The way it\'s usually taught is.',
-    'cta.btn':           'Book a Free Consultation →',
-    'cta.note':          'Limited spots · Private lessons · Students worldwide',
-    'modal.title':       'Begin Your Journey',
-    'modal.sub':         'I\'ll reply within 24 hours to find the right starting point for you.',
-    'form.name':         'Your Name',
-    'form.name.placeholder': 'Your name',
-    'form.email':        'Email Address',
-    'form.email.placeholder': 'your@email.com',
-    'form.level':        'Current Japanese Level',
-    'form.level.0':      'Select your level…',
-    'form.level.1':      'Complete beginner',
-    'form.level.2':      'I know some basics',
-    'form.level.3':      'Intermediate — but stuck',
-    'form.level.4':      'Not sure',
-    'form.message':      'Anything else? (optional)',
-    'form.message.placeholder': 'Your goals, questions, or anything you\'d like me to know…',
-    'form.submit':       'Send →',
-    'form.success.title':'Message sent.',
-    'form.success.sub':  'I\'ll be in touch within 24 hours.',
-    'footer.copy':       '© 2025 Midnight & Light · Japanese & Chinese · Private Game-based Lessons',
+    'nav.home':'Home','nav.how':'Process','nav.levels':'Levels','nav.missions':'Missions','nav.fit':'For You','nav.cta':'Book a Consultation',
+    'hero.eyebrow':'Private · Structured · Game-based',
+    'hero.h1a':'Learn Japanese','hero.h1b':'by <em>Actually</em>','hero.h1c':'Using It',
+    'hero.sub':'Mission-based lessons. Real conversations. Zero boredom.',
+    'hero.cta':'Book a Free Consultation','hero.ghost':'See how it works →',
+    'hero.trust1':'No prior experience needed','hero.trust2':'Beginner to conversational','hero.trust3':'Students worldwide',
+    't1.quote':'"I could finally order food in Japanese after just 3 lessons."','t1.name':'— Student, Malaysia',
+    't2.quote':'"The game-based approach made me actually look forward to every lesson."','t2.name':'— Student, Malaysia',
+    'how.label':'The Process','how.title':'Three Steps to<br /><em>Speaking Japanese</em>',
+    'how.s1.title':'Get Placed','how.s1.desc':'A short placement session puts you at exactly the right level — complete beginner or returning learner.',
+    'how.s2.title':'Enter the Mission','how.s2.desc':'Each lesson is a real-world scenario. You get a goal and language tools. Complete the mission — in Japanese.',
+    'how.s3.title':'Level Up','how.s3.desc':'Clear a mission, unlock the next. Each level builds on the last. Progress is visible and satisfying.',
+    'mid.q':'Ready to find your level?','mid.btn':'Book a Free Consultation',
+    'levels.label':'The Path','levels.title':'Your Journey from<br /><em>Beginner to Fluent</em>',
+    'l1.name':'Survival Mode','l1.sub':'"I can handle basic situations"',
+    'l1.desc':'Short sentences. High-frequency phrases. Real contexts. The Japanese you need to survive daily life.',
+    'l1.a':'Greet people and respond naturally','l1.b':'Introduce yourself and ask simple questions',
+    'l1.c':'Order food and drinks confidently','l1.d':'Handle basic transactions and prices','l1.e':'Understand slow, clear spoken Japanese',
+    'l2.name':'Explorer Mode','l2.sub':'"I can navigate real situations"',
+    'l2.desc':'Longer conversations. Connected sentences. You start thinking in Japanese rather than translating.',
+    'l2.a':'Hold a back-and-forth conversation','l2.b':'Describe people, places and situations',
+    'l2.c':'Handle unexpected responses','l2.d':'Express preferences and opinions','l2.e':'Navigate school, shopping, travel settings',
+    'l3.name':'Fluency Mode','l3.sub':'"I can express myself freely"',
+    'l3.desc':'Open conversation. Unpredictable dialogue. The training wheels come off completely.',
+    'l3.a':'Speak with natural rhythm and speed','l3.b':'Recover confidently mid-conversation',
+    'l3.c':'Express complex ideas with nuance','l3.d':'Understand native-speed Japanese','l3.e':'Hold a genuine conversation with a native speaker',
+    'missions.label':'The Scenarios','missions.title':'Missions<br /><em>You\'ll Play</em>','missions.sub':'Every mission is a real-world situation you\'ll actually encounter.',
+    'm1.name':'The Shopping Mission','m1.where':'Japanese convenience store & clothing shop',
+    'm1.story':'Find an item, ask about sizes, compare prices, check out — all in Japanese. The shopkeeper doesn\'t speak English. Neither do you... at first.',
+    'm1.c1':'numbers','m1.c2':'polite requests','m1.c3':'transactions',
+    'm2.name':'The Restaurant Mission','m2.where':'Ramen shop, izakaya, or family restaurant',
+    'm2.story':'Read the menu, ask questions, place your order, handle a substitution, split the bill — a complete dining experience in Japanese.',
+    'm2.c1':'food vocab','m2.c2':'ordering','m2.c3':'payment',
+    'fit.label':'Is This For You?','fit.title':'Made for<br /><em>Motivated Learners</em>',
+    'fit.yes.h':'This is for you if…','fit.no.h':'Not the right fit if…',
+    'f.y1':'Traditional classes haven\'t worked for you','f.y2':'You want to actually speak, not just memorise',
+    'f.y3':'You feel stuck and can\'t use what you know','f.y4':'You love Japanese culture — games, anime, travel',
+    'f.y5':'You want a structured path, not scattered resources','f.y6':'You learn best by doing',
+    'f.n1':'You only want to pass a written grammar exam','f.n2':'You\'re looking for the cheapest option with no commitment',
+    'f.n3':'You\'re not ready to speak — even when uncomfortable',
+    'cta.title':'Your First Mission<br /><em>Starts Here</em>',
+    'cta.sub':'Japanese isn\'t hard. The way it\'s usually taught is.',
+    'cta.btn':'Book a Free Consultation →','cta.note':'Limited spots · Private lessons · Students worldwide',
+    'modal.title':'Begin Your Journey','modal.sub':'I\'ll reply within 24 hours to find the right starting point for you.',
+    'form.name':'Your Name','form.name.ph':'Your name','form.email':'Email Address',
+    'form.level':'Current Level','form.msg':'Anything else? (optional)',
+    'form.msg.ph':'Your goals, questions, or anything you\'d like me to know…','form.send':'Send →',
+    'fl.0':'Select your level…','fl.1':'Complete beginner','fl.2':'I know some basics','fl.3':'Intermediate — but stuck','fl.4':'Not sure',
+    'form.ok.h':'Message sent.','form.ok.p':'I\'ll be in touch within 24 hours.',
+    'footer.copy':'© 2025 Midnight & Light · Japanese & Chinese · Private Game-based Lessons'
   },
-
   'zh-TW': {
-    'meta.title':        'Midnight & Light — 用遊戲學日文',
-    'meta.desc':         '以任務為核心的日文課程，專注於真實對話。私人、有結構、遊戲化教學。',
-    'nav.home':          '首頁',
-    'nav.how':           '如何進行',
-    'nav.levels':        '等級系統',
-    'nav.missions':      '任務場景',
-    'nav.fit':           '適合你嗎',
-    'nav.cta':           '預約諮詢',
-    'hero.eyebrow':      '私人 · 有結構 · 遊戲化',
-    'hero.h1':           '學日文<br />靠<em>真正</em><br />使用它',
-    'hero.sub':          '以任務為核心的課程。真實對話。零無聊。語言真正留在腦海的方式。',
-    'hero.cta':          '預約免費諮詢',
-    'hero.ghost':        '了解如何進行 →',
-    'hero.trust1':       '無需先備知識',
-    'hero.trust2':       '從零到流利對話',
-    'hero.trust3':       '來自世界各地的學生',
-    'testimonial.1.quote': '「只上了3堂課，我終於能在日本餐廳點餐了。」',
-    'testimonial.1.name':  '— 學生，馬來西亞',
-    'testimonial.2.quote': '「遊戲化教學讓我真的期待每一堂課。」',
-    'testimonial.2.name':  '— 學生，馬來西亞',
-    'how.label':         '學習流程',
-    'how.title':         '三個步驟<br /><em>開口說日文</em>',
-    'how.step1.title':   '評估程度',
-    'how.step1.desc':    '透過簡短的程度評估，找到你最適合的起點——無論是完全初學者還是重新出發的學習者。',
-    'how.step2.title':   '進入任務',
-    'how.step2.desc':    '每堂課都是一個真實場景。你會收到目標和語言工具，任務是用日文完成它。',
-    'how.step3.title':   '升級進化',
-    'how.step3.desc':    '完成任務，解鎖下一個。每個等級都在上一個基礎上建立。進步是看得見的。',
-    'mid.cta.text':      '準備好找到你的程度了嗎？',
-    'mid.cta.btn':       '預約免費諮詢',
-    'levels.label':      '學習路徑',
-    'levels.title':      '從初學者到<br /><em>自信說話者</em>的旅程',
-    'levels.1.mode':     '生存模式',
-    'levels.1.tagline':  '「我能應對基本情況」',
-    'levels.1.desc':     '短句子。高頻片語。真實場景。日常生活所需的日文。',
-    'levels.1.li1':      '自然地打招呼和回應',
-    'levels.1.li2':      '自我介紹並提問',
-    'levels.1.li3':      '自信地點餐飲',
-    'levels.1.li4':      '處理基本交易和詢問價格',
-    'levels.1.li5':      '理解慢速清晰的日文',
-    'levels.2.mode':     '探索模式',
-    'levels.2.tagline':  '「我能應對真實情況」',
-    'levels.2.desc':     '更長的對話。連貫的句子。你開始用日文思考，而不是翻譯。',
-    'levels.2.li1':      '進行來回對話',
-    'levels.2.li2':      '描述人、地點和情況',
-    'levels.2.li3':      '應對意想不到的回應',
-    'levels.2.li4':      '表達偏好和意見',
-    'levels.2.li5':      '在學校、購物、旅行場景中應對自如',
-    'levels.3.mode':     '流利模式',
-    'levels.3.tagline':  '「我能自由表達自己」',
-    'levels.3.desc':     '開放式對話。不可預測的情境。輔助輪拆掉了。',
-    'levels.3.li1':      '以自然的節奏和速度說話',
-    'levels.3.li2':      '在對話中途自信地恢復',
-    'levels.3.li3':      '表達複雜的想法和細微差別',
-    'levels.3.li4':      '理解母語速度的日文',
-    'levels.3.li5':      '與母語者進行真實對話',
-    'missions.label':    '任務場景',
-    'missions.title':    '你將體驗的<br /><em>任務</em>',
-    'missions.intro':    '每個任務都是你實際會遇到的真實場景。',
-    'missions.1.type':   '任務 01',
-    'missions.1.name':   '購物任務',
-    'missions.1.location':'日本便利店和服裝店',
-    'missions.1.story':  '找到商品、詢問尺寸、比較價格、結帳——全程日文。店員不說英文，你也一樣……一開始。',
-    'missions.1.tag1':   '數字',
-    'missions.1.tag2':   '禮貌請求',
-    'missions.1.tag3':   '交易用語',
-    'missions.2.type':   '任務 02',
-    'missions.2.name':   '餐廳任務',
-    'missions.2.location':'拉麵店、居酒屋或家庭餐廳',
-    'missions.2.story':  '看菜單、詢問、點餐、應對替換菜品、分開結帳。完整的用餐體驗——用日文。',
-    'missions.2.tag1':   '食物詞彙',
-    'missions.2.tag2':   '點餐',
-    'missions.2.tag3':   '付款',
-    'fit.label':         '適合你嗎？',
-    'fit.title':         '專為<br /><em>有動力的學習者</em>設計',
-    'fit.yes.title':     '如果你是這樣的人……',
-    'fit.yes.1':         '傳統課程對你沒有效果',
-    'fit.yes.2':         '你想真正開口說話，不只是背誦',
-    'fit.yes.3':         '你感覺卡住了，無法使用所學',
-    'fit.yes.4':         '你喜歡日本文化——遊戲、動漫、旅行',
-    'fit.yes.5':         '你想要一條有結構的學習路徑',
-    'fit.yes.6':         '你在實踐中學習最好',
-    'fit.no.title':      '不太適合如果……',
-    'fit.no.1':          '你只想通過書面文法考試',
-    'fit.no.2':          '你在尋找最便宜、無承諾的選項',
-    'fit.no.3':          '你不願意開口說話——即使感到不舒服',
-    'cta.title':         '你的第一個任務<br /><em>從這裡開始</em>',
-    'cta.sub':           '日文並不難。難的是傳統的教法。',
-    'cta.btn':           '預約免費諮詢 →',
-    'cta.note':          '名額有限 · 私人課程 · 全球學生',
-    'modal.title':       '開始你的旅程',
-    'modal.sub':         '我會在24小時內回覆，找到最適合你的起點。',
-    'form.name':         '你的名字',
-    'form.name.placeholder': '你的名字',
-    'form.email':        '電子郵件',
-    'form.email.placeholder': 'your@email.com',
-    'form.level':        '目前的日文程度',
-    'form.level.0':      '選擇你的程度…',
-    'form.level.1':      '完全初學者',
-    'form.level.2':      '懂一些基礎',
-    'form.level.3':      '中級——但感覺卡住了',
-    'form.level.4':      '不確定',
-    'form.message':      '還有什麼想說的？（選填）',
-    'form.message.placeholder': '你的目標、問題，或任何你想讓我知道的……',
-    'form.submit':       '送出 →',
-    'form.success.title':'訊息已送出。',
-    'form.success.sub':  '我會在24小時內與你聯繫。',
-    'footer.copy':       '© 2025 Midnight & Light · 日文與中文 · 私人遊戲化課程',
+    'nav.home':'首頁','nav.how':'流程','nav.levels':'等級','nav.missions':'任務','nav.fit':'適合你嗎','nav.cta':'預約諮詢',
+    'hero.eyebrow':'私人 · 有結構 · 遊戲化',
+    'hero.h1a':'學日文','hero.h1b':'靠<em>真正</em>','hero.h1c':'使用它',
+    'hero.sub':'以任務為核心的課程。真實對話。零無聊。',
+    'hero.cta':'預約免費諮詢','hero.ghost':'了解如何進行 →',
+    'hero.trust1':'無需先備知識','hero.trust2':'從零到流利對話','hero.trust3':'來自世界各地的學生',
+    't1.quote':'「只上了3堂課，我終於能在日本餐廳點餐了。」','t1.name':'— 學生，馬來西亞',
+    't2.quote':'「遊戲化教學讓我真的期待每一堂課。」','t2.name':'— 學生，馬來西亞',
+    'how.label':'學習流程','how.title':'三個步驟<br /><em>開口說日文</em>',
+    'how.s1.title':'評估程度','how.s1.desc':'透過簡短評估，找到你最適合的起點——無論是完全初學者還是重新出發的學習者。',
+    'how.s2.title':'進入任務','how.s2.desc':'每堂課都是真實場景。你收到目標和語言工具，任務是用日文完成它。',
+    'how.s3.title':'升級進化','how.s3.desc':'完成任務，解鎖下一個。每個等級都在上一個基礎上建立。進步清晰可見。',
+    'mid.q':'準備好找到你的程度了嗎？','mid.btn':'預約免費諮詢',
+    'levels.label':'學習路徑','levels.title':'從初學者到<br /><em>自信說話者</em>',
+    'l1.name':'生存模式','l1.sub':'「我能應對基本情況」',
+    'l1.desc':'短句子。高頻片語。真實場景。日常生活所需的日文。',
+    'l1.a':'自然地打招呼和回應','l1.b':'自我介紹並提問','l1.c':'自信地點餐飲','l1.d':'處理基本交易和詢問價格','l1.e':'理解慢速清晰的日文',
+    'l2.name':'探索模式','l2.sub':'「我能應對真實情況」',
+    'l2.desc':'更長的對話。連貫的句子。你開始用日文思考，而不是翻譯。',
+    'l2.a':'進行來回對話','l2.b':'描述人、地點和情況','l2.c':'應對意想不到的回應','l2.d':'表達偏好和意見','l2.e':'在學校、購物、旅行場景中應對自如',
+    'l3.name':'流利模式','l3.sub':'「我能自由表達自己」',
+    'l3.desc':'開放式對話。不可預測的情境。輔助輪完全拆掉了。',
+    'l3.a':'以自然的節奏和速度說話','l3.b':'在對話中途自信地恢復','l3.c':'表達複雜的想法和細微差別','l3.d':'理解母語速度的日文','l3.e':'與母語者進行真實對話',
+    'missions.label':'任務場景','missions.title':'你將體驗的<br /><em>任務</em>','missions.sub':'每個任務都是你實際會遇到的真實場景。',
+    'm1.name':'購物任務','m1.where':'日本便利店和服裝店',
+    'm1.story':'找到商品、詢問尺寸、比較價格、結帳——全程日文。店員不說英文，你也一樣……一開始。',
+    'm1.c1':'數字','m1.c2':'禮貌請求','m1.c3':'交易用語',
+    'm2.name':'餐廳任務','m2.where':'拉麵店、居酒屋或家庭餐廳',
+    'm2.story':'看菜單、詢問、點餐、應對替換菜品、分開結帳——完整的日文用餐體驗。',
+    'm2.c1':'食物詞彙','m2.c2':'點餐','m2.c3':'付款',
+    'fit.label':'適合你嗎？','fit.title':'專為<br /><em>有動力的學習者</em>設計',
+    'fit.yes.h':'如果你是這樣的人……','fit.no.h':'不太適合如果……',
+    'f.y1':'傳統課程對你沒有效果','f.y2':'你想真正開口說話，不只是背誦','f.y3':'你感覺卡住了，無法使用所學',
+    'f.y4':'你喜歡日本文化——遊戲、動漫、旅行','f.y5':'你想要一條有結構的學習路徑','f.y6':'你在實踐中學習最好',
+    'f.n1':'你只想通過書面文法考試','f.n2':'你在尋找最便宜、無承諾的選項','f.n3':'你不願意開口說話——即使感到不舒服',
+    'cta.title':'你的第一個任務<br /><em>從這裡開始</em>',
+    'cta.sub':'日文並不難。難的是傳統的教法。',
+    'cta.btn':'預約免費諮詢 →','cta.note':'名額有限 · 私人課程 · 全球學生',
+    'modal.title':'開始你的旅程','modal.sub':'我會在24小時內回覆，找到最適合你的起點。',
+    'form.name':'你的名字','form.name.ph':'你的名字','form.email':'電子郵件',
+    'form.level':'目前程度','form.msg':'還有什麼想說的？（選填）',
+    'form.msg.ph':'你的目標、問題，或任何你想讓我知道的……','form.send':'送出 →',
+    'fl.0':'選擇你的程度…','fl.1':'完全初學者','fl.2':'懂一些基礎','fl.3':'中級——但感覺卡住了','fl.4':'不確定',
+    'form.ok.h':'訊息已送出。','form.ok.p':'我會在24小時內與你聯繫。',
+    'footer.copy':'© 2025 Midnight & Light · 日文與中文 · 私人遊戲化課程'
   },
-
   'zh-CN': {
-    'meta.title':        'Midnight & Light — 用游戏学日语',
-    'meta.desc':         '以任务为核心的日语课程，专注于真实对话。私人、有结构、游戏化教学。',
-    'nav.home':          '首页',
-    'nav.how':           '如何进行',
-    'nav.levels':        '等级系统',
-    'nav.missions':      '任务场景',
-    'nav.fit':           '适合你吗',
-    'nav.cta':           '预约咨询',
-    'hero.eyebrow':      '私人 · 有结构 · 游戏化',
-    'hero.h1':           '学日语<br />靠<em>真正</em><br />使用它',
-    'hero.sub':          '以任务为核心的课程。真实对话。零无聊。语言真正留在脑海的方式。',
-    'hero.cta':          '预约免费咨询',
-    'hero.ghost':        '了解如何进行 →',
-    'hero.trust1':       '无需先备知识',
-    'hero.trust2':       '从零到流利对话',
-    'hero.trust3':       '来自世界各地的学生',
-    'testimonial.1.quote': '「只上了3堂课，我终于能在日本餐厅点餐了。」',
-    'testimonial.1.name':  '— 学生，马来西亚',
-    'testimonial.2.quote': '「游戏化教学让我真的期待每一堂课。」',
-    'testimonial.2.name':  '— 学生，马来西亚',
-    'how.label':         '学习流程',
-    'how.title':         '三个步骤<br /><em>开口说日语</em>',
-    'how.step1.title':   '评估程度',
-    'how.step1.desc':    '通过简短的程度评估，找到你最适合的起点——无论是完全初学者还是重新出发的学习者。',
-    'how.step2.title':   '进入任务',
-    'how.step2.desc':    '每堂课都是一个真实场景。你会收到目标和语言工具，任务是用日语完成它。',
-    'how.step3.title':   '升级进化',
-    'how.step3.desc':    '完成任务，解锁下一个。每个等级都在上一个基础上建立。进步是看得见的。',
-    'mid.cta.text':      '准备好找到你的程度了吗？',
-    'mid.cta.btn':       '预约免费咨询',
-    'levels.label':      '学习路径',
-    'levels.title':      '从初学者到<br /><em>自信说话者</em>的旅程',
-    'levels.1.mode':     '生存模式',
-    'levels.1.tagline':  '「我能应对基本情况」',
-    'levels.1.desc':     '短句子。高频短语。真实场景。日常生活所需的日语。',
-    'levels.1.li1':      '自然地打招呼和回应',
-    'levels.1.li2':      '自我介绍并提问',
-    'levels.1.li3':      '自信地点餐饮',
-    'levels.1.li4':      '处理基本交易和询问价格',
-    'levels.1.li5':      '理解慢速清晰的日语',
-    'levels.2.mode':     '探索模式',
-    'levels.2.tagline':  '「我能应对真实情况」',
-    'levels.2.desc':     '更长的对话。连贯的句子。你开始用日语思考，而不是翻译。',
-    'levels.2.li1':      '进行来回对话',
-    'levels.2.li2':      '描述人、地点和情况',
-    'levels.2.li3':      '应对意想不到的回应',
-    'levels.2.li4':      '表达偏好和意见',
-    'levels.2.li5':      '在学校、购物、旅行场景中应对自如',
-    'levels.3.mode':     '流利模式',
-    'levels.3.tagline':  '「我能自由表达自己」',
-    'levels.3.desc':     '开放式对话。不可预测的情境。辅助轮拆掉了。',
-    'levels.3.li1':      '以自然的节奏和速度说话',
-    'levels.3.li2':      '在对话中途自信地恢复',
-    'levels.3.li3':      '表达复杂的想法和细微差别',
-    'levels.3.li4':      '理解母语速度的日语',
-    'levels.3.li5':      '与母语者进行真实对话',
-    'missions.label':    '任务场景',
-    'missions.title':    '你将体验的<br /><em>任务</em>',
-    'missions.intro':    '每个任务都是你实际会遇到的真实场景。',
-    'missions.1.type':   '任务 01',
-    'missions.1.name':   '购物任务',
-    'missions.1.location':'日本便利店和服装店',
-    'missions.1.story':  '找到商品、询问尺寸、比较价格、结账——全程日语。店员不说英语，你也一样……一开始。',
-    'missions.1.tag1':   '数字',
-    'missions.1.tag2':   '礼貌请求',
-    'missions.1.tag3':   '交易用语',
-    'missions.2.type':   '任务 02',
-    'missions.2.name':   '餐厅任务',
-    'missions.2.location':'拉面店、居酒屋或家庭餐厅',
-    'missions.2.story':  '看菜单、询问、点餐、应对替换菜品、分开结账。完整的用餐体验——用日语。',
-    'missions.2.tag1':   '食物词汇',
-    'missions.2.tag2':   '点餐',
-    'missions.2.tag3':   '付款',
-    'fit.label':         '适合你吗？',
-    'fit.title':         '专为<br /><em>有动力的学习者</em>设计',
-    'fit.yes.title':     '如果你是这样的人……',
-    'fit.yes.1':         '传统课程对你没有效果',
-    'fit.yes.2':         '你想真正开口说话，不只是背诵',
-    'fit.yes.3':         '你感觉卡住了，无法使用所学',
-    'fit.yes.4':         '你喜欢日本文化——游戏、动漫、旅行',
-    'fit.yes.5':         '你想要一条有结构的学习路径',
-    'fit.yes.6':         '你在实践中学习最好',
-    'fit.no.title':      '不太适合如果……',
-    'fit.no.1':          '你只想通过书面文法考试',
-    'fit.no.2':          '你在寻找最便宜、无承诺的选项',
-    'fit.no.3':          '你不愿意开口说话——即使感到不舒服',
-    'cta.title':         '你的第一个任务<br /><em>从这里开始</em>',
-    'cta.sub':           '日语并不难。难的是传统的教法。',
-    'cta.btn':           '预约免费咨询 →',
-    'cta.note':          '名额有限 · 私人课程 · 全球学生',
-    'modal.title':       '开始你的旅程',
-    'modal.sub':         '我会在24小时内回复，找到最适合你的起点。',
-    'form.name':         '你的名字',
-    'form.name.placeholder': '你的名字',
-    'form.email':        '电子邮件',
-    'form.email.placeholder': 'your@email.com',
-    'form.level':        '目前的日语程度',
-    'form.level.0':      '选择你的程度…',
-    'form.level.1':      '完全初学者',
-    'form.level.2':      '懂一些基础',
-    'form.level.3':      '中级——但感觉卡住了',
-    'form.level.4':      '不确定',
-    'form.message':      '还有什么想说的？（选填）',
-    'form.message.placeholder': '你的目标、问题，或任何你想让我知道的……',
-    'form.submit':       '发送 →',
-    'form.success.title':'消息已发送。',
-    'form.success.sub':  '我会在24小时内与你联系。',
-    'footer.copy':       '© 2025 Midnight & Light · 日语与中文 · 私人游戏化课程',
+    'nav.home':'首页','nav.how':'流程','nav.levels':'等级','nav.missions':'任务','nav.fit':'适合你吗','nav.cta':'预约咨询',
+    'hero.eyebrow':'私人 · 有结构 · 游戏化',
+    'hero.h1a':'学日语','hero.h1b':'靠<em>真正</em>','hero.h1c':'使用它',
+    'hero.sub':'以任务为核心的课程。真实对话。零无聊。',
+    'hero.cta':'预约免费咨询','hero.ghost':'了解如何进行 →',
+    'hero.trust1':'无需先备知识','hero.trust2':'从零到流利对话','hero.trust3':'来自世界各地的学生',
+    't1.quote':'「只上了3堂课，我终于能在日本餐厅点餐了。」','t1.name':'— 学生，马来西亚',
+    't2.quote':'「游戏化教学让我真的期待每一堂课。」','t2.name':'— 学生，马来西亚',
+    'how.label':'学习流程','how.title':'三个步骤<br /><em>开口说日语</em>',
+    'how.s1.title':'评估程度','how.s1.desc':'通过简短评估，找到你最适合的起点——无论是完全初学者还是重新出发的学习者。',
+    'how.s2.title':'进入任务','how.s2.desc':'每堂课都是真实场景。你收到目标和语言工具，任务是用日语完成它。',
+    'how.s3.title':'升级进化','how.s3.desc':'完成任务，解锁下一个。每个等级都在上一个基础上建立。进步清晰可见。',
+    'mid.q':'准备好找到你的程度了吗？','mid.btn':'预约免费咨询',
+    'levels.label':'学习路径','levels.title':'从初学者到<br /><em>自信说话者</em>',
+    'l1.name':'生存模式','l1.sub':'「我能应对基本情况」',
+    'l1.desc':'短句子。高频短语。真实场景。日常生活所需的日语。',
+    'l1.a':'自然地打招呼和回应','l1.b':'自我介绍并提问','l1.c':'自信地点餐饮','l1.d':'处理基本交易和询问价格','l1.e':'理解慢速清晰的日语',
+    'l2.name':'探索模式','l2.sub':'「我能应对真实情况」',
+    'l2.desc':'更长的对话。连贯的句子。你开始用日语思考，而不是翻译。',
+    'l2.a':'进行来回对话','l2.b':'描述人、地点和情况','l2.c':'应对意想不到的回应','l2.d':'表达偏好和意见','l2.e':'在学校、购物、旅行场景中应对自如',
+    'l3.name':'流利模式','l3.sub':'「我能自由表达自己」',
+    'l3.desc':'开放式对话。不可预测的情境。辅助轮完全拆掉了。',
+    'l3.a':'以自然的节奏和速度说话','l3.b':'在对话中途自信地恢复','l3.c':'表达复杂的想法和细微差别','l3.d':'理解母语速度的日语','l3.e':'与母语者进行真实对话',
+    'missions.label':'任务场景','missions.title':'你将体验的<br /><em>任务</em>','missions.sub':'每个任务都是你实际会遇到的真实场景。',
+    'm1.name':'购物任务','m1.where':'日本便利店和服装店',
+    'm1.story':'找到商品、询问尺寸、比较价格、结账——全程日语。店员不说英语，你也一样……一开始。',
+    'm1.c1':'数字','m1.c2':'礼貌请求','m1.c3':'交易用语',
+    'm2.name':'餐厅任务','m2.where':'拉面店、居酒屋或家庭餐厅',
+    'm2.story':'看菜单、询问、点餐、应对替换菜品、分开结账——完整的日语用餐体验。',
+    'm2.c1':'食物词汇','m2.c2':'点餐','m2.c3':'付款',
+    'fit.label':'适合你吗？','fit.title':'专为<br /><em>有动力的学习者</em>设计',
+    'fit.yes.h':'如果你是这样的人……','fit.no.h':'不太适合如果……',
+    'f.y1':'传统课程对你没有效果','f.y2':'你想真正开口说话，不只是背诵','f.y3':'你感觉卡住了，无法使用所学',
+    'f.y4':'你喜欢日本文化——游戏、动漫、旅行','f.y5':'你想要一条有结构的学习路径','f.y6':'你在实践中学习最好',
+    'f.n1':'你只想通过书面文法考试','f.n2':'你在寻找最便宜、无承诺的选项','f.n3':'你不愿意开口说话——即使感到不舒服',
+    'cta.title':'你的第一个任务<br /><em>从这里开始</em>',
+    'cta.sub':'日语并不难。难的是传统的教法。',
+    'cta.btn':'预约免费咨询 →','cta.note':'名额有限 · 私人课程 · 全球学生',
+    'modal.title':'开始你的旅程','modal.sub':'我会在24小时内回复，找到最适合你的起点。',
+    'form.name':'你的名字','form.name.ph':'你的名字','form.email':'电子邮件',
+    'form.level':'目前程度','form.msg':'还有什么想说的？（选填）',
+    'form.msg.ph':'你的目标、问题，或任何你想让我知道的……','form.send':'发送 →',
+    'fl.0':'选择你的程度…','fl.1':'完全初学者','fl.2':'懂一些基础','fl.3':'中级——但感觉卡住了','fl.4':'不确定',
+    'form.ok.h':'消息已发送。','form.ok.p':'我会在24小时内与你联系。',
+    'footer.copy':'© 2025 Midnight & Light · 日语与中文 · 私人游戏化课程'
   }
 };
 
-/* ══════════════════════════════════════════════════════
-   LANGUAGE SYSTEM
-══════════════════════════════════════════════════════ */
-let currentLang = 'en';
-
-function applyLang(lang) {
-  currentLang = lang;
-  document.documentElement.setAttribute('data-lang', lang);
-  document.documentElement.setAttribute('lang',
-    lang === 'zh-TW' ? 'zh-Hant' : lang === 'zh-CN' ? 'zh-Hans' : 'en');
-
-  const t = i18n[lang] || i18n['en'];
-
-  // Text content
+/* ══ LANGUAGE ══════════════════════════════════════ */
+let lang = 'en';
+function applyLang(l) {
+  lang = l;
+  const t = T[l] || T.en;
+  document.documentElement.lang = l === 'zh-TW' ? 'zh-Hant' : l === 'zh-CN' ? 'zh-Hans' : 'en';
+  document.documentElement.setAttribute('data-lang', l);
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.textContent = t[key];
+    const v = t[el.dataset.i18n]; if (v !== undefined) el.textContent = v;
   });
-  // HTML content (for em tags in titles)
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.getAttribute('data-i18n-html');
-    if (t[key] !== undefined) el.innerHTML = t[key];
+    const v = t[el.dataset.i18nHtml]; if (v !== undefined) el.innerHTML = v;
   });
-  // Placeholders
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = t[el.dataset.i18nPh]; if (v !== undefined) el.placeholder = v;
   });
-  // Meta tags
-  if (t['meta.title']) document.title = t['meta.title'];
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc && t['meta.desc']) metaDesc.setAttribute('content', t['meta.desc']);
-
-  // Sync lang buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-  });
-
-  // Font class for CJK
-  document.body.classList.remove('font-tc','font-sc');
-  if (lang === 'zh-TW') document.body.classList.add('font-tc');
-  if (lang === 'zh-CN') document.body.classList.add('font-sc');
+  if (t['missions.title']) {
+    document.querySelectorAll('[data-i18n-html="missions.title"]').forEach(el => el.innerHTML = t['missions.title']);
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  document.body.className = l === 'zh-TW' ? 'font-tc' : l === 'zh-CN' ? 'font-sc' : '';
+  if (t['meta.title']) document.title = t['meta.title'] || document.title;
 }
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
-});
-
-/* ══════════════════════════════════════════════════════
-   SECTION NAVIGATION
-══════════════════════════════════════════════════════ */
-function goToSection(id) {
-  document.querySelectorAll('.section').forEach(s => {
-    s.classList.toggle('active', s.id === id);
-  });
-  document.querySelectorAll('.nav-tab, .mobile-nav-item').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-section') === id);
-  });
-  // Scroll to top of section on mobile
+/* ══ SECTION NAV ═══════════════════════════════════ */
+function goTo(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === id));
+  document.querySelectorAll('[data-section]').forEach(b => b.classList.toggle('active', b.dataset.section === id));
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Trigger reveals for newly visible section
-  setTimeout(triggerReveals, 80);
+  setTimeout(doReveal, 100);
 }
+document.querySelectorAll('[data-section]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.section)));
 
-// Nav tabs
-document.querySelectorAll('[data-section]').forEach(btn => {
-  btn.addEventListener('click', () => goToSection(btn.getAttribute('data-section')));
-});
-
-/* ══════════════════════════════════════════════════════
-   SCROLL REVEAL (within active section)
-══════════════════════════════════════════════════════ */
-function triggerReveals() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
+/* ══ REVEAL ════════════════════════════════════════ */
+function doReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
   }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
 }
-triggerReveals();
+doReveal();
 
-/* ══════════════════════════════════════════════════════
-   LEVEL ACCORDION
-══════════════════════════════════════════════════════ */
-document.querySelectorAll('.level-card').forEach(card => {
-  const btn  = card.querySelector('.level-header');
-  const body = card.querySelector('.level-body');
-  const tog  = card.querySelector('.level-toggle');
-
+/* ══ ACCORDION ═════════════════════════════════════ */
+document.querySelectorAll('.level-item').forEach(item => {
+  const btn   = item.querySelector('.level-btn');
+  const panel = item.querySelector('.level-panel');
+  const chev  = item.querySelector('.level-chevron');
   btn.addEventListener('click', () => {
-    const isOpen = btn.getAttribute('aria-expanded') === 'true';
-
-    // Close all
-    document.querySelectorAll('.level-card').forEach(c => {
-      c.querySelector('.level-header').setAttribute('aria-expanded', 'false');
-      c.querySelector('.level-body').hidden = true;
-      c.querySelector('.level-toggle').textContent = '+';
-      c.classList.remove('is-open');
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.level-item').forEach(it => {
+      it.querySelector('.level-btn').setAttribute('aria-expanded','false');
+      it.querySelector('.level-panel').hidden = true;
+      it.querySelector('.level-chevron').textContent = '+';
+      it.classList.remove('open');
     });
-
-    if (!isOpen) {
-      btn.setAttribute('aria-expanded', 'true');
-      body.hidden = false;
-      tog.textContent = '×';
-      card.classList.add('is-open');
-      // Animate bar
+    if (!open) {
+      btn.setAttribute('aria-expanded','true');
+      panel.hidden = false;
+      chev.textContent = '×';
+      item.classList.add('open');
       setTimeout(() => {
-        const fill = body.querySelector('.level-bar-fill');
-        if (fill) fill.style.width = fill.getAttribute('data-width') + '%';
-      }, 40);
+        const f = panel.querySelector('.level-progress-fill');
+        if (f) f.style.width = f.dataset.w + '%';
+      }, 50);
     }
   });
 });
 
-/* ══════════════════════════════════════════════════════
-   CONTACT MODAL
-══════════════════════════════════════════════════════ */
-const modal    = document.getElementById('contactModal');
+/* ══ MODAL ═════════════════════════════════════════ */
+const modal   = document.getElementById('modal');
 const closeBtn = document.getElementById('modalClose');
-
-function openModal() {
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  closeBtn.focus();
-}
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.querySelectorAll('[data-modal="contact"], #heroCta, #navCta').forEach(btn => {
-  btn.addEventListener('click', openModal);
-});
+function openModal()  { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('[data-modal], #heroCta, #navCta').forEach(b => b.addEventListener('click', openModal));
 closeBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-/* Form submission */
-const form        = document.getElementById('contactForm');
-const formSuccess = document.getElementById('formSuccess');
-form.addEventListener('submit', async (e) => {
+const form = document.getElementById('contactForm');
+const succ = document.getElementById('formSuccess');
+form.addEventListener('submit', async e => {
   e.preventDefault();
-  const btn = form.querySelector('[type="submit"]');
-  btn.textContent = '…';
-  btn.disabled = true;
+  const btn = form.querySelector('[type=submit]');
+  btn.textContent = '…'; btn.disabled = true;
   try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      form.hidden = true;
-      formSuccess.hidden = false;
-    } else {
-      btn.textContent = i18n[currentLang]['form.submit'] || 'Send →';
-      btn.disabled = false;
-    }
-  } catch {
-    btn.textContent = i18n[currentLang]['form.submit'] || 'Send →';
-    btn.disabled = false;
-  }
+    const res = await fetch(form.action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'} });
+    if (res.ok) { form.hidden = true; succ.hidden = false; }
+    else { btn.textContent = T[lang]['form.send'] || 'Send →'; btn.disabled = false; }
+  } catch { btn.textContent = T[lang]['form.send'] || 'Send →'; btn.disabled = false; }
 });
 
-/* ══════════════════════════════════════════════════════
-   ATMOSPHERIC CANVAS
-══════════════════════════════════════════════════════ */
-(function () {
-  const canvas = document.getElementById('nightCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, motes = [];
-
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-
-  function Mote() {
-    this.reset = function () {
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.r = Math.random() * 1.1 + 0.3;
-      this.vx = (Math.random() - 0.5) * 0.14;
-      this.vy = -(Math.random() * 0.18 + 0.05);
-      this.life = 0;
-      this.maxLife = Math.random() * 300 + 160;
-      this.hue = Math.random() * 24 + 36;
-    };
-    this.reset();
-    this.life = Math.random() * this.maxLife;
-  }
-
-  function init() { motes = []; for (let i = 0; i < 12; i++) motes.push(new Mote()); }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    motes.forEach(m => {
-      m.life++;
-      if (m.life > m.maxLife) m.reset();
-      const t = m.life / m.maxLife;
-      const a = t < 0.2 ? t / 0.2 : t > 0.8 ? (1 - t) / 0.2 : 1;
-      ctx.beginPath();
-      ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${m.hue},55%,72%,${a * 0.22})`;
-      ctx.fill();
-      m.x += m.vx; m.y += m.vy;
-    });
-    requestAnimationFrame(draw);
-  }
-
-  resize(); init(); draw();
-  window.addEventListener('resize', () => { resize(); init(); });
-})();
-
-/* ══════════════════════════════════════════════════════
-   NAV SCROLL
-══════════════════════════════════════════════════════ */
+/* ══ NAV SCROLL ════════════════════════════════════ */
 const navEl = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  navEl.classList.toggle('nav-scrolled', window.scrollY > 30);
-}, { passive: true });
+window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
 
-/* Initial language */
+/* Init */
 applyLang('en');
 </script>
 </body>
