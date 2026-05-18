@@ -7,8 +7,22 @@
   <meta name="description" content="Mission-based Japanese lessons for real-life conversation. Private, structured, game-based instruction for learners worldwide." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Sans+TC:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .btn-game-link {
+      font-size: 13px; font-weight: 600;
+      color: var(--ink, #163126); background: #f0d4aa;
+      padding: 7px 14px; border-radius: 7px;
+      border: 1.5px solid #c9a45a;
+      text-decoration: none; display: inline-flex;
+      align-items: center; gap: 5px;
+      transition: opacity 0.18s, transform 0.18s;
+      white-space: nowrap;
+    }
+    .btn-game-link:hover { opacity: 0.85; transform: translateY(-1px); }
+    @media (max-width: 480px) { .btn-game-link { display: none; } }
+  </style>
 </head>
 <body>
 
@@ -36,6 +50,7 @@
           <button class="lang-btn"        data-lang="zh-TW">繁</button>
           <button class="lang-btn"        data-lang="zh-CN">简</button>
         </div>
+        <a href="boardgame.html" target="_blank" rel="noopener" class="btn-game-link">🎲 Play Game</a>
         <button class="btn-nav-cta" id="navCta" data-i18n="nav.cta">Book a Consultation</button>
       </div>
     </div>

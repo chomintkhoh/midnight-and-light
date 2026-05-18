@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>夜光 Learn! Board Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#faf6ef;--paper:#f2ece0;--ink:#2d2a26;--ink-soft:#5a5550;
+  --sakura:#e8a4b0;--sakura-l:#fde8ed;--moss:#4a7c59;--moss-l:#c4dbc7;
+  --gold:#c9934a;--gold-l:#f0d4aa;--sky:#5a9fc8;--sky-l:#c8e2f0;
+  --red:#d95b5b;--purple:#8a70c8;--purple-l:#e8e0f8;
+  --border:rgba(45,42,38,0.12);--shadow:0 4px 24px rgba(45,42,38,0.14);--r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.screen{display:none;min-height:100vh;}
+.screen.active{display:flex;flex-direction:column;align-items:center;}
+
+/* ── TITLE ── */
+#screen-title{justify-content:flex-start;padding:24px 20px 40px;gap:16px;overflow-y:auto;}
+.logo-wrap{text-align:center;padding:8px 0;}
+.logo-top{font-size:clamp(40px,10vw,72px);font-weight:900;line-height:1;color:var(--ink);}
+.logo-top em{color:var(--sakura);font-style:normal;}
+.logo-sub{font-size:14px;font-weight:700;color:var(--ink-soft);letter-spacing:.08em;margin-top:4px;}
+.logo-jp{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);opacity:.55;margin-top:2px;}
+.deco{display:flex;gap:10px;justify-content:center;font-size:26px;margin:4px 0;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.card{background:white;border-radius:20px;padding:22px;width:100%;max-width:440px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.card h2{font-size:16px;font-weight:800;margin-bottom:16px;}
+
+/* Subject grid */
+.subj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.subj-btn{background:var(--cream);border:2px solid var(--border);border-radius:12px;padding:12px 6px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;text-align:center;color:var(--ink);transition:all .2s;}
+.subj-btn:hover,.subj-btn.active{border-color:var(--sakura);background:var(--sakura-l);color:var(--ink);}
+.subj-icon{font-size:20px;display:block;margin-bottom:4px;}
+
+/* Player rows */
+.p-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.p-row:last-child{border:none;}
+.p-tok{font-size:26px;}
+.p-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;background:var(--cream);}
+.p-input:focus{border-color:var(--sakura);}
+.tog{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Nunito',sans-serif;}
+.tog.on{background:var(--sakura);border-color:var(--sakura);color:white;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 28px;border-radius:99px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;transition:all .2s;letter-spacing:.01em;touch-action:manipulation;}
+.btn-ink{background:var(--ink);color:white;box-shadow:0 4px 0 rgba(0,0,0,.3);}
+.btn-ink:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(0,0,0,.3);}
+.btn-ink:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.3);}
+.btn-sakura{background:var(--sakura);color:white;box-shadow:0 4px 0 #b87888;}
+.btn-sakura:hover{transform:translateY(-2px);}
+.btn-moss{background:var(--moss);color:white;box-shadow:0 4px 0 #2a5c38;}
+.btn-moss:hover{transform:translateY(-2px);}
+.btn-gold{background:var(--gold);color:white;box-shadow:0 4px 0 #a07030;}
+.btn-gold:hover{transform:translateY(-2px);}
+.btn-outline{background:white;color:var(--ink);border:2px solid var(--border);}
+.btn-outline:hover{border-color:var(--sakura);color:var(--sakura);}
+.btn-sm{padding:9px 18px;font-size:13px;}
+.btn-lg{padding:16px 44px;font-size:17px;}
+
+/* ── GAME SCREEN ── */
+#screen-game{padding:0;display:flex;flex-direction:column;align-items:stretch;}
+.g-header{background:white;border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:50;}
+.g-logo{font-size:15px;font-weight:900;}
+.g-logo em{color:var(--sakura);font-style:normal;}
+.g-spacer{flex:1;}
+.teach-btn{padding:7px 13px;font-size:12px;border-radius:20px;background:var(--gold-l);color:var(--ink);border:1.5px solid var(--gold);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;}
+
+/* Player bar */
+.p-bar{display:flex;gap:7px;padding:9px 12px;overflow-x:auto;background:var(--paper);border-bottom:1px solid var(--border);}
+.pcard{background:white;border-radius:11px;padding:7px 10px;border:2px solid var(--border);min-width:100px;flex-shrink:0;transition:all .3s;}
+.pcard.cur{border-color:var(--sakura);box-shadow:0 2px 12px rgba(232,164,176,.35);transform:translateY(-2px);}
+.pcard.dim{opacity:.5;}
+.pc-top{display:flex;align-items:center;gap:5px;}
+.pc-tok{font-size:18px;}
+.pc-name{font-size:11px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70px;}
+.pc-bot{display:flex;gap:7px;margin-top:3px;}
+.pc-stat{font-size:10px;font-weight:700;}
+.pc-stars{color:var(--gold);}
+.pc-xp{color:var(--moss);}
+.xpbar-w{background:var(--border);border-radius:99px;height:4px;margin-top:3px;overflow:hidden;}
+.xpbar{background:var(--moss);height:100%;border-radius:99px;transition:width .5s ease;}
+
+/* Board */
+.board-wrap{flex:1;padding:12px;overflow:auto;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.board{display:grid;gap:4px;width:100%;max-width:540px;}
+.tile{background:white;border:2px solid var(--border);border-radius:9px;padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:54px;position:relative;transition:transform .15s;}
+.tile-n{font-size:10px;font-weight:800;color:var(--ink-soft);line-height:1;}
+.tile-ico{font-size:15px;line-height:1;}
+.tile-lbl{font-size:8px;font-weight:700;color:var(--ink-soft);text-align:center;margin-top:1px;line-height:1.2;}
+.tile-toks{display:flex;flex-wrap:wrap;gap:1px;position:absolute;top:1px;right:2px;}
+.ttok{font-size:11px;line-height:1;}
+/* Tile colours */
+.t-start{background:linear-gradient(135deg,#fff8e0,#fff);border-color:var(--gold);}
+.t-end{background:linear-gradient(135deg,#fde8ed,#fff);border-color:var(--sakura);}
+.t-bonus{background:linear-gradient(135deg,#e8f5e9,#fff);border-color:var(--moss);}
+.t-ohno{background:linear-gradient(135deg,#fce4ec,#fff);border-color:var(--red);}
+.t-quiz{background:linear-gradient(135deg,#e3f2fd,#fff);border-color:var(--sky);}
+.t-speak{background:linear-gradient(135deg,#e8f5e9,#fff);border-color:var(--moss);}
+.t-challenge{background:linear-gradient(135deg,#f3e5f5,#fff);border-color:var(--purple);}
+.t-event{background:linear-gradient(135deg,#fff8e1,#fff);border-color:var(--gold);}
+.t-free{background:linear-gradient(135deg,#fff3e0,#fff);border-color:var(--gold);}
+.t-normal{background:#fafaf8;}
+
+/* Dice */
+.dice-area{background:white;border-radius:18px;padding:18px;width:100%;max-width:540px;border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:12px;}
+.dice-row{display:flex;align-items:center;gap:14px;}
+.dice{width:60px;height:60px;background:var(--ink);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:30px;color:white;box-shadow:0 4px 0 rgba(0,0,0,.3);}
+.dice.roll{animation:droll .6s ease;}
+@keyframes droll{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-18deg) scale(1.1)}50%{transform:rotate(18deg) scale(.9)}75%{transform:rotate(-8deg) scale(1.05)}}
+.turn-info{font-size:14px;font-weight:700;text-align:center;}
+.turn-tok{font-size:22px;margin-right:4px;}
+
+/* ── OVERLAYS ── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:14px;backdrop-filter:blur(3px);}
+.ov.open{display:flex;}
+.popup{background:white;border-radius:22px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;animation:pin .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pin{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.ph{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.ph-ico{font-size:30px;}
+.ph-title{font-size:17px;font-weight:900;color:var(--ink);}
+.ph-cat{font-size:11px;font-weight:600;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;}
+.pb{padding:18px 20px;}
+.q-txt{font-size:20px;font-weight:800;color:var(--ink);line-height:1.3;font-family:'Noto Sans JP',sans-serif;margin-bottom:6px;}
+.q-hint{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+.ans-area{background:var(--cream);border-radius:12px;padding:14px;display:none;}
+.ans-area.show{display:block;}
+.ans-lbl{font-size:10px;font-weight:700;color:var(--ink-soft);letter-spacing:.08em;margin-bottom:5px;}
+.ans-txt{font-size:17px;font-weight:800;color:var(--moss);font-family:'Noto Sans JP',sans-serif;}
+.pa{padding:0 20px 18px;display:flex;flex-direction:column;gap:7px;}
+.res-row{display:flex;gap:7px;}
+.res-row .btn{flex:1;}
+.sp-txt{font-size:16px;font-weight:700;color:var(--ink);line-height:1.5;white-space:pre-line;}
+
+/* Teacher panel */
+.teach-panel{background:white;border-radius:20px;width:100%;max-width:520px;max-height:82vh;overflow-y:auto;box-shadow:var(--shadow);}
+.teach-hdr{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:5;border-radius:20px 20px 0 0;}
+.teach-body{padding:18px 20px;}
+.q-item{border:1.5px solid var(--border);border-radius:11px;padding:11px;margin-bottom:9px;}
+.q-top{display:flex;align-items:flex-start;gap:7px;}
+.qbadge{font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:20px;white-space:nowrap;text-transform:uppercase;}
+.bv{background:var(--sky-l);color:#1a5a8a;}
+.bg{background:var(--moss-l);color:#1a5a2a;}
+.bs{background:var(--sakura-l);color:#8a2a40;}
+.be{background:var(--gold-l);color:#6a3010;}
+.bx{background:var(--purple-l);color:#3a1a7a;}
+.q-q{font-size:13px;font-weight:700;flex:1;font-family:'Noto Sans JP',sans-serif;}
+.q-h{font-size:11px;color:var(--ink-soft);margin-top:3px;}
+.q-sts{display:flex;gap:10px;margin-top:5px;}
+.qs{font-size:10px;font-weight:700;}
+.qs-c{color:var(--moss);}
+.qs-w{color:var(--red);}
+.add-form{border:2px dashed var(--border);border-radius:13px;padding:14px;margin-bottom:14px;}
+.fl{margin-bottom:10px;}
+.flb{font-size:11px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:4px;}
+.fi{width:100%;border:2px solid var(--border);border-radius:7px;padding:8px 11px;font-family:'Nunito',sans-serif;font-size:13px;outline:none;}
+.fi:focus{border-color:var(--sakura);}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;}
+
+/* Victory */
+#screen-vic{justify-content:center;padding:28px 20px;text-align:center;gap:18px;background:linear-gradient(135deg,var(--sakura-l),var(--cream),var(--gold-l));}
+.vic-fire{font-size:56px;animation:vf .5s ease infinite alternate;}
+@keyframes vf{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.1) rotate(5deg)}}
+.vic-title{font-size:clamp(26px,7vw,52px);font-weight:900;}
+.vic-win{font-size:clamp(18px,4vw,26px);font-weight:800;color:var(--sakura);}
+.vic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:360px;}
+.vs{background:white;border-radius:13px;padding:12px 7px;border:1px solid var(--border);}
+.vs-v{font-size:22px;font-weight:900;}
+.vs-l{font-size:10px;color:var(--ink-soft);font-weight:600;}
+.vic-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+
+/* Badge notif */
+.bnotif{position:fixed;top:75px;right:14px;background:var(--gold);color:white;border-radius:14px;padding:10px 16px;font-size:13px;font-weight:800;box-shadow:0 6px 24px rgba(201,147,74,.45);z-index:200;animation:bslide .4s cubic-bezier(.34,1.56,.64,1);max-width:200px;text-align:center;display:none;}
+.bnotif.out{animation:bout .3s ease forwards;}
+@keyframes bslide{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bout{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(80px)}}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:9px 18px;border-radius:99px;font-size:13px;font-weight:700;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;}
+
+@media(max-width:380px){.tile{min-height:46px;}.dice{width:50px;height:50px;font-size:26px;}}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div id="screen-title" class="screen active">
+  <div class="logo-wrap">
+    <div class="deco">🌸 🗻 🏮</div>
+    <div class="logo-top">夜光 <em>Learn!</em></div>
+    <div class="logo-sub">Educational Board Game Engine</div>
+    <div class="logo-jp">勉強ボードゲーム</div>
+  </div>
+
+  <div class="card">
+    <h2>📚 Choose Subject</h2>
+    <div class="subj-grid" style="grid-template-columns:repeat(3,1fr);">
+      <button class="subj-btn active" data-sub="japanese"><span class="subj-icon">🇯🇵</span>Japanese</button>
+      <button class="subj-btn" data-sub="chinese"><span class="subj-icon">🇨🇳</span>Chinese</button>
+      <button class="subj-btn" data-sub="general"><span class="subj-icon">🌟</span>General</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎮 Players</h2>
+    <div id="p-rows">
+      <div class="p-row"><span class="p-tok">🐱</span><input class="p-input" value="Player 1" maxlength="12"/><button class="tog on">✓</button></div>
+      <div class="p-row"><span class="p-tok">🐶</span><input class="p-input" value="Player 2" maxlength="12"/><button class="tog on">✓</button></div>
+      <div class="p-row"><span class="p-tok">🐰</span><input class="p-input" value="Player 3" maxlength="12"/><button class="tog">+</button></div>
+      <div class="p-row"><span class="p-tok">🦊</span><input class="p-input" value="Player 4" maxlength="12"/><button class="tog">+</button></div>
+    </div>
+  </div>
+
+  <button class="btn btn-ink btn-lg" id="btn-start">🎲 Start Game!</button>
+  <div style="font-size:12px;color:var(--ink-soft);text-align:center;max-width:280px;padding:0 10px;">
+    Teachers can add/edit questions in-game via ⚙️ Teacher Mode
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="screen-game" class="screen">
+  <div class="g-header">
+    <span class="g-logo">夜光 <em>Learn!</em></span>
+    <div class="g-spacer"></div>
+    <button class="teach-btn" id="btn-teach">⚙️ Teacher</button>
+  </div>
+  <div class="p-bar" id="p-bar"></div>
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+    <div class="dice-area">
+      <div class="turn-info" id="turn-info"></div>
+      <div class="dice-row">
+        <div class="dice" id="dice">🎲</div>
+      </div>
+      <button class="btn btn-ink" id="btn-roll">🎲 Roll Dice!</button>
+    </div>
+  </div>
+</div>
+
+<!-- VICTORY -->
+<div id="screen-vic" class="screen">
+  <div class="vic-fire">🎉</div>
+  <div class="vic-title">Congratulations!</div>
+  <div class="vic-win" id="vic-win"></div>
+  <div class="vic-grid" id="vic-stats"></div>
+  <div class="vic-btns">
+    <button class="btn btn-ink" id="btn-again">🎮 Play Again</button>
+    <button class="btn btn-outline" id="btn-home">🏠 Home</button>
+  </div>
+</div>
+
+<!-- QUESTION OVERLAY -->
+<div class="ov" id="ov-q">
+  <div class="popup" id="pop-q">
+    <div class="ph">
+      <div class="ph-ico" id="q-ico"></div>
+      <div><div class="ph-title" id="q-title"></div><div class="ph-cat" id="q-cat"></div></div>
+    </div>
+    <div class="pb">
+      <div class="q-txt" id="q-txt"></div>
+      <div class="q-hint" id="q-hint"></div>
+      <div class="ans-area" id="q-ans"><div class="ans-lbl">SAMPLE ANSWER</div><div class="ans-txt" id="q-ans-txt"></div></div>
+    </div>
+    <div class="pa">
+      <button class="btn btn-outline btn-sm" id="btn-show-ans">💡 Show Sample Answer</button>
+      <div class="res-row" id="res-row" style="display:none;">
+        <button class="btn btn-moss btn-sm" id="btn-ok">✓ Got it! +2⭐</button>
+        <button class="btn btn-sakura btn-sm" id="btn-miss">✗ Missed!</button>
+      </div>
+      <div id="btn-cont-wrap" style="display:none;">
+        <button class="btn btn-ink" id="btn-cont" style="width:100%;">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPECIAL OVERLAY -->
+<div class="ov" id="ov-sp">
+  <div class="popup" id="pop-sp">
+    <div class="ph">
+      <div class="ph-ico" id="sp-ico"></div>
+      <div><div class="ph-title" id="sp-title"></div><div class="ph-cat" id="sp-cat"></div></div>
+    </div>
+    <div class="pb"><div class="sp-txt" id="sp-txt"></div></div>
+    <div class="pa"><button class="btn btn-ink" id="btn-sp-ok" style="width:100%;">OK! →</button></div>
+  </div>
+</div>
+
+<!-- TEACHER OVERLAY -->
+<div class="ov" id="ov-teach">
+  <div class="teach-panel">
+    <div class="teach-hdr">
+      <span style="font-size:16px;font-weight:900;">⚙️ Teacher Mode</span>
+      <button class="btn btn-outline btn-sm" id="btn-close-teach">✕</button>
+    </div>
+    <div class="teach-body">
+      <div class="add-form">
+        <h3 style="font-size:14px;font-weight:800;margin-bottom:11px;">➕ Add Question</h3>
+        <div class="fl"><label class="flb">Question</label><input class="fi" id="nq-q" placeholder="e.g. 今日は何曜日ですか。"/></div>
+        <div class="fl"><label class="flb">Hint (translation)</label><input class="fi" id="nq-h" placeholder="e.g. What day is today?"/></div>
+        <div class="fl"><label class="flb">Sample Answer</label><input class="fi" id="nq-a" placeholder="e.g. 月曜日です。"/></div>
+        <div style="display:flex;gap:9px;">
+          <div style="flex:1;"><label class="flb">Category</label>
+            <select class="fi" id="nq-cat">
+              <option value="vocabulary">Vocabulary</option><option value="grammar">Grammar</option>
+              <option value="speaking">Speaking</option><option value="conversation">Conversation</option>
+              <option value="math">Math</option><option value="science">Science</option>
+            </select>
+          </div>
+          <div style="flex:1;"><label class="flb">Difficulty</label>
+            <select class="fi" id="nq-diff"><option>easy</option><option>medium</option><option>hard</option></select>
+          </div>
+        </div>
+        <button class="btn btn-moss btn-sm" id="btn-add-q" style="margin-top:11px;width:100%;">➕ Add</button>
+      </div>
+      <div class="filter-row">
+        <button class="btn btn-sm btn-outline" onclick="renderQList('all')">All</button>
+        <button class="btn btn-sm btn-outline" onclick="renderQList('vocabulary')">Vocab</button>
+        <button class="btn btn-sm btn-outline" onclick="renderQList('speaking')">Speaking</button>
+        <button class="btn btn-sm btn-outline" onclick="renderQList('grammar')">Grammar</button>
+        <button class="btn btn-sm btn-outline" onclick="renderQList('conversation')">Chat</button>
+      </div>
+      <div id="t-qlist"></div>
+    </div>
+  </div>
+</div>
+
+<div class="bnotif" id="bnotif"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================================================================
+   QUESTION DATABASES — Replace this array to change subject!
+   ================================================================= */
+const QDB = {
+  japanese:[
+    {id:1,cat:"weekday",diff:"easy",q:"今日は何曜日ですか。",h:"What day is today?",a:"今日は月曜日です。",c:0,w:0,p:1},
+    {id:2,cat:"weekday",diff:"easy",q:"明日は何曜日ですか。",h:"What day is tomorrow?",a:"明日は火曜日です。",c:0,w:0,p:1},
+    {id:3,cat:"weekday",diff:"medium",q:"来週の月曜日は何日ですか。",h:"What date is next Monday?",a:"来週の月曜日は＿＿日です。",c:0,w:0,p:1},
+    {id:4,cat:"month",diff:"easy",q:"今は何月ですか。",h:"What month is it?",a:"今は三月です。 (It is March.)",c:0,w:0,p:1},
+    {id:5,cat:"month",diff:"medium",q:"誕生日はいつですか。",h:"When is your birthday?",a:"私の誕生日は六月八日です。",c:0,w:0,p:1},
+    {id:6,cat:"speaking",diff:"easy",q:"おはようございます！と言ってみましょう。",h:"Say 'Good morning!'",a:"おはようございます！ Good morning!",c:0,w:0,p:1},
+    {id:7,cat:"speaking",diff:"easy",q:"自己紹介をしてください。",h:"Introduce yourself in Japanese",a:"私の名前は＿＿です。よろしくお願いします！",c:0,w:0,p:1},
+    {id:8,cat:"vocabulary",diff:"easy",q:"「赤」は英語で何ですか。",h:"What is 赤 in English?",a:"Red 🔴 (赤 = red)",c:0,w:0,p:1},
+    {id:9,cat:"vocabulary",diff:"easy",q:"「食べる」の意味は何ですか。",h:"What does 食べる mean?",a:"To eat 🍽️ (食べる = to eat)",c:0,w:0,p:1},
+    {id:10,cat:"vocabulary",diff:"easy",q:"「大きい」の反対は何ですか。",h:"Opposite of 大きい (big)?",a:"小さい (chiisai) = small",c:0,w:0,p:1},
+    {id:11,cat:"grammar",diff:"medium",q:"「私は＿＿が好きです」で文を作ってください。",h:"Make a sentence with 好きです",a:"私は音楽が好きです。 I like music.",c:0,w:0,p:1},
+    {id:12,cat:"grammar",diff:"medium",q:"「〜たことがある」を使って文を作ってください。",h:"Use たことがある (have done ~)",a:"日本に行ったことがあります。 I have been to Japan.",c:0,w:0,p:1},
+    {id:13,cat:"conversation",diff:"medium",q:"「趣味は何ですか。」と答えてください。",h:"What is your hobby?",a:"私の趣味は音楽を聴くことです。",c:0,w:0,p:1},
+    {id:14,cat:"conversation",diff:"medium",q:"「来週は何をしますか。」",h:"What will you do next week?",a:"来週は友達と映画を見ます。",c:0,w:0,p:1},
+    {id:15,cat:"speaking",diff:"hard",q:"好きな食べ物について3文で話してください。",h:"Talk about your favourite food (3 sentences)",a:"私の好きな食べ物はラーメンです。なぜなら、おいしいからです。また、安いです！",c:0,w:0,p:1},
+    {id:16,cat:"vocabulary",diff:"easy",q:"1から10まで日本語で言えますか。",h:"Count 1–10 in Japanese",a:"一、二、三、四、五、六、七、八、九、十",c:0,w:0,p:1},
+    {id:17,cat:"conversation",diff:"easy",q:"「今日の天気はどうですか。」",h:"How is the weather today?",a:"今日は晴れています。 It is sunny today.",c:0,w:0,p:1},
+    {id:18,cat:"grammar",diff:"hard",q:"「〜なければなりません」を使って文を作ってください。",h:"Must/have to ~",a:"宿題をしなければなりません。 I must do my homework.",c:0,w:0,p:1},
+  ],
+
+  chinese:[
+    {id:1,cat:"vocabulary",diff:"easy",q:"「你好」是什麼意思？",h:"What does 你好 mean?",a:"你好 = Hello! 你好！",c:0,w:0,p:1},
+    {id:2,cat:"speaking",diff:"easy",q:"請用中文介紹你自己！",h:"Introduce yourself in Chinese",a:"我叫＿＿。我是學生。很高興認識你！",c:0,w:0,p:1},
+    {id:3,cat:"grammar",diff:"medium",q:"用「因為…所以…」造句。",h:"Because…therefore…",a:"因為今天下雨，所以我帶了傘。",c:0,w:0,p:1},
+    {id:4,cat:"vocabulary",diff:"easy",q:"說出5種顏色！",h:"Name 5 colours in Chinese",a:"紅色、藍色、綠色、黃色、白色",c:0,w:0,p:1},
+    {id:5,cat:"conversation",diff:"medium",q:"「你今天做了什麼？」",h:"What did you do today?",a:"我今天上學，然後去圖書館看書。",c:0,w:0,p:1},
+    {id:6,cat:"vocabulary",diff:"easy",q:"1到10用中文怎麼說？",h:"Count 1 to 10 in Chinese",a:"一二三四五六七八九十",c:0,w:0,p:1},
+  ],
+
+
+  general:[
+    {id:1,cat:"speaking",diff:"easy",q:"What is your favourite food and why?",h:"Give a reason!",a:"My favourite food is pizza because it is cheesy and delicious!",c:0,w:0,p:1},
+    {id:2,cat:"conversation",diff:"medium",q:"Talk about your dream job!",h:"What do you want to be?",a:"I want to be a teacher because I love helping others learn.",c:0,w:0,p:1},
+    {id:3,cat:"vocabulary",diff:"easy",q:"Name 5 ocean animals!",h:"Think deep and blue",a:"Shark, Dolphin, Whale, Octopus, Seahorse 🦈🐬🐋",c:0,w:0,p:1},
+    {id:4,cat:"speaking",diff:"medium",q:"Describe your home in 3 sentences!",h:"Rooms, colours, favourite spot",a:"My home has 3 rooms. The walls are cream. I love the cosy living room.",c:0,w:0,p:1},
+  ]
+};
+
+/* Board tile sequence — edit to redesign the board */
+const TILES = [
+  'start','normal','vocab','bonus','normal',
+  'speak','normal','ohno','normal','quiz',
+  'normal','normal','challenge','vocab','normal',
+  'event','normal','bonus','normal','speak',
+  'normal','quiz','ohno','normal','vocab',
+  'normal','normal','challenge','event','normal',
+  'speak','normal','bonus','vocab','normal',
+  'normal','quiz','normal','end'
+];
+const NTILES = TILES.length;
+
+const TILE_DEFS = {
+  start:     {ico:'🌸',lbl:'START',cls:'t-start'},
+  end:       {ico:'🏆',lbl:'GOAL!',cls:'t-end'},
+  normal:    {ico:'',lbl:'',cls:'t-normal'},
+  vocab:     {ico:'📝',lbl:'VOCAB',cls:'t-quiz'},
+  quiz:      {ico:'🔔',lbl:'QUIZ',cls:'t-quiz'},
+  bonus:     {ico:'⭐',lbl:'BONUS',cls:'t-bonus'},
+  ohno:      {ico:'😱',lbl:'OH NO',cls:'t-ohno'},
+  speak:     {ico:'🗣️',lbl:'SPEAK',cls:'t-speak'},
+  challenge: {ico:'🤝',lbl:'CHALLENGE',cls:'t-challenge'},
+  event:     {ico:'🎉',lbl:'EVENT',cls:'t-event'},
+};
+
+const TOKENS = ['🐱','🐶','🐰','🦊'];
+const DICE_F = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+/* ===================================================================
+   RANDOM EVENTS
+   ================================================================= */
+const EVENTS = {
+  japanese:[
+    {txt:"🎂 今日は友達の誕生日です！\n何と言いますか？",ans:"誕生日おめでとうございます！🎂"},
+    {txt:"🌧️ 今日は雨が降っています。\n何を持っていきますか？",ans:"傘を持っていきます。 I bring an umbrella!"},
+    {txt:"🍜 レストランで注文してください！",ans:"すみません、ラーメンをひとつお願いします。"},
+    {txt:"🏫 先生に挨拶してください！",ans:"先生、おはようございます！よろしくお願いします。"},
+  ],
+  english:[
+    {txt:"📞 Your friend calls. How do you greet them?",ans:"Hello! How are you today? It's so good to hear from you!"},
+    {txt:"🎈 It's your classmate's birthday! What do you say?",ans:"Happy Birthday! I hope you have a wonderful day!"},
+    {txt:"🍕 You're at a restaurant. Order for the table!",ans:"Could we have a large pepperoni pizza, please? Thank you!"},
+  ],
+  default:[
+    {txt:"⭐ Share something interesting about yourself!",ans:"I am... [share something interesting!]"},
+    {txt:"🌟 Give a compliment to another player!",ans:"I think you are really good at... [give a genuine compliment!]"},
+  ]
+};
+
+/* ===================================================================
+   BADGES
+   ================================================================= */
+const BADGES=[
+  {id:'first',ico:'🌸',name:'First Bloom',req:p=>p.cc>=1},
+  {id:'streak3',ico:'🔥',name:'On Fire!',req:p=>p.streak>=3},
+  {id:'speak3',ico:'⭐',name:'Conversation Star',req:p=>p.speakc>=3},
+  {id:'vocab5',ico:'👑',name:'Vocab King',req:p=>p.vc>=5},
+  {id:'xp50',ico:'💎',name:'XP Master',req:p=>p.xp>=50},
+];
+
+/* ===================================================================
+   STATE
+   ================================================================= */
+const S={
+  players:[],cur:0,qs:[],curQ:null,
+  subj:'japanese',phase:'idle',showedAns:false,
+  spCb:null
+};
+
+/* ===================================================================
+   SPACED REPETITION
+   ================================================================= */
+const SRS={
+  correct(q){q.c++;q.p=Math.max(0.2,q.p*0.75);},
+  wrong(q){q.w++;q.p=Math.min(5,q.p*1.8+0.5);},
+  pick(pool){
+    if(!pool.length)return null;
+    let tot=pool.reduce((s,q)=>s+q.p,0),r=Math.random()*tot;
+    for(const q of pool){r-=q.p;if(r<=0)return q;}
+    return pool[pool.length-1];
+  }
+};
+
+/* ===================================================================
+   BOARD BUILD
+   ================================================================= */
+function buildBoard(){
+  const b=document.getElementById('board');b.innerHTML='';
+  const COLS=6,rows=Math.ceil(NTILES/COLS);
+  b.style.gridTemplateColumns=`repeat(${COLS},1fr)`;
+  // Snake path: row 0 L→R, row 1 R→L, etc.
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<COLS;c++){
+      const idx=r%2===0?r*COLS+c:r*COLS+(COLS-1-c);
+      if(idx>=NTILES){
+        const f=document.createElement('div');f.style.visibility='hidden';b.appendChild(f);continue;
+      }
+      const t=TILES[idx]||'normal';const td=TILE_DEFS[t]||TILE_DEFS.normal;
+      const el=document.createElement('div');
+      el.className=`tile ${td.cls}`;el.id=`t${idx}`;
+      el.innerHTML=`<div class="tile-n">${idx+1}</div>${td.ico?`<div class="tile-ico">${td.ico}</div>`:''}${td.lbl?`<div class="tile-lbl">${td.lbl}</div>`:''}<div class="tile-toks" id="tt${idx}"></div>`;
+      b.appendChild(el);
+    }
+  }
+}
+
+function renderTokens(){
+  document.querySelectorAll('.tile-toks').forEach(el=>el.innerHTML='');
+  S.players.forEach(p=>{
+    if(!p.on)return;
+    const s=document.getElementById(`tt${p.pos}`);
+    if(s){const sp=document.createElement('span');sp.className='ttok';sp.textContent=p.tok;s.appendChild(sp);}
+  });
+}
+
+/* ===================================================================
+   PLAYER BAR
+   ================================================================= */
+function renderBar(){
+  const bar=document.getElementById('p-bar');bar.innerHTML='';
+  S.players.forEach((p,i)=>{
+    if(!p.on)return;
+    const xp=Math.min(100,p.xp%100);
+    const el=document.createElement('div');
+    el.className=`pcard${i===S.cur?' cur':''}`;
+    el.innerHTML=`<div class="pc-top"><span class="pc-tok">${p.tok}</span><span class="pc-name">${p.name}</span></div><div class="pc-bot"><span class="pc-stat pc-stars">⭐${p.stars}</span><span class="pc-stat pc-xp">XP${p.xp}</span><span class="pc-stat" style="color:var(--ink-soft)">T${p.pos+1}</span></div><div class="xpbar-w"><div class="xpbar" style="width:${xp}%"></div></div>`;
+    bar.appendChild(el);
+  });
+}
+
+/* ===================================================================
+   TURN INFO
+   ================================================================= */
+function updateTurn(){
+  const p=S.players[S.cur];
+  document.getElementById('turn-info').innerHTML=`<span class="turn-tok">${p.tok}</span><strong>${p.name}</strong>'s turn!`;
+}
+
+/* ===================================================================
+   DICE + MOVEMENT
+   ================================================================= */
+async function roll(){
+  if(S.phase!=='idle')return;
+  S.phase='rolling';
+  document.getElementById('btn-roll').disabled=true;
+  const d=document.getElementById('dice');
+  let n=0;
+  const iv=setInterval(()=>{
+    d.textContent=DICE_F[Math.floor(Math.random()*6)];
+    d.classList.add('roll');n++;
+    if(n>14){
+      clearInterval(iv);d.classList.remove('roll');
+      const final=Math.floor(Math.random()*6)+1;
+      d.textContent=DICE_F[final-1];
+      movePlayer(final);
+    }
+  },80);
+}
+
+async function movePlayer(steps){
+  const p=S.players[S.cur];
+  const oldPos=p.pos;
+  const newPos=Math.min(oldPos+steps,NTILES-1);
+  toast(`${p.tok} moves ${steps} spaces!`);
+  for(let i=oldPos+1;i<=newPos;i++){
+    await pause(170);p.pos=i;renderTokens();
+    const tel=document.getElementById(`t${i}`);
+    if(tel){tel.style.transform='scale(1.12)';setTimeout(()=>tel.style.transform='',140);}
+  }
+  if(p.pos>=NTILES-1){p.pos=NTILES-1;renderTokens();setTimeout(()=>victory(p),400);return;}
+  await pause(280);
+  handleLand(TILES[p.pos],p);
+}
+
+function pause(ms){return new Promise(r=>setTimeout(r,ms));}
+
+/* ===================================================================
+   TILE LANDING
+   ================================================================= */
+function handleLand(type,p){
+  if(type==='bonus'){
+    showSpecial('⭐','BONUS!','+2 Spaces Forward!',`${p.tok} ${p.name} landed on BONUS! Move forward 2 spaces! 🎉`,()=>{
+      p.pos=Math.min(p.pos+2,NTILES-1);p.stars+=1;renderTokens();renderBar();endTurn();
+    });
+  } else if(type==='ohno'){
+    showSpecial('😱','OH NO!','Move Back 2 Spaces',`Oops! ${p.tok} ${p.name} stumbled! Move back 2 spaces! 😵`,()=>{
+      p.pos=Math.max(0,p.pos-2);renderTokens();renderBar();endTurn();
+    });
+  } else if(type==='challenge'){
+    const others=S.players.filter(x=>x.on&&x!==p);
+    const tgt=others.length?others[Math.floor(Math.random()*others.length)]:null;
+    const tname=tgt?`${tgt.tok} ${tgt.name}`:'another player';
+    showSpecial('🤝','CHALLENGE!',`Ask ${tname} a question!`,
+      `${p.tok} ${p.name} challenges ${tname}!\n\nAsk them any question you like.\nIf they answer → they get ⭐\nIf they miss → you get ⭐!`,
+      ()=>showQuestion());
+  } else if(type==='event'){
+    const evList=EVENTS[S.subj]||EVENTS.default;
+    const ev=evList[Math.floor(Math.random()*evList.length)];
+    showSpecial('🎉','RANDOM EVENT!','Life situation!',ev.txt+'\n\n💡 Sample: '+ev.ans,()=>{
+      p.stars+=1;p.xp+=5;renderBar();endTurn();
+    });
+  } else if(['vocab','quiz','speak','normal'].includes(type)){
+    showQuestion();
+  } else if(type==='start'){
+    p.stars+=1;toast('🌸 Pass START! +1⭐');setTimeout(endTurn,700);
+  } else {
+    endTurn();
+  }
+}
+
+/* ===================================================================
+   QUESTION POPUP
+   ================================================================= */
+function showQuestion(){
+  S.showedAns=false;
+  const q=SRS.pick(S.qs);
+  if(!q){endTurn();return;}
+  S.curQ=q;
+  const p=S.players[S.cur];
+  document.getElementById('q-ico').textContent=catIco(q.cat);
+  document.getElementById('q-title').textContent=`${p.tok} ${p.name}'s Turn`;
+  document.getElementById('q-cat').textContent=`${q.cat.toUpperCase()} · ${q.diff.toUpperCase()}`;
+  document.getElementById('q-txt').textContent=q.q;
+  document.getElementById('q-hint').textContent=`💡 ${q.h}`;
+  document.getElementById('q-ans-txt').textContent=q.a;
+  document.getElementById('q-ans').classList.remove('show');
+  document.getElementById('btn-show-ans').style.display='block';
+  document.getElementById('res-row').style.display='none';
+  document.getElementById('btn-cont-wrap').style.display='none';
+  document.getElementById('ov-q').classList.add('open');
+  S.phase='question';
+}
+
+function catIco(cat){
+  return{vocabulary:'📝',grammar:'📖',speaking:'🗣️',conversation:'💬',math:'🔢',science:'🔬',weekday:'📅',month:'🗓️',event:'🎉'}[cat]||'❓';
+}
+
+document.getElementById('btn-show-ans').addEventListener('click',()=>{
+  S.showedAns=true;
+  document.getElementById('q-ans').classList.add('show');
+  document.getElementById('btn-show-ans').style.display='none';
+  document.getElementById('res-row').style.display='flex';
+});
+
+document.getElementById('btn-ok').addEventListener('click',()=>{
+  const p=S.players[S.cur];const q=S.curQ;
+  SRS.correct(q);p.stars+=2;p.xp+=10;p.cc++;p.streak++;
+  if(q.cat==='speaking'||q.cat==='conversation')p.speakc=(p.speakc||0)+1;
+  if(q.cat==='vocabulary')p.vc=(p.vc||0)+1;
+  checkBadges(p);toast('🌸 Correct! +2⭐ +10XP');
+  closeQ();renderBar();endTurn();
+});
+
+document.getElementById('btn-miss').addEventListener('click',()=>{
+  SRS.wrong(S.curQ);S.players[S.cur].streak=0;
+  toast('😅 Keep practising! The question will come back!');
+  closeQ();renderBar();endTurn();
+});
+
+document.getElementById('btn-cont').addEventListener('click',()=>{closeQ();endTurn();});
+function closeQ(){document.getElementById('ov-q').classList.remove('open');S.phase='idle';}
+
+/* ===================================================================
+   SPECIAL POPUP
+   ================================================================= */
+function showSpecial(ico,title,cat,txt,cb){
+  document.getElementById('sp-ico').textContent=ico;
+  document.getElementById('sp-title').textContent=title;
+  document.getElementById('sp-cat').textContent=cat;
+  document.getElementById('sp-txt').textContent=txt;
+  S.spCb=cb;
+  document.getElementById('ov-sp').classList.add('open');
+}
+document.getElementById('btn-sp-ok').addEventListener('click',()=>{
+  document.getElementById('ov-sp').classList.remove('open');
+  if(S.spCb){S.spCb();S.spCb=null;}
+});
+
+/* ===================================================================
+   END TURN
+   ================================================================= */
+function endTurn(){
+  S.phase='idle';
+  const act=S.players.filter(p=>p.on);
+  let next=S.cur;
+  do{next=(next+1)%S.players.length;}while(!S.players[next].on&&next!==S.cur);
+  S.cur=next;
+  renderBar();renderTokens();updateTurn();
+  document.getElementById('btn-roll').disabled=false;
+  document.getElementById('dice').textContent='🎲';
+}
+
+/* ===================================================================
+   VICTORY
+   ================================================================= */
+function victory(winner){
+  document.getElementById('vic-win').textContent=`${winner.tok} ${winner.name} wins! 🎊`;
+  document.getElementById('vic-stats').innerHTML=
+    `<div class="vs"><div class="vs-v">⭐${winner.stars}</div><div class="vs-l">Stars</div></div>
+     <div class="vs"><div class="vs-v">${winner.xp}</div><div class="vs-l">XP</div></div>
+     <div class="vs"><div class="vs-v">${winner.cc}</div><div class="vs-l">Correct</div></div>`;
+  show('vic');
+}
+
+/* ===================================================================
+   BADGES
+   ================================================================= */
+function checkBadges(p){
+  BADGES.forEach(b=>{
+    if(!p.bdg.includes(b.id)&&b.req(p)){
+      p.bdg.push(b.id);
+      showBadge(`${b.ico} ${b.name} unlocked!`);
+    }
+  });
+}
+function showBadge(msg){
+  const el=document.getElementById('bnotif');
+  el.textContent=msg;el.style.display='block';el.classList.remove('out');
+  setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.style.display='none',400);},3000);
+}
+
+/* ===================================================================
+   TEACHER MODE
+   ================================================================= */
+let filterCat='all';
+function renderQList(cat){
+  filterCat=cat||'all';
+  const list=document.getElementById('t-qlist');
+  const qs=filterCat==='all'?S.qs:S.qs.filter(q=>q.cat===filterCat);
+  const bcls={vocabulary:'bv',grammar:'bg',speaking:'bs',conversation:'bs',event:'be',math:'bx',science:'bx'};
+  list.innerHTML=qs.map(q=>`
+    <div class="q-item">
+      <div class="q-top">
+        <span class="qbadge ${bcls[q.cat]||'bx'}">${q.cat}</span>
+        <div><div class="q-q">${q.q}</div><div class="q-h">${q.h}</div></div>
+      </div>
+      <div class="q-sts">
+        <span class="qs qs-c">✓ ${q.c}</span>
+        <span class="qs qs-w">✗ ${q.w}</span>
+        <span style="font-size:10px;color:#bbb;">p:${q.p.toFixed(1)}</span>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('btn-teach').addEventListener('click',()=>{
+  renderQList('all');document.getElementById('ov-teach').classList.add('open');
+});
+document.getElementById('btn-close-teach').addEventListener('click',()=>{
+  document.getElementById('ov-teach').classList.remove('open');
+});
+document.getElementById('btn-add-q').addEventListener('click',()=>{
+  const q=document.getElementById('nq-q').value.trim();
+  const h=document.getElementById('nq-h').value.trim();
+  const a=document.getElementById('nq-a').value.trim();
+  if(!q||!a){toast('Fill in question + answer!');return;}
+  S.qs.push({id:Date.now(),cat:document.getElementById('nq-cat').value,
+    diff:document.getElementById('nq-diff').value,q,h,a,c:0,w:0,p:1});
+  document.getElementById('nq-q').value='';
+  document.getElementById('nq-h').value='';
+  document.getElementById('nq-a').value='';
+  renderQList(filterCat);toast('✅ Question added!');
+});
+
+/* ===================================================================
+   TOAST
+   ================================================================= */
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+/* ===================================================================
+   SCREEN SWITCHING
+   ================================================================= */
+function show(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(`screen-${name}`).classList.add('active');
+}
+
+/* ===================================================================
+   GAME INIT
+   ================================================================= */
+function initGame(){
+  // Build players
+  S.players=[];
+  document.querySelectorAll('#p-rows .p-row').forEach((row,i)=>{
+    const name=row.querySelector('.p-input').value||`Player ${i+1}`;
+    const on=row.querySelector('.tog').classList.contains('on');
+    S.players.push({id:i,name,tok:TOKENS[i],pos:0,stars:0,xp:0,cc:0,streak:0,speakc:0,vc:0,bdg:[],on});
+  });
+  if(!S.players.some(p=>p.on))S.players[0].on=true;
+  // Deep copy questions
+  S.qs=JSON.parse(JSON.stringify(QDB[S.subj]||QDB.japanese));
+  S.cur=S.players.findIndex(p=>p.on);
+  S.phase='idle';
+  buildBoard();renderTokens();renderBar();updateTurn();
+  show('game');
+}
+
+/* ===================================================================
+   EVENT LISTENERS
+   ================================================================= */
+document.querySelectorAll('.subj-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.subj-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');S.subj=btn.dataset.sub;
+  });
+});
+document.querySelectorAll('.tog').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('on');btn.textContent=btn.classList.contains('on')?'✓':'+';
+  });
+});
+document.getElementById('btn-start').addEventListener('click',initGame);
+document.getElementById('btn-roll').addEventListener('click',roll);
+document.getElementById('btn-again').addEventListener('click',initGame);
+document.getElementById('btn-home').addEventListener('click',()=>show('title'));
+
+show('title');
+</script>
+</body>
+</html>
