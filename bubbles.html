@@ -4,27 +4,27 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>夜光 Bubble Vocabulary</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Inter:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════
    TOKENS
 ══════════════════════════════════════════ */
 :root {
-  --text-1: rgba(40,30,50,0.92);
-  --text-2: rgba(40,30,50,0.55);
-  --text-3: rgba(40,30,50,0.32);
+  --text-1: rgba(255,252,248,0.92);
+  --text-2: rgba(255,252,248,0.55);
+  --text-3: rgba(255,252,248,0.32);
 
-  /* Pastel gradient bg */
-  --bg-a: #fce4ec;
-  --bg-b: #e8f5e9;
-  --bg-c: #e3f2fd;
-  --bg-d: #fff9c4;
-  --bg-e: #f3e5f5;
+  /* Dark night background */
+  --bg-a: #0a0a14;
+  --bg-b: #0d0d1a;
+  --bg-c: #0f0f1e;
+  --bg-d: #0a0a14;
+  --bg-e: #0c0c18;
 
-  /* Bubble glass */
-  --glass:        rgba(255,255,255,0.22);
-  --glass-border: rgba(255,255,255,0.55);
-  --glass-shadow: rgba(200,180,220,0.20);
+  /* Bubble glass — thin iridescent film */
+  --glass:        rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.35);
+  --glass-shadow: rgba(160,120,255,0.15);
 
   /* Error tints — glass stays, border + glow warms up */
   --e1-border: rgba(255,160,80,0.55);
@@ -44,18 +44,10 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{
-  font-family:'Inter',sans-serif;
-  /* Animated pastel gradient background */
-  background: linear-gradient(135deg, var(--bg-a), var(--bg-c), var(--bg-e), var(--bg-b));
-  background-size: 400% 400%;
-  animation: bgShift 18s ease infinite;
-  color: var(--text-1);
+  font-family:'Zen Kaku Gothic New','Noto Sans JP','Inter',sans-serif;
+  background: #08080f;
+  color: rgba(255,255,255,0.88);
   user-select: none;
-}
-@keyframes bgShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* ══════════════════════════════════════════
@@ -72,10 +64,10 @@ body{
   position: relative; z-index: 20;
   display: flex; align-items: center; gap: 12px;
   padding: 12px 18px;
-  background: rgba(255,255,255,0.35);
+  background: rgba(8,8,15,0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
   flex-shrink: 0;
 }
 #hud-logo {
@@ -86,8 +78,8 @@ body{
 #hud-spacer { flex: 1; }
 .hud-pill {
   display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 99px; padding: 5px 12px;
   font-size: 13px; font-weight: 700; color: var(--text-1);
 }
@@ -95,19 +87,19 @@ body{
 .hud-mode-badge {
   font-size: 11px; font-weight: 700;
   padding: 5px 12px; border-radius: 99px;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   color: var(--text-2); letter-spacing: .04em;
 }
 #btn-teacher {
   padding: 6px 14px; border-radius: 99px;
-  border: 1px solid rgba(255,255,255,0.7);
-  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
   color: var(--text-1); font-size: 12px; font-weight: 700;
-  cursor: pointer; font-family: 'Inter',sans-serif;
+  cursor: pointer; font-family: 'Zen Kaku Gothic New','Noto Sans JP',sans-serif;
   transition: background .2s;
 }
-#btn-teacher:hover { background: rgba(255,255,255,0.7); }
+#btn-teacher:hover { background: rgba(255,255,255,0.14); }
 
 /* ── PROMPT ── */
 #prompt-bar {
@@ -122,12 +114,12 @@ body{
 }
 #prompt-word {
   font-size: clamp(32px, 6vw, 52px);
-  font-weight: 900; color: var(--text-1);
+  font-weight: 900; color: rgba(255,252,248,0.95);
   letter-spacing: -.02em; line-height: 1.1;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Zen Kaku Gothic New','Noto Sans JP', sans-serif;
   transition: opacity .2s;
 }
-#prompt-word.en-word { font-family: 'Inter', sans-serif; }
+#prompt-word.en-word { font-family: 'Zen Kaku Gothic New','Inter', sans-serif; }
 #prompt-sub {
   font-size: 13px; font-weight: 500; color: var(--text-3);
   margin-top: 4px;
@@ -157,64 +149,99 @@ body{
   justify-content: center;
   cursor: pointer;
 
-  /* Frosted glass */
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 2px solid var(--glass-border);
-  box-shadow:
-    0 8px 32px var(--glass-shadow),
-    inset 0 1px 0 rgba(255,255,255,0.6),
-    inset 0 -1px 0 rgba(255,255,255,0.15);
+  /* Iridescent soap film */
+  background:
+    radial-gradient(circle at 32% 28%,
+      rgba(255,255,255,0.18) 0%,
+      rgba(200,160,255,0.07) 25%,
+      rgba(100,220,255,0.06) 50%,
+      rgba(255,180,220,0.05) 75%,
+      transparent 100%),
+    radial-gradient(circle at 68% 72%,
+      rgba(100,255,200,0.06) 0%,
+      rgba(255,200,100,0.04) 40%,
+      transparent 70%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 
-  /* Font */
+  /* Thin iridescent film border */
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+  box-shadow:
+    /* outer iridescent rim */
+    0 0 0 1.5px rgba(255,255,255,0.22),
+    0 0 0 3px rgba(180,120,255,0.12),
+    /* highlight spot top-left */
+    inset 12px -8px 28px rgba(255,255,255,0.13),
+    inset -4px 8px 20px rgba(120,200,255,0.08),
+    /* colour shift bottom-right */
+    inset 4px 8px 24px rgba(255,140,200,0.07),
+    /* outer glow */
+    0 8px 40px rgba(150,120,255,0.14),
+    0 2px 12px rgba(255,255,255,0.06);
+
+  /* Font — Zarame Gothic */
+  font-family: 'Zen Kaku Gothic New','Noto Sans JP',sans-serif;
   font-weight: 900;
-  color: var(--text-1);
+  color: rgba(255,252,248,0.92);
   text-align: center;
   line-height: 1.15;
   padding: 10px;
+  text-shadow: 0 1px 8px rgba(180,120,255,0.4), 0 0 2px rgba(255,255,255,0.3);
 
-  transition: transform .15s, border-color .3s, box-shadow .3s;
+  transition: transform .15s, box-shadow .3s;
   will-change: transform;
-  animation: floatUp var(--dur, 9s) linear forwards;
+  animation: none; /* RAF-driven */
 }
-.bubble:hover  { transform: scale(1.07); }
-.bubble:active { transform: scale(0.95); }
+.bubble:hover  { transform: scale(1.08); }
+.bubble:active { transform: scale(0.94); }
 
-/* Error states — border + glow, glass stays transparent */
+/* Shimmer animation — colour shift cycles on the bubble surface */
+@keyframes iriShimmer {
+  0%   { filter: hue-rotate(0deg)   brightness(1.00); }
+  25%  { filter: hue-rotate(40deg)  brightness(1.04); }
+  50%  { filter: hue-rotate(80deg)  brightness(1.00); }
+  75%  { filter: hue-rotate(-30deg) brightness(1.03); }
+  100% { filter: hue-rotate(0deg)   brightness(1.00); }
+}
+
+/* Error states — warm glow added over iridescent, glass preserved */
 .bubble[data-err="1"] {
-  border-color: var(--e1-border);
   box-shadow:
-    0 8px 32px var(--glass-shadow),
-    0 0 14px var(--e1-glow),
-    inset 0 1px 0 rgba(255,255,255,0.5);
+    0 0 0 1.5px rgba(255,180,80,0.45),
+    0 0 0 3px rgba(255,140,60,0.12),
+    inset 12px -8px 28px rgba(255,255,255,0.13),
+    inset -4px 8px 20px rgba(255,160,80,0.12),
+    0 8px 40px rgba(255,140,60,0.18),
+    0 2px 12px rgba(255,255,255,0.06);
 }
 .bubble[data-err="2"] {
-  border-color: var(--e2-border);
   box-shadow:
-    0 8px 32px var(--glass-shadow),
-    0 0 22px var(--e2-glow),
-    inset 0 1px 0 rgba(255,255,255,0.45);
+    0 0 0 1.5px rgba(255,80,80,0.55),
+    0 0 0 4px rgba(220,60,60,0.14),
+    inset 12px -8px 28px rgba(255,255,255,0.13),
+    inset -4px 8px 20px rgba(255,100,100,0.15),
+    0 8px 40px rgba(220,60,60,0.28),
+    0 0 16px rgba(255,80,80,0.20);
 }
 .bubble[data-err="3"] {
-  border-color: var(--e3-border);
   box-shadow:
-    0 8px 32px var(--glass-shadow),
-    0 0 32px var(--e3-glow),
-    0 0 8px var(--e3-glow),
-    inset 0 1px 0 rgba(255,255,255,0.4);
-  animation: floatUp var(--dur, 9s) linear forwards, errPulse 2s ease-in-out infinite;
+    0 0 0 1.5px rgba(255,60,60,0.70),
+    0 0 0 5px rgba(200,30,30,0.18),
+    inset 12px -8px 28px rgba(255,255,255,0.13),
+    inset -4px 8px 20px rgba(255,80,80,0.20),
+    0 8px 48px rgba(200,30,30,0.40),
+    0 0 24px rgba(255,60,60,0.30);
+  animation: errPulse 2s ease-in-out infinite;
 }
 @keyframes errPulse {
-  0%,100% { box-shadow: 0 8px 32px var(--glass-shadow), 0 0 32px var(--e3-glow), inset 0 1px 0 rgba(255,255,255,.4); }
-  50%     { box-shadow: 0 8px 32px var(--glass-shadow), 0 0 48px rgba(190,30,30,0.38), inset 0 1px 0 rgba(255,255,255,.4); }
+  0%,100% { filter: hue-rotate(0deg) brightness(1.0); }
+  50%     { filter: hue-rotate(10deg) brightness(1.08); }
 }
 
 /* Feedback flashes */
 .bubble.flash-ok {
-  border-color: rgba(46,125,50,0.8) !important;
-  box-shadow: 0 0 36px rgba(46,125,50,0.4), inset 0 1px 0 rgba(255,255,255,.5) !important;
-  background: rgba(200,240,200,0.30) !important;
+  box-shadow: 0 0 0 2px rgba(100,255,150,0.7), 0 0 40px rgba(80,220,120,0.50), inset 0 0 20px rgba(100,255,150,0.15) !important;
 }
 .bubble.flash-err {
   border-color: rgba(198,40,40,0.8) !important;
@@ -240,10 +267,10 @@ body{
   position: relative; z-index: 20;
   display: flex; align-items: center; justify-content: center;
   gap: 18px; padding: 9px 20px 12px;
-  background: rgba(255,255,255,0.35);
+  background: rgba(8,8,15,0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(255,255,255,0.5);
+  border-top: 1px solid rgba(255,255,255,0.10);
   flex-shrink: 0; flex-wrap: wrap;
 }
 .legend {
@@ -252,7 +279,7 @@ body{
 }
 .ld {
   width: 12px; height: 12px; border-radius: 50%;
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.06);
   border: 2px solid;
 }
 .ld-0 { border-color: rgba(255,255,255,0.55); }
@@ -268,7 +295,7 @@ body{
   display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 18px;
   text-align: center; padding: 28px;
-  background: rgba(255,245,250,0.75);
+  background: rgba(8,8,15,0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -287,8 +314,8 @@ body{
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
 }
 .ov-card {
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 14px; padding: 14px 18px;
   font-size: 13px; font-weight: 600; color: var(--text-1);
   max-width: 140px; text-align: center; line-height: 1.5;
@@ -317,9 +344,9 @@ body{
 }
 #teacher-panel.open { display: flex; }
 #tp-box {
-  background: rgba(255,255,255,0.82);
+  background: rgba(14,14,24,0.92);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 22px;
   width: 100%; max-width: 480px;
   max-height: 85vh; overflow-y: auto;
@@ -330,11 +357,11 @@ body{
   border-bottom: 1px solid rgba(0,0,0,0.06);
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0;
-  background: rgba(255,255,255,0.9);
+  background: rgba(14,14,24,0.97);
   backdrop-filter: blur(8px);
   z-index: 5; border-radius: 22px 22px 0 0;
 }
-#tp-header h2 { font-size: 16px; font-weight: 800; color: var(--text-1); }
+#tp-header h2 { font-size: 16px; font-weight: 800; color: rgba(255,252,248,0.92); }
 #tp-close {
   width: 30px; height: 30px; border-radius: 50%;
   border: 1px solid rgba(0,0,0,0.10);
@@ -839,6 +866,9 @@ spawnBubble = function(word, minDur, maxDur) {
 
   arena.appendChild(bub);
   G.live.push(bub);
+  // Apply slow iridescent shimmer — offset per bubble so they don't sync
+  const shimOffset = Math.random() * 8;
+  bub.style.animation = `iriShimmer ${10 + Math.random()*6}s ${shimOffset}s ease-in-out infinite`;
   window._regBubble(bub, { x0, y0, x1, y1, dur, start: performance.now(), size, word });
 };
 
