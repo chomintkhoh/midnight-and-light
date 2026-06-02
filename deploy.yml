@@ -39,6 +39,9 @@ jobs:
       - name: Copy boardgame.html into dist
         run: cp boardgame.html dist/boardgame.html
 
+      - name: Copy bubbles.html into dist
+        run: cp bubbles.html dist/bubbles.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

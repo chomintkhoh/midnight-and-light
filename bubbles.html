@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>夜光 Bubble Vocabulary</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════ */
+:root {
+  --text-1: rgba(40,30,50,0.92);
+  --text-2: rgba(40,30,50,0.55);
+  --text-3: rgba(40,30,50,0.32);
+
+  /* Pastel gradient bg */
+  --bg-a: #fce4ec;
+  --bg-b: #e8f5e9;
+  --bg-c: #e3f2fd;
+  --bg-d: #fff9c4;
+  --bg-e: #f3e5f5;
+
+  /* Bubble glass */
+  --glass:        rgba(255,255,255,0.22);
+  --glass-border: rgba(255,255,255,0.55);
+  --glass-shadow: rgba(200,180,220,0.20);
+
+  /* Error tints — glass stays, border + glow warms up */
+  --e1-border: rgba(255,160,80,0.55);
+  --e1-glow:   rgba(255,160,80,0.12);
+  --e2-border: rgba(220,70,50,0.60);
+  --e2-glow:   rgba(220,70,50,0.18);
+  --e3-border: rgba(190,30,30,0.70);
+  --e3-glow:   rgba(190,30,30,0.26);
+
+  --ok:   #2e7d32;
+  --fail: #c62828;
+}
+
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Inter',sans-serif;
+  /* Animated pastel gradient background */
+  background: linear-gradient(135deg, var(--bg-a), var(--bg-c), var(--bg-e), var(--bg-b));
+  background-size: 400% 400%;
+  animation: bgShift 18s ease infinite;
+  color: var(--text-1);
+  user-select: none;
+}
+@keyframes bgShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ══════════════════════════════════════════
+   APP LAYOUT
+══════════════════════════════════════════ */
+#app {
+  position: relative;
+  width: 100vw; height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+/* ── HUD ── */
+#hud {
+  position: relative; z-index: 20;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  flex-shrink: 0;
+}
+#hud-logo {
+  font-size: 15px; font-weight: 800;
+  color: var(--text-1); letter-spacing: -.01em;
+}
+#hud-logo em { color: #9c5fa0; font-style: normal; }
+#hud-spacer { flex: 1; }
+.hud-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 99px; padding: 5px 12px;
+  font-size: 13px; font-weight: 700; color: var(--text-1);
+}
+.hud-pill span { font-size: 11px; font-weight: 600; color: var(--text-2); }
+.hud-mode-badge {
+  font-size: 11px; font-weight: 700;
+  padding: 5px 12px; border-radius: 99px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.7);
+  color: var(--text-2); letter-spacing: .04em;
+}
+#btn-teacher {
+  padding: 6px 14px; border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.45);
+  color: var(--text-1); font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: 'Inter',sans-serif;
+  transition: background .2s;
+}
+#btn-teacher:hover { background: rgba(255,255,255,0.7); }
+
+/* ── PROMPT ── */
+#prompt-bar {
+  position: relative; z-index: 20;
+  text-align: center;
+  padding: 22px 20px 16px;
+  flex-shrink: 0;
+}
+#prompt-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+}
+#prompt-word {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 900; color: var(--text-1);
+  letter-spacing: -.02em; line-height: 1.1;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: opacity .2s;
+}
+#prompt-word.en-word { font-family: 'Inter', sans-serif; }
+#prompt-sub {
+  font-size: 13px; font-weight: 500; color: var(--text-3);
+  margin-top: 4px;
+}
+#prompt-feedback {
+  height: 20px; margin-top: 4px;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase;
+  opacity: 0; transition: opacity .15s;
+}
+#prompt-feedback.ok  { color: var(--ok);  opacity: 1; }
+#prompt-feedback.err { color: var(--fail); opacity: 1; }
+
+/* ── ARENA ── */
+#arena {
+  flex: 1; position: relative; overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   BUBBLE — frosted glass
+══════════════════════════════════════════ */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  /* Frosted glass */
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.15);
+
+  /* Font */
+  font-weight: 900;
+  color: var(--text-1);
+  text-align: center;
+  line-height: 1.15;
+  padding: 10px;
+
+  transition: transform .15s, border-color .3s, box-shadow .3s;
+  will-change: transform;
+  animation: floatUp var(--dur, 9s) linear forwards;
+}
+.bubble:hover  { transform: scale(1.07); }
+.bubble:active { transform: scale(0.95); }
+
+/* Error states — border + glow, glass stays transparent */
+.bubble[data-err="1"] {
+  border-color: var(--e1-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    0 0 14px var(--e1-glow),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.bubble[data-err="2"] {
+  border-color: var(--e2-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    0 0 22px var(--e2-glow),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+}
+.bubble[data-err="3"] {
+  border-color: var(--e3-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    0 0 32px var(--e3-glow),
+    0 0 8px var(--e3-glow),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  animation: floatUp var(--dur, 9s) linear forwards, errPulse 2s ease-in-out infinite;
+}
+@keyframes errPulse {
+  0%,100% { box-shadow: 0 8px 32px var(--glass-shadow), 0 0 32px var(--e3-glow), inset 0 1px 0 rgba(255,255,255,.4); }
+  50%     { box-shadow: 0 8px 32px var(--glass-shadow), 0 0 48px rgba(190,30,30,0.38), inset 0 1px 0 rgba(255,255,255,.4); }
+}
+
+/* Feedback flashes */
+.bubble.flash-ok {
+  border-color: rgba(46,125,50,0.8) !important;
+  box-shadow: 0 0 36px rgba(46,125,50,0.4), inset 0 1px 0 rgba(255,255,255,.5) !important;
+  background: rgba(200,240,200,0.30) !important;
+}
+.bubble.flash-err {
+  border-color: rgba(198,40,40,0.8) !important;
+  box-shadow: 0 0 28px rgba(198,40,40,0.35), inset 0 1px 0 rgba(255,255,255,.4) !important;
+  animation: floatUp var(--dur,9s) linear forwards, shake .35s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0) scale(1); }
+  20%,60% { transform: translateX(-7px) scale(1.04); }
+  40%,80% { transform: translateX(7px) scale(1.04); }
+}
+
+/* Float keyframe — JS sets CSS vars for positions */
+@keyframes floatUp {
+  0%   { top: var(--y0); left: var(--x0); opacity: 0; transform: scale(0.8); }
+  6%   { opacity: 1; transform: scale(1); }
+  92%  { opacity: 1; }
+  100% { top: var(--y1); left: var(--x1); opacity: 0; transform: scale(0.9); }
+}
+
+/* ── BOTTOM BAR ── */
+#bottom-bar {
+  position: relative; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px; padding: 9px 20px 12px;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255,255,255,0.5);
+  flex-shrink: 0; flex-wrap: wrap;
+}
+.legend {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--text-3);
+}
+.ld {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: 2px solid;
+}
+.ld-0 { border-color: rgba(255,255,255,0.55); }
+.ld-1 { border-color: rgba(255,160,80,0.75); }
+.ld-2 { border-color: rgba(220,70,50,0.80); }
+.ld-3 { border-color: rgba(190,30,30,0.90); box-shadow: 0 0 6px rgba(190,30,30,0.5); }
+
+/* ══════════════════════════════════════════
+   START OVERLAY
+══════════════════════════════════════════ */
+#overlay {
+  position: absolute; inset: 0; z-index: 50;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 18px;
+  text-align: center; padding: 28px;
+  background: rgba(255,245,250,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+#overlay.hidden { display: none; }
+#overlay .ov-logo {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(28px,6vw,48px); font-weight: 900;
+  color: var(--text-1); letter-spacing: .04em;
+}
+#overlay .ov-logo em { color: #9c5fa0; font-style: normal; }
+#overlay p {
+  font-size: 14px; color: var(--text-2);
+  max-width: 300px; line-height: 1.75;
+}
+.ov-how {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+}
+.ov-card {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 14px; padding: 14px 18px;
+  font-size: 13px; font-weight: 600; color: var(--text-1);
+  max-width: 140px; text-align: center; line-height: 1.5;
+}
+.ov-card .oc-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+.btn-ov {
+  padding: 14px 40px; border-radius: 99px;
+  background: rgba(156,95,160,0.85); color: white;
+  border: none; font-size: 16px; font-weight: 800;
+  cursor: pointer; font-family: 'Inter',sans-serif;
+  box-shadow: 0 4px 20px rgba(156,95,160,0.4);
+  transition: opacity .2s, transform .2s;
+  backdrop-filter: blur(4px);
+}
+.btn-ov:hover { opacity: .88; transform: translateY(-2px); }
+
+/* ══════════════════════════════════════════
+   TEACHER PANEL
+══════════════════════════════════════════ */
+#teacher-panel {
+  position: fixed; inset: 0; z-index: 100;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(200,180,220,0.45);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 16px;
+}
+#teacher-panel.open { display: flex; }
+#tp-box {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 22px;
+  width: 100%; max-width: 480px;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(120,80,140,0.18);
+}
+#tp-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  z-index: 5; border-radius: 22px 22px 0 0;
+}
+#tp-header h2 { font-size: 16px; font-weight: 800; color: var(--text-1); }
+#tp-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.04);
+  color: var(--text-2); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s; font-family: 'Inter',sans-serif;
+}
+#tp-close:hover { background: rgba(0,0,0,0.10); color: var(--text-1); }
+#tp-body { padding: 18px 22px 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.tp-section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .10em;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 10px;
+}
+
+/* Error summary */
+.err-summary {
+  background: rgba(198,40,40,0.06);
+  border: 1px solid rgba(198,40,40,0.16);
+  border-radius: 12px; padding: 12px 14px; min-height: 40px;
+}
+.err-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 700;
+  background: rgba(198,40,40,0.10);
+  border: 1px solid rgba(198,40,40,0.25);
+  border-radius: 99px; padding: 3px 10px; margin: 3px;
+  color: #b71c1c;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.err-chip .ec-n {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 800;
+  background: rgba(198,40,40,0.25);
+  border-radius: 99px; padding: 1px 5px; color: #c62828;
+}
+
+/* Word rows */
+.word-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 11px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 10px; margin-bottom: 6px;
+}
+.w-jp {
+  flex: 1; background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.08); border-radius: 7px;
+  padding: 6px 9px; font-size: 15px; font-weight: 700;
+  font-family: 'Noto Sans JP',sans-serif;
+  color: var(--text-1); outline: none;
+  transition: border-color .2s;
+}
+.w-en {
+  flex: 1; background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.08); border-radius: 7px;
+  padding: 6px 9px; font-size: 14px; font-weight: 600;
+  font-family: 'Inter',sans-serif;
+  color: var(--text-1); outline: none;
+  transition: border-color .2s;
+}
+.w-jp:focus,.w-en:focus { border-color: rgba(156,95,160,0.5); }
+.w-err {
+  font-size: 10px; font-weight: 800;
+  padding: 2px 7px; border-radius: 99px; flex-shrink: 0;
+}
+.we-0 { background: rgba(0,0,0,0.05); color: var(--text-3); }
+.we-1 { background: rgba(255,160,80,0.15); color: #e65100; }
+.we-2 { background: rgba(220,70,50,0.15); color: #c62828; }
+.we-3 { background: rgba(190,30,30,0.20); color: #b71c1c; }
+.w-del {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid rgba(198,40,40,0.2);
+  background: rgba(198,40,40,0.06); color: rgba(198,40,40,0.7);
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s; font-family: 'Inter',sans-serif;
+}
+.w-del:hover { background: rgba(198,40,40,0.18); color: #c62828; }
+
+/* Add row */
+#add-row { display: flex; gap: 8px; align-items: center; }
+.tp-in {
+  flex: 1; background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.10); border-radius: 8px;
+  padding: 8px 11px; color: var(--text-1);
+  font-size: 14px; font-family: 'Inter',sans-serif; outline: none;
+}
+.tp-in:first-child { font-family: 'Noto Sans JP',sans-serif; }
+.tp-in:focus { border-color: rgba(156,95,160,0.5); }
+#tp-add {
+  padding: 8px 14px; border-radius: 8px;
+  background: rgba(156,95,160,0.15);
+  border: 1px solid rgba(156,95,160,0.3);
+  color: #6a1b6e; font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: 'Inter',sans-serif;
+  transition: all .2s; flex-shrink: 0;
+}
+#tp-add:hover { background: rgba(156,95,160,0.25); }
+
+/* Settings */
+.tp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.tp-lbl { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.tp-sel {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.10); border-radius: 8px;
+  padding: 6px 10px; color: var(--text-1);
+  font-size: 13px; font-family: 'Inter',sans-serif; outline: none; cursor: pointer;
+}
+
+/* Buttons */
+#tp-reset {
+  padding: 9px 0; border-radius: 9px; flex: 1;
+  background: rgba(198,40,40,0.08);
+  border: 1px solid rgba(198,40,40,0.20);
+  color: #c62828; font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: 'Inter',sans-serif; transition: all .2s;
+}
+#tp-reset:hover { background: rgba(198,40,40,0.16); }
+#tp-save {
+  padding: 11px 0; border-radius: 9px; flex: 2;
+  background: rgba(156,95,160,0.85); color: white;
+  border: none; font-size: 14px; font-weight: 800;
+  cursor: pointer; font-family: 'Inter',sans-serif; transition: opacity .2s;
+}
+#tp-save:hover { opacity: .88; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hud-logo">夜光 <em>Vocab</em></div>
+    <div id="hud-spacer"></div>
+    <div class="hud-pill"><span>Score</span><strong id="hud-score">0</strong></div>
+    <div class="hud-pill"><span>Round</span><strong id="hud-round">1</strong></div>
+    <div class="hud-mode-badge" id="hud-mode">EN → JP</div>
+    <button id="btn-teacher">⚙ Teacher</button>
+  </div>
+
+  <!-- PROMPT -->
+  <div id="prompt-bar">
+    <div id="prompt-label">Find the correct bubble</div>
+    <div id="prompt-word">—</div>
+    <div id="prompt-sub"></div>
+    <div id="prompt-feedback"></div>
+  </div>
+
+  <!-- ARENA -->
+  <div id="arena"></div>
+
+  <!-- BOTTOM LEGEND -->
+  <div id="bottom-bar">
+    <div class="legend"><div class="ld ld-0"></div>no errors</div>
+    <div class="legend"><div class="ld ld-1"></div>1× missed</div>
+    <div class="legend"><div class="ld ld-2"></div>2× missed</div>
+    <div class="legend"><div class="ld ld-3"></div>3+ missed</div>
+  </div>
+
+  <!-- START OVERLAY -->
+  <div id="overlay">
+    <div class="ov-logo">夜光 <em>Vocab</em></div>
+    <div class="ov-how">
+      <div class="ov-card"><span class="oc-icon">🇬🇧</span>See English<br/>tap Japanese bubble</div>
+      <div class="ov-card"><span class="oc-icon">🔄</span>Alternates<br/>every round</div>
+      <div class="ov-card"><span class="oc-icon">🇯🇵</span>See Japanese<br/>tap English bubble</div>
+    </div>
+    <p>Missed words glow red and appear more often — keep going until they fade.</p>
+    <button class="btn-ov" id="btn-start">Start →</button>
+  </div>
+
+</div><!-- #app -->
+
+<!-- TEACHER PANEL -->
+<div id="teacher-panel">
+  <div id="tp-box">
+    <div id="tp-header">
+      <h2>⚙ Teacher Mode</h2>
+      <button id="tp-close">×</button>
+    </div>
+    <div id="tp-body">
+
+      <div>
+        <div class="tp-section-title">Words needing attention</div>
+        <div id="tp-errs" class="err-summary"></div>
+      </div>
+
+      <div>
+        <div class="tp-section-title">Vocabulary list</div>
+        <div id="tp-list"></div>
+        <div id="add-row">
+          <input class="tp-in" id="tp-new-jp" placeholder="日本語"/>
+          <input class="tp-in" id="tp-new-en" placeholder="English"/>
+          <button id="tp-add">+ Add</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="tp-section-title">Settings</div>
+        <div class="tp-row">
+          <span class="tp-lbl">Bubbles per round</span>
+          <select class="tp-sel" id="tp-count">
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+          </select>
+        </div>
+        <div class="tp-row">
+          <span class="tp-lbl">Float speed</span>
+          <select class="tp-sel" id="tp-speed">
+            <option value="slow">Slow</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Fast</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button id="tp-reset" style="flex:1;">Reset errors</button>
+        <button id="tp-save" style="flex:2;">Save & Resume</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   VOCABULARY — teachers edit this array
+   Each entry: { jp, en, wrong }
+══════════════════════════════════════════════════════ */
+let VOCAB = [
+  { jp:"ねこ",     en:"cat",       wrong:0 },
+  { jp:"いぬ",     en:"dog",       wrong:0 },
+  { jp:"さかな",   en:"fish",      wrong:0 },
+  { jp:"とり",     en:"bird",      wrong:0 },
+  { jp:"くるま",   en:"car",       wrong:0 },
+  { jp:"きれい",   en:"beautiful", wrong:0 },
+  { jp:"たかい",   en:"expensive", wrong:0 },
+  { jp:"やすい",   en:"cheap",     wrong:0 },
+  { jp:"おおきい", en:"big",       wrong:0 },
+  { jp:"ちいさい", en:"small",     wrong:0 },
+  { jp:"はやい",   en:"fast",      wrong:0 },
+  { jp:"おそい",   en:"slow",      wrong:0 },
+  { jp:"あかい",   en:"red",       wrong:0 },
+  { jp:"あおい",   en:"blue",      wrong:0 },
+  { jp:"しろい",   en:"white",     wrong:0 },
+  { jp:"くろい",   en:"black",     wrong:0 },
+  { jp:"あたらしい",en:"new",      wrong:0 },
+  { jp:"ふるい",   en:"old",       wrong:0 },
+];
+
+/* ══════════════════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════════════════ */
+const CFG = {
+  count: 5,
+  speedMap: { slow:[12,18], normal:[7,12], fast:[4,8] },
+  speed: 'normal',
+};
+
+/* ══════════════════════════════════════════════════════
+   GAME STATE
+══════════════════════════════════════════════════════ */
+const G = {
+  score:   0,
+  round:   1,
+  mode:    'en-jp',   // 'en-jp' or 'jp-en', alternates each round
+  current: null,      // target word object
+  live:    [],        // active bubble elements
+  alive:   true,      // accepting input
+};
+
+/* ══════════════════════════════════════════════════════
+   WEIGHTED WORD SELECTION
+   High-wrong words appear more often.
+══════════════════════════════════════════════════════ */
+function weightedPool() {
+  const pool = [];
+  VOCAB.forEach(w => {
+    const copies = 1 + Math.min(Math.round(w.wrong * 1.6), 5);
+    for (let i = 0; i < copies; i++) pool.push(w);
+  });
+  return pool;
+}
+
+function pickWords(n) {
+  const pool = weightedPool();
+  // shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.random() * (i + 1) | 0;
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const chosen = []; const seen = new Set();
+  for (const w of pool) {
+    if (!seen.has(w.jp)) { chosen.push(w); seen.add(w.jp); }
+    if (chosen.length >= n) break;
+  }
+  return chosen;
+}
+
+/* ══════════════════════════════════════════════════════
+   ERROR LEVEL  0-3
+══════════════════════════════════════════════════════ */
+function errLv(w) {
+  if (w.wrong === 0) return 0;
+  if (w.wrong === 1) return 1;
+  if (w.wrong === 2) return 2;
+  return 3;
+}
+
+/* ══════════════════════════════════════════════════════
+   BUBBLE SIZE — bigger base, +bonus for high error
+══════════════════════════════════════════════════════ */
+function bubSize(w) {
+  const base  = 90 + Math.random() * 40;  // 90–130px
+  const bonus = Math.min(w.wrong * 6, 24); // up to +24px
+  return base + bonus;
+}
+
+/* ══════════════════════════════════════════════════════
+   SPAWN ROUND
+══════════════════════════════════════════════════════ */
+function spawnRound() {
+  const arena = document.getElementById('arena');
+  arena.innerHTML = '';
+  G.live = [];
+
+  const words  = pickWords(CFG.count);
+  const [mn,mx] = CFG.speedMap[CFG.speed];
+
+  // Pick target — bias toward high-wrong
+  const highErr = words.filter(w => w.wrong >= 2);
+  G.current = highErr.length && Math.random() < 0.65
+    ? highErr[Math.random() * highErr.length | 0]
+    : words[Math.random() * words.length | 0];
+
+  // Update prompt
+  showPrompt();
+
+  // Staggered spawn
+  words.forEach((word, i) => {
+    const delay = i * (350 + Math.random() * 250);
+    setTimeout(() => {
+      if (!document.getElementById('overlay').classList.contains('hidden') === false &&
+          document.getElementById('teacher-panel').classList.contains('open')) return;
+      spawnBubble(word, mn, mx);
+    }, delay);
+  });
+}
+
+function spawnBubble(word, minDur, maxDur) {
+  const arena = document.getElementById('arena');
+  const AW    = arena.clientWidth;
+  const AH    = arena.clientHeight;
+  const size  = bubSize(word);
+  const dur   = minDur + Math.random() * (maxDur - minDur);
+
+  // Horizontal: error-gravity pulls high-wrong toward center
+  let xPct = 8 + Math.random() * 84;
+  if (errLv(word) >= 2) xPct = xPct * 0.35 + 50 * 0.65 + (Math.random()-0.5)*10;
+  const x0 = Math.max(0, Math.min(AW - size, (xPct/100)*AW - size/2));
+  // Slight horizontal drift during float
+  const x1 = x0 + (Math.random()-0.5)*80;
+  const y0 = AH + 10;
+  const y1 = -size - 20;
+
+  const bub = document.createElement('div');
+  bub.className = 'bubble';
+  bub.dataset.jp  = word.jp;
+  bub.dataset.err = errLv(word);
+
+  // What the bubble SHOWS depends on mode
+  // en-jp mode: prompt=EN, bubble shows JP
+  // jp-en mode: prompt=JP, bubble shows EN
+  const showJP = (G.mode === 'en-jp');
+  const displayText = showJP ? word.jp : word.en;
+  const isJP = showJP;
+
+  // Font sizes — bold and large
+  const fontSize = size < 100
+    ? (isJP ? '22px' : '18px')
+    : size < 120
+      ? (isJP ? '26px' : '20px')
+      : (isJP ? '30px' : '23px');
+
+  bub.style.cssText = `
+    width:${size}px; height:${size}px;
+    --x0:${x0}px; --y0:${y0}px; --x1:${x1}px; --y1:${y1}px;
+    --dur:${dur}s;
+    font-size:${fontSize};
+    font-family:${isJP ? "'Noto Sans JP',sans-serif" : "'Inter',sans-serif"};
+    font-weight:900;
+    letter-spacing:${isJP ? '.04em' : '-.01em'};
+  `;
+  bub.textContent = displayText;
+
+  bub.addEventListener('click', () => onTap(bub, word));
+  bub.addEventListener('animationend', () => onExpire(bub));
+
+  arena.appendChild(bub);
+  G.live.push(bub);
+}
+
+/* ══════════════════════════════════════════════════════
+   FLOAT ANIMATION — uses CSS vars set per-bubble
+══════════════════════════════════════════════════════ */
+// Override the @keyframes to use per-element CSS vars
+// We achieve this by setting style directly & using Web Animations API
+// as a fallback since CSS @keyframe can't read per-element vars in all browsers.
+// Use JS animation loop instead — simple and reliable.
+(function patchAnimation() {
+  // Override .bubble animation to use JS for movement
+  // Inject a style that disables the CSS animation
+  const s = document.createElement('style');
+  s.textContent = `.bubble { animation: none !important; }`;
+  document.head.appendChild(s);
+
+  // We'll drive position with requestAnimationFrame
+  const activeBubbles = new Map(); // el -> {x0,y0,x1,y1,dur,start,size,word}
+
+  const origSpawn = window.spawnBubble;
+
+  // Patch spawnBubble after page load
+  document.addEventListener('DOMContentLoaded', () => {}, false);
+
+  // RAF loop
+  let raf;
+  function tick(ts) {
+    activeBubbles.forEach((data, el) => {
+      if (!el.parentNode) { activeBubbles.delete(el); return; }
+      const t = Math.min((ts - data.start) / (data.dur * 1000), 1);
+      const ease = t; // linear
+      const opacity = t < 0.06 ? t/0.06 : t > 0.92 ? (1-t)/0.08 : 1;
+      const scale   = t < 0.06 ? 0.8 + (t/0.06)*0.2 : 1;
+      const x = data.x0 + (data.x1 - data.x0) * ease;
+      const y = data.y0 + (data.y1 - data.y0) * ease;
+      el.style.left    = x + 'px';
+      el.style.top     = y + 'px';
+      el.style.opacity = opacity;
+      el.style.transform = `scale(${scale})`;
+      if (t >= 1) {
+        activeBubbles.delete(el);
+        el.dispatchEvent(new Event('animationend'));
+      }
+    });
+    raf = requestAnimationFrame(tick);
+  }
+  raf = requestAnimationFrame(tick);
+
+  // Expose register function
+  window._regBubble = (el, data) => activeBubbles.set(el, data);
+  window._killBubble = (el) => activeBubbles.delete(el);
+})();
+
+/* Patch spawnBubble to use RAF instead of CSS animation */
+const _origSpawn = spawnBubble;
+spawnBubble = function(word, minDur, maxDur) {
+  const arena = document.getElementById('arena');
+  const AW    = arena.clientWidth  || window.innerWidth;
+  const AH    = arena.clientHeight || window.innerHeight * 0.6;
+  const size  = bubSize(word);
+  const dur   = minDur + Math.random() * (maxDur - minDur);
+
+  let xPct = 8 + Math.random() * 84;
+  if (errLv(word) >= 2) xPct = xPct * 0.35 + 50 * 0.65 + (Math.random()-0.5)*10;
+  const x0 = Math.max(0, Math.min(AW - size, (xPct/100)*AW - size/2));
+  const x1 = x0 + (Math.random()-0.5)*80;
+  const y0 = AH + 10;
+  const y1 = -size - 20;
+
+  const bub = document.createElement('div');
+  bub.className = 'bubble';
+  bub.dataset.jp  = word.jp;
+  bub.dataset.err = errLv(word);
+
+  const showJP   = (G.mode === 'en-jp');
+  const display  = showJP ? word.jp : word.en;
+  const isJP     = showJP;
+  const fontSize = size < 100 ? (isJP?'22px':'18px')
+                 : size < 120 ? (isJP?'26px':'21px')
+                              : (isJP?'30px':'24px');
+
+  Object.assign(bub.style, {
+    width:       size+'px',
+    height:      size+'px',
+    left:        x0+'px',
+    top:         y0+'px',
+    opacity:     '0',
+    fontSize:    fontSize,
+    fontFamily:  isJP ? "'Noto Sans JP',sans-serif" : "'Inter',sans-serif",
+    fontWeight:  '900',
+    letterSpacing: isJP ? '.04em' : '-.01em',
+    position:    'absolute',
+  });
+  bub.textContent = display;
+
+  bub.addEventListener('click', () => onTap(bub, word));
+  bub.addEventListener('animationend', () => onExpire(bub));
+
+  arena.appendChild(bub);
+  G.live.push(bub);
+  window._regBubble(bub, { x0, y0, x1, y1, dur, start: performance.now(), size, word });
+};
+
+/* ══════════════════════════════════════════════════════
+   INTERACTION
+══════════════════════════════════════════════════════ */
+function onTap(bub, word) {
+  if (!G.alive) return;
+  const correct = (word.jp === G.current.jp);
+
+  if (correct) {
+    G.score++;
+    word.wrong = Math.max(0, word.wrong - 1);
+    updateHUD();
+    feedback('ok', '✓ Correct!');
+    bub.classList.add('flash-ok');
+    window._killBubble(bub);
+    setTimeout(() => {
+      if (bub.parentNode) bub.parentNode.removeChild(bub);
+      G.live = G.live.filter(b => b !== bub);
+      clearArena();
+      nextRound();
+    }, 380);
+  } else {
+    word.wrong++;
+    feedback('err', '✗ Try again');
+    bub.classList.add('flash-err');
+    // Update error visual on all bubbles showing this wrong word
+    G.live.forEach(b => {
+      if (b.dataset.jp === word.jp) b.dataset.err = errLv(word);
+    });
+    setTimeout(() => bub.classList.remove('flash-err'), 380);
+  }
+}
+
+function onExpire(bub) {
+  window._killBubble(bub);
+  G.live = G.live.filter(b => b !== bub);
+  if (bub.parentNode) bub.parentNode.removeChild(bub);
+  if (G.live.length === 0) nextRound();
+}
+
+function clearArena() {
+  G.live.forEach(b => {
+    window._killBubble(b);
+    if (b.parentNode) b.parentNode.removeChild(b);
+  });
+  G.live = [];
+}
+
+function nextRound() {
+  G.round++;
+  // Alternate mode
+  G.mode = G.mode === 'en-jp' ? 'jp-en' : 'en-jp';
+  updateHUD();
+  setTimeout(spawnRound, 300);
+}
+
+/* ══════════════════════════════════════════════════════
+   PROMPT
+══════════════════════════════════════════════════════ */
+function showPrompt() {
+  const wordEl  = document.getElementById('prompt-word');
+  const subEl   = document.getElementById('prompt-sub');
+  const lbl     = document.getElementById('prompt-label');
+  const modeEl  = document.getElementById('hud-mode');
+
+  wordEl.style.opacity = '0';
+  setTimeout(() => {
+    if (G.mode === 'en-jp') {
+      // Prompt shows English → find Japanese
+      wordEl.textContent = G.current.en;
+      wordEl.className   = 'en-word';
+      wordEl.style.fontFamily = "'Inter',sans-serif";
+      subEl.textContent  = 'tap the Japanese bubble →';
+      lbl.textContent    = 'Find the Japanese for:';
+      modeEl.textContent = 'EN → JP';
+    } else {
+      // Prompt shows Japanese → find English
+      wordEl.textContent = G.current.jp;
+      wordEl.className   = '';
+      wordEl.style.fontFamily = "'Noto Sans JP',sans-serif";
+      subEl.textContent  = 'tap the English bubble →';
+      lbl.textContent    = 'Find the English for:';
+      modeEl.textContent = 'JP → EN';
+    }
+    wordEl.style.opacity = '1';
+  }, 150);
+}
+
+/* ══════════════════════════════════════════════════════
+   FEEDBACK
+══════════════════════════════════════════════════════ */
+function feedback(type, msg) {
+  const el = document.getElementById('prompt-feedback');
+  el.textContent = msg;
+  el.className = type;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = '', 1600);
+}
+
+/* ══════════════════════════════════════════════════════
+   HUD
+══════════════════════════════════════════════════════ */
+function updateHUD() {
+  document.getElementById('hud-score').textContent = G.score;
+  document.getElementById('hud-round').textContent = G.round;
+}
+
+/* ══════════════════════════════════════════════════════
+   TEACHER PANEL
+══════════════════════════════════════════════════════ */
+function openTeacher() {
+  G.alive = false;
+  renderTP();
+  document.getElementById('teacher-panel').classList.add('open');
+}
+function closeTeacher() {
+  document.getElementById('teacher-panel').classList.remove('open');
+  G.alive = true;
+}
+
+function renderTP() {
+  // Error chips
+  const errs = VOCAB.filter(w=>w.wrong>0).sort((a,b)=>b.wrong-a.wrong);
+  const ec   = document.getElementById('tp-errs');
+  ec.innerHTML = errs.length
+    ? errs.map(w=>`<span class="err-chip">${w.jp} <span class="ec-n">${w.wrong}×</span></span>`).join('')
+    : '<span style="font-size:13px;color:var(--text-3)">No errors yet!</span>';
+
+  // Word list
+  const list = document.getElementById('tp-list');
+  list.innerHTML = VOCAB.map((w,i) => `
+    <div class="word-row" data-i="${i}">
+      <input class="w-jp" value="${w.jp}" placeholder="日本語"/>
+      <input class="w-en" value="${w.en}" placeholder="English"/>
+      <span class="w-err we-${errLv(w)}">${w.wrong}✗</span>
+      <button class="w-del" data-i="${i}">×</button>
+    </div>`).join('');
+
+  list.querySelectorAll('.w-del').forEach(btn => {
+    btn.onclick = () => { VOCAB.splice(+btn.dataset.i,1); renderTP(); };
+  });
+
+  // Sync settings selects
+  document.getElementById('tp-count').value = CFG.count;
+  document.getElementById('tp-speed').value  = CFG.speed;
+}
+
+document.getElementById('tp-add').onclick = () => {
+  const jp = document.getElementById('tp-new-jp').value.trim();
+  const en = document.getElementById('tp-new-en').value.trim();
+  if (!jp||!en) return;
+  VOCAB.push({jp,en,wrong:0});
+  document.getElementById('tp-new-jp').value = '';
+  document.getElementById('tp-new-en').value = '';
+  renderTP();
+};
+document.getElementById('tp-reset').onclick = () => { VOCAB.forEach(w=>w.wrong=0); renderTP(); };
+document.getElementById('tp-save').onclick  = () => {
+  // commit edits
+  document.querySelectorAll('#tp-list .word-row').forEach(row => {
+    const i = +row.dataset.i;
+    if (VOCAB[i]) {
+      VOCAB[i].jp = row.querySelector('.w-jp').value.trim() || VOCAB[i].jp;
+      VOCAB[i].en = row.querySelector('.w-en').value.trim() || VOCAB[i].en;
+    }
+  });
+  CFG.count = +document.getElementById('tp-count').value;
+  CFG.speed  = document.getElementById('tp-speed').value;
+  closeTeacher();
+  clearArena();
+  spawnRound();
+};
+document.getElementById('btn-teacher').onclick  = openTeacher;
+document.getElementById('tp-close').onclick     = closeTeacher;
+document.getElementById('teacher-panel').onclick = e => {
+  if (e.target===document.getElementById('teacher-panel')) closeTeacher();
+};
+
+/* ══════════════════════════════════════════════════════
+   START
+══════════════════════════════════════════════════════ */
+document.getElementById('btn-start').onclick = () => {
+  document.getElementById('overlay').classList.add('hidden');
+  G.alive = true;
+  spawnRound();
+};
+updateHUD();
+</script>
+</body>
+</html>
