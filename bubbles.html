@@ -302,13 +302,13 @@ body{
 #overlay.hidden { display: none; }
 #overlay .ov-logo {
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: clamp(28px,6vw,48px); font-weight: 900;
+  font-size: clamp(32px,6vw,52px); font-weight: 900;
   color: var(--text-1); letter-spacing: .04em;
 }
 #overlay .ov-logo em { color: #9c5fa0; font-style: normal; }
 #overlay p {
-  font-size: 14px; color: var(--text-2);
-  max-width: 300px; line-height: 1.75;
+  font-size: clamp(15px,2.2vw,18px); color: var(--text-2);
+  max-width: 380px; line-height: 1.75;
 }
 .ov-how {
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
@@ -322,11 +322,11 @@ body{
 }
 .ov-card .oc-icon { font-size: 22px; display: block; margin-bottom: 5px; }
 .btn-ov {
-  padding: 14px 40px; border-radius: 99px;
+  padding: 16px 56px; border-radius: 99px;
   background: rgba(156,95,160,0.85); color: white;
-  border: none; font-size: 16px; font-weight: 800;
-  cursor: pointer; font-family: 'Inter',sans-serif;
-  box-shadow: 0 4px 20px rgba(156,95,160,0.4);
+  border: none; font-size: clamp(17px,2.5vw,20px); font-weight: 800;
+  cursor: pointer; font-family: 'Zen Kaku Gothic New','Inter',sans-serif;
+  box-shadow: 0 4px 24px rgba(156,95,160,0.45);
   transition: opacity .2s, transform .2s;
   backdrop-filter: blur(4px);
 }
@@ -489,6 +489,126 @@ body{
   cursor: pointer; font-family: 'Inter',sans-serif; transition: opacity .2s;
 }
 #tp-save:hover { opacity: .88; }
+
+/* ── Subject / Level / Theme selector ── */
+.sel-group {
+  width: 100%; max-width: 380px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.sel-label {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* Subject tabs */
+.subj-tabs {
+  display: flex; gap: 8px;
+}
+.subj-tab {
+  padding: 12px 28px; border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,252,248,0.55);
+  font-size: 17px; font-weight: 800;
+  cursor: pointer;
+  font-family: "Zen Kaku Gothic New","Noto Sans JP",sans-serif;
+  transition: all .2s;
+}
+.subj-tab:hover {
+  background: rgba(200,180,255,0.12);
+  color: rgba(255,252,248,0.85);
+}
+.subj-tab.active {
+  background: linear-gradient(135deg,
+    rgba(180,140,255,0.32), rgba(120,200,255,0.22), rgba(255,160,220,0.20));
+  border-color: rgba(220,200,255,0.60);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(180,140,255,0.28), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+/* Per-subject settings panel */
+.subj-panel {
+  width: 100%; max-width: 480px;
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 16px;
+}
+
+/* Hint text — large and readable */
+.ov-hint {
+  font-size: clamp(14px, 2.2vw, 18px);
+  font-weight: 500;
+  color: rgba(255,252,248,0.45);
+  max-width: 380px;
+  text-align: center;
+  line-height: 1.75;
+}
+.sel-row {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.sel-btn {
+  padding: 11px 20px; border-radius: 99px;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,252,248,0.65);
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: 'Zen Kaku Gothic New','Noto Sans JP',sans-serif;
+  transition: all .2s;
+}
+.sel-btn:hover {
+  background: rgba(200,180,255,0.12);
+  border-color: rgba(200,180,255,0.35);
+  color: rgba(255,252,248,0.92);
+}
+.sel-btn.active {
+  background: linear-gradient(135deg,
+    rgba(180,140,255,0.28),
+    rgba(120,200,255,0.20),
+    rgba(255,160,220,0.18));
+  border-color: rgba(220,200,255,0.55);
+  color: rgba(255,252,248,0.96);
+  box-shadow: 0 0 16px rgba(180,140,255,0.25),
+              inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.word-count-info {
+  font-size: 15px; font-weight: 600;
+  color: rgba(200,180,255,0.8);
+  letter-spacing: .03em;
+  min-height: 22px;
+}
+
+/* ── Dramatic bubble pop — correct answer ── */
+@keyframes bubblePop {
+  0%   { transform: scale(1);    opacity: 1; filter: brightness(1); }
+  15%  { transform: scale(1.35); opacity: 1; filter: brightness(1.6) hue-rotate(40deg); }
+  35%  { transform: scale(0.85); opacity: 0.8; filter: brightness(1.2); }
+  55%  { transform: scale(1.15); opacity: 0.5; filter: brightness(1.4) hue-rotate(-20deg); }
+  100% { transform: scale(0.1);  opacity: 0; filter: brightness(2); }
+}
+/* ── Dramatic expire — floated away ── */
+@keyframes bubbleExpire {
+  0%   { opacity: 1;   transform: scale(1) translateY(0); filter: blur(0px); }
+  40%  { opacity: 0.7; transform: scale(1.08) translateY(-10px); filter: blur(0px); }
+  100% { opacity: 0;   transform: scale(0.5) translateY(-30px); filter: blur(4px); }
+}
+/* ── Wrong shake stays but enhanced ── */
+@keyframes bubbleWrong {
+  0%,100% { transform: translateX(0)   scale(1); }
+  15%     { transform: translateX(-10px) scale(1.06); }
+  30%     { transform: translateX( 10px) scale(1.06); }
+  45%     { transform: translateX(-7px)  scale(1.04); }
+  60%     { transform: translateX( 7px)  scale(1.04); }
+  75%     { transform: translateX(-4px)  scale(1.02); }
+}
+/* spawn entrance */
+@keyframes bubbleSpawn {
+  0%   { opacity: 0; transform: scale(0.4); filter: blur(8px) brightness(2); }
+  50%  { opacity: 0.9; transform: scale(1.08); filter: blur(0px) brightness(1.3); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0px) brightness(1); }
+}
 </style>
 </head>
 <body>
@@ -526,12 +646,47 @@ body{
   <!-- START OVERLAY -->
   <div id="overlay">
     <div class="ov-logo">夜光 <em>Vocab</em></div>
-    <div class="ov-how">
-      <div class="ov-card"><span class="oc-icon">🇬🇧</span>See English<br/>tap Japanese bubble</div>
-      <div class="ov-card"><span class="oc-icon">🔄</span>Alternates<br/>every round</div>
-      <div class="ov-card"><span class="oc-icon">🇯🇵</span>See Japanese<br/>tap English bubble</div>
+
+    <!-- SUBJECT TABS -->
+    <div class="subj-tabs" id="subj-tabs">
+      <button class="subj-tab active" data-subject="japanese">🇯🇵 Japanese</button>
+      <button class="subj-tab"        data-subject="mandarin">🇨🇳 Mandarin</button>
     </div>
-    <p>Missed words glow red and appear more often — keep going until they fade.</p>
+
+    <!-- JAPANESE SETTINGS PANEL -->
+    <div class="subj-panel" id="panel-japanese">
+      <div class="sel-group">
+        <div class="sel-label">Level</div>
+        <div class="sel-row" id="jp-sel-level">
+          <button class="sel-btn active" data-level="beginner">🌱 Beginner</button>
+          <button class="sel-btn"        data-level="intermediate">🌿 Intermediate</button>
+        </div>
+      </div>
+      <div class="sel-group">
+        <div class="sel-label">Theme</div>
+        <div class="sel-row" id="jp-sel-theme"></div>
+      </div>
+    </div>
+
+    <!-- MANDARIN SETTINGS PANEL -->
+    <div class="subj-panel" id="panel-mandarin" style="display:none;">
+      <div class="sel-group">
+        <div class="sel-label">Level</div>
+        <div class="sel-row" id="cn-sel-level">
+          <button class="sel-btn active" data-level="beginner">🌱 Beginner</button>
+          <button class="sel-btn"        data-level="intermediate">🌿 Intermediate</button>
+        </div>
+      </div>
+      <div class="sel-group">
+        <div class="sel-label">Theme</div>
+        <div class="sel-row" id="cn-sel-theme"></div>
+      </div>
+    </div>
+
+    <!-- WORD COUNT + HINT -->
+    <div class="word-count-info" id="word-count-info"></div>
+    <div class="ov-hint">Missed words glow red and come back more often. Keep going until they fade.</div>
+
     <button class="btn-ov" id="btn-start">Start →</button>
   </div>
 
@@ -592,29 +747,184 @@ body{
 
 <script>
 /* ══════════════════════════════════════════════════════
-   VOCABULARY — teachers edit this array
-   Each entry: { jp, en, wrong }
+   VOCABULARY DATABASE
+   Structure: DB[subject][level][theme] = [{jp/zh, en, wrong}]
+   ── Max recommended: 20–40 words per theme ──
+   ── Teachers: add words in Teacher Mode panel ──
 ══════════════════════════════════════════════════════ */
-let VOCAB = [
-  { jp:"ねこ",     en:"cat",       wrong:0 },
-  { jp:"いぬ",     en:"dog",       wrong:0 },
-  { jp:"さかな",   en:"fish",      wrong:0 },
-  { jp:"とり",     en:"bird",      wrong:0 },
-  { jp:"くるま",   en:"car",       wrong:0 },
-  { jp:"きれい",   en:"beautiful", wrong:0 },
-  { jp:"たかい",   en:"expensive", wrong:0 },
-  { jp:"やすい",   en:"cheap",     wrong:0 },
-  { jp:"おおきい", en:"big",       wrong:0 },
-  { jp:"ちいさい", en:"small",     wrong:0 },
-  { jp:"はやい",   en:"fast",      wrong:0 },
-  { jp:"おそい",   en:"slow",      wrong:0 },
-  { jp:"あかい",   en:"red",       wrong:0 },
-  { jp:"あおい",   en:"blue",      wrong:0 },
-  { jp:"しろい",   en:"white",     wrong:0 },
-  { jp:"くろい",   en:"black",     wrong:0 },
-  { jp:"あたらしい",en:"new",      wrong:0 },
-  { jp:"ふるい",   en:"old",       wrong:0 },
-];
+const DB = {
+
+  japanese: {
+    beginner: {
+      "🐾 Animals": [
+        {jp:"ねこ",en:"cat",wrong:0},{jp:"いぬ",en:"dog",wrong:0},
+        {jp:"さかな",en:"fish",wrong:0},{jp:"とり",en:"bird",wrong:0},
+        {jp:"うさぎ",en:"rabbit",wrong:0},{jp:"くま",en:"bear",wrong:0},
+        {jp:"さる",en:"monkey",wrong:0},{jp:"ぞう",en:"elephant",wrong:0},
+        {jp:"きりん",en:"giraffe",wrong:0},{jp:"へび",en:"snake",wrong:0},
+        {jp:"かめ",en:"turtle",wrong:0},{jp:"うま",en:"horse",wrong:0},
+      ],
+      "🍎 Food": [
+        {jp:"りんご",en:"apple",wrong:0},{jp:"バナナ",en:"banana",wrong:0},
+        {jp:"みず",en:"water",wrong:0},{jp:"ごはん",en:"rice",wrong:0},
+        {jp:"パン",en:"bread",wrong:0},{jp:"たまご",en:"egg",wrong:0},
+        {jp:"にく",en:"meat",wrong:0},{jp:"さかな",en:"fish",wrong:0},
+        {jp:"やさい",en:"vegetables",wrong:0},{jp:"くだもの",en:"fruit",wrong:0},
+        {jp:"おちゃ",en:"tea",wrong:0},{jp:"ぎゅうにゅう",en:"milk",wrong:0},
+      ],
+      "🎨 Colours": [
+        {jp:"あかい",en:"red",wrong:0},{jp:"あおい",en:"blue",wrong:0},
+        {jp:"しろい",en:"white",wrong:0},{jp:"くろい",en:"black",wrong:0},
+        {jp:"きいろい",en:"yellow",wrong:0},{jp:"みどり",en:"green",wrong:0},
+        {jp:"むらさき",en:"purple",wrong:0},{jp:"ピンク",en:"pink",wrong:0},
+        {jp:"オレンジ",en:"orange",wrong:0},{jp:"ちゃいろい",en:"brown",wrong:0},
+      ],
+      "🏠 Daily Life": [
+        {jp:"いえ",en:"house",wrong:0},{jp:"がっこう",en:"school",wrong:0},
+        {jp:"ほん",en:"book",wrong:0},{jp:"かばん",en:"bag",wrong:0},
+        {jp:"でんわ",en:"telephone",wrong:0},{jp:"くるま",en:"car",wrong:0},
+        {jp:"じてんしゃ",en:"bicycle",wrong:0},{jp:"つくえ",en:"desk",wrong:0},
+        {jp:"いす",en:"chair",wrong:0},{jp:"まど",en:"window",wrong:0},
+        {jp:"ドア",en:"door",wrong:0},{jp:"テレビ",en:"TV",wrong:0},
+      ],
+      "🔢 Numbers": [
+        {jp:"いち",en:"one",wrong:0},{jp:"に",en:"two",wrong:0},
+        {jp:"さん",en:"three",wrong:0},{jp:"し／よん",en:"four",wrong:0},
+        {jp:"ご",en:"five",wrong:0},{jp:"ろく",en:"six",wrong:0},
+        {jp:"しち／なな",en:"seven",wrong:0},{jp:"はち",en:"eight",wrong:0},
+        {jp:"く／きゅう",en:"nine",wrong:0},{jp:"じゅう",en:"ten",wrong:0},
+        {jp:"ひゃく",en:"hundred",wrong:0},{jp:"せん",en:"thousand",wrong:0},
+      ],
+    },
+    intermediate: {
+      "🏃 Verbs": [
+        {jp:"たべる",en:"to eat",wrong:0},{jp:"のむ",en:"to drink",wrong:0},
+        {jp:"いく",en:"to go",wrong:0},{jp:"くる",en:"to come",wrong:0},
+        {jp:"みる",en:"to see/watch",wrong:0},{jp:"きく",en:"to listen",wrong:0},
+        {jp:"よむ",en:"to read",wrong:0},{jp:"かく",en:"to write",wrong:0},
+        {jp:"はなす",en:"to speak",wrong:0},{jp:"わかる",en:"to understand",wrong:0},
+        {jp:"おきる",en:"to wake up",wrong:0},{jp:"ねる",en:"to sleep",wrong:0},
+        {jp:"かう",en:"to buy",wrong:0},{jp:"うる",en:"to sell",wrong:0},
+        {jp:"あるく",en:"to walk",wrong:0},{jp:"はしる",en:"to run",wrong:0},
+      ],
+      "✨ Adjectives": [
+        {jp:"おおきい",en:"big",wrong:0},{jp:"ちいさい",en:"small",wrong:0},
+        {jp:"たかい",en:"tall/expensive",wrong:0},{jp:"ひくい",en:"low/short",wrong:0},
+        {jp:"はやい",en:"fast/early",wrong:0},{jp:"おそい",en:"slow/late",wrong:0},
+        {jp:"あたらしい",en:"new",wrong:0},{jp:"ふるい",en:"old",wrong:0},
+        {jp:"むずかしい",en:"difficult",wrong:0},{jp:"やさしい",en:"easy/kind",wrong:0},
+        {jp:"たのしい",en:"fun",wrong:0},{jp:"かなしい",en:"sad",wrong:0},
+        {jp:"うれしい",en:"happy",wrong:0},{jp:"こわい",en:"scary",wrong:0},
+      ],
+      "🕐 Time & Date": [
+        {jp:"きょう",en:"today",wrong:0},{jp:"あした",en:"tomorrow",wrong:0},
+        {jp:"きのう",en:"yesterday",wrong:0},{jp:"いま",en:"now",wrong:0},
+        {jp:"まいにち",en:"every day",wrong:0},{jp:"らいしゅう",en:"next week",wrong:0},
+        {jp:"げつようび",en:"Monday",wrong:0},{jp:"かようび",en:"Tuesday",wrong:0},
+        {jp:"すいようび",en:"Wednesday",wrong:0},{jp:"もくようび",en:"Thursday",wrong:0},
+        {jp:"きんようび",en:"Friday",wrong:0},{jp:"どようび",en:"Saturday",wrong:0},
+        {jp:"にちようび",en:"Sunday",wrong:0},
+      ],
+      "🏫 School": [
+        {jp:"せんせい",en:"teacher",wrong:0},{jp:"がくせい",en:"student",wrong:0},
+        {jp:"きょうしつ",en:"classroom",wrong:0},{jp:"えんぴつ",en:"pencil",wrong:0},
+        {jp:"けしごむ",en:"eraser",wrong:0},{jp:"じしょ",en:"dictionary",wrong:0},
+        {jp:"しゅくだい",en:"homework",wrong:0},{jp:"テスト",en:"test",wrong:0},
+        {jp:"しけん",en:"exam",wrong:0},{jp:"べんきょう",en:"studying",wrong:0},
+        {jp:"そつぎょう",en:"graduation",wrong:0},{jp:"きゅうしょく",en:"school lunch",wrong:0},
+      ],
+    },
+  },
+
+  mandarin: {
+    beginner: {
+      "🐾 Animals": [
+        {jp:"貓",en:"cat",wrong:0},{jp:"狗",en:"dog",wrong:0},
+        {jp:"魚",en:"fish",wrong:0},{jp:"鳥",en:"bird",wrong:0},
+        {jp:"兔子",en:"rabbit",wrong:0},{jp:"熊",en:"bear",wrong:0},
+        {jp:"猴子",en:"monkey",wrong:0},{jp:"大象",en:"elephant",wrong:0},
+        {jp:"長頸鹿",en:"giraffe",wrong:0},{jp:"蛇",en:"snake",wrong:0},
+        {jp:"烏龜",en:"turtle",wrong:0},{jp:"馬",en:"horse",wrong:0},
+      ],
+      "🍎 Food": [
+        {jp:"蘋果",en:"apple",wrong:0},{jp:"香蕉",en:"banana",wrong:0},
+        {jp:"水",en:"water",wrong:0},{jp:"米飯",en:"rice",wrong:0},
+        {jp:"麵包",en:"bread",wrong:0},{jp:"雞蛋",en:"egg",wrong:0},
+        {jp:"肉",en:"meat",wrong:0},{jp:"魚",en:"fish",wrong:0},
+        {jp:"蔬菜",en:"vegetables",wrong:0},{jp:"水果",en:"fruit",wrong:0},
+        {jp:"茶",en:"tea",wrong:0},{jp:"牛奶",en:"milk",wrong:0},
+      ],
+      "🎨 Colours": [
+        {jp:"紅色",en:"red",wrong:0},{jp:"藍色",en:"blue",wrong:0},
+        {jp:"白色",en:"white",wrong:0},{jp:"黑色",en:"black",wrong:0},
+        {jp:"黃色",en:"yellow",wrong:0},{jp:"綠色",en:"green",wrong:0},
+        {jp:"紫色",en:"purple",wrong:0},{jp:"粉紅色",en:"pink",wrong:0},
+        {jp:"橙色",en:"orange",wrong:0},{jp:"棕色",en:"brown",wrong:0},
+      ],
+      "🏠 Daily Life": [
+        {jp:"家",en:"house",wrong:0},{jp:"學校",en:"school",wrong:0},
+        {jp:"書",en:"book",wrong:0},{jp:"包包",en:"bag",wrong:0},
+        {jp:"電話",en:"telephone",wrong:0},{jp:"車",en:"car",wrong:0},
+        {jp:"腳踏車",en:"bicycle",wrong:0},{jp:"桌子",en:"desk",wrong:0},
+        {jp:"椅子",en:"chair",wrong:0},{jp:"窗戶",en:"window",wrong:0},
+        {jp:"門",en:"door",wrong:0},{jp:"電視",en:"TV",wrong:0},
+      ],
+      "🔢 Numbers": [
+        {jp:"一",en:"one",wrong:0},{jp:"二",en:"two",wrong:0},
+        {jp:"三",en:"three",wrong:0},{jp:"四",en:"four",wrong:0},
+        {jp:"五",en:"five",wrong:0},{jp:"六",en:"six",wrong:0},
+        {jp:"七",en:"seven",wrong:0},{jp:"八",en:"eight",wrong:0},
+        {jp:"九",en:"nine",wrong:0},{jp:"十",en:"ten",wrong:0},
+        {jp:"百",en:"hundred",wrong:0},{jp:"千",en:"thousand",wrong:0},
+      ],
+    },
+    intermediate: {
+      "🏃 Verbs": [
+        {jp:"吃",en:"to eat",wrong:0},{jp:"喝",en:"to drink",wrong:0},
+        {jp:"去",en:"to go",wrong:0},{jp:"來",en:"to come",wrong:0},
+        {jp:"看",en:"to see/watch",wrong:0},{jp:"聽",en:"to listen",wrong:0},
+        {jp:"讀",en:"to read",wrong:0},{jp:"寫",en:"to write",wrong:0},
+        {jp:"說",en:"to speak",wrong:0},{jp:"懂",en:"to understand",wrong:0},
+        {jp:"起床",en:"to wake up",wrong:0},{jp:"睡覺",en:"to sleep",wrong:0},
+        {jp:"買",en:"to buy",wrong:0},{jp:"賣",en:"to sell",wrong:0},
+        {jp:"走",en:"to walk",wrong:0},{jp:"跑",en:"to run",wrong:0},
+      ],
+      "✨ Adjectives": [
+        {jp:"大",en:"big",wrong:0},{jp:"小",en:"small",wrong:0},
+        {jp:"高",en:"tall/expensive",wrong:0},{jp:"矮",en:"short",wrong:0},
+        {jp:"快",en:"fast",wrong:0},{jp:"慢",en:"slow",wrong:0},
+        {jp:"新",en:"new",wrong:0},{jp:"舊",en:"old",wrong:0},
+        {jp:"難",en:"difficult",wrong:0},{jp:"簡單",en:"easy",wrong:0},
+        {jp:"開心",en:"happy",wrong:0},{jp:"傷心",en:"sad",wrong:0},
+        {jp:"可怕",en:"scary",wrong:0},{jp:"好玩",en:"fun",wrong:0},
+      ],
+      "🕐 Time & Date": [
+        {jp:"今天",en:"today",wrong:0},{jp:"明天",en:"tomorrow",wrong:0},
+        {jp:"昨天",en:"yesterday",wrong:0},{jp:"現在",en:"now",wrong:0},
+        {jp:"每天",en:"every day",wrong:0},{jp:"下週",en:"next week",wrong:0},
+        {jp:"星期一",en:"Monday",wrong:0},{jp:"星期二",en:"Tuesday",wrong:0},
+        {jp:"星期三",en:"Wednesday",wrong:0},{jp:"星期四",en:"Thursday",wrong:0},
+        {jp:"星期五",en:"Friday",wrong:0},{jp:"星期六",en:"Saturday",wrong:0},
+        {jp:"星期日",en:"Sunday",wrong:0},
+      ],
+      "🏫 School": [
+        {jp:"老師",en:"teacher",wrong:0},{jp:"學生",en:"student",wrong:0},
+        {jp:"教室",en:"classroom",wrong:0},{jp:"鉛筆",en:"pencil",wrong:0},
+        {jp:"橡皮擦",en:"eraser",wrong:0},{jp:"字典",en:"dictionary",wrong:0},
+        {jp:"功課",en:"homework",wrong:0},{jp:"考試",en:"test/exam",wrong:0},
+        {jp:"讀書",en:"studying",wrong:0},{jp:"畢業",en:"graduation",wrong:0},
+        {jp:"午餐",en:"lunch",wrong:0},{jp:"下課",en:"end of class",wrong:0},
+      ],
+    },
+  },
+
+};
+
+/* Active set — loaded at game start */
+let VOCAB = [];
+let currentSubject = 'japanese';
+let currentLevel   = 'beginner';
+let currentTheme   = Object.keys(DB.japanese.beginner)[0];
 
 /* ══════════════════════════════════════════════════════
    SETTINGS
@@ -866,9 +1176,14 @@ spawnBubble = function(word, minDur, maxDur) {
 
   arena.appendChild(bub);
   G.live.push(bub);
-  // Apply slow iridescent shimmer — offset per bubble so they don't sync
-  const shimOffset = Math.random() * 8;
-  bub.style.animation = `iriShimmer ${10 + Math.random()*6}s ${shimOffset}s ease-in-out infinite`;
+  // Spawn entrance then shimmer
+  bub.style.animation = 'bubbleSpawn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards';
+  setTimeout(() => {
+    if (bub.parentNode) {
+      const shimOffset = Math.random() * 8;
+      bub.style.animation = `iriShimmer ${10 + Math.random()*6}s ${shimOffset}s ease-in-out infinite`;
+    }
+  }, 520);
   window._regBubble(bub, { x0, y0, x1, y1, dur, start: performance.now(), size, word });
 };
 
@@ -884,31 +1199,46 @@ function onTap(bub, word) {
     word.wrong = Math.max(0, word.wrong - 1);
     updateHUD();
     feedback('ok', '✓ Correct!');
-    bub.classList.add('flash-ok');
     window._killBubble(bub);
+    // Dramatic pop animation
+    bub.style.animation = 'bubblePop 0.55s cubic-bezier(0.36,0.07,0.19,0.97) forwards';
+    bub.style.pointerEvents = 'none';
+    // Spawn sparkle particles
+    spawnParticles(bub);
     setTimeout(() => {
       if (bub.parentNode) bub.parentNode.removeChild(bub);
       G.live = G.live.filter(b => b !== bub);
       clearArena();
       nextRound();
-    }, 380);
+    }, 560);
   } else {
     word.wrong++;
     feedback('err', '✗ Try again');
-    bub.classList.add('flash-err');
-    // Update error visual on all bubbles showing this wrong word
+    // Wrong shake animation
+    bub.style.animation = 'bubbleWrong 0.45s ease forwards';
+    setTimeout(() => {
+      bub.style.animation = '';
+      // Re-apply shimmer after shake
+      const shimOffset = Math.random() * 8;
+      bub.style.animation = \`iriShimmer \${10 + Math.random()*6}s \${shimOffset}s ease-in-out infinite\`;
+    }, 460);
+    // Update error visuals
     G.live.forEach(b => {
       if (b.dataset.jp === word.jp) b.dataset.err = errLv(word);
     });
-    setTimeout(() => bub.classList.remove('flash-err'), 380);
   }
 }
 
 function onExpire(bub) {
   window._killBubble(bub);
   G.live = G.live.filter(b => b !== bub);
-  if (bub.parentNode) bub.parentNode.removeChild(bub);
-  if (G.live.length === 0) nextRound();
+  // Dramatic fade-out before removal
+  bub.style.animation = 'bubbleExpire 0.5s ease forwards';
+  bub.style.pointerEvents = 'none';
+  setTimeout(() => {
+    if (bub.parentNode) bub.parentNode.removeChild(bub);
+    if (G.live.length === 0) nextRound();
+  }, 500);
 }
 
 function clearArena() {
@@ -984,6 +1314,9 @@ function updateHUD() {
 function openTeacher() {
   G.alive = false;
   renderTP();
+  // Show current context in panel
+  document.querySelector('#tp-header h2').textContent =
+    '⚙ ' + currentTheme + ' (' + VOCAB.length + ' words)';
   document.getElementById('teacher-panel').classList.add('open');
 }
 function closeTeacher() {
@@ -1022,10 +1355,17 @@ document.getElementById('tp-add').onclick = () => {
   const jp = document.getElementById('tp-new-jp').value.trim();
   const en = document.getElementById('tp-new-en').value.trim();
   if (!jp||!en) return;
-  VOCAB.push({jp,en,wrong:0});
+  const newWord = {jp, en, wrong:0};
+  // Add to both active VOCAB and the DB so it persists within session
+  VOCAB.push({...newWord});
+  if (DB[currentSubject] && DB[currentSubject][currentLevel] &&
+      DB[currentSubject][currentLevel][currentTheme]) {
+    DB[currentSubject][currentLevel][currentTheme].push(newWord);
+  }
   document.getElementById('tp-new-jp').value = '';
   document.getElementById('tp-new-en').value = '';
   renderTP();
+  updateWordCount();
 };
 document.getElementById('tp-reset').onclick = () => { VOCAB.forEach(w=>w.wrong=0); renderTP(); };
 document.getElementById('tp-save').onclick  = () => {
@@ -1052,9 +1392,145 @@ document.getElementById('teacher-panel').onclick = e => {
 /* ══════════════════════════════════════════════════════
    START
 ══════════════════════════════════════════════════════ */
+/* ── Per-subject state ── */
+const SUBJ_STATE = {
+  japanese: { level: 'beginner', theme: Object.keys(DB.japanese.beginner)[0] },
+  mandarin: { level: 'beginner', theme: Object.keys(DB.mandarin.beginner)[0] },
+};
+
+function renderThemes(subject) {
+  const ss    = SUBJ_STATE[subject];
+  const rowId = subject === 'japanese' ? 'jp-sel-theme' : 'cn-sel-theme';
+  const themes = Object.keys(DB[subject][ss.level]);
+  if (!themes.includes(ss.theme)) ss.theme = themes[0];
+  const row = document.getElementById(rowId);
+  row.innerHTML = '';
+  themes.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'sel-btn' + (t === ss.theme ? ' active' : '');
+    b.textContent = t;
+    b.onclick = () => {
+      ss.theme = t;
+      row.querySelectorAll('.sel-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      updateWordCount();
+    };
+    row.appendChild(b);
+  });
+  updateWordCount();
+}
+
+function updateWordCount() {
+  const ss    = SUBJ_STATE[currentSubject];
+  const words = DB[currentSubject][ss.level][ss.theme] || [];
+  document.getElementById('word-count-info').textContent =
+    '✦ ' + words.length + ' words · recommended max 40';
+}
+
+/* Subject tabs */
+document.getElementById('subj-tabs').querySelectorAll('.subj-tab').forEach(b => {
+  b.onclick = () => {
+    currentSubject = b.dataset.subject;
+    document.getElementById('subj-tabs').querySelectorAll('.subj-tab')
+      .forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    // Show/hide panels
+    document.getElementById('panel-japanese').style.display =
+      currentSubject === 'japanese' ? 'flex' : 'none';
+    document.getElementById('panel-mandarin').style.display =
+      currentSubject === 'mandarin' ? 'flex' : 'none';
+    updateWordCount();
+  };
+});
+
+/* Japanese level buttons */
+document.getElementById('jp-sel-level').querySelectorAll('.sel-btn').forEach(b => {
+  b.onclick = () => {
+    SUBJ_STATE.japanese.level = b.dataset.level;
+    document.getElementById('jp-sel-level').querySelectorAll('.sel-btn')
+      .forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderThemes('japanese');
+  };
+});
+
+/* Mandarin level buttons */
+document.getElementById('cn-sel-level').querySelectorAll('.sel-btn').forEach(b => {
+  b.onclick = () => {
+    SUBJ_STATE.mandarin.level = b.dataset.level;
+    document.getElementById('cn-sel-level').querySelectorAll('.sel-btn')
+      .forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderThemes('mandarin');
+  };
+});
+
+// Init both theme selectors
+renderThemes('japanese');
+renderThemes('mandarin');
+
+function loadVocab() {
+  const ss  = SUBJ_STATE[currentSubject];
+  const raw = DB[currentSubject][ss.level][ss.theme] || [];
+  VOCAB = raw.map(w => ({ ...w, wrong: 0 }));
+  // expose for teacher panel
+  currentLevel = ss.level;
+  currentTheme = ss.theme;
+}
+
+
+/* ── Particle burst on correct pop ── */
+function spawnParticles(bub) {
+  const arena = document.getElementById('arena');
+  const rect  = bub.getBoundingClientRect();
+  const arenaRect = arena.getBoundingClientRect();
+  const cx = rect.left - arenaRect.left + rect.width  / 2;
+  const cy = rect.top  - arenaRect.top  + rect.height / 2;
+  const colors = [
+    'rgba(200,160,255,0.9)','rgba(120,220,255,0.9)',
+    'rgba(255,160,220,0.9)','rgba(160,255,200,0.9)',
+    'rgba(255,220,120,0.9)','rgba(255,255,255,0.95)',
+  ];
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    const angle  = (i / 12) * Math.PI * 2;
+    const speed  = 50 + Math.random() * 80;
+    const size   = 4 + Math.random() * 6;
+    const color  = colors[i % colors.length];
+    const tx = Math.cos(angle) * speed;
+    const ty = Math.sin(angle) * speed;
+    Object.assign(p.style, {
+      position: 'absolute',
+      width: size + 'px', height: size + 'px',
+      borderRadius: '50%',
+      background: color,
+      left: cx + 'px', top: cy + 'px',
+      transform: 'translate(-50%,-50%)',
+      pointerEvents: 'none',
+      zIndex: 30,
+      boxShadow: '0 0 6px ' + color,
+    });
+    arena.appendChild(p);
+    const kf = p.animate([
+      { transform: 'translate(-50%,-50%) scale(1)',   opacity: 1 },
+      { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, opacity: 0 }
+    ], { duration: 500 + Math.random()*200, easing: 'cubic-bezier(0,0.5,1,1)', fill: 'forwards' });
+    kf.onfinish = () => p.remove();
+  }
+}
 document.getElementById('btn-start').onclick = () => {
+  loadVocab();
+  if (VOCAB.length < 2) {
+    alert('Please add at least 2 words to this theme first.');
+    return;
+  }
   document.getElementById('overlay').classList.add('hidden');
   G.alive = true;
+  // Update HUD with theme info
+  const ss2 = SUBJ_STATE[currentSubject];
+  document.getElementById('hud-logo').innerHTML =
+    ss2.theme + ' <em style="font-style:normal;opacity:.5;font-size:11px;">' +
+    (currentSubject === 'japanese' ? '🇯🇵' : '🇨🇳') + ' ' + ss2.level + '</em>';
   spawnRound();
 };
 updateHUD();
