@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Midnight & Light — visual direction concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg-deep:#0C0E22;
+    --bg-glow:#1B1E45;
+    --bg-glow-2:#2A2350;
+    --warm-white:#F4F1EA;
+    --muted-bluegrey:#8B8FB3;
+    --pale-gold:#D9C48E;
+    --soft-lavender:#B6A9DA;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 700px at 50% 32%, var(--bg-glow) 0%, transparent 70%),
+      radial-gradient(ellipse 600px 500px at 78% 70%, var(--bg-glow-2) 0%, transparent 65%),
+      var(--bg-deep);
+    color:var(--warm-white);
+    font-family:'DM Sans', system-ui, sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* sparse stars — concentrated toward edges, clear around center */
+  .stars{ position:fixed; inset:0; z-index:1; pointer-events:none; }
+  .stars span{
+    position:absolute; border-radius:50%; background:var(--warm-white);
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.75;} }
+  @media (prefers-reduced-motion: reduce){ .stars span{ animation:none; opacity:.4; } }
+
+  .hero{
+    position:relative; z-index:1;
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:8vh 24px; gap:0;
+  }
+  .brand-cn{
+    font-family:'Noto Serif TC', serif;
+    font-weight:500; font-size:clamp(40px,7vw,64px);
+    letter-spacing:0.08em; color:var(--warm-white);
+    line-height:1.15;
+  }
+  .brand-en{
+    margin-top:14px;
+    font-size:clamp(15px,2.1vw,19px); letter-spacing:0.32em; font-weight:400;
+    color:var(--pale-gold); text-transform:uppercase;
+  }
+  .divider{
+    width:1px; height:44px; background:var(--muted-bluegrey);
+    opacity:.35; margin:44px 0;
+  }
+  .service{
+    font-size:clamp(15px,2vw,17px); font-weight:500;
+    color:var(--muted-bluegrey); line-height:2.1; letter-spacing:0.02em;
+  }
+  .service .line{display:block;}
+  .poem{
+    margin-top:56px; font-family:'DM Sans', system-ui, sans-serif;
+    font-style:italic; font-weight:300;
+    font-size:clamp(16px,2vw,19px); color:var(--soft-lavender);
+    line-height:1.7; max-width:360px; opacity:.92;
+  }
+  footer{
+    position:absolute; z-index:1; bottom:26px; left:0; right:0; text-align:center;
+    font-size:11px; letter-spacing:0.08em; color:var(--muted-bluegrey); opacity:.5;
+  }
+  @media (max-width:480px){
+    .divider{ margin:34px 0; height:34px; }
+    .poem{ margin-top:40px; }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <main class="hero">
+    <h1 class="brand-cn">夜與光</h1>
+    <p class="brand-en">Midnight &amp; Light</p>
+
+    <div class="divider"></div>
+
+    <p class="service">
+      <span class="line">Japanese &amp; Mandarin</span>
+      <span class="line">Private &amp; Small Group Lessons</span>
+      <span class="line">Online · In-Person</span>
+    </p>
+
+    <p class="poem">Between the things we learn<br />and the things we create.</p>
+  </main>
+
+  <footer>夜與光 · Midnight &amp; Light</footer>
+
+<script>
+  // scatter a modest number of soft stars, biased away from the center
+  const layer = document.querySelector('.stars');
+  const n = 26;
+  for (let i=0;i<n;i++){
+    const s = document.createElement('span');
+    let x = Math.random()*100, y = Math.random()*100;
+    // pull points away from the centered text column
+    if (x>32 && x<68 && y>28 && y<75) { x = x<50 ? x-28 : x+28; }
+    const size = Math.random()*1.6+1;
+    s.style.left = x+'%';
+    s.style.top = y+'%';
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.animationDelay = (Math.random()*5)+'s';
+    s.style.opacity = (Math.random()*0.5+0.2).toFixed(2);
+    layer.appendChild(s);
+  }
+</script>
+</body>
+</html>
