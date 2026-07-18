@@ -1,68 +1,68 @@
 /* ════════════════════════════════════════════════════
-   MIDNIGHT & LIGHT — Airy Edition
-   Warm paper palette · #FAF7F2 / #F5F0F2 / #163126
-   Soft and airy · Gentle · Premium
+   MIDNIGHT & LIGHT — Soft Pastel Edition
+   Warm blush palette · #FDF6F0 / #F6E8DF / #6B4A52
+   Gentle · Warm · Soft
 ════════════════════════════════════════════════════ */
 
 /* ── TOKENS ─────────────────────────────────────── */
 :root {
-  /* ── Airy palette ── */
-  --paper:       #FAF7F2;   /* primary background */
-  --paper-soft:  #F5F0F2;   /* soft section alt */
-  --paper-pale:  #FCFBF8;   /* card surface */
-  --paper-white: #FFFDF9;   /* modal / form */
-  --ink:         #163126;   /* primary authority — headings, CTA, logo */
-  --accent:      #A7C7E7;   /* info chips only, never CTA */
+  /* ── Soft pastel palette ── */
+  --paper:       #FDF6F0;   /* primary background — warm blush ivory */
+  --paper-soft:  #F6E8DF;   /* soft section alt — dusty peach */
+  --paper-pale:  #FFFBF7;   /* card surface */
+  --paper-white: #FFFFFF;   /* modal / form */
+  --ink:         #6B4A52;   /* primary authority — headings, CTA, logo (dusty mauve) */
+  --accent:      #F2C4AE;   /* info chips only, never CTA (soft peach) */
 
   /* Map old vars → new palette so nothing breaks */
-  --night:    var(--ink);        /* hero top, footer, final-cta */
-  --night-2:  #0f2318;           /* slightly deeper ink */
+  --night:    #3E2733;           /* hero top, footer, final-cta — deep dusty plum */
+  --night-2:  #33202A;           /* slightly deeper plum */
   --dusk:     var(--paper-soft); /* levels section */
-  --dark-mid: #1e3a28;
+  --dark-mid: #4A2E38;
   --mid:      var(--paper-soft);
   --light:    var(--paper-pale);
   --cream:    var(--paper);
   --white:    var(--paper-white);
 
-  /* Ink tones — all based on #163126 */
-  --ink-90:  rgba(22,49,38,0.90);
-  --ink-70:  rgba(22,49,38,0.70);
-  --ink-45:  rgba(22,49,38,0.45);
-  --ink-22:  rgba(22,49,38,0.22);
-  --ink-10:  rgba(22,49,38,0.10);
-  --ink-06:  rgba(22,49,38,0.06);
+  /* Ink tones — all based on #6B4A52 */
+  --ink-90:  rgba(107,74,82,0.90);
+  --ink-70:  rgba(107,74,82,0.70);
+  --ink-45:  rgba(107,74,82,0.45);
+  --ink-22:  rgba(107,74,82,0.22);
+  --ink-10:  rgba(107,74,82,0.10);
+  --ink-06:  rgba(107,74,82,0.06);
 
-  /* Accent — warm moss gold for highlights */
-  --gold:        #5a7f65;        /* muted moss — replaces amber gold */
-  --gold-light:  #7aab8a;
-  --gold-bright: #a0c8b0;
-  --gold-pale:   rgba(90,127,101,0.10);
-  --gold-border: rgba(90,127,101,0.22);
+  /* Accent — warm honey apricot for highlights */
+  --gold:        #C98F5E;        /* warm honey-apricot — replaces moss */
+  --gold-light:  #D9A679;
+  --gold-bright: #E8C79A;
+  --gold-pale:   rgba(201,143,94,0.12);
+  --gold-border: rgba(201,143,94,0.25);
 
-  /* Level colours — readable on both light + ink backgrounds */
-  --sage:     #4e8c6a;
-  --slate:    #4a7fa3;
-  --violet:   #7a6da8;
+  /* Level colours — soft pastel trio, readable on both light + plum backgrounds */
+  --sage:     #C97B85;   /* dusty rose */
+  --slate:    #8FA8C4;   /* powder blue */
+  --violet:   #A98FBF;   /* soft lavender */
 
   /* Text on ink (dark) zones — hero top, levels, footer, final-cta */
-  --td-1: #FAF7F2;               /* near-paper on ink bg */
-  --td-2: rgba(250,247,242,0.65);
-  --td-3: rgba(250,247,242,0.35);
-  --td-4: rgba(250,247,242,0.18);
+  --td-1: #FDF6F0;               /* near-paper on plum bg */
+  --td-2: rgba(253,246,240,0.65);
+  --td-3: rgba(253,246,240,0.35);
+  --td-4: rgba(253,246,240,0.18);
 
   /* Text on light (paper) zones */
-  --tl-1: #163126;               /* primary ink */
-  --tl-2: rgba(22,49,38,0.65);
-  --tl-3: rgba(22,49,38,0.38);
+  --tl-1: #6B4A52;               /* primary ink */
+  --tl-2: rgba(107,74,82,0.65);
+  --tl-3: rgba(107,74,82,0.38);
 
   /* Borders */
-  --bd-dark:  rgba(250,247,242,0.10);
-  --bd-dark2: rgba(250,247,242,0.16);
-  --bd-light: rgba(22,49,38,0.10);
-  --bd-light2:rgba(22,49,38,0.16);
+  --bd-dark:  rgba(253,246,240,0.10);
+  --bd-dark2: rgba(253,246,240,0.16);
+  --bd-light: rgba(107,74,82,0.10);
+  --bd-light2:rgba(107,74,82,0.16);
 
-  /* Fonts — unchanged */
-  --serif:  'Libre Baskerville', Georgia, serif;
+  /* Fonts */
+  --serif:  'Fraunces', Georgia, serif;
   --sans:   'Outfit', system-ui, sans-serif;
   --jp:     'Noto Sans JP', sans-serif;
   --tc:     'Noto Sans TC', sans-serif;
@@ -190,8 +190,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ════════════════════════════════════════════════════
    SECTION SYSTEM
 ════════════════════════════════════════════════════ */
-.section { display: none; animation: sIn 0.35s var(--ease) both; }
-.section.active { display: block; }
+.section { display: block; scroll-margin-top: var(--nav-h); }
 @keyframes sIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ── CONTAINERS ──────────────────────────────────── */
