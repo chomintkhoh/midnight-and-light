@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Midnight & Light</title>
+<meta name="description" content="A little about the person behind Midnight & Light — a Japanese and Mandarin tutor based in Malaysia." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/cosmic.css" />
+<style>
+  .about-lead{
+    font-size: clamp(20px,2.6vw,25px); font-weight:400; color:var(--warm-white);
+    line-height:1.5; max-width:520px; margin-bottom:40px;
+  }
+  .about-body p{ margin-bottom:20px; max-width:560px; color:var(--muted-bluegrey); font-size:15.5px; line-height:1.9; }
+  .about-body p:last-child{ margin-bottom:0; }
+
+  .info-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:40px; margin-top:16px;
+  }
+  .info-label{
+    font-size:12px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--pale-gold); margin-bottom:14px;
+  }
+  .info-list li{ font-size:15px; color:var(--warm-white); line-height:2; }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">夜與光</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">About</p>
+    <p class="about-lead">A little about the person behind<br />Midnight &amp; Light.</p>
+
+    <div class="about-body">
+      <p>I am a Japanese and Mandarin tutor based in Malaysia.</p>
+      <p>My background brings together language teaching, cross-cultural communication, coordination, administration, and business development in Japanese-related environments. Working across different languages, cultures, and industries has shaped the way I approach communication and learning.</p>
+      <p>I believe a language is not simply something to memorise. It is something we gradually learn to understand, use, and make our own.</p>
+      <p>I currently offer private and small group Japanese and Mandarin lessons, both online and in person. I teach in Japanese and Mandarin, and communicate with students in Chinese, Japanese, Cantonese, and basic English.</p>
+    </div>
+
+    <section class="page-section">
+      <div class="info-grid">
+        <div>
+          <p class="info-label">I Teach</p>
+          <ul class="info-list">
+            <li>Japanese</li>
+            <li>Mandarin</li>
+          </ul>
+        </div>
+        <div>
+          <p class="info-label">I Communicate In</p>
+          <ul class="info-list">
+            <li>Chinese</li>
+            <li>Japanese</li>
+            <li>Cantonese</li>
+            <li>Basic English</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+
+  <script src="assets/stars.js"></script>
+</body>
+</html>

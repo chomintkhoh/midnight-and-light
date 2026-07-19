@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Midnight & Light — Japanese & Mandarin Lessons</title>
+<meta name="description" content="夜與光 · Midnight & Light — Japanese & Mandarin private and small group lessons, online and in person." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/cosmic.css" />
+<style>
+  .hero{
+    position:relative; z-index:1;
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding: 14vh 24px 10vh;
+  }
+
+  /* Brand — one unified mark, Chinese + English held close together */
+  .brand-mark{ display:flex; flex-direction:column; align-items:center; }
+  .brand-cn{
+    font-family: var(--font-cn);
+    font-weight:500; font-size: clamp(38px,6.5vw,60px);
+    letter-spacing:0.07em; color: var(--warm-white);
+    line-height:1.15;
+  }
+  .brand-en{
+    margin-top:14px;
+    font-size: clamp(15px,2.1vw,19px); letter-spacing:0.32em; font-weight:400;
+    color: var(--pale-gold); text-transform:uppercase;
+  }
+
+  /* Generous separation before the lesson info */
+  .divider{
+    width:1px; height:52px; background: var(--muted-bluegrey);
+    opacity:.3; margin: 68px 0 40px;
+  }
+
+  /* Lesson info — clear internal hierarchy, still secondary to brand */
+  .service-primary{
+    font-size: clamp(17px,2.2vw,19px); font-weight:600;
+    color: var(--service-primary); letter-spacing:0.02em;
+    margin-bottom: 12px;
+  }
+  .service-secondary{
+    font-size: clamp(13.5px,1.6vw,14.5px); font-weight:400;
+    color: var(--muted-bluegrey); line-height:1.95; letter-spacing:0.01em;
+  }
+  .service-secondary .line{ display:block; }
+
+  /* The poem — a separate, quiet moment */
+  .poem{
+    margin-top: 76px; font-family: var(--font-sans);
+    font-style:italic; font-weight:400;
+    font-size: clamp(15.5px,1.9vw,18px); color: var(--soft-lavender);
+    line-height:1.75; max-width:340px; opacity:.9;
+  }
+
+  @media (max-width:480px){
+    .divider{ margin:48px 0 32px; height:40px; }
+    .poem{ margin-top:52px; }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="22" data-clear-center></div>
+
+  <nav class="site-nav">
+    <span class="nav-mark">夜與光</span>
+    <div class="nav-links">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="brand-mark">
+      <h1 class="brand-cn">夜與光</h1>
+      <p class="brand-en">Midnight &amp; Light</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+      <p class="service-primary">Japanese &amp; Mandarin</p>
+      <p class="service-secondary">
+        <span class="line">Private &amp; Small Group Lessons</span>
+        <span class="line">Online · In-Person</span>
+      </p>
+    </div>
+
+    <p class="poem">Between the things we learn<br />and the things we create.</p>
+  </main>
+
+  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+
+  <script src="assets/stars.js"></script>
+</body>
+</html>

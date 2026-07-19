@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lessons — Midnight & Light</title>
+<meta name="description" content="Japanese and Mandarin private and small group lessons, online and in person." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/cosmic.css" />
+<style>
+  .lesson-block{ margin-bottom:20px; }
+  .lesson-block:last-child{ margin-bottom:0; }
+  .lesson-note{ color:var(--muted-bluegrey); font-size:15px; line-height:1.85; margin-bottom:14px; max-width:520px; }
+  .lesson-tags{ display:flex; flex-wrap:wrap; gap:10px 22px; }
+  .lesson-tags span{
+    font-size:14px; color:var(--warm-white); position:relative; padding-left:16px;
+  }
+  .lesson-tags span::before{
+    content:''; position:absolute; left:0; top:9px; width:6px; height:1px;
+    background:var(--pale-gold); opacity:.8;
+  }
+  .format-grid, .location-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:36px; margin-top:8px;
+  }
+  .format-item h3, .location-item h3{
+    font-family:var(--font-brand); font-size:17px; color:var(--warm-white);
+    margin-bottom:8px; font-weight:400;
+  }
+  .format-item p, .location-item p{ color:var(--muted-bluegrey); font-size:14.5px; line-height:1.8; }
+  .group-note{
+    margin-top:28px; font-size:13.5px; color:var(--muted-faint); font-style:italic;
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">夜與光</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html" aria-current="page">Lessons</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">Lessons</p>
+    <h1 class="page-title">Japanese &amp; Mandarin</h1>
+    <p class="page-lead">Private and small group lessons, online or in person.</p>
+
+    <section class="page-section">
+      <h2 class="page-section-title">Japanese</h2>
+      <p class="lesson-note">Private and small group lessons for 1–4 students. Depending on your goals:</p>
+      <div class="lesson-tags">
+        <span>Conversation</span><span>Grammar</span><span>Reading</span><span>JLPT</span>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <h2 class="page-section-title">Mandarin</h2>
+      <p class="lesson-note">Private and small group lessons for 1–4 students. Depending on your goals:</p>
+      <div class="lesson-tags">
+        <span>Speaking</span><span>Pronunciation</span><span>Pinyin</span><span>Reading</span>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <h2 class="page-section-title">Lesson Format</h2>
+      <div class="format-grid">
+        <div class="format-item">
+          <h3>1-to-1</h3>
+          <p>Personalised lessons based on the learner's level and learning goals.</p>
+        </div>
+        <div class="format-item">
+          <h3>Small Groups</h3>
+          <p>Lessons for groups of 2–4 students.</p>
+        </div>
+      </div>
+      <p class="group-note">1 student = private lesson · 2–4 students = small group lesson</p>
+    </section>
+
+    <section class="page-section">
+      <h2 class="page-section-title">Location</h2>
+      <div class="location-grid">
+        <div class="location-item">
+          <h3>Online</h3>
+          <p>Lessons available online.</p>
+        </div>
+        <div class="location-item">
+          <h3>In-Person</h3>
+          <p>Available in selected locations in Kuala Lumpur. An additional transportation fee may apply depending on location.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+
+  <script src="assets/stars.js"></script>
+</body>
+</html>

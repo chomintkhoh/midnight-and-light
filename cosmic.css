@@ -1,0 +1,119 @@
+/* ════════════════════════════════════════════════════
+   MIDNIGHT & LIGHT — Cosmic System
+   Shared across Home / About / Lessons / Contact
+════════════════════════════════════════════════════ */
+
+:root{
+  /* background */
+  --bg-deep:      #0C0E22;
+  --bg-glow:      #1B1E45;
+  --bg-glow-2:    #2A2350;
+
+  /* text */
+  --warm-white:      #F4F1EA;
+  --service-primary: #B9BEDD;   /* one step down from brand white */
+  --muted-bluegrey:  #8B8FB3;   /* secondary / body text */
+  --muted-faint:     #6A6E90;   /* footer / least prominent */
+
+  /* accent */
+  --pale-gold:     #D9C48E;
+  --soft-lavender: #B6A9DA;
+
+  /* type */
+  --font-brand: 'Marcellus', serif;
+  --font-cn:    'Noto Serif TC', serif;
+  --font-sans:  'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --nav-h: 74px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ height:100%; }
+html{ scroll-behavior:smooth; }
+
+body{
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 28%, var(--bg-glow) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 78% 68%, var(--bg-glow-2) 0%, transparent 65%),
+    var(--bg-deep);
+  background-attachment: fixed;
+  color: var(--warm-white);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+img{ max-width:100%; display:block; }
+
+/* ── STARFIELD — shared, sparse, non-interactive ───── */
+.stars{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+.stars span{
+  position:absolute; border-radius:50%; background:var(--warm-white);
+  animation: twinkle 5s ease-in-out infinite;
+}
+@keyframes twinkle{ 0%,100%{ opacity:.15; } 50%{ opacity:.75; } }
+@media (prefers-reduced-motion: reduce){ .stars span{ animation:none; opacity:.4; } }
+
+/* ── NAV — minimal, same on every page ─────────────── */
+.site-nav{
+  position: fixed; top:0; left:0; right:0; z-index:20;
+  height: var(--nav-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 5vw;
+  background: linear-gradient(180deg, rgba(12,14,34,0.55), transparent);
+}
+.nav-mark{
+  font-family: var(--font-brand);
+  font-size: 15px; letter-spacing:0.04em;
+  color: var(--warm-white); opacity:.92;
+}
+.nav-links{ display:flex; gap:28px; }
+.nav-links a{
+  font-size: 13px; letter-spacing:0.08em; font-weight:500;
+  color: var(--muted-bluegrey); text-transform:uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover, .nav-links a[aria-current="page"]{ color: var(--warm-white); }
+@media (max-width:640px){
+  .site-nav{ padding:0 5vw; }
+  .nav-links{ gap:16px; }
+  .nav-links a{ font-size:11.5px; letter-spacing:0.05em; }
+}
+
+/* ── FOOTER — shared ────────────────────────────────── */
+.site-footer{
+  position:relative; z-index:1;
+  text-align:center; padding: 40px 24px 32px;
+  font-size:11px; letter-spacing:0.08em; color: var(--muted-faint);
+}
+
+/* ── PAGE CONTAINER — for informational pages ──────── */
+.page{
+  position:relative; z-index:1;
+  max-width: 720px; margin: 0 auto;
+  padding: calc(var(--nav-h) + 12vh) 24px 10vh;
+}
+.page-eyebrow{
+  font-size:12px; letter-spacing:0.28em; text-transform:uppercase;
+  color: var(--muted-bluegrey); margin-bottom:18px;
+}
+.page-title{
+  font-family: var(--font-brand);
+  font-size: clamp(30px, 5vw, 44px); font-weight:400;
+  color: var(--warm-white); line-height:1.25; margin-bottom:22px;
+}
+.page-title.cn{ font-family: var(--font-cn); }
+.page-lead{
+  font-size: 16px; color: var(--muted-bluegrey); font-weight:400;
+  max-width: 520px; line-height:1.85;
+}
+.page-section{ margin-top: 64px; }
+.page-section-title{
+  font-family: var(--font-brand);
+  font-size: 20px; color: var(--warm-white); margin-bottom:14px;
+}
+.page-section p{ color: var(--muted-bluegrey); font-size:15px; line-height:1.85; max-width:520px; }
