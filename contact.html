@@ -59,9 +59,27 @@
     font-size:14px; font-weight:500; letter-spacing:0.03em;
     color: var(--bg-deep); background: var(--warm-white);
     padding: 13px 30px; border-radius: 6px; border:none;
+    cursor:pointer;
     transition: opacity .2s, transform .2s;
   }
   .btn-send:hover{ opacity:.88; transform:translateY(-1px); }
+  .btn-send:disabled{ opacity:.6; cursor:default; transform:none; }
+
+  .form-note{
+    font-size:13px; color:var(--bad, #E1958A); min-height:0;
+  }
+
+  .thank-you{
+    max-width:520px; padding:36px 0;
+  }
+  .thank-you h2{
+    font-family:var(--font-brand); font-weight:400;
+    font-size:24px; color:var(--warm-white); margin-bottom:12px;
+  }
+  .thank-you p{ color:var(--muted-bluegrey); font-size:15px; line-height:1.8; }
+  .fade-in{ animation: fadeIn .5s ease both; }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){ .fade-in{ animation:none; } }
 </style>
 </head>
 <body>
@@ -81,63 +99,108 @@
     <p class="page-eyebrow">Contact</p>
     <h1 class="contact-lead">Interested in learning Japanese or Mandarin?<br />Tell me a little about what you would like to learn.</h1>
 
-    <form class="contact-form" action="https://formspree.io/f/mrejokpw" method="POST">
-      <div class="field">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required />
-      </div>
-
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
-      </div>
-
-      <div class="field">
-        <label for="language">Language</label>
-        <select id="language" name="language" required>
-          <option value="">Select one</option>
-          <option value="Japanese">Japanese</option>
-          <option value="Mandarin">Mandarin</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="level">Current Level</label>
-        <input type="text" id="level" name="level" placeholder="e.g. Complete beginner" />
-      </div>
-
-      <div class="field">
-        <label>Preferred Format</label>
-        <div class="radio-row">
-          <label><input type="radio" name="format" value="1-to-1" /> 1-to-1</label>
-          <label><input type="radio" name="format" value="Small group" /> Small group</label>
+    <div id="contactFormWrap">
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mrejokpw" method="POST">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
         </div>
-      </div>
 
-      <div class="field">
-        <label>Preferred Location</label>
-        <div class="radio-row">
-          <label><input type="radio" name="location" value="Online" /> Online</label>
-          <label><input type="radio" name="location" value="In-person" /> In-person</label>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
         </div>
-      </div>
 
-      <div class="field">
-        <label for="goal">What would you like to learn or improve?</label>
-        <input type="text" id="goal" name="goal" placeholder="What would you like to improve?" />
-      </div>
+        <div class="field">
+          <label for="language">Language</label>
+          <select id="language" name="language" required>
+            <option value="">Select one</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Mandarin">Mandarin</option>
+          </select>
+        </div>
 
-      <div class="field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4"></textarea>
-      </div>
+        <div class="field">
+          <label for="level">Current Level</label>
+          <input type="text" id="level" name="level" placeholder="e.g. Complete beginner" />
+        </div>
 
-      <button class="btn-send" type="submit">Send</button>
-    </form>
+        <div class="field">
+          <label>Preferred Format</label>
+          <div class="radio-row">
+            <label><input type="radio" name="format" value="1-to-1" /> 1-to-1</label>
+            <label><input type="radio" name="format" value="Small group" /> Small group</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Preferred Location</label>
+          <div class="radio-row">
+            <label><input type="radio" name="location" value="Online" /> Online</label>
+            <label><input type="radio" name="location" value="In-person" /> In-person</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="goal">What would you like to learn or improve?</label>
+          <input type="text" id="goal" name="goal" placeholder="What would you like to improve?" />
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+
+        <p class="form-note" id="formNote" role="alert"></p>
+
+        <button class="btn-send" type="submit" id="sendBtn">Send</button>
+      </form>
+
+      <div class="thank-you fade-in" id="thankYou" hidden>
+        <h2>Thank you</h2>
+        <p>Your message has been sent. I'll be in touch soon.</p>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById('contactForm');
+      const wrap = document.getElementById('contactFormWrap');
+      const thankYou = document.getElementById('thankYou');
+      const note = document.getElementById('formNote');
+      const btn = document.getElementById('sendBtn');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        note.textContent = '';
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function (response) {
+          if (response.ok) {
+            form.hidden = true;
+            thankYou.hidden = false;
+          } else {
+            throw new Error('Submission failed');
+          }
+        }).catch(function () {
+          // form.submit() bypasses the submit event entirely, so this won't loop back here
+          note.textContent = "Something didn't go through — sending the regular way instead.";
+          setTimeout(function () { form.submit(); }, 800);
+        }).finally(function () {
+          btn.disabled = false;
+          btn.textContent = 'Send';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
