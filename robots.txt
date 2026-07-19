@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chomintkhoh.github.io/midnight-and-light/sitemap.xml
