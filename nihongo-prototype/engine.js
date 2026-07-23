@@ -1,15 +1,26 @@
 /* ══════════════════════════════════════════════
-   Engine — renders whatever step type the data
-   says it is. No scene-specific logic lives here.
+   Engine v2 — same step-type data model, but:
+   - beats accumulate within a scene (visual-novel
+     log) instead of replacing the whole screen
+   - one illustration persists per scene, only
+     resets when the scene number changes
+   - dialogue is colour-coded per character
+   - choices are styled as in-story options, not
+     quiz buttons
+   - practice flow: listen → record → playback →
+     listen again → Try Again / Got It (Continue
+     stays separate and always available)
 ══════════════════════════════════════════════ */
 
 const state = {
   index: 0,
   name: "",
-  pronoun: "わたし", // default; overwritten by pronounChoice step
+  pronoun: "わたし",
 };
 
 const app = document.getElementById("app");
+let currentScene = null;
+let logEl = null;
 
 /* ---------- audio (placeholder: browser speech synthesis) ---------- */
 function speakJa(text) {
@@ -21,7 +32,6 @@ function speakJa(text) {
   window.speechSynthesis.speak(utter);
 }
 
-/* Plays わたしは ... です with a pause where the learner reads their own name */
 function speakNameLine() {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
@@ -33,16 +43,93 @@ function speakNameLine() {
   window.speechSynthesis.speak(part1);
 }
 
-/* ---------- optional recording (never blocks anything) ---------- */
-function attachOptionalRecorder(container) {
-  const btn = document.createElement("button");
-  btn.className = "record-btn";
-  btn.innerHTML = `<span class="icon">🎤</span> Try saying it (optional)`;
-  let recorder, chunks = [], recording = false, lastBlobUrl = null;
+function nameLineJp() {
+  return `${state.pronoun}は ${state.name || "……"} です。`;
+}
 
-  btn.addEventListener("click", async () => {
+/* ---------- the 5-step speaking practice widget ----------
+   1. Listen  2. Record  3. Playback  4. Listen again
+   5. Try Again / I Think I Got It  (Continue is separate
+   and always present regardless of this widget's state) */
+function buildPracticeWidget(audioText) {
+  const wrap = document.createElement("div");
+  wrap.className = "practice-widget";
+
+  const row1 = document.createElement("div");
+  row1.className = "practice-row";
+  const listenBtn = document.createElement("button");
+  listenBtn.className = "audio-btn";
+  listenBtn.innerHTML = `<span class="icon">🔊</span> Listen`;
+  listenBtn.addEventListener("click", () => speakJa(audioText));
+  row1.appendChild(listenBtn);
+
+  const recordBtn = document.createElement("button");
+  recordBtn.className = "record-btn";
+  recordBtn.innerHTML = `<span class="icon">🎤</span> Record yourself (optional)`;
+  row1.appendChild(recordBtn);
+  wrap.appendChild(row1);
+
+  const afterRow = document.createElement("div");
+  afterRow.className = "practice-row";
+  afterRow.style.display = "none";
+  wrap.appendChild(afterRow);
+
+  const choiceRow = document.createElement("div");
+  choiceRow.className = "practice-choice-row";
+  choiceRow.style.display = "none";
+  wrap.appendChild(choiceRow);
+
+  let recorder, chunks = [], recording = false, blobUrl = null;
+
+  function resetToStart() {
+    afterRow.style.display = "none";
+    choiceRow.style.display = "none";
+    afterRow.innerHTML = "";
+    choiceRow.innerHTML = "";
+    recordBtn.disabled = false;
+    recordBtn.innerHTML = `<span class="icon">🎤</span> Record yourself (optional)`;
+  }
+
+  function showAfterRecording() {
+    afterRow.innerHTML = "";
+    afterRow.style.display = "flex";
+
+    const playBtn = document.createElement("button");
+    playBtn.className = "audio-btn";
+    playBtn.innerHTML = `<span class="icon">▶️</span> Play your recording`;
+    playBtn.addEventListener("click", () => { if (blobUrl) new Audio(blobUrl).play(); });
+    afterRow.appendChild(playBtn);
+
+    const listenAgainBtn = document.createElement("button");
+    listenAgainBtn.className = "audio-btn";
+    listenAgainBtn.innerHTML = `<span class="icon">🔊</span> Listen to reference again`;
+    listenAgainBtn.addEventListener("click", () => speakJa(audioText));
+    afterRow.appendChild(listenAgainBtn);
+
+    choiceRow.innerHTML = "";
+    choiceRow.style.display = "flex";
+
+    const tryAgainBtn = document.createElement("button");
+    tryAgainBtn.className = "choice-pill";
+    tryAgainBtn.textContent = "Try Again";
+    tryAgainBtn.addEventListener("click", () => { resetToStart(); });
+    choiceRow.appendChild(tryAgainBtn);
+
+    const gotItBtn = document.createElement("button");
+    gotItBtn.className = "choice-pill gotit";
+    gotItBtn.textContent = "I Think I Got It ✓";
+    gotItBtn.addEventListener("click", () => {
+      gotItBtn.classList.add("confirmed");
+      gotItBtn.textContent = "Nice — noted ✓";
+      tryAgainBtn.disabled = false;
+    });
+    choiceRow.appendChild(gotItBtn);
+  }
+
+  recordBtn.addEventListener("click", async () => {
     if (!navigator.mediaDevices || !window.MediaRecorder) {
-      btn.textContent = "Recording isn't available on this device — that's okay!";
+      recordBtn.textContent = "Recording isn't available here — that's okay, just continue whenever you're ready.";
+      recordBtn.disabled = true;
       return;
     }
     if (!recording) {
@@ -53,32 +140,30 @@ function attachOptionalRecorder(container) {
         recorder.ondataavailable = (e) => chunks.push(e.data);
         recorder.onstop = () => {
           const blob = new Blob(chunks, { type: "audio/webm" });
-          lastBlobUrl = URL.createObjectURL(blob);
-          btn.innerHTML = `<span class="icon">▶️</span> Play what you said`;
+          blobUrl = URL.createObjectURL(blob);
           stream.getTracks().forEach(t => t.stop());
+          showAfterRecording();
         };
         recorder.start();
         recording = true;
-        btn.classList.add("recording");
-        btn.innerHTML = `<span class="icon">⏺</span> Recording… tap to stop`;
+        recordBtn.classList.add("recording");
+        recordBtn.innerHTML = `<span class="icon">⏺</span> Recording… tap to stop`;
       } catch (err) {
-        // Permission denied or unsupported — never block, just inform gently
-        btn.textContent = "No worries — recording is optional.";
+        recordBtn.textContent = "No worries — recording is optional. Continue whenever you like.";
+        recordBtn.disabled = true;
       }
     } else if (recorder && recorder.state === "recording") {
       recorder.stop();
       recording = false;
-      btn.classList.remove("recording");
-    } else if (lastBlobUrl) {
-      new Audio(lastBlobUrl).play();
+      recordBtn.classList.remove("recording");
     }
   });
 
-  container.appendChild(btn);
+  return wrap;
 }
 
-/* ---------- illustration placeholder ---------- */
-function illustrationEl(key) {
+/* ---------- illustration (persists per scene) ---------- */
+function buildIllustration(key) {
   const div = document.createElement("div");
   div.className = "illustration";
   div.innerHTML = `
@@ -91,160 +176,188 @@ function illustrationEl(key) {
   return div;
 }
 
-/* ---------- progress dots ---------- */
-function progressDots(currentScene) {
+function progressDots(sceneNum) {
   const wrap = document.createElement("div");
   wrap.className = "progress-dots";
   for (let s = 1; s <= 5; s++) {
     const dot = document.createElement("span");
-    if (s < currentScene) dot.classList.add("done");
-    else if (s === currentScene) dot.classList.add("active");
+    if (s < sceneNum) dot.classList.add("done");
+    else if (s === sceneNum) dot.classList.add("active");
     wrap.appendChild(dot);
   }
   return wrap;
 }
 
-function nameLineJp() {
-  return `${state.pronoun}は ${state.name || "……"} です。`;
+/* Called once per step. Resets the view only when the scene number
+   actually changes; otherwise appends a new "beat" into the log so
+   the story reads as one continuous scene, not a new screen each time. */
+function ensureSceneShell(step) {
+  if (step.scene !== currentScene) {
+    currentScene = step.scene;
+    app.innerHTML = "";
+
+    const tag = document.createElement("div");
+    tag.className = "location-tag";
+    tag.textContent = step.location;
+    app.appendChild(tag);
+
+    app.appendChild(buildIllustration(step.illustration));
+    app.appendChild(progressDots(step.scene));
+
+    logEl = document.createElement("div");
+    logEl.className = "story-log";
+    app.appendChild(logEl);
+  }
 }
 
-/* ---------- main render ---------- */
-function render() {
-  const step = STEPS[state.index];
-  app.innerHTML = "";
-
-  const wrap = document.createElement("div");
-  wrap.className = "step-fade";
-
-  const tag = document.createElement("div");
-  tag.className = "location-tag";
-  tag.textContent = step.location;
-  wrap.appendChild(tag);
-
-  wrap.appendChild(illustrationEl(step.illustration));
-  wrap.appendChild(progressDots(step.scene));
-
-  switch (step.type) {
-    case "narration": renderNarration(wrap, step); break;
-    case "guess": renderGuess(wrap, step); break;
-    case "nameInput": renderNameInput(wrap, step); break;
-    case "pronounChoice": renderPronounChoice(wrap, step); break;
-    case "revealNameLine": renderRevealNameLine(wrap, step); break;
-    case "dialogueReveal": renderDialogueReveal(wrap, step); break;
-    case "sequenceAssembly": renderSequenceAssembly(wrap, step); break;
-    case "binaryChoice": renderBinaryChoice(wrap, step); break;
-    case "endOfPrototype": renderEnd(wrap, step); break;
-  }
-
-  app.appendChild(wrap);
+function appendBeat(el) {
+  el.classList.add("beat-fade");
+  logEl.appendChild(el);
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function goNext() {
   if (state.index < STEPS.length - 1) {
     state.index++;
     render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
 
-function primaryButton(label, onClick, disabled = false) {
+function gestureLine(text) {
+  const p = document.createElement("p");
+  p.className = "gesture-line";
+  p.textContent = "(" + text + ")";
+  return p;
+}
+
+function speakerTag(name) {
+  const c = CHARACTERS[name] || { color: "#8A6FB0" };
+  const tag = document.createElement("div");
+  tag.className = "speaker-name";
+  tag.style.color = c.color;
+  tag.textContent = name;
+  return tag;
+}
+
+function dialogueBubble(name, jp) {
+  const c = CHARACTERS[name] || { color: "#8A6FB0", tint: "#F0EAF7" };
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.style.background = c.tint;
+  bubble.style.borderColor = c.color;
+  bubble.appendChild(speakerTag(name));
+  const jpLine = document.createElement("div");
+  jpLine.className = "jp-line";
+  jpLine.textContent = jp;
+  bubble.appendChild(jpLine);
+  return bubble;
+}
+
+function primaryButton(label, onClick) {
   const bar = document.createElement("div");
   bar.className = "continue-bar";
   const btn = document.createElement("button");
   btn.className = "btn-primary";
   btn.textContent = label;
-  btn.disabled = disabled;
   btn.addEventListener("click", onClick);
   bar.appendChild(btn);
   return bar;
 }
 
-/* ---------- step renderers ---------- */
+/* ---------- step renderers — each appends ONE beat to the log ---------- */
 
-function renderNarration(wrap, step) {
+function render() {
+  const step = STEPS[state.index];
+  ensureSceneShell(step);
+
+  const beat = document.createElement("div");
+
+  switch (step.type) {
+    case "narration": renderNarration(beat, step); break;
+    case "guess": renderGuess(beat, step); break;
+    case "nameInput": renderNameInput(beat, step); break;
+    case "pronounChoice": renderPronounChoice(beat, step); break;
+    case "revealNameLine": renderRevealNameLine(beat, step); break;
+    case "dialogueReveal": renderDialogueReveal(beat, step); break;
+    case "sequenceAssembly": renderSequenceAssembly(beat, step); break;
+    case "binaryChoice": renderBinaryChoice(beat, step); break;
+    case "endOfPrototype": renderEnd(beat, step); break;
+  }
+
+  appendBeat(beat);
+}
+
+function renderNarration(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
   const p = document.createElement("p");
   p.className = "narration";
   p.textContent = step.text;
-  wrap.appendChild(p);
-  wrap.appendChild(primaryButton(step.continueLabel || "Continue", goNext));
+  beat.appendChild(p);
+  beat.appendChild(primaryButton(step.continueLabel || "Continue", goNext));
 }
 
-function renderGuess(wrap, step) {
-  const d = document.createElement("div");
-  d.className = "dialogue-block";
-  d.innerHTML = `
-    <div class="speaker-name">${step.speaker}</div>
-    <div class="jp-line">${step.jp}</div>
-  `;
-  wrap.appendChild(d);
+function renderGuess(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
+  beat.appendChild(dialogueBubble(step.speaker, step.jp));
 
-  const audioBtn = document.createElement("button");
-  audioBtn.className = "audio-btn";
-  audioBtn.style.marginLeft = "26px";
-  audioBtn.innerHTML = `<span class="icon">🔊</span> Listen`;
-  audioBtn.addEventListener("click", () => speakJa(step.audio));
-  wrap.appendChild(audioBtn);
+  const listenBtn = document.createElement("button");
+  listenBtn.className = "audio-btn inline";
+  listenBtn.innerHTML = `<span class="icon">🔊</span> Listen`;
+  listenBtn.addEventListener("click", () => speakJa(step.audio));
+  beat.appendChild(listenBtn);
 
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-prompt";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
-  const opts = document.createElement("div");
-  opts.className = "options";
-  const feedback = document.createElement("div");
+  const choices = document.createElement("div");
+  choices.className = "choice-list";
 
   step.options.forEach((opt, i) => {
     const btn = document.createElement("button");
-    btn.className = "option-btn";
+    btn.className = "choice-pill";
     btn.textContent = opt;
     btn.addEventListener("click", () => {
-      [...opts.children].forEach(b => b.disabled = true);
-      if (i === step.correctIndex) {
-        btn.classList.add("correct");
-        showFeedback(feedback, step.feedbackCorrect, step, true);
-      } else {
+      [...choices.children].forEach(b => b.disabled = true);
+      const correct = i === step.correctIndex;
+      if (correct) btn.classList.add("correct");
+      else {
         btn.classList.add("chosen-wrong");
-        opts.children[step.correctIndex].classList.add("correct");
-        showFeedback(feedback, step.feedbackWrong, step, false);
+        choices.children[step.correctIndex].classList.add("correct");
       }
+      revealAfterChoice(beat, step, correct);
     });
-    opts.appendChild(btn);
+    choices.appendChild(btn);
   });
-
-  wrap.appendChild(opts);
-  wrap.appendChild(feedback);
+  beat.appendChild(choices);
 }
 
-function showFeedback(feedbackEl, message, step, correct) {
-  feedbackEl.className = "feedback";
-  feedbackEl.style.margin = "10px 26px 0";
-  feedbackEl.textContent = message;
-  feedbackEl.style.display = "block";
+function revealAfterChoice(beat, step, correct) {
+  const line = document.createElement("p");
+  line.className = "story-line";
+  line.textContent = correct ? step.feedbackCorrect : step.feedbackWrong;
+  beat.appendChild(line);
 
   if (step.reveal) {
-    const revealBox = document.createElement("div");
-    revealBox.className = "dialogue-block";
-    revealBox.innerHTML = `<div class="jp-line">${step.reveal.jp}</div><div class="en-line">${step.reveal.en}</div>`;
-    feedbackEl.after(revealBox);
+    const en = document.createElement("p");
+    en.className = "en-line";
+    en.textContent = step.reveal.en;
+    beat.appendChild(en);
 
     if (step.showRepeat) {
-      const repeatWrap = document.createElement("div");
-      repeatWrap.style.padding = "0 26px";
-      attachOptionalRecorder(repeatWrap);
-      revealBox.after(repeatWrap);
+      beat.appendChild(buildPracticeWidget(step.audio));
     }
   }
-
-  const bar = primaryButton("Continue", goNext);
-  feedbackEl.parentElement.appendChild(bar);
+  beat.appendChild(primaryButton("Continue", goNext));
 }
 
-function renderNameInput(wrap, step) {
+function renderNameInput(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-prompt";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
   const inputWrap = document.createElement("div");
   inputWrap.className = "name-input-wrap";
@@ -254,112 +367,98 @@ function renderNameInput(wrap, step) {
   input.placeholder = "Your name";
   input.maxLength = 24;
   inputWrap.appendChild(input);
-  wrap.appendChild(inputWrap);
+  beat.appendChild(inputWrap);
 
-  const bar = primaryButton("Continue", () => {
+  beat.appendChild(primaryButton("Continue", () => {
     state.name = input.value.trim() || "You";
     goNext();
-  });
-  wrap.appendChild(bar);
-
-  input.addEventListener("input", () => {
-    bar.querySelector("button").disabled = false;
-  });
+  }));
 }
 
-function renderPronounChoice(wrap, step) {
+function renderPronounChoice(beat, step) {
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-prompt";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
-  const opts = document.createElement("div");
-  opts.className = "options";
+  const choices = document.createElement("div");
+  choices.className = "choice-list";
   step.options.forEach(opt => {
     const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.innerHTML = `${opt.label}<br><span style="font-size:12.5px;color:var(--ink-soft)">${opt.note}</span>`;
+    btn.className = "choice-pill wide";
+    btn.innerHTML = `${opt.label}<br><span class="choice-note">${opt.note}</span>`;
     btn.addEventListener("click", () => {
       state.pronoun = opt.value;
       goNext();
     });
-    opts.appendChild(btn);
+    choices.appendChild(btn);
   });
-  wrap.appendChild(opts);
+  beat.appendChild(choices);
 }
 
-function renderRevealNameLine(wrap, step) {
-  const d = document.createElement("div");
-  d.className = "dialogue-block";
-  d.innerHTML = `<div class="jp-line">${nameLineJp()}</div><div class="en-line">I am ${state.name}.</div>`;
-  wrap.appendChild(d);
+function renderRevealNameLine(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
+  beat.appendChild(dialogueBubble("You", nameLineJp()));
 
-  const audioBtn = document.createElement("button");
-  audioBtn.className = "audio-btn";
-  audioBtn.style.marginLeft = "26px";
-  audioBtn.innerHTML = `<span class="icon">🔊</span> Listen (read your name aloud in the pause)`;
-  audioBtn.addEventListener("click", speakNameLine);
-  wrap.appendChild(audioBtn);
+  const en = document.createElement("p");
+  en.className = "en-line";
+  en.textContent = `I am ${state.name}.`;
+  beat.appendChild(en);
 
-  const feedback = document.createElement("p");
-  feedback.className = "feedback";
-  feedback.style.margin = "14px 26px 0";
-  feedback.textContent = step.feedbackCorrect;
-  wrap.appendChild(feedback);
+  const listenBtn = document.createElement("button");
+  listenBtn.className = "audio-btn inline";
+  listenBtn.innerHTML = `<span class="icon">🔊</span> Listen (read your name aloud in the pause)`;
+  listenBtn.addEventListener("click", speakNameLine);
+  beat.appendChild(listenBtn);
 
-  const recWrap = document.createElement("div");
-  recWrap.style.padding = "10px 26px 0";
-  attachOptionalRecorder(recWrap);
-  wrap.appendChild(recWrap);
+  const line = document.createElement("p");
+  line.className = "story-line";
+  line.textContent = step.feedbackCorrect;
+  beat.appendChild(line);
 
-  wrap.appendChild(primaryButton("Continue", goNext));
+  beat.appendChild(buildPracticeWidget(nameLineJp()));
+  beat.appendChild(primaryButton("Continue", goNext));
 }
 
-function renderDialogueReveal(wrap, step) {
+function renderDialogueReveal(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
   step.lines.forEach(line => {
-    const d = document.createElement("div");
-    d.className = "dialogue-block";
-    d.innerHTML = `
-      <div class="speaker-name">${line.speaker}</div>
-      <div class="jp-line">${line.jp}</div>
-      <div class="en-line">${line.en}</div>
-    `;
-    wrap.appendChild(d);
-    const audioBtn = document.createElement("button");
-    audioBtn.className = "audio-btn";
-    audioBtn.style.marginLeft = "26px";
-    audioBtn.innerHTML = `<span class="icon">🔊</span> Listen`;
-    audioBtn.addEventListener("click", () => speakJa(line.audio));
-    wrap.appendChild(audioBtn);
+    beat.appendChild(dialogueBubble(line.speaker, line.jp));
+    const en = document.createElement("p");
+    en.className = "en-line";
+    en.textContent = line.en;
+    beat.appendChild(en);
+    const listenBtn = document.createElement("button");
+    listenBtn.className = "audio-btn inline";
+    listenBtn.innerHTML = `<span class="icon">🔊</span> Listen`;
+    listenBtn.addEventListener("click", () => speakJa(line.audio));
+    beat.appendChild(listenBtn);
   });
 
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-line";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
-  wrap.appendChild(primaryButton("Continue", goNext));
+  beat.appendChild(primaryButton("Continue", goNext));
 }
 
-function renderSequenceAssembly(wrap, step) {
+function renderSequenceAssembly(beat, step) {
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-prompt";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
   const strip = document.createElement("div");
   strip.className = "assembled-strip";
-  wrap.appendChild(strip);
+  beat.appendChild(strip);
 
   const bank = document.createElement("div");
   bank.className = "chip-bank";
-  wrap.appendChild(bank);
+  beat.appendChild(bank);
 
-  const feedback = document.createElement("p");
-  feedback.className = "feedback neutral";
-  feedback.style.margin = "10px 26px 0";
-  feedback.style.display = "none";
-  wrap.appendChild(feedback);
+  const feedbackHost = document.createElement("div");
+  beat.appendChild(feedbackHost);
 
   let assembled = [];
   const shuffled = [...step.pieces].sort(() => Math.random() - 0.5);
@@ -398,33 +497,32 @@ function renderSequenceAssembly(wrap, step) {
   }
 
   function checkOrder() {
+    feedbackHost.innerHTML = "";
     const isCorrect = JSON.stringify(assembled) === JSON.stringify(step.correctOrder);
-    feedback.style.display = "block";
+    const line = document.createElement("p");
+    line.className = "story-line";
+
     if (isCorrect) {
-      feedback.className = "feedback";
-      feedback.textContent = "Perfect — that's your self-introduction!";
-      const recWrap = document.createElement("div");
-      recWrap.style.padding = "10px 26px 0";
-      attachOptionalRecorder(recWrap);
-      feedback.after(recWrap);
-      recWrap.after(primaryButton("Continue", goNext));
+      line.textContent = "Perfect — that's your self-introduction.";
+      feedbackHost.appendChild(line);
+      feedbackHost.appendChild(buildPracticeWidget(step.pieces.map(resolveText).join(" ")));
+      feedbackHost.appendChild(primaryButton("Continue", goNext));
     } else {
-      feedback.className = "feedback neutral";
-      feedback.textContent = step.retryLabel + " — tap Reset.";
+      line.textContent = step.retryLabel + ".";
+      feedbackHost.appendChild(line);
       const resetBar = document.createElement("div");
       resetBar.className = "continue-bar";
       const resetBtn = document.createElement("button");
       resetBtn.className = "btn-primary";
-      resetBtn.textContent = "Reset";
+      resetBtn.textContent = "Try again";
       resetBtn.addEventListener("click", () => {
         assembled = [];
-        feedback.style.display = "none";
+        feedbackHost.innerHTML = "";
         renderStrip();
         renderBank();
-        resetBar.remove();
       });
       resetBar.appendChild(resetBtn);
-      feedback.after(resetBar);
+      feedbackHost.appendChild(resetBar);
     }
   }
 
@@ -432,49 +530,45 @@ function renderSequenceAssembly(wrap, step) {
   renderBank();
 }
 
-function renderBinaryChoice(wrap, step) {
+function renderBinaryChoice(beat, step) {
   const prompt = document.createElement("p");
-  prompt.className = "prompt";
+  prompt.className = "story-prompt";
   prompt.textContent = step.prompt;
-  wrap.appendChild(prompt);
+  beat.appendChild(prompt);
 
-  const opts = document.createElement("div");
-  opts.className = "options";
-  const feedback = document.createElement("div");
+  const choices = document.createElement("div");
+  choices.className = "choice-list";
 
   step.options.forEach((opt, i) => {
     const btn = document.createElement("button");
-    btn.className = "option-btn";
+    btn.className = "choice-pill";
     btn.textContent = opt;
     btn.addEventListener("click", () => {
-      [...opts.children].forEach(b => b.disabled = true);
-      if (i === step.correctIndex) {
-        btn.classList.add("correct");
-        showFeedback(feedback, step.feedbackCorrect, step, true);
-      } else {
+      [...choices.children].forEach(b => b.disabled = true);
+      const correct = i === step.correctIndex;
+      if (correct) btn.classList.add("correct");
+      else {
         btn.classList.add("chosen-wrong");
-        opts.children[step.correctIndex].classList.add("correct");
-        showFeedback(feedback, step.feedbackWrong, step, false);
+        choices.children[step.correctIndex].classList.add("correct");
       }
+      revealAfterChoice(beat, step, correct);
     });
-    opts.appendChild(btn);
+    choices.appendChild(btn);
   });
-
-  wrap.appendChild(opts);
-  wrap.appendChild(feedback);
+  beat.appendChild(choices);
 }
 
-function renderEnd(wrap, step) {
+function renderEnd(beat, step) {
+  if (step.gesture) beat.appendChild(gestureLine(step.gesture));
   const p = document.createElement("p");
   p.className = "narration";
   p.textContent = step.text;
-  wrap.appendChild(p);
+  beat.appendChild(p);
 
   const note = document.createElement("p");
-  note.className = "feedback neutral";
-  note.style.margin = "16px 26px 0";
+  note.className = "story-line muted";
   note.textContent = "Prototype ends here — Scenes 6–13 continue the story on Day 2 and beyond.";
-  wrap.appendChild(note);
+  beat.appendChild(note);
 }
 
 render();

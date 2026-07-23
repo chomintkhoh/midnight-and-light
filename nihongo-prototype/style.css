@@ -191,3 +191,63 @@ body{
 }
 .progress-dots span.done{ background:var(--sage); }
 .progress-dots span.active{ background:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   v2 additions — story log, dialogue bubbles,
+   in-story choices, gesture lines, practice widget
+══════════════════════════════════════════════ */
+
+.story-log{ display:flex; flex-direction:column; }
+.beat-fade{ animation: beatIn .4s ease both; }
+@keyframes beatIn{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
+@media (prefers-reduced-motion: reduce){ .beat-fade{ animation:none; } }
+
+.gesture-line{
+  padding: 16px 26px 0; font-size:13.5px; font-style:italic;
+  color: var(--ink-soft); opacity:.85;
+}
+
+.dialogue-bubble{
+  margin: 10px 26px 0; padding:14px 16px;
+  border-left:3px solid var(--accent);
+  border-radius: 4px 14px 14px 14px;
+  background: var(--white);
+}
+.dialogue-bubble .speaker-name{ margin-bottom:4px; font-size:12.5px; font-weight:700; letter-spacing:0.03em; }
+.dialogue-bubble .jp-line{ margin:0; }
+
+.audio-btn.inline{ margin: 10px 26px 0; }
+
+.story-prompt{
+  padding: 16px 26px 2px; font-size:15px; line-height:1.6;
+  color: var(--ink); font-weight:600;
+}
+
+.story-line{
+  margin: 10px 26px 0; padding:14px 16px;
+  background: var(--sage-pale); border-radius:12px;
+  font-size:14.5px; color:#3E5A3B; line-height:1.6;
+}
+.story-line.muted{ background:var(--paper-deep); color:var(--ink-soft); }
+
+.choice-list{ padding: 10px 26px 2px; display:flex; flex-direction:column; gap:10px; }
+.choice-pill{
+  background:var(--white); border:1.5px solid rgba(58,52,43,0.14);
+  border-radius:14px; padding:13px 18px; font-size:15px; color:var(--ink);
+  text-align:left; font-family:var(--font-sans);
+  transition: border-color .15s, background .15s, transform .1s;
+}
+.choice-pill:active{ transform:scale(0.985); }
+.choice-pill.wide{ text-align:left; }
+.choice-pill .choice-note{ font-size:12px; color:var(--ink-soft); font-weight:400; }
+.choice-pill.correct{ border-color:var(--sage); background:var(--sage-pale); }
+.choice-pill.chosen-wrong{ border-color:var(--accent-soft); background:#FBEAE0; }
+.choice-pill:disabled{ pointer-events:none; }
+
+/* Practice widget (5-step speaking flow) */
+.practice-widget{ padding: 12px 26px 0; display:flex; flex-direction:column; gap:10px; }
+.practice-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.practice-choice-row{ display:flex; flex-wrap:wrap; gap:8px; }
+
+.choice-pill.gotit{ border-color:var(--sage); }
+.choice-pill.gotit.confirmed{ background:var(--sage-pale); color:#3E5A3B; pointer-events:none; }
