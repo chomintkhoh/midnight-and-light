@@ -91,6 +91,8 @@ body{
 .flashcard.flipped .flashcard-front{ display:none; }
 .flashcard.flipped .flashcard-back{ display:flex; flex-direction:column; gap:6px; }
 .flashcard-meaning{ font-size:20px; font-weight:600; color:var(--accent); }
+.flashcard-readings{ font-size:15px; color:var(--ink-soft); margin-top:6px; }
+.flashcard-components{ font-size:13px; color:var(--ink-soft); margin-top:4px; }
 .flashcard-hint{ font-size:12.5px; color:var(--ink-soft); margin-top:14px; }
 .flashcard-nav{ display:flex; gap:10px; margin-top:16px; }
 .flashcard-nav button{

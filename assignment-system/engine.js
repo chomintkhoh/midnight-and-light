@@ -2,8 +2,13 @@
    Assignment Engine — reusable across languages,
    levels, and topics. Nothing in this file is
    specific to Japanese, Mandarin, or Unit 1.
-   Content comes entirely from the ASSIGNMENT
-   object loaded before this script.
+
+   Phase 3: ASSIGNMENT is now built by the generic
+   assignment loader (core/assignment-loader.js) from
+   an assignment-definition module + the content
+   registry — not read from a hardcoded legacy skeleton
+   patched by per-activity bridge scripts. See the
+   bootstrap at the bottom of this file.
 ══════════════════════════════════════════════ */
 
 const LOCALE_MAP = { ja: "ja-JP", zh: "zh-CN" };
@@ -15,7 +20,8 @@ const state = {
 };
 
 const app = document.getElementById("app");
-document.body.dataset.lang = ASSIGNMENT.language;
+let ASSIGNMENT; // populated by the bootstrap at the bottom of this file, before first render()
+let getContentRef = () => null; // set during bootstrap; lets renderers resolve content ids (e.g. component characters) generically
 
 /* ---------- text templating: {{name}} substitution ---------- */
 function T(str) {
@@ -66,7 +72,7 @@ function buildSteps() {
   steps.push({ kind: "results" });
   return steps;
 }
-const STEPS = buildSteps();
+let STEPS;
 
 function goNext() {
   if (state.index < STEPS.length - 1) {
@@ -77,7 +83,23 @@ function goNext() {
 }
 
 function recordAnswer(entry) {
+  entry.attempts = entry.attempts || 1;
   state.log.push(entry);
+  return entry;
+}
+
+/* Assignment-level summary — derived from the attempt log, computed
+   once in a named place rather than inlined in the Results renderer. */
+function computeSummary(log) {
+  const correct = log.filter(e => e.correct).length;
+  const total = log.length;
+  return {
+    totalQuestions: total,
+    correctAnswers: correct,
+    incorrectAnswers: total - correct,
+    scorePercentage: total > 0 ? Math.round((correct / total) * 100) : null,
+    completionStatus: "complete"
+  };
 }
 
 /* ---------- shared UI atoms ---------- */
@@ -217,14 +239,35 @@ function renderFlashcards(block, blockData) {
   const continueBtn = primaryButton("Continue", goNext);
   block.appendChild(continueBtn);
 
+  function formatReading(r) {
+    // Generic: works for {reading, type} (Japanese) or {pinyin, tone} (Mandarin)
+    // by checking which fields exist — never by checking language.
+    const base = r.pinyin || r.reading || "";
+    if (r.tone != null) return base + (r.tone === 0 ? " (neutral)" : ` (tone ${r.tone})`);
+    if (r.type) return `${base} (${r.type})`;
+    return base;
+  }
+
   function draw() {
     const c = cards[i];
     flipped = false;
     card.classList.remove("flipped");
+
+    const readingsLine = (c.back.readings && c.back.readings.length)
+      ? `<div class="flashcard-readings cjk">${c.back.readings.map(formatReading).join(" / ")}</div>` : "";
+    const componentsLine = (c.back.components && c.back.components.length)
+      ? `<div class="flashcard-components cjk">${c.back.components.map(comp => {
+          const id = typeof comp === "string" ? comp : comp.contentId;
+          const item = getContentRef(id);
+          return item ? item.character : id;
+        }).join(" + ")}</div>` : "";
+
     card.innerHTML = `
-      <div class="flashcard-front cjk">${T(c.jp)}</div>
+      <div class="flashcard-front cjk">${T(c.front)}</div>
       <div class="flashcard-back">
-        <div class="flashcard-meaning">${T(c.en)}</div>
+        <div class="flashcard-meaning">${T(c.back.meanings[0])}</div>
+        ${readingsLine}
+        ${componentsLine}
       </div>
       <div class="flashcard-hint">Tap the card to flip</div>
     `;
@@ -321,13 +364,24 @@ function renderChoiceQuestion(block, step) {
         btn.classList.add(correct ? "correct" : "wrong");
         if (!correct) options.children[q.correctIndex].classList.add("correct");
       }
+      const meta = step.block.data.meta || {};
       recordAnswer({
         label: step.block.title,
         prompt: T(q.prompt.text),
         yourAnswer: opt,
         correctAnswer: q.kind === "trueFalse" ? (q.correctAnswer ? "True" : "False") : q.options[q.correctIndex],
         correct,
-        explanation: T(q.explanation)
+        explanation: T(q.explanation),
+        // Step 4 enrichment — additive only. Populated when the migration
+        // bridge has run (q.optionContentIds present); undefined otherwise,
+        // which the (not yet migrated) Results screen simply ignores.
+        contentId: q.optionContentIds ? q.optionContentIds[idx] : q.contentId,
+        assignmentId: meta.assignmentId,
+        activityType: meta.activityType,
+        questionId: q.id,
+        learningObjective: q.learningObjective || meta.learningObjective,
+        contentDomain: q.contentDomain,
+        language: meta.language
       });
       showExplanationAndContinue(block, q.explanation);
     });
@@ -359,20 +413,33 @@ function renderTypingBlank(block, step) {
   const checkBtn = primaryButton("Check", () => {
     const val = input.value.trim();
     let correct;
-    if (q.alwaysCorrect) {
+    if (q.validate) {
+      // Step 5: validation decision now comes from the language adapter
+      // (via the migration bridge), not from logic living in this engine.
+      correct = q.validate(val);
+    } else if (q.alwaysCorrect) {
       correct = val.length > 0;
     } else {
       correct = q.acceptedAnswers.some(a => a === "*" || a.toLowerCase() === val.toLowerCase());
     }
     input.disabled = true;
     checkBtn.disabled = true;
+    const meta = step.block.data.meta || {};
     recordAnswer({
       label: step.block.title,
       prompt: promptEl.textContent,
       yourAnswer: val || "(nothing typed)",
-      correctAnswer: q.alwaysCorrect ? "(any name)" : q.acceptedAnswers[0],
+      correctAnswer: q.alwaysCorrect ? "(any name)" : (q.acceptedAnswers ? q.acceptedAnswers[0] : undefined),
       correct,
-      explanation: T(q.explanation)
+      explanation: T(q.explanation),
+      // Step 5 enrichment — additive only.
+      contentId: q.contentId,
+      assignmentId: meta.assignmentId,
+      activityType: meta.activityType,
+      questionId: q.id,
+      learningObjective: q.learningObjective,
+      contentDomain: q.contentDomain,
+      language: meta.language
     });
     input.style.borderColor = correct ? "var(--good)" : "var(--bad)";
     showExplanationAndContinue(block, q.explanation);
@@ -411,14 +478,24 @@ function renderBankBlank(block, step) {
 
   const checkBtn = primaryButton("Check", () => {
     if (!chosen) return;
-    const correct = chosen === q.correctAnswer;
+    const correct = q.validate ? q.validate(chosen) : (chosen === q.correctAnswer);
+    const meta = step.block.data.meta || {};
+    const chosenIdx = q.bank ? q.bank.indexOf(chosen) : -1;
     recordAnswer({
       label: step.block.title,
       prompt: promptEl.textContent,
       yourAnswer: chosen,
       correctAnswer: q.correctAnswer,
       correct,
-      explanation: T(q.explanation)
+      explanation: T(q.explanation),
+      // Step 5 enrichment — additive only.
+      contentId: q.bankContentIds && chosenIdx >= 0 ? q.bankContentIds[chosenIdx] : q.contentId,
+      assignmentId: meta.assignmentId,
+      activityType: meta.activityType,
+      questionId: q.id,
+      learningObjective: q.learningObjective,
+      contentDomain: q.contentDomain,
+      language: meta.language
     });
     [...bank.children].forEach(b => b.disabled = true);
     checkBtn.disabled = true;
@@ -451,6 +528,7 @@ function renderMatching(block, blockData) {
 
   const shuffledRight = [...pairs].sort(() => Math.random() - 0.5);
   const firstAttemptRecorded = new Set();
+  const logEntryByPair = new Map(); // pairId -> the log entry object, so later retries can increment .attempts
   let matchedCount = 0;
   let selectedLeft = null;
 
@@ -486,14 +564,32 @@ function renderMatching(block, blockData) {
       if (!firstAttemptRecorded.has(selectedLeft)) {
         firstAttemptRecorded.add(selectedLeft);
         const correctPair = pairs.find(p => p.id === selectedLeft);
-        recordAnswer({
+        const meta = blockData.data.meta || {};
+        const entry = recordAnswer({
           label: blockData.title,
           prompt: `Match: ${T(correctPair.left)}`,
           yourAnswer: T(pair.right),
           correctAnswer: T(correctPair.right),
           correct: isCorrect,
-          explanation: ""
+          explanation: "",
+          // Step 3 enrichment — additive only. Populated when the migration
+          // bridge has run; undefined otherwise, which the (not yet
+          // migrated) Results screen simply ignores.
+          contentId: correctPair.id,
+          assignmentId: meta.assignmentId,
+          activityType: meta.activityType,
+          learningObjective: meta.learningObjective,
+          contentDomain: correctPair.contentDomain,
+          language: meta.language
         });
+        logEntryByPair.set(selectedLeft, entry);
+      } else {
+        // A retry on a pair whose first attempt is already logged — the
+        // SCORED correct/incorrect result stays fixed at the first try
+        // (first-attempt scoring, unchanged), but we still track how many
+        // tries it actually took, for future analytics.
+        const entry = logEntryByPair.get(selectedLeft);
+        if (entry) entry.attempts++;
       }
 
       if (isCorrect) {
@@ -536,6 +632,7 @@ function renderSentenceOrderItem(block, step) {
 
   let assembled = [];
   let firstCheckDone = false;
+  let sentenceLogEntry = null; // holds the entry so retries can increment .attempts
   const shuffled = [...step.item.chunks].sort(() => Math.random() - 0.5);
 
   function renderStrip() {
@@ -571,14 +668,26 @@ function renderSentenceOrderItem(block, step) {
     const correct = JSON.stringify(assembled) === JSON.stringify(step.item.correctOrder);
     if (!firstCheckDone) {
       firstCheckDone = true;
-      recordAnswer({
+      const meta = step.block.data.meta || {};
+      sentenceLogEntry = recordAnswer({
         label: step.block.title,
         prompt: step.item.label,
         yourAnswer: assembled.map(id => T(step.item.chunks.find(c => c.id === id).jp)).join(" "),
         correctAnswer: step.item.correctOrder.map(id => T(step.item.chunks.find(c => c.id === id).jp)).join(" "),
         correct,
-        explanation: ""
+        explanation: "",
+        // Step 6 enrichment — additive only.
+        contentId: step.item.sentenceContentId,
+        assignmentId: meta.assignmentId,
+        activityType: meta.activityType,
+        questionId: step.item.id,
+        contentDomain: step.item.contentDomain,
+        language: meta.language
       });
+    } else if (sentenceLogEntry) {
+      // A retry after "Try again" — first-attempt scoring stays fixed,
+      // but we track total tries taken, same pattern as Matching.
+      sentenceLogEntry.attempts++;
     }
     feedbackHost.innerHTML = "";
     const line = document.createElement("div");
@@ -638,8 +747,9 @@ function renderReading(block, blockData) {
 /* ---------- RESULTS ---------- */
 function renderResults(block) {
   const scoredLog = state.log; // matching/mcq/fillBlank/sentenceOrder all recorded here
-  const correct = scoredLog.filter(e => e.correct).length;
-  const total = scoredLog.length;
+  const summary = computeSummary(scoredLog);
+  const correct = summary.correctAnswers;
+  const total = summary.totalQuestions;
 
   const hero = document.createElement("div");
   hero.className = "score-hero";
@@ -685,4 +795,76 @@ function renderResults(block) {
   block.appendChild(restart);
 }
 
-render();
+// Step 2/3: wait for any registered migration-bridge readiness promises
+// before the first render. Promise.all on an array that may contain
+// undefined entries still resolves fine, so this works whether zero,
+// one, or both bridges are present.
+/* ---------- GENERIC BOOTSTRAP ----------
+   Reads ?assignment=<id> from the URL (defaulting to the
+   Japanese Unit 1 for backward compatibility with existing
+   links), dynamically imports the content registry, the
+   language registry, every prepare module, the requested
+   assignment definition, and the generic assignment loader
+   — then builds ASSIGNMENT.blocks generically, exactly the
+   shape buildSteps() and every render function already
+   expect. No per-language file, no per-activity bridge,
+   no legacy skeleton. */
+(async () => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const assignmentId = params.get("assignment") || "ja-unit1-greetings";
+
+    const ASSIGNMENT_MODULES = {
+      "ja-unit1-greetings": "./assignments/assignment-ja-unit1-greetings.js",
+      "zh-unit1-greetings": "./assignments/assignment-zh-unit1-greetings.js"
+    };
+    const modulePath = ASSIGNMENT_MODULES[assignmentId];
+    if (!modulePath) throw new Error(`Unknown assignment id in URL: "${assignmentId}"`);
+
+    const [
+      { getContent },
+      { getLanguageAdapter },
+      { loadAssignmentBlocks },
+      { prepareFlashcard },
+      { resolveMatchingPairs },
+      { resolveMCQQuestion },
+      { resolveAnswerInputQuestion },
+      { resolveSentenceOrderItem },
+      { resolveReadingPassage },
+      { resolveReadingQuestion },
+      { ASSIGNMENT: assignmentDef }
+    ] = await Promise.all([
+      import("./core/content-registry.js"),
+      import("./core/language-registry.js"),
+      import("./core/assignment-loader.js"),
+      import("./core/prepare/flashcard-prepare.js"),
+      import("./core/prepare/matching-prepare.js"),
+      import("./core/prepare/mcq-prepare.js"),
+      import("./core/prepare/answerinput-prepare.js"),
+      import("./core/prepare/sentenceorder-prepare.js"),
+      import("./core/prepare/reading-prepare.js"),
+      import("./core/prepare/readingquestions-prepare.js"),
+      import(modulePath)
+    ]);
+
+    const blocks = await loadAssignmentBlocks(assignmentDef, {
+      getContent, getLanguageAdapter, prepareFlashcard, resolveMatchingPairs,
+      resolveMCQQuestion, resolveAnswerInputQuestion, resolveSentenceOrderItem,
+      resolveReadingPassage, resolveReadingQuestion
+    });
+
+    ASSIGNMENT = {
+      id: assignmentDef.id, language: assignmentDef.language, domain: assignmentDef.domain,
+      level: assignmentDef.level, topic: assignmentDef.topic, intro: assignmentDef.intro,
+      title: assignmentDef.title, needsName: assignmentDef.needsName, blocks
+    };
+    getContentRef = getContent;
+    document.body.dataset.lang = ASSIGNMENT.language;
+
+    STEPS = buildSteps();
+    render();
+  } catch (err) {
+    console.error("[engine] Failed to load assignment.", err);
+    app.innerHTML = `<div class="block"><div class="block-title">Couldn't load this assignment.</div><div class="block-sub">${err.message}</div></div>`;
+  }
+})();
