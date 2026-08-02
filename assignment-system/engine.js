@@ -274,10 +274,6 @@ function renderFlashcards(block, blockData) {
     counter.textContent = `Card ${i + 1} of ${cards.length}`;
     prevBtn.disabled = i === 0;
     nextBtn.textContent = i === cards.length - 1 ? "Done reviewing" : "Next →";
-
-    const audioBtn = audioButton(c.audio);
-    card.parentNode && null;
-    card.after(audioBtn);
   }
 
   card.addEventListener("click", () => {
