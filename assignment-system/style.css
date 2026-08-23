@@ -59,7 +59,7 @@ body{
 
 .block-eyebrow{ font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px; }
 .block-title{ font-size:20px; font-weight:700; margin-bottom:6px; }
-.block-sub{ font-size:14px; color:var(--ink-soft); line-height:1.6; margin-bottom:18px; }
+.block-sub{ font-size:15.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:18px; }
 
 /* ── Buttons ────────────────────────────────── */
 .btn-primary{
@@ -91,23 +91,23 @@ body{
 .flashcard.flipped .flashcard-front{ display:none; }
 .flashcard.flipped .flashcard-back{ display:flex; flex-direction:column; gap:6px; }
 .flashcard-meaning{ font-size:20px; font-weight:600; color:var(--accent); }
-.flashcard-readings{ font-size:15px; color:var(--ink-soft); margin-top:6px; }
+.flashcard-readings{ font-size:17px; color:var(--ink-soft); margin-top:6px; }
 .flashcard-components{ font-size:13px; color:var(--ink-soft); margin-top:4px; }
 .flashcard-hint{ font-size:12.5px; color:var(--ink-soft); margin-top:14px; }
 .flashcard-nav{ display:flex; gap:10px; margin-top:16px; }
 .flashcard-nav button{
   flex:1; padding:12px; border-radius:10px; border:1.5px solid rgba(46,43,38,0.14);
-  background:var(--surface); font-size:14px; font-weight:600; color:var(--ink);
+  background:var(--surface); font-size:15.5px; font-weight:600; color:var(--ink);
 }
 .flashcard-counter{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin-top:10px; }
 
 /* ── Multiple choice / generic question options ─ */
-.q-prompt{ font-size:16px; font-weight:600; margin-bottom:14px; line-height:1.5; }
+.q-prompt{ font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.5; }
 .q-jp{ font-size:24px; margin-bottom:10px; }
 .option-list{ display:flex; flex-direction:column; gap:10px; }
 .option-btn{
   background:var(--surface); border:1.5px solid rgba(46,43,38,0.14);
-  border-radius:12px; padding:13px 16px; font-size:15px; color:var(--ink);
+  border-radius:12px; padding:13px 16px; font-size:17px; color:var(--ink);
   text-align:left;
 }
 .option-btn.correct{ border-color:var(--good); background:var(--good-pale); }
@@ -116,7 +116,7 @@ body{
 
 .explanation{
   margin-top:14px; padding:13px 15px; border-radius:12px;
-  background:var(--gold-pale); font-size:14px; color:#5C4520; line-height:1.6;
+  background:var(--gold-pale); font-size:16px; color:#5C4520; line-height:1.6;
 }
 
 /* ── Matching (tap-to-connect) ──────────────── */
@@ -124,7 +124,7 @@ body{
 .match-col{ display:flex; flex-direction:column; gap:10px; }
 .match-item{
   background:var(--surface); border:1.5px solid rgba(46,43,38,0.14);
-  border-radius:10px; padding:12px 10px; font-size:14px; text-align:center;
+  border-radius:10px; padding:12px 10px; font-size:16px; text-align:center;
   min-height:44px; display:flex; align-items:center; justify-content:center;
 }
 .match-item.selected{ border-color:var(--accent); background:var(--accent-soft); }
@@ -143,7 +143,7 @@ body{
 .word-bank{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
 .bank-chip{
   background:var(--surface); border:1.5px solid rgba(46,43,38,0.14);
-  border-radius:10px; padding:10px 14px; font-size:15px; font-family:var(--font-cjk);
+  border-radius:10px; padding:10px 14px; font-size:17px; font-family:var(--font-cjk);
 }
 .bank-chip.used{ opacity:.3; pointer-events:none; }
 .blank-slot{
@@ -168,10 +168,21 @@ body{
 .passage-box{ background:var(--surface); border-radius:14px; padding:18px 18px 8px; margin-bottom:6px; }
 .passage-stage{ font-size:12.5px; font-style:italic; color:var(--ink-soft); margin: 12px 0 6px; }
 .passage-stage:first-child{ margin-top:0; }
-.passage-line{ display:flex; gap:8px; margin-bottom:10px; align-items:baseline; }
+.passage-line{ display:flex; gap:8px; margin-bottom:10px; align-items:baseline; flex-wrap:wrap; }
 .passage-speaker{ font-size:12px; font-weight:700; color:var(--accent); min-width:56px; }
-.passage-jp{ font-family:var(--font-cjk); font-size:17px; }
+.passage-jp{ font-family:var(--font-cjk); font-size:19px; }
 .passage-toggle{ margin: 10px 0 18px; }
+
+/* Phase 3 — Feature B: tap-to-reveal annotation. Additive only. */
+.tappable-token{ cursor:pointer; border-bottom:2px dotted var(--accent); }
+.token-reveal{
+  display:inline-block; font-family:var(--font-sans); font-size:13px;
+  background:var(--accent-soft); color:var(--ink); border-radius:8px;
+  padding:2px 8px; margin:0 4px; vertical-align:middle;
+}
+/* Phase 3 — Feature A: per-line reading audio. Additive only, does not
+   change the shared .audio-btn rule used elsewhere (e.g. Flashcards). */
+.passage-audio-btn{ padding:6px 10px; margin-bottom:0; flex-shrink:0; }
 
 /* ── Results ────────────────────────────────── */
 .score-hero{ text-align:center; padding: 20px 0 8px; }
@@ -182,10 +193,10 @@ body{
 }
 .review-item.wrong{ border-left:3px solid var(--bad); }
 .review-item.right{ border-left:3px solid var(--good); }
-.review-q{ font-size:13.5px; color:var(--ink-soft); margin-bottom:6px; }
-.review-your{ font-size:14px; margin-bottom:2px; }
-.review-correct{ font-size:14px; color:var(--good); font-weight:600; }
-.review-explain{ font-size:13px; color:var(--ink-soft); margin-top:6px; line-height:1.5; }
+.review-q{ font-size:15px; color:var(--ink-soft); margin-bottom:6px; }
+.review-your{ font-size:15.5px; margin-bottom:2px; }
+.review-correct{ font-size:15.5px; color:var(--good); font-weight:600; }
+.review-explain{ font-size:15px; color:var(--ink-soft); margin-top:6px; line-height:1.5; }
 
 @media (max-width:400px){
   .match-grid{ gap:8px 10px; }

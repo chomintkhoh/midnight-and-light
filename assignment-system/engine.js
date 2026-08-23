@@ -727,7 +727,49 @@ function buildPassageBox(passage) {
     } else {
       const row = document.createElement("div");
       row.className = "passage-line";
-      row.innerHTML = `<span class="passage-speaker">${T(line.speaker)}</span><span class="passage-jp cjk">${T(line.jp)}</span>`;
+
+      const speaker = document.createElement("span");
+      speaker.className = "passage-speaker";
+      speaker.textContent = T(line.speaker);
+      row.appendChild(speaker);
+
+      const textWrap = document.createElement("span");
+      textWrap.className = "passage-jp cjk";
+
+      // Feature B: always a token array — one non-annotated token for
+      // legacy lines, multiple (possibly annotated) tokens for new content.
+      // This loop never checks "is this old or new content" — only ever
+      // "does this token have an annotation".
+      line.tokens.forEach(tok => {
+        const tokenSpan = document.createElement("span");
+        tokenSpan.textContent = T(tok.text);
+        if (tok.annotation) {
+          tokenSpan.className = "tappable-token";
+          const reveal = document.createElement("span");
+          reveal.className = "token-reveal";
+          reveal.style.display = "none";
+          const parts = [];
+          if (tok.annotation.reading) parts.push(tok.annotation.reading + (tok.annotation.tone != null ? ` (tone ${tok.annotation.tone})` : ""));
+          if (tok.annotation.meaning) parts.push(tok.annotation.meaning);
+          reveal.textContent = parts.join(" — ");
+          tokenSpan.addEventListener("click", () => {
+            reveal.style.display = reveal.style.display === "none" ? "inline-block" : "none";
+          });
+          textWrap.appendChild(tokenSpan);
+          textWrap.appendChild(reveal);
+        } else {
+          textWrap.appendChild(tokenSpan);
+        }
+      });
+      row.appendChild(textWrap);
+
+      // Feature A: reading audio, reusing the exact same audioButton()/speak()
+      // already used by Flashcards — no new audio infrastructure.
+      const fullLineText = line.tokens.map(t => t.text).join("");
+      const lineAudioBtn = audioButton(fullLineText, "");
+      lineAudioBtn.classList.add("passage-audio-btn");
+      row.appendChild(lineAudioBtn);
+
       box.appendChild(row);
     }
   });
@@ -812,7 +854,8 @@ function renderResults(block) {
 
     const ASSIGNMENT_MODULES = {
       "ja-unit1-greetings": "./assignments/assignment-ja-unit1-greetings.js",
-      "zh-unit1-greetings": "./assignments/assignment-zh-unit1-greetings.js"
+      "zh-unit1-greetings": "./assignments/assignment-zh-unit1-greetings.js",
+      "ja-unit2-family": "./assignments/assignment-ja-unit2-family.js"
     };
     const modulePath = ASSIGNMENT_MODULES[assignmentId];
     if (!modulePath) throw new Error(`Unknown assignment id in URL: "${assignmentId}"`);

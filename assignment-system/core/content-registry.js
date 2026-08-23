@@ -12,11 +12,17 @@ import { ZH_VOCAB_UNIT1 } from "../content/zh/vocabulary/unit1-greetings.js";
 import { ZH_SENTENCES_UNIT1 } from "../content/zh/sentences/unit1-greetings.js";
 import { ZH_READING_UNIT1 } from "../content/zh/reading/unit1-greeting.js";
 
+// Second real assignment (Phase 3 architecture validation) — Japanese Unit 2: Family
+import { VOCAB_UNIT2 } from "../content/ja/vocabulary/unit2-family.js";
+import { SENTENCES_UNIT2 } from "../content/ja/sentences/unit2-family.js";
+import { READING_UNIT2 } from "../content/ja/reading/unit2-family.js";
+
 const REGISTRY = {
   ...VOCAB, ...SENTENCES, ...READING,
   ...JA_VOCAB_PILOT, ...JA_KANJI_PILOT,
   ...ZH_RADICAL_PILOT, ...ZH_CHARACTER_PILOT, ...ZH_VOCAB_PILOT,
-  ...ZH_RADICAL_UNIT1, ...ZH_CHARACTER_UNIT1, ...ZH_VOCAB_UNIT1, ...ZH_SENTENCES_UNIT1, ...ZH_READING_UNIT1
+  ...ZH_RADICAL_UNIT1, ...ZH_CHARACTER_UNIT1, ...ZH_VOCAB_UNIT1, ...ZH_SENTENCES_UNIT1, ...ZH_READING_UNIT1,
+  ...VOCAB_UNIT2, ...SENTENCES_UNIT2, ...READING_UNIT2
 };
 
 export function getContent(id) {
