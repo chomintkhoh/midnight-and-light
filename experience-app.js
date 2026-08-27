@@ -1,8 +1,9 @@
 /* ══════════════════════════════════════════════
    Experience / Trial Lesson — あいうえお
-   Vanilla JS, single linear step sequence. No frameworks,
-   no backend, no scoring/accounts — a teaching aid, not
-   the teacher, exactly per the brief.
+   Polish pass: real Hiragana audio files (no more
+   SpeechSynthesis anywhere), short English helper text,
+   Game 1 redesigned as listening-based recognition,
+   larger maze characters. Structure/scope unchanged.
 ══════════════════════════════════════════════ */
 
 const app = document.getElementById("exp-app");
@@ -35,29 +36,46 @@ const CHARS = [
     ] }
 ];
 
-function speak(text) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = "ja-JP";
-  utter.rate = 0.85;
-  window.speechSynthesis.speak(utter);
+/* ---------- Real Hiragana audio (repo-root mp3 files, confirmed paths) ----------
+   Used by: the speaker button on each learnChar screen, the review
+   screen's tap-to-hear, and Game 1. Nowhere in this file uses
+   SpeechSynthesis anymore — vocabulary has no audio at all, per the
+   instruction that no vocabulary audio exists yet. */
+
+const HIRAGANA_AUDIO_FILES = { "あ": "a.mp3", "い": "i.mp3", "う": "u.mp3", "え": "e.mp3", "お": "o.mp3" };
+let currentAudio = null;
+
+function playHiraganaAudio(char) {
+  const src = HIRAGANA_AUDIO_FILES[char];
+  if (!src) return;
+  if (currentAudio) { currentAudio.pause(); }
+  currentAudio = new Audio(src);
+  currentAudio.play().catch(() => { /* ignore — e.g. autoplay restrictions */ });
 }
 
-function speakerButton(text) {
+function speakerButton(char) {
   const btn = document.createElement("button");
   btn.className = "exp-speaker";
   btn.textContent = "🔊";
-  btn.addEventListener("click", () => speak(text));
+  btn.addEventListener("click", () => playHiraganaAudio(char));
   return btn;
 }
 
-function primaryButton(label, onClick, opts = {}) {
+/* ---------- Small helpers ---------- */
+
+function primaryButton(label, englishLabel, onClick, opts = {}) {
   const btn = document.createElement("button");
   btn.className = "exp-btn" + (opts.secondary ? " secondary" : "");
-  btn.textContent = label;
+  btn.innerHTML = `${label}${englishLabel ? `<span class="btn-en">${englishLabel}</span>` : ""}`;
   btn.addEventListener("click", onClick);
   return btn;
+}
+
+function englishLine(text) {
+  const el = document.createElement("div");
+  el.className = "exp-english";
+  el.textContent = text;
+  return el;
 }
 
 function card() {
@@ -68,7 +86,7 @@ function card() {
   return c;
 }
 
-/* ---------- Build the linear step sequence ---------- */
+/* ---------- Build the linear step sequence (unchanged structure) ---------- */
 
 const steps = [];
 steps.push({ type: "intro" });
@@ -101,7 +119,7 @@ const renderers = {
   intro() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">こんにちは！</div><p class="exp-note">Today, let's learn some Japanese!</p>`;
-    c.appendChild(primaryButton("はじめよう！", goNext));
+    c.appendChild(primaryButton("はじめよう！", "Let's start!", goNext));
   },
 
   writingTypes() {
@@ -114,7 +132,7 @@ const renderers = {
       </div>
       <p class="exp-note">Japanese uses different types of writing together.</p>
     `;
-    c.appendChild(primaryButton("つぎへ", goNext));
+    c.appendChild(primaryButton("つぎへ", "Next", goNext));
   },
 
   sentenceDemo() {
@@ -150,7 +168,7 @@ const renderers = {
     note.className = "exp-note";
     note.textContent = "日本語では、いろいろな文字を組み合わせて文を書きます。";
     c.appendChild(note);
-    c.appendChild(primaryButton("つぎへ", goNext));
+    c.appendChild(primaryButton("つぎへ", "Next", goNext));
   },
 
   hiraganaIntro() {
@@ -160,7 +178,7 @@ const renderers = {
       <p class="exp-note">Today we will learn:</p>
       <div class="exp-big">あ　い　う　え　お</div>
     `;
-    c.appendChild(primaryButton("はじめよう！", goNext));
+    c.appendChild(primaryButton("はじめよう！", "Let's start!", goNext));
   },
 
   learnChar(step) {
@@ -172,7 +190,8 @@ const renderers = {
     instr.className = "exp-instruction";
     instr.textContent = `「${char}」と いってみよう！`;
     c.appendChild(instr);
-    c.appendChild(primaryButton("できた！", goNext));
+    c.appendChild(englishLine(`Say "${romaji}" out loud.`));
+    c.appendChild(primaryButton("できた！", "Great!", goNext));
   },
 
   vocab(step) {
@@ -192,14 +211,13 @@ const renderers = {
           <div class="meaning">${v.meaning}</div>
         </div>
       `;
-      item.addEventListener("click", () => {
-        item.classList.toggle("revealed");
-        speak(v.word);
-      });
+      // Visual-only reveal — no audio here (no vocabulary audio exists yet;
+      // the teacher demonstrates pronunciation during the lesson).
+      item.addEventListener("click", () => item.classList.toggle("revealed"));
       grid.appendChild(item);
     });
     c.appendChild(grid);
-    c.appendChild(primaryButton("つぎへ", goNext));
+    c.appendChild(primaryButton("つぎへ", "Next", goNext));
   },
 
   review() {
@@ -211,15 +229,21 @@ const renderers = {
       span.textContent = cc.char + "　";
       span.style.cursor = "pointer";
       span.addEventListener("click", () => {
-        speak(cc.char);
+        playHiraganaAudio(cc.char);
         span.style.color = "var(--pale-gold)";
         setTimeout(() => { span.style.color = ""; }, 500);
       });
       row.appendChild(span);
     });
-    c.appendChild(primaryButton("ゲームを はじめよう！", goNext));
+    c.appendChild(englishLine("Let's say them together!"));
+    c.appendChild(primaryButton("ゲームを はじめよう！", "Let's play a game!", goNext));
   },
 
+  /* ---------- Game 1: redesigned as listening-based recognition.
+     The target character never appears in the question text — the
+     student must listen to the real Hiragana audio and choose what
+     they heard. Uses the same playHiraganaAudio() as the speaker
+     buttons elsewhere, so pronunciation stays consistent site-wide. */
   game1() {
     const questions = [
       { target: "あ", choices: ["あ", "い", "か", "さ", "う"] },
@@ -228,13 +252,7 @@ const renderers = {
       { target: "え", choices: ["え", "あ", "き", "う", "お"] },
       { target: "お", choices: ["お", "い", "こ", "あ", "え"] }
     ];
-    runChoiceGame({
-      title: q => `「${q.target}」は どれ？`,
-      questions,
-      buildChoices: q => shuffle(q.choices),
-      isCorrect: (choice, q) => choice === q.target,
-      onDone: goNext
-    });
+    runListeningGame({ questions, onDone: goNext });
   },
 
   game2() {
@@ -242,6 +260,7 @@ const renderers = {
     const questions = distractors.map(d => ({ target: d, choices: shuffle([...CHARS.map(c => c.char), d]) }));
     runChoiceGame({
       title: () => "どれが ちがう？",
+      englishTitle: "Which one is different?",
       questions,
       buildChoices: q => q.choices,
       isCorrect: (choice, q) => choice === q.target,
@@ -252,6 +271,7 @@ const renderers = {
   game3() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">START → あ → い → う → え → お → GOAL</div>`;
+    c.appendChild(englishLine("Find the characters in order."));
     const dots = document.createElement("div");
     dots.className = "exp-progress-dots";
     c.appendChild(dots);
@@ -284,13 +304,13 @@ const renderers = {
           if (progress === order.length) {
             const goalMsg = document.createElement("div");
             goalMsg.className = "exp-mid";
-            goalMsg.textContent = "ゴール！";
+            goalMsg.innerHTML = `ゴール！<span class="exp-english inline">You made it!</span>`;
             c.insertBefore(goalMsg, grid);
             grid.querySelectorAll("button").forEach(b => b.disabled = true);
-            c.appendChild(primaryButton("つぎへ", goNext));
+            c.appendChild(primaryButton("つぎへ", "Next", goNext));
           }
         } else {
-          feedback.textContent = "もう一度！";
+          feedback.innerHTML = `もう一度！<span class="exp-english inline">Try again.</span>`;
           feedback.className = "exp-feedback bad";
         }
       });
@@ -303,6 +323,7 @@ const renderers = {
     const c = card();
     const char = step.char;
     c.innerHTML = `<div class="exp-mid">${char} を かいてみよう</div>`;
+    c.appendChild(englishLine(`Try writing ${char}.`));
     const wrap = document.createElement("div");
     wrap.className = "exp-canvas-wrap";
     const ref = document.createElement("div");
@@ -340,8 +361,8 @@ const renderers = {
 
     const btnRow = document.createElement("div");
     btnRow.className = "exp-btn-row";
-    const clearBtn = primaryButton("けす", () => ctx.clearRect(0, 0, canvas.width, canvas.height), { secondary: true });
-    const doneBtn = primaryButton("できた！", goNext);
+    const clearBtn = primaryButton("けす", "Clear", () => ctx.clearRect(0, 0, canvas.width, canvas.height), { secondary: true });
+    const doneBtn = primaryButton("できた！", "Done", goNext);
     btnRow.appendChild(clearBtn);
     btnRow.appendChild(doneBtn);
     c.appendChild(btnRow);
@@ -354,20 +375,20 @@ const renderers = {
     feedback.className = "exp-feedback";
 
     const challenges = [
-      { type: "choice", prompt: "「お」は どれ？", choices: shuffle(["お", "あ", "い"]), correct: "お" },
-      { type: "choice", prompt: "あ → い → ?", choices: shuffle(["う", "え", "お"]), correct: "う" }
+      { prompt: "「お」は どれ？", english: "Which one is 「お」?", choices: shuffle(["お", "あ", "い"]), correct: "お" },
+      { prompt: "あ → い → ?", english: "What comes next?", choices: shuffle(["う", "え", "お"]), correct: "う" }
     ];
     let ci = 0;
 
     function renderChallenge() {
-      c.querySelectorAll(".exp-instruction, .exp-choice-grid").forEach(el => el.remove());
+      c.querySelectorAll(".exp-instruction, .exp-english, .exp-choice-grid").forEach(el => el.remove());
       if (ci >= challenges.length) {
         const finalPrompt = document.createElement("div");
         finalPrompt.className = "exp-instruction";
         finalPrompt.innerHTML = `あ　い　う　え　お<br>いっしょに いってみよう！`;
         c.insertBefore(finalPrompt, feedback);
-        const nextBtn = primaryButton("つぎへ", goNext);
-        nextBtn.classList.add("only-once");
+        c.insertBefore(englishLine("Let's say them together!"), feedback);
+        const nextBtn = primaryButton("つぎへ", "Next", goNext);
         c.appendChild(nextBtn);
         return;
       }
@@ -376,6 +397,7 @@ const renderers = {
       prompt.className = "exp-instruction";
       prompt.textContent = ch.prompt;
       c.insertBefore(prompt, feedback);
+      c.insertBefore(englishLine(ch.english), feedback);
 
       const grid = document.createElement("div");
       grid.className = "exp-choice-grid";
@@ -386,13 +408,13 @@ const renderers = {
         btn.addEventListener("click", () => {
           if (choice === ch.correct) {
             btn.classList.add("correct");
-            feedback.textContent = "できた！";
+            feedback.innerHTML = `できた！<span class="exp-english inline">Great!</span>`;
             feedback.className = "exp-feedback good";
             grid.querySelectorAll("button").forEach(b => b.disabled = true);
             setTimeout(() => { ci++; renderChallenge(); }, 700);
           } else {
             btn.classList.add("wrong");
-            feedback.textContent = "もう一度！";
+            feedback.innerHTML = `もう一度！<span class="exp-english inline">Try again.</span>`;
             feedback.className = "exp-feedback bad";
           }
         });
@@ -409,16 +431,18 @@ const renderers = {
     const c = card();
     c.innerHTML = `
       <div class="exp-mid">🎉 できた！</div>
-      <p class="exp-note">今日おぼえた ひらがな</p>
+      <p class="exp-note">今日おぼえた ひらがな<span class="exp-english inline">Today's Hiragana</span></p>
       <div class="exp-big">あ　い　う　え　お</div>
-      <p class="exp-note">よくできました！</p>
+      <p class="exp-note">よくできました！<span class="exp-english inline">Great job!</span></p>
+      <p class="exp-note">You learned your first five Hiragana!</p>
     `;
   }
 };
 
-/* ---------- Small shared game-runner for game1/game2 (same shape) ---------- */
+/* ---------- Shared game-runner for choice-based games (game2, and the
+   choice-mechanics reused by game1's listening variant below) ---------- */
 
-function runChoiceGame({ title, questions, buildChoices, isCorrect, onDone }) {
+function runChoiceGame({ title, englishTitle, questions, buildChoices, isCorrect, onDone }) {
   let qi = 0;
   function renderQuestion() {
     const c = card();
@@ -432,6 +456,7 @@ function runChoiceGame({ title, questions, buildChoices, isCorrect, onDone }) {
     prompt.className = "exp-mid";
     prompt.textContent = title(q);
     c.appendChild(prompt);
+    if (englishTitle) c.appendChild(englishLine(englishTitle));
 
     const feedback = document.createElement("div");
     feedback.className = "exp-feedback";
@@ -445,7 +470,7 @@ function runChoiceGame({ title, questions, buildChoices, isCorrect, onDone }) {
       btn.addEventListener("click", () => {
         if (isCorrect(choice, q)) {
           btn.classList.add("correct");
-          feedback.textContent = "できた！";
+          feedback.innerHTML = `できた！<span class="exp-english inline">Great!</span>`;
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           setTimeout(() => {
@@ -455,7 +480,7 @@ function runChoiceGame({ title, questions, buildChoices, isCorrect, onDone }) {
           }, 700);
         } else {
           btn.classList.add("wrong");
-          feedback.textContent = "もう一度！";
+          feedback.innerHTML = `もう一度！<span class="exp-english inline">Try again.</span>`;
           feedback.className = "exp-feedback bad";
         }
       });
@@ -463,6 +488,70 @@ function runChoiceGame({ title, questions, buildChoices, isCorrect, onDone }) {
     });
     c.appendChild(grid);
     c.appendChild(feedback);
+  }
+  renderQuestion();
+}
+
+/* ---------- Game 1's listening-variant runner: same choice mechanics,
+   but the question is a Listen button (auto-plays, replayable) instead
+   of text naming the target — the target never appears on screen. ---------- */
+
+function runListeningGame({ questions, onDone }) {
+  let qi = 0;
+  function renderQuestion() {
+    const c = card();
+    const q = questions[qi];
+    const stepLabel = document.createElement("div");
+    stepLabel.className = "exp-step-count";
+    stepLabel.textContent = `Question ${qi + 1} / ${questions.length}`;
+    c.appendChild(stepLabel);
+
+    const listenBtn = document.createElement("button");
+    listenBtn.className = "exp-btn";
+    listenBtn.innerHTML = `🔊 Listen`;
+    listenBtn.addEventListener("click", () => playHiraganaAudio(q.target));
+    c.appendChild(listenBtn);
+
+    const prompt = document.createElement("div");
+    prompt.className = "exp-instruction";
+    prompt.style.marginTop = "14px";
+    prompt.textContent = "Which Hiragana did you hear?";
+    c.appendChild(prompt);
+
+    const feedback = document.createElement("div");
+    feedback.className = "exp-feedback";
+
+    const grid = document.createElement("div");
+    grid.className = "exp-choice-grid";
+    shuffle(q.choices).forEach(choice => {
+      const btn = document.createElement("button");
+      btn.className = "exp-choice";
+      btn.textContent = choice;
+      btn.addEventListener("click", () => {
+        if (choice === q.target) {
+          btn.classList.add("correct");
+          feedback.innerHTML = `できた！<span class="exp-english inline">Great!</span>`;
+          feedback.className = "exp-feedback good";
+          grid.querySelectorAll("button").forEach(b => b.disabled = true);
+          setTimeout(() => {
+            qi++;
+            if (qi < questions.length) renderQuestion();
+            else onDone();
+          }, 700);
+        } else {
+          btn.classList.add("wrong");
+          feedback.innerHTML = `もう一度！<span class="exp-english inline">Try again.</span>`;
+          feedback.className = "exp-feedback bad";
+        }
+      });
+      grid.appendChild(btn);
+    });
+    c.appendChild(grid);
+    c.appendChild(feedback);
+
+    // Auto-play once when the question first appears — the Listen
+    // button remains available afterward for replaying.
+    playHiraganaAudio(q.target);
   }
   renderQuestion();
 }

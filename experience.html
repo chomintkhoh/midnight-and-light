@@ -44,6 +44,9 @@
   .exp-romaji{ color: var(--pale-gold); font-size: 20px; margin-bottom: 4px; }
   .exp-note{ color: var(--muted-bluegrey); font-size: 15px; line-height: 1.8; margin: 10px 0 18px; }
   .exp-instruction{ font-family: var(--font-brand); color: var(--soft-lavender); font-size: 18px; margin: 14px 0; }
+  .exp-english{ color: var(--muted-bluegrey); font-size: 13px; margin-top: -8px; margin-bottom: 12px; }
+  .exp-english.inline{ display: block; font-size: 13px; margin: 4px 0 0; }
+  .btn-en{ display: block; font-size: 11px; font-weight: 400; opacity: .7; margin-top: 2px; }
   .exp-btn{
     display: inline-block; margin-top: 18px; padding: 14px 30px;
     background: var(--pale-gold); color: var(--bg-deep); border: none;
@@ -100,10 +103,10 @@
   .exp-feedback.good{ color: #9FD6AA; }
   .exp-feedback.bad{ color: #E7A0AF; }
 
-  .exp-maze{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:280px; margin:18px auto; }
+  .exp-maze{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:330px; margin:18px auto; }
   .exp-maze button{
     aspect-ratio:1; border-radius:12px; background: rgba(244,241,234,0.05);
-    border:1.5px solid rgba(217,196,142,0.25); font-family: var(--font-brand); font-size:26px;
+    border:1.5px solid rgba(217,196,142,0.25); font-family: var(--font-brand); font-size:38px;
     color: var(--warm-white); cursor:pointer;
   }
   .exp-maze button.found{ background: rgba(127,191,143,0.3); border-color:#7FBF8F; }
