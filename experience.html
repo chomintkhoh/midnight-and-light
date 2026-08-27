@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Free Trial Experience — Learn Hiragana | Midnight & Light</title>
+<meta name="description" content="Try a short interactive Japanese trial lesson — learn your first five Hiragana characters, あいうえお, with Midnight & Light." />
+<link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/experience.html" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* ══════════════════════════════════════════════
+     Experience page — reuses the site's real shared
+     variables from cosmic.css (--bg-deep, --bg-glow,
+     --warm-white, --muted-bluegrey, --muted-faint,
+     --pale-gold, --soft-lavender, --font-brand) —
+     nothing new invented, same as lessons.html.
+  ══════════════════════════════════════════════ */
+  #exp-app{ max-width: 560px; margin: 0 auto; }
+  .exp-card{
+    background: rgba(244,241,234,0.05);
+    border: 1px solid rgba(217,196,142,0.22);
+    border-radius: 18px;
+    padding: 32px 26px;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .exp-big{
+    font-family: var(--font-brand);
+    font-size: 56px;
+    color: var(--warm-white);
+    margin: 10px 0;
+    line-height: 1.3;
+  }
+  .exp-mid{
+    font-family: var(--font-brand);
+    font-size: 28px;
+    color: var(--warm-white);
+    margin: 8px 0;
+  }
+  .exp-romaji{ color: var(--pale-gold); font-size: 20px; margin-bottom: 4px; }
+  .exp-note{ color: var(--muted-bluegrey); font-size: 15px; line-height: 1.8; margin: 10px 0 18px; }
+  .exp-instruction{ font-family: var(--font-brand); color: var(--soft-lavender); font-size: 18px; margin: 14px 0; }
+  .exp-btn{
+    display: inline-block; margin-top: 18px; padding: 14px 30px;
+    background: var(--pale-gold); color: var(--bg-deep); border: none;
+    border-radius: 999px; font-size: 16px; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .exp-btn:hover{ filter: brightness(1.08); }
+  .exp-btn.secondary{
+    background: transparent; color: var(--warm-white);
+    border: 1.5px solid rgba(244,241,234,0.3);
+  }
+  .exp-btn:disabled{ opacity: .35; cursor: default; }
+  .exp-speaker{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(182,169,218,0.12); border: 1px solid rgba(182,169,218,0.35);
+    font-size: 20px; cursor: pointer; margin: 6px 0 0;
+  }
+  .exp-writing-row{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin: 18px 0; }
+  .exp-writing-item{
+    background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
+    border-radius: 14px; padding: 18px 22px; font-family: var(--font-brand); font-size: 30px;
+    color: var(--warm-white);
+  }
+  .exp-writing-item .type-label{ font-family:'DM Sans',sans-serif; font-size:12px; color:var(--muted-bluegrey); display:block; margin-bottom:6px; }
+
+  .exp-clickable-sentence{ font-family: var(--font-brand); font-size: 30px; margin: 20px 0; line-height: 1.6; }
+  .exp-clickable-sentence span{ cursor: pointer; padding: 2px 3px; border-radius: 6px; transition: background .15s; }
+  .exp-clickable-sentence span:hover, .exp-clickable-sentence span.tapped{ background: rgba(217,196,142,0.22); }
+  .exp-tag-reveal{ color: var(--pale-gold); font-size: 14px; margin-top: 4px; min-height: 20px; }
+
+  .exp-vocab-grid{ display:flex; flex-direction:column; gap: 12px; margin: 18px 0; }
+  .exp-vocab-card{
+    background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
+    border-radius: 14px; padding: 16px; cursor: pointer; text-align: left;
+    display:flex; align-items:center; gap: 14px;
+  }
+  .exp-vocab-card .emoji{ font-size: 30px; }
+  .exp-vocab-card .word{ font-family: var(--font-brand); font-size: 22px; color: var(--warm-white); }
+  .exp-vocab-card .word strong{ color: var(--pale-gold); }
+  .exp-vocab-card .meaning{ color: var(--muted-bluegrey); font-size: 14px; margin-top: 2px; display:none; }
+  .exp-vocab-card.revealed .meaning{ display: block; }
+
+  .exp-choice-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap: 12px; margin: 20px 0; }
+  .exp-choice{
+    width: 68px; height: 68px; border-radius: 14px;
+    background: rgba(244,241,234,0.05); border: 1.5px solid rgba(217,196,142,0.25);
+    font-family: var(--font-brand); font-size: 30px; color: var(--warm-white); cursor: pointer;
+  }
+  .exp-choice.correct{ background: rgba(127,191,143,0.25); border-color: #7FBF8F; }
+  .exp-choice.wrong{ background: rgba(224,135,154,0.25); border-color: #E0879A; }
+
+  .exp-feedback{ font-family: var(--font-brand); font-size: 20px; min-height: 30px; margin: 10px 0; }
+  .exp-feedback.good{ color: #9FD6AA; }
+  .exp-feedback.bad{ color: #E7A0AF; }
+
+  .exp-maze{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:280px; margin:18px auto; }
+  .exp-maze button{
+    aspect-ratio:1; border-radius:12px; background: rgba(244,241,234,0.05);
+    border:1.5px solid rgba(217,196,142,0.25); font-family: var(--font-brand); font-size:26px;
+    color: var(--warm-white); cursor:pointer;
+  }
+  .exp-maze button.found{ background: rgba(127,191,143,0.3); border-color:#7FBF8F; }
+  .exp-progress-dots{ font-size: 18px; letter-spacing: 6px; color: var(--pale-gold); margin: 10px 0; }
+
+  .exp-writing-canvas{ touch-action:none; border-radius:14px; border:1.5px solid rgba(217,196,142,0.3); background: rgba(244,241,234,0.03); }
+  .exp-writing-ref{ font-family: var(--font-brand); font-size: 40px; color: rgba(244,241,234,0.25); position:absolute; pointer-events:none; }
+  .exp-canvas-wrap{ position:relative; display:inline-block; margin: 14px 0; }
+  .exp-btn-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  .exp-step-count{ color: var(--muted-faint); font-size: 12.5px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">夜與光</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="experience.html" aria-current="page">Experience</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">Free Trial</p>
+    <h1 class="page-title">Experience a Lesson</h1>
+    <p class="page-lead">A short, interactive first look at Japanese — learn your first five Hiragana, あいうえお.</p>
+
+    <div id="exp-app"></div>
+  </main>
+
+  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+
+  <script src="stars.js"></script>
+  <script src="experience-app.js"></script>
+</body>
+</html>
