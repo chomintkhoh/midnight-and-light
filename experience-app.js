@@ -124,14 +124,16 @@ steps.push({ type: "sentenceExample" });
 steps.push({ type: "hiraganaIntro" });
 CHARS.forEach(c => {
   steps.push({ type: "learnChar", char: c });
+  steps.push({ type: "writing", char: c.char });
   steps.push({ type: "vocab", char: c });
+  steps.push({ type: "vocabWriting", char: c });
 });
 steps.push({ type: "review" });
 steps.push({ type: "game1" });
 steps.push({ type: "game2" });
 steps.push({ type: "game3" });
 steps.push({ type: "game4" });
-["あ", "い", "う"].forEach(c => steps.push({ type: "writing", char: c }));
+steps.push({ type: "sequenceBlank" });
 steps.push({ type: "finalReview" });
 steps.push({ type: "finish" });
 
@@ -261,6 +263,19 @@ const renderers = {
     appendNav(c);
   },
 
+  vocabWriting(step) {
+    const c = card();
+    const { vocab } = step.char;
+    const word = vocab[0].word; // one word, written once — per the new requirement
+    c.innerHTML = `<div class="exp-mid">Write ${word}</div>`;
+    c.appendChild(instructionBlock("Write one vocabulary word."));
+    const grid = document.createElement("div");
+    grid.className = "exp-writing-grid";
+    grid.appendChild(buildWritingSlot(word, "Practice"));
+    c.appendChild(grid);
+    appendNav(c);
+  },
+
   review() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">Review</div><div class="exp-big" id="reviewRow"></div>`;
@@ -358,7 +373,9 @@ const renderers = {
     runDragDropGame({
       target: ["あ", "い", "う", "え", "お"],
       start: ["う", "あ", "お", "い", "え"],
-      onDone: goNext
+      onDone: goNext,
+      instruction: "Drag each character into a box.",
+      subinstruction: "Put あいうえお in the correct order."
     });
   },
 
@@ -375,6 +392,15 @@ const renderers = {
     }
     c.appendChild(grid);
     appendNav(c);
+  },
+
+  sequenceBlank() {
+    const questions = [
+      { sequence: ["あ", "い", null, "え", "お"], answer: "う", choices: ["う", "え", "お"] },
+      { sequence: ["あ", null, "う", "え", "お"], answer: "い", choices: ["い", "あ", "う"] },
+      { sequence: ["あ", "い", "う", null, "お"], answer: "え", choices: ["え", "い", "お"] }
+    ];
+    runFillBlankGame({ questions, onDone: goNext });
   },
 
   finalReview() {
@@ -567,9 +593,9 @@ function runListeningGame({ questions, onDone }) {
    Uses Pointer Events (not native HTML5 drag-and-drop, which has poor
    touch support) so mouse, touch, and stylus all work the same way. */
 
-function runDragDropGame({ target, start, onDone }) {
+function runDragDropGame({ target, start, onDone, instruction = "Put the Hiragana in the correct order.", subinstruction = "Drag the characters into the correct order." }) {
   const c = card();
-  c.appendChild(instructionBlock("Put the Hiragana in the correct order.", "Drag the characters into the correct order."));
+  c.appendChild(instructionBlock(instruction, subinstruction));
 
   const slotsRow = document.createElement("div");
   slotsRow.className = "exp-dnd-slots";
@@ -667,6 +693,102 @@ function runDragDropGame({ target, start, onDone }) {
   c.appendChild(checkBtn);
   c.appendChild(feedback);
   appendNav(c);
+}
+
+/* ---------- Sequence fill-in-the-blank (Section 5) ----------
+   Reuses the same pointer-drag pattern as runDragDropGame, simplified
+   to a single blank slot instead of a full 5-slot sequence. ---------- */
+
+function runFillBlankGame({ questions, onDone }) {
+  let qi = 0;
+  function renderQuestion() {
+    const c = card();
+    const stepLabel = document.createElement("div");
+    stepLabel.className = "exp-step-count";
+    stepLabel.textContent = `Question ${qi + 1} / ${questions.length}`;
+    c.appendChild(stepLabel);
+    c.appendChild(instructionBlock("Drag the correct character into the blank.", "Complete the Hiragana sequence."));
+
+    const q = questions[qi];
+    const seqRow = document.createElement("div");
+    seqRow.className = "exp-dnd-slots";
+    let blankSlot = null;
+    q.sequence.forEach(ch => {
+      if (ch === null) {
+        const slot = document.createElement("div");
+        slot.className = "exp-dnd-slot";
+        slot.textContent = "—";
+        seqRow.appendChild(slot);
+        blankSlot = slot;
+      } else {
+        const fixed = document.createElement("div");
+        fixed.className = "exp-dnd-slot filled";
+        fixed.textContent = ch;
+        seqRow.appendChild(fixed);
+      }
+    });
+    c.appendChild(seqRow);
+
+    const tray = document.createElement("div");
+    tray.className = "exp-dnd-tray";
+    c.appendChild(tray);
+
+    const feedback = document.createElement("div");
+    feedback.className = "exp-feedback";
+
+    function checkAnswer(ch) {
+      if (ch === q.answer) {
+        blankSlot.textContent = ch;
+        blankSlot.classList.add("filled");
+        feedback.textContent = "Correct.";
+        feedback.className = "exp-feedback good";
+        tray.querySelectorAll(".exp-dnd-chip").forEach(chip => { chip.style.pointerEvents = "none"; });
+        setTimeout(() => {
+          qi++;
+          if (qi < questions.length) renderQuestion();
+          else onDone();
+        }, 700);
+      } else {
+        feedback.textContent = "Try again.";
+        feedback.className = "exp-feedback bad";
+      }
+    }
+
+    function makeChip(ch) {
+      const chip = document.createElement("div");
+      chip.className = "exp-dnd-chip";
+      chip.textContent = ch;
+      chip.dataset.char = ch;
+      chip.addEventListener("pointerdown", (evt) => {
+        const ghost = document.createElement("div");
+        ghost.className = "exp-dnd-ghost";
+        ghost.textContent = ch;
+        document.body.appendChild(ghost);
+        const moveGhost = (x, y) => { ghost.style.left = (x - 31) + "px"; ghost.style.top = (y - 31) + "px"; };
+        moveGhost(evt.clientX, evt.clientY);
+        chip.classList.add("dragging");
+        const onMove = (e) => moveGhost(e.clientX, e.clientY);
+        const onUp = (e) => {
+          document.removeEventListener("pointermove", onMove);
+          document.removeEventListener("pointerup", onUp);
+          ghost.remove();
+          chip.classList.remove("dragging");
+          const r = blankSlot.getBoundingClientRect();
+          if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+            checkAnswer(ch);
+          }
+        };
+        document.addEventListener("pointermove", onMove);
+        document.addEventListener("pointerup", onUp);
+      });
+      return chip;
+    }
+
+    shuffle(q.choices).forEach(ch => tray.appendChild(makeChip(ch)));
+    c.appendChild(feedback);
+    appendNav(c);
+  }
+  renderQuestion();
 }
 
 /* ---------- Final review: 5 short activities in sequence ---------- */
