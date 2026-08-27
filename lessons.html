@@ -48,6 +48,23 @@
   .group-note{
     margin-top:28px; font-size:13.5px; color:var(--muted-faint); font-style:italic;
   }
+  /* "What to Expect" section — reuses .lesson-note for the intro line,
+     and mirrors .lesson-tags' dash-marker styling for the list markers,
+     just stacked vertically instead of laid out as inline tags. */
+  .expect-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+  .expect-list li{
+    font-size:14.5px; line-height:1.8; color:var(--warm-white);
+    position:relative; padding-left:16px; max-width:560px;
+  }
+  .expect-list li::before{
+    content:''; position:absolute; left:0; top:9px; width:6px; height:1px;
+    background:var(--pale-gold); opacity:.8;
+  }
+  .expect-list li strong{ color:var(--pale-gold); font-weight:500; }
+  /* Online lesson price — sits under the existing "Lessons available
+     online." line, same treatment weight as .group-note but without
+     the italic, since this is a plain fact rather than a caveat. */
+  .location-price{ color:var(--pale-gold); font-size:14.5px; margin-top:6px; font-weight:500; }
 </style>
 </head>
 <body>
@@ -85,6 +102,18 @@
     </section>
 
     <section class="page-section">
+      <h2 class="page-section-title">What to Expect from My Lessons</h2>
+      <p class="lesson-note">Every student starts from a different place, so here's a little about how lessons actually work — not just what's on the syllabus.</p>
+      <ul class="expect-list">
+        <li><strong>Built around where you are.</strong> Lessons start from your current level and what you actually want to use the language for — not a fixed, one-size-fits-all plan.</li>
+        <li><strong>Focused on real communication.</strong> The goal is language you can actually use — speaking and understanding that holds up outside the lesson, not just on paper.</li>
+        <li><strong>Paced to you.</strong> Some weeks move quickly, some slower. We adjust as we go, based on what's actually working for you.</li>
+        <li><strong>A mix of structure and practice.</strong> Enough structure to keep things moving forward, enough real conversation to make it stick.</li>
+        <li><strong>A comfortable place to get things wrong.</strong> Asking questions and making mistakes are part of how this works — there's no pressure to get everything right straight away.</li>
+      </ul>
+    </section>
+
+    <section class="page-section">
       <h2 class="page-section-title">Lesson Format</h2>
       <div class="format-grid">
         <div class="format-item">
@@ -105,6 +134,7 @@
         <div class="location-item">
           <h3>Online</h3>
           <p>Lessons available online.</p>
+          <p class="location-price">RM90 / hour</p>
         </div>
         <div class="location-item">
           <h3>In-Person</h3>
