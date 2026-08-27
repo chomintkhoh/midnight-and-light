@@ -271,7 +271,7 @@ const renderers = {
     c.appendChild(instructionBlock("Write one vocabulary word."));
     const grid = document.createElement("div");
     grid.className = "exp-writing-grid";
-    grid.appendChild(buildWritingSlot(word, "Practice"));
+    grid.appendChild(buildWritingSlot(word, "Practice", 340, 170));
     c.appendChild(grid);
     appendNav(c);
   },
@@ -300,12 +300,14 @@ const renderers = {
   game1() {
     const questions = [
       { target: "あ", choices: ["あ", "い", "か", "さ", "う"] },
-      { target: "い", choices: ["い", "あ", "か", "き", "え"] },
       { target: "う", choices: ["う", "え", "こ", "い", "す"] },
-      { target: "え", choices: ["え", "あ", "き", "う", "お"] },
       { target: "お", choices: ["お", "い", "こ", "あ", "え"] }
     ];
-    runListeningGame({ questions, onDone: goNext });
+    const extraQuestions = [
+      { target: "い", choices: ["い", "あ", "か", "き", "え"] },
+      { target: "え", choices: ["え", "あ", "き", "う", "お"] }
+    ];
+    runListeningGame({ questions, extraQuestions, onDone: goNext });
   },
 
   game2() {
@@ -428,7 +430,7 @@ const renderers = {
 
 /* ---------- Independent writing canvas builder ---------- */
 
-function buildWritingSlot(char, label) {
+function buildWritingSlot(char, label, width = 180, height = 180) {
   const slot = document.createElement("div");
   slot.className = "exp-writing-slot";
 
@@ -440,11 +442,12 @@ function buildWritingSlot(char, label) {
   const wrap = document.createElement("div");
   wrap.className = "exp-canvas-wrap";
   const ref = document.createElement("div");
-  ref.className = "exp-writing-ref";
+  ref.className = "exp-writing-ref" + (char.length > 1 ? " vocab" : "");
+  ref.style.whiteSpace = "nowrap"; // guarantees horizontal display for multi-character vocab words
   ref.textContent = char;
   const canvas = document.createElement("canvas");
   canvas.className = "exp-writing-canvas";
-  canvas.width = 180; canvas.height = 180;
+  canvas.width = width; canvas.height = height;
   wrap.appendChild(ref);
   wrap.appendChild(canvas);
   slot.appendChild(wrap);
@@ -534,14 +537,15 @@ function runChoiceGame({ instruction, subinstruction, questions, buildChoices, i
 /* ---------- Game 1's listening variant: Listen button (auto-plays,
    replayable) instead of text naming the target. ---------- */
 
-function runListeningGame({ questions, onDone }) {
+function runListeningGame({ questions, extraQuestions, onDone }) {
   let qi = 0;
+  let activeQuestions = questions;
   function renderQuestion() {
     const c = card();
-    const q = questions[qi];
+    const q = activeQuestions[qi];
     const stepLabel = document.createElement("div");
     stepLabel.className = "exp-step-count";
-    stepLabel.textContent = `Question ${qi + 1} / ${questions.length}`;
+    stepLabel.textContent = `Question ${qi + 1} / ${activeQuestions.length}`;
     c.appendChild(stepLabel);
 
     const listenBtn = document.createElement("button");
@@ -569,8 +573,13 @@ function runListeningGame({ questions, onDone }) {
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           setTimeout(() => {
             qi++;
-            if (qi < questions.length) renderQuestion();
-            else onDone();
+            if (qi < activeQuestions.length) {
+              renderQuestion();
+            } else if (activeQuestions === questions && extraQuestions && extraQuestions.length) {
+              renderExtraOffer();
+            } else {
+              onDone();
+            }
           }, 700);
         } else {
           btn.classList.add("wrong");
@@ -586,6 +595,21 @@ function runListeningGame({ questions, onDone }) {
 
     playHiraganaAudio(q.target); // auto-play once; Listen button replays
   }
+
+  function renderExtraOffer() {
+    const c = card();
+    c.appendChild(instructionBlock("Nicely done!", "Want a little more practice?"));
+    const row = document.createElement("div");
+    row.className = "exp-nav-row";
+    row.appendChild(primaryButton("Continue", onDone, { secondary: true }));
+    row.appendChild(primaryButton("Extra Practice", () => {
+      activeQuestions = extraQuestions;
+      qi = 0;
+      renderQuestion();
+    }));
+    c.appendChild(row);
+  }
+
   renderQuestion();
 }
 
