@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Japanese & Mandarin Tutor in Kuala Lumpur | Midnight & Light</title>
+<title>Japanese & Mandarin Tutor in Kuala Lumpur | ミッドナイトとライト</title>
 <meta name="description" content="Japanese and Mandarin private and small group lessons for 1–4 students. Online and in-person lessons available in Kuala Lumpur, Malaysia." />
 <link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/" />
 
-<meta property="og:title" content="Japanese & Mandarin Tutor in Kuala Lumpur | Midnight & Light" />
+<meta property="og:title" content="Japanese & Mandarin Tutor in Kuala Lumpur | ミッドナイトとライト" />
 <meta property="og:description" content="Japanese and Mandarin private and small group lessons for 1–4 students. Online and in-person lessons available in Kuala Lumpur, Malaysia." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chomintkhoh.github.io/midnight-and-light/" />
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Japanese & Mandarin Tutor in Kuala Lumpur | Midnight & Light" />
+<meta name="twitter:title" content="Japanese & Mandarin Tutor in Kuala Lumpur | ミッドナイトとライト" />
 <meta name="twitter:description" content="Japanese and Mandarin private and small group lessons for 1–4 students. Online and in-person lessons available in Kuala Lumpur, Malaysia." />
 <meta name="twitter:image" content="https://chomintkhoh.github.io/midnight-and-light/og-image.png" />
 
@@ -29,11 +29,11 @@
   "@context": "https://schema.org",
   "@type": "Service",
   "serviceType": "Japanese and Mandarin language lessons",
-  "name": "Midnight & Light",
+  "name": "ミッドナイトとライト",
   "description": "Private and small group Japanese and Mandarin lessons for 1–4 students, online and in person in Kuala Lumpur, Malaysia.",
   "provider": {
     "@type": "Organization",
-    "name": "Midnight & Light",
+    "name": "ミッドナイトとライト",
     "url": "https://chomintkhoh.github.io/midnight-and-light/"
   },
   "areaServed": {
@@ -47,6 +47,22 @@
 }
 </script>
 <style>
+  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
+     longer than the original 夜與光 (3 characters). Without this,
+     any leftover narrow width from the old short mark forces CJK
+     text to wrap character-by-character. Deliberately specific
+     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
+  .site-nav .nav-mark{
+    white-space: nowrap;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+  @media (max-width: 480px){
+    .site-nav .nav-mark{ font-size: 15px; }
+  }
+
   .hero{
     position:relative; z-index:1;
     min-height:100vh; display:flex; flex-direction:column;
@@ -58,9 +74,9 @@
   .brand-mark{ display:flex; flex-direction:column; align-items:center; }
   .brand-cn{
     font-family: var(--font-cn);
-    font-weight:500; font-size: clamp(38px,6.5vw,60px);
-    letter-spacing:0.07em; color: var(--warm-white);
-    line-height:1.15;
+    font-weight:500; font-size: clamp(30px,6vw,52px);
+    letter-spacing:0.04em; color: var(--warm-white);
+    line-height:1.25; white-space: nowrap;
   }
   .brand-en{
     margin-top:14px;
@@ -98,6 +114,7 @@
   @media (max-width:480px){
     .divider{ margin:48px 0 32px; height:40px; }
     .poem{ margin-top:52px; }
+    .brand-cn{ font-size: clamp(22px,7vw,32px); letter-spacing:0.02em; }
   }
 </style>
 </head>
@@ -105,18 +122,19 @@
   <div class="stars" aria-hidden="true" data-density="22" data-clear-center></div>
 
   <nav class="site-nav">
-    <span class="nav-mark">夜與光</span>
+    <span class="nav-mark">ミッドナイトとライト</span>
     <div class="nav-links">
       <a href="index.html" aria-current="page">Home</a>
       <a href="about.html">About</a>
       <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
       <a href="contact.html">Contact</a>
     </div>
   </nav>
 
   <main class="hero">
     <div class="brand-mark">
-      <h1 class="brand-cn">夜與光<span class="sr-only"> — Japanese &amp; Mandarin Tutor in Kuala Lumpur, Malaysia</span></h1>
+      <h1 class="brand-cn">ミッドナイトとライト<span class="sr-only"> — Japanese &amp; Mandarin Tutor in Kuala Lumpur, Malaysia</span></h1>
       <p class="brand-en">Midnight &amp; Light</p>
     </div>
 
@@ -133,7 +151,7 @@
     <p class="poem">Between the things we learn<br />and the things we create.</p>
   </main>
 
-  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
 </body>
