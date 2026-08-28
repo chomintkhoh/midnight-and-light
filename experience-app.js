@@ -46,6 +46,37 @@ const CHARS = [
    — every game runner below is generic over these, not hardcoded to
    あいうえお specifically. */
 
+// Two genuinely different example sentences for the writing-system
+// identification activity. Both use only 私 in common (deliberately,
+// for reinforcement) — otherwise different vocabulary, different
+// grammar pattern, and the second one shows that not every sentence
+// needs all three writing systems.
+const SENTENCES = [
+  {
+    parts: [
+      { text: "私", label: "Kanji" },
+      { text: "は", label: "Hiragana" },
+      { text: "マレーシア", label: "Katakana" },
+      { text: "人", label: "Kanji" },
+      { text: "です", label: "Hiragana" },
+      { text: "。", label: null }
+    ],
+    translation: "I am Malaysian."
+  },
+  {
+    parts: [
+      { text: "私", label: "Kanji" },
+      { text: "は", label: "Hiragana" },
+      { text: "コーヒー", label: "Katakana" },
+      { text: "が", label: "Hiragana" },
+      { text: "すき", label: "Hiragana" },
+      { text: "です", label: "Hiragana" },
+      { text: "。", label: null }
+    ],
+    translation: "I like coffee."
+  }
+];
+
 const GROUP = CHARS.map(c => c.char); // ["あ","い","う","え","お"]
 const DISTRACTOR_POOL = ["か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ"];
 
@@ -188,21 +219,21 @@ function goPrevious() {
 const steps = [];
 steps.push({ type: "welcome" });
 steps.push({ type: "writingSystems" });
-steps.push({ type: "sentenceExample" });
+steps.push({ type: "sentenceExample", sentence: SENTENCES[0] });
+steps.push({ type: "sentenceExample", sentence: SENTENCES[1] });
 steps.push({ type: "hiraganaIntro" });
 CHARS.forEach(c => {
   steps.push({ type: "learnChar", char: c });
-  steps.push({ type: "writing", char: c.char });
   steps.push({ type: "vocab", char: c });
-  steps.push({ type: "vocabWriting", char: c });
 });
-steps.push({ type: "review" });
+// Practice: Listening + Find the Difference only, per the confirmed
+// simplified structure for this first lesson. Maze, drag-and-drop,
+// sequence fill-in-the-blank, and all handwriting canvases are
+// deliberately NOT included here — saved for a later lesson, once
+// more Hiragana have been taught. Their code is kept intact below
+// (unused, not deleted) so they're easy to bring back for that lesson.
 steps.push({ type: "game1" });
 steps.push({ type: "game2" });
-steps.push({ type: "game3" });
-steps.push({ type: "game4" });
-steps.push({ type: "sequenceBlank" });
-steps.push({ type: "finalReview" });
 steps.push({ type: "finish" });
 
 let stepIndex = 0;
@@ -240,23 +271,16 @@ const renderers = {
     appendNav(c);
   },
 
-  sentenceExample() {
+  sentenceExample(step) {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">A Real Sentence</div>`;
-    const parts = [
-      { text: "私", label: "Kanji" },
-      { text: "は", label: "Hiragana" },
-      { text: "マレーシア", label: "Katakana" },
-      { text: "人", label: "Kanji" },
-      { text: "です", label: "Hiragana" },
-      { text: "。", label: null }
-    ];
+    c.appendChild(instructionBlock("Tap each part to see which writing system it uses."));
+
     const sentence = document.createElement("div");
     sentence.className = "exp-clickable-sentence";
     const reveal = document.createElement("div");
     reveal.className = "exp-tag-reveal";
 
-    parts.forEach(p => {
+    step.sentence.parts.forEach(p => {
       const span = document.createElement("span");
       span.textContent = p.text;
       if (p.label) {
@@ -269,15 +293,13 @@ const renderers = {
       sentence.appendChild(span);
     });
     c.appendChild(sentence);
+    c.appendChild(reveal);
 
     const translation = document.createElement("p");
     translation.className = "exp-note";
-    translation.style.marginBottom = "4px";
-    translation.textContent = "I am Malaysian.";
+    translation.textContent = step.sentence.translation;
     c.appendChild(translation);
 
-    c.appendChild(reveal);
-    c.appendChild(instructionBlock("Tap each part to see which writing system it uses."));
     appendNav(c);
   },
 
@@ -374,11 +396,9 @@ const renderers = {
 
   game2() {
     const questions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 3);
-    const extraQuestions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 2);
     runChoiceGame({
       instruction: "Which one is different?",
       questions,
-      extraQuestions,
       buildChoices: q => q.choices,
       isCorrect: (choice, q) => choice === q.target,
       onDone: goNext
@@ -436,7 +456,7 @@ const renderers = {
     c.appendChild(big);
     const note2 = document.createElement("p");
     note2.className = "exp-note";
-    note2.textContent = "You can now recognize, read, and write your first five Hiragana characters.";
+    note2.textContent = "You can now recognize and read your first five Hiragana characters.";
     c.appendChild(note2);
     appendNav(c);
   }
@@ -549,7 +569,8 @@ function runChoiceGame({ instruction, subinstruction, questions, extraQuestions,
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
+    // No Previous/Next here — Practice uses only the activity's own
+    // controls (tapping an answer), per the confirmed lesson structure.
   }
   renderQuestion();
 }
@@ -611,7 +632,8 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
+    // No Previous/Next here — Practice uses only the activity's own
+    // controls (tapping an answer), per the confirmed lesson structure.
 
     playHiraganaAudio(q.target); // auto-play once; Listen button replays
   }
