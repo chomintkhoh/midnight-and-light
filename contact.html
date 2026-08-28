@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Contact a Japanese & Mandarin Tutor | Midnight & Light</title>
+<title>Contact a Japanese & Mandarin Tutor | ミッドナイトとライト</title>
 <meta name="description" content="Interested in learning Japanese or Mandarin? Get in touch to discuss your level, learning goals, and preferred lesson format." />
 <link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/contact.html" />
 
-<meta property="og:title" content="Contact a Japanese & Mandarin Tutor | Midnight & Light" />
+<meta property="og:title" content="Contact a Japanese & Mandarin Tutor | ミッドナイトとライト" />
 <meta property="og:description" content="Interested in learning Japanese or Mandarin? Get in touch to discuss your level, learning goals, and preferred lesson format." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chomintkhoh.github.io/midnight-and-light/contact.html" />
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Contact a Japanese & Mandarin Tutor | Midnight & Light" />
+<meta name="twitter:title" content="Contact a Japanese & Mandarin Tutor | ミッドナイトとライト" />
 <meta name="twitter:description" content="Interested in learning Japanese or Mandarin? Get in touch to discuss your level, learning goals, and preferred lesson format." />
 <meta name="twitter:image" content="https://chomintkhoh.github.io/midnight-and-light/og-image.png" />
 
@@ -25,6 +25,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
+  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
+     longer than the original 夜與光 (3 characters). Without this,
+     any leftover narrow width from the old short mark forces CJK
+     text to wrap character-by-character. Deliberately specific
+     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
+  .site-nav .nav-mark{
+    white-space: nowrap;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+  @media (max-width: 480px){
+    .site-nav .nav-mark{ font-size: 15px; }
+  }
+
   .contact-lead{
     font-size: clamp(19px,2.4vw,23px); font-weight:400; color:var(--warm-white);
     line-height:1.5; max-width:520px; margin-bottom:44px;
@@ -86,11 +102,12 @@
   <div class="stars" aria-hidden="true" data-density="14"></div>
 
   <nav class="site-nav">
-    <a class="nav-mark" href="index.html">夜與光</a>
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
       <a href="contact.html" aria-current="page">Contact</a>
     </div>
   </nav>
@@ -163,7 +180,7 @@
     </div>
   </main>
 
-  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
   <script>

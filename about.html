@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>About | Japanese & Mandarin Tutor in Malaysia | Midnight & Light</title>
+<title>About | Japanese & Mandarin Tutor in Malaysia | ミッドナイトとライト</title>
 <meta name="description" content="Meet a Japanese and Mandarin tutor based in Malaysia with a background in language teaching, cross-cultural communication, coordination, and Japanese-related business environments." />
 <link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/about.html" />
 
-<meta property="og:title" content="About | Japanese & Mandarin Tutor in Malaysia | Midnight & Light" />
+<meta property="og:title" content="About | Japanese & Mandarin Tutor in Malaysia | ミッドナイトとライト" />
 <meta property="og:description" content="Meet a Japanese and Mandarin tutor based in Malaysia with a background in language teaching, cross-cultural communication, coordination, and Japanese-related business environments." />
 <meta property="og:type" content="profile" />
 <meta property="og:url" content="https://chomintkhoh.github.io/midnight-and-light/about.html" />
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="About | Japanese & Mandarin Tutor in Malaysia | Midnight & Light" />
+<meta name="twitter:title" content="About | Japanese & Mandarin Tutor in Malaysia | ミッドナイトとライト" />
 <meta name="twitter:description" content="Meet a Japanese and Mandarin tutor based in Malaysia with a background in language teaching, cross-cultural communication, coordination, and Japanese-related business environments." />
 <meta name="twitter:image" content="https://chomintkhoh.github.io/midnight-and-light/og-image.png" />
 
@@ -25,6 +25,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
+  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
+     longer than the original 夜與光 (3 characters). Without this,
+     any leftover narrow width from the old short mark forces CJK
+     text to wrap character-by-character. Deliberately specific
+     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
+  .site-nav .nav-mark{
+    white-space: nowrap;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+  @media (max-width: 480px){
+    .site-nav .nav-mark{ font-size: 15px; }
+  }
+
   .about-lead{
     font-size: clamp(20px,2.6vw,25px); font-weight:400; color:var(--warm-white);
     line-height:1.5; max-width:520px; margin-bottom:40px;
@@ -47,11 +63,12 @@
   <div class="stars" aria-hidden="true" data-density="14"></div>
 
   <nav class="site-nav">
-    <a class="nav-mark" href="index.html">夜與光</a>
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html" aria-current="page">About</a>
       <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
       <a href="contact.html">Contact</a>
     </div>
   </nav>
@@ -89,7 +106,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">夜與光 · Midnight &amp; Light</footer>
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
 </body>
