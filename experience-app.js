@@ -40,6 +40,55 @@ const CHARS = [
     ] }
 ];
 
+/* ---------- Reusable lesson data ----------
+   This lesson's vowel group and a generic distractor pool. A future
+   lesson (かきくけこ, etc.) only needs its own GROUP + DISTRACTOR_POOL
+   — every game runner below is generic over these, not hardcoded to
+   あいうえお specifically. */
+
+const GROUP = CHARS.map(c => c.char); // ["あ","い","う","え","お"]
+const DISTRACTOR_POOL = ["か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ"];
+
+// One listening question per character in `group`, each appearing as
+// the target exactly once (guaranteed by mapping over the group itself).
+function buildListeningQuestions(group, distractorPool) {
+  return group.map(target => {
+    const otherOptions = shuffle([...group.filter(c => c !== target), ...distractorPool]).slice(0, 4);
+    return { target, choices: shuffle([target, ...otherOptions]) };
+  });
+}
+
+// `count` odd-one-out questions. Each shows the group MINUS one random
+// member, plus one distractor — 5 total choices, matching the format
+// "あ い う え か → か" (four of the five vowels, not all five).
+function buildOddOneOutQuestions(group, distractorPool, count) {
+  return shuffle(distractorPool).slice(0, count).map(distractor => {
+    const omitted = group[Math.floor(Math.random() * group.length)];
+    const shownGroup = group.filter(c => c !== omitted);
+    return { target: distractor, choices: shuffle([...shownGroup, distractor]) };
+  });
+}
+
+// A shuffled grid layout for the "find in order" maze: the full group
+// plus enough distractors to fill `gridSize` cells.
+function buildFindInOrderLayout(group, distractorPool, gridSize) {
+  const needed = Math.max(gridSize - group.length, 0);
+  return shuffle([...group, ...shuffle(distractorPool).slice(0, needed)]);
+}
+
+// Fill-in-the-blank questions — one per "interior" position (never the
+// first or last character), matching the given examples exactly.
+function buildSequenceBlankQuestions(group) {
+  const results = [];
+  for (let i = 1; i < group.length - 1; i++) {
+    const answer = group[i];
+    const sequence = group.map((c, idx) => (idx === i ? null : c));
+    const distractorChoices = shuffle(group.filter(c => c !== answer)).slice(0, 2);
+    results.push({ sequence, answer, choices: shuffle([answer, ...distractorChoices]) });
+  }
+  return shuffle(results);
+}
+
 /* ---------- Real Hiragana audio (repo-root mp3 files) ----------
    Confirmed to exist at the repo root (a.mp3, i.mp3, u.mp3, e.mp3,
    o.mp3) — kept per explicit confirmation. Used by the speaker
@@ -98,13 +147,32 @@ function card() {
   return c;
 }
 
+// Shared "fast student" extension offer — used by any game runner that
+// has an optional extraQuestions set. Kept lightweight and generic
+// rather than duplicated per game, per the reusability requirement.
+function renderExtraOffer(onExtra, onContinue) {
+  const c = card();
+  c.appendChild(instructionBlock("Nicely done!", "Want a little more practice?"));
+  const row = document.createElement("div");
+  row.className = "exp-nav-row";
+  row.appendChild(primaryButton("Continue", onContinue, { secondary: true }));
+  row.appendChild(primaryButton("Extra Practice", onExtra));
+  c.appendChild(row);
+}
+
 /* ---------- Bidirectional navigation ---------- */
 
-function appendNav(c) {
+function appendNav(c, { showNext = true } = {}) {
   const row = document.createElement("div");
   row.className = "exp-nav-row";
   if (stepIndex > 0) row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
-  if (stepIndex < steps.length - 1) row.appendChild(primaryButton("Next", goNext));
+  // showNext:false is used on every mid-activity screen inside a multi-
+  // question game runner. Without this, the global Next button (which
+  // advances the top-level stepIndex) let a student skip straight past
+  // an entire game — including finalReview — without answering anything,
+  // since it has no awareness of a game's own internal question index.
+  // This was a real, reproduced bug, not a theoretical one.
+  if (showNext && stepIndex < steps.length - 1) row.appendChild(primaryButton("Next", goNext));
   c.appendChild(row);
 }
 
@@ -271,7 +339,7 @@ const renderers = {
     c.appendChild(instructionBlock("Write one vocabulary word."));
     const grid = document.createElement("div");
     grid.className = "exp-writing-grid";
-    grid.appendChild(buildWritingSlot(word, "Practice", 340, 170));
+    grid.appendChild(buildWritingSlot(word, "Practice", 400, 190));
     c.appendChild(grid);
     appendNav(c);
   },
@@ -298,24 +366,19 @@ const renderers = {
   /* Game 1 — listening recognition. Target never appears in the
      question text; uses the real Hiragana audio, same as elsewhere. */
   game1() {
-    const questions = [
-      { target: "あ", choices: ["あ", "い", "か", "さ", "う"] },
-      { target: "う", choices: ["う", "え", "こ", "い", "す"] },
-      { target: "お", choices: ["お", "い", "こ", "あ", "え"] }
-    ];
-    const extraQuestions = [
-      { target: "い", choices: ["い", "あ", "か", "き", "え"] },
-      { target: "え", choices: ["え", "あ", "き", "う", "お"] }
-    ];
-    runListeningGame({ questions, extraQuestions, onDone: goNext });
+    // 5 required questions — every character in GROUP appears as the
+    // target exactly once, guaranteed by the generator itself.
+    const questions = buildListeningQuestions(GROUP, DISTRACTOR_POOL);
+    runListeningGame({ questions, onDone: goNext });
   },
 
   game2() {
-    const distractors = ["か", "き", "さ"];
-    const questions = distractors.map(d => ({ target: d, choices: shuffle([...CHARS.map(c => c.char), d]) }));
+    const questions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 3);
+    const extraQuestions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 2);
     runChoiceGame({
       instruction: "Which one is different?",
       questions,
+      extraQuestions,
       buildChoices: q => q.choices,
       isCorrect: (choice, q) => choice === q.target,
       onDone: goNext
@@ -323,58 +386,13 @@ const renderers = {
   },
 
   game3() {
-    const c = card();
-    c.appendChild(instructionBlock("Find the characters in order.", "Start with あ and find the five characters in order."));
-    const dots = document.createElement("div");
-    dots.className = "exp-progress-dots";
-    c.appendChild(dots);
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-    c.appendChild(feedback);
-
-    const grid = document.createElement("div");
-    grid.className = "exp-maze";
-    const layout = shuffle(["あ", "い", "う", "え", "お", "か", "き", "さ", "た", "こ", "ぬ", "す", "し", "く", "け", "せ"]);
-    const order = ["あ", "い", "う", "え", "お"];
-    let progress = 0;
-
-    const updateDots = () => { dots.textContent = order.map((_, i) => i < progress ? "●" : "○").join(" "); };
-    updateDots();
-
-    layout.forEach(ch => {
-      const btn = document.createElement("button");
-      btn.textContent = ch;
-      btn.addEventListener("click", () => {
-        if (btn.disabled) return;
-        if (ch === order[progress]) {
-          btn.classList.add("found");
-          btn.disabled = true;
-          progress++;
-          updateDots();
-          feedback.textContent = "";
-          feedback.className = "exp-feedback";
-          if (progress === order.length) {
-            const goalMsg = document.createElement("div");
-            goalMsg.className = "exp-mid";
-            goalMsg.textContent = "You made it!";
-            c.insertBefore(goalMsg, grid);
-            grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          }
-        } else {
-          feedback.textContent = "Try again.";
-          feedback.className = "exp-feedback bad";
-        }
-      });
-      grid.appendChild(btn);
-    });
-    c.appendChild(grid);
-    appendNav(c);
+    runFindInOrderGame({ group: GROUP, distractorPool: DISTRACTOR_POOL, rounds: 2, gridSize: 15, onDone: goNext });
   },
 
   game4() {
-    runDragDropGame({
-      target: ["あ", "い", "う", "え", "お"],
-      start: ["う", "あ", "お", "い", "え"],
+    runOrderedDragDropRounds({
+      group: GROUP,
+      rounds: 2,
       onDone: goNext,
       instruction: "Drag each character into a box.",
       subinstruction: "Put あいうえお in the correct order."
@@ -397,11 +415,7 @@ const renderers = {
   },
 
   sequenceBlank() {
-    const questions = [
-      { sequence: ["あ", "い", null, "え", "お"], answer: "う", choices: ["う", "え", "お"] },
-      { sequence: ["あ", null, "う", "え", "お"], answer: "い", choices: ["い", "あ", "う"] },
-      { sequence: ["あ", "い", "う", null, "お"], answer: "え", choices: ["え", "い", "お"] }
-    ];
+    const questions = buildSequenceBlankQuestions(GROUP);
     runFillBlankGame({ questions, onDone: goNext });
   },
 
@@ -486,15 +500,16 @@ function buildWritingSlot(char, label, width = 180, height = 180) {
 
 /* ---------- Shared choice-game runner (Game 2 and finalReview items) ---------- */
 
-function runChoiceGame({ instruction, subinstruction, questions, buildChoices, isCorrect, onDone, showCount = true }) {
+function runChoiceGame({ instruction, subinstruction, questions, extraQuestions, buildChoices, isCorrect, onDone, showCount = true }) {
   let qi = 0;
+  let activeQuestions = questions;
   function renderQuestion() {
     const c = card();
-    const q = questions[qi];
+    const q = activeQuestions[qi];
     if (showCount) {
       const stepLabel = document.createElement("div");
       stepLabel.className = "exp-step-count";
-      stepLabel.textContent = `Question ${qi + 1} / ${questions.length}`;
+      stepLabel.textContent = `Question ${qi + 1} / ${activeQuestions.length}`;
       c.appendChild(stepLabel);
     }
     c.appendChild(instructionBlock(instruction, subinstruction));
@@ -516,8 +531,13 @@ function runChoiceGame({ instruction, subinstruction, questions, buildChoices, i
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           setTimeout(() => {
             qi++;
-            if (qi < questions.length) renderQuestion();
-            else onDone();
+            if (qi < activeQuestions.length) {
+              renderQuestion();
+            } else if (activeQuestions === questions && extraQuestions && extraQuestions.length) {
+              renderExtraOffer(() => { activeQuestions = extraQuestions; qi = 0; renderQuestion(); }, onDone);
+            } else {
+              onDone();
+            }
           }, 700);
         } else {
           btn.classList.add("wrong");
@@ -529,7 +549,7 @@ function runChoiceGame({ instruction, subinstruction, questions, buildChoices, i
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    appendNav(c);
+    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
   }
   renderQuestion();
 }
@@ -576,7 +596,7 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
             if (qi < activeQuestions.length) {
               renderQuestion();
             } else if (activeQuestions === questions && extraQuestions && extraQuestions.length) {
-              renderExtraOffer();
+              renderExtraOffer(() => { activeQuestions = extraQuestions; qi = 0; renderQuestion(); }, onDone);
             } else {
               onDone();
             }
@@ -591,34 +611,110 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    appendNav(c);
+    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
 
     playHiraganaAudio(q.target); // auto-play once; Listen button replays
   }
 
-  function renderExtraOffer() {
-    const c = card();
-    c.appendChild(instructionBlock("Nicely done!", "Want a little more practice?"));
-    const row = document.createElement("div");
-    row.className = "exp-nav-row";
-    row.appendChild(primaryButton("Continue", onDone, { secondary: true }));
-    row.appendChild(primaryButton("Extra Practice", () => {
-      activeQuestions = extraQuestions;
-      qi = 0;
-      renderQuestion();
-    }));
-    c.appendChild(row);
-  }
-
   renderQuestion();
+}
+
+/* ---------- Game 3: find-in-order maze, now multi-round ----------
+   Generic over any group/distractorPool, so a future lesson's maze
+   just calls this with its own character group. ---------- */
+
+function runFindInOrderGame({ group, distractorPool, rounds, gridSize, onDone }) {
+  let round = 0;
+  function renderRound() {
+    const c = card();
+    const stepLabel = document.createElement("div");
+    stepLabel.className = "exp-step-count";
+    stepLabel.textContent = `Round ${round + 1} / ${rounds}`;
+    c.appendChild(stepLabel);
+    c.appendChild(instructionBlock("Find the characters in order.", `Start with ${group[0]} and find the ${group.length} characters in order.`));
+
+    const dots = document.createElement("div");
+    dots.className = "exp-progress-dots";
+    c.appendChild(dots);
+    const feedback = document.createElement("div");
+    feedback.className = "exp-feedback";
+    c.appendChild(feedback);
+
+    const grid = document.createElement("div");
+    grid.className = "exp-maze";
+    const layout = buildFindInOrderLayout(group, distractorPool, gridSize);
+    let progress = 0;
+    const updateDots = () => { dots.textContent = group.map((_, i) => i < progress ? "●" : "○").join(" "); };
+    updateDots();
+
+    layout.forEach(ch => {
+      const btn = document.createElement("button");
+      btn.textContent = ch;
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        if (ch === group[progress]) {
+          btn.classList.add("found");
+          btn.disabled = true;
+          progress++;
+          updateDots();
+          if (progress === group.length) {
+            feedback.textContent = "You made it!";
+            feedback.className = "exp-feedback good";
+            grid.querySelectorAll("button").forEach(b => b.disabled = true);
+            setTimeout(() => {
+              round++;
+              if (round < rounds) renderRound();
+              else onDone();
+            }, 900);
+          } else {
+            feedback.textContent = "";
+            feedback.className = "exp-feedback";
+          }
+        } else {
+          feedback.textContent = "Try again.";
+          feedback.className = "exp-feedback bad";
+        }
+      });
+      grid.appendChild(btn);
+    });
+    c.appendChild(grid);
+    appendNav(c, { showNext: false }); // mid-round — see the appendNav fix note above
+  }
+  renderRound();
+}
+
+/* ---------- Game 4: drag-and-drop, now multi-round ----------
+   Thin wrapper around runDragDropGame — reuses it unchanged, just
+   loops it with a fresh shuffled starting arrangement each round. ---------- */
+
+function runOrderedDragDropRounds({ group, rounds, onDone, instruction, subinstruction }) {
+  let round = 0;
+  function nextRound() {
+    if (round >= rounds) { onDone(); return; }
+    runDragDropGame({
+      target: group,
+      start: shuffle(group),
+      instruction,
+      subinstruction,
+      roundLabel: `Round ${round + 1} / ${rounds}`,
+      onDone: () => { round++; nextRound(); }
+    });
+  }
+  nextRound();
 }
 
 /* ---------- Game 4 / finalReview drag-and-drop runner ----------
    Uses Pointer Events (not native HTML5 drag-and-drop, which has poor
    touch support) so mouse, touch, and stylus all work the same way. */
 
-function runDragDropGame({ target, start, onDone, instruction = "Put the Hiragana in the correct order.", subinstruction = "Drag the characters into the correct order." }) {
+function runDragDropGame({ target, start, onDone, instruction = "Put the Hiragana in the correct order.", subinstruction = "Drag the characters into the correct order.", roundLabel = null }) {
   const c = card();
+  if (roundLabel) {
+    const stepLabel = document.createElement("div");
+    stepLabel.className = "exp-step-count";
+    stepLabel.textContent = roundLabel;
+    c.appendChild(stepLabel);
+  }
   c.appendChild(instructionBlock(instruction, subinstruction));
 
   const slotsRow = document.createElement("div");
@@ -716,7 +812,7 @@ function runDragDropGame({ target, start, onDone, instruction = "Put the Hiragan
   });
   c.appendChild(checkBtn);
   c.appendChild(feedback);
-  appendNav(c);
+  appendNav(c, { showNext: false }); // must complete via Check — see the appendNav fix note above
 }
 
 /* ---------- Sequence fill-in-the-blank (Section 5) ----------
@@ -810,7 +906,7 @@ function runFillBlankGame({ questions, onDone }) {
 
     shuffle(q.choices).forEach(ch => tray.appendChild(makeChip(ch)));
     c.appendChild(feedback);
-    appendNav(c);
+    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
   }
   renderQuestion();
 }
@@ -876,7 +972,7 @@ function runFinalReview(onAllDone) {
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    appendNav(c);
+    appendNav(c, { showNext: false }); // mid-review-activity — see the appendNav fix note above
   }
   renderActivity();
 }
