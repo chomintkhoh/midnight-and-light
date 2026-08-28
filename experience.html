@@ -15,7 +15,7 @@
   /* ══════════════════════════════════════════════
      Experience page — reuses the site's shared
      variables from cosmic.css. Current trial flow:
-     teaching + guided handwriting + two practice games.
+     teaching + two-box guided handwriting + three practice activities.
    ══════════════════════════════════════════════ */
 
   /* Brand mark fix — ミッドナイトとライト (10 characters) is much
@@ -52,6 +52,12 @@
     margin: 10px 0;
     line-height: 1.3;
   }
+  .exp-vowel-line{
+    white-space:nowrap;
+    font-size:clamp(38px, 9vw, 64px);
+    letter-spacing:0.01em;
+  }
+  .exp-vowel-romaji{ white-space:nowrap; letter-spacing:0.08em; }
   .exp-mid{
     font-family: var(--font-brand);
     font-size: 30px;
@@ -110,8 +116,12 @@
   }
 
   /* "Quick look ahead" preview sounds */
-  .exp-preview-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted-bluegrey); margin: 16px 0 6px; }
-  .exp-preview-row{ font-family: var(--font-brand); font-size:22px; color: var(--warm-white); }
+  .exp-preview-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted-bluegrey); margin: 18px 0 8px; }
+  .exp-preview-row{
+    display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
+    gap:10px 34px; font-family: var(--font-brand); font-size:22px; color: var(--warm-white);
+  }
+  .exp-preview-example{ white-space:nowrap; }
   .exp-writing-item{
     background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
     border-radius: 14px; padding: 18px 22px; font-family: var(--font-brand); font-size: 34px;
@@ -133,7 +143,8 @@
   .exp-vocab-card .emoji{ font-size: 32px; }
   .exp-vocab-card .word{ font-family: var(--font-brand); font-size: 26px; color: var(--warm-white); }
   .exp-vocab-card .word strong{ color: var(--pale-gold); }
-  .exp-vocab-card .meaning{ color: var(--muted-bluegrey); font-size: 14px; margin-top: 2px; display:none; }
+  .exp-vocab-card .vocab-romaji{ color:var(--pale-gold); font-size:14px; margin-top:1px; letter-spacing:.02em; }
+  .exp-vocab-card .meaning{ color: var(--muted-bluegrey); font-size: 14px; margin-top: 3px; display:none; }
   .exp-vocab-card.revealed .meaning{ display: block; }
 
   .exp-choice-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap: 12px; margin: 20px 0; }
@@ -149,30 +160,74 @@
   .exp-feedback.good{ color: #9FD6AA; }
   .exp-feedback.bad{ color: #E7A0AF; }
 
-  /* Guided handwriting — one tracing canvas for each new Hiragana */
+  /* Guided handwriting — trace once, then write once independently */
   .exp-handwriting{
     display:flex; flex-direction:column; align-items:center; margin:18px 0 8px;
   }
+  .exp-writing-pair{
+    width:100%; display:flex; justify-content:center; align-items:flex-start; gap:18px;
+  }
+  .exp-writing-box{ min-width:0; flex:0 1 220px; }
+  .exp-writing-label{
+    min-height:20px; margin-bottom:8px; color:var(--muted-bluegrey);
+    font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif;
+  }
   .exp-canvas-wrap{
-    position:relative; display:inline-block; width:min(260px, 82vw); aspect-ratio:1;
+    position:relative; display:block; width:100%; max-width:220px; aspect-ratio:1; margin:0 auto;
   }
   .exp-writing-canvas{
-    display:block; width:100%; height:100%; touch-action:none;
+    display:block; width:100%; height:100%; touch-action:none; overscroll-behavior:contain;
     border-radius:16px; border:1.5px solid rgba(217,196,142,0.35);
     background: rgba(244,241,234,0.035); cursor:crosshair;
   }
   .exp-writing-ref{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     pointer-events:none; user-select:none; font-family:var(--font-brand);
-    font-size:132px; color:rgba(244,241,234,0.13); line-height:1;
+    font-size:112px; color:rgba(244,241,234,0.13); line-height:1;
   }
   .exp-clear-btn{
-    margin-top:12px; padding:9px 18px; border-radius:999px; font-size:13px;
+    margin-top:14px; padding:9px 18px; border-radius:999px; font-size:13px;
     background:transparent; color:var(--warm-white);
     border:1.5px solid rgba(244,241,234,0.3); cursor:pointer;
     font-family:'DM Sans',sans-serif;
   }
   .exp-clear-btn:hover{ border-color:rgba(217,196,142,0.55); }
+
+
+  /* Practice transition */
+  .exp-practice-list{
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:20px 0 6px;
+  }
+  .exp-practice-item{
+    display:flex; align-items:center; justify-content:center; min-height:64px; padding:10px;
+    border-radius:12px; border:1px solid rgba(217,196,142,0.2);
+    background:rgba(244,241,234,0.035); color:var(--warm-white); font-size:14px;
+  }
+
+  /* Hiragana Maze / Find in Order */
+  .exp-maze-sequence{
+    margin:16px 0 8px; white-space:nowrap; font-family:var(--font-brand);
+    font-size:clamp(20px,5.5vw,28px); color:var(--pale-gold);
+  }
+  .exp-maze-progress{
+    min-height:24px; display:flex; justify-content:center; gap:10px; margin:4px 0 14px;
+    color:rgba(244,241,234,.35); font-size:16px;
+  }
+  .exp-maze-progress .done{ color:var(--pale-gold); }
+  .exp-maze-grid{
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
+    width:min(100%, 390px); margin:0 auto 14px;
+  }
+  .exp-maze-cell{
+    aspect-ratio:1; min-width:0; border-radius:13px;
+    background:rgba(244,241,234,0.05); border:1.5px solid rgba(217,196,142,0.25);
+    font-family:var(--font-brand); font-size:30px; color:var(--warm-white); cursor:pointer;
+    transition:transform .12s, background .15s, border-color .15s;
+  }
+  .exp-maze-cell:hover{ transform:translateY(-1px); }
+  .exp-maze-cell.correct{ background:rgba(127,191,143,0.25); border-color:#7FBF8F; }
+  .exp-maze-cell.wrong{ background:rgba(224,135,154,0.25); border-color:#E0879A; }
+  .exp-maze-cell:disabled{ cursor:default; opacity:1; }
 
   .exp-step-count{ color: var(--muted-faint); font-size: 12.5px; margin-bottom: 6px; }
 
@@ -180,10 +235,34 @@
   .exp-nav-row{ display:flex; justify-content:center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
   .exp-nav-row .exp-btn{ margin-top: 0; }
 
+  @media (max-width: 600px){
+    #exp-app{ width:100%; }
+    .exp-card{ padding:26px 18px; }
+    .exp-clickable-sentence{ font-size:clamp(25px,7.2vw,32px); }
+    .exp-choice{ width:68px; height:68px; font-size:30px; }
+    .exp-practice-list{ grid-template-columns:1fr; }
+  }
+  @media (max-width: 520px){
+    .exp-writing-pair{ flex-direction:column; align-items:center; gap:18px; }
+    .exp-writing-box{ width:min(250px,82vw); flex:none; }
+    .exp-canvas-wrap{ max-width:250px; }
+    .exp-writing-ref{ font-size:124px; }
+  }
   @media (max-width: 480px){
-    .exp-big{ font-size: 48px; }
-    .exp-writing-ref{ font-size: 104px; }
-    .exp-nav-row .exp-btn{ padding: 12px 22px; font-size: 15px; }
+    .exp-card{ padding:24px 14px; border-radius:16px; }
+    .exp-big{ font-size:48px; }
+    .exp-vowel-line{ font-size:clamp(32px,10.5vw,44px); }
+    .exp-vowel-romaji{ font-size:18px; letter-spacing:0.04em; }
+    .exp-gojuon-chart{ max-width:310px; gap:4px; }
+    .exp-gojuon-cell{ font-size:15px; border-radius:7px; }
+    .exp-preview-row{ gap:10px 22px; font-size:20px; }
+    .exp-vocab-card{ padding:14px 12px; gap:12px; }
+    .exp-vocab-card .emoji{ font-size:28px; }
+    .exp-vocab-card .word{ font-size:24px; }
+    .exp-nav-row{ gap:10px; }
+    .exp-nav-row .exp-btn{ padding:12px 20px; font-size:15px; }
+    .exp-maze-grid{ gap:8px; width:min(100%,340px); }
+    .exp-maze-cell{ font-size:28px; border-radius:12px; }
   }
 </style>
 </head>

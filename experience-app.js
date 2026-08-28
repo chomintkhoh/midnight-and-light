@@ -4,8 +4,10 @@
    language throughout; Japanese is reserved for the
    actual learning material (the characters themselves).
    Teaching screens use Previous/Next based on stepIndex.
-   Guided handwriting is included once for each new character.
-   Practice screens advance only through their own interactions.
+   Guided handwriting uses two boxes for each new character:
+   one tracing box and one free-writing box.
+   Practice begins with a transition screen, then advances only
+   through Listening, Find the Difference, and Hiragana Maze.
    Real Hiragana audio (repo-root mp3 files) is used by the
    speaker buttons and listening practice. Vocabulary has no audio.
 ══════════════════════════════════════════════ */
@@ -14,29 +16,29 @@ const app = document.getElementById("exp-app");
 
 const CHARS = [
   { char: "あ", romaji: "a", vocab: [
-      { word: "あめ", emoji: "🌧️", meaning: "Rain" },
-      { word: "あさ", emoji: "🌅", meaning: "Morning" },
-      { word: "あか", emoji: "🔴", meaning: "Red" }
+      { word: "あめ", romaji: "ame", emoji: "🌧️", meaning: "Rain" },
+      { word: "あさ", romaji: "asa", emoji: "🌅", meaning: "Morning" },
+      { word: "あか", romaji: "aka", emoji: "🔴", meaning: "Red" }
     ] },
   { char: "い", romaji: "i", vocab: [
-      { word: "いぬ", emoji: "🐶", meaning: "Dog" },
-      { word: "いえ", emoji: "🏠", meaning: "House" },
-      { word: "いす", emoji: "🪑", meaning: "Chair" }
+      { word: "いぬ", romaji: "inu", emoji: "🐶", meaning: "Dog" },
+      { word: "いえ", romaji: "ie", emoji: "🏠", meaning: "House" },
+      { word: "いす", romaji: "isu", emoji: "🪑", meaning: "Chair" }
     ] },
   { char: "う", romaji: "u", vocab: [
-      { word: "うみ", emoji: "🌊", meaning: "Sea" },
-      { word: "うし", emoji: "🐄", meaning: "Cow" },
-      { word: "うた", emoji: "🎵", meaning: "Song" }
+      { word: "うみ", romaji: "umi", emoji: "🌊", meaning: "Sea" },
+      { word: "うし", romaji: "ushi", emoji: "🐄", meaning: "Cow" },
+      { word: "うた", romaji: "uta", emoji: "🎵", meaning: "Song" }
     ] },
   { char: "え", romaji: "e", vocab: [
-      { word: "えき", emoji: "🚉", meaning: "Station" },
-      { word: "えんぴつ", emoji: "✏️", meaning: "Pencil" },
-      { word: "えほん", emoji: "📖", meaning: "Picture book" }
+      { word: "えき", romaji: "eki", emoji: "🚉", meaning: "Station" },
+      { word: "えんぴつ", romaji: "enpitsu", emoji: "✏️", meaning: "Pencil" },
+      { word: "えほん", romaji: "ehon", emoji: "📖", meaning: "Picture book" }
     ] },
   { char: "お", romaji: "o", vocab: [
-      { word: "おちゃ", emoji: "🍵", meaning: "Tea" },
-      { word: "おかし", emoji: "🍪", meaning: "Snack / Sweets" },
-      { word: "おと", emoji: "🔊", meaning: "Sound" }
+      { word: "おちゃ", romaji: "ocha", emoji: "🍵", meaning: "Tea" },
+      { word: "おかし", romaji: "okashi", emoji: "🍪", meaning: "Snack / Sweets" },
+      { word: "おと", romaji: "oto", emoji: "🔊", meaning: "Sound" }
     ] }
 ];
 
@@ -288,11 +290,14 @@ CHARS.forEach(c => {
   steps.push({ type: "writingPractice", char: c });
   steps.push({ type: "vocab", char: c });
 });
-// Practice: Listening + Find the Difference only. Guided handwriting
-// belongs to teaching, not to the quiz section. Maze, drag-and-drop,
-// fill-in-the-blank, vocabulary writing, and Final Review stay removed.
+// Guided handwriting belongs to teaching, not to the quiz section.
+// Practice begins with a transition screen, then uses three short
+// interaction-led activities. Drag-and-drop, fill-in-the-blank,
+// vocabulary writing, and the old Final Review remain removed.
+steps.push({ type: "practiceIntro" });
 steps.push({ type: "game1" });
 steps.push({ type: "game2" });
+steps.push({ type: "game3" });
 steps.push({ type: "finish" });
 
 let stepIndex = 0;
@@ -396,12 +401,12 @@ const renderers = {
     const c = card();
     c.innerHTML = `<div class="exp-mid">The Five Vowels</div>`;
     const big = document.createElement("div");
-    big.className = "exp-big";
+    big.className = "exp-big exp-vowel-line";
     big.textContent = "あ　い　う　え　お";
     c.appendChild(big);
     const romaji = document.createElement("div");
-    romaji.className = "exp-romaji";
-    romaji.textContent = "a  i  u  e  o";
+    romaji.className = "exp-romaji exp-vowel-romaji";
+    romaji.textContent = "a　i　u　e　o";
     c.appendChild(romaji);
     const note = document.createElement("p");
     note.className = "exp-note";
@@ -443,7 +448,12 @@ const renderers = {
       c.appendChild(label);
       const row = document.createElement("div");
       row.className = "exp-preview-row";
-      row.textContent = group.pairs.map(p => `${p.from} → ${p.to}`).join("   ");
+      group.pairs.forEach(p => {
+        const example = document.createElement("span");
+        example.className = "exp-preview-example";
+        example.textContent = `${p.from} → ${p.to}`;
+        row.appendChild(example);
+      });
       c.appendChild(row);
     });
     const note = document.createElement("p");
@@ -458,7 +468,7 @@ const renderers = {
     c.innerHTML = `<div class="exp-mid">Today: あいうえお</div>`;
     c.appendChild(instructionBlock("Let's start with the five basic vowel sounds."));
     const big = document.createElement("div");
-    big.className = "exp-big";
+    big.className = "exp-big exp-vowel-line";
     big.textContent = "あ　い　う　え　お";
     c.appendChild(big);
     appendNav(c);
@@ -477,38 +487,61 @@ const renderers = {
     const c = card();
     const { char } = step.char;
     c.innerHTML = `<div class="exp-mid">Write ${char}</div>`;
-    c.appendChild(instructionBlock(`Try writing ${char}.`, "Trace the faint character, then try it in your own way."));
+    c.appendChild(instructionBlock(`Trace ${char} once, then try writing it by yourself.`));
 
     const practice = document.createElement("div");
     practice.className = "exp-handwriting";
-    const wrap = document.createElement("div");
-    wrap.className = "exp-canvas-wrap";
+    const pair = document.createElement("div");
+    pair.className = "exp-writing-pair";
 
-    const canvas = document.createElement("canvas");
-    canvas.className = "exp-writing-canvas";
-    canvas.width = 520;
-    canvas.height = 520;
-    canvas.setAttribute("aria-label", `Writing practice for ${char}`);
+    function makeWritingBox(labelText, withReference) {
+      const item = document.createElement("div");
+      item.className = "exp-writing-box";
 
-    const reference = document.createElement("div");
-    reference.className = "exp-writing-ref";
-    reference.textContent = char;
+      const label = document.createElement("div");
+      label.className = "exp-writing-label";
+      label.textContent = labelText;
+      item.appendChild(label);
 
-    wrap.appendChild(canvas);
-    wrap.appendChild(reference);
-    practice.appendChild(wrap);
+      const wrap = document.createElement("div");
+      wrap.className = "exp-canvas-wrap";
+      const canvas = document.createElement("canvas");
+      canvas.className = "exp-writing-canvas";
+      canvas.width = 440;
+      canvas.height = 440;
+      canvas.setAttribute("aria-label", `${labelText} writing practice for ${char}`);
+      wrap.appendChild(canvas);
+
+      if (withReference) {
+        const reference = document.createElement("div");
+        reference.className = "exp-writing-ref";
+        reference.textContent = char;
+        wrap.appendChild(reference);
+      }
+
+      item.appendChild(wrap);
+      return { item, canvas };
+    }
+
+    const traceBox = makeWritingBox("Trace", true);
+    const freeBox = makeWritingBox("Try it yourself", false);
+    pair.appendChild(traceBox.item);
+    pair.appendChild(freeBox.item);
+    practice.appendChild(pair);
 
     const clear = document.createElement("button");
     clear.className = "exp-clear-btn";
     clear.textContent = "Clear";
     clear.addEventListener("click", () => {
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      [traceBox.canvas, freeBox.canvas].forEach(canvas => {
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+      });
     });
     practice.appendChild(clear);
     c.appendChild(practice);
 
-    enableDrawing(canvas);
+    enableDrawing(traceBox.canvas);
+    enableDrawing(freeBox.canvas);
     appendNav(c);
   },
 
@@ -527,6 +560,7 @@ const renderers = {
         <div class="emoji">${v.emoji}</div>
         <div>
           <div class="word">${highlighted}</div>
+          <div class="vocab-romaji">${v.romaji}</div>
           <div class="meaning">${v.meaning}</div>
         </div>
       `;
@@ -536,6 +570,28 @@ const renderers = {
     });
     c.appendChild(grid);
     appendNav(c);
+  },
+
+  practiceIntro() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">Practice Time</div>`;
+    c.appendChild(instructionBlock("Now let's check what you remember.", "You'll try three short activities."));
+
+    const activities = document.createElement("div");
+    activities.className = "exp-practice-list";
+    ["Listening", "Find the Difference", "Hiragana Maze"].forEach(label => {
+      const item = document.createElement("div");
+      item.className = "exp-practice-item";
+      item.textContent = label;
+      activities.appendChild(item);
+    });
+    c.appendChild(activities);
+
+    const row = document.createElement("div");
+    row.className = "exp-nav-row";
+    row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
+    row.appendChild(primaryButton("Start Practice", goNext));
+    c.appendChild(row);
   },
 
   /* Game 1 — listening recognition. Target never appears in the
@@ -558,6 +614,10 @@ const renderers = {
     });
   },
 
+  game3() {
+    runHiraganaMaze({ group: GROUP, distractorPool: DISTRACTOR_POOL, onDone: goNext });
+  },
+
   finish() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">Great job!</div>`;
@@ -566,12 +626,12 @@ const renderers = {
     note1.textContent = "You can now recognise:";
     c.appendChild(note1);
     const big = document.createElement("div");
-    big.className = "exp-big";
+    big.className = "exp-big exp-vowel-line";
     big.textContent = "あ　い　う　え　お";
     c.appendChild(big);
     const note2 = document.createElement("p");
     note2.className = "exp-note";
-    note2.textContent = "You learned the five basic Japanese vowel sounds and practised matching them to Hiragana.";
+    note2.textContent = "You practised listening, recognising, and writing the five basic Hiragana vowel sounds.";
     c.appendChild(note2);
     // Finish is the true endpoint — no Previous/Next, only Start Again.
     c.appendChild(primaryButton("Start Again", () => { stepIndex = 0; render(); }));
@@ -699,6 +759,72 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
   }
 
   renderQuestion();
+}
+
+/* ---------- Game 3 — Hiragana Maze / Find in Order ---------- */
+
+function runHiraganaMaze({ group, distractorPool, onDone }) {
+  const c = card();
+  c.appendChild(instructionBlock("Find the Hiragana in order.", "Start with あ, then continue to お."));
+
+  const targetLine = document.createElement("div");
+  targetLine.className = "exp-maze-sequence";
+  targetLine.textContent = group.join(" → ");
+  c.appendChild(targetLine);
+
+  const progress = document.createElement("div");
+  progress.className = "exp-maze-progress";
+  c.appendChild(progress);
+
+  const feedback = document.createElement("div");
+  feedback.className = "exp-feedback";
+
+  // 5 targets + 11 distractors gives a compact 4×4 board. Duplicate
+  // distractors are allowed only when needed to fill the board, while
+  // each target appears exactly once so the path remains unambiguous.
+  const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
+  const cells = shuffle([...group, ...distractors]);
+  let nextIndex = 0;
+
+  function updateProgress() {
+    progress.innerHTML = group.map((char, i) =>
+      `<span class="${i < nextIndex ? "done" : ""}">${i < nextIndex ? "●" : "○"}</span>`
+    ).join("");
+  }
+  updateProgress();
+
+  const grid = document.createElement("div");
+  grid.className = "exp-maze-grid";
+  cells.forEach(char => {
+    const btn = document.createElement("button");
+    btn.className = "exp-maze-cell";
+    btn.textContent = char;
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+      if (char === group[nextIndex]) {
+        btn.classList.add("correct");
+        btn.disabled = true;
+        nextIndex++;
+        feedback.textContent = nextIndex < group.length ? `Good! Next: ${group[nextIndex]}` : "Great! You found them all.";
+        feedback.className = "exp-feedback good";
+        updateProgress();
+        if (nextIndex === group.length) {
+          grid.querySelectorAll("button").forEach(b => b.disabled = true);
+          setTimeout(onDone, 1000);
+        }
+      } else {
+        btn.classList.add("wrong");
+        feedback.textContent = "Try again.";
+        feedback.className = "exp-feedback bad";
+        setTimeout(() => btn.classList.remove("wrong"), 450);
+      }
+    });
+    grid.appendChild(btn);
+  });
+
+  c.appendChild(grid);
+  c.appendChild(feedback);
+  // No Previous/Next — completion of the maze advances the lesson.
 }
 
 function shuffle(arr) {
