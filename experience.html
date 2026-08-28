@@ -13,12 +13,10 @@
 <link rel="stylesheet" href="cosmic.css" />
 <style>
   /* ══════════════════════════════════════════════
-     Experience page — reuses the site's real shared
-     variables from cosmic.css. Revision pass: English-
-     primary instructions, larger Japanese typography,
-     bidirectional navigation, 4 games, 9 independent
-     writing canvases.
-  ══════════════════════════════════════════════ */
+     Experience page — reuses the site's shared
+     variables from cosmic.css. Current trial flow:
+     teaching + guided handwriting + two practice games.
+   ══════════════════════════════════════════════ */
 
   /* Brand mark fix — ミッドナイトとライト (10 characters) is much
      longer than the original 夜與光 (3 characters). Without this,
@@ -151,56 +149,30 @@
   .exp-feedback.good{ color: #9FD6AA; }
   .exp-feedback.bad{ color: #E7A0AF; }
 
-  .exp-maze{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:420px; margin:18px auto; }
-  .exp-maze button{
-    aspect-ratio:1; border-radius:12px; background: rgba(244,241,234,0.05);
-    border:1.5px solid rgba(217,196,142,0.25); font-family: var(--font-brand); font-size:40px;
-    color: var(--warm-white); cursor:pointer;
+  /* Guided handwriting — one tracing canvas for each new Hiragana */
+  .exp-handwriting{
+    display:flex; flex-direction:column; align-items:center; margin:18px 0 8px;
   }
-  .exp-maze button.found{ background: rgba(127,191,143,0.3); border-color:#7FBF8F; }
-  .exp-progress-dots{ font-size: 20px; letter-spacing: 8px; color: var(--pale-gold); margin: 10px 0; }
-
-  /* Game 4 — drag and drop ordering */
-  .exp-dnd-slots{ display:flex; justify-content:center; gap:10px; margin: 22px 0 10px; flex-wrap:wrap; }
-  .exp-dnd-slot{
-    width: 62px; height: 62px; border-radius: 12px;
-    border: 2px dashed rgba(217,196,142,0.4); display:flex; align-items:center; justify-content:center;
-    font-family: var(--font-brand); font-size: 30px; color: var(--warm-white);
-    background: rgba(244,241,234,0.02);
+  .exp-canvas-wrap{
+    position:relative; display:inline-block; width:min(260px, 82vw); aspect-ratio:1;
   }
-  .exp-dnd-slot.filled{ border-style: solid; border-color: rgba(217,196,142,0.5); background: rgba(217,196,142,0.08); }
-  .exp-dnd-tray{ display:flex; justify-content:center; gap:10px; margin: 18px 0; flex-wrap:wrap; min-height: 74px; }
-  .exp-dnd-chip{
-    width: 62px; height: 62px; border-radius: 12px; touch-action:none;
-    background: rgba(182,169,218,0.14); border: 1.5px solid rgba(182,169,218,0.4);
-    font-family: var(--font-brand); font-size: 30px; color: var(--warm-white);
-    display:flex; align-items:center; justify-content:center; cursor:grab; user-select:none;
+  .exp-writing-canvas{
+    display:block; width:100%; height:100%; touch-action:none;
+    border-radius:16px; border:1.5px solid rgba(217,196,142,0.35);
+    background: rgba(244,241,234,0.035); cursor:crosshair;
   }
-  .exp-dnd-chip.dragging{ opacity: 0.35; }
-  .exp-dnd-ghost{
-    position: fixed; width: 62px; height: 62px; border-radius: 12px; pointer-events:none;
-    background: rgba(217,196,142,0.9); color: var(--bg-deep);
-    font-family: var(--font-brand); font-size: 30px; display:flex; align-items:center; justify-content:center;
-    z-index: 999; box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-  }
-
-  /* Writing practice — 3 independent canvases per character */
-  .exp-writing-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap: 18px; margin: 18px 0; }
-  .exp-writing-slot{ display:flex; flex-direction:column; align-items:center; }
-  .exp-writing-slot-label{ font-size: 13px; color: var(--muted-bluegrey); margin-bottom: 8px; }
-  .exp-writing-canvas{ touch-action:none; border-radius:14px; border:1.5px solid rgba(217,196,142,0.3); background: rgba(244,241,234,0.03); max-width: 100%; height: auto; }
   .exp-writing-ref{
-    font-family: var(--font-brand); font-size: 88px; color: rgba(244,241,234,0.22);
-    position:absolute; pointer-events:none; left:50%; top:50%; transform:translate(-50%,-50%);
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    pointer-events:none; user-select:none; font-family:var(--font-brand);
+    font-size:132px; color:rgba(244,241,234,0.13); line-height:1;
   }
-  .exp-writing-ref.vocab{ font-size: 60px; }
-  .exp-canvas-wrap{ position:relative; display:inline-block; }
-  .exp-btn-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: 10px; }
   .exp-clear-btn{
-    margin-top: 8px; padding: 8px 16px; border-radius: 999px; font-size: 13px;
-    background: transparent; color: var(--warm-white); border: 1.5px solid rgba(244,241,234,0.3); cursor:pointer;
-    font-family: 'DM Sans', sans-serif;
+    margin-top:12px; padding:9px 18px; border-radius:999px; font-size:13px;
+    background:transparent; color:var(--warm-white);
+    border:1.5px solid rgba(244,241,234,0.3); cursor:pointer;
+    font-family:'DM Sans',sans-serif;
   }
+  .exp-clear-btn:hover{ border-color:rgba(217,196,142,0.55); }
 
   .exp-step-count{ color: var(--muted-faint); font-size: 12.5px; margin-bottom: 6px; }
 
@@ -210,10 +182,7 @@
 
   @media (max-width: 480px){
     .exp-big{ font-size: 48px; }
-    .exp-maze{ max-width: 320px; gap: 8px; }
-    .exp-maze button{ font-size: 30px; }
-    .exp-writing-ref{ font-size: 64px; }
-    .exp-writing-ref.vocab{ font-size: 38px; }
+    .exp-writing-ref{ font-size: 104px; }
     .exp-nav-row .exp-btn{ padding: 12px 22px; font-size: 15px; }
   }
 </style>

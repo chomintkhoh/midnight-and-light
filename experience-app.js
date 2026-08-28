@@ -3,11 +3,11 @@
    Revision pass: English is the primary instructional
    language throughout; Japanese is reserved for the
    actual learning material (the characters themselves).
-   Bidirectional navigation (Previous/Next) based on
-   stepIndex. Real Hiragana audio (repo-root mp3 files)
-   is kept — confirmed still valid — used by the speaker
-   buttons, the review screen, and the listening-based
-   Game 1. Vocabulary has no audio, as before.
+   Teaching screens use Previous/Next based on stepIndex.
+   Guided handwriting is included once for each new character.
+   Practice screens advance only through their own interactions.
+   Real Hiragana audio (repo-root mp3 files) is used by the
+   speaker buttons and listening practice. Vocabulary has no audio.
 ══════════════════════════════════════════════ */
 
 const app = document.getElementById("exp-app");
@@ -134,8 +134,8 @@ function buildOddOneOutQuestions(group, distractorPool, count) {
 /* ---------- Real Hiragana audio (repo-root mp3 files) ----------
    Confirmed to exist at the repo root (a.mp3, i.mp3, u.mp3, e.mp3,
    o.mp3) — kept per explicit confirmation. Used by the speaker
-   button on each learnChar screen, the review screen's tap-to-hear,
-   and Game 1. Vocabulary intentionally has NO audio anywhere. */
+   button on each learnChar screen and Game 1. Vocabulary
+   intentionally has NO audio anywhere. */
 
 const HIRAGANA_AUDIO_FILES = { "あ": "a.mp3", "い": "i.mp3", "う": "u.mp3", "え": "e.mp3", "お": "o.mp3" };
 let currentAudio = null;
@@ -208,12 +208,8 @@ function appendNav(c, { showNext = true } = {}) {
   const row = document.createElement("div");
   row.className = "exp-nav-row";
   if (stepIndex > 0) row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
-  // showNext:false is used on every mid-activity screen inside a multi-
-  // question game runner. Without this, the global Next button (which
-  // advances the top-level stepIndex) let a student skip straight past
-  // an entire game — including finalReview — without answering anything,
-  // since it has no awareness of a game's own internal question index.
-  // This was a real, reproduced bug, not a theoretical one.
+  // Practice screens do not call appendNav, so their own interactions
+  // control progression without exposing Previous / Next.
   if (showNext && stepIndex < steps.length - 1) row.appendChild(primaryButton("Next", goNext));
   c.appendChild(row);
 }
@@ -225,6 +221,56 @@ function goPrevious() {
   if (stepIndex > 0) { stepIndex--; render(); }
 }
 
+/* ---------- Guided handwriting canvas ---------- */
+
+function enableDrawing(canvas) {
+  const ctx = canvas.getContext("2d");
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.strokeStyle = "#F4F1EA";
+  ctx.lineWidth = 12;
+
+  let drawing = false;
+
+  function pointFromEvent(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left) * (canvas.width / rect.width),
+      y: (e.clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  canvas.addEventListener("pointerdown", e => {
+    drawing = true;
+    canvas.setPointerCapture(e.pointerId);
+    const p = pointFromEvent(e);
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+  });
+
+  canvas.addEventListener("pointermove", e => {
+    if (!drawing) return;
+    const p = pointFromEvent(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  });
+
+  function stopDrawing(e) {
+    if (!drawing) return;
+    drawing = false;
+    ctx.closePath();
+    if (e && canvas.hasPointerCapture(e.pointerId)) {
+      canvas.releasePointerCapture(e.pointerId);
+    }
+  }
+
+  canvas.addEventListener("pointerup", stopDrawing);
+  canvas.addEventListener("pointercancel", stopDrawing);
+  canvas.addEventListener("pointerleave", e => {
+    if (e.buttons === 0) stopDrawing(e);
+  });
+}
+
 /* ---------- Build the linear step sequence ---------- */
 
 const steps = [];
@@ -232,7 +278,6 @@ steps.push({ type: "welcome" });
 steps.push({ type: "writingSystems" });
 steps.push({ type: "sentenceExample", sentence: SENTENCES[0] });
 steps.push({ type: "sentenceExample", sentence: SENTENCES[1] });
-steps.push({ type: "gojuonIntro" });
 steps.push({ type: "gojuonChart" });
 steps.push({ type: "fiveVowels" });
 steps.push({ type: "soundPattern" });
@@ -240,14 +285,12 @@ steps.push({ type: "lookAhead" });
 steps.push({ type: "hiraganaIntro" });
 CHARS.forEach(c => {
   steps.push({ type: "learnChar", char: c });
+  steps.push({ type: "writingPractice", char: c });
   steps.push({ type: "vocab", char: c });
 });
-// Practice: Listening + Find the Difference only, per the confirmed
-// simplified structure for this first lesson. Maze, drag-and-drop,
-// sequence fill-in-the-blank, and all handwriting canvases are
-// deliberately NOT included — saved for a later lesson, once more
-// Hiragana have been taught. Their code has been removed from this
-// file (not just left unused) per the explicit cleanup request.
+// Practice: Listening + Find the Difference only. Guided handwriting
+// belongs to teaching, not to the quiz section. Maze, drag-and-drop,
+// fill-in-the-blank, vocabulary writing, and Final Review stay removed.
 steps.push({ type: "game1" });
 steps.push({ type: "game2" });
 steps.push({ type: "finish" });
@@ -279,10 +322,14 @@ const renderers = {
       <div class="exp-writing-item"><span class="type-label">Katakana</span>ア　イ　ウ</div>
       <div class="exp-writing-item"><span class="type-label">Kanji</span>日　本　人</div>
     `;
+    const intro = document.createElement("p");
+    intro.className = "exp-note";
+    intro.textContent = "Japanese uses three main writing systems: Hiragana, Katakana, and Kanji.";
+    c.appendChild(intro);
     c.appendChild(row);
     const note = document.createElement("p");
     note.className = "exp-note";
-    note.textContent = "Japanese often uses these writing systems together in the same sentence.";
+    note.textContent = "They often appear together in the same sentence.";
     c.appendChild(note);
     appendNav(c);
   },
@@ -319,7 +366,7 @@ const renderers = {
     appendNav(c);
   },
 
-  gojuonIntro() {
+  gojuonChart() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">Gojūon 五十音</div>`;
     const note1 = document.createElement("p");
@@ -330,12 +377,6 @@ const renderers = {
     note2.className = "exp-note";
     note2.textContent = "You do not need to learn the whole chart today.";
     c.appendChild(note2);
-    appendNav(c);
-  },
-
-  gojuonChart() {
-    const c = card();
-    c.appendChild(instructionBlock("Today, we will start here."));
     const chart = document.createElement("div");
     chart.className = "exp-gojuon-chart";
     GOJUON_ROWS.forEach((row, ri) => {
@@ -347,6 +388,7 @@ const renderers = {
       });
     });
     c.appendChild(chart);
+    c.appendChild(instructionBlock("Today, we will start here."));
     appendNav(c);
   },
 
@@ -426,8 +468,47 @@ const renderers = {
     const c = card();
     const { char, romaji } = step.char;
     c.innerHTML = `<div class="exp-big">${char}</div><div class="exp-romaji">${romaji}</div>`;
-    c.appendChild(speakerButton(char));
     c.appendChild(instructionBlock("Listen and repeat.", `Say "${romaji}" out loud.`));
+    c.appendChild(speakerButton(char));
+    appendNav(c);
+  },
+
+  writingPractice(step) {
+    const c = card();
+    const { char } = step.char;
+    c.innerHTML = `<div class="exp-mid">Write ${char}</div>`;
+    c.appendChild(instructionBlock(`Try writing ${char}.`, "Trace the faint character, then try it in your own way."));
+
+    const practice = document.createElement("div");
+    practice.className = "exp-handwriting";
+    const wrap = document.createElement("div");
+    wrap.className = "exp-canvas-wrap";
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "exp-writing-canvas";
+    canvas.width = 520;
+    canvas.height = 520;
+    canvas.setAttribute("aria-label", `Writing practice for ${char}`);
+
+    const reference = document.createElement("div");
+    reference.className = "exp-writing-ref";
+    reference.textContent = char;
+
+    wrap.appendChild(canvas);
+    wrap.appendChild(reference);
+    practice.appendChild(wrap);
+
+    const clear = document.createElement("button");
+    clear.className = "exp-clear-btn";
+    clear.textContent = "Clear";
+    clear.addEventListener("click", () => {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+    practice.appendChild(clear);
+    c.appendChild(practice);
+
+    enableDrawing(canvas);
     appendNav(c);
   },
 
@@ -435,6 +516,7 @@ const renderers = {
     const c = card();
     const { char, vocab } = step.char;
     c.innerHTML = `<div class="exp-mid">Words with ${char}</div>`;
+    c.appendChild(instructionBlock("Tap a word to see its meaning."));
     const grid = document.createElement("div");
     grid.className = "exp-vocab-grid";
     vocab.forEach(v => {
@@ -453,7 +535,6 @@ const renderers = {
       grid.appendChild(item);
     });
     c.appendChild(grid);
-    c.appendChild(instructionBlock("Tap a word to see its meaning."));
     appendNav(c);
   },
 
@@ -497,7 +578,7 @@ const renderers = {
   }
 };
 
-/* ---------- Shared choice-game runner (Game 2 and finalReview items) ---------- */
+/* ---------- Shared choice-game runner (Game 2) ---------- */
 
 function runChoiceGame({ instruction, subinstruction, questions, extraQuestions, buildChoices, isCorrect, onDone, showCount = true }) {
   let qi = 0;
@@ -568,13 +649,13 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
     stepLabel.textContent = `Question ${qi + 1} / ${activeQuestions.length}`;
     c.appendChild(stepLabel);
 
+    c.appendChild(instructionBlock("Listen and choose the Hiragana you hear."));
+
     const listenBtn = document.createElement("button");
     listenBtn.className = "exp-btn";
     listenBtn.innerHTML = `🔊 Listen`;
     listenBtn.addEventListener("click", () => playHiraganaAudio(q.target));
     c.appendChild(listenBtn);
-
-    c.appendChild(instructionBlock("Which Hiragana did you hear?"));
 
     const feedback = document.createElement("div");
     feedback.className = "exp-feedback";
