@@ -19,6 +19,25 @@
      bidirectional navigation, 4 games, 9 independent
      writing canvases.
   ══════════════════════════════════════════════ */
+
+  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
+     longer than the original 夜與光 (3 characters). Without this,
+     any leftover narrow width from the old short mark forces CJK
+     text to wrap character-by-character (a real bug confirmed on
+     the live site — it was stacking vertically, one glyph per line).
+     This override is deliberately specific (.site-nav .nav-mark)
+     so it takes precedence over whatever cosmic.css already has. */
+  .site-nav .nav-mark{
+    white-space: nowrap;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+  @media (max-width: 480px){
+    .site-nav .nav-mark{ font-size: 15px; }
+  }
+
   #exp-app{ max-width: 620px; margin: 0 auto; }
   .exp-card{
     background: rgba(244,241,234,0.05);

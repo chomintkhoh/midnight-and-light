@@ -25,6 +25,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
+  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
+     longer than the original 夜與光 (3 characters). Without this,
+     any leftover narrow width from the old short mark forces CJK
+     text to wrap character-by-character. Deliberately specific
+     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
+  .site-nav .nav-mark{
+    white-space: nowrap;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+  @media (max-width: 480px){
+    .site-nav .nav-mark{ font-size: 15px; }
+  }
+
   .lesson-block{ margin-bottom:20px; }
   .lesson-block:last-child{ margin-bottom:0; }
   .lesson-note{ color:var(--muted-bluegrey); font-size:15px; line-height:1.85; margin-bottom:14px; max-width:520px; }
