@@ -111,7 +111,62 @@ const PREVIEW_SOUNDS = [
 ];
 
 const GROUP = CHARS.map(c => c.char); // ["あ","い","う","え","お"]
-const DISTRACTOR_POOL = ["か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ"];
+// Broader beginner-safe pool so repeated practice sessions feel genuinely different.
+// The target remains あいうえお; these characters are only distractors.
+const DISTRACTOR_POOL = [
+  "か", "き", "く", "け", "こ",
+  "さ", "し", "す", "せ", "そ",
+  "た", "ち", "つ", "て", "と",
+  "な", "に", "ぬ", "ね", "の",
+  "は", "ひ", "ふ", "へ", "ほ",
+  "ま", "み", "む", "め", "も",
+  "や", "ゆ", "よ",
+  "ら", "り", "る", "れ", "ろ",
+  "わ", "を", "ん"
+];
+
+let lastPracticeSignature = null;
+let currentPracticeSet = null;
+
+function sampleUnique(pool, count, excluded = []) {
+  const blocked = new Set(excluded);
+  return shuffle(pool.filter(ch => !blocked.has(ch))).slice(0, count);
+}
+
+function buildPracticeSet(group, distractorPool) {
+  let set;
+  let signature;
+  let attempts = 0;
+  do {
+    const listeningOrder = shuffle(group);
+    const listening = listeningOrder.map(target => {
+      const distractors = sampleUnique(distractorPool, 4);
+      return { target, choices: shuffle([target, ...distractors]) };
+    });
+
+    const oddTargets = sampleUnique(distractorPool, 3);
+    const oddOneOut = oddTargets.map((distractor, index) => {
+      const omitted = group[(Math.floor(Math.random() * group.length) + index) % group.length];
+      return { target: distractor, choices: shuffle([...group.filter(c => c !== omitted), distractor]) };
+    });
+
+    set = { listening, oddOneOut };
+    signature = JSON.stringify(set);
+    attempts++;
+  } while (signature === lastPracticeSignature && attempts < 30);
+
+  lastPracticeSignature = signature;
+  return set;
+}
+
+function ensurePracticeSet() {
+  if (!currentPracticeSet) currentPracticeSet = buildPracticeSet(GROUP, DISTRACTOR_POOL);
+  return currentPracticeSet;
+}
+
+function resetPracticeSet() {
+  currentPracticeSet = buildPracticeSet(GROUP, DISTRACTOR_POOL);
+}
 
 // One listening question per character in `group`, each appearing as
 // the target exactly once (guaranteed by mapping over the group itself).
@@ -326,6 +381,7 @@ const renderers = {
     shortcut.appendChild(prompt);
     shortcut.appendChild(primaryButton("Go to Practice →", () => {
       stepIndex = steps.findIndex(step => step.type === "practiceIntro");
+      currentPracticeSet = null;
       render();
     }, { secondary: true }));
     c.appendChild(shortcut);
@@ -604,7 +660,7 @@ const renderers = {
     const row = document.createElement("div");
     row.className = "exp-nav-row";
     row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
-    row.appendChild(primaryButton("Start Practice", goNext));
+    row.appendChild(primaryButton("Start Practice", () => { resetPracticeSet(); goNext(); }));
     c.appendChild(row);
   },
 
@@ -613,13 +669,13 @@ const renderers = {
   game1() {
     // 5 required questions — every character in GROUP appears as the
     // target exactly once, guaranteed by the generator itself.
-    const questions = buildListeningQuestions(GROUP, DISTRACTOR_POOL);
+    const questions = ensurePracticeSet().listening;
     runListeningGame({ questions, onDone: goNext });
   },
 
   game2() {
     // A fresh set of three odd-one-out questions is generated on every run.
-    const questions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 3);
+    const questions = ensurePracticeSet().oddOneOut;
     runChoiceGame({
       instruction: "Which one is different?",
       questions,
@@ -670,6 +726,7 @@ const renderers = {
 
     actions.appendChild(primaryButton("Go to Practice", () => {
       stepIndex = steps.findIndex(step => step.type === "practiceIntro");
+      currentPracticeSet = null;
       render();
     }, { secondary: true }));
 
@@ -811,20 +868,27 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
 
 function runHiraganaMaze({ group, distractorPool, onDone }) {
   let previousBoardKey = null;
+  let previousDistractors = [];
 
   function buildBoard() {
-    // Generate a fresh 4x4 board. The second maze is guaranteed not to use
-    // the exact same layout as the guided maze.
+    // Use 11 unique distractors. For the independent round, prefer a different
+    // distractor set as well as a different layout, not merely a reshuffle.
+    let distractors = sampleUnique(distractorPool, 11, previousDistractors);
+    if (distractors.length < 11) {
+      distractors = sampleUnique(distractorPool, 11);
+    }
+
     let board;
     let key;
     let attempts = 0;
     do {
-      const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
       board = shuffle([...group, ...distractors]);
       key = board.join("|");
       attempts++;
-    } while (key === previousBoardKey && attempts < 20);
+    } while (key === previousBoardKey && attempts < 30);
+
     previousBoardKey = key;
+    previousDistractors = distractors;
     return board;
   }
 
