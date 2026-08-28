@@ -764,67 +764,87 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
 /* ---------- Game 3 — Hiragana Maze / Find in Order ---------- */
 
 function runHiraganaMaze({ group, distractorPool, onDone }) {
-  const c = card();
-  c.appendChild(instructionBlock("Find the Hiragana in order.", "Start with あ, then continue to お."));
-
-  const targetLine = document.createElement("div");
-  targetLine.className = "exp-maze-sequence";
-  targetLine.textContent = group.join(" → ");
-  c.appendChild(targetLine);
-
-  const progress = document.createElement("div");
-  progress.className = "exp-maze-progress";
-  c.appendChild(progress);
-
-  const feedback = document.createElement("div");
-  feedback.className = "exp-feedback";
-
-  // 5 targets + 11 distractors gives a compact 4×4 board. Duplicate
-  // distractors are allowed only when needed to fill the board, while
-  // each target appears exactly once so the path remains unambiguous.
-  const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
-  const cells = shuffle([...group, ...distractors]);
-  let nextIndex = 0;
-
-  function updateProgress() {
-    progress.innerHTML = group.map((char, i) =>
-      `<span class="${i < nextIndex ? "done" : ""}">${i < nextIndex ? "●" : "○"}</span>`
-    ).join("");
+  function buildBoard() {
+    const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
+    return shuffle([...group, ...distractors]);
   }
-  updateProgress();
 
-  const grid = document.createElement("div");
-  grid.className = "exp-maze-grid";
-  cells.forEach(char => {
-    const btn = document.createElement("button");
-    btn.className = "exp-maze-cell";
-    btn.textContent = char;
-    btn.addEventListener("click", () => {
-      if (btn.disabled) return;
-      if (char === group[nextIndex]) {
-        btn.classList.add("correct");
-        btn.disabled = true;
-        nextIndex++;
-        feedback.textContent = nextIndex < group.length ? `Good! Next: ${group[nextIndex]}` : "Great! You found them all.";
-        feedback.className = "exp-feedback good";
-        updateProgress();
-        if (nextIndex === group.length) {
-          grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          setTimeout(onDone, 1000);
+  function runRound({ guided, onComplete }) {
+    const c = card();
+    c.appendChild(instructionBlock(
+      guided ? "Find the Hiragana in order." : "Find all five Hiragana in the correct order.",
+      guided ? "Follow the order below." : "This time, try it by yourself."
+    ));
+
+    if (guided) {
+      const targetLine = document.createElement("div");
+      targetLine.className = "exp-maze-sequence";
+      targetLine.textContent = group.join(" → ");
+      c.appendChild(targetLine);
+    }
+
+    const progress = document.createElement("div");
+    progress.className = "exp-maze-progress";
+    c.appendChild(progress);
+
+    const feedback = document.createElement("div");
+    feedback.className = "exp-feedback";
+
+    const cells = buildBoard();
+    let nextIndex = 0;
+
+    function updateProgress() {
+      progress.innerHTML = group.map((char, i) =>
+        `<span class="${i < nextIndex ? "done" : ""}">${i < nextIndex ? "●" : "○"}</span>`
+      ).join("");
+    }
+    updateProgress();
+
+    const grid = document.createElement("div");
+    grid.className = "exp-maze-grid";
+    cells.forEach(char => {
+      const btn = document.createElement("button");
+      btn.className = "exp-maze-cell";
+      btn.textContent = char;
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        if (char === group[nextIndex]) {
+          btn.classList.add("correct");
+          btn.disabled = true;
+          nextIndex++;
+          if (nextIndex < group.length) {
+            feedback.textContent = guided ? `Good! Next: ${group[nextIndex]}` : "Good! Keep going.";
+          } else {
+            feedback.textContent = "Great! You found them all.";
+          }
+          feedback.className = "exp-feedback good";
+          updateProgress();
+          if (nextIndex === group.length) {
+            grid.querySelectorAll("button").forEach(b => b.disabled = true);
+            setTimeout(onComplete, 900);
+          }
+        } else {
+          btn.classList.add("wrong");
+          feedback.textContent = "Try again.";
+          feedback.className = "exp-feedback bad";
+          setTimeout(() => btn.classList.remove("wrong"), 450);
         }
-      } else {
-        btn.classList.add("wrong");
-        feedback.textContent = "Try again.";
-        feedback.className = "exp-feedback bad";
-        setTimeout(() => btn.classList.remove("wrong"), 450);
-      }
+      });
+      grid.appendChild(btn);
     });
-    grid.appendChild(btn);
-  });
 
-  c.appendChild(grid);
-  c.appendChild(feedback);
-  // No Previous/Next — completion of the maze advances the lesson.
+    c.appendChild(grid);
+    c.appendChild(feedback);
+  }
+
+  function renderIndependentIntro() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">One more time!</div>`;
+    c.appendChild(instructionBlock("Now try it by yourself.", "This time, the order hint will be hidden."));
+    c.appendChild(primaryButton("Try It Yourself", () => runRound({ guided: false, onComplete: onDone })));
+  }
+
+  runRound({ guided: true, onComplete: renderIndependentIntro });
 }
 
 function shuffle(arr) {
