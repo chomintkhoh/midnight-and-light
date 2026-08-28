@@ -317,6 +317,18 @@ const renderers = {
     c.innerHTML = `<div class="exp-mid">Welcome!</div>`;
     c.appendChild(instructionBlock("This is a short trial lesson.", "Let's learn your first Hiragana characters together."));
     appendNav(c);
+
+    const shortcut = document.createElement("div");
+    shortcut.className = "exp-practice-shortcut";
+    const prompt = document.createElement("div");
+    prompt.className = "exp-subinstruction";
+    prompt.textContent = "Already know あいうえお?";
+    shortcut.appendChild(prompt);
+    shortcut.appendChild(primaryButton("Go to Practice →", () => {
+      stepIndex = steps.findIndex(step => step.type === "practiceIntro");
+      render();
+    }, { secondary: true }));
+    c.appendChild(shortcut);
   },
 
   writingSystems() {
@@ -628,21 +640,47 @@ const renderers = {
     note1.className = "exp-note";
     note1.textContent = "You can now recognise:";
     c.appendChild(note1);
+
     const big = document.createElement("div");
     big.className = "exp-big exp-vowel-line";
     big.textContent = "あ　い　う　え　お";
     c.appendChild(big);
+
     const note2 = document.createElement("p");
     note2.className = "exp-note";
     note2.textContent = "You practised listening, recognising, and writing the five basic Hiragana vowel sounds.";
     c.appendChild(note2);
-    // Finish is the true endpoint — no Previous/Next, only Start Again.
-    c.appendChild(primaryButton("Start Again", () => {
+
+    const ctaTitle = document.createElement("div");
+    ctaTitle.className = "exp-instruction";
+    ctaTitle.textContent = "Want to continue learning Japanese with me?";
+    c.appendChild(ctaTitle);
+
+    const ctaNote = document.createElement("p");
+    ctaNote.className = "exp-note";
+    ctaNote.textContent = "If you enjoyed this trial, you can contact me to ask about lessons or arrange a trial lesson.";
+    c.appendChild(ctaNote);
+
+    const actions = document.createElement("div");
+    actions.className = "exp-nav-row";
+
+    actions.appendChild(primaryButton("Contact Me", () => {
+      window.location.href = "contact.html";
+    }));
+
+    actions.appendChild(primaryButton("Go to Practice", () => {
+      stepIndex = steps.findIndex(step => step.type === "practiceIntro");
+      render();
+    }, { secondary: true }));
+
+    actions.appendChild(primaryButton("Start Again", () => {
       // Returning to the start means Practice will generate a new set when
       // the learner reaches it again. No quiz answers are stored between runs.
       stepIndex = 0;
       render();
-    }));
+    }, { secondary: true }));
+
+    c.appendChild(actions);
   }
 };
 
