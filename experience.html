@@ -86,6 +86,34 @@
     font-size: 20px; cursor: pointer; margin: 6px 0 0;
   }
   .exp-writing-row{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin: 18px 0; }
+
+  /* Gojuon chart — orientation only, あいうえお row highlighted */
+  .exp-gojuon-chart{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
+    max-width:340px; margin:18px auto;
+  }
+  .exp-gojuon-cell{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    border-radius:8px; font-family: var(--font-brand); font-size:18px;
+    background: rgba(244,241,234,0.03); color: var(--muted-bluegrey);
+  }
+  .exp-gojuon-cell.highlight{
+    background: rgba(217,196,142,0.18); color: var(--pale-gold);
+    font-weight:600; border:1px solid rgba(217,196,142,0.4);
+  }
+  @media (max-width:480px){ .exp-gojuon-cell{ font-size:15px; } }
+
+  /* Sound-pattern explanation (K-row example) */
+  .exp-pattern-rows{ display:flex; flex-direction:column; gap:8px; margin:18px 0; align-items:center; }
+  .exp-pattern-row{ font-family: var(--font-brand); font-size:17px; color: var(--warm-white); }
+  .exp-pattern-chain{
+    margin-top:20px; font-size:14px; color: var(--soft-lavender);
+    line-height:2; letter-spacing:0.04em;
+  }
+
+  /* "Quick look ahead" preview sounds */
+  .exp-preview-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted-bluegrey); margin: 16px 0 6px; }
+  .exp-preview-row{ font-family: var(--font-brand); font-size:22px; color: var(--warm-white); }
   .exp-writing-item{
     background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
     border-radius: 14px; padding: 18px 22px; font-family: var(--font-brand); font-size: 34px;

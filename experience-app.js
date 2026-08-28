@@ -77,6 +77,37 @@ const SENTENCES = [
   }
 ];
 
+// The Gojuon chart, for orientation only — not memorisation. Empty
+// strings represent the real gaps in the historical 5x10 grid (や row
+// has no yi/ye; わ row has only わ and を; ん stands alone).
+const GOJUON_ROWS = [
+  ["あ", "い", "う", "え", "お"],
+  ["か", "き", "く", "け", "こ"],
+  ["さ", "し", "す", "せ", "そ"],
+  ["た", "ち", "つ", "て", "と"],
+  ["な", "に", "ぬ", "ね", "の"],
+  ["は", "ひ", "ふ", "へ", "ほ"],
+  ["ま", "み", "む", "め", "も"],
+  ["や", "", "ゆ", "", "よ"],
+  ["ら", "り", "る", "れ", "ろ"],
+  ["わ", "", "", "", "を"],
+  ["ん", "", "", "", ""]
+];
+
+const K_ROW_PATTERN = [
+  { consonant: "K", vowel: "A", romaji: "KA", kana: "か" },
+  { consonant: "K", vowel: "I", romaji: "KI", kana: "き" },
+  { consonant: "K", vowel: "U", romaji: "KU", kana: "く" },
+  { consonant: "K", vowel: "E", romaji: "KE", kana: "け" },
+  { consonant: "K", vowel: "O", romaji: "KO", kana: "こ" }
+];
+
+const PREVIEW_SOUNDS = [
+  { label: "Voiced sounds", pairs: [{ from: "か", to: "が" }, { from: "さ", to: "ざ" }] },
+  { label: "Semi-voiced sounds", pairs: [{ from: "は", to: "ぱ" }] },
+  { label: "Combination sounds", pairs: [{ from: "き + ゃ", to: "きゃ" }, { from: "し + ゅ", to: "しゅ" }] }
+];
+
 const GROUP = CHARS.map(c => c.char); // ["あ","い","う","え","お"]
 const DISTRACTOR_POOL = ["か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ"];
 
@@ -98,26 +129,6 @@ function buildOddOneOutQuestions(group, distractorPool, count) {
     const shownGroup = group.filter(c => c !== omitted);
     return { target: distractor, choices: shuffle([...shownGroup, distractor]) };
   });
-}
-
-// A shuffled grid layout for the "find in order" maze: the full group
-// plus enough distractors to fill `gridSize` cells.
-function buildFindInOrderLayout(group, distractorPool, gridSize) {
-  const needed = Math.max(gridSize - group.length, 0);
-  return shuffle([...group, ...shuffle(distractorPool).slice(0, needed)]);
-}
-
-// Fill-in-the-blank questions — one per "interior" position (never the
-// first or last character), matching the given examples exactly.
-function buildSequenceBlankQuestions(group) {
-  const results = [];
-  for (let i = 1; i < group.length - 1; i++) {
-    const answer = group[i];
-    const sequence = group.map((c, idx) => (idx === i ? null : c));
-    const distractorChoices = shuffle(group.filter(c => c !== answer)).slice(0, 2);
-    results.push({ sequence, answer, choices: shuffle([answer, ...distractorChoices]) });
-  }
-  return shuffle(results);
 }
 
 /* ---------- Real Hiragana audio (repo-root mp3 files) ----------
@@ -221,6 +232,11 @@ steps.push({ type: "welcome" });
 steps.push({ type: "writingSystems" });
 steps.push({ type: "sentenceExample", sentence: SENTENCES[0] });
 steps.push({ type: "sentenceExample", sentence: SENTENCES[1] });
+steps.push({ type: "gojuonIntro" });
+steps.push({ type: "gojuonChart" });
+steps.push({ type: "fiveVowels" });
+steps.push({ type: "soundPattern" });
+steps.push({ type: "lookAhead" });
 steps.push({ type: "hiraganaIntro" });
 CHARS.forEach(c => {
   steps.push({ type: "learnChar", char: c });
@@ -229,9 +245,9 @@ CHARS.forEach(c => {
 // Practice: Listening + Find the Difference only, per the confirmed
 // simplified structure for this first lesson. Maze, drag-and-drop,
 // sequence fill-in-the-blank, and all handwriting canvases are
-// deliberately NOT included here — saved for a later lesson, once
-// more Hiragana have been taught. Their code is kept intact below
-// (unused, not deleted) so they're easy to bring back for that lesson.
+// deliberately NOT included — saved for a later lesson, once more
+// Hiragana have been taught. Their code has been removed from this
+// file (not just left unused) per the explicit cleanup request.
 steps.push({ type: "game1" });
 steps.push({ type: "game2" });
 steps.push({ type: "finish" });
@@ -303,18 +319,106 @@ const renderers = {
     appendNav(c);
   },
 
-  hiraganaIntro() {
+  gojuonIntro() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">Hiragana</div>`;
-    c.appendChild(instructionBlock("Today, we will learn your first five Hiragana characters."));
+    c.innerHTML = `<div class="exp-mid">Gojūon 五十音</div>`;
+    const note1 = document.createElement("p");
+    note1.className = "exp-note";
+    note1.textContent = "Gojūon is the basic sound chart used to organise Hiragana.";
+    c.appendChild(note1);
+    const note2 = document.createElement("p");
+    note2.className = "exp-note";
+    note2.textContent = "You do not need to learn the whole chart today.";
+    c.appendChild(note2);
+    appendNav(c);
+  },
+
+  gojuonChart() {
+    const c = card();
+    c.appendChild(instructionBlock("Today, we will start here."));
+    const chart = document.createElement("div");
+    chart.className = "exp-gojuon-chart";
+    GOJUON_ROWS.forEach((row, ri) => {
+      row.forEach(ch => {
+        const cell = document.createElement("div");
+        cell.className = "exp-gojuon-cell" + (ri === 0 && ch ? " highlight" : "");
+        cell.textContent = ch;
+        chart.appendChild(cell);
+      });
+    });
+    c.appendChild(chart);
+    appendNav(c);
+  },
+
+  fiveVowels() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">The Five Vowels</div>`;
     const big = document.createElement("div");
     big.className = "exp-big";
     big.textContent = "あ　い　う　え　お";
     c.appendChild(big);
+    const romaji = document.createElement("div");
+    romaji.className = "exp-romaji";
+    romaji.textContent = "a  i  u  e  o";
+    c.appendChild(romaji);
     const note = document.createElement("p");
     note.className = "exp-note";
-    note.textContent = "These five characters represent basic Japanese sounds.";
+    note.textContent = "These are the five basic vowel sounds in Japanese.";
     c.appendChild(note);
+    appendNav(c);
+  },
+
+  soundPattern() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">How the Sound Pattern Works</div>`;
+    const rows = document.createElement("div");
+    rows.className = "exp-pattern-rows";
+    K_ROW_PATTERN.forEach(p => {
+      const row = document.createElement("div");
+      row.className = "exp-pattern-row";
+      row.textContent = `${p.consonant} + ${p.vowel} → ${p.romaji} → ${p.kana}`;
+      rows.appendChild(row);
+    });
+    c.appendChild(rows);
+    const note = document.createElement("p");
+    note.className = "exp-note";
+    note.textContent = "The same vowel pattern continues through many other Hiragana rows.";
+    c.appendChild(note);
+    const chain = document.createElement("div");
+    chain.className = "exp-pattern-chain";
+    chain.innerHTML = "A I U E O<br>↓<br>KA KI KU KE KO<br>↓<br>SA SHI SU SE SO";
+    c.appendChild(chain);
+    appendNav(c);
+  },
+
+  lookAhead() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">A Quick Look Ahead</div>`;
+    PREVIEW_SOUNDS.forEach(group => {
+      const label = document.createElement("div");
+      label.className = "exp-preview-label";
+      label.textContent = group.label;
+      c.appendChild(label);
+      const row = document.createElement("div");
+      row.className = "exp-preview-row";
+      row.textContent = group.pairs.map(p => `${p.from} → ${p.to}`).join("   ");
+      c.appendChild(row);
+    });
+    const note = document.createElement("p");
+    note.className = "exp-note";
+    note.textContent = "You do not need to learn these today. We will meet them later.";
+    c.appendChild(note);
+    appendNav(c);
+  },
+
+  hiraganaIntro() {
+    const c = card();
+    c.innerHTML = `<div class="exp-mid">Today: あいうえお</div>`;
+    c.appendChild(instructionBlock("Let's start with the five basic vowel sounds."));
+    const big = document.createElement("div");
+    big.className = "exp-big";
+    big.textContent = "あ　い　う　え　お";
+    c.appendChild(big);
     appendNav(c);
   },
 
@@ -353,38 +457,6 @@ const renderers = {
     appendNav(c);
   },
 
-  vocabWriting(step) {
-    const c = card();
-    const { vocab } = step.char;
-    const word = vocab[0].word; // one word, written once — per the new requirement
-    c.innerHTML = `<div class="exp-mid">Write ${word}</div>`;
-    c.appendChild(instructionBlock("Write one vocabulary word."));
-    const grid = document.createElement("div");
-    grid.className = "exp-writing-grid";
-    grid.appendChild(buildWritingSlot(word, "Practice", 400, 190));
-    c.appendChild(grid);
-    appendNav(c);
-  },
-
-  review() {
-    const c = card();
-    c.innerHTML = `<div class="exp-mid">Review</div><div class="exp-big" id="reviewRow"></div>`;
-    const row = c.querySelector("#reviewRow");
-    CHARS.forEach(cc => {
-      const span = document.createElement("span");
-      span.textContent = cc.char + "　";
-      span.style.cursor = "pointer";
-      span.addEventListener("click", () => {
-        playHiraganaAudio(cc.char);
-        span.style.color = "var(--pale-gold)";
-        setTimeout(() => { span.style.color = ""; }, 500);
-      });
-      row.appendChild(span);
-    });
-    c.appendChild(instructionBlock("Tap each character to hear it again."));
-    appendNav(c);
-  },
-
   /* Game 1 — listening recognition. Target never appears in the
      question text; uses the real Hiragana audio, same as elsewhere. */
   game1() {
@@ -405,50 +477,12 @@ const renderers = {
     });
   },
 
-  game3() {
-    runFindInOrderGame({ group: GROUP, distractorPool: DISTRACTOR_POOL, rounds: 2, gridSize: 15, onDone: goNext });
-  },
-
-  game4() {
-    runOrderedDragDropRounds({
-      group: GROUP,
-      rounds: 2,
-      onDone: goNext,
-      instruction: "Drag each character into a box.",
-      subinstruction: "Put あいうえお in the correct order."
-    });
-  },
-
-  writing(step) {
-    const c = card();
-    const char = step.char;
-    c.innerHTML = `<div class="exp-mid">Write ${char}</div>`;
-    c.appendChild(instructionBlock("Trace or copy the character.", "Write it three times."));
-
-    const grid = document.createElement("div");
-    grid.className = "exp-writing-grid";
-    for (let i = 1; i <= 3; i++) {
-      grid.appendChild(buildWritingSlot(char, `Practice ${i}`));
-    }
-    c.appendChild(grid);
-    appendNav(c);
-  },
-
-  sequenceBlank() {
-    const questions = buildSequenceBlankQuestions(GROUP);
-    runFillBlankGame({ questions, onDone: goNext });
-  },
-
-  finalReview() {
-    runFinalReview(goNext);
-  },
-
   finish() {
     const c = card();
     c.innerHTML = `<div class="exp-mid">Great job!</div>`;
     const note1 = document.createElement("p");
     note1.className = "exp-note";
-    note1.textContent = "You learned your first five Hiragana characters.";
+    note1.textContent = "You can now recognise:";
     c.appendChild(note1);
     const big = document.createElement("div");
     big.className = "exp-big";
@@ -456,67 +490,12 @@ const renderers = {
     c.appendChild(big);
     const note2 = document.createElement("p");
     note2.className = "exp-note";
-    note2.textContent = "You can now recognize and read your first five Hiragana characters.";
+    note2.textContent = "You learned the five basic Japanese vowel sounds and practised matching them to Hiragana.";
     c.appendChild(note2);
-    appendNav(c);
+    // Finish is the true endpoint — no Previous/Next, only Start Again.
+    c.appendChild(primaryButton("Start Again", () => { stepIndex = 0; render(); }));
   }
 };
-
-/* ---------- Independent writing canvas builder ---------- */
-
-function buildWritingSlot(char, label, width = 180, height = 180) {
-  const slot = document.createElement("div");
-  slot.className = "exp-writing-slot";
-
-  const labelEl = document.createElement("div");
-  labelEl.className = "exp-writing-slot-label";
-  labelEl.textContent = label;
-  slot.appendChild(labelEl);
-
-  const wrap = document.createElement("div");
-  wrap.className = "exp-canvas-wrap";
-  const ref = document.createElement("div");
-  ref.className = "exp-writing-ref" + (char.length > 1 ? " vocab" : "");
-  ref.style.whiteSpace = "nowrap"; // guarantees horizontal display for multi-character vocab words
-  ref.textContent = char;
-  const canvas = document.createElement("canvas");
-  canvas.className = "exp-writing-canvas";
-  canvas.width = width; canvas.height = height;
-  wrap.appendChild(ref);
-  wrap.appendChild(canvas);
-  slot.appendChild(wrap);
-
-  const ctx = canvas.getContext("2d");
-  ctx.lineWidth = 6; ctx.lineCap = "round"; ctx.strokeStyle = "#F4F1EA";
-  let drawing = false, lastX = 0, lastY = 0;
-  const posFromEvent = (evt) => {
-    const rect = canvas.getBoundingClientRect();
-    return [(evt.clientX - rect.left) * (canvas.width / rect.width), (evt.clientY - rect.top) * (canvas.height / rect.height)];
-  };
-  canvas.addEventListener("pointerdown", (evt) => {
-    drawing = true;
-    canvas.setPointerCapture(evt.pointerId);
-    [lastX, lastY] = posFromEvent(evt);
-  });
-  canvas.addEventListener("pointermove", (evt) => {
-    if (!drawing) return;
-    const [x, y] = posFromEvent(evt);
-    ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(x, y); ctx.stroke();
-    [lastX, lastY] = [x, y];
-  });
-  canvas.addEventListener("pointerup", () => { drawing = false; });
-  canvas.addEventListener("pointercancel", () => { drawing = false; });
-
-  const clearBtn = document.createElement("button");
-  clearBtn.className = "exp-clear-btn";
-  clearBtn.textContent = "Clear";
-  // Clears ONLY this canvas's own context — every slot has its own
-  // closured ctx/canvas, so clearing one can never affect another.
-  clearBtn.addEventListener("click", () => ctx.clearRect(0, 0, canvas.width, canvas.height));
-  slot.appendChild(clearBtn);
-
-  return slot;
-}
 
 /* ---------- Shared choice-game runner (Game 2 and finalReview items) ---------- */
 
@@ -609,7 +588,7 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
       btn.addEventListener("click", () => {
         if (choice === q.target) {
           btn.classList.add("correct");
-          feedback.textContent = "Correct.";
+          feedback.textContent = `Correct! ${q.target}`;
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           setTimeout(() => {
@@ -621,7 +600,7 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
             } else {
               onDone();
             }
-          }, 700);
+          }, 1100);
         } else {
           btn.classList.add("wrong");
           feedback.textContent = "Try again.";
@@ -639,364 +618,6 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
   }
 
   renderQuestion();
-}
-
-/* ---------- Game 3: find-in-order maze, now multi-round ----------
-   Generic over any group/distractorPool, so a future lesson's maze
-   just calls this with its own character group. ---------- */
-
-function runFindInOrderGame({ group, distractorPool, rounds, gridSize, onDone }) {
-  let round = 0;
-  function renderRound() {
-    const c = card();
-    const stepLabel = document.createElement("div");
-    stepLabel.className = "exp-step-count";
-    stepLabel.textContent = `Round ${round + 1} / ${rounds}`;
-    c.appendChild(stepLabel);
-    c.appendChild(instructionBlock("Find the characters in order.", `Start with ${group[0]} and find the ${group.length} characters in order.`));
-
-    const dots = document.createElement("div");
-    dots.className = "exp-progress-dots";
-    c.appendChild(dots);
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-    c.appendChild(feedback);
-
-    const grid = document.createElement("div");
-    grid.className = "exp-maze";
-    const layout = buildFindInOrderLayout(group, distractorPool, gridSize);
-    let progress = 0;
-    const updateDots = () => { dots.textContent = group.map((_, i) => i < progress ? "●" : "○").join(" "); };
-    updateDots();
-
-    layout.forEach(ch => {
-      const btn = document.createElement("button");
-      btn.textContent = ch;
-      btn.addEventListener("click", () => {
-        if (btn.disabled) return;
-        if (ch === group[progress]) {
-          btn.classList.add("found");
-          btn.disabled = true;
-          progress++;
-          updateDots();
-          if (progress === group.length) {
-            feedback.textContent = "You made it!";
-            feedback.className = "exp-feedback good";
-            grid.querySelectorAll("button").forEach(b => b.disabled = true);
-            setTimeout(() => {
-              round++;
-              if (round < rounds) renderRound();
-              else onDone();
-            }, 900);
-          } else {
-            feedback.textContent = "";
-            feedback.className = "exp-feedback";
-          }
-        } else {
-          feedback.textContent = "Try again.";
-          feedback.className = "exp-feedback bad";
-        }
-      });
-      grid.appendChild(btn);
-    });
-    c.appendChild(grid);
-    appendNav(c, { showNext: false }); // mid-round — see the appendNav fix note above
-  }
-  renderRound();
-}
-
-/* ---------- Game 4: drag-and-drop, now multi-round ----------
-   Thin wrapper around runDragDropGame — reuses it unchanged, just
-   loops it with a fresh shuffled starting arrangement each round. ---------- */
-
-function runOrderedDragDropRounds({ group, rounds, onDone, instruction, subinstruction }) {
-  let round = 0;
-  function nextRound() {
-    if (round >= rounds) { onDone(); return; }
-    runDragDropGame({
-      target: group,
-      start: shuffle(group),
-      instruction,
-      subinstruction,
-      roundLabel: `Round ${round + 1} / ${rounds}`,
-      onDone: () => { round++; nextRound(); }
-    });
-  }
-  nextRound();
-}
-
-/* ---------- Game 4 / finalReview drag-and-drop runner ----------
-   Uses Pointer Events (not native HTML5 drag-and-drop, which has poor
-   touch support) so mouse, touch, and stylus all work the same way. */
-
-function runDragDropGame({ target, start, onDone, instruction = "Put the Hiragana in the correct order.", subinstruction = "Drag the characters into the correct order.", roundLabel = null }) {
-  const c = card();
-  if (roundLabel) {
-    const stepLabel = document.createElement("div");
-    stepLabel.className = "exp-step-count";
-    stepLabel.textContent = roundLabel;
-    c.appendChild(stepLabel);
-  }
-  c.appendChild(instructionBlock(instruction, subinstruction));
-
-  const slotsRow = document.createElement("div");
-  slotsRow.className = "exp-dnd-slots";
-  const slots = target.map(() => {
-    const slot = document.createElement("div");
-    slot.className = "exp-dnd-slot";
-    slot.textContent = "—";
-    slotsRow.appendChild(slot);
-    return slot;
-  });
-  c.appendChild(slotsRow);
-
-  const tray = document.createElement("div");
-  tray.className = "exp-dnd-tray";
-  c.appendChild(tray);
-
-  const feedback = document.createElement("div");
-  feedback.className = "exp-feedback";
-
-  function slotValues() { return slots.map(s => s.dataset.char || null); }
-
-  function makeChip(ch) {
-    const chip = document.createElement("div");
-    chip.className = "exp-dnd-chip";
-    chip.textContent = ch;
-    chip.dataset.char = ch;
-
-    chip.addEventListener("pointerdown", (evt) => {
-      const ghost = document.createElement("div");
-      ghost.className = "exp-dnd-ghost";
-      ghost.textContent = ch;
-      document.body.appendChild(ghost);
-      const moveGhost = (x, y) => { ghost.style.left = (x - 31) + "px"; ghost.style.top = (y - 31) + "px"; };
-      moveGhost(evt.clientX, evt.clientY);
-      chip.classList.add("dragging");
-
-      const onMove = (e) => moveGhost(e.clientX, e.clientY);
-      const onUp = (e) => {
-        document.removeEventListener("pointermove", onMove);
-        document.removeEventListener("pointerup", onUp);
-        ghost.remove();
-        chip.classList.remove("dragging");
-
-        // Hit-test against slot bounding boxes.
-        let placed = false;
-        for (const slot of slots) {
-          const r = slot.getBoundingClientRect();
-          if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
-            if (!slot.dataset.char) {
-              slot.dataset.char = ch;
-              slot.textContent = ch;
-              slot.classList.add("filled");
-              chip.remove();
-              placed = true;
-            }
-            break;
-          }
-        }
-        if (!placed) { /* snaps back — chip was never removed from tray */ }
-      };
-      document.addEventListener("pointermove", onMove);
-      document.addEventListener("pointerup", onUp);
-    });
-
-    // Tap a filled slot to return its chip to the tray.
-    return chip;
-  }
-
-  slots.forEach(slot => {
-    slot.addEventListener("click", () => {
-      if (slot.dataset.char) {
-        tray.appendChild(makeChip(slot.dataset.char));
-        delete slot.dataset.char;
-        slot.textContent = "—";
-        slot.classList.remove("filled");
-      }
-    });
-  });
-
-  shuffle(start).forEach(ch => tray.appendChild(makeChip(ch)));
-
-  const checkBtn = primaryButton("Check", () => {
-    const values = slotValues();
-    const correct = values.length === target.length && values.every((v, i) => v === target[i]);
-    if (correct) {
-      feedback.textContent = "Correct.";
-      feedback.className = "exp-feedback good";
-      checkBtn.disabled = true;
-      setTimeout(onDone, 700);
-    } else {
-      feedback.textContent = "Try again.";
-      feedback.className = "exp-feedback bad";
-    }
-  });
-  c.appendChild(checkBtn);
-  c.appendChild(feedback);
-  appendNav(c, { showNext: false }); // must complete via Check — see the appendNav fix note above
-}
-
-/* ---------- Sequence fill-in-the-blank (Section 5) ----------
-   Reuses the same pointer-drag pattern as runDragDropGame, simplified
-   to a single blank slot instead of a full 5-slot sequence. ---------- */
-
-function runFillBlankGame({ questions, onDone }) {
-  let qi = 0;
-  function renderQuestion() {
-    const c = card();
-    const stepLabel = document.createElement("div");
-    stepLabel.className = "exp-step-count";
-    stepLabel.textContent = `Question ${qi + 1} / ${questions.length}`;
-    c.appendChild(stepLabel);
-    c.appendChild(instructionBlock("Drag the correct character into the blank.", "Complete the Hiragana sequence."));
-
-    const q = questions[qi];
-    const seqRow = document.createElement("div");
-    seqRow.className = "exp-dnd-slots";
-    let blankSlot = null;
-    q.sequence.forEach(ch => {
-      if (ch === null) {
-        const slot = document.createElement("div");
-        slot.className = "exp-dnd-slot";
-        slot.textContent = "—";
-        seqRow.appendChild(slot);
-        blankSlot = slot;
-      } else {
-        const fixed = document.createElement("div");
-        fixed.className = "exp-dnd-slot filled";
-        fixed.textContent = ch;
-        seqRow.appendChild(fixed);
-      }
-    });
-    c.appendChild(seqRow);
-
-    const tray = document.createElement("div");
-    tray.className = "exp-dnd-tray";
-    c.appendChild(tray);
-
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-
-    function checkAnswer(ch) {
-      if (ch === q.answer) {
-        blankSlot.textContent = ch;
-        blankSlot.classList.add("filled");
-        feedback.textContent = "Correct.";
-        feedback.className = "exp-feedback good";
-        tray.querySelectorAll(".exp-dnd-chip").forEach(chip => { chip.style.pointerEvents = "none"; });
-        setTimeout(() => {
-          qi++;
-          if (qi < questions.length) renderQuestion();
-          else onDone();
-        }, 700);
-      } else {
-        feedback.textContent = "Try again.";
-        feedback.className = "exp-feedback bad";
-      }
-    }
-
-    function makeChip(ch) {
-      const chip = document.createElement("div");
-      chip.className = "exp-dnd-chip";
-      chip.textContent = ch;
-      chip.dataset.char = ch;
-      chip.addEventListener("pointerdown", (evt) => {
-        const ghost = document.createElement("div");
-        ghost.className = "exp-dnd-ghost";
-        ghost.textContent = ch;
-        document.body.appendChild(ghost);
-        const moveGhost = (x, y) => { ghost.style.left = (x - 31) + "px"; ghost.style.top = (y - 31) + "px"; };
-        moveGhost(evt.clientX, evt.clientY);
-        chip.classList.add("dragging");
-        const onMove = (e) => moveGhost(e.clientX, e.clientY);
-        const onUp = (e) => {
-          document.removeEventListener("pointermove", onMove);
-          document.removeEventListener("pointerup", onUp);
-          ghost.remove();
-          chip.classList.remove("dragging");
-          const r = blankSlot.getBoundingClientRect();
-          if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
-            checkAnswer(ch);
-          }
-        };
-        document.addEventListener("pointermove", onMove);
-        document.addEventListener("pointerup", onUp);
-      });
-      return chip;
-    }
-
-    shuffle(q.choices).forEach(ch => tray.appendChild(makeChip(ch)));
-    c.appendChild(feedback);
-    appendNav(c, { showNext: false }); // mid-question — see the appendNav fix note above
-  }
-  renderQuestion();
-}
-
-/* ---------- Final review: 5 short activities in sequence ---------- */
-
-function runFinalReview(onAllDone) {
-  const activities = [
-    { kind: "choice", instruction: 'Which one is "a"?', choices: shuffle(["あ", "い", "う"]), correct: "あ" },
-    { kind: "choice", instruction: 'Which one is "o"?', choices: shuffle(["え", "お", "あ"]), correct: "お" },
-    { kind: "choice", instruction: "Which one is different?", choices: shuffle(["あ", "い", "か", "う"]), correct: "か" },
-    { kind: "dnd", instruction: "Put the Hiragana in the correct order.", start: ["え", "あ", "お", "う", "い"], target: ["あ", "い", "う", "え", "お"] },
-    { kind: "sequence", instruction: "Complete the sequence.", display: "あ → い → ?", choices: shuffle(["え", "う", "お"]), correct: "う" }
-  ];
-  let ai = 0;
-
-  function renderActivity() {
-    if (ai >= activities.length) { onAllDone(); return; }
-    const a = activities[ai];
-
-    if (a.kind === "dnd") {
-      runDragDropGame({ target: a.target, start: a.start, onDone: () => { ai++; renderActivity(); } });
-      return;
-    }
-
-    const c = card();
-    const stepLabel = document.createElement("div");
-    stepLabel.className = "exp-step-count";
-    stepLabel.textContent = `Review ${ai + 1} / ${activities.length}`;
-    c.appendChild(stepLabel);
-
-    if (a.kind === "sequence") {
-      const seq = document.createElement("div");
-      seq.className = "exp-mid";
-      seq.textContent = a.display;
-      c.appendChild(seq);
-    }
-    c.appendChild(instructionBlock(a.instruction));
-
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-
-    const grid = document.createElement("div");
-    grid.className = "exp-choice-grid";
-    a.choices.forEach(choice => {
-      const btn = document.createElement("button");
-      btn.className = "exp-choice";
-      btn.textContent = choice;
-      btn.addEventListener("click", () => {
-        if (choice === a.correct) {
-          btn.classList.add("correct");
-          feedback.textContent = "Correct.";
-          feedback.className = "exp-feedback good";
-          grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          setTimeout(() => { ai++; renderActivity(); }, 700);
-        } else {
-          btn.classList.add("wrong");
-          feedback.textContent = "Try again.";
-          feedback.className = "exp-feedback bad";
-        }
-      });
-      grid.appendChild(btn);
-    });
-    c.appendChild(grid);
-    c.appendChild(feedback);
-    appendNav(c, { showNext: false }); // mid-review-activity — see the appendNav fix note above
-  }
-  renderActivity();
 }
 
 function shuffle(arr) {
