@@ -116,7 +116,9 @@ const DISTRACTOR_POOL = ["か", "き", "く", "け", "こ", "さ", "し", "す",
 // One listening question per character in `group`, each appearing as
 // the target exactly once (guaranteed by mapping over the group itself).
 function buildListeningQuestions(group, distractorPool) {
-  return group.map(target => {
+  // Every vowel is still tested exactly once, but the question order and
+  // distractors are regenerated each time the practice is entered.
+  return shuffle(group).map(target => {
     const otherOptions = shuffle([...group.filter(c => c !== target), ...distractorPool]).slice(0, 4);
     return { target, choices: shuffle([target, ...otherOptions]) };
   });
@@ -604,6 +606,7 @@ const renderers = {
   },
 
   game2() {
+    // A fresh set of three odd-one-out questions is generated on every run.
     const questions = buildOddOneOutQuestions(GROUP, DISTRACTOR_POOL, 3);
     runChoiceGame({
       instruction: "Which one is different?",
@@ -634,7 +637,12 @@ const renderers = {
     note2.textContent = "You practised listening, recognising, and writing the five basic Hiragana vowel sounds.";
     c.appendChild(note2);
     // Finish is the true endpoint — no Previous/Next, only Start Again.
-    c.appendChild(primaryButton("Start Again", () => { stepIndex = 0; render(); }));
+    c.appendChild(primaryButton("Start Again", () => {
+      // Returning to the start means Practice will generate a new set when
+      // the learner reaches it again. No quiz answers are stored between runs.
+      stepIndex = 0;
+      render();
+    }));
   }
 };
 
@@ -764,9 +772,22 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
 /* ---------- Game 3 — Hiragana Maze / Find in Order ---------- */
 
 function runHiraganaMaze({ group, distractorPool, onDone }) {
+  let previousBoardKey = null;
+
   function buildBoard() {
-    const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
-    return shuffle([...group, ...distractors]);
+    // Generate a fresh 4x4 board. The second maze is guaranteed not to use
+    // the exact same layout as the guided maze.
+    let board;
+    let key;
+    let attempts = 0;
+    do {
+      const distractors = shuffle([...distractorPool, ...distractorPool]).slice(0, 11);
+      board = shuffle([...group, ...distractors]);
+      key = board.join("|");
+      attempts++;
+    } while (key === previousBoardKey && attempts < 20);
+    previousBoardKey = key;
+    return board;
   }
 
   function runRound({ guided, onComplete }) {
