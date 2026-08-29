@@ -190,13 +190,20 @@ function buildOddOneOutQuestions(group, distractorPool, count) {
   });
 }
 
-/* ---------- Real Hiragana audio (repo-root mp3 files) ----------
-   Confirmed to exist at the repo root (a.mp3, i.mp3, u.mp3, e.mp3,
-   o.mp3) — kept per explicit confirmation. Used by the speaker
-   button on each learnChar screen and Game 1. Vocabulary
-   intentionally has NO audio anywhere. */
+/* ---------- Real Hiragana audio ----------
+   Hiragana audio files are stored in:
+   assets/audio/japanese/hiragana/
 
-const HIRAGANA_AUDIO_FILES = { "あ": "a.mp3", "い": "i.mp3", "う": "u.mp3", "え": "e.mp3", "お": "o.mp3" };
+   Used by the speaker button on each learnChar screen and Game 1.
+   Vocabulary intentionally has NO audio anywhere. */
+
+const HIRAGANA_AUDIO_FILES = {
+  "あ": "assets/audio/japanese/hiragana/a.mp3",
+  "い": "assets/audio/japanese/hiragana/i.mp3",
+  "う": "assets/audio/japanese/hiragana/u.mp3",
+  "え": "assets/audio/japanese/hiragana/e.mp3",
+  "お": "assets/audio/japanese/hiragana/o.mp3"
+};
 let currentAudio = null;
 
 function playHiraganaAudio(char) {
