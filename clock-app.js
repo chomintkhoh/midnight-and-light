@@ -16,11 +16,10 @@ const QUESTIONS_PER_WORKSHEET = 9;
 const HISTORY_DEPTH = 4;
 const STAMP_SRC = "./assets/great-stamp.png";
 const SUCCESS_SOUND_SRC = "./assets/success-stamp.mp3";
-const SUCCESS_SOUND_MIN_SCORE = 5;
 
 const successSound = new Audio(SUCCESS_SOUND_SRC);
 successSound.preload = "auto";
-successSound.volume = 0.8;
+successSound.volume = 1.0;
 
 function playSuccessSound() {
   successSound.pause();
@@ -414,6 +413,7 @@ function checkWorksheet(cards) {
         score++;
         card.classList.add("correct");
         feedback.innerHTML = `<strong>Correct!</strong>`;
+        zone.classList.add("has-stamp");
         attachStamp(zone);
       } else {
         card.classList.add("incorrect");
@@ -439,7 +439,8 @@ function checkWorksheet(cards) {
   const scoreBox = document.getElementById("worksheetScore");
   scoreBox.classList.remove("hidden");
   scoreBox.innerHTML = `Auto-checked Score<div class="big">${score} / ${AUTO_GRADED}</div><div class="score-note">Questions 7–9 are for handwriting practice and self-checking.</div>`;
-  if (score >= SUCCESS_SOUND_MIN_SCORE) playSuccessSound();
+  // Play once immediately after grading if there is at least one auto-checked correct answer.
+  if (score > 0) playSuccessSound();
 }
 
 function initDrawingCanvas(canvas) {
