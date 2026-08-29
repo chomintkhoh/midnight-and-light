@@ -15,6 +15,20 @@ const setTab = document.getElementById("setTab");
 const QUESTIONS_PER_WORKSHEET = 9;
 const HISTORY_DEPTH = 4;
 const STAMP_SRC = "./assets/great-stamp.png";
+const SUCCESS_SOUND_SRC = "./assets/success-stamp.mp3";
+const SUCCESS_SOUND_MIN_SCORE = 7;
+
+const successSound = new Audio(SUCCESS_SOUND_SRC);
+successSound.preload = "auto";
+successSound.volume = 0.5;
+
+function playSuccessSound() {
+  successSound.pause();
+  successSound.currentTime = 0;
+  successSound.play().catch(() => {
+    // Some browsers may block audio if playback is not directly triggered by a user action.
+  });
+}
 
 const state = {
   page:"read",
@@ -359,6 +373,7 @@ function checkWorksheet(cards) {
   const scoreBox = document.getElementById("worksheetScore");
   scoreBox.classList.remove("hidden");
   scoreBox.innerHTML = `Your Score<div class="big">${score} / ${QUESTIONS_PER_WORKSHEET}</div>`;
+  if (score >= SUCCESS_SOUND_MIN_SCORE) playSuccessSound();
   state.typedChecked = true;
 }
 
@@ -485,7 +500,7 @@ function renderSetPage() {
   ));
 
   const tip = createEl("p", "write-note",
-    "Choose Hour Hand or Minute Hand, then drag on the clock. You can also use the − / + buttons for precise adjustment.");
+    "Move the clock hands to set the time.");
   promptCard.appendChild(tip);
 
   const handSeg = createEl("div", "segmented");
@@ -562,6 +577,7 @@ function renderSetPage() {
     if (correct) {
       feedback.innerHTML = `<strong>Correct!</strong><span class="answer-jp">${time.japaneseReading} (${time.digitalTime})</span>`;
       attachStamp(clockPanel);
+      playSuccessSound();
     } else {
       feedback.innerHTML = `<strong>Not quite.</strong><span class="answer-jp">Correct time: ${time.japaneseReading} (${time.digitalTime})</span>`;
       // Show the correct hand positions after grading.
