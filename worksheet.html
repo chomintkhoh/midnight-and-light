@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hiragana Writing Practice | ミッドナイトとライト</title>
+<meta name="description" content="Printable and digital Hiragana writing practice worksheets — trace and write あ〜そ, with vocabulary examples. Works on iPad with Apple Pencil, or print as a worksheet." />
+<link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/worksheet.html" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* Brand mark fix — same as the rest of the site. */
+  .site-nav .nav-mark{
+    white-space: nowrap; width: auto; max-width: none; flex-shrink: 0; font-size: 20px;
+  }
+  @media (max-width: 480px){ .site-nav .nav-mark{ font-size: 15px; } }
+
+  /* ---------- Digital view ---------- */
+  #wsApp{ max-width: 720px; margin: 0 auto; }
+
+  .ws-nav-block{ margin-bottom: 22px; }
+  .ws-row-nav{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .ws-row-btn{
+    padding:8px 16px; border-radius:999px; font-size:13px; cursor:pointer;
+    background: rgba(244,241,234,0.04); color: var(--muted-bluegrey);
+    border:1.5px solid rgba(217,196,142,0.2); font-family:'DM Sans',sans-serif;
+  }
+  .ws-row-btn.active{ background: rgba(217,196,142,0.18); color: var(--pale-gold); border-color: rgba(217,196,142,0.4); font-weight:600; }
+
+  .ws-kana-nav{ display:flex; gap:8px; flex-wrap:wrap; }
+  .ws-kana-btn{
+    width:44px; height:44px; border-radius:10px; cursor:pointer;
+    background: rgba(244,241,234,0.04); color: var(--warm-white);
+    border:1.5px solid rgba(217,196,142,0.2); font-family: var(--font-brand); font-size:19px;
+  }
+  .ws-kana-btn.active{ background: rgba(217,196,142,0.22); border-color: var(--pale-gold); color: var(--pale-gold); }
+
+  .ws-progress{ color: var(--muted-faint); font-size: 12.5px; margin: 12px 0 4px; text-align:center; }
+
+  .ws-card{
+    background: rgba(244,241,234,0.05); border: 1px solid rgba(217,196,142,0.22);
+    border-radius: 18px; padding: 30px 24px; margin-bottom: 20px;
+  }
+
+  .ws-header{ text-align:center; margin-bottom: 20px; }
+  .ws-kana-header{ font-family: var(--font-brand); font-size: 68px; color: var(--warm-white); line-height:1.1; }
+  .ws-romaji-header{ color: var(--pale-gold); font-size: 20px; letter-spacing:0.06em; margin-top:4px; }
+
+  .ws-model-wrap{ display:flex; justify-content:center; margin-bottom: 24px; }
+  .ws-model-char{
+    font-family: var(--font-brand); font-size: 90px; color: var(--warm-white);
+    width:130px; height:130px; display:flex; align-items:center; justify-content:center;
+    border:1.5px solid rgba(217,196,142,0.3); border-radius:16px; background: rgba(244,241,234,0.03);
+  }
+
+  .ws-section-label{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color: var(--muted-bluegrey);
+    margin: 18px 0 10px;
+  }
+
+  .ws-box-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom: 8px; }
+  .ws-box{
+    position:relative; aspect-ratio:1; border-radius:12px; overflow:hidden;
+    border:1.5px solid rgba(217,196,142,0.35); background: rgba(244,241,234,0.03);
+  }
+  .ws-guide-cross{ position:absolute; inset:0; pointer-events:none; }
+  .ws-guide-cross::before, .ws-guide-cross::after{
+    content:""; position:absolute; background: rgba(217,196,142,0.18);
+  }
+  .ws-guide-cross::before{ left:50%; top:0; bottom:0; width:1px; transform:translateX(-0.5px); }
+  .ws-guide-cross::after{ top:50%; left:0; right:0; height:1px; transform:translateY(-0.5px); }
+  .ws-trace-ref{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-brand); font-size: 52px; color: rgba(244,241,234,0.22);
+    pointer-events:none; user-select:none;
+  }
+  .ws-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    touch-action: none; cursor: crosshair; background: transparent;
+  }
+
+  .ws-controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin: 18px 0 6px; }
+  .ws-ctrl-btn{
+    padding:10px 18px; border-radius:999px; font-size:13.5px; cursor:pointer;
+    background: transparent; color: var(--warm-white);
+    border:1.5px solid rgba(244,241,234,0.3); font-family:'DM Sans',sans-serif;
+  }
+  .ws-ctrl-btn:hover{ border-color: rgba(217,196,142,0.55); }
+  .ws-ctrl-btn.primary{
+    background: var(--pale-gold); color: var(--bg-deep); border:none; font-weight:600;
+  }
+
+  .ws-vocab-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .ws-vocab-item{
+    background: rgba(244,241,234,0.03); border:1px solid rgba(217,196,142,0.18);
+    border-radius:12px; padding:14px 10px; text-align:center;
+  }
+  .ws-vocab-word{ font-family: var(--font-brand); font-size:22px; color: var(--warm-white); }
+  .ws-vocab-romaji{ color: var(--pale-gold); font-size:12.5px; margin-top:2px; }
+  .ws-vocab-meaning{ color: var(--muted-bluegrey); font-size:12.5px; margin-top:4px; }
+
+  .ws-nav-row{ display:flex; justify-content:center; gap:14px; margin-top:8px; }
+
+  @media (max-width: 560px){
+    .ws-box-grid{ grid-template-columns:repeat(2,1fr); }
+    .ws-vocab-grid{ grid-template-columns:1fr; }
+    .ws-kana-header{ font-size:52px; }
+    .ws-model-char{ width:100px; height:100px; font-size:68px; }
+  }
+
+  /* ---------- Print view ---------- */
+  @media print{
+    @page{ size: A4 portrait; margin: 10mm; }
+
+    body{ background: #fff !important; color: #111 !important; }
+    .stars, .site-nav, .site-footer, .page-eyebrow, .page-title, .page-lead,
+    .ws-nav-block, .ws-controls, .ws-nav-row{ display: none !important; }
+
+    .page{ padding: 0 !important; margin: 0 !important; max-width: none !important; }
+    #wsApp{ max-width: none !important; }
+
+    .ws-card{
+      background: #fff !important; border: none !important; padding: 0 !important;
+      box-shadow: none !important; border-radius: 0 !important;
+    }
+
+    .ws-header{ margin-bottom: 6mm !important; }
+    .ws-kana-header{ color: #111 !important; font-size: 40px !important; }
+    .ws-romaji-header{ color: #333 !important; font-size: 14px !important; }
+
+    .ws-model-wrap{ margin-bottom: 8mm !important; }
+    .ws-model-char{
+      color: #111 !important; border-color: #999 !important; background: #fff !important;
+      width: 28mm !important; height: 28mm !important; font-size: 46px !important;
+    }
+
+    .ws-section-label{ color: #555 !important; margin: 6mm 0 3mm !important; font-size: 10px !important; }
+
+    /* Fixed compact box size — NOT stretched to fill the grid column,
+       which is what caused overflow to a second page originally. */
+    .ws-box-grid{
+      display: flex !important; flex-wrap: wrap !important;
+      gap: 5mm !important; margin-bottom: 3mm !important;
+    }
+    .ws-box{
+      flex: 0 0 auto !important;
+      width: 38mm !important; height: 38mm !important;
+      aspect-ratio: unset !important;
+      border: 1.5px solid #444 !important;
+      background: #fff !important;
+      break-inside: avoid;
+    }
+    .ws-guide-cross::before, .ws-guide-cross::after{ background: #bbb !important; }
+    .ws-trace-ref{ color: #ccc !important; font-size: 42px !important; }
+
+    #wsWriteGrid{ width: 129mm !important; } /* forces exactly 3 per row at 38mm + 5mm gap */
+
+    .ws-vocab-grid{ gap: 5mm !important; margin-top: 3mm !important; }
+    .ws-vocab-item{ border: 1px solid #999 !important; background: #fff !important; padding: 3mm 2mm !important; }
+    .ws-vocab-word{ color: #111 !important; font-size: 18px !important; }
+    .ws-vocab-romaji{ color: #444 !important; font-size: 11px !important; }
+    .ws-vocab-meaning{ color: #444 !important; font-size: 11px !important; }
+
+    .ws-header, .ws-model-wrap, .ws-section-label, .ws-box-grid, .ws-vocab-grid{
+      break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">Practice</p>
+    <h1 class="page-title">Hiragana Writing Practice</h1>
+    <p class="page-lead">Trace, write, and practise あ〜そ — digitally or as a printable worksheet.</p>
+
+    <div id="wsApp">
+      <div class="ws-nav-block">
+        <div class="ws-row-nav" id="wsRowNav"></div>
+        <div class="ws-kana-nav" id="wsKanaNav"></div>
+        <div class="ws-progress" id="wsProgress"></div>
+      </div>
+
+      <div class="ws-card">
+        <div class="ws-header">
+          <div class="ws-kana-header" id="wsKanaHeader"></div>
+          <div class="ws-romaji-header" id="wsRomajiHeader"></div>
+        </div>
+
+        <div class="ws-model-wrap">
+          <div class="ws-model-char" id="wsModelChar"></div>
+        </div>
+
+        <div class="ws-section-label">Trace</div>
+        <div class="ws-box-grid" id="wsTraceGrid"></div>
+
+        <div class="ws-section-label">Write by yourself</div>
+        <div class="ws-box-grid" id="wsWriteGrid"></div>
+
+        <div class="ws-section-label">Vocabulary</div>
+        <div class="ws-vocab-grid" id="wsVocabGrid"></div>
+      </div>
+
+      <div class="ws-controls">
+        <button class="ws-ctrl-btn" id="wsUndoBtn">Undo</button>
+        <button class="ws-ctrl-btn" id="wsClearBoxBtn">Clear current box</button>
+        <button class="ws-ctrl-btn" id="wsResetBtn">Reset page</button>
+        <button class="ws-ctrl-btn primary" id="wsPrintBtn">Print / Save PDF</button>
+      </div>
+
+      <div class="ws-nav-row">
+        <button class="ws-ctrl-btn" id="wsPrevBtn">Previous</button>
+        <button class="ws-ctrl-btn" id="wsNextBtn">Next</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
+
+  <script src="stars.js"></script>
+  <script src="worksheet-app.js"></script>
+</body>
+</html>
