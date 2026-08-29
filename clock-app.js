@@ -16,7 +16,7 @@ const QUESTIONS_PER_WORKSHEET = 9;
 const HISTORY_DEPTH = 4;
 const STAMP_SRC = "./assets/great-stamp.png";
 const SUCCESS_SOUND_SRC = "./assets/success-stamp.mp3";
-const SUCCESS_SOUND_MIN_SCORE = 7;
+const SUCCESS_SOUND_MIN_SCORE = 5;
 
 const successSound = new Audio(SUCCESS_SOUND_SRC);
 successSound.preload = "auto";
@@ -33,13 +33,10 @@ function playSuccessSound() {
 const state = {
   page:"read",
   difficulty:"mixed",
-  answerMode:"type",
   worksheet:[],
   history:{ oclock:[], every10:[], every5:[], minutes1to10:[], mixed:[] },
   typedChecked:false,
   setClock:{
-    promptType:"digital",
-    lastPromptType:null,
     current:null,
     lastKeys:[],
     clock:null,
@@ -256,28 +253,10 @@ function renderReadPage() {
   const panel = createEl("div", "panel");
 
   const toolbar = createEl("div", "toolbar");
-  const instruction = createEl("div", "instruction", "Look at the clock and write the time in Japanese.");
-  toolbar.appendChild(instruction);
+  toolbar.appendChild(createEl("div", "instruction", "Look at the clocks and answer in Japanese."));
 
-  const row1 = createEl("div", "toolbar-row");
-  row1.appendChild(createEl("div", "toolbar-label", "Choose how you want to answer."));
-  const answerSeg = createEl("div", "segmented");
-
-  [["write","Write by Hand"],["type","Type"]].forEach(([id,label]) => {
-    const b = createEl("button", `seg-btn ${state.answerMode === id ? "active" : ""}`, label);
-    b.type = "button";
-    b.addEventListener("click", () => {
-      state.answerMode = id;
-      state.typedChecked = false;
-      renderReadPage();
-    });
-    answerSeg.appendChild(b);
-  });
-  row1.appendChild(answerSeg);
-  toolbar.appendChild(row1);
-
-  const row2 = createEl("div", "toolbar-row");
-  row2.appendChild(createEl("div", "toolbar-label", "Minute pattern"));
+  const row = createEl("div", "toolbar-row");
+  row.appendChild(createEl("div", "toolbar-label", "Minute pattern"));
   const modeGrid = createEl("div", "mode-grid");
   MODES.forEach(([id,label]) => {
     const b = createEl("button", `mode-btn ${state.difficulty === id ? "active" : ""}`, label);
@@ -290,17 +269,23 @@ function renderReadPage() {
     });
     modeGrid.appendChild(b);
   });
-  row2.appendChild(modeGrid);
-  toolbar.appendChild(row2);
+  row.appendChild(modeGrid);
+  toolbar.appendChild(row);
   panel.appendChild(toolbar);
 
   const grid = createEl("div", "worksheet-grid");
   const cards = [];
+  const drawingCanvases = [];
+  let selectedAnswer = null;
 
   state.worksheet.forEach((time, index) => {
     const card = createEl("article", "question-card");
     card.dataset.index = String(index);
     card.appendChild(createEl("div", "q-number", `Question ${index + 1}`));
+
+    if (index === 0) card.appendChild(createEl("div", "section-hint", "Match the answers."));
+    if (index === 3) card.appendChild(createEl("div", "section-hint", "Type the time in Japanese."));
+    if (index === 6) card.appendChild(createEl("div", "section-hint", "Write the time in Japanese."));
 
     const clockWrap = createEl("div", "clock-wrap");
     const clock = buildClockSVG();
@@ -308,29 +293,54 @@ function renderReadPage() {
     clockWrap.appendChild(clock.svg);
     card.appendChild(clockWrap);
 
-    if (state.answerMode === "type") {
+    if (index < 3) {
+      const zone = createEl("div", "drop-zone", "Drop answer here");
+      zone.dataset.answer = "";
+      zone.tabIndex = 0;
+      const assign = answer => {
+        if (!answer) return;
+        // Return any answer already in this zone to the bank by simply replacing it.
+        zone.dataset.answer = answer;
+        zone.textContent = answer;
+        zone.classList.add("filled");
+        selectedAnswer = null;
+        document.querySelectorAll(".answer-chip").forEach(c => c.classList.remove("selected"));
+      };
+      zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("drag-over"); });
+      zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+      zone.addEventListener("drop", e => {
+        e.preventDefault();
+        zone.classList.remove("drag-over");
+        assign(e.dataTransfer.getData("text/plain"));
+      });
+      zone.addEventListener("click", () => assign(selectedAnswer));
+      card.appendChild(zone);
+      card.appendChild(createEl("div", "feedback"));
+    } else if (index < 6) {
+      const answerZone = createEl("div", "answer-zone");
       const input = createEl("input", "answer-input");
       input.type = "text";
       input.autocomplete = "off";
       input.spellcheck = false;
       input.placeholder = "e.g. はちじ ごふん";
       input.setAttribute("aria-label", `Answer for question ${index + 1}`);
-      card.appendChild(input);
-      card.appendChild(createEl("div", "feedback"));
+      answerZone.appendChild(input);
+      answerZone.appendChild(createEl("div", "feedback"));
+      card.appendChild(answerZone);
     } else {
       const box = createEl("div", "writing-box");
       const canvas = createEl("canvas", "writing-canvas");
       canvas.setAttribute("aria-label", `Handwriting area for question ${index + 1}`);
       box.appendChild(canvas);
       card.appendChild(box);
-
       const tools = createEl("div", "canvas-tools");
       const clear = createEl("button", "small-btn", "Clear");
       clear.type = "button";
       clear.addEventListener("click", () => clearCanvas(canvas));
       tools.appendChild(clear);
       card.appendChild(tools);
-      initDrawingCanvas(canvas);
+      card.appendChild(createEl("div", "feedback handwriting-feedback"));
+      drawingCanvases.push(canvas);
     }
 
     cards.push(card);
@@ -339,72 +349,97 @@ function renderReadPage() {
 
   panel.appendChild(grid);
 
-  if (state.answerMode === "write") {
-    const note = createEl("p", "write-note",
-      "Handwriting stays on this page for visual checking. Automatic handwriting recognition is not enabled in this version.");
-    panel.appendChild(note);
-  }
+  // One shared answer bank for Questions 1–3. Shuffle display order each render.
+  const bank = createEl("div", "answer-bank-wrap");
+  bank.appendChild(createEl("div", "answer-bank-title", "Answer Bank"));
+  const bankInner = createEl("div", "answer-bank");
+  const bankAnswers = state.worksheet.slice(0,3).map(t => t.japaneseReading).sort(() => Math.random() - 0.5);
+  bankAnswers.forEach(answer => {
+    const chip = createEl("button", "answer-chip", answer);
+    chip.type = "button";
+    chip.draggable = true;
+    chip.addEventListener("dragstart", e => e.dataTransfer.setData("text/plain", answer));
+    chip.addEventListener("click", () => {
+      selectedAnswer = answer;
+      bankInner.querySelectorAll(".answer-chip").forEach(c => c.classList.toggle("selected", c === chip));
+    });
+    bankInner.appendChild(chip);
+  });
+  bank.appendChild(bankInner);
+  bank.appendChild(createEl("div", "bank-tip", "Drag an answer to a clock, or tap an answer and then tap a box."));
+  // Place the shared bank immediately after Questions 1–3.
+  grid.insertBefore(bank, cards[3]);
+
+  panel.appendChild(createEl("p", "write-note", "For Questions 7–9, compare your handwriting with the answer after checking."));
 
   const actions = createEl("div", "actions");
+  const check = createEl("button", "btn primary", "Check Answers");
+  check.type = "button";
+  check.addEventListener("click", () => checkWorksheet(cards));
+  actions.appendChild(check);
 
-  if (state.answerMode === "type") {
-    const check = createEl("button", "btn primary", "Check Answers");
-    check.type = "button";
-    check.addEventListener("click", () => checkWorksheet(cards));
-    actions.appendChild(check);
-  } else {
-    const clearAll = createEl("button", "btn", "Clear All");
-    clearAll.type = "button";
-    clearAll.addEventListener("click", () => {
-      panel.querySelectorAll("canvas").forEach(clearCanvas);
-    });
-    actions.appendChild(clearAll);
-  }
+  const clearAll = createEl("button", "btn", "Clear Handwriting");
+  clearAll.type = "button";
+  clearAll.addEventListener("click", () => panel.querySelectorAll("canvas").forEach(clearCanvas));
+  actions.appendChild(clearAll);
 
   const fresh = createEl("button", "btn", "New Questions");
   fresh.type = "button";
-  fresh.addEventListener("click", () => {
-    generateWorksheet();
-    renderReadPage();
-  });
+  fresh.addEventListener("click", () => { generateWorksheet(); renderReadPage(); });
   actions.appendChild(fresh);
-
   panel.appendChild(actions);
 
   const score = createEl("div", "score-box hidden");
   score.id = "worksheetScore";
   panel.appendChild(score);
-
   app.appendChild(panel);
+
+  if (drawingCanvases.length) requestAnimationFrame(() => drawingCanvases.forEach(initDrawingCanvas));
 }
 
 function checkWorksheet(cards) {
   let score = 0;
+  const AUTO_GRADED = 6;
+
   cards.forEach((card, index) => {
     card.classList.remove("correct", "incorrect");
     card.querySelectorAll(".stamp,.fallback-stamp").forEach(x => x.remove());
-
-    const input = card.querySelector(".answer-input");
-    const feedback = card.querySelector(".feedback");
     const time = state.worksheet[index];
-    const correct = checkTypedAnswer(input.value, time);
+    const feedback = card.querySelector(".feedback");
 
-    if (correct) {
-      score++;
-      card.classList.add("correct");
-      feedback.innerHTML = `<strong>Correct!</strong>`;
-      attachStamp(card);
+    if (index < 3) {
+      const zone = card.querySelector(".drop-zone");
+      const correct = checkTypedAnswer(zone.dataset.answer || "", time);
+      if (correct) {
+        score++;
+        card.classList.add("correct");
+        feedback.innerHTML = `<strong>Correct!</strong>`;
+        attachStamp(zone);
+      } else {
+        card.classList.add("incorrect");
+        feedback.innerHTML = `<strong>Check this one.</strong><span class="answer-jp">${time.japaneseReading}</span>`;
+      }
+    } else if (index < 6) {
+      const input = card.querySelector(".answer-input");
+      const correct = checkTypedAnswer(input.value, time);
+      if (correct) {
+        score++;
+        card.classList.add("correct");
+        feedback.innerHTML = `<strong>Correct!</strong>`;
+        attachStamp(card.querySelector(".answer-zone"));
+      } else {
+        card.classList.add("incorrect");
+        feedback.innerHTML = `<strong>Check this one.</strong><span class="answer-jp">${time.japaneseReading}</span>`;
+      }
     } else {
-      card.classList.add("incorrect");
-      feedback.innerHTML = `<strong>Check this one.</strong><span class="answer-jp">${time.japaneseReading}</span>`;
+      feedback.innerHTML = `<strong>Compare your writing:</strong><span class="answer-jp">${time.japaneseReading}</span>`;
     }
   });
 
   const scoreBox = document.getElementById("worksheetScore");
   scoreBox.classList.remove("hidden");
-  scoreBox.innerHTML = `Your Score<div class="big">${score} / ${QUESTIONS_PER_WORKSHEET}</div>`;
+  scoreBox.innerHTML = `Auto-checked Score<div class="big">${score} / ${AUTO_GRADED}</div><div class="score-note">Questions 7–9 are for handwriting practice and self-checking.</div>`;
   if (score >= SUCCESS_SOUND_MIN_SCORE) playSuccessSound();
-  state.typedChecked = true;
 }
 
 function initDrawingCanvas(canvas) {
@@ -441,6 +476,8 @@ function initDrawingCanvas(canvas) {
   };
 
   canvas.addEventListener("pointerdown", evt => {
+    if (evt.pointerType === "mouse" && evt.button !== 0) return;
+    evt.preventDefault();
     drawing = true;
     last = point(evt);
     canvas.setPointerCapture(evt.pointerId);
@@ -473,12 +510,6 @@ function pickNextSetTime() {
   state.setClock.lastKeys.push(timeKey(time));
   if (state.setClock.lastKeys.length > 8) state.setClock.lastKeys.shift();
   state.setClock.current = time;
-  // No extra learner-facing mode switch: each new question can test either
-  // digital-time recognition or Japanese-time recognition.
-  const choices = ["digital", "reading"];
-  const nextPrompt = choices[Math.floor(Math.random() * choices.length)];
-  state.setClock.promptType = nextPrompt;
-  state.setClock.lastPromptType = nextPrompt;
   return time;
 }
 
@@ -517,7 +548,7 @@ function renderSetPage() {
   promptCard.appendChild(createEl(
     "div",
     "set-prompt-value",
-    state.setClock.promptType === "digital" ? time.digitalTime : time.japaneseReading
+    time.japaneseReading
   ));
 
   const tip = createEl("p", "write-note",
@@ -555,11 +586,11 @@ function renderSetPage() {
     check.disabled = true;
     if (correct) {
       feedback.classList.add("correct-feedback");
-      feedback.innerHTML = `<div class="feedback-head"><strong>Correct!</strong></div><span class="answer-jp">${time.japaneseReading} (${time.digitalTime})</span>`;
+      feedback.innerHTML = `<div class="feedback-head"><strong>Correct!</strong></div><span class="answer-jp">${time.japaneseReading}</span>`;
       attachStamp(feedback.querySelector(".feedback-head"));
       playSuccessSound();
     } else {
-      feedback.innerHTML = `<strong>Not quite.</strong><span class="answer-jp">Correct time: ${time.japaneseReading} (${time.digitalTime})</span>`;
+      feedback.innerHTML = `<strong>Not quite.</strong><span class="answer-jp">${time.japaneseReading}</span>`;
       // Show the correct hand positions after grading.
       clock.setStatic(hourAngle(time.hour12, time.minute), minuteAngle(time.minute));
     }
