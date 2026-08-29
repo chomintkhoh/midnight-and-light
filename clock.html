@@ -1,74 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Japanese Clock Practice</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
-<style>
-/* ══════════════════════════════════════════════
-   Matches the established Midnight & Light cosmic
-   palette — if a shared cosmic.css already exists on
-   the live site, these tokens can be swapped for a
-   <link> to it instead of duplicating them here.
-══════════════════════════════════════════════ */
-:root{
-  --bg-deep:#0C0E22; --bg-glow:#1B1E45; --warm-white:#F4F1EA;
-  --muted-bluegrey:#8B8FB3; --pale-gold:#D9C48E; --soft-lavender:#B6A9DA;
-  --good:#7FBF8F; --bad:#E0879A;
-  --font-body:'Inter',sans-serif; --font-cjk:'Zen Kaku Gothic New',sans-serif;
-}
-*{box-sizing:border-box;}
-body{
-  margin:0; min-height:100vh; background:radial-gradient(ellipse at top, var(--bg-glow), var(--bg-deep));
-  color:var(--warm-white); font-family:var(--font-body); display:flex; justify-content:center;
-}
-#app{ width:100%; max-width:460px; padding:24px 20px 60px; }
-.card{
-  background:rgba(244,241,234,0.05); border:1px solid rgba(217,196,142,0.25);
-  border-radius:18px; padding:22px; margin-top:16px;
-}
-h1{ font-size:22px; margin:8px 0 4px; }
-.subtitle{ color:var(--muted-bluegrey); font-size:14px; margin-bottom:20px; }
-.mode-grid{ display:grid; gap:10px; }
-.mode-btn{
-  background:rgba(182,169,218,0.08); border:1px solid rgba(182,169,218,0.3); color:var(--warm-white);
-  border-radius:12px; padding:14px 16px; font-size:16px; text-align:left; cursor:pointer; font-family:inherit;
-}
-.mode-btn:hover{ background:rgba(182,169,218,0.18); }
-.progress{ font-size:13px; color:var(--muted-bluegrey); text-align:center; margin-bottom:10px; }
-.prompt{ font-size:18px; text-align:center; font-family:var(--font-cjk); margin-bottom:16px; }
-.jp-display{ font-size:30px; text-align:center; font-family:var(--font-cjk); margin:18px 0; color:var(--pale-gold); }
-.clock-wrap{ display:flex; justify-content:center; margin:14px 0; touch-action:none; }
-input.answer-input{
-  width:100%; padding:14px; border-radius:12px; border:1.5px solid rgba(217,196,142,0.35);
-  background:rgba(0,0,0,0.2); color:var(--warm-white); font-size:18px; font-family:var(--font-cjk);
-  text-align:center; margin-top:8px;
-}
-input.answer-input:focus{ outline:none; border-color:var(--pale-gold); }
-.btn-primary{
-  width:100%; padding:14px; border-radius:12px; border:none; margin-top:16px;
-  background:var(--pale-gold); color:var(--bg-deep); font-size:16px; font-weight:700; cursor:pointer; font-family:inherit;
-}
-.btn-primary:disabled{ opacity:.4; cursor:not-allowed; }
-.feedback{ text-align:center; margin-top:16px; padding:14px; border-radius:12px; font-family:var(--font-cjk); font-size:18px; }
-.feedback.correct{ background:rgba(127,191,143,0.15); color:var(--good); }
-.feedback.incorrect{ background:rgba(224,135,154,0.15); color:var(--bad); }
-.feedback .answer-line{ font-size:15px; color:var(--warm-white); margin-top:6px; font-family:var(--font-cjk); }
-.score-hero{ text-align:center; padding:20px 0; }
-.score-hero .big{ font-size:44px; font-weight:800; color:var(--pale-gold); }
-.hand-selector{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
-.hand-btn{
-  padding:8px 16px; border-radius:99px; border:1.5px solid rgba(217,196,142,0.3);
-  background:transparent; color:var(--warm-white); font-family:inherit; cursor:pointer; font-size:14px;
-}
-.hand-btn.active{ background:var(--pale-gold); color:var(--bg-deep); border-color:var(--pale-gold); font-weight:700; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japanese Clock Practice | ミッドナイトとライト</title>
+  <meta name="description" content="Interactive Japanese clock practice: read clocks, write or type Japanese time, and set an analog clock." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep:#0C0E22;
+      --bg-glow:#1B1E45;
+      --panel:rgba(27,30,69,.78);
+      --panel-strong:rgba(18,21,51,.96);
+      --warm-white:#F4F1EA;
+      --muted-bluegrey:#A6A9C9;
+      --pale-gold:#D9C48E;
+      --soft-lavender:#B6A9DA;
+      --good:#7FBF8F;
+      --bad:#E0879A;
+      --border:rgba(217,196,142,.28);
+      --shadow:0 18px 40px rgba(0,0,0,.22);
+    }
+
+    * { box-sizing:border-box; }
+    html { color-scheme:dark; }
+    body {
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, "Zen Kaku Gothic New", system-ui, sans-serif;
+      color:var(--warm-white);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(182,169,218,.16), transparent 30rem),
+        radial-gradient(circle at 80% 0%, rgba(217,196,142,.10), transparent 24rem),
+        linear-gradient(180deg, var(--bg-glow), var(--bg-deep) 42%);
+    }
+
+    button, input, select { font:inherit; }
+    button { cursor:pointer; }
+    button:disabled { cursor:not-allowed; opacity:.58; }
+
+    .page-shell {
+      width:min(1180px, calc(100% - 32px));
+      margin:0 auto;
+      padding:32px 0 56px;
+    }
+
+    .hero {
+      text-align:center;
+      margin-bottom:24px;
+    }
+    .hero h1 {
+      margin:0;
+      font-size:clamp(30px, 4vw, 46px);
+      letter-spacing:-.02em;
+    }
+    .hero p {
+      margin:10px auto 0;
+      max-width:760px;
+      color:var(--muted-bluegrey);
+      font-size:clamp(17px, 2vw, 20px);
+      line-height:1.6;
+    }
+
+    .top-tabs,
+    .segmented {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+    }
+
+    .top-tabs { margin:0 0 22px; }
+
+    .tab-btn,
+    .seg-btn,
+    .mode-btn,
+    .btn,
+    .small-btn {
+      border:1px solid var(--border);
+      color:var(--warm-white);
+      background:rgba(255,255,255,.055);
+      border-radius:14px;
+      min-height:50px;
+      padding:11px 18px;
+      font-size:18px;
+      font-weight:600;
+      transition:background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .tab-btn[aria-selected="true"],
+    .seg-btn.active,
+    .mode-btn.active,
+    .btn.primary {
+      background:rgba(217,196,142,.17);
+      border-color:rgba(217,196,142,.78);
+    }
+
+    @media (hover:hover) and (pointer:fine) {
+      .tab-btn:hover, .seg-btn:hover, .mode-btn:hover, .btn:hover, .small-btn:hover {
+        background:rgba(255,255,255,.09);
+      }
+    }
+
+    button:focus-visible, input:focus-visible {
+      outline:3px solid rgba(182,169,218,.7);
+      outline-offset:3px;
+    }
+
+    .panel {
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:22px;
+      backdrop-filter:blur(10px);
+    }
+
+    .toolbar {
+      display:grid;
+      gap:18px;
+      margin-bottom:22px;
+    }
+
+    .toolbar-row {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .toolbar-label {
+      font-size:17px;
+      color:var(--muted-bluegrey);
+      font-weight:600;
+    }
+
+    .instruction {
+      font-size:clamp(22px, 2.7vw, 28px);
+      font-weight:700;
+      line-height:1.4;
+      text-align:center;
+      margin:4px 0 2px;
+    }
+
+    .mode-grid {
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+    .mode-btn {
+      font-size:16px;
+      min-height:44px;
+      padding:9px 13px;
+    }
+
+    .worksheet-grid {
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:16px;
+    }
+
+    .question-card {
+      min-width:0;
+      background:rgba(12,14,34,.58);
+      border:1px solid rgba(182,169,218,.2);
+      border-radius:20px;
+      padding:15px;
+      position:relative;
+      overflow:hidden;
+    }
+    .question-card.correct {
+      border-color:rgba(127,191,143,.72);
+      background:rgba(127,191,143,.075);
+    }
+    .question-card.incorrect {
+      border-color:rgba(224,135,154,.72);
+      background:rgba(224,135,154,.065);
+    }
+
+    .q-number {
+      font-size:17px;
+      font-weight:700;
+      color:var(--pale-gold);
+      margin-bottom:4px;
+    }
+
+    .clock-wrap {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-width:0;
+    }
+    .clock-svg {
+      display:block;
+      width:min(100%, 220px);
+      height:auto;
+      touch-action:none;
+      user-select:none;
+    }
+
+    .answer-input {
+      width:100%;
+      min-height:54px;
+      border:1px solid rgba(244,241,234,.2);
+      border-radius:13px;
+      background:rgba(255,255,255,.055);
+      color:var(--warm-white);
+      padding:10px 13px;
+      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
+      font-size:22px;
+    }
+    .answer-input::placeholder { color:rgba(166,169,201,.72); }
+
+    .feedback {
+      min-height:50px;
+      margin-top:9px;
+      line-height:1.45;
+      font-size:16px;
+    }
+    .feedback strong { font-size:18px; }
+    .answer-jp {
+      display:block;
+      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
+      color:var(--pale-gold);
+      font-size:18px;
+      margin-top:2px;
+    }
+
+    .writing-box {
+      position:relative;
+      background:rgba(244,241,234,.96);
+      border-radius:13px;
+      overflow:hidden;
+      border:1px solid rgba(244,241,234,.32);
+    }
+    .writing-canvas {
+      display:block;
+      width:100%;
+      height:120px;
+      touch-action:none;
+      cursor:crosshair;
+    }
+    .small-btn {
+      min-height:40px;
+      font-size:15px;
+      padding:7px 11px;
+      border-radius:11px;
+    }
+    .canvas-tools {
+      display:flex;
+      justify-content:flex-end;
+      margin-top:8px;
+    }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      margin-top:20px;
+    }
+
+    .btn {
+      min-height:52px;
+      font-size:18px;
+      padding:11px 20px;
+    }
+
+    .score-box {
+      margin:18px auto 0;
+      width:fit-content;
+      min-width:230px;
+      text-align:center;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px 20px;
+      background:rgba(255,255,255,.045);
+      font-size:20px;
+    }
+    .score-box .big {
+      font-size:32px;
+      font-weight:800;
+      color:var(--pale-gold);
+    }
+
+    .write-note {
+      text-align:center;
+      color:var(--muted-bluegrey);
+      font-size:16px;
+      line-height:1.5;
+      margin:14px 0 0;
+    }
+
+    .set-layout {
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) minmax(320px, 460px);
+      gap:24px;
+      align-items:start;
+    }
+
+    .set-prompt-card {
+      background:rgba(12,14,34,.62);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:20px;
+      text-align:center;
+    }
+    .set-prompt-label {
+      color:var(--muted-bluegrey);
+      font-size:17px;
+      margin-bottom:10px;
+    }
+    .set-prompt-value {
+      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
+      font-size:clamp(32px, 5vw, 48px);
+      font-weight:700;
+      color:var(--pale-gold);
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      word-break:break-word;
+    }
+
+    .interactive-clock .clock-svg {
+      width:min(100%, 420px);
+    }
+
+    .hand-controls {
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+    }
+    .hand-row {
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      gap:9px;
+      align-items:center;
+    }
+    .hand-row .label {
+      text-align:left;
+      font-weight:700;
+      font-size:18px;
+    }
+
+    .round-btn {
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--warm-white);
+      font-size:26px;
+      font-weight:700;
+    }
+
+    .set-feedback {
+      min-height:82px;
+      margin-top:14px;
+      font-size:18px;
+      line-height:1.5;
+    }
+
+    .stamp {
+      position:absolute;
+      right:10px;
+      top:8px;
+      width:82px;
+      height:82px;
+      object-fit:contain;
+      pointer-events:none;
+      opacity:0;
+      transform:scale(.35) rotate(-10deg);
+    }
+    .stamp.show {
+      animation:stamp-pop .34s cubic-bezier(.2,1.35,.45,1) forwards;
+    }
+    @keyframes stamp-pop {
+      to { opacity:1; transform:scale(1) rotate(-8deg); }
+    }
+
+    .fallback-stamp {
+      position:absolute;
+      right:12px;
+      top:10px;
+      width:76px;
+      height:76px;
+      border:4px double var(--good);
+      color:var(--good);
+      border-radius:50%;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-weight:800;
+      font-size:15px;
+      line-height:1.05;
+      transform:rotate(-8deg);
+      background:rgba(12,14,34,.82);
+      pointer-events:none;
+    }
+    .fallback-stamp.show {
+      display:flex;
+      animation:stamp-pop .34s cubic-bezier(.2,1.35,.45,1) forwards;
+    }
+
+    .hidden { display:none !important; }
+
+    @media (max-width:900px) {
+      .worksheet-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .set-layout { grid-template-columns:1fr; }
+      .interactive-clock .clock-svg { width:min(100%, 360px); }
+    }
+
+    @media (max-width:600px) {
+      .page-shell { width:min(100% - 20px, 1180px); padding-top:20px; }
+      .panel { padding:14px; border-radius:18px; }
+      .worksheet-grid { grid-template-columns:1fr; gap:13px; }
+      .question-card { padding:14px; }
+      .clock-svg { width:min(100%, 230px); }
+      .top-tabs, .segmented { display:grid; grid-template-columns:1fr 1fr; width:100%; }
+      .tab-btn, .seg-btn { width:100%; font-size:17px; padding-inline:10px; }
+      .mode-grid { display:grid; grid-template-columns:1fr 1fr; width:100%; }
+      .mode-btn { width:100%; }
+      .toolbar-row { align-items:stretch; }
+      .toolbar-label { width:100%; text-align:center; }
+      .actions { display:grid; grid-template-columns:1fr; }
+      .btn { width:100%; }
+      .writing-canvas { height:135px; }
+      .hand-row { grid-template-columns:1fr 48px 48px; }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.001ms !important; }
+    }
+  </style>
 </head>
 <body>
-<div id="app"></div>
-<script type="module" src="clock-app.js"></script>
+  <main class="page-shell">
+    <header class="hero">
+      <h1>Japanese Clock Practice</h1>
+      <p>Practice reading Japanese time and setting an analog clock.</p>
+    </header>
+
+    <nav class="top-tabs" aria-label="Practice type">
+      <button class="tab-btn" id="readTab" type="button" aria-selected="true">Read &amp; Write</button>
+      <button class="tab-btn" id="setTab" type="button" aria-selected="false">Set the Clock</button>
+    </nav>
+
+    <section id="app" aria-live="polite"></section>
+  </main>
+
+  <script type="module" src="./clock-app.js"></script>
 </body>
 </html>
