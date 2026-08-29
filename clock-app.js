@@ -20,7 +20,7 @@ const SUCCESS_SOUND_MIN_SCORE = 7;
 
 const successSound = new Audio(SUCCESS_SOUND_SRC);
 successSound.preload = "auto";
-successSound.volume = 0.5;
+successSound.volume = 0.8;
 
 function playSuccessSound() {
   successSound.pause();
@@ -39,6 +39,7 @@ const state = {
   typedChecked:false,
   setClock:{
     promptType:"digital",
+    lastPromptType:null,
     current:null,
     lastKeys:[],
     clock:null,
@@ -135,21 +136,42 @@ function buildClockSVG({ interactive = false, onChange = null } = {}) {
   svg.appendChild(hourHand);
   svg.appendChild(minuteHand);
 
+  // Wide invisible hit areas let students drag either hand directly.
+  const hourHit = document.createElementNS(NS, "line");
+  hourHit.setAttribute("x1", cx); hourHit.setAttribute("y1", cy);
+  hourHit.setAttribute("x2", cx); hourHit.setAttribute("y2", cy - r * 0.5);
+  hourHit.setAttribute("stroke", "transparent");
+  hourHit.setAttribute("stroke-width", "28");
+  hourHit.setAttribute("stroke-linecap", "round");
+  hourHit.style.cursor = "grab";
+
+  const minuteHit = document.createElementNS(NS, "line");
+  minuteHit.setAttribute("x1", cx); minuteHit.setAttribute("y1", cy);
+  minuteHit.setAttribute("x2", cx); minuteHit.setAttribute("y2", cy - r * 0.78);
+  minuteHit.setAttribute("stroke", "transparent");
+  minuteHit.setAttribute("stroke-width", "24");
+  minuteHit.setAttribute("stroke-linecap", "round");
+  minuteHit.style.cursor = "grab";
+
+  svg.appendChild(hourHit);
+  svg.appendChild(minuteHit);
+
   const center = document.createElementNS(NS, "circle");
   center.setAttribute("cx", cx); center.setAttribute("cy", cy); center.setAttribute("r", 5.5);
   center.setAttribute("fill", "#F4F1EA");
   svg.appendChild(center);
 
   let angles = { hour:0, minute:0 };
-  let activeHand = "minute";
-  let dragging = false;
+  let draggingHand = null;
   let locked = false;
 
   const setHand = (hand, deg, emit = false) => {
     const normalized = ((deg % 360) + 360) % 360;
     angles[hand] = normalized;
-    (hand === "hour" ? hourHand : minuteHand)
-      .setAttribute("transform", `rotate(${normalized} ${cx} ${cy})`);
+    const visible = hand === "hour" ? hourHand : minuteHand;
+    const hit = hand === "hour" ? hourHit : minuteHit;
+    visible.setAttribute("transform", `rotate(${normalized} ${cx} ${cy})`);
+    hit.setAttribute("transform", `rotate(${normalized} ${cx} ${cy})`);
     if (emit && onChange) onChange({...angles});
   };
 
@@ -163,21 +185,31 @@ function buildClockSVG({ interactive = false, onChange = null } = {}) {
   };
 
   if (interactive) {
-    svg.style.cursor = "grab";
-    svg.addEventListener("pointerdown", evt => {
+    svg.style.touchAction = "none";
+
+    const startDrag = (hand, evt) => {
       if (locked) return;
-      dragging = true;
-      svg.style.cursor = "grabbing";
+      evt.preventDefault();
+      evt.stopPropagation();
+      draggingHand = hand;
+      const hit = hand === "hour" ? hourHit : minuteHit;
+      hit.style.cursor = "grabbing";
       svg.setPointerCapture(evt.pointerId);
-      setHand(activeHand, pointToAngle(evt), true);
-    });
+      setHand(hand, pointToAngle(evt), true);
+    };
+
+    hourHit.addEventListener("pointerdown", evt => startDrag("hour", evt));
+    minuteHit.addEventListener("pointerdown", evt => startDrag("minute", evt));
+
     svg.addEventListener("pointermove", evt => {
-      if (!dragging || locked) return;
-      setHand(activeHand, pointToAngle(evt), true);
+      if (!draggingHand || locked) return;
+      setHand(draggingHand, pointToAngle(evt), true);
     });
+
     const stop = () => {
-      dragging = false;
-      svg.style.cursor = locked ? "default" : "grab";
+      hourHit.style.cursor = locked ? "default" : "grab";
+      minuteHit.style.cursor = locked ? "default" : "grab";
+      draggingHand = null;
     };
     svg.addEventListener("pointerup", stop);
     svg.addEventListener("pointercancel", stop);
@@ -186,14 +218,12 @@ function buildClockSVG({ interactive = false, onChange = null } = {}) {
   return {
     svg,
     setStatic(h, m) { setHand("hour", h); setHand("minute", m); },
-    setActiveHand(hand) { activeHand = hand; },
-    getActiveHand() { return activeHand; },
-    nudge(hand, amount) {
-      if (locked) return;
-      setHand(hand, angles[hand] + amount, true);
-    },
     getAngles() { return {...angles}; },
-    setLocked(value) { locked = Boolean(value); svg.style.cursor = locked ? "default" : "grab"; }
+    setLocked(value) {
+      locked = Boolean(value);
+      hourHit.style.cursor = locked ? "default" : "grab";
+      minuteHit.style.cursor = locked ? "default" : "grab";
+    }
   };
 }
 
@@ -443,6 +473,12 @@ function pickNextSetTime() {
   state.setClock.lastKeys.push(timeKey(time));
   if (state.setClock.lastKeys.length > 8) state.setClock.lastKeys.shift();
   state.setClock.current = time;
+  // No extra learner-facing mode switch: each new question can test either
+  // digital-time recognition or Japanese-time recognition.
+  const choices = ["digital", "reading"];
+  const nextPrompt = choices[Math.floor(Math.random() * choices.length)];
+  state.setClock.promptType = nextPrompt;
+  state.setClock.lastPromptType = nextPrompt;
   return time;
 }
 
@@ -454,21 +490,6 @@ function renderSetPage() {
 
   const toolbar = createEl("div", "toolbar");
   toolbar.appendChild(createEl("div", "instruction", "Set the clock to match the time shown."));
-
-  const row1 = createEl("div", "toolbar-row");
-  row1.appendChild(createEl("div", "toolbar-label", "Question display"));
-  const promptSeg = createEl("div", "segmented");
-  [["digital","Digital Time"],["reading","Japanese Reading"]].forEach(([id,label]) => {
-    const b = createEl("button", `seg-btn ${state.setClock.promptType === id ? "active" : ""}`, label);
-    b.type = "button";
-    b.addEventListener("click", () => {
-      state.setClock.promptType = id;
-      renderSetPage();
-    });
-    promptSeg.appendChild(b);
-  });
-  row1.appendChild(promptSeg);
-  toolbar.appendChild(row1);
 
   const row2 = createEl("div", "toolbar-row");
   row2.appendChild(createEl("div", "toolbar-label", "Minute pattern"));
@@ -503,27 +524,6 @@ function renderSetPage() {
     "Move the clock hands to set the time.");
   promptCard.appendChild(tip);
 
-  const handSeg = createEl("div", "segmented");
-  const hourSelect = createEl("button", "seg-btn", "Hour Hand");
-  const minuteSelect = createEl("button", "seg-btn active", "Minute Hand");
-  hourSelect.type = minuteSelect.type = "button";
-  handSeg.append(hourSelect, minuteSelect);
-  promptCard.appendChild(handSeg);
-
-  const handControls = createEl("div", "hand-controls");
-  handControls.innerHTML = `
-    <div class="hand-row">
-      <div class="label">Hour Hand</div>
-      <button class="round-btn" type="button" data-nudge="hour:-1" aria-label="Move hour hand backward">−</button>
-      <button class="round-btn" type="button" data-nudge="hour:1" aria-label="Move hour hand forward">+</button>
-    </div>
-    <div class="hand-row">
-      <div class="label">Minute Hand</div>
-      <button class="round-btn" type="button" data-nudge="minute:-1" aria-label="Move minute hand backward">−</button>
-      <button class="round-btn" type="button" data-nudge="minute:1" aria-label="Move minute hand forward">+</button>
-    </div>`;
-  promptCard.appendChild(handControls);
-
   const feedback = createEl("div", "set-feedback");
   feedback.id = "setFeedback";
   promptCard.appendChild(feedback);
@@ -539,30 +539,12 @@ function renderSetPage() {
   const clockWrap = createEl("div", "clock-wrap");
   const clock = buildClockSVG({interactive:true});
   clock.setStatic(0, 0);
-  clock.setActiveHand("minute");
   state.setClock.clock = clock;
   state.setClock.locked = false;
   clockWrap.appendChild(clock.svg);
   clockPanel.appendChild(clockWrap);
 
-  hourSelect.addEventListener("click", () => {
-    clock.setActiveHand("hour");
-    hourSelect.classList.add("active");
-    minuteSelect.classList.remove("active");
-  });
-  minuteSelect.addEventListener("click", () => {
-    clock.setActiveHand("minute");
-    minuteSelect.classList.add("active");
-    hourSelect.classList.remove("active");
-  });
 
-  handControls.querySelectorAll("[data-nudge]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const [hand, direction] = btn.dataset.nudge.split(":");
-      const step = hand === "minute" ? 6 : 1;
-      clock.nudge(hand, Number(direction) * step);
-    });
-  });
 
   check.addEventListener("click", () => {
     if (state.setClock.locked) return;
@@ -571,12 +553,10 @@ function renderSetPage() {
     state.setClock.locked = true;
     clock.setLocked(true);
     check.disabled = true;
-    handControls.querySelectorAll("button").forEach(b => b.disabled = true);
-    hourSelect.disabled = minuteSelect.disabled = true;
-
     if (correct) {
-      feedback.innerHTML = `<strong>Correct!</strong><span class="answer-jp">${time.japaneseReading} (${time.digitalTime})</span>`;
-      attachStamp(clockPanel);
+      feedback.classList.add("correct-feedback");
+      feedback.innerHTML = `<div class="feedback-head"><strong>Correct!</strong></div><span class="answer-jp">${time.japaneseReading} (${time.digitalTime})</span>`;
+      attachStamp(feedback.querySelector(".feedback-head"));
       playSuccessSound();
     } else {
       feedback.innerHTML = `<strong>Not quite.</strong><span class="answer-jp">Correct time: ${time.japaneseReading} (${time.digitalTime})</span>`;
