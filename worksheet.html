@@ -45,16 +45,26 @@
     border-radius: 18px; padding: 30px 24px; margin-bottom: 20px;
   }
 
-  .ws-header{ text-align:center; margin-bottom: 20px; }
+  .ws-header{ text-align:center; margin-bottom: 16px; }
   .ws-kana-header{ font-family: var(--font-brand); font-size: 68px; color: var(--warm-white); line-height:1.1; }
   .ws-romaji-header{ color: var(--pale-gold); font-size: 20px; letter-spacing:0.06em; margin-top:4px; }
 
-  .ws-model-wrap{ display:flex; justify-content:center; margin-bottom: 24px; }
+  .ws-model-row{ display:flex; justify-content:center; align-items:flex-start; gap:24px; margin-bottom: 20px; flex-wrap:wrap; }
+  .ws-model-wrap, .ws-stroke-order-wrap{ display:flex; flex-direction:column; align-items:center; }
   .ws-model-char{
-    font-family: var(--font-brand); font-size: 90px; color: var(--warm-white);
-    width:130px; height:130px; display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-brand); font-size: 76px; color: var(--warm-white);
+    width:110px; height:110px; display:flex; align-items:center; justify-content:center;
     border:1.5px solid rgba(217,196,142,0.3); border-radius:16px; background: rgba(244,241,234,0.03);
   }
+  .ws-model-label{ font-size:11px; color: var(--muted-bluegrey); letter-spacing:0.08em; text-transform:uppercase; margin-top:8px; }
+  .ws-stroke-order-svg{
+    width:110px; height:110px; border-radius:16px; border:1.5px solid rgba(217,196,142,0.3);
+    background: rgba(244,241,234,0.03);
+  }
+  .so-stroke{ fill:none; stroke: var(--warm-white); stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round; }
+  .so-arrow{ fill: var(--pale-gold); }
+  .so-num-bg{ fill: var(--pale-gold); }
+  .so-num-text{ fill: var(--bg-deep); font-size:10px; font-weight:700; font-family:'DM Sans',sans-serif; }
 
   .ws-section-label{
     font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color: var(--muted-bluegrey);
@@ -62,10 +72,12 @@
   }
 
   .ws-box-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom: 8px; }
+  .ws-write-grid{ grid-template-columns:repeat(5,1fr); }
   .ws-box{
     position:relative; aspect-ratio:1; border-radius:12px; overflow:hidden;
     border:1.5px solid rgba(217,196,142,0.35); background: rgba(244,241,234,0.03);
   }
+  .ws-write-box{ border-radius:9px; }
   .ws-guide-cross{ position:absolute; inset:0; pointer-events:none; }
   .ws-guide-cross::before, .ws-guide-cross::after{
     content:""; position:absolute; background: rgba(217,196,142,0.18);
@@ -82,7 +94,15 @@
     touch-action: none; cursor: crosshair; background: transparent;
   }
 
-  .ws-controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin: 18px 0 6px; }
+  .ws-controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center; margin: 18px 0 6px; }
+  .ws-pen-colors{ display:flex; align-items:center; gap:8px; margin-right:6px; }
+  .ws-pen-label{ font-size:13px; color: var(--muted-bluegrey); font-family:'DM Sans',sans-serif; }
+  .ws-pen-color{
+    width:26px; height:26px; border-radius:50%; cursor:pointer;
+    border:2px solid rgba(244,241,234,0.25); padding:0;
+  }
+  .ws-pen-color.active{ border-color: var(--pale-gold); box-shadow: 0 0 0 2px rgba(217,196,142,0.3); }
+
   .ws-ctrl-btn{
     padding:10px 18px; border-radius:999px; font-size:13.5px; cursor:pointer;
     background: transparent; color: var(--warm-white);
@@ -98,17 +118,26 @@
     background: rgba(244,241,234,0.03); border:1px solid rgba(217,196,142,0.18);
     border-radius:12px; padding:14px 10px; text-align:center;
   }
+  .ws-vocab-pic{ font-size:30px; line-height:1; margin-bottom:4px; }
   .ws-vocab-word{ font-family: var(--font-brand); font-size:22px; color: var(--warm-white); }
   .ws-vocab-romaji{ color: var(--pale-gold); font-size:12.5px; margin-top:2px; }
   .ws-vocab-meaning{ color: var(--muted-bluegrey); font-size:12.5px; margin-top:4px; }
+
+  .ws-word-write-row{ display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+  .ws-word-box{
+    position:relative; height:34px; border-radius:6px;
+    border:1.5px solid rgba(217,196,142,0.3); background: rgba(244,241,234,0.03); overflow:hidden;
+  }
+  .ws-word-baseline{ position:absolute; left:0; right:0; top:50%; height:1px; background: rgba(217,196,142,0.2); pointer-events:none; }
 
   .ws-nav-row{ display:flex; justify-content:center; gap:14px; margin-top:8px; }
 
   @media (max-width: 560px){
     .ws-box-grid{ grid-template-columns:repeat(2,1fr); }
+    .ws-write-grid{ grid-template-columns:repeat(3,1fr); }
     .ws-vocab-grid{ grid-template-columns:1fr; }
     .ws-kana-header{ font-size:52px; }
-    .ws-model-char{ width:100px; height:100px; font-size:68px; }
+    .ws-model-char, .ws-stroke-order-svg{ width:90px; height:90px; font-size:60px; }
   }
 
   /* ---------- Print view ---------- */
@@ -127,44 +156,58 @@
       box-shadow: none !important; border-radius: 0 !important;
     }
 
-    .ws-header{ margin-bottom: 6mm !important; }
-    .ws-kana-header{ color: #111 !important; font-size: 40px !important; }
-    .ws-romaji-header{ color: #333 !important; font-size: 14px !important; }
+    .ws-header{ margin-bottom: 4mm !important; }
+    .ws-kana-header{ color: #111 !important; font-size: 34px !important; }
+    .ws-romaji-header{ color: #333 !important; font-size: 12px !important; }
 
-    .ws-model-wrap{ margin-bottom: 8mm !important; }
+    .ws-model-row{ margin-bottom: 5mm !important; gap: 10mm !important; }
     .ws-model-char{
       color: #111 !important; border-color: #999 !important; background: #fff !important;
-      width: 28mm !important; height: 28mm !important; font-size: 46px !important;
+      width: 24mm !important; height: 24mm !important; font-size: 38px !important;
     }
+    .ws-stroke-order-svg{ width: 24mm !important; height: 24mm !important; }
+    .so-stroke{ stroke: #222 !important; }
+    .so-arrow, .so-num-bg{ fill: #999 !important; }
+    .so-num-text{ fill: #fff !important; }
+    .ws-model-label{ color: #666 !important; font-size: 8px !important; margin-top: 2mm !important; }
 
-    .ws-section-label{ color: #555 !important; margin: 6mm 0 3mm !important; font-size: 10px !important; }
+    .ws-section-label{ color: #555 !important; margin: 4mm 0 2mm !important; font-size: 9px !important; }
 
-    /* Fixed compact box size — NOT stretched to fill the grid column,
+    /* Fixed compact box sizes — NOT stretched to fill the grid column,
        which is what caused overflow to a second page originally. */
     .ws-box-grid{
       display: flex !important; flex-wrap: wrap !important;
-      gap: 5mm !important; margin-bottom: 3mm !important;
+      gap: 4mm !important; margin-bottom: 2mm !important;
     }
     .ws-box{
       flex: 0 0 auto !important;
-      width: 38mm !important; height: 38mm !important;
+      width: 30mm !important; height: 30mm !important;
       aspect-ratio: unset !important;
       border: 1.5px solid #444 !important;
       background: #fff !important;
       break-inside: avoid;
     }
+    .ws-write-box{
+      width: 18mm !important; height: 18mm !important;
+    }
     .ws-guide-cross::before, .ws-guide-cross::after{ background: #bbb !important; }
-    .ws-trace-ref{ color: #ccc !important; font-size: 42px !important; }
+    .ws-trace-ref{ color: #ccc !important; font-size: 30px !important; }
 
-    #wsWriteGrid{ width: 129mm !important; } /* forces exactly 3 per row at 38mm + 5mm gap */
+    #wsTraceGrid{ width: 136mm !important; } /* 4 boxes at 30mm + 4mm gap */
+    #wsWriteGrid{ width: 118mm !important; } /* 5 boxes at 18mm + 4mm gap */
 
-    .ws-vocab-grid{ gap: 5mm !important; margin-top: 3mm !important; }
+    .ws-vocab-grid{ gap: 4mm !important; margin-top: 2mm !important; }
     .ws-vocab-item{ border: 1px solid #999 !important; background: #fff !important; padding: 3mm 2mm !important; }
-    .ws-vocab-word{ color: #111 !important; font-size: 18px !important; }
-    .ws-vocab-romaji{ color: #444 !important; font-size: 11px !important; }
-    .ws-vocab-meaning{ color: #444 !important; font-size: 11px !important; }
+    .ws-vocab-pic{ font-size: 22px !important; }
+    .ws-vocab-word{ color: #111 !important; font-size: 16px !important; }
+    .ws-vocab-romaji{ color: #444 !important; font-size: 9px !important; }
+    .ws-vocab-meaning{ color: #444 !important; font-size: 9px !important; }
 
-    .ws-header, .ws-model-wrap, .ws-section-label, .ws-box-grid, .ws-vocab-grid{
+    .ws-word-write-row{ gap: 1.5mm !important; margin-top: 2mm !important; }
+    .ws-word-box{ height: 7mm !important; border: 1px solid #777 !important; }
+    .ws-word-baseline{ background: #ccc !important; }
+
+    .ws-header, .ws-model-row, .ws-section-label, .ws-box-grid, .ws-vocab-grid, .ws-vocab-item{
       break-inside: avoid;
     }
   }
@@ -202,21 +245,34 @@
           <div class="ws-romaji-header" id="wsRomajiHeader"></div>
         </div>
 
-        <div class="ws-model-wrap">
-          <div class="ws-model-char" id="wsModelChar"></div>
+        <div class="ws-model-row">
+          <div class="ws-model-wrap">
+            <div class="ws-model-char" id="wsModelChar"></div>
+            <div class="ws-model-label">Model</div>
+          </div>
+          <div class="ws-stroke-order-wrap">
+            <div id="wsStrokeOrder"></div>
+            <div class="ws-model-label">Stroke Order</div>
+          </div>
         </div>
 
         <div class="ws-section-label">Trace</div>
         <div class="ws-box-grid" id="wsTraceGrid"></div>
 
         <div class="ws-section-label">Write by yourself</div>
-        <div class="ws-box-grid" id="wsWriteGrid"></div>
+        <div class="ws-box-grid ws-write-grid" id="wsWriteGrid"></div>
 
-        <div class="ws-section-label">Vocabulary</div>
+        <div class="ws-section-label">Vocabulary — write each word 3 times</div>
         <div class="ws-vocab-grid" id="wsVocabGrid"></div>
       </div>
 
       <div class="ws-controls">
+        <div class="ws-pen-colors">
+          <span class="ws-pen-label">Pen:</span>
+          <button class="ws-pen-color active" data-color="white" title="White" style="background:#F4F1EA"></button>
+          <button class="ws-pen-color" data-color="blue" title="Blue" style="background:#5B8DEF"></button>
+          <button class="ws-pen-color" data-color="red" title="Red" style="background:#E0687A"></button>
+        </div>
         <button class="ws-ctrl-btn" id="wsUndoBtn">Undo</button>
         <button class="ws-ctrl-btn" id="wsClearBoxBtn">Clear current box</button>
         <button class="ws-ctrl-btn" id="wsResetBtn">Reset page</button>
