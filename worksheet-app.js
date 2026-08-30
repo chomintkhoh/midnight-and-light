@@ -118,22 +118,22 @@ const STROKE_ORDER = {
     { d: "M62,15 C60,28 58,42 56,52", num: [70, 12], arrow: [62, 15, 100] }
   ],
   "う": [
-    { d: "M30,22 C40,19 50,18 58,20", num: [24, 18], arrow: [30, 22, -8] },
-    { d: "M35,35 C48,30 62,35 60,48 C58,62 45,75 32,72", num: [27, 32], arrow: [35, 35, 350] }
+    { d: "M30,22 C40,19 50,18 58,20", num: [20, 14], arrow: [30, 22, -8] },
+    { d: "M35,35 C48,30 62,35 60,48 C58,62 45,75 32,72", num: [20, 40], arrow: [35, 35, 350] }
   ],
   "え": [
     { d: "M28,28 C38,25 48,24 56,25", num: [20, 24], arrow: [28, 28, -8] },
     { d: "M50,15 C40,25 30,35 32,48 C34,58 55,55 65,65 C72,73 68,82 55,84", num: [56, 12], arrow: [50, 15, 130] }
   ],
   "お": [
-    { d: "M26,28 C36,25 46,24 54,25", num: [18, 24], arrow: [26, 28, -8] },
-    { d: "M46,15 C44,32 40,50 34,64 C30,74 36,82 46,80 C58,77 62,62 56,52 C52,45 44,46 40,50", num: [38, 12], arrow: [46, 15, 100] },
-    { d: "M68,20 C72,25 74,32 70,38", num: [76, 16], arrow: [68, 20, 60] }
+    { d: "M26,28 C36,25 46,24 54,25", num: [14, 32], arrow: [26, 28, -8] },
+    { d: "M46,15 C44,32 40,50 34,64 C30,74 36,82 46,80 C58,77 62,62 56,52 C52,45 44,46 40,50", num: [42, 6], arrow: [46, 15, 100] },
+    { d: "M68,20 C72,25 74,32 70,38", num: [82, 20], arrow: [68, 20, 60] }
   ],
   "か": [
-    { d: "M45,15 C40,32 32,52 22,68", num: [37, 12], arrow: [45, 15, 115] },
-    { d: "M55,22 C58,35 60,50 55,62 C50,74 38,80 28,74", num: [63, 19], arrow: [55, 22, 100] },
-    { d: "M68,18 C72,24 74,30 70,36", num: [76, 14], arrow: [68, 18, 60] }
+    { d: "M45,15 C40,32 32,52 22,68", num: [33, 6], arrow: [45, 15, 115] },
+    { d: "M55,22 C58,35 60,50 55,62 C50,74 38,80 28,74", num: [58, 8], arrow: [55, 22, 100] },
+    { d: "M68,18 C72,24 74,30 70,36", num: [84, 22], arrow: [68, 18, 60] }
   ],
   "き": [
     { d: "M24,24 C36,21 48,20 60,18", num: [12, 16], arrow: [22, 24, -10] },
@@ -145,8 +145,8 @@ const STROKE_ORDER = {
     { d: "M65,20 C50,35 38,45 32,50 C40,58 55,72 68,82", num: [73, 16], arrow: [65, 20, 145] }
   ],
   "け": [
-    { d: "M28,18 C26,35 25,55 27,72", num: [20, 15], arrow: [28, 18, 95] },
-    { d: "M35,32 C45,30 52,29 58,28", num: [27, 28], arrow: [35, 32, -8] },
+    { d: "M28,18 C26,35 25,55 27,72", num: [14, 12], arrow: [28, 18, 95] },
+    { d: "M35,32 C45,30 52,29 58,28", num: [40, 16], arrow: [35, 32, -8] },
     { d: "M68,18 C66,35 64,55 60,74 C58,80 54,82 48,80", num: [76, 15], arrow: [68, 18, 95] }
   ],
   "こ": [
@@ -178,17 +178,23 @@ const STROKE_ORDER = {
 function buildStrokeOrderSVG(char) {
   const strokes = STROKE_ORDER[char];
   if (!strokes) return "";
-  const parts = strokes.map((s, i) => {
+  // The character itself is a normal font glyph (matching Model/Trace),
+  // not reconstructed from paths. Only starting-point numbers and small
+  // direction arrows are overlaid — this is the redesign approved after
+  // あ・き・す were reviewed against the original hand-drawn-path version.
+  const markers = strokes.map((s, i) => {
     const [nx, ny] = s.num;
     const [ax, ay, angle] = s.arrow;
     return `
-      <path class="so-stroke" d="${s.d}"/>
-      <g transform="translate(${ax},${ay}) rotate(${angle})"><path class="so-arrow" d="M-4,-3 L4,0 L-4,3 Z"/></g>
-      <circle class="so-num-bg" cx="${nx}" cy="${ny}" r="7"/>
+      <g transform="translate(${ax},${ay}) rotate(${angle})"><path class="so-arrow" d="M-4.5,-3.5 L5,0 L-4.5,3.5 Z"/></g>
+      <circle class="so-num-bg" cx="${nx}" cy="${ny}" r="8"/>
       <text class="so-num-text" x="${nx}" y="${ny + 4}" text-anchor="middle">${i + 1}</text>
     `;
   }).join("");
-  return `<svg viewBox="0 0 100 100" class="ws-stroke-order-svg">${parts}</svg>`;
+  return `
+    <div class="ws-stroke-order-char">${char}</div>
+    <svg viewBox="0 0 100 100" class="ws-stroke-order-markers">${markers}</svg>
+  `;
 }
 
 /* ---------- Drawing engine ----------
@@ -398,12 +404,22 @@ function buildWriteBox() {
   return { wrap, canvas };
 }
 
-function buildWordWriteBox() {
+// One square box per Hiragana character in a vocabulary word — used for
+// both the traceable row (light-grey reference character shown) and the
+// two independent-writing rows (blank). Same drawing engine as every
+// other box on the page, just sized for the vocab-writing context.
+function buildVocabCharBox(char, showReference) {
   const wrap = document.createElement("div");
-  wrap.className = "ws-word-box";
+  wrap.className = "ws-vocab-char-box";
   const guide = document.createElement("div");
-  guide.className = "ws-word-baseline";
+  guide.className = "ws-guide-cross";
   wrap.appendChild(guide);
+  if (showReference) {
+    const ref = document.createElement("div");
+    ref.className = "ws-trace-ref ws-vocab-char-ref";
+    ref.textContent = char;
+    wrap.appendChild(ref);
+  }
   const canvas = document.createElement("canvas");
   canvas.className = "ws-canvas";
   wrap.appendChild(canvas);
@@ -444,20 +460,32 @@ function render() {
   entry.vocab.forEach(v => {
     const item = document.createElement("div");
     item.className = "ws-vocab-item";
-    item.innerHTML = `
+
+    const info = document.createElement("div");
+    info.className = "ws-vocab-info";
+    info.innerHTML = `
       <div class="ws-vocab-pic">${v.emoji || ""}</div>
       <div class="ws-vocab-word">${v.word}</div>
       <div class="ws-vocab-romaji">${v.romaji}</div>
       <div class="ws-vocab-meaning">${v.meaning}</div>
     `;
-    const wordWriteRow = document.createElement("div");
-    wordWriteRow.className = "ws-word-write-row";
-    for (let i = 0; i < 3; i++) {
-      const { wrap, canvas } = buildWordWriteBox();
-      wordWriteRow.appendChild(wrap);
-      allControllers.push(createCanvasController(canvas));
-    }
-    item.appendChild(wordWriteRow);
+    item.appendChild(info);
+
+    const writing = document.createElement("div");
+    writing.className = "ws-vocab-writing";
+    const chars = [...v.word]; // one box per Hiragana character
+    // Row 1: trace (reference shown). Rows 2–3: independent writing (blank).
+    [true, false, false].forEach(showReference => {
+      const row = document.createElement("div");
+      row.className = "ws-vocab-char-row";
+      chars.forEach(ch => {
+        const { wrap, canvas } = buildVocabCharBox(ch, showReference);
+        row.appendChild(wrap);
+        allControllers.push(createCanvasController(canvas));
+      });
+      writing.appendChild(row);
+    });
+    item.appendChild(writing);
     vocabGrid.appendChild(item);
   });
 
