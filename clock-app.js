@@ -14,8 +14,8 @@ const setTab = document.getElementById("setTab");
 
 const QUESTIONS_PER_WORKSHEET = 9;
 const HISTORY_DEPTH = 4;
-const STAMP_SRC = "./assets/great-stamp.png";
-const SUCCESS_SOUND_SRC = "./assets/success-stamp.mp3";
+const STAMP_SRC = "./assets/images/great-stamp.png";
+const SUCCESS_SOUND_SRC = "./assets/audio/ui/success-stamp.mp3";
 
 const successSound = new Audio(SUCCESS_SOUND_SRC);
 successSound.preload = "auto";
