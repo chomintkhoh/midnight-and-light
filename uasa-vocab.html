@@ -779,8 +779,35 @@
   .teacher-options{margin:20px 0;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--panel);}
   .teacher-options summary{cursor:pointer;font-weight:700;color:var(--accent-dark);}
   .teacher-options p{font-size:13px;color:var(--ink-soft);}
-  .reading-coming{opacity:.72;}
   @media(max-width:620px){.learning-path b{display:none}.learning-path span{width:100%;}}
+
+
+  /* V2.3 reading practice */
+  .reading-level-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;}
+  .reading-level-btn{display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px;border:1.5px solid var(--border);border-radius:14px;background:#fff;color:var(--ink);min-height:100px;}
+  .reading-level-btn b{font-size:17px;color:var(--accent-dark);}
+  .reading-level-btn small{font-size:13px;line-height:1.45;color:var(--ink-soft);}
+  .reading-step{font-weight:800;font-size:18px;color:var(--accent-dark);margin-bottom:8px;}
+  .reading-preview-q{padding:11px 12px;margin:8px 0;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:8px;line-height:1.55;}
+  .qtype{display:inline-block;font-size:12px;font-weight:700;padding:3px 7px;border-radius:999px;background:#fff;margin-right:6px;color:var(--accent-dark);}
+  .question-key-box{margin-top:14px;padding:12px;border:1px dashed var(--border);border-radius:10px;}
+  .question-key-box span{display:inline-block;margin:6px 6px 0 0;padding:5px 8px;border-radius:8px;background:#fff;font-size:13px;}
+  .reading-passage{font-size:17px;line-height:1.95;white-space:pre-line;padding:12px 4px;}
+  .vocab-help-box{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;}
+  .vocab-help-item{padding:10px 0;border-bottom:1px solid var(--border);}
+  .vocab-help-item:last-child{border-bottom:0;}
+  .vocab-help-item b{font-size:17px;}
+  .reading-q-card{padding:14px 0;border-bottom:1px solid var(--border);}
+  .reading-q-card:last-child{border-bottom:0;}
+  .reading-q-text{font-size:17px;font-weight:700;line-height:1.55;margin-bottom:10px;}
+  .reading-q-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .reading-q-options button{min-height:62px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:#fff;text-align:left;font-size:15px;line-height:1.4;}
+  .reading-q-options button.correct{background:#edf8ef;border-color:#5b9b67;}
+  .reading-q-options button.wrong{background:#ffe5e5;border-color:#d74747;color:#9f2727;}
+  .reading-feedback{margin-top:10px;padding:11px;border-radius:10px;line-height:1.55;background:#f5f6f8;}
+  .reading-feedback.wrong{background:#fff0f0;color:#8f2f2f;}
+  .evidence{margin-top:5px;font-size:14px;}
+  @media(max-width:620px){.reading-level-grid,.reading-q-options{grid-template-columns:1fr;}}
 
 </style>
 </head>
@@ -867,9 +894,9 @@
           <span class="m-title">🔁 错词复习 / Review Weak Words</span>
           <span class="m-desc">重点复习比较生疏的词语。 · Review words that need more practice.</span>
         </button>
-        <button class="menu-btn reading-coming" type="button">
+        <button class="menu-btn" id="btnEnterReading" type="button">
           <span class="m-title">📖 阅读训练 / Reading Practice</span>
-          <span class="m-desc">阅读训练将在下一阶段加入。 · Reading practice will be added in the next stage.</span>
+          <span class="m-desc">先看问题，再带着目的阅读和作答。 · Read the questions first, then read with a purpose.</span>
         </button>
       </div>
     </div>
@@ -889,21 +916,37 @@
     <div class="btn-row center">
       <button class="btn btn-warn" id="btnResetProgress">重置学习记录 / Reset Progress</button>
     </div>
-    <div class="progress-note">V2.2 · 清晰学习路线＋全站双语指示检查＋手写与基础训练修正</div>
+    <div class="progress-note">V2.3 · 常用字学习＋中文理解练习＋阅读训练＋双语操作指示</div>
   </section>
 
 
   <!-- ============ 常用字基础 CHARACTER FOUNDATION ============ -->
   <section id="screen-foundation" class="screen hidden">
-    <div class="mode-topbar"><h2>常用字基础</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单</button></div>
-    <div class="panel">
-      <p><b>目标：</b>先补“看见这个字就知道大概意思”的能力，不按年级限制。</p>
-      <p class="sub-en">Build character recognition first. These are useful reading characters, not a grade label.</p>
+    <div class="mode-topbar"><h2>常用字基础 / Character Foundation</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单 / Main Menu</button></div>
+    <div class="panel" id="foundationHub">
+      <p><b>学习目标 / Goal：</b>先做到“看见这个字就知道大概意思”，不按年级限制。<br><span class="sub-en">Build recognition first: see the character and understand its approximate meaning.</span></p>
+      <p>第一次学习建议先选“学习”，认识字以后再做“练习”。<br><span class="sub-en">If this is your first time, choose Learn first, then move to Practice.</span></p>
+      <div class="menu-grid">
+        <button class="menu-btn" id="btnFoundationLearn"><span class="m-title">① 学习 / Learn</span><span class="m-desc">字＋拼音＋中文意思＋English＋例句＋发音</span></button>
+        <button class="menu-btn" id="btnFoundationPractice"><span class="m-title">② 练习 / Practice</span><span class="m-desc">先用中文理解作答，英文只作为答错后的辅助。 · Answer mainly through Chinese; English helps after mistakes.</span></button>
+      </div>
+    </div>
+    <div class="panel hidden" id="foundationLearnArea">
+      <div class="round-progress" id="foundationLearnProgress"></div>
+      <div id="foundationLearnCard"></div>
+      <div class="btn-row center">
+        <button class="btn btn-outline" id="btnFoundationSpeak">🔊 听发音 / Listen</button>
+        <button class="btn btn-primary" id="btnFoundationLearnNext">下一个 / Next</button>
+      </div>
+      <div class="btn-row center"><button class="btn btn-ghost" id="btnFoundationToPractice">开始练习 / Start Practice</button></div>
+    </div>
+    <div class="panel hidden" id="foundationPracticeArea">
+      <p>根据例句和中文意思选择正确答案。<br><span class="sub-en">Use the example and Chinese meaning to choose the correct answer.</span></p>
       <div class="round-progress" id="foundationProgress"></div>
       <div id="foundationCard"></div>
       <div class="quiz-options" id="foundationOptions"></div>
       <div class="feedback-box hidden" id="foundationFeedback"></div>
-      <div class="btn-row center"><button class="btn btn-primary" id="btnFoundationNext">下一字</button></div>
+      <div class="btn-row center"><button class="btn btn-primary" id="btnFoundationNext">下一字 / Next Character</button></div>
     </div>
   </section>
 
@@ -1136,7 +1179,68 @@
 
   </section>
 
-  <footer class="app-footer">Midnight &amp; Light · UASA 华语词汇训练工具（V1.4）</footer>
+  <!-- ============ 阅读训练 READING PRACTICE ============ -->
+  <section id="screen-reading" class="screen hidden">
+    <div class="mode-topbar"><h2>阅读训练 / Reading Practice</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单 / Main Menu</button></div>
+
+    <div class="panel" id="readingHub">
+      <p><b>练习方法 / How to practise：</b>先看问题，再带着问题阅读。遇到真正影响理解的词，才打开词语帮助。<br><span class="sub-en">Read the questions first, then read with a purpose. Open vocabulary help only when a word blocks your understanding.</span></p>
+      <p>请选择阅读程度。<br><span class="sub-en">Choose a reading level.</span></p>
+      <div class="reading-level-grid">
+        <button class="reading-level-btn" data-reading-level="基础"><b>🌱 基础 / Basic</b><small>短文较短，重点练定位和基本理解。<br>Shorter passages for locating information and basic comprehension.</small></button>
+        <button class="reading-level-btn" data-reading-level="进阶"><b>🌿 进阶 / Intermediate</b><small>加入情绪、原因和词义判断。<br>Adds emotion, cause and word-meaning questions.</small></button>
+        <button class="reading-level-btn" data-reading-level="UASA"><b>🌳 UASA Practice</b><small>接近小六阅读题型与推理方式。<br>Closer to Year 6 comprehension question types.</small></button>
+        <button class="reading-level-btn" data-reading-level="挑战"><b>🔥 挑战 / Challenge</b><small>需要较多推论、人物判断与主旨理解。<br>More inference, character judgement and main-idea work.</small></button>
+      </div>
+    </div>
+
+    <div class="hidden" id="readingWork">
+      <div class="round-progress" id="readingLevelLabel"></div>
+
+      <div class="panel" id="readingStepQuestions">
+        <div class="reading-step">① 先看问题 / Read the Questions First</div>
+        <p>先不要看文章。读一遍问题，注意每题在问什么。<br><span class="sub-en">Do not read the passage yet. Read the questions and notice what each one is asking.</span></p>
+        <div id="readingQuestionPreview"></div>
+        <div class="question-key-box">
+          <b>题目关键词 / Question Keywords</b>
+          <div id="readingKeywordGuide"></div>
+        </div>
+        <div class="btn-row center"><button class="btn btn-primary" id="btnReadingShowPassage">我看完问题了，开始阅读 / Start Reading</button></div>
+      </div>
+
+      <div class="panel hidden" id="readingStepPassage">
+        <div class="reading-step">② 带着问题阅读 / Read with a Purpose</div>
+        <p>先自己阅读。只有当词语真的让你看不懂句子时，才按词语帮助。<br><span class="sub-en">Read by yourself first. Open vocabulary help only when a word truly blocks the sentence.</span></p>
+        <h3 id="readingTitle"></h3>
+        <div class="reading-passage" id="readingPassage"></div>
+        <details class="vocab-help-box">
+          <summary>词语帮助 / Vocabulary Help</summary>
+          <p>需要时才打开。<br><span class="sub-en">Open only when needed.</span></p>
+          <div id="readingVocabHelp"></div>
+        </details>
+        <div class="btn-row center"><button class="btn btn-primary" id="btnReadingAnswer">开始答题 / Answer Questions</button></div>
+      </div>
+
+      <div class="panel hidden" id="readingStepAnswer">
+        <div class="reading-step">③ 回答问题 / Answer the Questions</div>
+        <p>回到文章找证据，不要只凭感觉选择。<br><span class="sub-en">Return to the passage and look for evidence. Do not answer by guessing alone.</span></p>
+        <div id="readingQuestionArea"></div>
+      </div>
+
+      <div class="panel hidden" id="readingStepReread">
+        <div class="reading-step">④ 完整读一次 / Read the Whole Passage Again</div>
+        <p>题目完成后，再完整读一次文章，把刚才理解的词语和内容连起来。<br><span class="sub-en">After answering, read the whole passage once more and connect the vocabulary with the full meaning.</span></p>
+        <h3 id="readingRereadTitle"></h3>
+        <div class="reading-passage" id="readingRereadPassage"></div>
+        <div class="btn-row center">
+          <button class="btn btn-primary" id="btnReadingNext">下一篇 / Next Passage</button>
+          <button class="btn btn-outline" id="btnReadingLevels">选择其他程度 / Choose Another Level</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="app-footer">Midnight &amp; Light · 华文学习练习</footer>
 </div>
 
 <div id="modalRoot"></div>
@@ -2710,39 +2814,31 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   function nextFoundation(){
     let d=foundationDeck(),i=d.shift();
     localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d));
-    let x=FOUNDATION_CHARS[i];
-    foundationCurrent=x;
-    document.getElementById("foundationProgress").textContent="本轮字库剩余："+d.length+" / "+FOUNDATION_CHARS.length;
-    document.getElementById("foundationCard").innerHTML=`<div class="char-title" style="font-size:42px">${x[0]}</div><div class="char-note">${x[1]}</div><div class="char-example">${x[4]}</div><p class="char-note">先根据例句猜意思，再选择。<br><span class="sub-en">Guess the meaning from the example, then choose.</span></p>`;
-    let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3).map(y=>y[2]);
-    let opts=shuffle([x[2],...distract]),o=document.getElementById("foundationOptions");
-    o.innerHTML="";
-    let fb=document.getElementById("foundationFeedback");
-    fb.classList.add("hidden");
-    fb.classList.remove("foundation-wrong");
+    let x=FOUNDATION_CHARS[i]; foundationCurrent=x;
+    document.getElementById("foundationProgress").textContent="本轮字库剩余 / Characters left："+d.length+" / "+FOUNDATION_CHARS.length;
+    document.getElementById("foundationCard").innerHTML=`<div class="char-title" style="font-size:42px">${x[0]}</div><div class="char-example">${x[4]}</div><p class="char-note">请选择最接近的中文意思。<br><span class="sub-en">Choose the closest Chinese meaning.</span></p>`;
+    let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3).map(y=>y[3]);
+    let opts=shuffle([x[3],...distract]),o=document.getElementById("foundationOptions");
+    o.innerHTML="";let fb=document.getElementById("foundationFeedback");fb.classList.add("hidden");fb.classList.remove("foundation-wrong");
     opts.forEach(v=>{
-      let b=document.createElement("button");
-      b.className="quiz-option foundation-option";
-      b.textContent=v;
+      let b=document.createElement("button");b.className="quiz-option foundation-option";b.textContent=v;
       b.onclick=()=>{
-        o.querySelectorAll("button").forEach(z=>{
-          z.disabled=true;
-          if(z.textContent===x[2]) z.classList.add("correct");
-        });
-        if(v===x[2]){
-          playCorrectSound();
-          fb.innerHTML=`✓ 答对了！<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}`;
-        }else{
-          b.classList.add("wrong");
-          fb.classList.add("foundation-wrong");
-          fb.innerHTML=`✗ 答错了。正确答案：${x[2]}<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}<br>${x[4]}<br><button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText('${x[0]}')">🔊 听发音 / Listen</button>`;
-        }
+        o.querySelectorAll("button").forEach(z=>{z.disabled=true;if(z.textContent===x[3])z.classList.add("correct")});
+        if(v===x[3]){playCorrectSound();fb.innerHTML=`✓ 答对了！ / Correct!<br><b>${x[0]}</b> · ${x[1]}`;}
+        else{b.classList.add("wrong");fb.classList.add("foundation-wrong");fb.innerHTML=`✗ 答错了。 / Incorrect.<br><b>正确答案 / Correct Answer：</b>${x[3]}<br><b>${x[0]}</b> · ${x[1]} · ${x[2]}<br>${x[4]}<br><button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText('${x[0]}')">🔊 听发音 / Listen</button>`;}
         fb.classList.remove("hidden");
-      };
-      o.appendChild(b);
+      };o.appendChild(b);
     });
   }
-  function bindFoundationEvents(){document.getElementById("btnEnterFoundation")?.addEventListener("click",()=>{showScreen("foundation");nextFoundation()});document.getElementById("btnFoundationNext")?.addEventListener("click",nextFoundation)}
+  function bindFoundationEvents(){
+    document.getElementById("btnEnterFoundation")?.addEventListener("click",openFoundationHub);
+    document.getElementById("btnFoundationLearn")?.addEventListener("click",startFoundationLearn);
+    document.getElementById("btnFoundationPractice")?.addEventListener("click",startFoundationPractice);
+    document.getElementById("btnFoundationNext")?.addEventListener("click",nextFoundation);
+    document.getElementById("btnFoundationSpeak")?.addEventListener("click",()=>{const x=FOUNDATION_CHARS[foundationLearnIndex%FOUNDATION_CHARS.length];speakAnswerText(x[0])});
+    document.getElementById("btnFoundationLearnNext")?.addEventListener("click",()=>{foundationLearnIndex=(foundationLearnIndex+1)%FOUNDATION_CHARS.length;renderFoundationLearn()});
+    document.getElementById("btnFoundationToPractice")?.addEventListener("click",startFoundationPractice);
+  }
 
   // ===== 真正轮替：题库未走完前，不把旧题重新放回 =====
   const MIX_DECK_PREFIX="UASA_MIX_DECK_V20_";
@@ -3605,7 +3701,7 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     const pool = VOCAB_DATA.filter(w=>{
       const catOk = state.filterCategory === "全部" || w.category === state.filterCategory;
       const diffOk = hwDiff === "全部" || w.difficulty === hwDiff;
-      return catOk && diffOk;
+      return w.writingUseful && catOk && diffOk;
     });
     const word = pickWeightedWord(pool);
     if(!word){
@@ -3813,6 +3909,282 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     });
   }
 
+
+  let foundationLearnIndex=0;
+  function openFoundationHub(){
+    showScreen("foundation");
+    document.getElementById("foundationHub").classList.remove("hidden");
+    document.getElementById("foundationLearnArea").classList.add("hidden");
+    document.getElementById("foundationPracticeArea").classList.add("hidden");
+  }
+  function startFoundationLearn(){
+    foundationLearnIndex=0;
+    document.getElementById("foundationHub").classList.add("hidden");
+    document.getElementById("foundationPracticeArea").classList.add("hidden");
+    document.getElementById("foundationLearnArea").classList.remove("hidden");
+    renderFoundationLearn();
+  }
+  function renderFoundationLearn(){
+    const x=FOUNDATION_CHARS[foundationLearnIndex%FOUNDATION_CHARS.length];
+    document.getElementById("foundationLearnProgress").textContent=`学习进度 / Learning Progress：${foundationLearnIndex+1} / ${FOUNDATION_CHARS.length}`;
+    document.getElementById("foundationLearnCard").innerHTML=`<div class="char-title" style="font-size:52px;text-align:center">${x[0]}</div><div style="text-align:center;font-size:18px">${x[1]}</div><div style="margin-top:14px"><b>中文意思 / Chinese Meaning：</b>${x[3]}</div><div><b>English：</b>${x[2]}</div><div style="margin-top:10px"><b>例句 / Example：</b>${x[4]}</div>`;
+  }
+  function startFoundationPractice(){
+    document.getElementById("foundationHub").classList.add("hidden");
+    document.getElementById("foundationLearnArea").classList.add("hidden");
+    document.getElementById("foundationPracticeArea").classList.remove("hidden");
+    nextFoundation();
+  }
+
+
+  // ===== 阅读训练：原创短文，题型参考用户提供的小六/升中阅读材料结构，不复制原文 =====
+  const READING_DATA = [
+    {
+      id:"r_b1", level:"基础", title:"忘记带水壶",
+      passage:"早上出门时，小安走得很匆忙，把水壶忘在餐桌上。到了学校，他上完体育课后觉得很口渴，却发现书包里没有水壶。坐在旁边的志明看见了，主动把自己还没喝过的一瓶水递给他。小安连忙道谢。放学前，他在记事本上写下“明天检查书包”，提醒自己不要再忘记东西。",
+      vocab:[
+        ["匆忙","cōng máng","急急忙忙，时间很赶","in a hurry"],
+        ["主动","zhǔ dòng","不用别人要求，自己先去做","take the initiative"],
+        ["提醒","tí xǐng","让别人或自己注意一件事","remind"]
+      ],
+      questions:[
+        {type:"事情",q:"小安到了学校后发现自己忘了带什么？",opts:["水壶","课本","记事本","运动鞋"],a:0,e:"文章直接说他“把水壶忘在餐桌上”。",why:"这是寻找文章明确写出的事情。"},
+        {type:"原因",q:"志明为什么把水递给小安？",opts:["小安上课迟到","小安觉得口渴又没有水","老师要求他这样做","志明不喜欢喝水"],a:1,e:"线索是“小安……觉得很口渴，却发现书包里没有水壶”。",why:"先找“为什么”前后的原因线索。"},
+        {type:"人物表现",q:"志明的行为最能说明他怎样？",opts:["粗心","乐于助人","固执","冲动"],a:1,e:"他看见同学需要帮助，就主动把水递过去。",why:"人物特点要用行为作证据。"},
+        {type:"方法",q:"小安最后用什么方法避免再次忘记东西？",opts:["请同学每天提醒","不再带水壶","写在记事本上提醒自己","把书包留在学校"],a:2,e:"文章最后写他在记事本上记录提醒。",why:"答案在结尾的行动。"}
+      ]
+    },
+    {
+      id:"r_b2", level:"基础", title:"雨后的走廊",
+      passage:"午休时下了一场大雨。雨停后，靠近楼梯的走廊有一小片积水。几名学生经过时差点滑倒。美玲看见后，没有继续往前走，而是先去找拖把，把地面擦干。她又把“小心地滑”的牌子放在旁边。值日老师经过时称赞她做事细心，美玲只是笑着说：“大家安全就好。”",
+      vocab:[
+        ["积水","jī shuǐ","留在地面、没有流走的水","standing water"],
+        ["滑倒","huá dǎo","因为地面滑而跌倒","slip and fall"],
+        ["称赞","chēng zàn","说别人做得好","praise"]
+      ],
+      questions:[
+        {type:"原因",q:"学生经过走廊时为什么差点滑倒？",opts:["走廊太暗","地上有积水","学生在搬桌子","楼梯坏了"],a:1,e:"文章说明大雨后走廊有一小片积水。",why:"原因就在事件发生前。"},
+        {type:"经过",q:"美玲先做了什么？",opts:["放警告牌","找拖把擦地","告诉校长","回教室休息"],a:1,e:"文章写她“先去找拖把，把地面擦干”，之后才放牌子。",why:"注意“先、又”等表示顺序的词。"},
+        {type:"性格",q:"美玲最可能是怎样的人？",opts:["细心又负责","自私又固执","容易紧张","喜欢炫耀"],a:0,e:"她主动处理积水并放警告牌，目的是保护大家安全。",why:"性格题要结合多个行为判断。"},
+        {type:"词义",q:"“称赞”在文中最接近什么意思？",opts:["批评","提醒","表扬","拒绝"],a:2,e:"老师认为她做事细心，所以“称赞”就是表扬。",why:"把词放回上下文判断，不只看单个字。"}
+      ]
+    },
+    {
+      id:"r_i1", level:"进阶", title:"被改掉的海报",
+      passage:"班级要参加环保宣传比赛，小杰花了两个晚上设计海报。第二天，他发现组员把海报上的图案改了不少，心里很不是滋味。他皱着眉问：“为什么没有先告诉我？”组员听出他的语气有些生硬，也不高兴起来。两人沉默了一会儿。后来，小杰先冷静下来，请组员说明修改的原因。原来有些文字太小，远处看不清楚。小杰听后觉得这个意见有道理，两人便一起重新调整版面。最后，海报比原来的设计更清楚，也保留了小杰喜欢的图案。",
+      vocab:[
+        ["不是滋味","bú shì zī wèi","心里不好受、不舒服","feel upset"],
+        ["生硬","shēng yìng","说话或态度不自然、不柔和","harsh / stiff"],
+        ["调整","tiáo zhěng","改变一些地方，使它更合适","adjust"]
+      ],
+      questions:[
+        {type:"感受",q:"小杰刚发现海报被改时，心情怎样？",opts:["欣慰","委屈又不舒服","佩服","轻松"],a:1,e:"“心里很不是滋味”说明他因为自己的设计被改而不好受。",why:"感受题要抓动作、表情和情绪词。"},
+        {type:"原因",q:"组员为什么修改海报？",opts:["不喜欢小杰","文字太小，远处看不清","想独自参加比赛","老师要求全部重做"],a:1,e:"组员后来说明，有些文字太小，远处看不清。",why:"真正原因在后文解释，不是小杰一开始的猜测。"},
+        {type:"态度",q:"小杰后来怎样化解两人的不愉快？",opts:["坚持自己完全正确","不再理会组员","冷静下来并听对方解释","把海报丢掉"],a:2,e:"他先冷静，再请组员说明原因，之后一起调整。",why:"找人物态度发生变化后的行动。"},
+        {type:"启发",q:"这件事最适合带出什么道理？",opts:["合作时沟通和听取意见很重要","做海报一定要用大字","比赛输赢最重要","遇到意见不同就应该放弃"],a:0,e:"冲突是在双方重新沟通、理解理由后解决的。",why:"启发要概括整件事，不只抓一个细节。"}
+      ]
+    },
+    {
+      id:"r_i2", level:"进阶", title:"迟到的模型",
+      passage:"科学课前一天，凯文答应把小组的火山模型带到学校。当天早上，他却睡过头了。为了赶时间，他拿起模型就冲出家门，连装材料的小袋子也忘了检查。到了学校，大家才发现最重要的材料没有带来。凯文十分羞愧，不停向组员道歉。组员虽然失望，却没有责备他，而是一起想办法，用教室里现有的材料代替。实验效果不算完美，但他们还是完成了展示。下课后，凯文主动列了一张检查表，并答应以后重要的事情会提前准备。",
+      vocab:[
+        ["羞愧","xiū kuì","发现自己做得不好而不好意思","ashamed"],
+        ["责备","zé bèi","因为别人做错事而批评他","blame"],
+        ["代替","dài tì","用另一样东西来替换","replace"]
+      ],
+      questions:[
+        {type:"经过",q:"小组遇到的主要问题是什么？",opts:["模型完全坏了","凯文忘了带重要材料","老师取消展示","组员没有来学校"],a:1,e:"到校后大家发现最重要的材料没有带来。",why:"先找故事中真正造成困难的事件。"},
+        {type:"感受",q:"凯文为什么感到羞愧？",opts:["实验太简单","组员比他早到","自己的疏忽影响了小组","老师没有称赞他"],a:2,e:"他答应带模型，却因为赶时间没有检查材料，影响了大家。",why:"“羞愧”通常和自己意识到做错有关。"},
+        {type:"人物表现",q:"组员面对问题时的表现怎样？",opts:["冷静并愿意合作解决","马上放弃","一直责备凯文","假装没有问题"],a:0,e:"他们没有责备，而是一起寻找替代材料。",why:"用行动判断态度。"},
+        {type:"结果",q:"凯文从这件事后做了什么改变？",opts:["退出小组","不再参加科学课","列检查表并提前准备","要求别人替他带材料"],a:2,e:"结尾直接写他列检查表，并答应提前准备。",why:"结果题常在文章后段或结尾。"}
+      ]
+    },
+    {
+      id:"r_u1", level:"UASA", title:"一把没有带走的伞",
+      passage:"放学时突然下起大雨。俊豪站在校门口，才想起自己的雨伞借给了隔壁班的同学。眼看接他的巴士快到了，他有些焦急。这时，一名低年级学生抱着书包站在屋檐下，望着越下越大的雨，不知所措。俊豪原本想向朋友借伞赶去巴士站，却注意到那名学生的校车停在较远的另一边。他犹豫了一下，最后向朋友借了伞，却没有自己先走，而是把低年级学生送到校车旁。等他跑回校门时，自己的巴士已经离开了。朋友问他后不后悔，他擦着脸上的雨水说：“有一点麻烦，不过至少他不用一个人淋雨。”后来，俊豪打电话告诉家人情况，在学校多等了二十分钟。",
+      vocab:[
+        ["焦急","jiāo jí","着急而不安","anxious"],
+        ["不知所措","bù zhī suǒ cuò","不知道应该怎么办","not know what to do"],
+        ["犹豫","yóu yù","一时拿不定主意","hesitate"]
+      ],
+      questions:[
+        {type:"原因",q:"俊豪一开始为什么感到焦急？",opts:["低年级学生不认识他","雨伞坏了","接他的巴士快到了，而他没有伞","家人忘了来学校"],a:2,e:"文章前段同时给出“雨伞借给同学”和“巴士快到了”两个线索。",why:"原因题可能需要把相邻的两个信息连起来。"},
+        {type:"经过",q:"俊豪借到伞后为什么没有马上去巴士站？",opts:["他决定留在学校玩","他先送低年级学生到校车旁","朋友叫他不要走","雨突然停了"],a:1,e:"他看到低年级学生不知所措，先把对方送到校车旁。",why:"不要只找“借伞”，要继续看之后发生的行动。"},
+        {type:"性格+证据",q:"哪一项最能说明俊豪乐于助人？",opts:["他忘了自己的雨伞","他愿意冒着错过巴士的风险帮助低年级学生","他打电话给家人","他在学校等了二十分钟"],a:1,e:"真正体现乐于助人的证据，是他在自己也赶时间时仍先帮助别人。",why:"性格题要选最能证明特点的行为，不是任何相关细节。"},
+        {type:"推论",q:"从俊豪最后的话，可以推断他怎样看待自己的决定？",opts:["非常生气，觉得不值得","虽然带来麻烦，但认为帮助别人值得","完全没有注意到自己错过巴士","希望以后不再帮助别人"],a:1,e:"“有一点麻烦，不过至少……”表示他知道有代价，但仍认可自己的选择。",why:"推论题要从语气和前后转折理解没有直接写出的态度。"}
+      ]
+    },
+    {
+      id:"r_u2", level:"UASA", title:"没有被采用的建议",
+      passage:"学校准备举办阅读周，各班要设计一个活动。讨论时，雅雯建议设置“交换旧书角”，让同学把读过的书带来交换。可是组长认为整理旧书太麻烦，决定采用另一项活动。雅雯虽然失望，却没有继续争辩。她把自己的想法和需要准备的物品写得更清楚，第二天再交给组长参考。几天后，原本安排的活动因为场地不足无法进行。组长重新查看大家的建议，发现“交换旧书角”只需要几张桌子，而且准备方式已经写得很完整。他主动向雅雯道歉，并问她是否愿意一起负责。雅雯没有因为之前被拒绝而生气，反而和大家重新分工。活动当天，许多同学带来旧书，交换区一直很热闹。",
+      vocab:[
+        ["采用","cǎi yòng","选择并使用某个意见或方法","adopt"],
+        ["争辩","zhēng biàn","为了说明谁对谁错而争论","argue"],
+        ["分工","fēn gōng","把工作分给不同的人负责","divide the work"]
+      ],
+      questions:[
+        {type:"感受",q:"雅雯的建议第一次没有被采用时，她有什么感受？",opts:["失望","欣慰","愤怒得离开","十分佩服"],a:0,e:"文章直接写“雅雯虽然失望”。",why:"先抓文章明确出现的情绪词。"},
+        {type:"表现",q:"建议被拒绝后，雅雯怎样处理？",opts:["不断和组长争吵","把想法整理得更清楚再交给组长","马上退出活动","要求老师处罚组长"],a:1,e:"她没有继续争辩，而是把想法和准备事项写得更清楚。",why:"“虽然……却……”常提示人物真正的行动或态度。"},
+        {type:"原因",q:"组长后来为什么重新考虑雅雯的建议？",opts:["雅雯一直要求他改变决定","原活动场地不足，而她的方案容易实行","老师指定必须交换旧书","其他同学都不愿意参加"],a:1,e:"原活动因场地不足无法进行，而旧书角只需要几张桌子且方案完整。",why:"这题需要结合前后两个原因。"},
+        {type:"品质",q:"雅雯最值得学习的地方是什么？",opts:["被拒绝后仍冷静改进想法，并愿意继续合作","任何时候都坚持自己的意见","只做自己提出的工作","遇到困难就等待别人解决"],a:0,e:"她面对拒绝没有冲动，反而完善建议；被重新邀请后也愿意合作。",why:"品质题要综合前后行为，而不是只看一个动作。"}
+      ]
+    },
+    {
+      id:"r_c1", level:"挑战", title:"被误会的值日生",
+      passage:"午休结束后，老师发现阅读角的一本新书封面被撕破了。当天负责值日的文轩正好站在书架旁，同学们便七嘴八舌地说可能是他弄坏的。文轩脸涨得通红，急着解释自己只是来整理书本，却越说越乱。老师没有立刻责备任何人，而是让大家先回想午休时发生的事情。坐在窗边的慧敏忽然想起，午休前有一阵强风吹进教室，几本书从架上掉了下来。大家查看地面后，果然在桌脚旁找到一小片与封面吻合的纸。刚才指责文轩的同学顿时安静下来，有人主动向他道歉。文轩原本十分委屈，但听到道歉后只是说：“下次先弄清楚就好了。”老师借这件事提醒大家，看到表面现象时，不要急着下结论。",
+      vocab:[
+        ["七嘴八舌","qī zuǐ bā shé","很多人同时说个不停","everyone talking at once"],
+        ["吻合","wěn hé","完全符合、对得上","match"],
+        ["下结论","xià jié lùn","根据情况作出最后判断","draw a conclusion"]
+      ],
+      questions:[
+        {type:"感受+原因",q:"文轩为什么会感到委屈？",opts:["他不想做值日","同学没有证据就怀疑他弄坏书","老师让他整理书架","他找不到破掉的纸"],a:1,e:"他只是整理书本，却因为站在书架旁就被同学怀疑。",why:"委屈通常来自被误会或受到不公平对待。"},
+        {type:"证据",q:"什么证据最能说明书可能不是文轩撕坏的？",opts:["文轩脸红了","老师没有责备他","找到与封面吻合的纸，并有人想起强风吹落书本","同学后来安静下来"],a:2,e:"强风、书掉落和吻合的纸片形成完整证据链。",why:"证据题要选能直接支持判断的事实。"},
+        {type:"人物态度",q:"老师处理事情的方式说明她怎样？",opts:["容易冲动","愿意先了解事实再判断","偏袒值日生","不关心书本"],a:1,e:"老师没有马上责备，而是让大家回想并寻找事实。",why:"从处理问题的方法判断态度。"},
+        {type:"主旨",q:"这篇文章主要想告诉我们什么？",opts:["值日生应该负责所有损坏","书本不能放在窗边","不了解完整情况时不要急着判断别人","同学之间不要说话"],a:2,e:"结尾老师的提醒概括了整件事的中心。",why:"主旨要能覆盖整篇文章，而不是只说一个细节。"}
+      ]
+    },
+    {
+      id:"r_c2", level:"挑战", title:"慢下来的三分钟",
+      passage:"演讲比赛前，思妍一直担心自己忘词。轮到前一位同学上台时，她发现手心全是汗，脑子里不断想着：“如果我突然说不出来怎么办？”她越想越紧张，甚至想告诉老师自己不参加了。指导老师没有马上安慰她说“一定没问题”，只请她到走廊坐三分钟，把开头第一段慢慢说一遍，再想清楚自己最希望听众记住哪一句话。思妍照做后，呼吸渐渐平稳。上台时，她中间还是停顿了一次，却没有慌张，而是看了一眼台下，继续把内容说完。比赛结果公布后，她没有得到前三名，却笑着告诉老师：“我原来以为不紧张才算成功，现在我觉得，紧张的时候还能继续，可能也是一种进步。”",
+      vocab:[
+        ["停顿","tíng dùn","说话或动作暂时停一下","pause"],
+        ["平稳","píng wěn","稳定、不慌乱","steady"],
+        ["慌张","huāng zhāng","心里慌乱，不知道怎样应付","flustered"]
+      ],
+      questions:[
+        {type:"原因",q:"思妍比赛前越来越紧张的主要原因是什么？",opts:["老师批评她","她不断想象自己会忘词","其他同学嘲笑她","她没有准备演讲"],a:1,e:"她反复想着“如果我突然说不出来怎么办”，因此越来越紧张。",why:"注意心理活动也可以成为原因线索。"},
+        {type:"方法",q:"老师让思妍做的事情主要有什么作用？",opts:["帮助她把注意力拉回可以控制的事情","让她背完整篇演讲稿","让她退出比赛","保证她一定得到前三名"],a:0,e:"老师让她慢慢说开头、想核心句，使她从担心未来转回当前任务。",why:"方法题不只问做了什么，也可能问为什么有效。"},
+        {type:"推论",q:"思妍上台后停顿了一次，却继续说完，这最能说明什么？",opts:["她已经完全不紧张","她能够在紧张中继续完成任务","她忘了比赛规则","她认为比赛不重要"],a:1,e:"文章没有说紧张消失，而是强调她没有慌张并继续完成。",why:"不要把“能够应付紧张”误解成“完全没有紧张”。"},
+        {type:"启发",q:"思妍最后对“进步”的理解发生了什么变化？",opts:["只有拿奖才算进步","完全不犯错才算进步","即使有紧张或停顿，仍能继续面对也可以是进步","以后不参加比赛才不会失败"],a:2,e:"她从“以为不紧张才算成功”转为认可“紧张时还能继续”。",why:"抓住“原来以为……现在觉得……”的前后变化。"}
+      ]
+    }
+  ];
+
+  const READING_DECK_PREFIX="READING_DECK_V23_";
+  let readingState={level:null,current:null,answered:0};
+
+  function readingDeckPick(level){
+    const pool=READING_DATA.filter(x=>x.level===level);
+    const key=READING_DECK_PREFIX+level;
+    let deck;
+    try{deck=JSON.parse(localStorage.getItem(key)||"[]")}catch(e){deck=[]}
+    const ids=new Set(pool.map(x=>x.id));
+    deck=(Array.isArray(deck)?deck:[]).filter(id=>ids.has(id));
+    if(!deck.length) deck=shuffle(pool.map(x=>x.id));
+    const id=deck.shift();
+    localStorage.setItem(key,JSON.stringify(deck));
+    return pool.find(x=>x.id===id)||pool[0];
+  }
+
+  function openReadingHub(){
+    showScreen("reading");
+    document.getElementById("readingHub").classList.remove("hidden");
+    document.getElementById("readingWork").classList.add("hidden");
+  }
+
+  function startReadingLevel(level){
+    readingState.level=level;
+    readingState.current=readingDeckPick(level);
+    readingState.answered=0;
+    document.getElementById("readingHub").classList.add("hidden");
+    document.getElementById("readingWork").classList.remove("hidden");
+    document.getElementById("readingLevelLabel").textContent="阅读程度 / Reading Level："+displayReadingLevel(level);
+    renderReadingPreview();
+  }
+
+  function displayReadingLevel(level){
+    return {"基础":"🌱 基础 / Basic","进阶":"🌿 进阶 / Intermediate","UASA":"🌳 UASA Practice","挑战":"🔥 挑战 / Challenge"}[level]||level;
+  }
+
+  function renderReadingPreview(){
+    const x=readingState.current;
+    ["readingStepQuestions","readingStepPassage","readingStepAnswer","readingStepReread"].forEach((id,i)=>document.getElementById(id).classList.toggle("hidden",i!==0));
+    const root=document.getElementById("readingQuestionPreview");root.innerHTML="";
+    x.questions.forEach((q,i)=>{
+      const d=document.createElement("div");d.className="reading-preview-q";
+      d.innerHTML=`<span class="qtype">${q.type}</span><b>${i+1}. ${q.q}</b>`;
+      root.appendChild(d);
+    });
+    const types=[...new Set(x.questions.map(q=>q.type))];
+    const guide={"原因":"为什么 / Why","感受":"人物有什么感受 / Feeling","感受+原因":"感受＋为什么 / Feeling + Why","事情":"发生了什么 / What happened","经过":"事情怎样发展 / What happened next","方法":"怎样做 / How","人物表现":"人物怎样做 / Action","表现":"人物怎样做 / Action","态度":"人物怎样面对 / Attitude","人物态度":"人物怎样处理 / Attitude","性格":"性格＋行为证据 / Character + evidence","性格+证据":"性格＋证据 / Character + evidence","品质":"品质＋前后行为 / Quality + evidence","词义":"根据上下文猜意思 / Meaning from context","结果":"最后怎样 / Result","推论":"文章没有直接写，要从线索推断 / Infer from clues","主旨":"整篇文章主要告诉我们什么 / Main idea","启发":"从整件事学到什么 / Lesson"};
+    document.getElementById("readingKeywordGuide").innerHTML=types.map(t=>`<span><b>${t}</b>：${guide[t]||"找题目关键词 / Find the question focus"}</span>`).join("");
+  }
+
+  function renderReadingPassage(){
+    const x=readingState.current;
+    document.getElementById("readingStepQuestions").classList.add("hidden");
+    document.getElementById("readingStepPassage").classList.remove("hidden");
+    document.getElementById("readingTitle").textContent=x.title;
+    document.getElementById("readingPassage").textContent=x.passage;
+    const v=document.getElementById("readingVocabHelp");v.innerHTML="";
+    x.vocab.forEach(w=>{
+      const d=document.createElement("div");d.className="vocab-help-item";
+      d.innerHTML=`<b>${w[0]}</b>　${w[1]} <button class="btn btn-outline" style="min-height:36px;padding:6px 10px" type="button">🔊 听发音 / Listen</button><br>${w[2]}<br><span class="sub-en">${w[3]}</span>`;
+      d.querySelector("button").onclick=()=>speakAnswerText(w[0]);
+      v.appendChild(d);
+    });
+  }
+
+  function renderReadingQuestions(){
+    const x=readingState.current;
+    document.getElementById("readingStepPassage").classList.add("hidden");
+    document.getElementById("readingStepAnswer").classList.remove("hidden");
+    readingState.answered=0;
+    const root=document.getElementById("readingQuestionArea");root.innerHTML="";
+    x.questions.forEach((q,qi)=>{
+      const card=document.createElement("div");card.className="reading-q-card";
+      card.innerHTML=`<div class="reading-q-text"><span class="qtype">${q.type}</span>${qi+1}. ${q.q}</div>`;
+      const opts=document.createElement("div");opts.className="reading-q-options";
+      q.opts.forEach((o,oi)=>{
+        const b=document.createElement("button");b.textContent=String.fromCharCode(65+oi)+". "+o;
+        b.onclick=()=>answerReadingQuestion(card,opts,b,q,oi);
+        opts.appendChild(b);
+      });
+      card.appendChild(opts);root.appendChild(card);
+    });
+  }
+
+  function answerReadingQuestion(card,opts,button,q,choice){
+    if(card.dataset.done)return;
+    card.dataset.done="1";
+    opts.querySelectorAll("button").forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct")});
+    const ok=choice===q.a;
+    if(ok)playCorrectSound(); else button.classList.add("wrong");
+    const fb=document.createElement("div");fb.className="reading-feedback"+(ok?"":" wrong");
+    fb.innerHTML=(ok?"✓ 答对了！ / Correct!":"✗ 答错了。 / Incorrect.")+
+      `<div class="evidence"><b>文章线索 / Evidence：</b>${q.e}</div>`+
+      `<div class="evidence"><b>怎么想 / How to think：</b>${q.why}</div>`;
+    card.appendChild(fb);
+    readingState.answered++;
+    if(readingState.answered>=readingState.current.questions.length){
+      const done=document.createElement("div");done.className="btn-row center";done.style.marginTop="18px";
+      done.innerHTML='<button class="btn btn-primary" id="btnReadingRereadNow">题目完成，完整读一次 / Read the Whole Passage</button>';
+      document.getElementById("readingQuestionArea").appendChild(done);
+      document.getElementById("btnReadingRereadNow").onclick=showReadingReread;
+    }
+  }
+
+  function showReadingReread(){
+    const x=readingState.current;
+    document.getElementById("readingStepAnswer").classList.add("hidden");
+    document.getElementById("readingStepReread").classList.remove("hidden");
+    document.getElementById("readingRereadTitle").textContent=x.title;
+    document.getElementById("readingRereadPassage").textContent=x.passage;
+  }
+
+  function nextReadingPassage(){ startReadingLevel(readingState.level); }
+
+  function bindReadingEvents(){
+    document.getElementById("btnEnterReading")?.addEventListener("click",openReadingHub);
+    document.querySelectorAll("[data-reading-level]").forEach(b=>b.addEventListener("click",()=>startReadingLevel(b.dataset.readingLevel)));
+    document.getElementById("btnReadingShowPassage")?.addEventListener("click",renderReadingPassage);
+    document.getElementById("btnReadingAnswer")?.addEventListener("click",renderReadingQuestions);
+    document.getElementById("btnReadingNext")?.addEventListener("click",nextReadingPassage);
+    document.getElementById("btnReadingLevels")?.addEventListener("click",openReadingHub);
+  }
+
+
 /* =========================================================================
    十一、事件绑定与初始化 EVENT BINDING & INIT
    ========================================================================= */
@@ -3820,13 +4192,11 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     bindFoundationEvents();
     bindCharEvents();
     bindPracticeEvents();
+    bindReadingEvents();
     bilingualizeButtons();
     document.getElementById("btnStartLearning")?.addEventListener("click", ()=>{
       showScreen("foundation");
-      nextFoundation();
-    });
-    document.querySelector(".reading-coming")?.addEventListener("click", ()=>{
-      alert("阅读训练将在下一阶段加入。\nReading Practice will be added in the next stage.");
+      startFoundationLearn();
     });
     // 主菜单：模式按钮
     document.querySelectorAll(".menu-btn").forEach(btn=>{
