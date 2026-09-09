@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>UASA 华语词汇训练</title>
+<title>华语字词与阅读训练</title>
 <style>
   :root{
     --bg:#f6f5f1;
@@ -720,7 +720,7 @@
 
   <header class="app-header">
     <h1>UASA 华语词汇训练</h1>
-    <div class="sub">专为小六华语 UASA 阅读理解设计的词汇学习工具</div>
+    <div class="sub">从认字、辨字、懂词到阅读理解 · 适合小六与基础补强</div>
   </header>
 
   <!-- ============ 主菜单 MAIN MENU ============ -->
@@ -760,9 +760,13 @@
 
 
     <div class="menu-grid" style="margin-top:16px">
+      <button class="menu-btn" id="btnEnterFoundation">
+        <span class="m-title">🧱 常用字基础</span>
+        <span class="m-desc">补常见简体字与阅读基础 · Character Foundation</span>
+      </button>
       <button class="menu-btn" id="btnEnterChars">
         <span class="m-title">🔤 易混淆字训练</span>
-        <span class="m-desc">学习10组常见易混淆字 · Confused Characters</span>
+        <span class="m-desc">学习26组常见易混淆字 · Confused Characters</span>
       </button>
       <button class="menu-btn" id="btnEnterPractice">
         <span class="m-title">📝 专项练习</span>
@@ -773,9 +777,23 @@
     <div class="btn-row center">
       <button class="btn btn-warn" id="btnResetProgress">重置学习记录</button>
     </div>
-    <div class="progress-note">V1.4 · 小六 UASA 华语词汇训练 · 70 词＋易混淆字＋专项练习</div>
+    <div class="progress-note">V2.0 · 字词基础＋70核心词＋26组易混字＋18篇短文＋防重复轮替</div>
   </section>
 
+
+  <!-- ============ 常用字基础 CHARACTER FOUNDATION ============ -->
+  <section id="screen-foundation" class="screen hidden">
+    <div class="mode-topbar"><h2>常用字基础</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单</button></div>
+    <div class="panel">
+      <p><b>目标：</b>先补“看见这个字就知道大概意思”的能力，不按年级限制。</p>
+      <p class="sub-en">Build character recognition first. These are useful reading characters, not a grade label.</p>
+      <div class="round-progress" id="foundationProgress"></div>
+      <div id="foundationCard"></div>
+      <div class="quiz-options" id="foundationOptions"></div>
+      <div class="feedback-box hidden" id="foundationFeedback"></div>
+      <div class="btn-row center"><button class="btn btn-primary" id="btnFoundationNext">下一字</button></div>
+    </div>
+  </section>
 
   <!-- ============ 易混淆字专区 ============ -->
   <section id="screen-chars" class="screen hidden">
@@ -788,10 +806,9 @@
   </section>
   <section id="screen-char-mixed" class="screen hidden">
     <div class="mode-topbar"><h2>综合练习</h2><button class="btn btn-ghost" id="btnCharsBack2">← 返回易混淆字</button></div>
-    <div class="panel"><h3>A. 选择正确的字</h3><p class="char-note">10组混合出题，不提示是哪一组。<br><span class="sub-en">Choose the correct character. All pairs are mixed.</span></p><div id="mixA"></div></div>
+    <div class="panel"><h3>A. 选择正确的字</h3><p class="char-note">从26组易混淆字中轮替出题，不提示类别。<br><span class="sub-en">Choose the correct character. All pairs are mixed.</span></p><div id="mixA"></div></div>
     <div class="panel" style="margin-top:14px"><h3>B. 看句子，选择正确的字</h3><p class="char-note">根据完整句子的意思判断。<br><span class="sub-en">Use the whole sentence to decide.</span></p><div id="mixB"></div></div>
     <div class="panel" style="margin-top:14px"><h3>C. 短文填空</h3><p class="char-note">阅读短文，再选择正确的字。<br><span class="sub-en">Read the passage and choose the correct characters.</span></p><div id="mixC"></div></div>
-    <div class="panel" style="margin-top:14px"><h3>D. 造句</h3><p class="char-note">任选两个词语造句。<br><span class="sub-en">Choose any two words and write complete sentences.</span></p><div id="mixD"></div></div>
     <div class="btn-row center"><button class="btn btn-outline" id="btnMixAgain">重新打乱综合练习</button></div>
   </section>
 
@@ -800,14 +817,15 @@
     <div class="mode-topbar"><h2>专项练习</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单</button></div>
     <div class="panel"><p><b>这里不先给答案提示。</b>每次开始都会重新抽题、重新组合情境，并打乱答案位置。</p><p class="sub-en">Each round rebuilds the questions and shuffles the answer positions.</p>
       <div class="menu-grid">
-        <button class="menu-btn practice-start" data-practice="vocab"><span class="m-title">词汇练习</span><span class="m-desc">70词范围 · Vocabulary Practice</span></button>
-        <button class="menu-btn practice-start" data-practice="chars"><span class="m-title">易混淆字</span><span class="m-desc">10组易混字 · Character Practice</span></button>
+        <button class="menu-btn practice-start" data-practice="foundation"><span class="m-title">常用字</span><span class="m-desc">基础认字 · Character Foundation</span></button>
+        <button class="menu-btn practice-start" data-practice="vocab"><span class="m-title">词汇练习</span><span class="m-desc">70核心词 · Vocabulary Practice</span></button>
+        <button class="menu-btn practice-start" data-practice="chars"><span class="m-title">易混淆字</span><span class="m-desc">26组易混字 · Character Practice</span></button>
         <button class="menu-btn practice-start" data-practice="mixed"><span class="m-title">混合练习</span><span class="m-desc">词汇＋易混淆字 · Mixed Practice</span></button>
       </div></div>
   </section>
   <section id="screen-practice-round" class="screen hidden">
     <div class="mode-topbar"><h2 id="practiceTitle">专项练习</h2><button class="btn btn-ghost" id="btnPracticeBack">← 返回专项练习</button></div>
-    <div class="panel"><div class="round-progress" id="practiceProgress"></div><div id="practiceQuestion"></div><div class="quiz-options" id="practiceOptions"></div><div class="feedback-box hidden" id="practiceFeedback"></div><div class="btn-row center hidden" id="practiceNextRow"><button class="btn btn-primary" id="btnPracticeNext">下一题</button></div><div class="round-complete hidden" id="practiceComplete"><h3>本轮完成</h3><p>这10题已经完成。重新开始会再次生成不同组合。</p><div class="btn-row center"><button class="btn btn-primary" id="btnPracticeAgain">再来一轮</button><button class="btn btn-outline" id="btnPracticeMenu">返回专项练习</button></div></div></div>
+    <div class="panel"><div class="round-progress" id="practiceProgress"></div><div id="practiceQuestion"></div><div class="quiz-options" id="practiceOptions"></div><div class="feedback-box hidden" id="practiceFeedback"></div><div class="btn-row center hidden" id="practiceNextRow"><button class="btn btn-primary" id="btnPracticeNext">下一题</button></div><div class="round-complete hidden" id="practiceComplete"><h3>本轮完成</h3><p>这10题已经完成。再来一轮会重新抽题并打乱答案位置。</p><div class="btn-row center"><button class="btn btn-primary" id="btnPracticeAgain">再来一轮</button><button class="btn btn-outline" id="btnPracticeMenu">返回专项练习</button></div></div></div>
   </section>
 
   <!-- ============ MODE 1: 学习词卡 ============ -->
@@ -1001,6 +1019,9 @@
 <div id="modalRoot"></div>
 
 <script>
+function displayCategory(v){const m={"情绪":"情绪 / Emotions","动作":"动作 / Actions","态度":"态度 / Attitudes","性格":"性格 / Personality","成语":"成语 / Idioms","阅读常用":"阅读常用 / Reading"};return m[v]||v;}
+function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进阶 / Intermediate","挑战":"挑战 / Advanced"};return m[v]||v;}
+
 /* =========================================================================
    一、词汇数据 VOCABULARY DATA
    ------------------------------------------------------------------------
@@ -2495,18 +2516,87 @@
 
 
   // ===== 易混淆字数据（与70词词库分开） =====
-  const CONFUSED_CHAR_DATA = [["已", "己", "yǐ", "jǐ", "already; finished", "self; oneself", "“已”常表示已经、停止或完成。", "“己”表示自己。", "我已经把今天的功课完成了。", "遇到问题时，我们也要学会自己想办法。", [["妹妹（已／己）经收拾好书包，准备去学校。", "已"], ["每个人都应该为自（已／己）的行为负责。", "己"], ["比赛（已／己）经结束，大家回到教室休息。", "已"], ["先检查自（已／己）的答案，再交考卷。", "己"]]], ["在", "再", "zài", "zài", "at; in; be doing", "again; once more", "“在”表示地点、存在或正在进行。", "“再”表示又一次、以后或接着。", "弟弟正在房间里看书。", "请你再检查一次答案。", [["老师正（在／再）讲解这道题，请认真听。", "在"], ["这次没关系，下次（在／再）努力。", "再"], ["我们约好下午三点（在／再）图书馆见面。", "在"], ["吃完午饭后，我（在／再）继续完成作业。", "再"]]], ["做", "作", "zuò", "zuò", "do; make", "work; compose", "“做”常表示进行某件事、制作。", "“作”常用于作文、作业、作品、作者等固定词。", "我每天放学后先做功课。", "这篇作文写得很有感情。", [["妈妈正在厨房（做／作）晚餐。", "做"], ["老师请我们完成一篇（做／作）文。", "作"], ["小明认真地（做／作）完数学练习。", "做"], ["这位（做／作）者写了许多儿童故事。", "作"]]], ["带", "戴", "dài", "dài", "bring; take; lead", "wear; put on", "“带”表示携带、带领。", "“戴”表示把东西戴在身体某个部位。", "老师带领我们参观博物馆。", "妹妹戴着一顶红色帽子。", [["出门前别忘了（带／戴）雨伞。", "带"], ["做实验时，我们要（带／戴）上护目镜。", "戴"], ["班主任（带／戴）领同学们走进礼堂。", "带"], ["爷爷看报纸时会（带／戴）老花眼镜。", "戴"]]], ["近", "进", "jìn", "jìn", "near; close", "enter; advance", "“近”表示距离短、接近。", "“进”表示进入、向前。", "学校离我家很近。", "请排队进入礼堂。", [["我家附（近／进）有一间图书馆。", "近"], ["听到铃声后，同学们安静地走（近／进）课室。", "进"], ["考试的日期越来越（近／进）了。", "近"], ["请先敲门，再（近／进）入办公室。", "进"]]], ["清", "晴", "qīng", "qíng", "clear; clean", "fine; sunny", "“清”常表示清楚、清洁、清澈。", "“晴”表示天气好、天空少云。", "老师把规则解释得很清楚。", "今天是个晴朗的好天气。", [["这条小河十分（清／晴）澈，可以看见水里的小鱼。", "清"], ["天气（清／晴）朗，我们决定到户外活动。", "晴"], ["请把事情的经过说（清／晴）楚。", "清"], ["雨停以后，天空渐渐放（清／晴）了。", "晴"]]], ["情", "睛", "qíng", "jīng", "feeling; situation", "eye (in 眼睛)", "“情”常用于心情、感情、事情、情况。", "“睛”主要用于“眼睛”。", "听到好消息后，她的心情很好。", "长时间看手机会让眼睛疲劳。", [["比赛结束后，他的心（情／睛）轻松多了。", "情"], ["妹妹有一双明亮的眼（情／睛）。", "睛"], ["老师先了解事（情／睛）的经过，再作决定。", "情"], ["沙子吹进眼（情／睛）里，让我很不舒服。", "睛"]]], ["园", "圆", "yuán", "yuán", "garden; park", "round; circle", "“园”常用于公园、校园、花园。", "“圆”表示圆形，也可表示圆满。", "周末，我们一家到公园散步。", "月亮看起来又大又圆。", [["校园里的花（园／圆）种满了各种花。", "园"], ["弟弟画了一个大大的（园／圆）圈。", "圆"], ["放学后，同学们一起离开校（园／圆）。", "园"], ["中秋节的月亮特别（园／圆）。", "圆"]]], ["密", "蜜", "mì", "mì", "secret; dense; close", "honey; sweet", "“密”常用于秘密、密切、茂密。", "“蜜”常用于蜂蜜、甜蜜。", "这是我们的秘密，请不要告诉别人。", "蜂蜜吃起来香甜可口。", [["树林十分茂（密／蜜），阳光很难照进来。", "密"], ["妈妈在面包上涂了一点蜂（密／蜜）。", "蜜"], ["这件事暂时要保（密／蜜），不能告诉别人。", "密"], ["一家人一起庆祝生日，气氛十分甜（密／蜜）。", "蜜"]]], ["值", "植", "zhí", "zhí", "worth; value", "plant; grow", "“值”常表示价值、值得。", "“植”常用于植物、种植。", "这本书很值得阅读。", "校园里种植了许多树木。", [["这次参观让我学到很多知识，非常（值／植）得。", "值"], ["科学老师带我们观察不同的（值／植）物。", "植"], ["同学们一起在校园里种（值／植）小树苗。", "植"], ["这幅画具有特别的纪念价（值／植）。", "值"]]]];
+  const CONFUSED_CHAR_DATA = [["已", "己", "yǐ", "jǐ", "already; finished", "self; oneself", "“已”常表示已经、停止或完成。", "“己”表示自己。", "我已经把今天的功课完成了。", "遇到问题时，我们也要学会自己想办法。", [["妹妹（已／己）经收拾好书包，准备去学校。", "已"], ["每个人都应该为自（已／己）的行为负责。", "己"], ["比赛（已／己）经结束，大家回到教室休息。", "已"], ["先检查自（已／己）的答案，再交考卷。", "己"]]], ["在", "再", "zài", "zài", "at; in; be doing", "again; once more", "“在”表示地点、存在或正在进行。", "“再”表示又一次、以后或接着。", "弟弟正在房间里看书。", "请你再检查一次答案。", [["老师正（在／再）讲解这道题，请认真听。", "在"], ["这次没关系，下次（在／再）努力。", "再"], ["我们约好下午三点（在／再）图书馆见面。", "在"], ["吃完午饭后，我（在／再）继续完成作业。", "再"]]], ["做", "作", "zuò", "zuò", "do; make", "work; compose", "“做”常表示进行某件事、制作。", "“作”常用于作文、作业、作品、作者等固定词。", "我每天放学后先做功课。", "这篇作文写得很有感情。", [["妈妈正在厨房（做／作）晚餐。", "做"], ["老师请我们完成一篇（做／作）文。", "作"], ["小明认真地（做／作）完数学练习。", "做"], ["这位（做／作）者写了许多儿童故事。", "作"]]], ["带", "戴", "dài", "dài", "bring; take; lead", "wear; put on", "“带”表示携带、带领。", "“戴”表示把东西戴在身体某个部位。", "老师带领我们参观博物馆。", "妹妹戴着一顶红色帽子。", [["出门前别忘了（带／戴）雨伞。", "带"], ["做实验时，我们要（带／戴）上护目镜。", "戴"], ["班主任（带／戴）领同学们走进礼堂。", "带"], ["爷爷看报纸时会（带／戴）老花眼镜。", "戴"]]], ["近", "进", "jìn", "jìn", "near; close", "enter; advance", "“近”表示距离短、接近。", "“进”表示进入、向前。", "学校离我家很近。", "请排队进入礼堂。", [["我家附（近／进）有一间图书馆。", "近"], ["听到铃声后，同学们安静地走（近／进）课室。", "进"], ["考试的日期越来越（近／进）了。", "近"], ["请先敲门，再（近／进）入办公室。", "进"]]], ["清", "晴", "qīng", "qíng", "clear; clean", "fine; sunny", "“清”常表示清楚、清洁、清澈。", "“晴”表示天气好、天空少云。", "老师把规则解释得很清楚。", "今天是个晴朗的好天气。", [["这条小河十分（清／晴）澈，可以看见水里的小鱼。", "清"], ["天气（清／晴）朗，我们决定到户外活动。", "晴"], ["请把事情的经过说（清／晴）楚。", "清"], ["雨停以后，天空渐渐放（清／晴）了。", "晴"]]], ["情", "睛", "qíng", "jīng", "feeling; situation", "eye (in 眼睛)", "“情”常用于心情、感情、事情、情况。", "“睛”主要用于“眼睛”。", "听到好消息后，她的心情很好。", "长时间看手机会让眼睛疲劳。", [["比赛结束后，他的心（情／睛）轻松多了。", "情"], ["妹妹有一双明亮的眼（情／睛）。", "睛"], ["老师先了解事（情／睛）的经过，再作决定。", "情"], ["沙子吹进眼（情／睛）里，让我很不舒服。", "睛"]]], ["园", "圆", "yuán", "yuán", "garden; park", "round; circle", "“园”常用于公园、校园、花园。", "“圆”表示圆形，也可表示圆满。", "周末，我们一家到公园散步。", "月亮看起来又大又圆。", [["校园里的花（园／圆）种满了各种花。", "园"], ["弟弟画了一个大大的（园／圆）圈。", "圆"], ["放学后，同学们一起离开校（园／圆）。", "园"], ["中秋节的月亮特别（园／圆）。", "圆"]]], ["密", "蜜", "mì", "mì", "secret; dense; close", "honey; sweet", "“密”常用于秘密、密切、茂密。", "“蜜”常用于蜂蜜、甜蜜。", "这是我们的秘密，请不要告诉别人。", "蜂蜜吃起来香甜可口。", [["树林十分茂（密／蜜），阳光很难照进来。", "密"], ["妈妈在面包上涂了一点蜂（密／蜜）。", "蜜"], ["这件事暂时要保（密／蜜），不能告诉别人。", "密"], ["一家人一起庆祝生日，气氛十分甜（密／蜜）。", "蜜"]]], ["值", "植", "zhí", "zhí", "worth; value", "plant; grow", "“值”常表示价值、值得。", "“植”常用于植物、种植。", "这本书很值得阅读。", "校园里种植了许多树木。", [["这次参观让我学到很多知识，非常（值／植）得。", "值"], ["科学老师带我们观察不同的（值／植）物。", "植"], ["同学们一起在校园里种（值／植）小树苗。", "植"], ["这幅画具有特别的纪念价（值／植）。", "值"]]]
+, ["采", "彩", "cǎi", "cǎi", "pick; gather", "colour; variety", "“采”常用于采取、采集、采访。", "“彩”常用于色彩、精彩、彩色。", "科学小组到校园里采集不同的叶子。", "舞台上的彩灯十分漂亮。", [["记者正在（采／彩）访参加比赛的学生。", "采"], ["这场表演十分精（采／彩），观众不断鼓掌。", "彩"], ["我们决定（采／彩）取老师提出的建议。", "采"], ["妹妹用（采／彩）色笔画了一幅海边风景。", "彩"]]]
+, ["蓝", "篮", "lán", "lán", "blue", "basket", "“蓝”表示颜色，常见于蓝天、蓝色。", "“篮”常用于篮子、篮球。", "雨后的天空特别蓝。", "妈妈提着菜篮去市场。", [["哥哥最喜欢穿（蓝／篮）色的运动衣。", "蓝"], ["体育课时，我们一起练习投（蓝／篮）球。", "篮"], ["奶奶把水果放进竹（蓝／篮）里。", "篮"], ["远处是一片蔚（蓝／篮）的天空。", "蓝"]]]
+, ["旁", "傍", "páng", "bàng", "beside; side", "near; toward (time/place)", "“旁”表示旁边、身旁。", "“傍”常用于傍晚、依山傍水。", "我坐在妈妈身旁看书。", "傍晚时，天空渐渐暗下来。", [["小河（旁／傍）边种着一排高大的树。", "旁"], ["（旁／傍）晚六点左右，爸爸才回到家。", "傍"], ["老师走到我的身（旁／傍），提醒我检查答案。", "旁"], ["这座小镇依山（旁／傍）水，风景十分优美。", "傍"]]]
+, ["辨", "辩", "biàn", "biàn", "distinguish", "argue; debate", "“辨”表示分辨、辨认。", "“辩”表示争辩、辩论、辩解。", "我们要学会分辨消息是真是假。", "两组同学正在进行辩论。", [["天色太暗，我无法（辨／辩）认远处的人是谁。", "辨"], ["遇到误会时，不要急着争（辨／辩）。", "辩"], ["阅读资料时要懂得（辨／辩）别重要信息。", "辨"], ["他没有为自己的错误（辨／辩）解，而是主动道歉。", "辩"]]]
+, ["竟", "竞", "jìng", "jìng", "unexpectedly; actually", "compete", "“竟”常表示出乎意料，如竟然。", "“竞”表示竞争、比赛。", "他竟然在最后一分钟赶到了。", "同学们参加校内演讲竞赛。", [["平时害羞的妹妹（竟／竞）然主动上台发言。", "竟"], ["运动员们在场上公平（竟／竞）争。", "竞"], ["我没想到他（竟／竞）会记得这件小事。", "竟"], ["学校举办华语讲故事（竟／竞）赛。", "竞"]]]
+, ["需", "须", "xū", "xū", "need; require", "must; have to", "“需”表示需要、需求。", "“须”常表示必须，也用于胡须。", "完成实验需要准备几种材料。", "进入实验室前必须遵守安全规则。", [["如果有（需／须）要，可以向老师请教。", "需"], ["参加比赛的同学必（需／须）准时到达。", "须"], ["植物生长（需／须）要阳光和水分。", "需"], ["借阅图书时（需／须）遵守图书馆的规定。", "须"]]]
+, ["既", "即", "jì", "jí", "already; both...and", "namely; immediately", "“既”常用于既然、既……又……。", "“即”常表示就是、立即，如即使、立即。", "她既认真又有耐心。", "收到通知后，请立即到办公室集合。", [["（既／即）然答应了别人，就应该尽力做到。", "既"], ["这项活动（既／即）有趣，又能让我们学到知识。", "既"], ["老师宣布比赛（既／即）将开始，请大家安静。", "即"], ["（既／即）使遇到困难，我们也不要轻易放弃。", "即"]]]
+, ["历", "厉", "lì", "lì", "experience; history", "strict; severe", "“历”常用于历史、经历、日历。", "“厉”常用于严厉、厉害。", "这次经历让我学会了独立。", "老师严厉地指出我们不该在实验室追逐。", [["博物馆里介绍了这座城市的（历／厉）史。", "历"], ["爸爸虽然语气严（历／厉），其实是担心我的安全。", "厉"], ["经过这次特别的经（历／厉），我变得更勇敢了。", "历"], ["这场暴雨十分（历／厉）害，许多道路都积水了。", "厉"]]]
+, ["祥", "详", "xiáng", "xiáng", "auspicious", "detailed", "“祥”常用于吉祥、祥和。", "“详”表示详细、详尽。", "春节时，人们会说许多吉祥话。", "老师详细地说明了比赛规则。", [["请把事情的经过（祥／详）细地告诉老师。", "详"], ["新年装饰带有吉（祥／详）的寓意。", "祥"], ["这份说明写得很（祥／详）尽，我很快就看懂了。", "详"], ["村子里一片安（祥／详），大家过着平静的生活。", "祥"]]]
+, ["座", "坐", "zuò", "zuò", "measure word for large objects; seat", "sit; travel by", "“座”常作量词，如一座山、一座桥，也可指座位。", "“坐”表示坐下或乘坐交通工具。", "河上有一座古老的石桥。", "请坐好并系上安全带。", [["我们（座／坐）巴士到博物馆参观。", "坐"], ["山脚下有一（座／坐）安静的小村庄。", "座"], ["请大家回到自己的（座／坐）位，准备上课。", "座"], ["爷爷喜欢（座／坐）在阳台上看报纸。", "坐"]]]
+, ["争", "挣", "zhēng", "zhèng", "fight for; compete", "earn; struggle free", "“争”常用于争取、争论、竞争。", "“挣”常用于挣钱、挣脱。", "我们应该用实力争取机会。", "父母努力工作挣钱养家。", [["大家公平竞（争／挣），不要互相攻击。", "争"], ["爸爸每天努力工作（争／挣）钱养家。", "挣"], ["小狗用力（争／挣）脱绳子跑了出去。", "挣"], ["遇到不同意见时，不必为了小事（争／挣）吵。", "争"]]]
+, ["幸", "辛", "xìng", "xīn", "fortunate; happiness", "hard; laborious", "“幸”常用于幸福、幸运。", "“辛”常用于辛苦、辛勤。", "一家人平安健康就是幸福。", "农夫辛勤地在田里工作。", [["妈妈每天工作很（幸／辛）苦。", "辛"], ["我们很（幸／辛）运地赶上了最后一班车。", "幸"], ["老师（幸／辛）勤地教导我们。", "辛"], ["看到家人平安回来，我觉得十分（幸／辛）福。", "幸"]]]
+, ["涵", "函", "hán", "hán", "contain; cultivate", "letter; correspondence", "“涵”常用于包含、涵盖、涵养。", "“函”常用于信函、公函。", "这项活动涵盖阅读和写作。", "学校收到一封正式公函。", [["这本练习册（涵／函）盖了多种题型。", "涵"], ["校方发出公（涵／函）通知家长。", "函"], ["阅读能培养一个人的（涵／函）养。", "涵"], ["秘书把信（涵／函）交给负责人。", "函"]]]
+, ["辍", "缀", "chuò", "zhuì", "stop; discontinue", "decorate; join", "“辍”常用于辍学、中辍。", "“缀”表示点缀、连缀。", "我们不应该轻易辍学。", "小灯点缀着夜晚的街道。", [["彩灯点（辍／缀）着节日的街道。", "缀"], ["他因为家庭困难差点（辍／缀）学。", "辍"], ["星星点（辍／缀）着深蓝色的夜空。", "缀"], ["学习遇到困难也不能轻易中（辍／缀）。", "辍"]]]
+, ["躁", "燥", "zào", "zào", "impatient; restless", "dry", "“躁”常用于急躁、烦躁。", "“燥”常用于干燥、燥热。", "遇到问题时不要急躁。", "天气干燥，要多喝水。", [["天气十分干（躁／燥），记得多喝水。", "燥"], ["考试时不要急（躁／燥），先看清题目。", "躁"], ["他等了很久，心情开始烦（躁／燥）。", "躁"], ["长时间没有下雨，空气很干（躁／燥）。", "燥"]]]
+, ["骛", "鹜", "wù", "wù", "pursue", "duck", "“骛”常见于好高骛远，表示追求。", "“鹜”指鸭类，常见于趋之若鹜。", "学习要踏实，不要好高骛远。", "人们对热门商品趋之若鹜。", [["做事要脚踏实地，不可好高（骛／鹜）远。", "骛"], ["新店开张，顾客趋之若（骛／鹜）。", "鹜"], ["只追求表面成绩而好高（骛／鹜）远，并不是好习惯。", "骛"], ["大家对限量商品趋之若（骛／鹜），很快就卖完了。", "鹜"]]]
+];
 
-  const CHAR_MIX_A = [["我（已／己）经把借来的书还给图书馆了。", "已"], ["请你（在／再）读一次题目，看看有没有漏掉条件。", "再"], ["哥哥每天回家后都会先（做／作）功课。", "做"], ["老师提醒我们明天要（带／戴）水壶。", "带"], ["我家离学校很（近／进），走路十分钟就到了。", "近"], ["请把黑板上的字看（清／晴）楚再抄写。", "清"], ["知道自己被选为代表后，她的心（情／睛）十分兴奋。", "情"], ["星期日，爸爸带我们到公（园／圆）骑自行车。", "园"], ["这份资料是秘（密／蜜），不可以随便公开。", "密"], ["帮助别人是一件很有价（值／植）的事。", "值"]];
-  const CHAR_MIX_B = [["校长（带／戴）领嘉宾参观学校的新图书馆。", "带"], ["小华揉了揉眼（情／睛），继续看黑板。", "睛"], ["礼堂的门打开后，大家排队（近／进）入。", "进"], ["雨过天（清／晴），同学们终于可以到操场活动。", "晴"], ["这次比赛的经验很（值／植）得我们认真总结。", "值"]];
-  const CHAR_PASSAGE = [["昨天，老师（带／戴）领我们到公（园／圆）参观。天气非常（清／晴）朗，大家的心（情／睛）都很好。", "带|园|晴|情"], ["进入公园后，我们看到许多美丽的（值／植）物。老师告诉我们，这些植物很（值／植）得保护。参观结束后，我们（在／再）公园门口集合，然后一起回学校。", "植|值|在"]];
+  const CHAR_MIX_A = [
+    ["我（已／己）经把借来的书还给图书馆了。","已"],["请你（在／再）读一次题目，看看有没有漏掉条件。","再"],["哥哥每天回家后都会先（做／作）功课。","做"],["老师提醒我们明天要（带／戴）水壶。","带"],["我家离学校很（近／进），走路十分钟就到了。","近"],["请把黑板上的字看（清／晴）楚再抄写。","清"],["知道自己被选为代表后，她的心（情／睛）十分兴奋。","情"],["星期日，爸爸带我们到公（园／圆）骑自行车。","园"],["这份资料是秘（密／蜜），不可以随便公开。","密"],["帮助别人是一件很有价（值／植）的事。","值"],
+    ["记者正在（采／彩）访获奖的同学。","采"],["弟弟把篮球投入（蓝／篮）框，全班都欢呼起来。","篮"],["（旁／傍）晚时分，我们才结束活动回家。","傍"],["请仔细（辨／辩）认图片中的不同之处。","辨"],["他（竟／竞）然独自完成了这么困难的任务。","竟"],["有（需／须）要帮助的同学可以举手。","需"],["（既／即）然决定参加，就要认真准备。","既"],["这次难忘的经（历／厉）让我成长了不少。","历"],["老师（祥／详）细说明了作答的方法。","详"],["河对岸有一（座／坐）历史悠久的寺庙。","座"],
+    ["父母努力工作（争／挣）钱，让孩子安心上学。","挣"],["我们应该公平竞（争／挣），尊重比赛结果。","争"],
+    ["老师每天（幸／辛）勤备课，希望我们学得更好。","辛"],["这项活动（涵／函）盖阅读、写作和口语练习。","涵"],
+    ["遇到难题不要急（躁／燥），先慢慢读清楚。","躁"],["学习不能好高（骛／鹜）远，要把基础打稳。","骛"]
+  ];
+  const CHAR_MIX_B = [
+    ["校长（带／戴）领嘉宾参观学校的新图书馆。","带"],["小华揉了揉眼（情／睛），继续看黑板。","睛"],["礼堂的门打开后，大家排队（近／进）入。","进"],["雨过天（清／晴），同学们终于可以到操场活动。","晴"],["这次比赛的经验很（值／植）得我们认真总结。","值"],
+    ["这场舞蹈表演十分精（采／彩），大家看得目不转睛。","彩"],["妹妹穿着（蓝／篮）色校服走进礼堂。","蓝"],["妈妈站在我身（旁／傍），耐心地听我解释。","旁"],["双方针对这个问题展开了（辨／辩）论。","辩"],["学校正在举行朗读（竟／竞）赛。","竞"],["所有参赛者必（需／须）在八点前报到。","须"],["活动（既／即）将开始，请大家尽快入座。","即"],["老师没有严（历／厉）责备他，而是让他说明原因。","厉"],["春节期间，家家户户都挂上象征吉（祥／详）的装饰。","祥"],["上车后，我找到自己的（座／坐）位坐下。","座"],
+    ["他靠自己的努力（争／挣）得了第一份薪水。","挣"],["一家人能够平安相聚，就是一种（幸／辛）福。","幸"],
+    ["校方收到教育局发来的公（涵／函）。","函"],["天气干（躁／燥）时，皮肤容易不舒服。","燥"],
+    ["夜空中的灯光点（辍／缀）着整条街道。","缀"]
+  ];
+  const CHAR_PASSAGE = [
+    ["昨天，老师（带／戴）领我们到公（园／圆）参观。天气非常（清／晴）朗，大家的心（情／睛）都很好。","带|园|晴|情"],
+    ["进入公园后，我们看到许多美丽的（值／植）物。老师告诉我们，这些植物很（值／植）得保护。参观结束后，我们（在／再）公园门口集合，然后一起回学校。","植|值|在"],
+    ["学校举行环保活动。我们先（采／彩）集校园里的落叶，再把它们分类记录。老师说，这项活动很有价（值／植），因为大家能从实际观察中学习。活动结束后，我们把资料整理得很（祥／详）细。","采|值|详"],
+    ["运动会当天，天空一片蔚（蓝／篮）。我参加投（蓝／篮）球比赛，心里有些紧张。比赛开始后，我（竟／竞）然连续投进两球，连自己都觉得惊讶。","蓝|篮|竟"],
+    ["（傍／旁）晚放学时，我发现一位低年级学生站在校门（傍／旁）哭泣。问清楚后，我才知道他找不到家人。我陪他到办公室，并请老师（在／再）联系他的父母。","傍|旁|再"],
+    ["科学比赛（既／即）将举行，我们小组必（需／须）在星期五前完成模型。大家讨论后决定（采／彩）取小美的建议，重新设计实验步骤。虽然时间不多，我们还是认真完成了准备。","即|须|采"],
+    ["阅读新闻时，我们要学会分（辨／辩）资料是否可靠，不能看到消息就立（既／即）相信。如果有（需／须）要，还可以查找其他资料互相比较。","辨|即|需"],
+    ["参观历史馆时，讲解员（祥／详）细介绍了当地的（历／厉）史。我原本以为展览会很无聊，没想到内容（竟／竞）然十分有趣。这次参观成了我难忘的经历。","详|历|竟"],
+    ["爸爸平时对我的学习要求比较严（历／厉），但他从不随便责备我。每当我遇到困难，他都会（坐／座）在我身（旁／傍），先听我解释，再和我一起想办法。","厉|坐|旁"],
+    ["星期六，我们（坐／座）巴士到郊外参观一（坐／座）农场。农场里种（值／植）了许多蔬菜。回家前，老师提醒我们检查自（已／己）的物品，不要把东西留在车上。","坐|座|植|己"],
+    ["为了准备义卖会，同学们分工合（做／作）。有人负责制（做／作）海报，有人准备食物。活动当天，大家（在／再）礼堂集合，老师（带／戴）领我们完成最后检查。","作|作|在|带"],
+    ["小杰第一次参加朗读（竟／竞）赛，心里十分紧张。老师站在他身（旁／傍）鼓励他，要他先把文章看（清／晴）楚。比赛结束后，他（竟／竞）然获得了优秀奖。","竞|旁|清|竟"],
+    ["学校来了一封公（涵／函），通知我们参加环保活动。活动内容（涵／函）盖垃圾分类和种树。大家必（需／须）自备水壶，如果有（需／须）要手套，可以向老师领取。","函|涵|须|需"],
+    ["考试前，妈妈提醒我不要急（躁／燥）。我先把不会的题目圈起来，（在／再）检查已经完成的部分。最后，我靠自（已／己）认真完成了整份试卷。","躁|再|己"],
+    ["小明看到同学被误会，主动替他解释。两人没有继续争（辨／辩），而是一起分（辨／辩）事情的经过。老师了解情况后，也没有严（历／厉）责备他们。","辩|辨|厉"],
+    ["爸爸每天辛苦（争／挣）钱养家，我以前却常抱怨功课太多。看到他疲惫的样子，我才意识到自（已／己）应该更懂事，也要（在／再）努力一点。","挣|己|再"],
+    ["博物馆里有一（座／坐）关于城市（历／厉）史的展览。讲解员（祥／详）细说明每件展品的来历，我原本觉得历史很无聊，后来（竟／竞）听得十分投入。","座|历|详|竟"],
+    ["最近天气十分干（躁／燥），学校提醒我们多喝水。体育课后，同学们（在／再）树荫下休息，老师则站在一（旁／傍）观察大家的情况。","燥|在|旁"]
+  ];
+
+
+  // ===== 常用字基础：来自作文填充与升中卷常见阅读/语文知识，再补入日常阅读动作字 =====
+  const FOUNDATION_CHARS = [
+    ["挣","zhèng","earn; struggle free","挣钱、挣脱","爸爸努力工作挣钱养家。"],["辨","biàn","distinguish","分辨、辨认","阅读时要分辨重要信息。"],["搏","bó","fight; struggle","拼搏、搏斗","运动员努力拼搏到最后。"],["译","yì","translate","翻译、译文","她负责把日文翻译成中文。"],["辖","xiá","govern; jurisdiction","管辖","这个地区由市政府管辖。"],
+    ["暇","xiá","free time","闲暇、无暇","闲暇时我喜欢阅读。"],["遐","xiá","far","遐迩","这座古城闻名遐迩。"],["傅","fù","master; tutor","师傅","蛋糕师傅正在装饰蛋糕。"],["膊","bó","upper arm","胳膊","他跌倒后擦伤了胳膊。"],["抑","yì","restrain","压抑、抑制","不要长期压抑自己的情绪。"],
+    ["犹","yóu","still; as if","犹豫、犹如","他犹豫了一会儿才回答。"],["蕴","yùn","contain","蕴含","这个故事蕴含深刻的道理。"],["盎","àng","abundant","盎然","雨后的花园生机盎然。"],["拮","jié","hard-pressed","拮据","那段时间家里的生活比较拮据。"],["蹉","cuō","waste time","蹉跎","我们不要蹉跎宝贵的时间。"],
+    ["跎","tuó","waste time","蹉跎","别让时间白白蹉跎。"],["牟","móu","seek; obtain","牟利","商家不应该欺骗顾客牟利。"],["辍","chuò","stop","辍学","遇到困难也不要轻易辍学。"],["躁","zào","restless","急躁、烦躁","考试时不要急躁。"],["犷","guǎng","rough; bold","粗犷","他的歌声带着粗犷的力量。"],
+    ["蔑","miè","despise","轻蔑、蔑视","我们不应该蔑视别人。"],["跛","bǒ","lame","跛脚","那位老人走路有些跛。"],["怔","zhèng","startled","一怔","看到失而复得的东西，她不禁一怔。"],["央","yāng","beg; center","央求、中央","弟弟央求妈妈让他一起去。"],["颤","chàn","tremble","颤抖","她紧张得双手微微颤抖。"],
+    ["拦","lán","stop; block","拦住、阻拦","老师及时拦住了冲出马路的孩子。"],["递","dì","hand over","递给","请把这张纸递给老师。"],["捡","jiǎn","pick up","捡起","小华捡起地上的钱包。"],["躲","duǒ","hide; avoid","躲避","下雨时大家躲到亭子里。"],["擦","cā","wipe","擦拭、擦伤","请把桌子擦干净。"],
+    ["搬","bān","move; carry","搬运、搬家","同学们一起搬桌椅。"],["绕","rào","go around","绕过、围绕","我们绕过积水继续前进。"],["扶","fú","support","扶起、搀扶","他主动扶老人过马路。"],["扔","rēng","throw","扔掉","不要随手乱扔垃圾。"],["摘","zhāi","pick; remove","摘下、采摘","妹妹摘下一片枯叶。"]
+  ];
+  const FOUNDATION_KEY="UASA_FOUNDATION_DECK_V20";
+  let foundationCurrent=null;
+  function foundationDeck(){let d;try{d=JSON.parse(localStorage.getItem(FOUNDATION_KEY)||"[]")}catch(e){d=[]}if(!Array.isArray(d)||!d.length){d=shuffle(FOUNDATION_CHARS.map((_,i)=>i));localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d))}return d}
+  function nextFoundation(){let d=foundationDeck(),i=d.shift();localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d));let x=FOUNDATION_CHARS[i];foundationCurrent=x;document.getElementById("foundationProgress").textContent="本轮字库剩余："+d.length+" / "+FOUNDATION_CHARS.length;document.getElementById("foundationCard").innerHTML=`<div class="char-title" style="font-size:42px">${x[0]}</div><div class="char-note">${x[1]}</div><div class="char-example">${x[4]}</div><p class="char-note">先根据例句猜意思，再选择。</p>`;let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3).map(y=>y[2]);let opts=shuffle([x[2],...distract]),o=document.getElementById("foundationOptions");o.innerHTML="";let fb=document.getElementById("foundationFeedback");fb.classList.add("hidden");opts.forEach(v=>{let b=document.createElement("button");b.className="quiz-option";b.textContent=v;b.onclick=()=>{o.querySelectorAll("button").forEach(z=>{z.disabled=true;if(z.textContent===x[2])z.classList.add("correct")});if(v===x[2]){playCorrectSound();fb.innerHTML=`✓ ${x[0]} · ${x[1]} · ${x[3]}`}else{b.classList.add("wrong");fb.innerHTML=`✗ 正确：${x[2]}<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}<br>${x[4]}`}fb.classList.remove("hidden")};o.appendChild(b)})}
+  function bindFoundationEvents(){document.getElementById("btnEnterFoundation")?.addEventListener("click",()=>{showScreen("foundation");nextFoundation()});document.getElementById("btnFoundationNext")?.addEventListener("click",nextFoundation)}
+
+  // ===== 真正轮替：题库未走完前，不把旧题重新放回 =====
+  const MIX_DECK_PREFIX="UASA_MIX_DECK_V20_";
+  function takeFromDeck(name,pool,count){let key=MIX_DECK_PREFIX+name,d;try{d=JSON.parse(localStorage.getItem(key)||"[]")}catch(e){d=[]}let valid=new Set(pool.map((_,i)=>i));d=(Array.isArray(d)?d:[]).filter(i=>valid.has(i));let out=[];while(out.length<count){if(!d.length)d=shuffle(pool.map((_,i)=>i));let i=d.shift();if(!out.includes(i)||pool.length<count)out.push(i)}localStorage.setItem(key,JSON.stringify(d));return out.map(i=>pool[i])}
 
   function charQuestion(sentence,answer){
     const d=document.createElement("div"); d.className="char-q"; d.innerHTML="<div>"+sentence+"</div>";
     const m=sentence.match(/（([^）]+)）/), row=document.createElement("div"); row.className="char-opts";
     shuffle(m[1].split("／")).forEach(o=>{const b=document.createElement("button");b.className="char-opt";b.textContent=o;
       b.onclick=()=>{if(d.dataset.done)return;d.dataset.done="1";row.querySelectorAll("button").forEach(x=>{x.disabled=true;if(x.textContent===answer)x.classList.add("ok")});if(o!==answer)b.classList.add("no");
-      const f=document.createElement("div");f.className="char-fb "+(o===answer?"ok":"no");f.textContent=o===answer?"✓ 答对了":"正确答案："+answer;d.appendChild(f)};row.appendChild(b)});
+      const f=document.createElement("div");f.className="char-fb "+(o===answer?"ok":"no");if(o===answer){playCorrectSound();f.innerHTML="✓ 答对了"}else{f.innerHTML=charWrongFeedbackHtml(answer)}d.appendChild(f)};row.appendChild(b)});
     d.appendChild(row);return d;
   }
   function renderCharHub(){
@@ -2522,13 +2612,13 @@
     const q=document.getElementById("charQs");q.innerHTML="";x[10].forEach(z=>q.appendChild(charQuestion(z[0],z[1])));
   }
   function renderCharMixed(){
-    showScreen("char-mixed");const a=document.getElementById("mixA"),b=document.getElementById("mixB"),c=document.getElementById("mixC"),d=document.getElementById("mixD");
-    a.innerHTML="";b.innerHTML="";c.innerHTML="";d.innerHTML="";
-    shuffle(CHAR_MIX_A).forEach(x=>a.appendChild(charQuestion(x[0],x[1])));
-    shuffle(CHAR_MIX_B).forEach(x=>b.appendChild(charQuestion(x[0],x[1])));
-    shuffle(CHAR_PASSAGE).forEach(x=>{let n=0,answers=x[1].split("|"),html=x[0].replace(/（([^）]+)）/g,(all,opts)=>`<span class="pass" data-a="${answers[n++]}">${shuffle(opts.split("／")).map(o=>`<button class="char-opt" style="min-width:46px;margin:3px">${o}</button>`).join("")}</span>`);const p=document.createElement("div");p.className="char-example";p.innerHTML=html;
+    showScreen("char-mixed");
+    const a=document.getElementById("mixA"),b=document.getElementById("mixB"),c=document.getElementById("mixC");
+    a.innerHTML="";b.innerHTML="";c.innerHTML="";
+    takeFromDeck("A",CHAR_MIX_A,10).forEach(x=>a.appendChild(charQuestion(x[0],x[1])));
+    takeFromDeck("B",CHAR_MIX_B,5).forEach(x=>b.appendChild(charQuestion(x[0],x[1])));
+    takeFromDeck("PASSAGE",CHAR_PASSAGE,3).forEach(x=>{let n=0,answers=x[1].split("|"),html=x[0].replace(/（([^）]+)）/g,(all,opts)=>`<span class="pass" data-a="${answers[n++]}">${shuffle(opts.split("／")).map(o=>`<button class="char-opt" style="min-width:46px;margin:3px">${o}</button>`).join("")}</span>`);const p=document.createElement("div");p.className="char-example";p.innerHTML=html;
       p.querySelectorAll(".pass").forEach(s=>s.querySelectorAll("button").forEach(btn=>btn.onclick=()=>{if(s.dataset.done)return;s.dataset.done="1";s.querySelectorAll("button").forEach(y=>{y.disabled=true;if(y.textContent===s.dataset.a)y.classList.add("ok")});if(btn.textContent!==s.dataset.a)btn.classList.add("no")}));c.appendChild(p)});
-    ["已经","自己","带领","值得"].forEach((w,i)=>{const q=document.createElement("div");q.className="char-q";q.innerHTML=`<b>${i+1}. ${w}</b><textarea class="char-write" placeholder="请写一个完整的句子"></textarea>`;d.appendChild(q)})
   }
   function bindCharEvents(){
     document.getElementById("btnEnterChars")?.addEventListener("click",()=>{renderCharHub();showScreen("chars")});
@@ -2639,29 +2729,24 @@
   // ===== 专项练习：独立动态题目引擎 =====
   const PRACTICE_RECENT_KEY="UASA_PRACTICE_RECENT_V13";
   const PRACTICE_FRAMES=[p=>"想一想这个情境："+p+"。最适合的词语是＿＿。",p=>"如果遇到这样的情况："+p+"，应该用哪一个词语来表达？",p=>"阅读情境："+p+"。请选择最恰当的词语。",p=>"下面描述的是："+p+"。哪一个词语最符合意思？"];
-  const PRACTICE_CHAR_BANK=[
-  ["我（已／己）经把明天要交的资料整理好了。","已"],["遇到困难时，先想想自（已／己）能做什么。","己"],["大家正（在／再）礼堂里等待比赛开始。","在"],["如果第一次没听懂，可以请老师（在／再）解释一次。","再"],
-  ["值日生正在（做／作）清洁工作。","做"],["这本书的（做／作）者是一位儿童文学家。","作"],["参观时，老师会（带／戴）着全班一起行动。","带"],["阳光很强，哥哥（带／戴）上太阳眼镜才出门。","戴"],
-  ["终点已经很（近／进）了，大家继续坚持。","近"],["得到允许后，我们才走（近／进）实验室。","进"],["请把事情说（清／晴）楚，大家才不会误会。","清"],["连续下了几天雨，今天终于转（清／晴）了。","晴"],
-  ["听完朋友的解释后，他的心（情／睛）平静下来。","情"],["妹妹闭上眼（情／睛），认真听树林里的声音。","睛"],["学校后面的花（园／圆）里种了许多香草。","园"],["老师请大家把纸剪成（园／圆）形。","圆"],
-  ["两家公司保持（密／蜜）切合作，一起完成计划。","密"],["这杯饮料加了蜂（密／蜜），味道比较甜。","蜜"],["这次活动很有教育价（值／植），大家都学到很多。","值"],["社区居民一起种（值／植）花草，美化环境。","植"],
-  ["事情（已／己）经解决，大家终于放心了。","已"],["他提醒自（已／己）不要因为一次失败就放弃。","己"],["妹妹（在／再）房间里安静地复习功课。","在"],["交卷以前，请（在／再）认真检查姓名和答案。","再"],
-  ["周末我会帮妈妈（做／作）一些家务。","做"],["老师把优秀（做／作）品贴在课室后面。","作"],["旅行前要记得（带／戴）好需要的证件。","带"],["骑自行车时应该（带／戴）好安全帽。","戴"],
-  ["运动会的日子越来越（近／进）了。","近"],["请依照号码顺序（近／进）入会场。","进"],["湖水十分（清／晴）澈，倒映着岸边的树。","清"],["天气预报说明天会是（清／晴）天。","晴"],
-  ["知道队友受伤后，大家都很关心他的伤（情／睛）。","情"],["长时间阅读后，可以闭上眼（情／睛）休息一下。","睛"],["社区公（园／圆）新建了一条慢跑道。","园"],["妹妹把面团搓成一个（园／圆）球。","圆"],
-  ["这片森林树木茂（密／蜜），空气也很凉爽。","密"],["小熊最喜欢吃香甜的蜂（密／蜜）。","蜜"],["这场讲座很（值／植）得参加，因为内容很实用。","值"],["我们在科学课观察种（值／植）后的豆苗变化。","植"]];
+  const PRACTICE_CHAR_BANK = [
+    ...CONFUSED_CHAR_DATA.flatMap(x=>x[10]),
+    ...CHAR_MIX_A,
+    ...CHAR_MIX_B
+  ];
   const practiceState={type:"vocab",queue:[],index:0,current:null};
+  function makeFoundationPractice(x){let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3);return {key:"f:"+x[0],stem:`“${x[0]}” 在“${x[3]}”中最接近哪个意思？`,answer:x[2],options:shuffle([x[2],...distract.map(y=>y[2])]),foundation:x}}
   function getPracticeRecent(){try{return JSON.parse(localStorage.getItem(PRACTICE_RECENT_KEY)||"[]")}catch(e){return[]}}
   function rememberPractice(k){let a=getPracticeRecent().filter(x=>x!==k);a.unshift(k);localStorage.setItem(PRACTICE_RECENT_KEY,JSON.stringify(a.slice(0,30)))}
   function makeVocabPractice(w){let fi=Math.floor(Math.random()*PRACTICE_FRAMES.length),ds=(w.confusable||[]).map(x=>VOCAB_DATA.find(v=>v.word===x)).filter(Boolean);ds=ds.concat(shuffle(VOCAB_DATA.filter(v=>v.category===w.category&&v.id!==w.id&&!ds.includes(v)))).slice(0,3);if(ds.length<3)ds=ds.concat(shuffle(VOCAB_DATA.filter(v=>v.id!==w.id&&!ds.includes(v))).slice(0,3-ds.length));return {key:w.id+":"+fi,stem:PRACTICE_FRAMES[fi](w.writingPrompt),answer:w.word,options:shuffle([w.word,...ds.map(v=>v.word)])}}
-  function makeCharPractice(x,i){let m=x[0].match(/（([^）]+)）/);return {key:"c:"+i,stem:x[0],answer:x[1],options:shuffle(m[1].split("／"))}}
-  function buildPracticeRound(type){let recent=getPracticeRecent(),v=[];if(type!=="chars"){for(const w of shuffle(VOCAB_DATA.filter(x=>x.writingPrompt))){let q=makeVocabPractice(w);if(!recent.includes(q.key))v.push(q);if(v.length===10)break}if(v.length<10)for(const w of shuffle(VOCAB_DATA)){if(v.length===10)break;v.push(makeVocabPractice(w))}}if(type==="chars")return shuffle(PRACTICE_CHAR_BANK.map(makeCharPractice)).slice(0,10);if(type==="mixed")return shuffle(v.slice(0,6).concat(shuffle(PRACTICE_CHAR_BANK.map(makeCharPractice)).slice(0,4)));return v.slice(0,10)}
-  function startPractice(type){practiceState.type=type;practiceState.queue=buildPracticeRound(type);practiceState.index=0;showScreen("practice-round");document.getElementById("practiceTitle").textContent=type==="vocab"?"词汇练习":type==="chars"?"易混淆字练习":"混合练习";renderPracticeQuestion()}
+  function makeCharPractice(x,i){let m=x[0].match(/（([^）]+)）/);return {key:"c:"+x[0],stem:x[0],answer:x[1],options:shuffle(m[1].split("／"))}}
+  function buildPracticeRound(type){let recent=getPracticeRecent(),v=[];if(type==="foundation")return takeFromDeck("PFOUND",FOUNDATION_CHARS,10).map(makeFoundationPractice);if(type!=="chars"){for(const w of shuffle(VOCAB_DATA.filter(x=>x.writingPrompt))){let q=makeVocabPractice(w);if(!recent.includes(q.key))v.push(q);if(v.length===10)break}if(v.length<10)for(const w of shuffle(VOCAB_DATA)){if(v.length===10)break;v.push(makeVocabPractice(w))}}if(type==="chars")return takeFromDeck("PCHAR",PRACTICE_CHAR_BANK,10).map(makeCharPractice);if(type==="mixed"){let cq=takeFromDeck("PMIXCHAR",PRACTICE_CHAR_BANK,4).map(makeCharPractice);let fq=takeFromDeck("PMIXFOUND",FOUNDATION_CHARS,2).map(makeFoundationPractice);return shuffle(v.slice(0,4).concat(cq,fq));}return v.slice(0,10)}
+  function startPractice(type){practiceState.type=type;practiceState.queue=buildPracticeRound(type);practiceState.index=0;showScreen("practice-round");document.getElementById("practiceTitle").textContent=type==="foundation"?"常用字练习":type==="vocab"?"词汇练习":type==="chars"?"易混淆字练习":"混合练习";renderPracticeQuestion()}
   function renderPracticeQuestion(){let i=practiceState.index,q=practiceState.queue[i];practiceState.current=q;document.getElementById("practiceComplete").classList.add("hidden");document.getElementById("practiceQuestion").classList.remove("hidden");document.getElementById("practiceOptions").classList.remove("hidden");document.getElementById("practiceProgress").textContent="本轮进度："+(i+1)+" / 10";document.getElementById("practiceQuestion").innerHTML='<div class="practice-stem">'+q.stem+'</div>';let o=document.getElementById("practiceOptions");o.innerHTML="";document.getElementById("practiceFeedback").classList.add("hidden");document.getElementById("practiceFeedback").classList.remove("practice-wrong");document.getElementById("practiceNextRow").classList.add("hidden");q.options.forEach(x=>{let b=document.createElement("button");b.className="quiz-option";b.textContent=x;b.onclick=()=>answerPractice(x,b);o.appendChild(b)})}
-  function answerPractice(x,b){let q=practiceState.current,box=document.getElementById("practiceFeedback");document.querySelectorAll("#practiceOptions .quiz-option").forEach(z=>{z.disabled=true;if(z.textContent===q.answer)z.classList.add("correct")});box.classList.remove("practice-wrong");if(x!==q.answer){b.classList.add("wrong");box.classList.add("practice-wrong")}box.textContent=x===q.answer?"✓ 答对了":"✗ 答错了。正确答案："+q.answer;box.classList.remove("hidden");document.getElementById("practiceNextRow").classList.remove("hidden");rememberPractice(q.key)}
+  function answerPractice(x,b){let q=practiceState.current,box=document.getElementById("practiceFeedback");document.querySelectorAll("#practiceOptions .quiz-option").forEach(z=>{z.disabled=true;if(z.textContent===q.answer)z.classList.add("correct")});box.classList.remove("practice-wrong");if(x!==q.answer){b.classList.add("wrong");box.classList.add("practice-wrong");const w=VOCAB_DATA.find(v=>v.word===q.answer);box.innerHTML=w?vocabWrongFeedbackHtml(w):(q.foundation?`✗ 正确答案：${q.answer}<br><b>${q.foundation[0]}</b> · ${q.foundation[1]} · ${q.foundation[3]}<br>${q.foundation[4]}`:charWrongFeedbackHtml(q.answer))}else{playCorrectSound();box.innerHTML="✓ 答对了"}box.classList.remove("hidden");document.getElementById("practiceNextRow").classList.remove("hidden");rememberPractice(q.key)}
   function nextPractice(){practiceState.index++;if(practiceState.index>=10){["practiceQuestion","practiceOptions","practiceFeedback","practiceNextRow"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById("practiceComplete").classList.remove("hidden")}else renderPracticeQuestion()}
   function bindPracticeEvents(){document.getElementById("btnEnterPractice")?.addEventListener("click",()=>showScreen("practice"));document.querySelectorAll(".practice-start").forEach(b=>b.addEventListener("click",()=>startPractice(b.dataset.practice)));document.getElementById("btnPracticeBack")?.addEventListener("click",()=>showScreen("practice"));document.getElementById("btnPracticeNext")?.addEventListener("click",nextPractice);document.getElementById("btnPracticeAgain")?.addEventListener("click",()=>startPractice(practiceState.type));document.getElementById("btnPracticeMenu")?.addEventListener("click",()=>showScreen("practice"))}
-  function bilingualizeButtons(){const map={btnResetProgress:"Reset Progress",btnFcKnow:"I Know This",btnFcRetry:"Practise Again",btnCtxNext:"Next",btnCtxAgain:"Try Again",btnCtxMenu:"Main Menu",btnCfNext:"Next",btnCfAgain:"Try Again",btnCfMenu:"Main Menu",btnHwUndo:"Undo",btnHwClear:"Clear",btnHwHint:"Hint",btnHwReveal:"Show Answer",btnHwNext:"Next",btnHwGood:"I Know This",btnHwBad:"Need More Practice",btnCompCheck:"Check",btnCompNext:"Next Word",btnRevNext:"Next",btnCharMixed:"Mixed Review",btnMixAgain:"Shuffle Again",btnPracticeNext:"Next",btnPracticeAgain:"Try Again",btnPracticeMenu:"Practice Zone",btnPracticeBack:"Practice Zone",btnCharsBack:"Confused Characters",btnCharsBack2:"Confused Characters"};Object.entries(map).forEach(([id,en])=>{let b=document.getElementById(id);if(b&&!b.querySelector(".btn-en"))b.insertAdjacentHTML("beforeend",'<span class="btn-en">'+en+'</span>')});document.querySelectorAll('[data-back="menu"]').forEach(b=>{if(!b.querySelector('.btn-en'))b.insertAdjacentHTML('beforeend','<span class="btn-en">Main Menu</span>')})}
+  function bilingualizeButtons(){const map={btnResetProgress:"Reset Progress",btnFcKnow:"I Know This",btnFcRetry:"Practise Again",btnCtxNext:"Next",btnCtxAgain:"Try Again",btnCtxMenu:"Main Menu",btnCfNext:"Next",btnCfAgain:"Try Again",btnCfMenu:"Main Menu",btnHwUndo:"Undo",btnHwClear:"Clear",btnHwHint:"Hint",btnHwReveal:"Show Answer",btnHwNext:"Next",btnHwGood:"I Know This",btnHwBad:"Need More Practice",btnCompCheck:"Check",btnCompNext:"Next Word",btnRevNext:"Next",btnCharMixed:"Mixed Review",btnMixAgain:"Shuffle Again",btnPracticeNext:"Next",btnPracticeAgain:"Try Again",btnPracticeMenu:"Practice Zone",btnPracticeBack:"Practice Zone",btnCharsBack:"Confused Characters",btnCharsBack2:"Confused Characters",btnFoundationNext:"Next Character"};Object.entries(map).forEach(([id,en])=>{let b=document.getElementById(id);if(b&&!b.querySelector(".btn-en"))b.insertAdjacentHTML("beforeend",'<span class="btn-en">'+en+'</span>')});document.querySelectorAll('[data-back="menu"]').forEach(b=>{if(!b.querySelector('.btn-en'))b.insertAdjacentHTML('beforeend','<span class="btn-en">Main Menu</span>')})}
 
 
 /* =========================================================================
@@ -2913,6 +2998,35 @@
     );
   }
 
+  // ===== 答题音效与错题发音 =====
+  const correctAnswerAudio = new Audio("assets/audio/correct.mp3");
+  correctAnswerAudio.preload = "auto";
+  correctAnswerAudio.volume = 0.55;
+  function playCorrectSound(){
+    try{ correctAnswerAudio.currentTime = 0; correctAnswerAudio.play().catch(()=>{}); }catch(e){}
+  }
+  function speakAnswerText(text){
+    if(!text || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang="zh-CN"; u.rate=0.86; u.pitch=1;
+    window.speechSynthesis.speak(u);
+  }
+  function vocabWrongFeedbackHtml(word){
+    return wrongAnswerFeedbackHtml(word) + '<button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText(\'' + word.word + '\')">🔊 听发音 / Listen</button>';
+  }
+  function findCharInfo(ch){
+    for(const x of CONFUSED_CHAR_DATA){
+      if(ch===x[0]) return {char:ch,pinyin:x[2],en:x[4],zh:x[6]};
+      if(ch===x[1]) return {char:ch,pinyin:x[3],en:x[5],zh:x[7]};
+    }
+    return null;
+  }
+  function charWrongFeedbackHtml(ch){
+    const i=findCharInfo(ch);
+    if(!i) return '<div class="fb-title">正确答案：'+ch+'</div>';
+    return '<div class="fb-title">正确答案：'+i.char+'（'+i.pinyin+'）</div><div>简单中文：'+i.zh+'</div><div>English：'+i.en+'</div><button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText(\''+i.char+'\')">🔊 听发音 / Listen</button>';
+  }
+
 /* =========================================================================
    八、手写画布逻辑 HANDWRITING CANVAS
    ========================================================================= */
@@ -3072,6 +3186,7 @@
     composition: document.getElementById("screen-composition"),
     review: document.getElementById("screen-review"),
     chars: document.getElementById("screen-chars"),
+    foundation: document.getElementById("screen-foundation"),
     "char-pair": document.getElementById("screen-char-pair"),
     "char-mixed": document.getElementById("screen-char-mixed"),
     practice: document.getElementById("screen-practice"),
@@ -3202,9 +3317,10 @@
     fb.classList.remove("hidden");
     fb.classList.toggle("wrong", !isCorrect);
     if(isCorrect){
-      fb.innerHTML = '<div class="fb-title">回答正确！</div>';
+      playCorrectSound();
+      fb.innerHTML = '<div class="fb-title">✓ 答对了！</div>';
     }else{
-      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+      fb.innerHTML = vocabWrongFeedbackHtml(word);
     }
     state.rounds.context.count++;
     document.getElementById("ctxNextRow").classList.remove("hidden");
@@ -3247,9 +3363,10 @@
     fb.classList.remove("hidden");
     fb.classList.toggle("wrong", !isCorrect);
     if(isCorrect){
-      fb.innerHTML = '<div class="fb-title">判断正确！</div>';
+      playCorrectSound();
+      fb.innerHTML = '<div class="fb-title">✓ 答对了！</div>';
     }else{
-      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+      fb.innerHTML = vocabWrongFeedbackHtml(word);
     }
     state.rounds.confusable.count++;
     document.getElementById("cfNextRow").classList.remove("hidden");
@@ -3496,7 +3613,7 @@
     if(isCorrect){
       fb.innerHTML = '<div class="fb-title">回答正确！生疏程度已降低。</div>';
     }else{
-      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+      fb.innerHTML = vocabWrongFeedbackHtml(word);
     }
     document.getElementById("revNextRow").classList.remove("hidden");
   }
@@ -3531,6 +3648,7 @@
    十一、事件绑定与初始化 EVENT BINDING & INIT
    ========================================================================= */
   function bindEvents(){
+    bindFoundationEvents();
     bindCharEvents();
     bindPracticeEvents();
     bilingualizeButtons();
