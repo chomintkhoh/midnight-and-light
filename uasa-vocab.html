@@ -713,6 +713,46 @@
     color:#9f2727 !important;
   }
 
+
+  /* V2.1 clarity + answer-card sizing */
+  .filter-help{margin-top:10px;font-size:14px;line-height:1.55;color:var(--ink-soft);}
+  .hw-level-box{padding:12px 14px;margin-bottom:14px;border:1px solid var(--line);border-radius:12px;background:#fff;}
+  .hw-level-box select{margin-left:8px;min-height:42px;padding:7px 10px;border-radius:9px;}
+  #foundationOptions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-top:16px;
+  }
+  #foundationOptions .quiz-option{
+    width:100%;
+    min-height:76px;
+    padding:16px 18px;
+    font-size:18px;
+    line-height:1.4;
+    white-space:normal;
+    border-radius:14px;
+  }
+  #foundationOptions .quiz-option.wrong{
+    background:#ffe5e5 !important;
+    border-color:#d74747 !important;
+    color:#9f2727 !important;
+  }
+  #foundationOptions .quiz-option.correct{
+    background:#edf8ef !important;
+    border-color:#5b9b67 !important;
+  }
+  #foundationFeedback.foundation-wrong{
+    background:#fff0f0 !important;
+    border-color:#d74747 !important;
+    color:#9f2727 !important;
+  }
+  @media(max-width:620px){
+    #foundationOptions{grid-template-columns:1fr;}
+    #foundationOptions .quiz-option{min-height:64px;}
+    .hw-level-box select{display:block;margin:8px 0 0;width:100%;}
+  }
+
 </style>
 </head>
 <body>
@@ -727,12 +767,13 @@
   <section id="screen-menu" class="screen">
     <div class="panel">
       <div class="filter-row">
-        <label for="filterCategory">类别：</label>
+        <label for="filterCategory">类别 / Category：</label>
         <select id="filterCategory"></select>
-        <label for="filterDifficulty">难度：</label>
+        <label for="filterDifficulty">难度 / Difficulty：</label>
         <select id="filterDifficulty"></select>
       </div>
-      <div class="stat-line" id="menuStatLine"></div>
+      <div class="filter-help">先选择想练的类别和难度，再进入下面任何练习。也可以保持“全部”直接开始。<br><span class="sub-en">Choose a category and level first, or keep “All” to practise everything.</span></div>
+        <div class="stat-line" id="menuStatLine"></div>
     </div>
 
     <div class="menu-grid">
@@ -777,7 +818,7 @@
     <div class="btn-row center">
       <button class="btn btn-warn" id="btnResetProgress">重置学习记录</button>
     </div>
-    <div class="progress-note">V2.0 · 字词基础＋70核心词＋26组易混字＋18篇短文＋防重复轮替</div>
+    <div class="progress-note">V2.1 · 双语筛选＋手写修正＋常用字反馈＋70核心词＋26组易混字＋18篇短文</div>
   </section>
 
 
@@ -931,6 +972,17 @@
       <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
     </div>
     <div class="panel">
+      <div class="hw-level-box">
+        <b>练习难度 / Practice Level</b>
+        <select id="hwDifficulty">
+          <option value="全部">全部难度 / All Levels</option>
+          <option value="基础">基础 / Basic</option>
+          <option value="进阶">进阶 / Intermediate</option>
+          <option value="挑战">挑战 / Advanced</option>
+        </select>
+        <div class="sub-en" style="margin-top:6px">Choose a level, then choose ONE practice type below. You do not need to finish 1 before doing 2, 3 or 4.</div>
+        <div style="margin-top:4px">先选难度，再从下面四种手写方式任选一种。不需要做完第1种才能做第2、3、4种。</div>
+      </div>
       <div class="hw-type-row" id="hwTypeRow">
         <button class="hw-type-btn" data-hwtype="copy">抄写<span class="btn-en">Copy</span></button>
         <button class="hw-type-btn" data-hwtype="pinyin">看拼音<span class="btn-en">Pinyin</span></button>
@@ -2584,7 +2636,41 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   const FOUNDATION_KEY="UASA_FOUNDATION_DECK_V20";
   let foundationCurrent=null;
   function foundationDeck(){let d;try{d=JSON.parse(localStorage.getItem(FOUNDATION_KEY)||"[]")}catch(e){d=[]}if(!Array.isArray(d)||!d.length){d=shuffle(FOUNDATION_CHARS.map((_,i)=>i));localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d))}return d}
-  function nextFoundation(){let d=foundationDeck(),i=d.shift();localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d));let x=FOUNDATION_CHARS[i];foundationCurrent=x;document.getElementById("foundationProgress").textContent="本轮字库剩余："+d.length+" / "+FOUNDATION_CHARS.length;document.getElementById("foundationCard").innerHTML=`<div class="char-title" style="font-size:42px">${x[0]}</div><div class="char-note">${x[1]}</div><div class="char-example">${x[4]}</div><p class="char-note">先根据例句猜意思，再选择。</p>`;let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3).map(y=>y[2]);let opts=shuffle([x[2],...distract]),o=document.getElementById("foundationOptions");o.innerHTML="";let fb=document.getElementById("foundationFeedback");fb.classList.add("hidden");opts.forEach(v=>{let b=document.createElement("button");b.className="quiz-option";b.textContent=v;b.onclick=()=>{o.querySelectorAll("button").forEach(z=>{z.disabled=true;if(z.textContent===x[2])z.classList.add("correct")});if(v===x[2]){playCorrectSound();fb.innerHTML=`✓ ${x[0]} · ${x[1]} · ${x[3]}`}else{b.classList.add("wrong");fb.innerHTML=`✗ 正确：${x[2]}<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}<br>${x[4]}`}fb.classList.remove("hidden")};o.appendChild(b)})}
+  function nextFoundation(){
+    let d=foundationDeck(),i=d.shift();
+    localStorage.setItem(FOUNDATION_KEY,JSON.stringify(d));
+    let x=FOUNDATION_CHARS[i];
+    foundationCurrent=x;
+    document.getElementById("foundationProgress").textContent="本轮字库剩余："+d.length+" / "+FOUNDATION_CHARS.length;
+    document.getElementById("foundationCard").innerHTML=`<div class="char-title" style="font-size:42px">${x[0]}</div><div class="char-note">${x[1]}</div><div class="char-example">${x[4]}</div><p class="char-note">先根据例句猜意思，再选择。<br><span class="sub-en">Guess the meaning from the example, then choose.</span></p>`;
+    let distract=shuffle(FOUNDATION_CHARS.filter(y=>y[0]!==x[0])).slice(0,3).map(y=>y[2]);
+    let opts=shuffle([x[2],...distract]),o=document.getElementById("foundationOptions");
+    o.innerHTML="";
+    let fb=document.getElementById("foundationFeedback");
+    fb.classList.add("hidden");
+    fb.classList.remove("foundation-wrong");
+    opts.forEach(v=>{
+      let b=document.createElement("button");
+      b.className="quiz-option foundation-option";
+      b.textContent=v;
+      b.onclick=()=>{
+        o.querySelectorAll("button").forEach(z=>{
+          z.disabled=true;
+          if(z.textContent===x[2]) z.classList.add("correct");
+        });
+        if(v===x[2]){
+          playCorrectSound();
+          fb.innerHTML=`✓ 答对了！<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}`;
+        }else{
+          b.classList.add("wrong");
+          fb.classList.add("foundation-wrong");
+          fb.innerHTML=`✗ 答错了。正确答案：${x[2]}<br><b>${x[0]}</b> · ${x[1]} · ${x[3]}<br>${x[4]}<br><button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText('${x[0]}')">🔊 听发音 / Listen</button>`;
+        }
+        fb.classList.remove("hidden");
+      };
+      o.appendChild(b);
+    });
+  }
   function bindFoundationEvents(){document.getElementById("btnEnterFoundation")?.addEventListener("click",()=>{showScreen("foundation");nextFoundation()});document.getElementById("btnFoundationNext")?.addEventListener("click",nextFoundation)}
 
   // ===== 真正轮替：题库未走完前，不把旧题重新放回 =====
@@ -2743,7 +2829,7 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   function buildPracticeRound(type){let recent=getPracticeRecent(),v=[];if(type==="foundation")return takeFromDeck("PFOUND",FOUNDATION_CHARS,10).map(makeFoundationPractice);if(type!=="chars"){for(const w of shuffle(VOCAB_DATA.filter(x=>x.writingPrompt))){let q=makeVocabPractice(w);if(!recent.includes(q.key))v.push(q);if(v.length===10)break}if(v.length<10)for(const w of shuffle(VOCAB_DATA)){if(v.length===10)break;v.push(makeVocabPractice(w))}}if(type==="chars")return takeFromDeck("PCHAR",PRACTICE_CHAR_BANK,10).map(makeCharPractice);if(type==="mixed"){let cq=takeFromDeck("PMIXCHAR",PRACTICE_CHAR_BANK,4).map(makeCharPractice);let fq=takeFromDeck("PMIXFOUND",FOUNDATION_CHARS,2).map(makeFoundationPractice);return shuffle(v.slice(0,4).concat(cq,fq));}return v.slice(0,10)}
   function startPractice(type){practiceState.type=type;practiceState.queue=buildPracticeRound(type);practiceState.index=0;showScreen("practice-round");document.getElementById("practiceTitle").textContent=type==="foundation"?"常用字练习":type==="vocab"?"词汇练习":type==="chars"?"易混淆字练习":"混合练习";renderPracticeQuestion()}
   function renderPracticeQuestion(){let i=practiceState.index,q=practiceState.queue[i];practiceState.current=q;document.getElementById("practiceComplete").classList.add("hidden");document.getElementById("practiceQuestion").classList.remove("hidden");document.getElementById("practiceOptions").classList.remove("hidden");document.getElementById("practiceProgress").textContent="本轮进度："+(i+1)+" / 10";document.getElementById("practiceQuestion").innerHTML='<div class="practice-stem">'+q.stem+'</div>';let o=document.getElementById("practiceOptions");o.innerHTML="";document.getElementById("practiceFeedback").classList.add("hidden");document.getElementById("practiceFeedback").classList.remove("practice-wrong");document.getElementById("practiceNextRow").classList.add("hidden");q.options.forEach(x=>{let b=document.createElement("button");b.className="quiz-option";b.textContent=x;b.onclick=()=>answerPractice(x,b);o.appendChild(b)})}
-  function answerPractice(x,b){let q=practiceState.current,box=document.getElementById("practiceFeedback");document.querySelectorAll("#practiceOptions .quiz-option").forEach(z=>{z.disabled=true;if(z.textContent===q.answer)z.classList.add("correct")});box.classList.remove("practice-wrong");if(x!==q.answer){b.classList.add("wrong");box.classList.add("practice-wrong");const w=VOCAB_DATA.find(v=>v.word===q.answer);box.innerHTML=w?vocabWrongFeedbackHtml(w):(q.foundation?`✗ 正确答案：${q.answer}<br><b>${q.foundation[0]}</b> · ${q.foundation[1]} · ${q.foundation[3]}<br>${q.foundation[4]}`:charWrongFeedbackHtml(q.answer))}else{playCorrectSound();box.innerHTML="✓ 答对了"}box.classList.remove("hidden");document.getElementById("practiceNextRow").classList.remove("hidden");rememberPractice(q.key)}
+  function answerPractice(x,b){let q=practiceState.current,box=document.getElementById("practiceFeedback");document.querySelectorAll("#practiceOptions .quiz-option").forEach(z=>{z.disabled=true;if(z.textContent===q.answer)z.classList.add("correct")});box.classList.remove("practice-wrong");if(x!==q.answer){b.classList.add("wrong");box.classList.add("practice-wrong");const w=VOCAB_DATA.find(v=>v.word===q.answer);box.innerHTML=w?vocabWrongFeedbackHtml(w):(q.foundation?`✗ 答错了。正确答案：${q.answer}<br><b>${q.foundation[0]}</b> · ${q.foundation[1]} · ${q.foundation[3]}<br>${q.foundation[4]}<br><button class="btn btn-outline" style="margin-top:10px" onclick="speakAnswerText('${q.foundation[0]}')">🔊 听发音 / Listen</button>`:charWrongFeedbackHtml(q.answer))}else{playCorrectSound();box.innerHTML="✓ 答对了"}box.classList.remove("hidden");document.getElementById("practiceNextRow").classList.remove("hidden");rememberPractice(q.key)}
   function nextPractice(){practiceState.index++;if(practiceState.index>=10){["practiceQuestion","practiceOptions","practiceFeedback","practiceNextRow"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById("practiceComplete").classList.remove("hidden")}else renderPracticeQuestion()}
   function bindPracticeEvents(){document.getElementById("btnEnterPractice")?.addEventListener("click",()=>showScreen("practice"));document.querySelectorAll(".practice-start").forEach(b=>b.addEventListener("click",()=>startPractice(b.dataset.practice)));document.getElementById("btnPracticeBack")?.addEventListener("click",()=>showScreen("practice"));document.getElementById("btnPracticeNext")?.addEventListener("click",nextPractice);document.getElementById("btnPracticeAgain")?.addEventListener("click",()=>startPractice(practiceState.type));document.getElementById("btnPracticeMenu")?.addEventListener("click",()=>showScreen("practice"))}
   function bilingualizeButtons(){const map={btnResetProgress:"Reset Progress",btnFcKnow:"I Know This",btnFcRetry:"Practise Again",btnCtxNext:"Next",btnCtxAgain:"Try Again",btnCtxMenu:"Main Menu",btnCfNext:"Next",btnCfAgain:"Try Again",btnCfMenu:"Main Menu",btnHwUndo:"Undo",btnHwClear:"Clear",btnHwHint:"Hint",btnHwReveal:"Show Answer",btnHwNext:"Next",btnHwGood:"I Know This",btnHwBad:"Need More Practice",btnCompCheck:"Check",btnCompNext:"Next Word",btnRevNext:"Next",btnCharMixed:"Mixed Review",btnMixAgain:"Shuffle Again",btnPracticeNext:"Next",btnPracticeAgain:"Try Again",btnPracticeMenu:"Practice Zone",btnPracticeBack:"Practice Zone",btnCharsBack:"Confused Characters",btnCharsBack2:"Confused Characters",btnFoundationNext:"Next Character"};Object.entries(map).forEach(([id,en])=>{let b=document.getElementById(id);if(b&&!b.querySelector(".btn-en"))b.insertAdjacentHTML("beforeend",'<span class="btn-en">'+en+'</span>')});document.querySelectorAll('[data-back="menu"]').forEach(b=>{if(!b.querySelector('.btn-en'))b.insertAdjacentHTML('beforeend','<span class="btn-en">Main Menu</span>')})}
@@ -3041,8 +3127,9 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   function resizeHwCanvas(){
     const wrap = hwCanvas.parentElement;
     const wrapWidth = wrap.clientWidth || 320;
-    let cell = wrapWidth / hwCellCount;
-    cell = Math.max(70, Math.min(220, cell));
+    const usableWidth = Math.min(wrapWidth, 640);
+    let cell = usableWidth / hwCellCount;
+    cell = Math.max(48, Math.min(220, cell));
     hwCellSize = cell;
     const cssWidth = cell * hwCellCount;
     const cssHeight = cell;
@@ -3220,12 +3307,12 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     diffSel.innerHTML = "";
     ["全部"].concat(CATEGORIES).forEach(c=>{
       const opt = document.createElement("option");
-      opt.value = c; opt.textContent = c;
+      opt.value = c; opt.textContent = c === "全部" ? "全部类别 / All Categories" : displayCategory(c);
       catSel.appendChild(opt);
     });
     ["全部"].concat(DIFFICULTIES).forEach(d=>{
       const opt = document.createElement("option");
-      opt.value = d; opt.textContent = d;
+      opt.value = d; opt.textContent = d === "全部" ? "全部难度 / All Levels" : displayDifficulty(d);
       diffSel.appendChild(opt);
     });
     catSel.value = state.filterCategory;
@@ -3413,6 +3500,8 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
 
   function enterHandwritingMode(){
     showScreen("handwriting");
+    const hwDiff = document.getElementById("hwDifficulty");
+    if(hwDiff) hwDiff.value = state.filterDifficulty;
     setHwActiveTypeButtons();
     nextHandwritingQuestion();
   }
@@ -3428,6 +3517,9 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     setHwActiveTypeButtons();
     nextHandwritingQuestion();
   }
+  document.getElementById("hwDifficulty")?.addEventListener("change", function(){
+    nextHandwritingQuestion();
+  });
 
   function nextHandwritingQuestion(){
     document.getElementById("hwHintBox").classList.add("hidden");
@@ -3437,7 +3529,13 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     state.handwriting.selfChecked = false;
     state.handwriting.hintShown = false;
 
-    const pool = getFilteredPool();
+    const hwDiffEl = document.getElementById("hwDifficulty");
+    const hwDiff = hwDiffEl ? hwDiffEl.value : state.filterDifficulty;
+    const pool = VOCAB_DATA.filter(w=>{
+      const catOk = state.filterCategory === "全部" || w.category === state.filterCategory;
+      const diffOk = hwDiff === "全部" || w.difficulty === hwDiff;
+      return catOk && diffOk;
+    });
     const word = pickWeightedWord(pool);
     if(!word){
       document.getElementById("hwMain").textContent = "暂无符合条件的词语";
