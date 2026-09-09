@@ -1,0 +1,3620 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>UASA 华语词汇训练</title>
+<style>
+  :root{
+    --bg:#f6f5f1;
+    --panel:#ffffff;
+    --ink:#2b2b2b;
+    --ink-soft:#5c5c5c;
+    --border:#e2ddd2;
+    --accent:#3f6b52;
+    --accent-dark:#2e5340;
+    --accent-soft:#e7f0ea;
+    --warn:#b5432c;
+    --warn-soft:#fbe9e5;
+    --good:#3f6b52;
+    --good-soft:#e7f0ea;
+    --star:#c9861a;
+    --fire:#b5432c;
+    --radius:14px;
+    --gap:16px;
+    --maxw:920px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Heiti SC",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.5;
+    -webkit-text-size-adjust:100%;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  #app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:14px 14px 60px;
+  }
+  h1,h2,h3{margin:0 0 8px;}
+  p{margin:0 0 10px;}
+  button{
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- header ---------- */
+  header.app-header{
+    text-align:center;
+    padding:14px 8px 18px;
+  }
+  header.app-header h1{
+    font-size:clamp(20px,4.5vw,28px);
+    color:var(--accent-dark);
+  }
+  header.app-header .sub{
+    color:var(--ink-soft);
+    font-size:clamp(13px,3vw,15px);
+  }
+
+  /* ---------- panels / cards ---------- */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:16px;
+  }
+
+  /* ---------- main menu ---------- */
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+  @media (max-width:480px){
+    .menu-grid{grid-template-columns:1fr;}
+  }
+  .menu-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+    background:var(--panel);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 16px;
+    min-height:88px;
+    text-align:left;
+    transition:border-color .15s, background .15s;
+  }
+  .menu-btn:hover, .menu-btn:focus-visible{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
+  .menu-btn .m-title{
+    font-size:clamp(16px,3.6vw,19px);
+    font-weight:700;
+    color:var(--accent-dark);
+  }
+  .menu-btn .m-desc{
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  .filter-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .filter-row label{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-right:4px;
+  }
+  select{
+    font-family:inherit;
+    font-size:15px;
+    padding:8px 10px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:#fff;
+    min-height:40px;
+  }
+  .stat-line{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  .round-progress{
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:right;
+    margin:0 0 10px;
+  }
+  .round-complete{
+    text-align:center;
+    padding:28px 16px;
+  }
+  .round-complete h3{
+    color:var(--accent-dark);
+    margin-bottom:8px;
+  }
+
+  /* ---------- generic action buttons ---------- */
+  .btn{
+    font-size:15px;
+    padding:12px 18px;
+    border-radius:12px;
+    border:1.5px solid var(--border);
+    background:#fff;
+    color:var(--ink);
+    min-height:46px;
+    min-width:88px;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .btn-primary{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+    font-weight:600;
+  }
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-outline{
+    background:#fff;
+    border-color:var(--accent);
+    color:var(--accent-dark);
+  }
+  .btn-warn{
+    background:#fff;
+    border-color:var(--warn);
+    color:var(--warn);
+  }
+  .btn-ghost{
+    background:transparent;
+    border-color:transparent;
+    color:var(--ink-soft);
+    text-decoration:underline;
+  }
+  .btn-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+  }
+  .btn-row.center{ justify-content:center; }
+
+  /* ---------- top bar within a mode ---------- */
+  .mode-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .mode-topbar h2{
+    font-size:clamp(18px,4vw,22px);
+    color:var(--accent-dark);
+  }
+
+  .tag{
+    display:inline-block;
+    font-size:12px;
+    padding:3px 9px;
+    border-radius:999px;
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+    margin-right:6px;
+    white-space:nowrap;
+  }
+  .tag.star{ background:#fbf1e0; color:var(--star); }
+  .tag.fire{ background:var(--fire-soft,#fbe9e5); color:var(--fire); }
+
+  /* ---------- flashcard ---------- */
+  .flashcard{
+    perspective:1200px;
+    width:100%;
+  }
+  .fc-inner{
+    display:grid;
+    width:100%;
+    transform-style:preserve-3d;
+    transition:transform .5s ease;
+  }
+  .flashcard.flipped .fc-inner{
+    transform:rotateY(180deg);
+  }
+  .fc-face{
+    grid-area:1 / 1;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    background:var(--panel);
+    border:1.5px solid var(--border);
+    border-radius:18px;
+    padding:34px 20px;
+    min-height:280px;
+  }
+  .fc-front{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .fc-back{
+    transform:rotateY(180deg);
+    text-align:left;
+    width:100%;
+  }
+  .fc-word{
+    font-size:clamp(40px,11vw,64px);
+    font-weight:700;
+    color:var(--accent-dark);
+    letter-spacing:2px;
+  }
+  .fc-pinyin{
+    font-size:clamp(16px,4vw,20px);
+    color:var(--ink-soft);
+  }
+  .fc-speak{
+    margin-top:4px;
+    width:48px;
+    min-width:48px;
+    height:48px;
+    min-height:48px;
+    border-radius:50%;
+    border:1.5px solid var(--accent);
+    background:#fff;
+    color:var(--accent-dark);
+    font-size:22px;
+    line-height:1;
+  }
+  .fc-speak:hover,.fc-speak:focus-visible{ background:var(--accent-soft); }
+  .fc-speak:disabled{ opacity:.45; cursor:not-allowed; }
+  .fc-labels{ margin-top:6px; }
+  .fc-back h4{
+    margin:0 0 4px;
+    font-size:13px;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .fc-back .fc-block{ margin-bottom:12px; }
+  .fc-back .fc-zh{ font-size:16px; }
+  .fc-back .fc-en{ font-size:15px; color:var(--ink-soft); }
+  .fc-back .fc-example{ font-size:15px; }
+  .fc-example b{ color:var(--accent-dark); }
+
+  /* ---------- quiz ---------- */
+  .quiz-sentence{
+    font-size:clamp(18px,4.6vw,22px);
+    line-height:1.9;
+    margin-bottom:18px;
+  }
+  .quiz-sentence .blank{
+    display:inline-block;
+    min-width:2.2em;
+    border-bottom:3px solid var(--accent);
+    color:var(--accent-dark);
+    font-weight:700;
+    text-align:center;
+  }
+  .quiz-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  @media (max-width:480px){
+    .quiz-options{grid-template-columns:1fr;}
+  }
+  .opt-btn{
+    font-size:17px;
+    padding:16px 14px;
+    border-radius:12px;
+    border:1.5px solid var(--border);
+    background:#fff;
+    text-align:left;
+    min-height:56px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .opt-btn .opt-letter{
+    font-weight:700;
+    color:var(--accent);
+  }
+  .opt-btn:hover{ border-color:var(--accent); }
+  .opt-btn.correct{
+    background:var(--good-soft);
+    border-color:var(--good);
+  }
+  .opt-btn.wrong{
+    background:var(--warn-soft);
+    border-color:var(--warn);
+  }
+  .opt-btn[disabled]{ cursor:default; }
+
+  .feedback-box{
+    margin-top:16px;
+    padding:14px 16px;
+    border-radius:12px;
+    background:var(--accent-soft);
+    border:1px solid var(--border);
+  }
+  .feedback-box.wrong{
+    background:var(--warn-soft);
+  }
+  .feedback-box .fb-title{
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .feedback-box.wrong .fb-title{ color:var(--warn); }
+  .feedback-box:not(.wrong) .fb-title{ color:var(--good); }
+
+  /* ---------- handwriting ---------- */
+  .hw-type-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .hw-type-btn{
+    padding:9px 14px;
+    border-radius:999px;
+    border:1.5px solid var(--border);
+    background:#fff;
+    font-size:14px;
+    min-height:40px;
+  }
+  .hw-type-btn.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+    font-weight:600;
+  }
+  .hw-prompt{
+    text-align:center;
+    padding:14px 10px;
+    margin-bottom:10px;
+  }
+  .hw-prompt .hw-main{
+    font-size:clamp(22px,6vw,32px);
+    font-weight:700;
+    color:var(--accent-dark);
+  }
+  .hw-prompt .hw-sub{
+    font-size:15px;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .hw-instruction{
+    font-size:14px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-bottom:10px;
+  }
+  .hw-hint-box{
+    text-align:center;
+    font-size:14px;
+    color:var(--accent-dark);
+    background:var(--accent-soft);
+    border-radius:10px;
+    padding:8px;
+    margin-bottom:10px;
+  }
+  .hw-canvas-wrap{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin-bottom:14px;
+  }
+  #hwCanvas{
+    width:100%;
+    max-width:640px;
+    aspect-ratio:auto;
+    background:#fffdf8;
+    border:2px solid var(--accent);
+    border-radius:10px;
+    touch-action:none;
+    display:block;
+  }
+  .hw-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+  }
+  .hw-answer-box{
+    margin-top:16px;
+    padding:16px;
+    border-radius:12px;
+    background:var(--accent-soft);
+    text-align:center;
+  }
+  .hw-answer-box .ans-word{
+    font-size:clamp(28px,7vw,40px);
+    font-weight:700;
+    color:var(--accent-dark);
+  }
+  .hw-answer-box .ans-detail{
+    margin-top:8px;
+    font-size:14px;
+    color:var(--ink-soft);
+    text-align:left;
+  }
+  .hw-selfcheck{
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .hw-selfcheck .btn.chosen{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+
+  /* ---------- composition ---------- */
+  .comp-word{
+    text-align:center;
+    font-size:clamp(30px,7vw,40px);
+    font-weight:700;
+    color:var(--accent-dark);
+    margin-bottom:6px;
+  }
+  .comp-word-pinyin{
+    text-align:center;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .comp-scenario{
+    background:var(--accent-soft);
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:14px;
+    font-size:16px;
+  }
+  .comp-instruction{
+    font-size:15px;
+    margin-bottom:10px;
+    color:var(--ink-soft);
+  }
+  textarea#compInput{
+    width:100%;
+    min-height:110px;
+    font-size:17px;
+    font-family:inherit;
+    padding:12px;
+    border-radius:12px;
+    border:1.5px solid var(--border);
+    resize:vertical;
+  }
+  .comp-check-result{
+    margin-top:12px;
+    padding:12px 14px;
+    border-radius:12px;
+    background:var(--accent-soft);
+    font-size:15px;
+  }
+  .comp-check-result .check-line{
+    margin-bottom:4px;
+  }
+  .comp-check-result .ok{ color:var(--good); font-weight:600; }
+  .comp-check-result .bad{ color:var(--warn); font-weight:600; }
+  .comp-reference{
+    margin-top:14px;
+    padding:14px;
+    border-radius:12px;
+    border:1px dashed var(--accent);
+  }
+  .comp-reference .ref-label{
+    font-weight:700;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+    font-size:13px;
+  }
+
+  /* ---------- review mode ---------- */
+  .review-status{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+  .empty-state{
+    text-align:center;
+    padding:36px 16px;
+    color:var(--ink-soft);
+  }
+  .empty-state .big-emoji{
+    font-size:40px;
+    margin-bottom:10px;
+  }
+
+  /* ---------- confirm modal ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-box{
+    background:#fff;
+    border-radius:16px;
+    padding:22px;
+    max-width:360px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box p{ margin-bottom:18px; font-size:15px; }
+  .modal-box .btn-row{ justify-content:center; margin-top:0; }
+
+  .progress-note{
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:24px;
+  }
+
+  footer.app-footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding:20px 10px 6px;
+  }
+
+  /* 易混淆字专区 */
+  .char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:14px}
+  .char-card,.char-q{background:var(--panel);border:1.5px solid var(--border);border-radius:14px;padding:14px}
+  .char-title{font-size:28px;font-weight:700;color:var(--accent-dark)}
+  .char-note{font-size:14px;color:var(--ink-soft);line-height:1.6}
+  .char-example{background:var(--accent-soft);border-radius:10px;padding:10px;margin:8px 0;line-height:1.7}
+  .char-q{margin:10px 0;line-height:1.8}
+  .char-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .char-opt{min-width:64px;min-height:44px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:19px;font-weight:700}
+  .char-opt.ok{background:#edf8ef;border-color:#5b9b67}.char-opt.no{background:#fff0f0;border-color:#c56b6b}
+  .char-fb{font-size:14px;font-weight:600;margin-top:6px}.char-fb.ok{color:#4f8158}.char-fb.no{color:#a95555}
+  .char-write{width:100%;min-height:52px;border:1.5px solid var(--border);border-radius:10px;padding:10px;font:inherit;margin-top:6px}
+
+
+  .btn-en{display:block;font-size:11px;font-weight:500;opacity:.72;line-height:1.2;margin-top:2px}
+  .practice-stem{font-size:20px;line-height:1.8;margin:16px 0}
+
+  /* V1.4 Practice Zone: larger answer cards and clearer wrong-state feedback */
+  #screen-practice .option-btn,
+  #screen-practice .choice-btn,
+  #screen-practice .quiz-option,
+  #screen-practice .practice-option,
+  #screen-practice button[data-answer],
+  #screen-practice-zone .option-btn,
+  #screen-practice-zone .choice-btn,
+  #screen-practice-zone .quiz-option,
+  #screen-practice-zone .practice-option,
+  #screen-practice-zone button[data-answer]{
+    width:100%;
+    min-height:60px;
+    padding:14px 18px;
+    margin:8px 0;
+    font-size:18px;
+    line-height:1.45;
+    border-radius:14px;
+    white-space:normal;
+    text-align:left;
+  }
+
+  #screen-practice .options,
+  #screen-practice .choice-grid,
+  #screen-practice .practice-options,
+  #screen-practice-zone .options,
+  #screen-practice-zone .choice-grid,
+  #screen-practice-zone .practice-options{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  #screen-practice .wrong,
+  #screen-practice .incorrect,
+  #screen-practice .is-wrong,
+  #screen-practice-zone .wrong,
+  #screen-practice-zone .incorrect,
+  #screen-practice-zone .is-wrong{
+    background:#fff0f0 !important;
+    border-color:#c84f4f !important;
+    color:#9e2f2f !important;
+  }
+
+  #screen-practice .correct,
+  #screen-practice .is-correct,
+  #screen-practice-zone .correct,
+  #screen-practice-zone .is-correct{
+    background:#eef8ef !important;
+    border-color:#5b9b67 !important;
+  }
+
+  @media (min-width:700px){
+    #screen-practice .options,
+    #screen-practice .choice-grid,
+    #screen-practice .practice-options,
+    #screen-practice-zone .options,
+    #screen-practice-zone .choice-grid,
+    #screen-practice-zone .practice-options{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+  }
+
+
+  /* V1.4b Practice Zone answer layout */
+  #screen-practice-round #practiceOptions{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:16px !important;
+    margin-top:18px;
+  }
+  #screen-practice-round #practiceOptions .quiz-option{
+    width:100%;
+    min-height:72px;
+    padding:18px 20px;
+    border-radius:16px;
+    font-size:19px;
+    line-height:1.5;
+    text-align:center;
+    white-space:normal;
+  }
+  #screen-practice-round #practiceOptions .quiz-option.wrong{
+    background:#ffe5e5 !important;
+    border-color:#d74747 !important;
+    color:#9f2727 !important;
+  }
+  #screen-practice-round #practiceOptions .quiz-option.correct{
+    background:#edf8ef !important;
+    border-color:#5b9b67 !important;
+  }
+  @media (max-width:620px){
+    #screen-practice-round #practiceOptions{
+      grid-template-columns:1fr !important;
+      gap:12px !important;
+    }
+    #screen-practice-round #practiceOptions .quiz-option{
+      min-height:64px;
+      font-size:18px;
+    }
+  }
+
+  /* Handwriting bilingual mode buttons */
+  .hw-type-btn .btn-en{
+    display:block;
+    margin-top:3px;
+    font-size:11px;
+    font-weight:500;
+    opacity:.72;
+  }
+
+
+  #screen-practice-round #practiceFeedback{
+    font-weight:700;
+  }
+  #screen-practice-round #practiceFeedback.practice-wrong{
+    background:#ffe5e5 !important;
+    border:1.5px solid #d74747 !important;
+    color:#9f2727 !important;
+  }
+
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header class="app-header">
+    <h1>UASA 华语词汇训练</h1>
+    <div class="sub">专为小六华语 UASA 阅读理解设计的词汇学习工具</div>
+  </header>
+
+  <!-- ============ 主菜单 MAIN MENU ============ -->
+  <section id="screen-menu" class="screen">
+    <div class="panel">
+      <div class="filter-row">
+        <label for="filterCategory">类别：</label>
+        <select id="filterCategory"></select>
+        <label for="filterDifficulty">难度：</label>
+        <select id="filterDifficulty"></select>
+      </div>
+      <div class="stat-line" id="menuStatLine"></div>
+    </div>
+
+    <div class="menu-grid">
+      <button class="menu-btn" data-mode="flashcard">
+        <span class="m-title">1. 学习词卡</span>
+        <span class="m-desc">认识词语的读音与意思 · Learn the word and meaning</span>
+      </button>
+      <button class="menu-btn" data-mode="context">
+        <span class="m-title">2. 情境选择</span>
+        <span class="m-desc">在句子中选出正确的词语 · Choose the best word</span>
+      </button>
+      <button class="menu-btn" data-mode="confusable">
+        <span class="m-title">3. 易混词挑战</span>
+        <span class="m-desc">分辨容易混淆的词语 · Tell similar words apart</span>
+      </button>
+      <button class="menu-btn" data-mode="handwriting">
+        <span class="m-title">4. 手写练习</span>
+        <span class="m-desc">动手写出词语，加深记忆 · Write the word by hand</span>
+      </button>
+<button class="menu-btn" data-mode="review">
+        <span class="m-title">6. 错词复习</span>
+        <span class="m-desc">重点复习比较生疏的词语 · Review weaker words</span>
+      </button>
+    </div>
+
+
+    <div class="menu-grid" style="margin-top:16px">
+      <button class="menu-btn" id="btnEnterChars">
+        <span class="m-title">🔤 易混淆字训练</span>
+        <span class="m-desc">学习10组常见易混淆字 · Confused Characters</span>
+      </button>
+      <button class="menu-btn" id="btnEnterPractice">
+        <span class="m-title">📝 专项练习</span>
+        <span class="m-desc">每一轮都是重新组合的新练习 · Practice Zone</span>
+      </button>
+    </div>
+
+    <div class="btn-row center">
+      <button class="btn btn-warn" id="btnResetProgress">重置学习记录</button>
+    </div>
+    <div class="progress-note">V1.4 · 小六 UASA 华语词汇训练 · 70 词＋易混淆字＋专项练习</div>
+  </section>
+
+
+  <!-- ============ 易混淆字专区 ============ -->
+  <section id="screen-chars" class="screen hidden">
+    <div class="mode-topbar"><h2>易混淆字训练</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单</button></div>
+    <div class="panel"><p><b>学习方法：</b>每组先看拼音、英文意思和例句，再完成4题。</p><p class="sub-en">Study each pair, then complete four questions.</p><div class="char-grid" id="charGrid"></div><div class="btn-row center" style="margin-top:16px"><button class="btn btn-primary" id="btnCharMixed">综合练习</button></div></div>
+  </section>
+  <section id="screen-char-pair" class="screen hidden">
+    <div class="mode-topbar"><h2 id="charPairTitle">易混淆字</h2><button class="btn btn-ghost" id="btnCharsBack">← 返回易混淆字</button></div>
+    <div class="panel" id="charLearn"></div><div class="panel" style="margin-top:14px"><h3>基础练习 · 4题</h3><p class="char-note">选择正确的字。<br><span class="sub-en">Choose the correct character.</span></p><div id="charQs"></div></div>
+  </section>
+  <section id="screen-char-mixed" class="screen hidden">
+    <div class="mode-topbar"><h2>综合练习</h2><button class="btn btn-ghost" id="btnCharsBack2">← 返回易混淆字</button></div>
+    <div class="panel"><h3>A. 选择正确的字</h3><p class="char-note">10组混合出题，不提示是哪一组。<br><span class="sub-en">Choose the correct character. All pairs are mixed.</span></p><div id="mixA"></div></div>
+    <div class="panel" style="margin-top:14px"><h3>B. 看句子，选择正确的字</h3><p class="char-note">根据完整句子的意思判断。<br><span class="sub-en">Use the whole sentence to decide.</span></p><div id="mixB"></div></div>
+    <div class="panel" style="margin-top:14px"><h3>C. 短文填空</h3><p class="char-note">阅读短文，再选择正确的字。<br><span class="sub-en">Read the passage and choose the correct characters.</span></p><div id="mixC"></div></div>
+    <div class="panel" style="margin-top:14px"><h3>D. 造句</h3><p class="char-note">任选两个词语造句。<br><span class="sub-en">Choose any two words and write complete sentences.</span></p><div id="mixD"></div></div>
+    <div class="btn-row center"><button class="btn btn-outline" id="btnMixAgain">重新打乱综合练习</button></div>
+  </section>
+
+  <!-- ============ 专项练习 PRACTICE ZONE ============ -->
+  <section id="screen-practice" class="screen hidden">
+    <div class="mode-topbar"><h2>专项练习</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单</button></div>
+    <div class="panel"><p><b>这里不先给答案提示。</b>每次开始都会重新抽题、重新组合情境，并打乱答案位置。</p><p class="sub-en">Each round rebuilds the questions and shuffles the answer positions.</p>
+      <div class="menu-grid">
+        <button class="menu-btn practice-start" data-practice="vocab"><span class="m-title">词汇练习</span><span class="m-desc">70词范围 · Vocabulary Practice</span></button>
+        <button class="menu-btn practice-start" data-practice="chars"><span class="m-title">易混淆字</span><span class="m-desc">10组易混字 · Character Practice</span></button>
+        <button class="menu-btn practice-start" data-practice="mixed"><span class="m-title">混合练习</span><span class="m-desc">词汇＋易混淆字 · Mixed Practice</span></button>
+      </div></div>
+  </section>
+  <section id="screen-practice-round" class="screen hidden">
+    <div class="mode-topbar"><h2 id="practiceTitle">专项练习</h2><button class="btn btn-ghost" id="btnPracticeBack">← 返回专项练习</button></div>
+    <div class="panel"><div class="round-progress" id="practiceProgress"></div><div id="practiceQuestion"></div><div class="quiz-options" id="practiceOptions"></div><div class="feedback-box hidden" id="practiceFeedback"></div><div class="btn-row center hidden" id="practiceNextRow"><button class="btn btn-primary" id="btnPracticeNext">下一题</button></div><div class="round-complete hidden" id="practiceComplete"><h3>本轮完成</h3><p>这10题已经完成。重新开始会再次生成不同组合。</p><div class="btn-row center"><button class="btn btn-primary" id="btnPracticeAgain">再来一轮</button><button class="btn btn-outline" id="btnPracticeMenu">返回专项练习</button></div></div></div>
+  </section>
+
+  <!-- ============ MODE 1: 学习词卡 ============ -->
+  <section id="screen-flashcard" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>学习词卡</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel">
+      <div class="flashcard" id="fcCard">
+        <div class="fc-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-word" id="fcWord">词语</div>
+            <div class="fc-pinyin" id="fcPinyin">pīn yīn</div>
+            <button class="fc-speak" id="btnFcSpeak" type="button" aria-label="播放词语发音" title="播放发音">🔊</button>
+            <div class="fc-labels" id="fcLabels"></div>
+          </div>
+          <div class="fc-face fc-back" id="fcBack">
+            <div class="fc-block">
+              <h4>简单中文</h4>
+              <div class="fc-zh" id="fcZh"></div>
+            </div>
+            <div class="fc-block">
+              <h4>English</h4>
+              <div class="fc-en" id="fcEn"></div>
+            </div>
+            <div class="fc-block">
+              <h4>例句</h4>
+              <div class="fc-example" id="fcExample"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row center" id="fcFlipRow">
+        <button class="btn btn-primary" id="btnFcFlip">翻面查看 · Flip card</button>
+      </div>
+      <div class="btn-row center hidden" id="fcAfterRow">
+        <button class="btn btn-primary" id="btnFcKnow">会了</button>
+        <button class="btn btn-warn" id="btnFcRetry">再练一次</button>
+        <button class="btn btn-outline" id="btnFcNext">下一张</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODE 2: 情境选择 ============ -->
+  <section id="screen-context" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>情境选择</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel">
+      <div class="round-progress" id="ctxProgress"></div>
+      <div id="ctxQuizArea">
+        <div class="quiz-sentence" id="ctxSentence"></div>
+      <div class="quiz-options" id="ctxOptions"></div>
+      <div class="feedback-box hidden" id="ctxFeedback"></div>
+        <div class="btn-row center hidden" id="ctxNextRow">
+          <button class="btn btn-primary" id="btnCtxNext">下一题</button>
+        </div>
+      </div>
+      <div class="round-complete hidden" id="ctxRoundComplete">
+        <h3>本轮完成</h3>
+        <p>你已经完成 10 题。</p>
+        <div class="btn-row center">
+          <button class="btn btn-primary" id="btnCtxAgain">再来一轮</button>
+          <button class="btn btn-outline" id="btnCtxMenu">返回主菜单</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODE 3: 易混词挑战 ============ -->
+  <section id="screen-confusable" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>易混词挑战</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel" id="confusablePanel">
+      <div class="round-progress" id="cfProgress"></div>
+      <div id="cfQuizArea">
+        <div class="quiz-sentence" id="cfSentence"></div>
+      <div class="quiz-options" id="cfOptions"></div>
+      <div class="feedback-box hidden" id="cfFeedback"></div>
+        <div class="btn-row center hidden" id="cfNextRow">
+          <button class="btn btn-primary" id="btnCfNext">下一题</button>
+        </div>
+      </div>
+      <div class="round-complete hidden" id="cfRoundComplete">
+        <h3>本轮完成</h3>
+        <p>你已经完成 10 题。</p>
+        <div class="btn-row center">
+          <button class="btn btn-primary" id="btnCfAgain">再来一轮</button>
+          <button class="btn btn-outline" id="btnCfMenu">返回主菜单</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODE 4: 手写练习 ============ -->
+  <section id="screen-handwriting" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>手写练习</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel">
+      <div class="hw-type-row" id="hwTypeRow">
+        <button class="hw-type-btn" data-hwtype="copy">抄写<span class="btn-en">Copy</span></button>
+        <button class="hw-type-btn" data-hwtype="pinyin">看拼音<span class="btn-en">Pinyin</span></button>
+        <button class="hw-type-btn" data-hwtype="meaning">看意思<span class="btn-en">Meaning</span></button>
+        <button class="hw-type-btn" data-hwtype="context">看情境<span class="btn-en">Context</span></button>
+      </div>
+      <div class="hw-prompt" id="hwPrompt">
+        <div class="hw-main" id="hwMain"></div>
+        <div class="hw-sub" id="hwSub"></div>
+      </div>
+      <div class="hw-instruction" id="hwInstruction"></div>
+      <div class="hw-hint-box hidden" id="hwHintBox"></div>
+      <div class="hw-canvas-wrap">
+        <canvas id="hwCanvas"></canvas>
+      </div>
+      <div class="hw-controls">
+        <button class="btn" id="btnHwUndo">撤销</button>
+        <button class="btn" id="btnHwClear">清除</button>
+        <button class="btn btn-outline" id="btnHwHint">提示</button>
+        <button class="btn btn-outline" id="btnHwReveal">看答案</button>
+        <button class="btn btn-primary" id="btnHwNext">下一题</button>
+      </div>
+      <div class="hw-answer-box hidden" id="hwAnswerBox">
+        <div class="ans-word" id="hwAnsWord"></div>
+        <div class="ans-detail" id="hwAnsDetail"></div>
+        <div class="hw-selfcheck">
+          <button class="btn" id="btnHwGood">我会了</button>
+          <button class="btn" id="btnHwBad">还不熟</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODE 5: 课堂造句练习 ============ -->
+  <section id="screen-composition" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>课堂造句练习</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel" id="compPanel">
+      <div class="comp-word" id="compWord"></div>
+      <div class="comp-word-pinyin" id="compPinyin"></div>
+      <div class="comp-scenario" id="compScenario"></div>
+      <div class="comp-instruction" id="compInstruction"></div>
+      <textarea id="compInput" placeholder="请在这里写一个完整的句子…… / Write a complete sentence here…"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnCompCheck">检查句子</button>
+        <button class="btn btn-outline" id="btnCompNext">换一个词语</button>
+      </div>
+      <div class="comp-check-result hidden" id="compResult"></div>
+      <div class="comp-reference hidden" id="compReference">
+        <div class="ref-label">参考句（仅供参考，答案不唯一）</div>
+        <div id="compReferenceText"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODE 6: 错词复习 ============ -->
+  <section id="screen-review" class="screen hidden">
+    <div class="mode-topbar">
+      <h2>错词复习</h2>
+      <button class="btn btn-ghost" data-back="menu">← 返回主菜单</button>
+    </div>
+    <div class="panel" id="reviewPanel">
+      <div class="review-status" id="reviewStatus"></div>
+      <div id="reviewEmptyState" class="empty-state hidden">
+        <div class="big-emoji">🎉</div>
+        <div>目前没有需要特别复习的词语，继续保持！</div>
+      </div>
+      <div id="reviewQuizArea">
+        <div class="quiz-sentence" id="revSentence"></div>
+        <div class="quiz-options" id="revOptions"></div>
+        <div class="feedback-box hidden" id="revFeedback"></div>
+        <div class="btn-row center hidden" id="revNextRow">
+          <button class="btn btn-primary" id="btnRevNext">下一题</button>
+        </div>
+      </div>
+    </div>
+  
+
+  </section>
+
+  <footer class="app-footer">Midnight &amp; Light · UASA 华语词汇训练工具（V1.4）</footer>
+</div>
+
+<div id="modalRoot"></div>
+
+<script>
+/* =========================================================================
+   一、词汇数据 VOCABULARY DATA
+   ------------------------------------------------------------------------
+   ✅ 已批准正式词库 APPROVED DATASET（V1，70 词 / 350 条情境例句）
+   来源：UASA_V1_70word_VOCAB_DATA.js（已通过数据质量检查，见随附 QA 报告）
+   词汇教学内容已获批准，不应在此重写、精简或修改文字内容。
+   每个词语的数据结构：
+   {
+     id, word, pinyin, category, difficulty,
+     meaningZh, meaningEn,
+     contexts: [5 条真正不同情境的例句],
+     confusable: [容易混淆的词语（字符串数组）],
+     writingUseful, readingImportant,
+     writingPrompt, writingExample
+   }
+   ========================================================================= */
+  const VOCAB_DATA = [
+  {
+    id: "xinwei",
+    word: "欣慰",
+    pinyin: "xīn wèi",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "看到好的结果或进步，感到高兴和放心。",
+    meaningEn: "pleased / relieved",
+    contexts: [
+      "看到原本不敢开口说华语的小文终于主动回答问题，老师感到十分欣慰。",
+      "妈妈发现哥哥不用提醒也会主动照顾弟弟，心里感到很欣慰。",
+      "爷爷看到孙子把捡到的钱包交给警察，脸上露出了欣慰的笑容。",
+      "经过几个月的训练，队员们终于有了明显的进步，教练感到十分欣慰。",
+      "老人看到年轻人听懂了自己的劝告，不再轻易放弃，心里十分欣慰。"
+    ],
+    confusable: ["感动", "感激"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "看到一个人经过努力后有了明显的进步。",
+    writingExample: "看到弟弟经过不断练习终于学会游泳，妈妈感到十分欣慰。"
+  },
+  {
+    id: "ganji",
+    word: "感激",
+    pinyin: "gǎn jī",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "得到别人的帮助后，非常感谢对方。",
+    meaningEn: "grateful",
+    contexts: [
+      "下大雨时，同学把雨伞借给没有带伞的小杰，小杰十分感激。",
+      "妈妈生病期间，邻居每天帮忙送饭，她对邻居的帮助非常感激。",
+      "小华忘了带文具，同桌主动借给他，他感激地向同桌道谢。",
+      "登山时，救援人员及时找到迷路的游客，游客对他们充满感激。",
+      "在自己最困难的时候，老师一直鼓励他不要放弃，他多年后仍然十分感激老师。"
+    ],
+    confusable: ["感动", "佩服"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "别人曾在你最需要的时候帮助你。",
+    writingExample: "我一直很感激老师在我最没有信心的时候耐心鼓励我。"
+  },
+  {
+    id: "gandong",
+    word: "感动",
+    pinyin: "gǎn dòng",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "因为别人的行为或一件事，心里受到触动。",
+    meaningEn: "touched / moved",
+    contexts: [
+      "小美发现同学们偷偷为她准备生日卡片，心里十分感动。",
+      "爸爸工作到很晚才回家，却还是记得买女儿需要的学习用品，她十分感动。",
+      "老师生病请假时，全班同学一起制作祝福卡，让老师非常感动。",
+      "男孩每天放学后都去照顾行动不便的爷爷，他的孝心让邻居十分感动。",
+      "比赛结束后，胜出的选手主动扶起跌倒的对手，这一幕让在场的人十分感动。"
+    ],
+    confusable: ["感激", "欣慰"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "别人做了一件让你觉得很温暖的事。",
+    writingExample: "看到同学们特地为我准备的祝福卡，我心里十分感动。"
+  },
+  {
+    id: "peifu",
+    word: "佩服",
+    pinyin: "pèi fú",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "觉得别人做得很好或很有本事，值得学习。",
+    meaningEn: "admire",
+    contexts: [
+      "明明已经很累了，姐姐还是每天坚持练习钢琴，小丽十分佩服她。",
+      "同学只用了几分钟就想出解决数学难题的方法，大家都很佩服他。",
+      "消防员冒着危险救出被困的人，居民们都十分佩服他们的勇气。",
+      "小强失败了好几次仍然继续尝试，他坚持不放弃的精神让朋友十分佩服。",
+      "老师能够耐心地帮助每一名遇到困难的学生，小文一直很佩服老师。"
+    ],
+    confusable: ["感激", "感动"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你看到别人展现出值得学习的能力或品质。",
+    writingExample: "看到姐姐失败后仍坚持练习，我十分佩服她不轻易放弃的精神。"
+  },
+  {
+    id: "jingya",
+    word: "惊讶",
+    pinyin: "jīng yà",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "事情和自己想的不一样，感到吃惊。",
+    meaningEn: "surprised",
+    contexts: [
+      "小明打开门，看到多年没见的朋友站在门外，十分惊讶。",
+      "一向害怕上台的小美竟然主动参加演讲比赛，同学们都很惊讶。",
+      "老师公布成绩时，小华发现自己得了全班最高分，惊讶得说不出话来。",
+      "弟弟竟然独自完成了复杂的模型，哥哥露出了惊讶的表情。",
+      "李白看到老妇人拿着粗大的铁棒不停地磨，感到十分惊讶。"
+    ],
+    confusable: ["疑惑"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "发生了一件完全出乎你意料的事。",
+    writingExample: "看到一向害怕上台的弟弟主动参加演讲比赛，我感到十分惊讶。"
+  },
+  {
+    id: "yihuo",
+    word: "疑惑",
+    pinyin: "yí huò",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "有事情想不明白，不知道为什么。",
+    meaningEn: "puzzled / confused",
+    contexts: [
+      "小文明明记得把作业放进书包，现在却怎么也找不到，他感到十分疑惑。",
+      "老师突然改变了比赛规则，同学们不知道原因，都露出疑惑的表情。",
+      "妹妹看见哥哥一直望着窗外不说话，心里十分疑惑。",
+      "小杰发现植物明明每天浇水，叶子却越来越黄，感到很疑惑。",
+      "李白不明白一根粗大的铁棒怎么可能磨成细针，心中充满疑惑。"
+    ],
+    confusable: ["惊讶"],
+    writingUseful: false,
+    readingImportant: true,
+    writingPrompt: "",
+    writingExample: ""
+  },
+  {
+    id: "jinzhang",
+    word: "紧张",
+    pinyin: "jǐn zhāng",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "面对重要或不熟悉的事情时，心里不安。",
+    meaningEn: "nervous",
+    contexts: [
+      "第一次站在全校同学面前演讲，小安紧握着讲稿，心里十分紧张。",
+      "比赛马上就要开始了，小杰听见自己的名字后突然感到有些紧张。",
+      "等待老师公布考试成绩时，她紧张得不停地搓着双手。",
+      "第一次参加面试，哥哥虽然准备充分，心里还是有点紧张。",
+      "护士叫到自己的号码时，小文想到马上要打针，不由得紧张起来。"
+    ],
+    confusable: ["担心", "焦急"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "第一次面对重要或陌生的事情。",
+    writingExample: "轮到我上台演讲时，我紧张得手心出汗，却还是努力完成了演讲。"
+  },
+  {
+    id: "jiaoji",
+    word: "焦急",
+    pinyin: "jiāo jí",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "因为事情还没解决，非常着急。",
+    meaningEn: "anxious",
+    contexts: [
+      "弟弟放学很久还没有回家，妈妈站在门口焦急地等待。",
+      "比赛只剩最后几分钟，球队仍然落后，小杰看得十分焦急。",
+      "小狗突然跑不见了，小美在附近找了很久，心里越来越焦急。",
+      "救护车迟迟没有到达，大家看着受伤的老人，都感到十分焦急。",
+      "眼看交作业的时间快到了，电脑却突然无法开机，小华急得满头大汗，十分焦急。"
+    ],
+    confusable: ["担心", "紧张", "心急如焚"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "一个问题一直没有解决，而且时间越来越紧迫。",
+    writingExample: "眼看弟弟还没有回家，妈妈越来越焦急，不停地往门外张望。"
+  },
+  {
+    id: "danxin",
+    word: "担心",
+    pinyin: "dān xīn",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "怕不好的事情会发生。",
+    meaningEn: "worried",
+    contexts: [
+      "天空越来越黑，妈妈担心孩子回家时会遇到大雨。",
+      "小明连续几天没有来上课，同学们都很担心他的身体。",
+      "爸爸第一次独自开长途车，奶奶一直担心他路上太累。",
+      "小美发现自己的小猫不吃东西，十分担心它是不是生病了。",
+      "考试前，小华因为没有认真复习，开始担心自己会考不好。"
+    ],
+    confusable: ["焦急", "紧张", "心急如焚"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你害怕某件不好的事情可能发生。",
+    writingExample: "天越来越暗，妹妹还没有回家，我开始担心她是不是遇到了什么事情。"
+  },
+  {
+    id: "shiwang",
+    word: "失望",
+    pinyin: "shī wàng",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "结果和希望的不一样，心里难过。",
+    meaningEn: "disappointed",
+    contexts: [
+      "小华认真准备了很久，却没有入选校队，心里十分失望。",
+      "大家期待已久的户外活动因为大雨取消，同学们都很失望。",
+      "妹妹以为爸爸会来看她比赛，直到比赛结束也没有看到爸爸，她十分失望。",
+      "小杰打开盒子后发现期待已久的模型已经损坏，脸上露出失望的表情。",
+      "老师多次提醒学生认真完成作业，看到他又随便应付时，老师感到很失望。"
+    ],
+    confusable: ["后悔", "垂头丧气"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你期待很久的结果没有出现。",
+    writingExample: "得知自己没有入选校队后，我十分失望，但还是决定继续练习。"
+  },
+  {
+    id: "weiqu",
+    word: "委屈",
+    pinyin: "wěi qu",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "被误会或受到不公平的对待，心里很难受。",
+    meaningEn: "wronged / unfairly treated",
+    contexts: [
+      "明明不是小杰打破花瓶，妈妈却责怪他，他感到十分委屈。",
+      "小美认真完成了自己的工作，组员却说她什么也没做，她觉得很委屈。",
+      "弟弟偷偷吃了桌上的饼干，爸爸却以为是哥哥吃的，哥哥满脸委屈。",
+      "老师误以为小华在考试时偷看同学的答案，他急得解释，心里十分委屈。",
+      "小安已经努力练习了好几个星期，却被朋友说成一点也不用功，她听后感到很委屈。"
+    ],
+    confusable: ["愤怒", "羞愧"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你明明没有做错，却被别人误会或责怪。",
+    writingExample: "明明不是我打破花瓶，却被妈妈责怪，我心里感到十分委屈。"
+  },
+  {
+    id: "xiukui",
+    word: "羞愧",
+    pinyin: "xiū kuì",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "发现自己做得不好或不应该这样做，感到不好意思。",
+    meaningEn: "ashamed",
+    contexts: [
+      "小华一直笑同学跑得慢，后来发现对方每天都努力练习，他感到十分羞愧。",
+      "老师没有责骂忘记做作业的小杰，反而耐心帮助他，小杰低下头，感到很羞愧。",
+      "妹妹主动帮忙做家务，哥哥想到自己整天只顾着玩，心里有些羞愧。",
+      "小美发现自己没有了解事情经过就批评朋友，不由得感到羞愧。",
+      "李白看到老妇人为了一个目标每天坚持不懈，再想到自己遇到困难就放弃，顿时感到十分羞愧。"
+    ],
+    confusable: ["内疚", "后悔"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你发现自己之前的行为很不应该。",
+    writingExample: "想到自己没有问清楚就责怪朋友，我感到十分羞愧。"
+  },
+  {
+    id: "neijiu",
+    word: "内疚",
+    pinyin: "nèi jiù",
+    category: "情绪",
+    difficulty: "挑战",
+    meaningZh: "做错事或伤害别人后，觉得对不起对方。",
+    meaningEn: "guilty",
+    contexts: [
+      "小明不小心弄坏朋友最喜欢的模型，看到朋友难过的样子，他十分内疚。",
+      "姐姐因为生气说了伤人的话，冷静下来后觉得很内疚。",
+      "小杰为了逃避责罚，把自己的错误推给弟弟，后来心里一直很内疚。",
+      "小美答应陪奶奶去看医生，却因为贪玩忘记了，她感到十分内疚。",
+      "男孩想起自己曾经嘲笑过那位总是帮助他的同学，心中充满内疚。"
+    ],
+    confusable: ["羞愧", "后悔"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你的行为伤害或影响了别人。",
+    writingExample: "看到朋友因为我的话而难过，我心里十分内疚。"
+  },
+  {
+    id: "houhui",
+    word: "后悔",
+    pinyin: "hòu huǐ",
+    category: "情绪",
+    difficulty: "基础",
+    meaningZh: "做完一件事后，希望自己当初没有那样做。",
+    meaningEn: "regret",
+    contexts: [
+      "小明考试前一直玩游戏，看到成绩后非常后悔没有认真复习。",
+      "小杰没有听妈妈的话带雨伞，被大雨淋湿后十分后悔。",
+      "因为一时冲动，小美退出了比赛，冷静下来后开始后悔自己的决定。",
+      "哥哥把零用钱全花在不需要的东西上，后来想买参考书时才感到后悔。",
+      "小华因为害怕失败而没有参加比赛，看到朋友们开心地分享经历时，他有些后悔。"
+    ],
+    confusable: ["内疚", "羞愧"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "事情发生后，你希望自己当初做了不同的选择。",
+    writingExample: "看到考试成绩后，我十分后悔自己之前没有认真复习。"
+  },
+  {
+    id: "fennu",
+    word: "愤怒",
+    pinyin: "fèn nù",
+    category: "情绪",
+    difficulty: "进阶",
+    meaningZh: "因为不好的事情而非常生气。",
+    meaningEn: "angry / furious",
+    contexts: [
+      "小杰发现有人故意破坏他辛苦完成的作品，感到十分愤怒。",
+      "看见大孩子欺负年幼的学生，小华感到十分愤怒，立刻上前阻止。",
+      "弟弟明明答应不乱动姐姐的东西，却再次把她的模型弄坏，姐姐十分愤怒。",
+      "男子发现有人把垃圾故意倒进河里，立刻露出愤怒的表情。",
+      "小浩花了两个小时完成设计，却被伙伴毫不客气地否定，他一开始感到委屈，随后也变得十分愤怒。"
+    ],
+    confusable: ["委屈", "焦急"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你看到一件很不公平或让人生气的事情。",
+    writingExample: "看到有人故意欺负年幼的学生，我感到十分愤怒。"
+  },
+  {
+    id: "guli",
+    word: "鼓励",
+    pinyin: "gǔ lì",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "给别人信心，让他愿意继续努力。",
+    meaningEn: "encourage",
+    contexts: [
+      "小杰第一次参加演讲比赛，非常没有信心，老师不断鼓励他勇敢尝试。",
+      "妹妹学骑自行车时摔了好几次，哥哥鼓励她不要轻易放弃。",
+      "球队暂时落后，教练大声鼓励队员继续努力。",
+      "小美考试成绩不理想，妈妈没有责骂她，而是鼓励她找出问题，再接再厉。",
+      "老妇人的话鼓励李白坚持学习，不再遇到困难就放弃。"
+    ],
+    confusable: ["安慰", "劝告"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友比赛失败，失去信心。",
+    writingExample: "我鼓励他不要因为一次失败就放弃，只要继续努力，一定会有进步。"
+  },
+  {
+    id: "quangao",
+    word: "劝告",
+    pinyin: "quàn gào",
+    category: "动作",
+    difficulty: "进阶",
+    meaningZh: "告诉别人怎样做会比较好，希望他听取意见。",
+    meaningEn: "advise",
+    contexts: [
+      "妈妈多次劝告哥哥不要熬夜，以免影响身体。",
+      "老师劝告经常迟到的小明早点出门，养成守时的习惯。",
+      "朋友劝告小杰不要因为一时生气就退出比赛。",
+      "医生劝告爷爷每天适量运动，并注意饮食。",
+      "老人耐心劝告男孩，遇到困难时不能总想着逃避。"
+    ],
+    confusable: ["提醒", "责备", "鼓励"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友因为生气想和同学绝交。",
+    writingExample: "我耐心劝告他先冷静下来，不要因为一次争吵就失去朋友。"
+  },
+  {
+    id: "tixing",
+    word: "提醒",
+    pinyin: "tí xǐng",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "让别人注意一件事，或不要忘记。",
+    meaningEn: "remind",
+    contexts: [
+      "妈妈出门前提醒我记得带雨伞。",
+      "老师提醒同学们明天要交科学报告。",
+      "比赛开始前，教练再次提醒队员遵守规则。",
+      "看见弟弟准备过马路，姐姐提醒他先看看有没有车辆。",
+      "闹钟响起，提醒小华该起床准备上学了。"
+    ],
+    confusable: ["劝告", "责备"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "同学差点忘记带比赛需要的物品。",
+    writingExample: "幸好我及时提醒他检查书包，他才发现自己忘了带比赛用品。"
+  },
+  {
+    id: "zebei",
+    word: "责备",
+    pinyin: "zé bèi",
+    category: "动作",
+    difficulty: "进阶",
+    meaningZh: "因为别人做错事而批评他。",
+    meaningEn: "blame / scold",
+    contexts: [
+      "弟弟打破杯子后，妈妈没有马上责备他，而是先问清楚事情的经过。",
+      "小华没有完成自己的工作，组员生气地责备他不负责任。",
+      "老师发现学生犯错后，没有当众责备他。",
+      "爸爸责备哥哥不应该为了逃避责任而说谎。",
+      "小浩和杰明争吵后，老师并没有责备任何一个人，而是让他们学习沟通。"
+    ],
+    confusable: ["劝告", "提醒"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "弟弟做错事却不肯承认。",
+    writingExample: "爸爸没有大声责备弟弟，而是耐心地让他明白自己的错误。"
+  },
+  {
+    id: "anwei",
+    word: "安慰",
+    pinyin: "ān wèi",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "让伤心或难过的人心情好一些。",
+    meaningEn: "comfort",
+    contexts: [
+      "小美比赛失败后一直哭，朋友坐在旁边轻声安慰她。",
+      "弟弟心爱的玩具坏了，姐姐耐心地安慰他。",
+      "小杰没有入选校队，妈妈安慰他说以后还有机会。",
+      "同学因为宠物生病而难过，大家纷纷上前安慰他。",
+      "看见小华因为犯错而自责，老师先安慰他，再和他一起想解决方法。"
+    ],
+    confusable: ["鼓励"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "好朋友考试失利，非常难过。",
+    writingExample: "我走过去安慰他，告诉他一次考试并不能决定一切。"
+  },
+  {
+    id: "zuzhi",
+    word: "阻止",
+    pinyin: "zǔ zhǐ",
+    category: "动作",
+    difficulty: "进阶",
+    meaningZh: "不让某个人继续做一件事，或不让事情发生。",
+    meaningEn: "stop / prevent",
+    contexts: [
+      "看见弟弟准备冲过马路，姐姐马上伸手阻止他。",
+      "老师及时阻止两名正在争吵的学生继续发生冲突。",
+      "小华发现有人想欺负低年级学生，立刻上前阻止。",
+      "大雨无法阻止救援人员继续寻找失踪的游客。",
+      "朋友发现小杰想偷偷拿走别人的东西，马上阻止了他。"
+    ],
+    confusable: ["劝告", "拒绝"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你看到朋友准备做危险的事情。",
+    writingExample: "我立刻上前阻止他，并告诉他这样做可能会发生危险。"
+  },
+  {
+    id: "jujue",
+    word: "拒绝",
+    pinyin: "jù jué",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "不接受别人的要求或意见。",
+    meaningEn: "refuse",
+    contexts: [
+      "陌生人请小美上他的车，小美马上拒绝了。",
+      "同学邀请小杰一起抄答案，他坚定地拒绝了。",
+      "妹妹想借姐姐最喜欢的模型，姐姐担心弄坏，所以拒绝了她。",
+      "虽然朋友一直邀请他出去玩，小华还是拒绝了，因为他还没完成作业。",
+      "面对不合理的要求，我们应该勇敢地说“不”，懂得适当地拒绝。"
+    ],
+    confusable: ["答应"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友邀请你一起做不应该做的事情。",
+    writingExample: "我马上拒绝他的要求，因为我知道这样做是不对的。"
+  },
+  {
+    id: "daying",
+    word: "答应",
+    pinyin: "dā ying",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "同意别人的要求，并愿意去做。",
+    meaningEn: "agree / promise",
+    contexts: [
+      "小杰答应妈妈放学后马上回家。",
+      "老师请小美帮助新同学熟悉学校，她很快就答应了。",
+      "哥哥答应陪弟弟练习骑自行车，所以每天傍晚都会陪他练习。",
+      "小华已经答应朋友保管好模型，因此不敢随便乱放。",
+      "既然已经答应别人的事情，就应该尽力做到。"
+    ],
+    confusable: ["拒绝", "承认"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你答应朋友帮忙准备活动。",
+    writingExample: "我既然答应了帮助他，就应该认真完成自己的工作。"
+  },
+  {
+    id: "chengren",
+    word: "承认",
+    pinyin: "chéng rèn",
+    category: "动作",
+    difficulty: "进阶",
+    meaningZh: "接受并说出自己做过的事或真实的情况。",
+    meaningEn: "admit",
+    contexts: [
+      "弟弟最后承认是自己不小心打破了杯子。",
+      "小杰发现自己误会朋友后，勇敢地承认自己的错误。",
+      "虽然担心被老师批评，小华还是主动承认自己忘了完成作业。",
+      "两人冷静下来后，都承认自己在争吵时说话太冲动。",
+      "敢于承认错误并不丢脸，重要的是愿意改正。"
+    ],
+    confusable: ["道歉", "解释", "意识到"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你犯了错误，一开始不敢告诉老师。",
+    writingExample: "经过一番思考后，我决定主动向老师承认自己的错误。"
+  },
+  {
+    id: "jieshi",
+    word: "解释",
+    pinyin: "jiě shì",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "把原因或事情说清楚，让别人明白。",
+    meaningEn: "explain",
+    contexts: [
+      "被老师误会后，小杰赶紧解释事情的经过。",
+      "妹妹不明白游戏规则，哥哥耐心地向她解释。",
+      "小华迟到了，他先向老师解释迟到的原因。",
+      "组员对设计有不同意见，小美把自己的想法仔细解释给大家听。",
+      "老师用简单的例子解释这个难懂的问题，同学们终于明白了。"
+    ],
+    confusable: ["承认", "道歉", "沟通"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友误会你没有帮忙。",
+    writingExample: "我耐心地向他解释事情的经过，希望他能够明白。"
+  },
+  {
+    id: "daoqian",
+    word: "道歉",
+    pinyin: "dào qiàn",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "做错事后向别人说对不起。",
+    meaningEn: "apologize",
+    contexts: [
+      "小明不小心撞倒同学后，马上向他道歉。",
+      "姐姐发现自己误会了弟弟，主动向他道歉。",
+      "小浩和杰明冷静下来后，都为刚才说过的话向对方道歉。",
+      "小华迟到让大家等了很久，他诚恳地向大家道歉。",
+      "做错事情时，除了勇敢道歉，也应该想办法改正错误。"
+    ],
+    confusable: ["承认", "原谅"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你因为冲动说了伤害朋友的话。",
+    writingExample: "冷静下来后，我十分后悔，马上诚恳地向朋友道歉。"
+  },
+  {
+    id: "yuanliang",
+    word: "原谅",
+    pinyin: "yuán liàng",
+    category: "动作",
+    difficulty: "进阶",
+    meaningZh: "别人做错事后，不再责怪他。",
+    meaningEn: "forgive",
+    contexts: [
+      "小杰诚恳地道歉后，小美决定原谅他。",
+      "弟弟承认自己弄坏了模型，哥哥最后还是原谅了他。",
+      "虽然朋友曾经误会自己，小华知道事情的真相后选择原谅对方。",
+      "妈妈告诉我，每个人都会犯错，有时候应该学会原谅别人。",
+      "两人互相道歉并原谅对方后，终于恢复了往日的友谊。"
+    ],
+    confusable: ["道歉", "宽容"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友犯错后诚恳向你道歉。",
+    writingExample: "看到他真心知道错了，我决定原谅他，不再计较这件事。"
+  },
+  {
+    id: "jianchi",
+    word: "坚持",
+    pinyin: "jiān chí",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "遇到困难时仍然继续做，不轻易放弃。",
+    meaningEn: "persist / keep going",
+    contexts: [
+      "虽然每天练习很辛苦，小美仍然坚持练琴。",
+      "小华跑到一半已经很累了，却还是坚持跑到终点。",
+      "第一次实验失败后，同学们没有放弃，而是坚持重新尝试。",
+      "老妇人每天坚持磨铁棒，相信总有一天能把它磨成细针。",
+      "李白明白道理以后，开始认真学习，遇到难题也坚持思考。"
+    ],
+    confusable: ["放弃", "坚定", "坚持不懈"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "学习一项技能时遇到很多困难。",
+    writingExample: "虽然过程并不容易，但我告诉自己一定要坚持下去。"
+  },
+  {
+    id: "fangqi",
+    word: "放弃",
+    pinyin: "fàng qì",
+    category: "动作",
+    difficulty: "基础",
+    meaningZh: "不再继续做原本正在做的事情。",
+    meaningEn: "give up",
+    contexts: [
+      "数学题很难，小华想了一会儿就准备放弃。",
+      "虽然连续输了两场比赛，队员们仍然没有放弃。",
+      "妹妹学骑自行车时摔倒了，但她没有因此放弃。",
+      "年轻时的李白遇到困难就容易放弃，没有耐心继续学习。",
+      "如果每次遇到一点困难就放弃，我们很难真正学会新的本领。"
+    ],
+    confusable: ["坚持", "半途而废"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你在比赛前想退出。",
+    writingExample: "我本来想放弃比赛，但在朋友的鼓励下决定再努力一次。"
+  },
+  {
+    id: "huajie",
+    word: "化解",
+    pinyin: "huà jiě",
+    category: "动作",
+    difficulty: "挑战",
+    meaningZh: "让矛盾、误会或不好的关系得到解决。",
+    meaningEn: "resolve",
+    contexts: [
+      "两人把事情说清楚后，终于化解了彼此的误会。",
+      "老师让争吵的同学冷静沟通，帮助他们化解矛盾。",
+      "一句诚恳的道歉，成功化解了朋友之间的不愉快。",
+      "小浩和杰明愿意听取对方的意见后，两人的冲突终于得到化解。",
+      "面对意见不同的情况，只要愿意互相尊重和沟通，很多矛盾都能够化解。"
+    ],
+    confusable: ["解决", "沟通"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "两名朋友因为误会而争吵。",
+    writingExample: "经过耐心沟通，他们终于化解了误会，重新成为好朋友。"
+  },
+  {
+    id: "renzhen",
+    word: "认真",
+    pinyin: "rèn zhēn",
+    category: "态度",
+    difficulty: "基础",
+    meaningZh: "用心地做好一件事情。",
+    meaningEn: "serious / careful",
+    contexts: [
+      "小美每天都认真完成老师布置的作业。",
+      "比赛前，队员们认真听教练说明规则。",
+      "哥哥拿到说明书后，认真地读完才开始安装模型。",
+      "做实验时，同学们认真记录每一次变化。",
+      "李白改变学习态度后，开始认真读书，不再随便应付。"
+    ],
+    confusable: ["负责", "敷衍"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "为考试做准备。",
+    writingExample: "从那天开始，我每天都认真复习，希望能够取得进步。"
+  },
+  {
+    id: "naixin",
+    word: "耐心",
+    pinyin: "nài xīn",
+    category: "态度",
+    difficulty: "基础",
+    meaningZh: "不急躁，愿意慢慢把事情做好。",
+    meaningEn: "patient",
+    contexts: [
+      "妹妹一直学不会系鞋带，妈妈仍然耐心地教她。",
+      "老师耐心地把这道题重新解释了一遍。",
+      "拼模型时，小杰没有因为步骤复杂而失去耐心。",
+      "照顾年幼的孩子需要很多耐心。",
+      "少年李白虽然聪明，却缺乏耐心，一遇到困难就想放弃。"
+    ],
+    confusable: ["认真", "冷静"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "教弟弟完成一件他不会做的事。",
+    writingExample: "虽然弟弟学得很慢，我还是耐心地一步一步教他。"
+  },
+  {
+    id: "fuyan",
+    word: "敷衍",
+    pinyin: "fū yǎn",
+    category: "态度",
+    difficulty: "挑战",
+    meaningZh: "不认真，只是随便做一下。",
+    meaningEn: "half-hearted / careless",
+    contexts: [
+      "小华只随便写了几句话就交作业，明显是在敷衍老师。",
+      "组员问他有什么意见，他连资料都没看就随口回答，态度十分敷衍。",
+      "如果只是敷衍地练习，很难真正取得进步。",
+      "妈妈发现哥哥打扫房间时只是把东西塞进柜子里，责怪他做事太敷衍。",
+      "李白后来不再敷衍学习，而是认真面对每一道难题。"
+    ],
+    confusable: ["认真", "负责"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "同学没有认真完成小组任务。",
+    writingExample: "他敷衍的态度影响了整个小组的进度，让大家十分失望。"
+  },
+  {
+    id: "jiji",
+    word: "积极",
+    pinyin: "jī jí",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "主动去做，并愿意努力。",
+    meaningEn: "positive / active",
+    contexts: [
+      "老师提出问题时，小美总是积极举手回答。",
+      "为了准备义卖会，同学们都积极提出自己的意见。",
+      "遇到困难时，我们应该积极寻找解决方法。",
+      "小杰开始积极参加学校活动，认识了许多新朋友。",
+      "面对失败，他没有一直难过，而是以积极的态度重新练习。"
+    ],
+    confusable: ["消极", "认真"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "班级准备学校活动。",
+    writingExample: "大家都积极参与准备工作，希望活动能够顺利进行。"
+  },
+  {
+    id: "xiaoji",
+    word: "消极",
+    pinyin: "xiāo jí",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "不主动，也不愿意努力改变。",
+    meaningEn: "negative / passive",
+    contexts: [
+      "自从比赛失败后，小杰变得十分消极，连练习也不愿参加。",
+      "遇到困难时，如果一直抱着消极的态度，问题很难得到解决。",
+      "老师发现小华最近上课很消极，几乎从不主动回答问题。",
+      "面对小组任务，他总说“做不到”，这种消极的态度影响了其他组员。",
+      "在朋友的鼓励下，她渐渐改变了原本消极的想法，重新开始努力。"
+    ],
+    confusable: ["积极", "放弃"],
+    writingUseful: false,
+    readingImportant: true,
+    writingPrompt: "",
+    writingExample: ""
+  },
+  {
+    id: "lengjing",
+    word: "冷静",
+    pinyin: "lěng jìng",
+    category: "态度",
+    difficulty: "基础",
+    meaningZh: "遇到事情时不慌乱，也不过分激动。",
+    meaningEn: "calm",
+    contexts: [
+      "火警铃响起时，老师叫大家保持冷静，按照指示离开教室。",
+      "两人越吵越激动，老师让他们先冷静下来。",
+      "发现自己迷路后，小杰努力让自己保持冷静，再想办法求助。",
+      "面对突然发生的问题，她没有慌张，而是冷静地寻找解决方法。",
+      "小浩和杰明冷静下来后，终于愿意听对方说明自己的想法。"
+    ],
+    confusable: ["冲动", "耐心"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "突然遇到意外情况。",
+    writingExample: "我告诉自己必须保持冷静，先想清楚应该怎样处理。"
+  },
+  {
+    id: "chongdong",
+    word: "冲动",
+    pinyin: "chōng dòng",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "没有想清楚，就因为一时的情绪去做。",
+    meaningEn: "impulsive",
+    contexts: [
+      "小杰因为一时冲动，说出了伤害朋友的话。",
+      "姐姐提醒弟弟不要冲动地作决定，应该先想清楚。",
+      "他听到别人批评自己，冲动地转身离开了比赛现场。",
+      "生气的时候最容易做出冲动的行为，所以应该先让自己冷静。",
+      "小美后来十分后悔自己当时太冲动，没有听完朋友的解释。"
+    ],
+    confusable: ["冷静", "愤怒"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "因为生气做了错误决定。",
+    writingExample: "我因为一时冲动说了不该说的话，事后感到十分后悔。"
+  },
+  {
+    id: "qianxu",
+    word: "谦虚",
+    pinyin: "qiān xū",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "有能力或取得好成绩，也不会觉得自己比别人厉害。",
+    meaningEn: "humble",
+    contexts: [
+      "小华虽然获得第一名，却依然十分谦虚。",
+      "大家称赞她画得很好，她谦虚地说自己还有很多地方需要学习。",
+      "真正有本事的人也应该保持谦虚，愿意听取别人的意见。",
+      "哥哥成绩很好，却从不看不起其他同学，待人十分谦虚。",
+      "面对大家的称赞，他只是谦虚地笑了笑，并感谢老师的指导。"
+    ],
+    confusable: ["诚恳"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "获得比赛冠军后受到大家称赞。",
+    writingExample: "虽然获得了冠军，他仍然十分谦虚，并没有因此骄傲。"
+  },
+  {
+    id: "chengken",
+    word: "诚恳",
+    pinyin: "chéng kěn",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "态度真诚，让人感觉不是随便应付。",
+    meaningEn: "sincere",
+    contexts: [
+      "小杰诚恳地向朋友道歉，希望得到他的原谅。",
+      "老师看见他认错的态度十分诚恳，决定再给他一次机会。",
+      "小美诚恳地感谢同学这段时间对自己的帮助。",
+      "面对组员的意见，他诚恳地承认自己的设计确实还有不足。",
+      "一句诚恳的“对不起”，终于让两人的关系慢慢恢复。"
+    ],
+    confusable: ["谦虚", "敷衍"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "你做错事情，需要向别人道歉。",
+    writingExample: "我诚恳地向他道歉，并答应以后不会再犯同样的错误。"
+  },
+  {
+    id: "jianding",
+    word: "坚定",
+    pinyin: "jiān dìng",
+    category: "态度",
+    difficulty: "进阶",
+    meaningZh: "对正确的决定或目标很有信心，不轻易改变。",
+    meaningEn: "firm / determined",
+    contexts: [
+      "面对大家的怀疑，小美仍然坚定地选择继续参加比赛。",
+      "老妇人语气坚定地告诉李白，只要每天努力，铁棒总有一天会变细。",
+      "即使训练很辛苦，他完成比赛的决心依然十分坚定。",
+      "同学邀请小华一起作弊，他坚定地拒绝了。",
+      "遇到挫折后，她没有改变目标，反而更加坚定地继续努力。"
+    ],
+    confusable: ["固执", "坚持"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "别人认为你无法完成目标。",
+    writingExample: "即使有人怀疑我，我仍然坚定地朝着自己的目标努力。"
+  },
+  {
+    id: "yonggan",
+    word: "勇敢",
+    pinyin: "yǒng gǎn",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "面对危险、困难或害怕的事情，也敢去做。",
+    meaningEn: "brave",
+    contexts: [
+      "小杰虽然害怕，还是勇敢地站上舞台完成演讲。",
+      "消防员勇敢地进入建筑物救出被困的人。",
+      "小美做错事后，勇敢地向老师承认错误。",
+      "面对比自己高大的学生欺负同学，他勇敢地上前阻止。",
+      "真正的勇敢并不是完全不害怕，而是害怕时仍愿意面对困难。"
+    ],
+    confusable: ["坚定"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "第一次参加让自己害怕的活动。",
+    writingExample: "虽然心里十分紧张，我还是鼓起勇气，勇敢地走上舞台。"
+  },
+  {
+    id: "shanliang",
+    word: "善良",
+    pinyin: "shàn liáng",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "心地好，会关心别人，不愿意伤害别人。",
+    meaningEn: "kind",
+    contexts: [
+      "小美看到受伤的小鸟，马上把它带回家照顾，她十分善良。",
+      "老奶奶虽然生活不富裕，还是愿意把食物分给流浪的小猫，可见她很善良。",
+      "他从来不会故意欺负别人，是个心地善良的孩子。",
+      "看到同学被人取笑，小华主动过去陪伴他，表现出善良的一面。",
+      "她的善良不只表现在帮助朋友，也表现在她会关心身边的小动物。"
+    ],
+    confusable: ["乐于助人", "宽容"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "看见受伤的小动物。",
+    writingExample: "姐姐十分善良，看到受伤的小猫后马上想办法帮助它。"
+  },
+  {
+    id: "chengshi",
+    word: "诚实",
+    pinyin: "chéng shí",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "不说谎，也不会故意欺骗别人。",
+    meaningEn: "honest",
+    contexts: [
+      "小杰捡到钱包后马上交给老师，是个诚实的孩子。",
+      "即使担心被责骂，妹妹还是诚实地承认自己打破了杯子。",
+      "老师告诉大家，做人应该诚实，不能为了逃避责任而说谎。",
+      "店员多找了钱给小华，他诚实地把多出来的钱还回去。",
+      "虽然说出真相可能受到批评，他还是选择做一个诚实的人。"
+    ],
+    confusable: ["负责"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "店员多找钱给你。",
+    writingExample: "我认为做人应该诚实，于是马上把多找的钱还给店员。"
+  },
+  {
+    id: "fuze",
+    word: "负责",
+    pinyin: "fù zé",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "认真做好自己应该完成的事情。",
+    meaningEn: "responsible",
+    contexts: [
+      "小组长每天检查大家的进度，做事十分负责。",
+      "姐姐答应照顾弟弟后，就一直认真陪在他身边，非常负责。",
+      "即使老师没有提醒，小华也会完成自己的任务，是个负责的学生。",
+      "养宠物以后，我们就应该负责照顾它，而不能随便丢弃。",
+      "杰明和小浩后来明白，小组合作时每个人都应该对自己的工作负责。"
+    ],
+    confusable: ["认真", "勤奋"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "担任小组长完成学校任务。",
+    writingExample: "身为小组长，我应该负责地完成自己的工作，也要留意小组的进度。"
+  },
+  {
+    id: "qinfen",
+    word: "勤奋",
+    pinyin: "qín fèn",
+    category: "性格",
+    difficulty: "进阶",
+    meaningZh: "愿意花很多时间和努力学习或工作。",
+    meaningEn: "hardworking",
+    contexts: [
+      "姐姐每天早起温习功课，是个十分勤奋的学生。",
+      "小华虽然不是班上最聪明的学生，却凭着勤奋取得了好成绩。",
+      "农夫每天一早就在田里工作，十分勤奋。",
+      "经过长期勤奋学习，他的知识一点一点增加。",
+      "李白改变以后变得十分勤奋，最终成为著名的诗人。"
+    ],
+    confusable: ["认真", "坚持"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "一名同学通过努力取得进步。",
+    writingExample: "他虽然学习得比较慢，却十分勤奋，每天都会主动复习。"
+  },
+  {
+    id: "kuanrong",
+    word: "宽容",
+    pinyin: "kuān róng",
+    category: "性格",
+    difficulty: "挑战",
+    meaningZh: "别人犯错时，愿意体谅和原谅对方。",
+    meaningEn: "tolerant / forgiving",
+    contexts: [
+      "弟弟不小心弄坏姐姐的东西，姐姐虽然难过，最后还是宽容地原谅了他。",
+      "对待别人无心犯下的小错误，我们可以多一些宽容。",
+      "老师告诉大家，与朋友相处时要学会互相理解和宽容。",
+      "小美没有一直责怪犯错的组员，而是宽容地给他改正的机会。",
+      "如果每个人都愿意多一点宽容，很多小矛盾就不会变成争吵。"
+    ],
+    confusable: ["原谅", "善良"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "朋友无意中弄坏你的东西。",
+    writingExample: "看到他诚恳地道歉，我决定宽容地原谅他，不再责怪他。"
+  },
+  {
+    id: "zisi",
+    word: "自私",
+    pinyin: "zì sī",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "只想到自己，不愿意考虑别人。",
+    meaningEn: "selfish",
+    contexts: [
+      "小杰把所有食物都留给自己，一点也不愿意分享，实在太自私了。",
+      "小组活动时，他只考虑自己的想法，完全不听别人意见，显得十分自私。",
+      "为了自己方便就把垃圾丢在公共地方，是一种自私的行为。",
+      "哥哥后来发现自己只顾着玩，把所有家务交给妹妹，觉得自己以前太自私。",
+      "我们不能只想到自己的利益，而忽略别人，做一个自私的人。"
+    ],
+    confusable: [],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "小组成员只考虑自己的需要。",
+    writingExample: "他只顾自己的利益，从来不考虑组员的感受，这种自私的行为让大家很失望。"
+  },
+  {
+    id: "guzhi",
+    word: "固执",
+    pinyin: "gù zhí",
+    category: "性格",
+    difficulty: "进阶",
+    meaningZh: "不愿意听别人的意见，一直坚持自己的想法。",
+    meaningEn: "stubborn",
+    contexts: [
+      "大家都发现路线走错了，小杰却固执地不肯改变方向。",
+      "妈妈已经说明原因，弟弟还是固执地坚持自己的要求。",
+      "有自己的想法是好事，但完全不听别人的意见就可能变得固执。",
+      "小组讨论时，他固执地认为自己的设计最好，不愿考虑其他建议。",
+      "坚定是坚持正确的目标，而固执是不愿意听取合理的意见。"
+    ],
+    confusable: ["坚定"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "小组成员不愿接受任何人的意见。",
+    writingExample: "他太固执了，无论大家怎样解释，他都不肯听取其他意见。"
+  },
+  {
+    id: "cuxin",
+    word: "粗心",
+    pinyin: "cū xīn",
+    category: "性格",
+    difficulty: "基础",
+    meaningZh: "做事情不够仔细，很容易忽略小地方。",
+    meaningEn: "careless",
+    contexts: [
+      "小华因为太粗心，把加号看成了减号。",
+      "妹妹出门时忘了关灯，妈妈提醒她以后不要那么粗心。",
+      "他明明会做这道题，却因为粗心写错了答案。",
+      "小杰没有检查书包，到了学校才发现忘了带作业，真是太粗心了。",
+      "做实验时不能粗心，否则可能会影响实验结果。"
+    ],
+    confusable: ["敷衍"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "因为没有检查而犯错。",
+    writingExample: "我因为一时粗心忘了检查答案，结果失去了不该失去的分数。"
+  },
+  {
+    id: "leyuzhuren",
+    word: "乐于助人",
+    pinyin: "lè yú zhù rén",
+    category: "性格",
+    difficulty: "进阶",
+    meaningZh: "很愿意主动帮助有需要的人。",
+    meaningEn: "helpful",
+    contexts: [
+      "小美经常主动帮助学习有困难的同学，是个乐于助人的孩子。",
+      "老人提着沉重的袋子时，小杰马上过去帮忙，可见他十分乐于助人。",
+      "班上的新同学不熟悉环境，乐于助人的小华主动带他认识校园。",
+      "她不仅成绩优秀，而且乐于助人，因此很受同学欢迎。",
+      "每当别人遇到困难，他都会伸出援手，大家都称赞他乐于助人。"
+    ],
+    confusable: ["善良", "助人为乐"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "看见同学需要帮助。",
+    writingExample: "小美一向乐于助人，看见同学遇到困难时总会主动帮忙。"
+  },
+  {
+    id: "bantuerfei",
+    word: "半途而废",
+    pinyin: "bàn tú ér fèi",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "事情做到一半，还没有完成就放弃。",
+    meaningEn: "give up halfway",
+    contexts: [
+      "学习游泳需要时间，不能练了几天就半途而废。",
+      "小杰拼模型遇到困难时想半途而废，幸好哥哥及时鼓励他。",
+      "如果每次学习新东西都半途而废，就很难真正学会。",
+      "比赛训练十分辛苦，但队员们没有任何人半途而废。",
+      "李白明白自己过去最大的问题，就是遇到困难时常常半途而废。"
+    ],
+    confusable: ["放弃", "坚持不懈"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "学习一项困难的新技能。",
+    writingExample: "无论过程多么辛苦，我都告诉自己不能半途而废。"
+  },
+  {
+    id: "jianchibuxie",
+    word: "坚持不懈",
+    pinyin: "jiān chí bú xiè",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "一直努力坚持，不因为困难而停止。",
+    meaningEn: "persevere",
+    contexts: [
+      "小美每天练习跑步，凭着坚持不懈的努力终于完成了比赛。",
+      "经过几个月坚持不懈的练习，弟弟终于学会骑自行车。",
+      "科学家经过坚持不懈的研究，终于找到了问题的答案。",
+      "老妇人每天磨铁棒，她坚持不懈的精神让李白深受启发。",
+      "只要坚持不懈地努力，即使进步很慢，也会离目标越来越近。"
+    ],
+    confusable: ["坚持", "半途而废"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "多次失败后终于成功。",
+    writingExample: "凭着坚持不懈的努力，我终于完成了原本认为不可能的任务。"
+  },
+  {
+    id: "quanshenguanzhu",
+    word: "全神贯注",
+    pinyin: "quán shén guàn zhù",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "把全部注意力放在一件事情上，非常专心。",
+    meaningEn: "fully concentrated",
+    contexts: [
+      "老师讲解重要内容时，同学们都全神贯注地听着。",
+      "小美全神贯注地画画，连妈妈叫她也没有听见。",
+      "比赛进行到最后一分钟，所有队员都全神贯注地留意场上的变化。",
+      "哥哥正在全神贯注地拼模型，没有发现我已经走进房间。",
+      "做实验时，我们必须全神贯注，不能一边做一边玩闹。"
+    ],
+    confusable: ["认真"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "专心完成重要任务。",
+    writingExample: "我全神贯注地完成手上的作品，完全没有注意到时间已经很晚了。"
+  },
+  {
+    id: "huangrandawu",
+    word: "恍然大悟",
+    pinyin: "huǎng rán dà wù",
+    category: "成语",
+    difficulty: "挑战",
+    meaningZh: "原本不明白，后来突然完全明白了。",
+    meaningEn: "suddenly realize",
+    contexts: [
+      "听完老师的解释，小华才恍然大悟，原来自己一直用错了方法。",
+      "看到地上的脚印，小杰恍然大悟，终于知道是谁拿走了东西。",
+      "妈妈指出问题后，我才恍然大悟，明白朋友为什么会生气。",
+      "老妇人说完磨铁棒的道理后，李白恍然大悟，明白学习也需要坚持。",
+      "当谜底公布时，大家才恍然大悟，原来线索早就藏在文章里。"
+    ],
+    confusable: ["意识到", "疑惑"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "经过别人提醒后终于明白自己的错误。",
+    writingExample: "听了老师的一番话，我恍然大悟，终于明白问题出在哪里。"
+  },
+  {
+    id: "chuitousangqi",
+    word: "垂头丧气",
+    pinyin: "chuí tóu sàng qì",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "因为失败或失望而没有精神。",
+    meaningEn: "discouraged",
+    contexts: [
+      "比赛输了以后，小杰垂头丧气地走回座位。",
+      "小美没有入选校队，整天垂头丧气，一句话也不想说。",
+      "看见弟弟垂头丧气的样子，哥哥马上过去安慰他。",
+      "实验再次失败，组员们一时都显得有些垂头丧气。",
+      "老师告诉我们，遇到一次失败不必垂头丧气，应该找出原因再尝试。"
+    ],
+    confusable: ["失望"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "比赛失败后的表现。",
+    writingExample: "听到比赛结果后，我垂头丧气地低下头，心里十分失望。"
+  },
+  {
+    id: "pobujidai",
+    word: "迫不及待",
+    pinyin: "pò bù jí dài",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "心里很期待，急着马上去做，连等待都觉得困难。",
+    meaningEn: "can't wait",
+    contexts: [
+      "收到生日礼物后，弟弟迫不及待地打开包装。",
+      "老师宣布明天去参观科学馆，同学们已经迫不及待地讨论起来。",
+      "新书一送到，小美就迫不及待地开始阅读。",
+      "闻到厨房传来的香味，弟弟迫不及待地跑过去看看有什么好吃的。",
+      "等了几个星期，比赛结果终于公布，大家都迫不及待地打开网页查看。"
+    ],
+    confusable: ["焦急"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "等待已久的活动终于到来。",
+    writingExample: "我早已迫不及待地想参加这次活动，前一天晚上兴奋得睡不着。"
+  },
+  {
+    id: "xinjirufen",
+    word: "心急如焚",
+    pinyin: "xīn jí rú fén",
+    category: "成语",
+    difficulty: "挑战",
+    meaningZh: "心里非常着急，好像火烧一样。",
+    meaningEn: "extremely anxious",
+    contexts: [
+      "孩子到了晚上还没回家，妈妈已经心急如焚。",
+      "小狗走失了几个小时，小美四处寻找，已经心急如焚。",
+      "救护车还没到，看着伤者越来越虚弱，大家都心急如焚。",
+      "弟弟突然在人群中不见了，姐姐心急如焚地到处寻找。",
+      "眼看重要资料就要交了，电脑里的文件却打不开，小杰顿时心急如焚。"
+    ],
+    confusable: ["焦急", "担心"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "家人突然失去联系。",
+    writingExample: "妈妈一直联系不上哥哥，已经心急如焚，不停地看着手机。"
+  },
+  {
+    id: "ziyanziyu",
+    word: "自言自语",
+    pinyin: "zì yán zì yǔ",
+    category: "成语",
+    difficulty: "基础",
+    meaningZh: "自己一个人小声跟自己说话。",
+    meaningEn: "talk to oneself",
+    contexts: [
+      "小杰找不到钥匙，一边翻书包一边自言自语：“到底放在哪里呢？”",
+      "奶奶看着旧照片，轻声自言自语起来。",
+      "小美解不出数学题，坐在桌前自言自语地重复题目。",
+      "弟弟一个人玩玩具时，经常会自言自语地替玩偶说话。",
+      "“我一定在哪里见过他。”小华自言自语地说道。"
+    ],
+    confusable: [],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "到处寻找不见的物品。",
+    writingExample: "我一边翻着书包，一边自言自语：“奇怪，我到底把钥匙放在哪里了？”"
+  },
+  {
+    id: "zhicuonenggai",
+    word: "知错能改",
+    pinyin: "zhī cuò néng gǎi",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "知道自己做错了以后，愿意改正。",
+    meaningEn: "willing to correct one's mistakes",
+    contexts: [
+      "小杰虽然犯了错误，但他主动道歉并认真改正，真是知错能改。",
+      "老师告诉我们，犯错并不可怕，重要的是知错能改。",
+      "弟弟承认自己说谎后，再也没有犯同样的错误，可见他知错能改。",
+      "小浩和杰明发现自己的沟通方式有问题后主动改变，表现出知错能改的态度。",
+      "一个人只说“对不起”还不够，真正的知错能改还需要用行动证明。"
+    ],
+    confusable: ["承认", "后悔"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "犯错后真正作出改变。",
+    writingExample: "老师称赞他知错能改，因为他不但承认错误，还用行动改正了自己的问题。"
+  },
+  {
+    id: "zhurenweile",
+    word: "助人为乐",
+    pinyin: "zhù rén wéi lè",
+    category: "成语",
+    difficulty: "进阶",
+    meaningZh: "很喜欢帮助别人，并从帮助别人中得到快乐。",
+    meaningEn: "take pleasure in helping others",
+    contexts: [
+      "小美经常主动帮助有困难的同学，大家都称赞她助人为乐。",
+      "爷爷一生助人为乐，邻居遇到困难时总会想到他。",
+      "我们应该学习助人为乐的精神，在别人需要时伸出援手。",
+      "哥哥不仅帮助老人提东西，还觉得能够帮助别人是一件快乐的事，真是助人为乐。",
+      "助人为乐并不一定要做大事，一个小小的帮助也能给别人带来温暖。"
+    ],
+    confusable: ["乐于助人", "善良"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "主动帮助有需要的人。",
+    writingExample: "他从小就有助人为乐的精神，每当别人需要帮助时都会主动伸出援手。"
+  },
+  {
+    id: "wuhui",
+    word: "误会",
+    pinyin: "wù huì",
+    category: "阅读常用",
+    difficulty: "基础",
+    meaningZh: "没有了解真正的情况，错误地理解别人或一件事。",
+    meaningEn: "misunderstand",
+    contexts: [
+      "小美以为朋友故意不理她，后来才发现自己误会了对方。",
+      "老师误会小杰没有交作业，其实作业夹在另一叠本子里。",
+      "因为没有先问清楚，两人产生了误会。",
+      "妹妹看到哥哥拿走自己的东西，以为他想占为己有，后来才知道这是一场误会。",
+      "只要愿意把事情说清楚，很多误会都可以及时化解。"
+    ],
+    confusable: ["疑惑"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "两名朋友因为没有问清楚而争吵。",
+    writingExample: "经过解释后，我们才发现这只是一场误会，两人终于和好了。"
+  },
+  {
+    id: "fouding",
+    word: "否定",
+    pinyin: "fǒu dìng",
+    category: "阅读常用",
+    difficulty: "挑战",
+    meaningZh: "认为某件事不对、不好，或不承认它。",
+    meaningEn: "deny / reject",
+    contexts: [
+      "杰明一句“这个设计太简单了”，让小浩觉得自己的努力被否定了。",
+      "老师没有完全否定他的想法，而是建议他再作修改。",
+      "一次失败不能否定一个人之前付出的努力。",
+      "妈妈并没有否定姐姐的选择，只是希望她先认真考虑。",
+      "听到自己的意见被大家直接否定，小杰感到十分失望。"
+    ],
+    confusable: ["拒绝", "责备"],
+    writingUseful: false,
+    readingImportant: true,
+    writingPrompt: "",
+    writingExample: ""
+  },
+  {
+    id: "zunzhong",
+    word: "尊重",
+    pinyin: "zūn zhòng",
+    category: "阅读常用",
+    difficulty: "进阶",
+    meaningZh: "重视别人，并认真对待别人的想法、感受或选择。",
+    meaningEn: "respect",
+    contexts: [
+      "小组讨论时，我们应该尊重每个人的意见。",
+      "即使不同意朋友的选择，也应该学会尊重他。",
+      "认真听别人把话说完，是一种尊重。",
+      "老师提醒小浩和杰明，合作时除了沟通，也要互相尊重。",
+      "每个人都有自己的想法，我们不能因为意见不同就不尊重别人。"
+    ],
+    confusable: ["沟通", "宽容"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "小组成员有不同意见。",
+    writingExample: "虽然我们的想法不同，但大家仍然尊重彼此的意见，并认真讨论。"
+  },
+  {
+    id: "goutong",
+    word: "沟通",
+    pinyin: "gōu tōng",
+    category: "阅读常用",
+    difficulty: "进阶",
+    meaningZh: "互相说出想法，让彼此了解对方。",
+    meaningEn: "communicate",
+    contexts: [
+      "两人因为缺少沟通，渐渐产生了误会。",
+      "小组合作时，组员之间应该多沟通，不要只顾自己的想法。",
+      "经过耐心沟通，妈妈终于明白了哥哥的想法。",
+      "老师告诉小浩和杰明，意见不同并不可怕，重要的是懂得沟通。",
+      "很多矛盾并不是不能解决，而是双方没有好好沟通。"
+    ],
+    confusable: ["解释", "化解", "尊重"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "与朋友意见不同。",
+    writingExample: "我们冷静下来认真沟通后，终于找到了大家都能接受的方法。"
+  },
+  {
+    id: "quefa",
+    word: "缺乏",
+    pinyin: "quē fá",
+    category: "阅读常用",
+    difficulty: "挑战",
+    meaningZh: "没有足够的某种东西。",
+    meaningEn: "lack",
+    contexts: [
+      "少年李白虽然聪明，却缺乏耐心，常常读到一半就放弃。",
+      "由于缺乏练习，小杰第一次上台时表现得很不自然。",
+      "这棵植物因为缺乏阳光，叶子渐渐变黄了。",
+      "小组因为缺乏沟通，最后准备得不够充分。",
+      "如果长期缺乏睡眠，上课时就很难集中精神。"
+    ],
+    confusable: [],
+    writingUseful: false,
+    readingImportant: true,
+    writingPrompt: "",
+    writingExample: ""
+  },
+  {
+    id: "jilei",
+    word: "积累",
+    pinyin: "jī lěi",
+    category: "阅读常用",
+    difficulty: "挑战",
+    meaningZh: "一点一点增加，慢慢变多。",
+    meaningEn: "accumulate / build up",
+    contexts: [
+      "每天阅读一点，可以慢慢积累更多词汇。",
+      "李白坚持学习后，知识不断积累，写出的文章也越来越好。",
+      "学习语言需要长期积累，不能只靠考试前临时复习。",
+      "通过一次又一次的比赛，小美逐渐积累了许多经验。",
+      "只要每天进步一点，时间久了就能积累出明显的成果。"
+    ],
+    confusable: ["坚持"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "长时间学习后取得进步。",
+    writingExample: "经过每天不断阅读和练习，我慢慢积累了更多知识。"
+  },
+  {
+    id: "shunli",
+    word: "顺利",
+    pinyin: "shùn lì",
+    category: "阅读常用",
+    difficulty: "基础",
+    meaningZh: "事情进行得很好，没有遇到大问题。",
+    meaningEn: "smoothly",
+    contexts: [
+      "在大家的合作下，活动顺利完成了。",
+      "因为事先准备充分，小美的演讲进行得十分顺利。",
+      "虽然途中下起大雨，他们最后还是顺利到达目的地。",
+      "小组一开始发生争吵，导致准备工作进行得很不顺利。",
+      "为了让实验顺利进行，大家提前检查了所有材料。"
+    ],
+    confusable: [],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "大家合作完成学校活动。",
+    writingExample: "在大家互相合作下，这次活动终于顺利完成了。"
+  },
+  {
+    id: "yingxiang",
+    word: "影响",
+    pinyin: "yǐng xiǎng",
+    category: "阅读常用",
+    difficulty: "基础",
+    meaningZh: "让一个人或一件事发生变化。",
+    meaningEn: "affect / influence",
+    contexts: [
+      "经常熬夜会影响第二天上课的精神。",
+      "两人的争吵影响了整个小组的准备进度。",
+      "大雨影响了比赛，主办方只好改变活动时间。",
+      "父母的鼓励对小杰产生了很大的影响，让他重新有了信心。",
+      "一个人的态度有时也会影响身边其他人的心情。"
+    ],
+    confusable: [],
+    writingUseful: false,
+    readingImportant: true,
+    writingPrompt: "",
+    writingExample: ""
+  },
+  {
+    id: "jiejue",
+    word: "解决",
+    pinyin: "jiě jué",
+    category: "阅读常用",
+    difficulty: "基础",
+    meaningZh: "想办法把问题处理好。",
+    meaningEn: "solve",
+    contexts: [
+      "大家一起讨论，希望尽快解决这个问题。",
+      "小华找不到作业本，老师帮他想办法解决。",
+      "遇到困难时，只顾着生气并不能解决问题。",
+      "两人冷静沟通后，终于解决了小组分工的问题。",
+      "老师没有直接告诉他们答案，而是让他们自己想办法解决困难。"
+    ],
+    confusable: ["化解", "沟通"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "小组遇到困难。",
+    writingExample: "大家没有互相责怪，而是一起想办法解决眼前的问题。"
+  },
+  {
+    id: "yishidao",
+    word: "意识到",
+    pinyin: "yì shí dào",
+    category: "阅读常用",
+    difficulty: "进阶",
+    meaningZh: "原本没有注意，后来开始明白或发现。",
+    meaningEn: "realize",
+    contexts: [
+      "看到妈妈疲惫的样子，小华才意识到自己应该主动帮忙做家务。",
+      "小浩冷静下来后，意识到自己刚才说话的语气太生硬。",
+      "考试成绩下降以后，小杰终于意识到认真复习的重要。",
+      "李白看到老妇人坚持磨铁棒后，意识到自己过去太容易放弃。",
+      "经过这次争吵，两人都意识到沟通和尊重在合作中的重要性。"
+    ],
+    confusable: ["恍然大悟", "承认"],
+    writingUseful: true,
+    readingImportant: true,
+    writingPrompt: "经历一件事后明白自己的问题。",
+    writingExample: "经过这次失败，我终于意识到认真准备的重要性。"
+  }
+];
+
+  const CATEGORIES = ["情绪","动作","态度","性格","成语","阅读常用"];
+  const DIFFICULTIES = ["基础","进阶","挑战"];
+
+
+  // ===== 易混淆字数据（与70词词库分开） =====
+  const CONFUSED_CHAR_DATA = [["已", "己", "yǐ", "jǐ", "already; finished", "self; oneself", "“已”常表示已经、停止或完成。", "“己”表示自己。", "我已经把今天的功课完成了。", "遇到问题时，我们也要学会自己想办法。", [["妹妹（已／己）经收拾好书包，准备去学校。", "已"], ["每个人都应该为自（已／己）的行为负责。", "己"], ["比赛（已／己）经结束，大家回到教室休息。", "已"], ["先检查自（已／己）的答案，再交考卷。", "己"]]], ["在", "再", "zài", "zài", "at; in; be doing", "again; once more", "“在”表示地点、存在或正在进行。", "“再”表示又一次、以后或接着。", "弟弟正在房间里看书。", "请你再检查一次答案。", [["老师正（在／再）讲解这道题，请认真听。", "在"], ["这次没关系，下次（在／再）努力。", "再"], ["我们约好下午三点（在／再）图书馆见面。", "在"], ["吃完午饭后，我（在／再）继续完成作业。", "再"]]], ["做", "作", "zuò", "zuò", "do; make", "work; compose", "“做”常表示进行某件事、制作。", "“作”常用于作文、作业、作品、作者等固定词。", "我每天放学后先做功课。", "这篇作文写得很有感情。", [["妈妈正在厨房（做／作）晚餐。", "做"], ["老师请我们完成一篇（做／作）文。", "作"], ["小明认真地（做／作）完数学练习。", "做"], ["这位（做／作）者写了许多儿童故事。", "作"]]], ["带", "戴", "dài", "dài", "bring; take; lead", "wear; put on", "“带”表示携带、带领。", "“戴”表示把东西戴在身体某个部位。", "老师带领我们参观博物馆。", "妹妹戴着一顶红色帽子。", [["出门前别忘了（带／戴）雨伞。", "带"], ["做实验时，我们要（带／戴）上护目镜。", "戴"], ["班主任（带／戴）领同学们走进礼堂。", "带"], ["爷爷看报纸时会（带／戴）老花眼镜。", "戴"]]], ["近", "进", "jìn", "jìn", "near; close", "enter; advance", "“近”表示距离短、接近。", "“进”表示进入、向前。", "学校离我家很近。", "请排队进入礼堂。", [["我家附（近／进）有一间图书馆。", "近"], ["听到铃声后，同学们安静地走（近／进）课室。", "进"], ["考试的日期越来越（近／进）了。", "近"], ["请先敲门，再（近／进）入办公室。", "进"]]], ["清", "晴", "qīng", "qíng", "clear; clean", "fine; sunny", "“清”常表示清楚、清洁、清澈。", "“晴”表示天气好、天空少云。", "老师把规则解释得很清楚。", "今天是个晴朗的好天气。", [["这条小河十分（清／晴）澈，可以看见水里的小鱼。", "清"], ["天气（清／晴）朗，我们决定到户外活动。", "晴"], ["请把事情的经过说（清／晴）楚。", "清"], ["雨停以后，天空渐渐放（清／晴）了。", "晴"]]], ["情", "睛", "qíng", "jīng", "feeling; situation", "eye (in 眼睛)", "“情”常用于心情、感情、事情、情况。", "“睛”主要用于“眼睛”。", "听到好消息后，她的心情很好。", "长时间看手机会让眼睛疲劳。", [["比赛结束后，他的心（情／睛）轻松多了。", "情"], ["妹妹有一双明亮的眼（情／睛）。", "睛"], ["老师先了解事（情／睛）的经过，再作决定。", "情"], ["沙子吹进眼（情／睛）里，让我很不舒服。", "睛"]]], ["园", "圆", "yuán", "yuán", "garden; park", "round; circle", "“园”常用于公园、校园、花园。", "“圆”表示圆形，也可表示圆满。", "周末，我们一家到公园散步。", "月亮看起来又大又圆。", [["校园里的花（园／圆）种满了各种花。", "园"], ["弟弟画了一个大大的（园／圆）圈。", "圆"], ["放学后，同学们一起离开校（园／圆）。", "园"], ["中秋节的月亮特别（园／圆）。", "圆"]]], ["密", "蜜", "mì", "mì", "secret; dense; close", "honey; sweet", "“密”常用于秘密、密切、茂密。", "“蜜”常用于蜂蜜、甜蜜。", "这是我们的秘密，请不要告诉别人。", "蜂蜜吃起来香甜可口。", [["树林十分茂（密／蜜），阳光很难照进来。", "密"], ["妈妈在面包上涂了一点蜂（密／蜜）。", "蜜"], ["这件事暂时要保（密／蜜），不能告诉别人。", "密"], ["一家人一起庆祝生日，气氛十分甜（密／蜜）。", "蜜"]]], ["值", "植", "zhí", "zhí", "worth; value", "plant; grow", "“值”常表示价值、值得。", "“植”常用于植物、种植。", "这本书很值得阅读。", "校园里种植了许多树木。", [["这次参观让我学到很多知识，非常（值／植）得。", "值"], ["科学老师带我们观察不同的（值／植）物。", "植"], ["同学们一起在校园里种（值／植）小树苗。", "植"], ["这幅画具有特别的纪念价（值／植）。", "值"]]]];
+
+  const CHAR_MIX_A = [["我（已／己）经把借来的书还给图书馆了。", "已"], ["请你（在／再）读一次题目，看看有没有漏掉条件。", "再"], ["哥哥每天回家后都会先（做／作）功课。", "做"], ["老师提醒我们明天要（带／戴）水壶。", "带"], ["我家离学校很（近／进），走路十分钟就到了。", "近"], ["请把黑板上的字看（清／晴）楚再抄写。", "清"], ["知道自己被选为代表后，她的心（情／睛）十分兴奋。", "情"], ["星期日，爸爸带我们到公（园／圆）骑自行车。", "园"], ["这份资料是秘（密／蜜），不可以随便公开。", "密"], ["帮助别人是一件很有价（值／植）的事。", "值"]];
+  const CHAR_MIX_B = [["校长（带／戴）领嘉宾参观学校的新图书馆。", "带"], ["小华揉了揉眼（情／睛），继续看黑板。", "睛"], ["礼堂的门打开后，大家排队（近／进）入。", "进"], ["雨过天（清／晴），同学们终于可以到操场活动。", "晴"], ["这次比赛的经验很（值／植）得我们认真总结。", "值"]];
+  const CHAR_PASSAGE = [["昨天，老师（带／戴）领我们到公（园／圆）参观。天气非常（清／晴）朗，大家的心（情／睛）都很好。", "带|园|晴|情"], ["进入公园后，我们看到许多美丽的（值／植）物。老师告诉我们，这些植物很（值／植）得保护。参观结束后，我们（在／再）公园门口集合，然后一起回学校。", "植|值|在"]];
+
+  function charQuestion(sentence,answer){
+    const d=document.createElement("div"); d.className="char-q"; d.innerHTML="<div>"+sentence+"</div>";
+    const m=sentence.match(/（([^）]+)）/), row=document.createElement("div"); row.className="char-opts";
+    shuffle(m[1].split("／")).forEach(o=>{const b=document.createElement("button");b.className="char-opt";b.textContent=o;
+      b.onclick=()=>{if(d.dataset.done)return;d.dataset.done="1";row.querySelectorAll("button").forEach(x=>{x.disabled=true;if(x.textContent===answer)x.classList.add("ok")});if(o!==answer)b.classList.add("no");
+      const f=document.createElement("div");f.className="char-fb "+(o===answer?"ok":"no");f.textContent=o===answer?"✓ 答对了":"正确答案："+answer;d.appendChild(f)};row.appendChild(b)});
+    d.appendChild(row);return d;
+  }
+  function renderCharHub(){
+    const g=document.getElementById("charGrid");g.innerHTML="";
+    CONFUSED_CHAR_DATA.forEach((x,i)=>{const c=document.createElement("div");c.className="char-card";
+      c.innerHTML=`<div class="char-title">${x[0]}／${x[1]}</div><div class="char-note">${x[2]} / ${x[3]}</div><div class="char-note">${x[4]} / ${x[5]}</div><button class="btn btn-outline" style="width:100%;margin-top:10px" data-cp="${i}">学习与练习</button>`;g.appendChild(c)})
+  }
+  function openCharPair(i){
+    const x=CONFUSED_CHAR_DATA[i];showScreen("char-pair");document.getElementById("charPairTitle").textContent=x[0]+"／"+x[1];
+    document.getElementById("charLearn").innerHTML=`<div class="char-title">${x[0]}／${x[1]}</div>
+      <p><b>${x[0]}</b> · ${x[2]} · ${x[4]}<br>${x[6]}</p><div class="char-example">${x[8]}</div>
+      <p><b>${x[1]}</b> · ${x[3]} · ${x[5]}<br>${x[7]}</p><div class="char-example">${x[9]}</div>`;
+    const q=document.getElementById("charQs");q.innerHTML="";x[10].forEach(z=>q.appendChild(charQuestion(z[0],z[1])));
+  }
+  function renderCharMixed(){
+    showScreen("char-mixed");const a=document.getElementById("mixA"),b=document.getElementById("mixB"),c=document.getElementById("mixC"),d=document.getElementById("mixD");
+    a.innerHTML="";b.innerHTML="";c.innerHTML="";d.innerHTML="";
+    shuffle(CHAR_MIX_A).forEach(x=>a.appendChild(charQuestion(x[0],x[1])));
+    shuffle(CHAR_MIX_B).forEach(x=>b.appendChild(charQuestion(x[0],x[1])));
+    shuffle(CHAR_PASSAGE).forEach(x=>{let n=0,answers=x[1].split("|"),html=x[0].replace(/（([^）]+)）/g,(all,opts)=>`<span class="pass" data-a="${answers[n++]}">${shuffle(opts.split("／")).map(o=>`<button class="char-opt" style="min-width:46px;margin:3px">${o}</button>`).join("")}</span>`);const p=document.createElement("div");p.className="char-example";p.innerHTML=html;
+      p.querySelectorAll(".pass").forEach(s=>s.querySelectorAll("button").forEach(btn=>btn.onclick=()=>{if(s.dataset.done)return;s.dataset.done="1";s.querySelectorAll("button").forEach(y=>{y.disabled=true;if(y.textContent===s.dataset.a)y.classList.add("ok")});if(btn.textContent!==s.dataset.a)btn.classList.add("no")}));c.appendChild(p)});
+    ["已经","自己","带领","值得"].forEach((w,i)=>{const q=document.createElement("div");q.className="char-q";q.innerHTML=`<b>${i+1}. ${w}</b><textarea class="char-write" placeholder="请写一个完整的句子"></textarea>`;d.appendChild(q)})
+  }
+  function bindCharEvents(){
+    document.getElementById("btnEnterChars")?.addEventListener("click",()=>{renderCharHub();showScreen("chars")});
+    document.getElementById("charGrid")?.addEventListener("click",e=>{const b=e.target.closest("[data-cp]");if(b)openCharPair(+b.dataset.cp)});
+    document.getElementById("btnCharsBack")?.addEventListener("click",()=>{renderCharHub();showScreen("chars")});
+    document.getElementById("btnCharsBack2")?.addEventListener("click",()=>{renderCharHub();showScreen("chars")});
+    document.getElementById("btnCharMixed")?.addEventListener("click",renderCharMixed);
+    document.getElementById("btnMixAgain")?.addEventListener("click",renderCharMixed);
+  }
+
+
+  const VOCAB_BY_ID = {};
+  VOCAB_DATA.forEach(w => { VOCAB_BY_ID[w.id] = w; });
+
+/* =========================================================================
+   二、应用状态 APPLICATION STATE
+   ========================================================================= */
+  const state = {
+    filterCategory: "全部",
+    filterDifficulty: "全部",
+    currentMode: null,
+    recentWordIds: [],     // 最近出现过的词语 id（用于避免重复）
+    // 各模式的当前题目数据，切换模式或下一题时更新
+    flashcard: { wordId:null, flipped:false },
+    context:   { wordId:null, optionIds:[], correctId:null, contextText:null, answered:false },
+    confusable:{ wordId:null, optionIds:[], correctId:null, contextText:null, answered:false },
+    rounds:{
+      context:{ count:0, queue:[] },
+      confusable:{ count:0, queue:[] }
+    },
+    handwriting:{ type:"copy", wordId:null, revealed:false, selfChecked:false, hintShown:false },
+    composition:{ wordId:null, checked:false },
+    review:    { wordId:null, optionIds:[], correctId:null, contextText:null, answered:false }
+  };
+
+/* =========================================================================
+   三、本地存储 STORAGE
+   ------------------------------------------------------------------------
+   进度数据结构（localStorage key: UASA_VOCAB_PROGRESS_V1）：
+   {
+     [wordId]: {
+       weakness: number,     // 复习优先级 / 生疏程度，越高代表越需要复习
+       correct: number,      // 答对次数
+       incorrect: number,    // 答错次数
+       familiar: boolean,    // 是否被标记为"会了"
+       lastContextIndex: number,   // 上一次使用的情境句子下标
+       lastPracticed: number       // 上一次练习的时间戳
+     }
+   }
+   ========================================================================= */
+  const STORAGE_KEY = "UASA_VOCAB_PROGRESS_V1";
+
+  function loadProgress(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return {};
+      const parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === "object") ? parsed : {};
+    }catch(e){
+      console.warn("读取学习记录失败，使用空记录", e);
+      return {};
+    }
+  }
+
+  function saveProgress(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }catch(e){
+      console.warn("保存学习记录失败", e);
+    }
+  }
+
+  let progress = loadProgress();
+
+  function getWordProgress(wordId){
+    if(!progress[wordId]){
+      progress[wordId] = { weakness:0, correct:0, incorrect:0, familiar:false, lastContextIndex:-1, lastPracticed:0 };
+    }
+    return progress[wordId];
+  }
+
+  function clampWeakness(v){
+    return Math.max(0, Math.min(20, v));
+  }
+
+  // 各种练习结果对"生疏程度"的影响，集中管理，方便未来调整
+  function markResult(wordId, kind){
+    const p = getWordProgress(wordId);
+    p.lastPracticed = Date.now();
+    switch(kind){
+      case "flashcard-know":      p.weakness = clampWeakness(p.weakness - 1); p.familiar = true; break;
+      case "flashcard-retry":     p.weakness = clampWeakness(p.weakness + 2); p.familiar = false; break;
+      case "context-correct":     p.weakness = clampWeakness(p.weakness - 1); p.correct++; break;
+      case "context-incorrect":   p.weakness = clampWeakness(p.weakness + 3); p.incorrect++; break;
+      case "confusable-correct":  p.weakness = clampWeakness(p.weakness - 1); p.correct++; break;
+      case "confusable-incorrect":p.weakness = clampWeakness(p.weakness + 3); p.incorrect++; break;
+      case "handwriting-good":    p.weakness = clampWeakness(p.weakness - 1); break;
+      case "handwriting-bad":     p.weakness = clampWeakness(p.weakness + 2); break;
+    }
+    saveProgress();
+  }
+
+  function resetAllProgress(){
+    progress = {};
+    saveProgress();
+  }
+
+  // ===== 专项练习：独立动态题目引擎 =====
+  const PRACTICE_RECENT_KEY="UASA_PRACTICE_RECENT_V13";
+  const PRACTICE_FRAMES=[p=>"想一想这个情境："+p+"。最适合的词语是＿＿。",p=>"如果遇到这样的情况："+p+"，应该用哪一个词语来表达？",p=>"阅读情境："+p+"。请选择最恰当的词语。",p=>"下面描述的是："+p+"。哪一个词语最符合意思？"];
+  const PRACTICE_CHAR_BANK=[
+  ["我（已／己）经把明天要交的资料整理好了。","已"],["遇到困难时，先想想自（已／己）能做什么。","己"],["大家正（在／再）礼堂里等待比赛开始。","在"],["如果第一次没听懂，可以请老师（在／再）解释一次。","再"],
+  ["值日生正在（做／作）清洁工作。","做"],["这本书的（做／作）者是一位儿童文学家。","作"],["参观时，老师会（带／戴）着全班一起行动。","带"],["阳光很强，哥哥（带／戴）上太阳眼镜才出门。","戴"],
+  ["终点已经很（近／进）了，大家继续坚持。","近"],["得到允许后，我们才走（近／进）实验室。","进"],["请把事情说（清／晴）楚，大家才不会误会。","清"],["连续下了几天雨，今天终于转（清／晴）了。","晴"],
+  ["听完朋友的解释后，他的心（情／睛）平静下来。","情"],["妹妹闭上眼（情／睛），认真听树林里的声音。","睛"],["学校后面的花（园／圆）里种了许多香草。","园"],["老师请大家把纸剪成（园／圆）形。","圆"],
+  ["两家公司保持（密／蜜）切合作，一起完成计划。","密"],["这杯饮料加了蜂（密／蜜），味道比较甜。","蜜"],["这次活动很有教育价（值／植），大家都学到很多。","值"],["社区居民一起种（值／植）花草，美化环境。","植"],
+  ["事情（已／己）经解决，大家终于放心了。","已"],["他提醒自（已／己）不要因为一次失败就放弃。","己"],["妹妹（在／再）房间里安静地复习功课。","在"],["交卷以前，请（在／再）认真检查姓名和答案。","再"],
+  ["周末我会帮妈妈（做／作）一些家务。","做"],["老师把优秀（做／作）品贴在课室后面。","作"],["旅行前要记得（带／戴）好需要的证件。","带"],["骑自行车时应该（带／戴）好安全帽。","戴"],
+  ["运动会的日子越来越（近／进）了。","近"],["请依照号码顺序（近／进）入会场。","进"],["湖水十分（清／晴）澈，倒映着岸边的树。","清"],["天气预报说明天会是（清／晴）天。","晴"],
+  ["知道队友受伤后，大家都很关心他的伤（情／睛）。","情"],["长时间阅读后，可以闭上眼（情／睛）休息一下。","睛"],["社区公（园／圆）新建了一条慢跑道。","园"],["妹妹把面团搓成一个（园／圆）球。","圆"],
+  ["这片森林树木茂（密／蜜），空气也很凉爽。","密"],["小熊最喜欢吃香甜的蜂（密／蜜）。","蜜"],["这场讲座很（值／植）得参加，因为内容很实用。","值"],["我们在科学课观察种（值／植）后的豆苗变化。","植"]];
+  const practiceState={type:"vocab",queue:[],index:0,current:null};
+  function getPracticeRecent(){try{return JSON.parse(localStorage.getItem(PRACTICE_RECENT_KEY)||"[]")}catch(e){return[]}}
+  function rememberPractice(k){let a=getPracticeRecent().filter(x=>x!==k);a.unshift(k);localStorage.setItem(PRACTICE_RECENT_KEY,JSON.stringify(a.slice(0,30)))}
+  function makeVocabPractice(w){let fi=Math.floor(Math.random()*PRACTICE_FRAMES.length),ds=(w.confusable||[]).map(x=>VOCAB_DATA.find(v=>v.word===x)).filter(Boolean);ds=ds.concat(shuffle(VOCAB_DATA.filter(v=>v.category===w.category&&v.id!==w.id&&!ds.includes(v)))).slice(0,3);if(ds.length<3)ds=ds.concat(shuffle(VOCAB_DATA.filter(v=>v.id!==w.id&&!ds.includes(v))).slice(0,3-ds.length));return {key:w.id+":"+fi,stem:PRACTICE_FRAMES[fi](w.writingPrompt),answer:w.word,options:shuffle([w.word,...ds.map(v=>v.word)])}}
+  function makeCharPractice(x,i){let m=x[0].match(/（([^）]+)）/);return {key:"c:"+i,stem:x[0],answer:x[1],options:shuffle(m[1].split("／"))}}
+  function buildPracticeRound(type){let recent=getPracticeRecent(),v=[];if(type!=="chars"){for(const w of shuffle(VOCAB_DATA.filter(x=>x.writingPrompt))){let q=makeVocabPractice(w);if(!recent.includes(q.key))v.push(q);if(v.length===10)break}if(v.length<10)for(const w of shuffle(VOCAB_DATA)){if(v.length===10)break;v.push(makeVocabPractice(w))}}if(type==="chars")return shuffle(PRACTICE_CHAR_BANK.map(makeCharPractice)).slice(0,10);if(type==="mixed")return shuffle(v.slice(0,6).concat(shuffle(PRACTICE_CHAR_BANK.map(makeCharPractice)).slice(0,4)));return v.slice(0,10)}
+  function startPractice(type){practiceState.type=type;practiceState.queue=buildPracticeRound(type);practiceState.index=0;showScreen("practice-round");document.getElementById("practiceTitle").textContent=type==="vocab"?"词汇练习":type==="chars"?"易混淆字练习":"混合练习";renderPracticeQuestion()}
+  function renderPracticeQuestion(){let i=practiceState.index,q=practiceState.queue[i];practiceState.current=q;document.getElementById("practiceComplete").classList.add("hidden");document.getElementById("practiceQuestion").classList.remove("hidden");document.getElementById("practiceOptions").classList.remove("hidden");document.getElementById("practiceProgress").textContent="本轮进度："+(i+1)+" / 10";document.getElementById("practiceQuestion").innerHTML='<div class="practice-stem">'+q.stem+'</div>';let o=document.getElementById("practiceOptions");o.innerHTML="";document.getElementById("practiceFeedback").classList.add("hidden");document.getElementById("practiceFeedback").classList.remove("practice-wrong");document.getElementById("practiceNextRow").classList.add("hidden");q.options.forEach(x=>{let b=document.createElement("button");b.className="quiz-option";b.textContent=x;b.onclick=()=>answerPractice(x,b);o.appendChild(b)})}
+  function answerPractice(x,b){let q=practiceState.current,box=document.getElementById("practiceFeedback");document.querySelectorAll("#practiceOptions .quiz-option").forEach(z=>{z.disabled=true;if(z.textContent===q.answer)z.classList.add("correct")});box.classList.remove("practice-wrong");if(x!==q.answer){b.classList.add("wrong");box.classList.add("practice-wrong")}box.textContent=x===q.answer?"✓ 答对了":"✗ 答错了。正确答案："+q.answer;box.classList.remove("hidden");document.getElementById("practiceNextRow").classList.remove("hidden");rememberPractice(q.key)}
+  function nextPractice(){practiceState.index++;if(practiceState.index>=10){["practiceQuestion","practiceOptions","practiceFeedback","practiceNextRow"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById("practiceComplete").classList.remove("hidden")}else renderPracticeQuestion()}
+  function bindPracticeEvents(){document.getElementById("btnEnterPractice")?.addEventListener("click",()=>showScreen("practice"));document.querySelectorAll(".practice-start").forEach(b=>b.addEventListener("click",()=>startPractice(b.dataset.practice)));document.getElementById("btnPracticeBack")?.addEventListener("click",()=>showScreen("practice"));document.getElementById("btnPracticeNext")?.addEventListener("click",nextPractice);document.getElementById("btnPracticeAgain")?.addEventListener("click",()=>startPractice(practiceState.type));document.getElementById("btnPracticeMenu")?.addEventListener("click",()=>showScreen("practice"))}
+  function bilingualizeButtons(){const map={btnResetProgress:"Reset Progress",btnFcKnow:"I Know This",btnFcRetry:"Practise Again",btnCtxNext:"Next",btnCtxAgain:"Try Again",btnCtxMenu:"Main Menu",btnCfNext:"Next",btnCfAgain:"Try Again",btnCfMenu:"Main Menu",btnHwUndo:"Undo",btnHwClear:"Clear",btnHwHint:"Hint",btnHwReveal:"Show Answer",btnHwNext:"Next",btnHwGood:"I Know This",btnHwBad:"Need More Practice",btnCompCheck:"Check",btnCompNext:"Next Word",btnRevNext:"Next",btnCharMixed:"Mixed Review",btnMixAgain:"Shuffle Again",btnPracticeNext:"Next",btnPracticeAgain:"Try Again",btnPracticeMenu:"Practice Zone",btnPracticeBack:"Practice Zone",btnCharsBack:"Confused Characters",btnCharsBack2:"Confused Characters"};Object.entries(map).forEach(([id,en])=>{let b=document.getElementById(id);if(b&&!b.querySelector(".btn-en"))b.insertAdjacentHTML("beforeend",'<span class="btn-en">'+en+'</span>')});document.querySelectorAll('[data-back="menu"]').forEach(b=>{if(!b.querySelector('.btn-en'))b.insertAdjacentHTML('beforeend','<span class="btn-en">Main Menu</span>')})}
+
+
+/* =========================================================================
+   四、工具函数 UTILITIES
+   ========================================================================= */
+  function randInt(maxExclusive){ return Math.floor(Math.random() * maxExclusive); }
+
+  function pickRandom(arr){ return arr[randInt(arr.length)]; }
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = randInt(i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const ROUND_SIZE = 10;
+
+  // 建立一轮随机题目。词语数量足够时，同一轮不会重复同一个词。
+  function buildRoundQueue(pool, count){
+    if(!pool.length) return [];
+    let queue = [];
+    while(queue.length < count){
+      let batch = shuffle(pool.map(w => w.id));
+      if(queue.length && batch.length > 1 && batch[0] === queue[queue.length - 1]){
+        [batch[0], batch[1]] = [batch[1], batch[0]];
+      }
+      for(const id of batch){
+        if(queue.length >= count) break;
+        queue.push(id);
+      }
+    }
+    return queue;
+  }
+
+  function resetRound(mode, pool){
+    state.rounds[mode].count = 0;
+    state.rounds[mode].queue = buildRoundQueue(pool, ROUND_SIZE);
+  }
+
+  function getRoundWord(mode, pool){
+    const round = state.rounds[mode];
+    if(!round.queue.length) resetRound(mode, pool);
+    const id = round.queue[round.count];
+    return VOCAB_BY_ID[id] || null;
+  }
+
+  function updateRoundProgress(mode){
+    const prefix = mode === "context" ? "ctx" : "cf";
+    const count = state.rounds[mode].count;
+    document.getElementById(prefix + "Progress").textContent =
+      "本轮进度：" + Math.min(count + 1, ROUND_SIZE) + " / " + ROUND_SIZE;
+  }
+
+  function finishRound(mode){
+    const prefix = mode === "context" ? "ctx" : "cf";
+    document.getElementById(prefix + "QuizArea").classList.add("hidden");
+    document.getElementById(prefix + "RoundComplete").classList.remove("hidden");
+    document.getElementById(prefix + "Progress").textContent = "本轮进度：" + ROUND_SIZE + " / " + ROUND_SIZE;
+  }
+
+  function startNewRound(mode){
+    const pool = mode === "context" ? getFilteredPool() : getConfusablePool();
+    resetRound(mode, pool);
+    const prefix = mode === "context" ? "ctx" : "cf";
+    document.getElementById(prefix + "RoundComplete").classList.add("hidden");
+    document.getElementById(prefix + "QuizArea").classList.remove("hidden");
+    if(mode === "context") nextContextQuestion();
+    else nextConfusableQuestion();
+  }
+
+  // 记录最近出现过的词语，供"避免重复"逻辑使用
+  const RECENT_HISTORY_LEN = 5;
+  function pushRecentWord(wordId){
+    state.recentWordIds.push(wordId);
+    if(state.recentWordIds.length > RECENT_HISTORY_LEN){
+      state.recentWordIds.shift();
+    }
+  }
+
+/* =========================================================================
+   五、词语筛选与选词逻辑 FILTER & WEIGHTED SELECTION
+   ========================================================================= */
+  function getFilteredPool(){
+    return VOCAB_DATA.filter(w=>{
+      const catOk = state.filterCategory === "全部" || w.category === state.filterCategory;
+      const diffOk = state.filterDifficulty === "全部" || w.difficulty === state.filterDifficulty;
+      return catOk && diffOk;
+    });
+  }
+
+  // 加权随机选词：生疏程度越高，被抽到的机会越大；
+  // 最近出现过的词语会被降低权重甚至排除，避免同一词语连续出现。
+  function pickWeightedWord(pool, opts){
+    opts = opts || {};
+    let candidates = pool.slice();
+    if(candidates.length === 0) return null;
+
+    const lastId = state.recentWordIds[state.recentWordIds.length - 1];
+    if(candidates.length > 1 && !opts.allowImmediateRepeat){
+      const withoutLast = candidates.filter(w => w.id !== lastId);
+      if(withoutLast.length > 0) candidates = withoutLast;
+    }
+
+    const weights = candidates.map(w=>{
+      const p = getWordProgress(w.id);
+      let weight = 1 + p.weakness * 1.5;
+      const recentIndex = state.recentWordIds.indexOf(w.id);
+      if(recentIndex !== -1){
+        // 越近期出现过，权重被压得越低
+        const recency = state.recentWordIds.length - recentIndex;
+        weight = weight / (recency + 1);
+      }
+      return Math.max(weight, 0.05);
+    });
+
+    const total = weights.reduce((a,b)=>a+b, 0);
+    let r = Math.random() * total;
+    for(let i = 0; i < candidates.length; i++){
+      r -= weights[i];
+      if(r <= 0) return candidates[i];
+    }
+    return candidates[candidates.length - 1];
+  }
+
+  // 从某个词语的 5 个情境中，挑选一个"不是上一次用过"的情境，尽量让重复练习看到不同情境
+  function pickContextIndex(word){
+    const p = getWordProgress(word.id);
+    const total = word.contexts.length;
+    let candidates = [];
+    for(let i = 0; i < total; i++){
+      if(i !== p.lastContextIndex) candidates.push(i);
+    }
+    if(candidates.length === 0) candidates = [0];
+    const idx = pickRandom(candidates);
+    p.lastContextIndex = idx;
+    saveProgress();
+    return idx;
+  }
+
+  function buildBlankSentence(word, contextText){
+    // 用全角下划线替换词语本身，生成挖空句子
+    const blankHtml = '<span class="blank">' + "＿".repeat(Math.max(2, word.word.length)) + '</span>';
+    return contextText.split(word.word).join(blankHtml);
+  }
+
+/* =========================================================================
+   六、测验生成 QUIZ GENERATION（情境选择 & 易混词挑战 共用部分逻辑）
+   ========================================================================= */
+
+  // 为"情境选择"模式挑选干扰项：
+  // 1) 优先使用该词自己标记的 confusable（易混词）列表；
+  // 2) 数量仍不足时，从同类别词语中补足；
+  // 3) 仍不足时，才从其他类别词语中补足。
+  // 全程避免重复选项，目标词本身不会出现在干扰项中。
+  function pickContextDistractors(targetWord, count){
+    const used = new Set([targetWord.id]);
+    let result = [];
+
+    // 1) 易混词优先
+    const fromConfusable = shuffle(
+      (targetWord.confusable || [])
+        .map(w => VOCAB_BY_ID[Object.keys(VOCAB_BY_ID).find(id => VOCAB_BY_ID[id].word === w)])
+        .filter(Boolean)
+    );
+    fromConfusable.forEach(w=>{
+      if(result.length < count && !used.has(w.id)){
+        result.push(w);
+        used.add(w.id);
+      }
+    });
+
+    // 2) 同类别词语补足
+    if(result.length < count){
+      const sameCategory = shuffle(VOCAB_DATA.filter(w => w.category === targetWord.category && !used.has(w.id)));
+      sameCategory.forEach(w=>{
+        if(result.length < count && !used.has(w.id)){
+          result.push(w);
+          used.add(w.id);
+        }
+      });
+    }
+
+    // 3) 仍不足时，从其他类别词语补足
+    if(result.length < count){
+      const others = shuffle(VOCAB_DATA.filter(w => !used.has(w.id)));
+      others.forEach(w=>{
+        if(result.length < count && !used.has(w.id)){
+          result.push(w);
+          used.add(w.id);
+        }
+      });
+    }
+
+    return result.slice(0, count);
+  }
+
+  // 为"易混词挑战"模式挑选干扰项：优先使用该词自己标记的 confusable 列表，
+  // 数量不足时用同类别词语补足
+  function pickConfusableDistractors(targetWord, count){
+    const fromGroup = targetWord.confusable
+      .map(w => VOCAB_BY_ID[Object.keys(VOCAB_BY_ID).find(id => VOCAB_BY_ID[id].word === w)])
+      .filter(Boolean);
+    let pool = shuffle(fromGroup);
+    if(pool.length < count){
+      // 以 count 为缓冲请求候选词，再过滤掉已在 pool 中的词，避免因内部
+      // 也会优先选易混词而导致候选数量不够（例如 count - pool.length 太小）
+      const extra = pickContextDistractors(targetWord, count)
+        .filter(w => !pool.includes(w));
+      pool = pool.concat(extra);
+    }
+    return pool.slice(0, count);
+  }
+
+  function getConfusablePool(){
+    return getFilteredPool().filter(w => w.confusable && w.confusable.length > 0);
+  }
+
+  // 生成一道选择题的通用数据结构：{ word, contextText, options:[word,...], correctId }
+  function buildChoiceQuestion(targetWord, distractors){
+    const idx = pickContextIndex(targetWord);
+    const contextText = targetWord.contexts[idx];
+    const options = shuffle([targetWord].concat(distractors));
+    return {
+      wordId: targetWord.id,
+      contextText: contextText,
+      optionIds: options.map(w => w.id),
+      correctId: targetWord.id
+    };
+  }
+
+/* =========================================================================
+   七、通用小工具：学习标签 / 反馈渲染
+   ========================================================================= */
+  function renderLabelsHtml(word){
+    let html = "";
+    if(word.writingUseful) html += '<span class="tag star">⭐ 作文常用</span>';
+    if(word.readingImportant) html += '<span class="tag fire">🔥 阅读重点</span>';
+    return html;
+  }
+
+  function wrongAnswerFeedbackHtml(word){
+    return (
+      '<div class="fb-title">正确答案：' + word.word + '（' + word.pinyin + '）</div>' +
+      '<div>简单中文：' + word.meaningZh + '</div>' +
+      '<div>English：' + word.meaningEn + '</div>'
+    );
+  }
+
+/* =========================================================================
+   八、手写画布逻辑 HANDWRITING CANVAS
+   ========================================================================= */
+  const hwCanvas = document.getElementById("hwCanvas");
+  const hwCtx = hwCanvas.getContext("2d");
+  let hwStrokes = [];        // 已完成的笔画，每个笔画是一个 {x,y} 点的数组
+  let hwCurrentStroke = null;
+  let hwDrawing = false;
+  let hwCellCount = 2;
+  let hwCellSize = 150;
+
+  function resizeHwCanvas(){
+    const wrap = hwCanvas.parentElement;
+    const wrapWidth = wrap.clientWidth || 320;
+    let cell = wrapWidth / hwCellCount;
+    cell = Math.max(70, Math.min(220, cell));
+    hwCellSize = cell;
+    const cssWidth = cell * hwCellCount;
+    const cssHeight = cell;
+    const dpr = window.devicePixelRatio || 1;
+    hwCanvas.style.width = cssWidth + "px";
+    hwCanvas.style.height = cssHeight + "px";
+    hwCanvas.width = Math.round(cssWidth * dpr);
+    hwCanvas.height = Math.round(cssHeight * dpr);
+    hwCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redrawHwCanvas();
+  }
+
+  function drawHwGrid(){
+    const w = hwCellSize * hwCellCount;
+    const h = hwCellSize;
+    hwCtx.clearRect(0, 0, w, h);
+    hwCtx.fillStyle = "#fffdf8";
+    hwCtx.fillRect(0, 0, w, h);
+    hwCtx.save();
+    hwCtx.strokeStyle = "#c9c2b0";
+    hwCtx.lineWidth = 1.5;
+    for(let i = 0; i <= hwCellCount; i++){
+      const x = i * hwCellSize;
+      hwCtx.beginPath();
+      hwCtx.moveTo(x, 0);
+      hwCtx.lineTo(x, h);
+      hwCtx.stroke();
+    }
+    hwCtx.beginPath();
+    hwCtx.moveTo(0, 0); hwCtx.lineTo(w, 0);
+    hwCtx.moveTo(0, h); hwCtx.lineTo(w, h);
+    hwCtx.stroke();
+    // 田字格：每一格画出十字虚线
+    hwCtx.setLineDash([5, 6]);
+    hwCtx.strokeStyle = "#d8cdb0";
+    hwCtx.lineWidth = 1;
+    for(let i = 0; i < hwCellCount; i++){
+      const cx = i * hwCellSize + hwCellSize / 2;
+      const cy = hwCellSize / 2;
+      hwCtx.beginPath();
+      hwCtx.moveTo(i * hwCellSize, cy);
+      hwCtx.lineTo(i * hwCellSize + hwCellSize, cy);
+      hwCtx.moveTo(cx, 0);
+      hwCtx.lineTo(cx, hwCellSize);
+      hwCtx.stroke();
+    }
+    hwCtx.setLineDash([]);
+    hwCtx.restore();
+  }
+
+  function drawStroke(stroke){
+    if(stroke.length < 2){
+      if(stroke.length === 1){
+        hwCtx.beginPath();
+        hwCtx.arc(stroke[0].x, stroke[0].y, 3, 0, Math.PI*2);
+        hwCtx.fillStyle = "#2b2b2b";
+        hwCtx.fill();
+      }
+      return;
+    }
+    hwCtx.beginPath();
+    hwCtx.moveTo(stroke[0].x, stroke[0].y);
+    for(let i = 1; i < stroke.length; i++){
+      hwCtx.lineTo(stroke[i].x, stroke[i].y);
+    }
+    hwCtx.strokeStyle = "#2b2b2b";
+    hwCtx.lineWidth = 5;
+    hwCtx.lineCap = "round";
+    hwCtx.lineJoin = "round";
+    hwCtx.stroke();
+  }
+
+  function redrawHwCanvas(){
+    drawHwGrid();
+    hwStrokes.forEach(drawStroke);
+  }
+
+  function setHwCellCount(count){
+    hwCellCount = Math.max(1, count);
+    resizeHwCanvas();
+  }
+
+  function getPointerPos(e){
+    const rect = hwCanvas.getBoundingClientRect();
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  hwCanvas.addEventListener("pointerdown", function(e){
+    e.preventDefault();
+    hwDrawing = true;
+    hwCurrentStroke = [getPointerPos(e)];
+    try{ hwCanvas.setPointerCapture(e.pointerId); }catch(err){}
+  }, {passive:false});
+
+  hwCanvas.addEventListener("pointermove", function(e){
+    if(!hwDrawing) return;
+    e.preventDefault();
+    const pos = getPointerPos(e);
+    hwCurrentStroke.push(pos);
+    redrawHwCanvas();
+    drawStroke(hwCurrentStroke);
+  }, {passive:false});
+
+  function endHwStroke(e){
+    if(!hwDrawing) return;
+    hwDrawing = false;
+    if(hwCurrentStroke && hwCurrentStroke.length > 0){
+      hwStrokes.push(hwCurrentStroke);
+    }
+    hwCurrentStroke = null;
+  }
+  hwCanvas.addEventListener("pointerup", endHwStroke);
+  hwCanvas.addEventListener("pointercancel", endHwStroke);
+  hwCanvas.addEventListener("pointerleave", function(e){
+    if(hwDrawing) endHwStroke(e);
+  });
+  // 防止在手写画布内滑动时页面跟着滚动（画布外不受影响）
+  hwCanvas.addEventListener("touchmove", function(e){ e.preventDefault(); }, {passive:false});
+
+  function hwUndo(){
+    hwStrokes.pop();
+    redrawHwCanvas();
+  }
+  function hwClear(){
+    hwStrokes = [];
+    redrawHwCanvas();
+  }
+
+  window.addEventListener("resize", ()=>{ if(state.currentMode === "handwriting") resizeHwCanvas(); });
+  window.addEventListener("orientationchange", ()=>{ if(state.currentMode === "handwriting") setTimeout(resizeHwCanvas, 200); });
+
+/* =========================================================================
+   九、渲染函数与页面切换 RENDERING & NAVIGATION
+   ========================================================================= */
+  const screens = {
+    menu: document.getElementById("screen-menu"),
+    flashcard: document.getElementById("screen-flashcard"),
+    context: document.getElementById("screen-context"),
+    confusable: document.getElementById("screen-confusable"),
+    handwriting: document.getElementById("screen-handwriting"),
+    composition: document.getElementById("screen-composition"),
+    review: document.getElementById("screen-review"),
+    chars: document.getElementById("screen-chars"),
+    "char-pair": document.getElementById("screen-char-pair"),
+    "char-mixed": document.getElementById("screen-char-mixed"),
+    practice: document.getElementById("screen-practice"),
+    "practice-round": document.getElementById("screen-practice-round")
+  };
+
+  function showScreen(name){
+    Object.keys(screens).forEach(key=>{
+      screens[key].classList.toggle("hidden", key !== name);
+    });
+    state.currentMode = name === "menu" ? null : name;
+    window.scrollTo({top:0, behavior:"instant" in window ? "instant" : "auto"});
+  }
+
+  function goToMenu(){
+    updateMenuStats();
+    showScreen("menu");
+  }
+
+  function updateMenuStats(){
+    const pool = getFilteredPool();
+    const weakCount = pool.filter(w => getWordProgress(w.id).weakness > 0).length;
+    document.getElementById("menuStatLine").textContent =
+      "当前筛选下共有 " + pool.length + " 个词语，其中 " + weakCount + " 个需要加强复习。";
+  }
+
+  function populateFilters(){
+    const catSel = document.getElementById("filterCategory");
+    const diffSel = document.getElementById("filterDifficulty");
+    catSel.innerHTML = "";
+    diffSel.innerHTML = "";
+    ["全部"].concat(CATEGORIES).forEach(c=>{
+      const opt = document.createElement("option");
+      opt.value = c; opt.textContent = c;
+      catSel.appendChild(opt);
+    });
+    ["全部"].concat(DIFFICULTIES).forEach(d=>{
+      const opt = document.createElement("option");
+      opt.value = d; opt.textContent = d;
+      diffSel.appendChild(opt);
+    });
+    catSel.value = state.filterCategory;
+    diffSel.value = state.filterDifficulty;
+    catSel.addEventListener("change", ()=>{ state.filterCategory = catSel.value; updateMenuStats(); });
+    diffSel.addEventListener("change", ()=>{ state.filterDifficulty = diffSel.value; updateMenuStats(); });
+  }
+
+  /* ---------- 模式 1：学习词卡 ---------- */
+  function enterFlashcardMode(){
+    showScreen("flashcard");
+    nextFlashcard();
+  }
+  function nextFlashcard(){
+    const pool = getFilteredPool();
+    const word = pickWeightedWord(pool);
+    document.getElementById("fcCard").classList.remove("flipped");
+    document.getElementById("fcAfterRow").classList.add("hidden");
+    document.getElementById("fcFlipRow").classList.remove("hidden");
+    if(!word){
+      document.getElementById("fcWord").textContent = "暂无符合条件的词语";
+      document.getElementById("fcPinyin").textContent = "请调整筛选条件";
+      document.getElementById("fcLabels").innerHTML = "";
+      state.flashcard.wordId = null;
+      return;
+    }
+    pushRecentWord(word.id);
+    state.flashcard.wordId = word.id;
+    state.flashcard.flipped = false;
+    document.getElementById("fcWord").textContent = word.word;
+    document.getElementById("fcPinyin").textContent = word.pinyin;
+    document.getElementById("fcLabels").innerHTML = renderLabelsHtml(word);
+  }
+  function flipFlashcard(){
+    const word = VOCAB_BY_ID[state.flashcard.wordId];
+    if(!word) return;
+    const example = pickRandom(word.contexts);
+    document.getElementById("fcZh").textContent = word.meaningZh;
+    document.getElementById("fcEn").textContent = word.meaningEn;
+    document.getElementById("fcExample").innerHTML = example.split(word.word).join("<b>" + word.word + "</b>");
+    document.getElementById("fcCard").classList.add("flipped");
+    document.getElementById("fcFlipRow").classList.add("hidden");
+    document.getElementById("fcAfterRow").classList.remove("hidden");
+    state.flashcard.flipped = true;
+  }
+
+  function speakFlashcardWord(){
+    const word = VOCAB_BY_ID[state.flashcard.wordId];
+    if(!word || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(word.word);
+    utter.lang = "zh-CN";
+    utter.rate = 0.86;
+    utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
+  }
+
+  /* ---------- 模式 2：情境选择 ---------- */
+  function enterContextMode(){
+    showScreen("context");
+    resetRound("context", getFilteredPool());
+    document.getElementById("ctxRoundComplete").classList.add("hidden");
+    document.getElementById("ctxQuizArea").classList.remove("hidden");
+    nextContextQuestion();
+  }
+  function nextContextQuestion(){
+    document.getElementById("btnCtxNext").textContent = "下一题";
+    document.getElementById("ctxFeedback").classList.add("hidden");
+    document.getElementById("ctxNextRow").classList.add("hidden");
+    const pool = getFilteredPool();
+    const word = getRoundWord("context", pool);
+    const optionsWrap = document.getElementById("ctxOptions");
+    if(!word || pool.length < 2){
+      document.getElementById("ctxSentence").textContent = "当前筛选下的词语数量不足，无法出题，请调整筛选条件。";
+      optionsWrap.innerHTML = "";
+      document.getElementById("ctxProgress").textContent = "";
+      return;
+    }
+    updateRoundProgress("context");
+    pushRecentWord(word.id);
+    const distractors = pickContextDistractors(word, 3);
+    const q = buildChoiceQuestion(word, distractors);
+    state.context = Object.assign(q, {answered:false});
+    renderChoiceQuestion(q, "ctxSentence", "ctxOptions", onContextAnswer);
+  }
+  function onContextAnswer(word, isCorrect){
+    markResult(word.id, isCorrect ? "context-correct" : "context-incorrect");
+    const fb = document.getElementById("ctxFeedback");
+    fb.classList.remove("hidden");
+    fb.classList.toggle("wrong", !isCorrect);
+    if(isCorrect){
+      fb.innerHTML = '<div class="fb-title">回答正确！</div>';
+    }else{
+      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+    }
+    state.rounds.context.count++;
+    document.getElementById("ctxNextRow").classList.remove("hidden");
+    document.getElementById("btnCtxNext").textContent =
+      state.rounds.context.count >= ROUND_SIZE ? "完成本轮" : "下一题";
+    updateMenuStats();
+  }
+
+  /* ---------- 模式 3：易混词挑战 ---------- */
+  function enterConfusableMode(){
+    showScreen("confusable");
+    resetRound("confusable", getConfusablePool());
+    document.getElementById("cfRoundComplete").classList.add("hidden");
+    document.getElementById("cfQuizArea").classList.remove("hidden");
+    nextConfusableQuestion();
+  }
+  function nextConfusableQuestion(){
+    document.getElementById("btnCfNext").textContent = "下一题";
+    document.getElementById("cfFeedback").classList.add("hidden");
+    document.getElementById("cfNextRow").classList.add("hidden");
+    const pool = getConfusablePool();
+    const optionsWrap = document.getElementById("cfOptions");
+    if(pool.length === 0){
+      document.getElementById("cfSentence").innerHTML =
+        "当前筛选条件下没有设定「易混词」的词语。<br>请选择「全部」类别 / 难度，或稍后加入更多词汇数据。";
+      optionsWrap.innerHTML = "";
+      return;
+    }
+    const word = getRoundWord("confusable", pool);
+    updateRoundProgress("confusable");
+    pushRecentWord(word.id);
+    const distractors = pickConfusableDistractors(word, 3);
+    const q = buildChoiceQuestion(word, distractors);
+    state.confusable = Object.assign(q, {answered:false});
+    renderChoiceQuestion(q, "cfSentence", "cfOptions", onConfusableAnswer);
+  }
+  function onConfusableAnswer(word, isCorrect){
+    markResult(word.id, isCorrect ? "confusable-correct" : "confusable-incorrect");
+    const fb = document.getElementById("cfFeedback");
+    fb.classList.remove("hidden");
+    fb.classList.toggle("wrong", !isCorrect);
+    if(isCorrect){
+      fb.innerHTML = '<div class="fb-title">判断正确！</div>';
+    }else{
+      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+    }
+    state.rounds.confusable.count++;
+    document.getElementById("cfNextRow").classList.remove("hidden");
+    document.getElementById("btnCfNext").textContent =
+      state.rounds.confusable.count >= ROUND_SIZE ? "完成本轮" : "下一题";
+    updateMenuStats();
+  }
+
+  // 情境选择 / 易混词挑战 共用的选择题渲染函数
+  function renderChoiceQuestion(q, sentenceElId, optionsElId, onAnswer){
+    const targetWord = VOCAB_BY_ID[q.wordId];
+    document.getElementById(sentenceElId).innerHTML = buildBlankSentence(targetWord, q.contextText);
+    const optionsWrap = document.getElementById(optionsElId);
+    optionsWrap.innerHTML = "";
+    const letters = ["A","B","C","D"];
+    q.optionIds.forEach((id, i)=>{
+      const optWord = VOCAB_BY_ID[id];
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.innerHTML = '<span class="opt-letter">' + letters[i] + '.</span><span>' + optWord.word + '</span>';
+      btn.addEventListener("click", ()=>{
+        if(q.answered) return;
+        q.answered = true;
+        const isCorrect = id === q.correctId;
+        Array.from(optionsWrap.children).forEach(child=> child.setAttribute("disabled","disabled"));
+        btn.classList.add(isCorrect ? "correct" : "wrong");
+        if(!isCorrect){
+          const correctBtn = Array.from(optionsWrap.children).find((c,idx2)=> q.optionIds[idx2] === q.correctId);
+          if(correctBtn) correctBtn.classList.add("correct");
+        }
+        onAnswer(targetWord, isCorrect);
+      });
+      optionsWrap.appendChild(btn);
+    });
+  }
+
+  /* ---------- 模式 4：手写练习 ---------- */
+  const HW_TYPE_INFO = {
+    copy:    { instruction:"请照着词语写一遍。<br><span class=\"sub-en\">Copy the word once.</span>" },
+    pinyin:  { instruction:"请根据拼音，写出这个词语。<br><span class=\"sub-en\">Write the word from the pinyin.</span>" },
+    meaning: { instruction:"请根据意思，写出这个词语。<br><span class=\"sub-en\">Write the word based on the meaning.</span>" },
+    context: { instruction:"请根据情境，写出合适的词语。<br><span class=\"sub-en\">Write the word that best fits the context.</span>" }
+  };
+
+  function enterHandwritingMode(){
+    showScreen("handwriting");
+    setHwActiveTypeButtons();
+    nextHandwritingQuestion();
+  }
+
+  function setHwActiveTypeButtons(){
+    document.querySelectorAll(".hw-type-btn").forEach(btn=>{
+      btn.classList.toggle("active", btn.dataset.hwtype === state.handwriting.type);
+    });
+  }
+
+  function setHwType(type){
+    state.handwriting.type = type;
+    setHwActiveTypeButtons();
+    nextHandwritingQuestion();
+  }
+
+  function nextHandwritingQuestion(){
+    document.getElementById("hwHintBox").classList.add("hidden");
+    document.getElementById("hwHintBox").textContent = "";
+    document.getElementById("hwAnswerBox").classList.add("hidden");
+    state.handwriting.revealed = false;
+    state.handwriting.selfChecked = false;
+    state.handwriting.hintShown = false;
+
+    const pool = getFilteredPool();
+    const word = pickWeightedWord(pool);
+    if(!word){
+      document.getElementById("hwMain").textContent = "暂无符合条件的词语";
+      document.getElementById("hwSub").textContent = "请调整筛选条件";
+      document.getElementById("hwInstruction").textContent = "";
+      return;
+    }
+    pushRecentWord(word.id);
+    state.handwriting.wordId = word.id;
+
+    setHwCellCount(Array.from(word.word).length);
+    hwClear();
+
+    const type = state.handwriting.type;
+    document.getElementById("hwInstruction").innerHTML = HW_TYPE_INFO[type].instruction;
+    const mainEl = document.getElementById("hwMain");
+    const subEl = document.getElementById("hwSub");
+    if(type === "copy"){
+      mainEl.textContent = word.word;
+      subEl.textContent = "";
+    }else if(type === "pinyin"){
+      mainEl.textContent = word.pinyin;
+      subEl.textContent = "";
+    }else if(type === "meaning"){
+      mainEl.textContent = "";
+      subEl.textContent = word.meaningZh;
+    }else if(type === "context"){
+      mainEl.textContent = "";
+      const idx = pickContextIndex(word);
+      subEl.innerHTML = buildBlankSentence(word, word.contexts[idx]);
+    }
+  }
+
+  function getHwHintHtml(word, type){
+    const showEnglish = word.difficulty === "基础";
+    if(type === "pinyin"){
+      return "简单中文：" + word.meaningZh + (showEnglish ? "　English: " + word.meaningEn : "");
+    }else if(type === "meaning"){
+      return "拼音：" + word.pinyin + (showEnglish ? "　English: " + word.meaningEn : "");
+    }else{
+      return "拼音：" + word.pinyin + "　简单中文：" + word.meaningZh;
+    }
+  }
+
+  function toggleHwHint(){
+    const word = VOCAB_BY_ID[state.handwriting.wordId];
+    if(!word) return;
+    const box = document.getElementById("hwHintBox");
+    state.handwriting.hintShown = !state.handwriting.hintShown;
+    if(state.handwriting.hintShown){
+      box.innerHTML = getHwHintHtml(word, state.handwriting.type);
+      box.classList.remove("hidden");
+    }else{
+      box.classList.add("hidden");
+    }
+  }
+
+  function revealHwAnswer(){
+    const word = VOCAB_BY_ID[state.handwriting.wordId];
+    if(!word) return;
+    state.handwriting.revealed = true;
+    const example = pickRandom(word.contexts);
+    document.getElementById("hwAnsWord").textContent = word.word;
+    document.getElementById("hwAnsDetail").innerHTML =
+      "拼音：" + word.pinyin + "<br>简单中文：" + word.meaningZh +
+      "<br>English：" + word.meaningEn +
+      "<br>例句：" + example.split(word.word).join("<b>" + word.word + "</b>");
+    const box = document.getElementById("hwAnswerBox");
+    box.classList.remove("hidden");
+    document.getElementById("btnHwGood").classList.remove("chosen");
+    document.getElementById("btnHwGood").disabled = false;
+    document.getElementById("btnHwBad").classList.remove("chosen");
+    document.getElementById("btnHwBad").disabled = false;
+  }
+
+  function hwSelfCheck(kind){
+    if(state.handwriting.selfChecked) return;
+    const word = VOCAB_BY_ID[state.handwriting.wordId];
+    if(!word) return;
+    state.handwriting.selfChecked = true;
+    markResult(word.id, kind === "good" ? "handwriting-good" : "handwriting-bad");
+    document.getElementById("btnHwGood").classList.toggle("chosen", kind === "good");
+    document.getElementById("btnHwBad").classList.toggle("chosen", kind === "bad");
+    document.getElementById("btnHwGood").disabled = true;
+    document.getElementById("btnHwBad").disabled = true;
+    updateMenuStats();
+  }
+
+  /* ---------- 模式 5：课堂造句练习 ---------- */
+  function enterCompositionMode(){
+    showScreen("composition");
+    nextCompositionQuestion();
+  }
+  function getCompositionPool(){
+    return getFilteredPool().filter(w => w.writingUseful && w.writingPrompt);
+  }
+  function nextCompositionQuestion(){
+    document.getElementById("compResult").classList.add("hidden");
+    document.getElementById("compReference").classList.add("hidden");
+    document.getElementById("compInput").value = "";
+    const pool = getCompositionPool();
+    const word = pickWeightedWord(pool, {allowImmediateRepeat:false});
+    if(!word){
+      document.getElementById("compWord").textContent = "暂无可用词语";
+      document.getElementById("compPinyin").textContent = "";
+      document.getElementById("compScenario").textContent = "当前筛选条件下没有适合造句练习的词语，请调整筛选条件（例如选择「全部」类别）。";
+      document.getElementById("compInstruction").textContent = "";
+      state.composition.wordId = null;
+      return;
+    }
+    pushRecentWord(word.id);
+    state.composition.wordId = word.id;
+    state.composition.checked = false;
+    document.getElementById("compWord").textContent = word.word;
+    document.getElementById("compPinyin").textContent = word.pinyin;
+    document.getElementById("compScenario").textContent = "情境：" + word.writingPrompt;
+    document.getElementById("compInstruction").textContent = "请用“" + word.word + "”写一个完整的句子。 / Write a complete sentence using this word.";
+  }
+  function checkComposition(){
+    const word = VOCAB_BY_ID[state.composition.wordId];
+    if(!word) return;
+    const text = document.getElementById("compInput").value.trim();
+    const containsWord = text.indexOf(word.word) !== -1;
+    const longEnough = Array.from(text).length >= Math.max(8, Array.from(word.word).length + 4);
+    const resultBox = document.getElementById("compResult");
+    resultBox.classList.remove("hidden");
+    resultBox.innerHTML =
+      '<div class="check-line ' + (containsWord ? "ok" : "bad") + '">' +
+        (containsWord ? "✓ 句子中使用了「" + word.word + "」" : "✗ 句子中还没有出现「" + word.word + "」") +
+      '</div>' +
+      '<div class="check-line ' + (longEnough ? "ok" : "bad") + '">' +
+        (longEnough ? "✓ 句子长度合适" : "✗ 句子有点太短了，请写一个更完整的句子") +
+      '</div>';
+    const refBox = document.getElementById("compReference");
+    refBox.classList.remove("hidden");
+    document.getElementById("compReferenceText").textContent = word.writingExample;
+    state.composition.checked = true;
+  }
+
+  /* ---------- 模式 6：错词复习 ---------- */
+  function getWeakWords(){
+    return getFilteredPool().filter(w => getWordProgress(w.id).weakness > 0);
+  }
+  function enterReviewMode(){
+    showScreen("review");
+    nextReviewQuestion();
+  }
+  function nextReviewQuestion(){
+    document.getElementById("revFeedback").classList.add("hidden");
+    document.getElementById("revNextRow").classList.add("hidden");
+    const weakWords = getWeakWords();
+    document.getElementById("reviewStatus").textContent =
+      "当前筛选下需要加强复习的词语：" + weakWords.length + " 个";
+    if(weakWords.length === 0){
+      document.getElementById("reviewEmptyState").classList.remove("hidden");
+      document.getElementById("reviewQuizArea").classList.add("hidden");
+      return;
+    }
+    document.getElementById("reviewEmptyState").classList.add("hidden");
+    document.getElementById("reviewQuizArea").classList.remove("hidden");
+    const word = pickWeightedWord(weakWords);
+    pushRecentWord(word.id);
+    const distractors = pickContextDistractors(word, 3);
+    const q = buildChoiceQuestion(word, distractors);
+    state.review = Object.assign(q, {answered:false});
+    renderChoiceQuestion(q, "revSentence", "revOptions", onReviewAnswer);
+  }
+  function onReviewAnswer(word, isCorrect){
+    markResult(word.id, isCorrect ? "context-correct" : "context-incorrect");
+    const fb = document.getElementById("revFeedback");
+    fb.classList.remove("hidden");
+    fb.classList.toggle("wrong", !isCorrect);
+    if(isCorrect){
+      fb.innerHTML = '<div class="fb-title">回答正确！生疏程度已降低。</div>';
+    }else{
+      fb.innerHTML = wrongAnswerFeedbackHtml(word);
+    }
+    document.getElementById("revNextRow").classList.remove("hidden");
+  }
+
+/* =========================================================================
+   十、重置学习记录确认框 CONFIRM MODAL
+   ========================================================================= */
+  function showResetConfirm(){
+    const root = document.getElementById("modalRoot");
+    root.innerHTML =
+      '<div class="modal-overlay" id="resetOverlay">' +
+        '<div class="modal-box">' +
+          '<h3>重置学习记录</h3>' +
+          '<p>这将清除所有词语的复习进度、答题记录与「会了」标记，且无法恢复。确定要继续吗？</p>' +
+          '<div class="btn-row">' +
+            '<button class="btn btn-warn" id="btnConfirmReset">确认清除</button>' +
+            '<button class="btn btn-outline" id="btnCancelReset">取消</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    document.getElementById("btnConfirmReset").addEventListener("click", ()=>{
+      resetAllProgress();
+      root.innerHTML = "";
+      updateMenuStats();
+    });
+    document.getElementById("btnCancelReset").addEventListener("click", ()=>{
+      root.innerHTML = "";
+    });
+  }
+
+/* =========================================================================
+   十一、事件绑定与初始化 EVENT BINDING & INIT
+   ========================================================================= */
+  function bindEvents(){
+    bindCharEvents();
+    bindPracticeEvents();
+    bilingualizeButtons();
+    // 主菜单：模式按钮
+    document.querySelectorAll(".menu-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const mode = btn.dataset.mode;
+        if(mode === "flashcard") enterFlashcardMode();
+        else if(mode === "context") enterContextMode();
+        else if(mode === "confusable") enterConfusableMode();
+        else if(mode === "handwriting") enterHandwritingMode();
+        else if(mode === "composition") enterCompositionMode();
+        else if(mode === "review") enterReviewMode();
+      });
+    });
+    // 各模式页面的"返回主菜单"
+    document.querySelectorAll('[data-back="menu"]').forEach(btn=>{
+      btn.addEventListener("click", goToMenu);
+    });
+    document.getElementById("btnResetProgress").addEventListener("click", showResetConfirm);
+
+    // 模式 1：学习词卡
+    document.getElementById("btnFcFlip").addEventListener("click", flipFlashcard);
+    document.getElementById("btnFcSpeak").addEventListener("click", speakFlashcardWord);
+    if(!("speechSynthesis" in window)){
+      document.getElementById("btnFcSpeak").disabled = true;
+      document.getElementById("btnFcSpeak").title = "此浏览器不支持语音播放";
+    }
+    document.getElementById("btnFcKnow").addEventListener("click", ()=>{
+      if(state.flashcard.wordId) markResult(state.flashcard.wordId, "flashcard-know");
+      updateMenuStats();
+      nextFlashcard();
+    });
+    document.getElementById("btnFcRetry").addEventListener("click", ()=>{
+      if(state.flashcard.wordId) markResult(state.flashcard.wordId, "flashcard-retry");
+      updateMenuStats();
+      nextFlashcard();
+    });
+    document.getElementById("btnFcNext").addEventListener("click", nextFlashcard);
+
+    // 模式 2：情境选择
+    document.getElementById("btnCtxNext").addEventListener("click", ()=>{
+      if(state.rounds.context.count >= ROUND_SIZE) finishRound("context");
+      else nextContextQuestion();
+    });
+    document.getElementById("btnCtxAgain").addEventListener("click", ()=> startNewRound("context"));
+    document.getElementById("btnCtxMenu").addEventListener("click", goToMenu);
+
+    // 模式 3：易混词挑战
+    document.getElementById("btnCfNext").addEventListener("click", ()=>{
+      if(state.rounds.confusable.count >= ROUND_SIZE) finishRound("confusable");
+      else nextConfusableQuestion();
+    });
+    document.getElementById("btnCfAgain").addEventListener("click", ()=> startNewRound("confusable"));
+    document.getElementById("btnCfMenu").addEventListener("click", goToMenu);
+
+    // 模式 4：手写练习
+    document.querySelectorAll(".hw-type-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=> setHwType(btn.dataset.hwtype));
+    });
+    document.getElementById("btnHwUndo").addEventListener("click", hwUndo);
+    document.getElementById("btnHwClear").addEventListener("click", hwClear);
+    document.getElementById("btnHwHint").addEventListener("click", toggleHwHint);
+    document.getElementById("btnHwReveal").addEventListener("click", revealHwAnswer);
+    document.getElementById("btnHwNext").addEventListener("click", nextHandwritingQuestion);
+    document.getElementById("btnHwGood").addEventListener("click", ()=> hwSelfCheck("good"));
+    document.getElementById("btnHwBad").addEventListener("click", ()=> hwSelfCheck("bad"));
+
+    // 模式 5：课堂造句练习
+    document.getElementById("btnCompCheck").addEventListener("click", checkComposition);
+    document.getElementById("btnCompNext").addEventListener("click", nextCompositionQuestion);
+
+    // 模式 6：错词复习
+    document.getElementById("btnRevNext").addEventListener("click", nextReviewQuestion);
+  }
+
+  function init(){
+    populateFilters();
+    bindEvents();
+    updateMenuStats();
+    showScreen("menu");
+  }
+
+  init();
+</script>
+</body>
+</html>
