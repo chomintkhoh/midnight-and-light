@@ -1242,13 +1242,25 @@
   .support-note{font-size:12px;color:var(--ink-soft);margin-top:6px}
   @media(max-width:620px){.recall-options{grid-template-columns:1fr}.teach-word{font-size:40px}.pixel-home{max-width:82px!important;opacity:.9}}
 
-  /* V2.10.0 Stage 2: authentic examples + distinct recall forms. */
+  /* V2.10.1 Stage 2: authentic examples + distinct recall forms. */
   .meaning-link-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr) auto minmax(110px,.55fr);gap:8px;align-items:stretch;margin-top:8px;}
   .meaning-link-flow>span{display:flex;flex-direction:column;justify-content:center;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;line-height:1.5;}
   .meaning-link-flow>span small{display:block;color:var(--ink-soft);font-size:11px;font-weight:700;margin-bottom:4px;}
   .meaning-link-flow>b{align-self:center;color:var(--accent);font-size:20px;}
   .meaning-link-word{font-size:20px;font-weight:800;color:var(--accent-dark);text-align:center;}
   @media(max-width:700px){.meaning-link-flow{grid-template-columns:1fr}.meaning-link-flow>b{transform:rotate(90deg);justify-self:center}.meaning-link-flow>span{text-align:left}.meaning-link-word{text-align:center!important}}
+
+  /* ===== V2.10.1 cleaner page flow ===== */
+  .journey-pages{margin:0 0 16px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:0 14px;}
+  .journey-pages>summary{cursor:pointer;list-style:none;padding:14px 2px;font-weight:800;color:var(--accent-dark);}
+  .journey-pages>summary::-webkit-details-marker{display:none;}
+  .journey-pages>summary::after{content:"＋";float:right;color:var(--accent);}
+  .journey-pages[open]>summary::after{content:"－";}
+  .journey-pages .journey-list{margin-top:0;padding-bottom:14px;}
+  #screen-menu>.more-practice{margin-top:12px;}
+  #screen-interactive>.panel{min-height:calc(100vh - 130px);}
+  #screen-interactive .interactive-content .mini-game-card{min-height:calc(100vh - 290px);}
+  #diagVerifyOptions .btn-en{font-size:12px;margin-top:5px;color:var(--ink-soft);opacity:1;}
 
 </style>
 </head>
@@ -1298,15 +1310,18 @@
       
     </div>
 
-    <div class="journey-list" aria-label="Learning Journey">
+    <details class="journey-pages">
+      <summary>查看五个关卡 / View 5 Stages</summary>
+      <div class="journey-list" aria-label="Learning Journey">
       <button class="journey-card" id="journey1" data-journey="diagnostic"><span class="journey-no">1</span><span><b>第1关｜字词小检查</b><small>Quick Check</small><em id="journeyStatus1">建议从这里开始 / Start here</em></span></button>
       <button class="journey-card" id="journey2" data-journey="mywords"><span class="journey-no">2</span><span><b>第2关｜学习生字词</b><small>Learn My Words</small><em id="journeyStatus2">完成检查后继续 / Continue after Quick Check</em></span></button>
       <button class="journey-card" id="journey3" data-journey="review"><span class="journey-no">3</span><span><b>第3关｜今日复习</b><small>Today’s Review</small><em id="journeyStatus3">5个短活动 / 5 short activities</em></span></button>
       <button class="journey-card" id="journey4" data-journey="context"><span class="journey-no">4</span><span><b>第4关｜词汇与语境</b><small>Vocabulary in Context</small><em id="journeyStatus4">语境＋小游戏反复练习 / Context + mini-games</em></span></button>
       <button class="journey-card" id="journey5" data-journey="reading"><span class="journey-no">5</span><span><b>第5关｜阅读挑战</b><small>Reading Challenge</small><em id="journeyStatus5">带着问题阅读 / Read with a purpose</em></span></button>
-    </div>
+      </div>
+    </details>
 
-    <details class="teacher-options more-practice" open>
+    <details class="teacher-options more-practice">
       <summary>🧰 更多练习 / More Practice</summary>
       <p>先练今天的学习组；想自由探索时再进入 Free Practice。<br><span class="sub-en">Practise today's set first, or explore freely in Free Practice.</span></p>
       <div class="practice-scope-block current-scope">
@@ -4263,7 +4278,7 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     const box=document.getElementById("diagVerify");box.classList.remove("hidden");
     const distract=shuffle(DIAG_EXTRA.filter(x=>x.word!==item.word&&x.level===item.level)).slice(0,3);
     const opts=shuffle([item,...distract]);box.innerHTML='<b>再确认一下 / Quick Check：</b><br>请选择最接近的意思。<br><span class="sub-en">Choose the closest meaning.</span><div class="quiz-options" id="diagVerifyOptions"></div>';
-    const root=document.getElementById("diagVerifyOptions");opts.forEach(x=>{const b=document.createElement("button");b.className="quiz-option";b.textContent=x.meaningZh;b.onclick=()=>{root.querySelectorAll("button").forEach(z=>z.disabled=true);if(x.word===item.word){b.classList.add("correct");playCorrectSound();recordDiagResult(item,"known");}else{b.classList.add("wrong");upsertMyWord(item,"unstable","verification");diagState.answered++;}setTimeout(advanceDiagnostic,350)};root.appendChild(b)});
+    const root=document.getElementById("diagVerifyOptions");opts.forEach(x=>{const b=document.createElement("button");b.className="quiz-option";b.innerHTML='<span>'+x.meaningZh+'</span>'+(x.meaningEn?'<span class="btn-en">'+x.meaningEn+'</span>':'');b.onclick=()=>{root.querySelectorAll("button").forEach(z=>z.disabled=true);if(x.word===item.word){b.classList.add("correct");playCorrectSound();recordDiagResult(item,"known");}else{b.classList.add("wrong");upsertMyWord(item,"unstable","verification");diagState.answered++;}setTimeout(advanceDiagnostic,350)};root.appendChild(b)});
   }
   function advanceDiagnostic(){
     diagState.index++;
@@ -5594,16 +5609,19 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
       prompt.textContent="";
       options=round.options.map(w=>({id:w.id,label:w.word}));
       correct=round.correct;
+      const spotTarget=round.options.find(w=>w.id===correct);
+      if(spotTarget){miniGameState.current=spotTarget;}
     }
-    options.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>answerMini(b,o.id,correct,target);opts.appendChild(b)});
+    const feedbackTarget=(type==="spot"?miniGameState.current:target);
+    options.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>answerMini(b,o.id,correct,feedbackTarget);opts.appendChild(b)});
   }
   function answerMini(btn,chosen,correct,target){
     const box=document.getElementById("miniGameOptions");if(box.dataset.answered==="1")return;box.dataset.answered="1";
     const ok=chosen===correct;btn.classList.add(ok?"correct":"wrong");
-    markResult(target.id,ok?"context-correct":"context-incorrect");
+    if(target?.id) markResult(target.id,ok?"context-correct":"context-incorrect");
     if(ok)playCorrectSound();
     const fb=document.getElementById("miniGameFeedback");fb.classList.remove("hidden");
-    fb.innerHTML=ok?'<div class="fb-title">✓ 答对了！ / Correct!</div>':vocabWrongFeedbackHtml(target);
+    fb.innerHTML=ok?'<div class="fb-title">✓ 答对了！ / Correct!</div>':(target?vocabWrongFeedbackHtml(target):'<div class="fb-title">再试一次 / Try again</div>');
     document.getElementById("miniGameNextRow").classList.remove("hidden");
   }
   function advanceMini(){miniGameState.count++;nextMiniQuestion();}
