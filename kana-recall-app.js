@@ -111,7 +111,7 @@ function normalizeAnswer(s) {
 }
 
 function rangeLabel(rowKey) {
-  const rowIndex = ROW_ORDER.indexOf(rowKey);
+   rowIndex = ROW_ORDER.indexOf(rowKey);
   const first = HIRAGANA_ROWS[ROW_ORDER[0]][0].kana;
   const lastRow = HIRAGANA_ROWS[rowKey];
   const last = lastRow[lastRow.length - 1].kana;
@@ -663,6 +663,8 @@ function renderRoundResult() {
   changeRange.style.marginTop = "14px";
   changeRange.appendChild(btn("Choose a Different Range", renderRangeSelect, { secondary: true, small: true }));
   c.appendChild(changeRange);
+
+  c.appendChild(backToLessonsRow());
 }
 
 /* ---------- Difficult kana review round ---------- */
@@ -705,11 +707,25 @@ function renderReviewResult() {
     c.appendChild(sec);
   }
 
-  const actions = document.createElement("div");
+   const actions = document.createElement("div");
   actions.className = "kr-nav-row";
   actions.appendChild(btn("Practice Again", () => startRound(session.rowKey)));
   actions.appendChild(btn("Choose a Different Range", renderRangeSelect, { secondary: true }));
   c.appendChild(actions);
+
+  c.appendChild(backToLessonsRow());
+}
+
+/* Small secondary nav link shown under both result screens (normal round
+   and difficult-kana review) — takes the teacher/student back to the
+   Lessons page. Kept separate from the practice-flow actions above. */
+function backToLessonsRow() {
+  const row = document.createElement("div");
+  row.style.marginTop = "10px";
+  row.appendChild(btn("← Back to Lessons", () => {
+    window.location.href = "lessons.html";
+  }, { secondary: true, small: true }));
+  return row;
 }
 
 /* ---------- Entry point ----------
