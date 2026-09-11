@@ -1242,7 +1242,7 @@
   .support-note{font-size:12px;color:var(--ink-soft);margin-top:6px}
   @media(max-width:620px){.recall-options{grid-template-columns:1fr}.teach-word{font-size:40px}.pixel-home{max-width:82px!important;opacity:.9}}
 
-  /* V2.9.9 Meaning Link: context, clue, word. No dictionary-definition answer. */
+  /* V2.10.0 Stage 2: authentic examples + distinct recall forms. */
   .meaning-link-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr) auto minmax(110px,.55fr);gap:8px;align-items:stretch;margin-top:8px;}
   .meaning-link-flow>span{display:flex;flex-direction:column;justify-content:center;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;line-height:1.5;}
   .meaning-link-flow>span small{display:block;color:var(--ink-soft);font-size:11px;font-weight:700;margin-bottom:4px;}
@@ -1376,7 +1376,7 @@
   <section id="screen-mywords-learn" class="screen hidden">
     <div class="mode-topbar"><h2>第2关｜真正学会这些词 / Stage 2 · Learn My Words</h2><button class="btn btn-ghost" id="btnBackMyWords">← 我的生字词 / My Learning Words</button></div>
     <div class="panel">
-      <div class="teaching-stage-note"><b>学习方式 / How it works</b><br>看词 → 听读音 → 理解意思 → 看例句 → 立即确认 → 隔几题再确认<br><span class="sub-en">See → Listen → Understand → Example → Immediate Recall → Delayed Check</span></div>
+      <div class="teaching-stage-note"><b>学习方式 / How it works</b><br>看词 → 听读音 → 理解意思 → 看例句 → 情境回想 → 隔几题再用意思回想<br><span class="sub-en">See → Listen → Understand → Example → Recall from Context → Recall from Meaning</span></div>
       <div class="round-progress" id="myLearnProgress"></div>
       <div id="myLearnCard"></div>
       <div class="btn-row center" id="myLearnGlobalControls">
@@ -3789,9 +3789,11 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
 
   function getRangeCandidatePool(){
     return unifiedLearningPool().filter(w=>{
+      const d=typeof DIAG_EXTRA!=="undefined"?DIAG_EXTRA.find(x=>x.word===w.word):null;
+      const teachable=hasUsableMeaning(w) || !!d;
       const catOk = state.filterCategory === "全部" || w.category === state.filterCategory;
       const diffOk = state.filterDifficulty === "全部" || w.difficulty === state.filterDifficulty;
-      return catOk && diffOk;
+      return teachable && catOk && diffOk;
     });
   }
 
@@ -5614,26 +5616,82 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   }
 
 /* =========================================================================
-   V2.9.9 TEACHING STAGE + SUPPORT WORDS
+   V2.10.0 TEACHING STAGE + SUPPORT WORDS
    ========================================================================= */
   let v298LearnPhase="teach", v298ImmediateOK=false, v298DelayedQueue=[], v298DelayedDone=new Set(), v298ForcedHwWord=null, v298SinceDelayed=0;
 
+  const V210_USAGE_EXAMPLES={
+    "拿":"我从书包里拿出作业本，准备交给老师。",
+    "放":"请把看完的书放回书架上。",
+    "跟":"放学后，我跟同学一起去图书馆。",
+    "让":"老师让我们先读题目，再开始作答。",
+    "带":"明天有美术课，记得带彩色笔来学校。",
+    "告诉":"如果你遇到困难，可以告诉老师。",
+    "发现":"我检查答案时，发现自己漏做了一题。",
+    "突然":"天空突然下起大雨，大家赶快跑进走廊。",
+    "已经":"我已经完成作业，可以开始复习了。",
+    "因为":"因为昨晚下大雨，操场上还有很多积水。",
+    "所以":"他每天认真练习，所以进步得很快。",
+    "虽然":"虽然这道题很难，但是我还是想试一试。",
+    "但是":"我很想参加比赛，但是那天刚好有考试。",
+    "仍然":"外面下着大雨，他仍然准时到学校。",
+    "终于":"经过几次尝试，我终于把这道题做对了。",
+    "渐渐":"经过每天练习，他渐渐敢在大家面前说话了。",
+    "立刻":"听到老师叫名字后，他立刻站起来回答。",
+    "竟然":"我以为他会忘记，没想到他竟然记得我的生日。",
+    "根据":"根据天气预报，明天下午可能会下雨。",
+    "向":"我向老师请教这道不会做的数学题。",
+    "被":"我的雨伞被大风吹翻了。",
+    "按照":"请按照老师写在白板上的步骤完成实验。",
+    "原因":"老师先了解事情发生的原因，再处理问题。",
+    "经过":"经过大家讨论，我们决定一起完成海报。",
+    "结果":"他没有检查答案，结果把简单的题目做错了。",
+    "感受":"读完这篇文章后，请说说你的感受。",
+    "表现":"他在比赛中的表现很稳定，没有因为紧张而出错。",
+    "理由":"你选择这个答案的理由是什么？",
+    "启发":"这次失败给了我很大的启发，让我明白准备的重要性。",
+    "态度":"他虽然答错了，却愿意认真改正，学习态度很好。",
+    "证据":"老师请我们从文章中找出支持答案的证据。",
+    "克服":"她每天练习发音，终于克服了不敢开口的问题。",
+    "危机":"面对突然发生的危机，大家先保持冷静，再想办法处理。"
+  };
+  function v210DiagInfo(word){
+    const d=typeof DIAG_EXTRA!=="undefined"?DIAG_EXTRA.find(x=>x.word===word):null;
+    return d||null;
+  }
   function v298WordData(x){
     const v=unifiedLearningPool().find(w=>w.word===x.word)||{};
-    return {...v,...x,contexts:(v.contexts||x.contexts||[]),writingUseful:!!v.writingUseful,confusable:v.confusable||[]};
+    const d=v210DiagInfo(x.word)||{};
+    const contexts=(Array.isArray(v.contexts)&&v.contexts.some(c=>String(c||"").trim()))?v.contexts:
+      (V210_USAGE_EXAMPLES[x.word]?[V210_USAGE_EXAMPLES[x.word]]:(Array.isArray(x.contexts)?x.contexts:[]));
+    return {...v,...d,...x,
+      pinyin:x.pinyin||d.pinyin||v.pinyin||"",
+      meaningZh:x.meaningZh||d.meaningZh||v.meaningZh||"",
+      meaningEn:x.meaningEn||d.meaningEn||v.meaningEn||"",
+      contexts,
+      writingUseful:!!v.writingUseful,
+      confusable:v.confusable||[]
+    };
   }
   function v298Example(w){
-    const c=(w.contexts||[]).find(x=>String(x||"").trim());
-    return c || `我今天学会了“${w.word}”这个词。`;
+    const authored=(w.contexts||[]).find(x=>String(x||"").trim());
+    const write=String(w.writingExample||"").trim();
+    return authored || write || V210_USAGE_EXAMPLES[w.word] || "";
   }
   function v298Chain(w){
-    const situation=String(w.writingPrompt||"").trim() || String((w.contexts||[])[0]||"").replaceAll(w.word,"＿＿");
-    const examples=(w.contexts||[]).filter(Boolean);
-    let clue=String(w.writingExample||examples[1]||examples[0]||"").trim();
-    clue=clue.replaceAll(w.word,"＿＿");
-    if(clue.length>46)clue=clue.slice(0,46)+"…";
-    const sit=situation.length>38?situation.slice(0,38)+"…":situation;
-    return `<div class="meaning-link-flow"><span><small>发生什么？</small>${sit}</span><b>→</b><span><small>句中线索</small>${clue}</span><b>→</b><span class="meaning-link-word"><small>用这个词</small>${w.word}</span></div>`;
+    const ex=v298Example(w);
+    const blank=ex?ex.replaceAll(w.word,"＿＿"):"";
+    let situation=String(w.writingPrompt||"").trim();
+    if(!situation){
+      if(w.word==="被") situation="一个人或东西承受了别人做的动作";
+      else if(["因为","所以","虽然","但是","仍然","终于","渐渐","立刻","竟然"].includes(w.word)) situation="观察前后句之间的关系或事情发生的方式";
+      else if(["根据","按照","向"].includes(w.word)) situation="留意动作依据、方法或对象";
+      else situation=String(w.meaningZh||"").trim();
+    }
+    const clue=blank || String(w.meaningZh||"").trim();
+    const sit=situation.length>40?situation.slice(0,40)+"…":situation;
+    const shortClue=clue.length>54?clue.slice(0,54)+"…":clue;
+    return `<div class="meaning-link-flow"><span><small>理解重点</small>${sit}</span><b>→</b><span><small>放进句子</small>${shortClue}</span><b>→</b><span class="meaning-link-word"><small>目标词</small>${w.word}</span></div>`;
   }
   function v298MeaningOptions(w){
     const all=unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z));
@@ -5648,8 +5706,16 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     return shuffle([{id:w.id,label:w.meaningZh||w.meaningEn||"这个词的意思"},...picked.map(z=>({id:z.id,label:z.meaningZh}))]);
   }
   function v298WordOptions(w){
-    const pool=shuffle(unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z))).slice(0,3);
-    return shuffle([{id:w.id,label:w.word},...pool.map(z=>({id:z.id,label:z.word}))]);
+    const all=unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z));
+    const conf=new Set((w.confusable||[]).map(String));
+    const priority=[
+      ...shuffle(all.filter(z=>conf.has(z.word))),
+      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category===w.category)),
+      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category!==w.category))
+    ];
+    const picked=[];
+    for(const z of priority){if(!picked.some(p=>p.id===z.id)){picked.push(z);if(picked.length===3)break;}}
+    return shuffle([{id:w.id,label:w.word},...picked.map(z=>({id:z.id,label:z.word}))]);
   }
   function startMyWordsLearn(firstWord){
     const db=loadMyWords(),ids=new Set((state.learningSetIds||[]));
@@ -5680,35 +5746,36 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     document.getElementById("v298WriteWord")?.addEventListener("click",()=>{v298ForcedHwWord=w;enterHandwritingMode();});
   }
   function v298RenderImmediate(w){
-    const root=document.getElementById("myLearnCard"),opts=v298MeaningOptions(w);
-    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">④ Immediate Recall · 不看答案</div><div class="teach-word">${w.word}</div><p style="text-align:center">这个词最接近什么意思？<br><span class="sub-en">Which meaning best matches this word?</span></p><div class="recall-options" id="v298RecallOpts"></div><div id="v298RecallFb" class="feedback-box hidden"></div></div>`;
+    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w);
+    const ex=v298Example(w), ctx=ex?ex.replaceAll(w.word,"＿＿"):String(w.meaningZh||"");
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">④ Immediate Recall · 不看目标词</div><p style="text-align:center;font-weight:700">看情境，选出最合适的词。<br><span class="sub-en">Choose the word that best completes the context.</span></p><p class="teach-example" style="font-size:19px">${ctx}</p><div class="recall-options" id="v298RecallOpts"></div><div id="v298RecallFb" class="feedback-box hidden"></div></div>`;
     const box=document.getElementById("v298RecallOpts");
     opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{
       if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;b.classList.add(ok?"correct":"wrong");
       [...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});
       const fb=document.getElementById("v298RecallFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);
-      fb.innerHTML=ok?'✓ 第一次确认正确。稍后还会再问一次。<br><span class="sub-en">First check passed. You will see this word again later.</span>':`还没稳。正确意思：<b>${w.meaningZh}</b><br><span class="sub-en">Not stable yet. You will see it again later.</span>`;
+      fb.innerHTML=ok?'✓ 你能从情境找回这个词。稍后会换另一种方式再确认。<br><span class="sub-en">You recalled the word from context. A different check comes later.</span>':`还没稳。这里最合适的是：<b>${w.word}</b><br><span class="sub-en">This word will return later in a different form.</span>`;
       v298ImmediateOK=ok;setTimeout(()=>{v298DelayedQueue.push(w);v298SinceDelayed++;myLearnIndex++;v298LearnPhase="teach";renderMyLearn();},650);
     };box.appendChild(b)});
   }
   function v298RenderDelayed(w){
-    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w),ctx=v298Example(w).replaceAll(w.word,"____");
+    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w);
     document.getElementById("myLearnProgress").textContent=`再次确认 / Delayed Check · ${v298DelayedDone.size+1}`;
-    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">⑤ 隔几题再次确认 / Delayed Check</div><p class="teach-example">${ctx}</p><p>哪个词最适合？<br><span class="sub-en">Which word fits best?</span></p><div class="recall-options" id="v298DelayedOpts"></div><div id="v298DelayedFb" class="feedback-box hidden"></div></div>`;
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">⑤ Delayed Check · 换一种方式</div><p style="text-align:center;font-weight:700">不看例句，根据意思找回这个词。<br><span class="sub-en">Recall the word from its meaning, without the example sentence.</span></p><div class="teach-block" style="font-size:18px"><b>中文线索：</b>${w.meaningZh||""}${w.meaningEn?`<br><b>English clue：</b>${w.meaningEn}`:""}</div><div class="recall-options" id="v298DelayedOpts"></div><div id="v298DelayedFb" class="feedback-box hidden"></div></div>`;
     const box=document.getElementById("v298DelayedOpts");
     opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{
       if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;b.classList.add(ok?"correct":"wrong");
       [...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});
       const fb=document.getElementById("v298DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);
-      if(ok){playCorrectSound();setMyWordStatus(w.word,"review");v298DelayedDone.add(w.word);fb.innerHTML='✓ 第二种方式也认出来了。<br><span class="sub-en">Confirmed again in a different form.</span>';}
-      else{setMyWordStatus(w.word,"learning");fb.innerHTML=`这个词还需要练习：<b>${w.word}</b> · ${w.meaningZh}<br><span class="sub-en">Keep this word in your learning list.</span>`;}
+      if(ok){playCorrectSound();setMyWordStatus(w.word,"review");v298DelayedDone.add(w.word);fb.innerHTML='✓ 情境和意思两种方式都认出来了。<br><span class="sub-en">Confirmed through both context and meaning.</span>';}
+      else{setMyWordStatus(w.word,"learning");fb.innerHTML=`这个词还需要练习：<b>${w.word}</b><br><span class="sub-en">Keep this word in your learning list.</span>`;}
       setTimeout(()=>renderMyLearn(),700);
     };box.appendChild(b)});
   }
   function finishMyLearn(){
     setGuidedStep("review");document.getElementById("myLearnProgress").textContent=`学习完成 / Learning Complete`;
     const still=Object.values(loadMyWords()).filter(x=>myLearnQueue.some(q=>q.word===x.word)&&x.status==="learning").length;
-    document.getElementById("myLearnCard").innerHTML=`<div class="round-complete"><h3>✓ 本轮学习完成 / Learning Complete</h3><p>每个词都经过立即确认和延迟确认。${still?`还有 <b>${still}</b> 个词会继续留在学习清单。`:'这一组已经完成两种确认。'}<br><span class="sub-en">Words were checked twice in different forms.</span></p><div class="btn-row center"><button class="btn btn-primary" id="btnLearnToReview">进入第3关 / Go to Review</button><button class="btn btn-outline" id="btnLearnMenu">返回学习旅程 / Learning Journey</button></div></div>`;
+    document.getElementById("myLearnCard").innerHTML=`<div class="round-complete"><h3>✓ 本轮学习完成 / Learning Complete</h3><p>每个词都经过情境回想和意思回想两种确认。${still?`还有 <b>${still}</b> 个词会继续留在学习清单。`:'这一组已经完成两种确认。'}<br><span class="sub-en">Words were checked through context recall and meaning recall.</span></p><div class="btn-row center"><button class="btn btn-primary" id="btnLearnToReview">进入第3关 / Go to Review</button><button class="btn btn-outline" id="btnLearnMenu">返回学习旅程 / Learning Journey</button></div></div>`;
     document.getElementById("btnLearnToReview").onclick=startTodayReview;document.getElementById("btnLearnMenu").onclick=goToMenu;
   }
 
