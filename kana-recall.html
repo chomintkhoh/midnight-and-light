@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kana Recall Practice | ミッドナイトとライト</title>
+<meta name="description" content="Active-recall practice for Hiragana — remember the sound or write the character from memory, あいうえお through さしすせそ." />
+<link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/kana-recall.html" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* Brand mark fix — same as every other page on the site. */
+  .site-nav .nav-mark{
+    white-space: nowrap; width: auto; max-width: none; flex-shrink: 0; font-size: 20px;
+  }
+  @media (max-width: 480px){ .site-nav .nav-mark{ font-size: 15px; } }
+
+  #kr-app{ max-width: 620px; margin: 0 auto; }
+
+  .kr-card{
+    background: rgba(244,241,234,0.05);
+    border: 1px solid rgba(217,196,142,0.22);
+    border-radius: 18px;
+    padding: 32px 26px;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .kr-instruction{
+    font-family: 'DM Sans', sans-serif; color: var(--warm-white); font-size: 17px;
+    margin: 4px 0 6px; font-weight: 500;
+  }
+  .kr-subinstruction{ color: var(--muted-bluegrey); font-size: 14px; margin-bottom: 14px; line-height: 1.7; }
+  .kr-jp-sub{ color: var(--muted-faint); font-size: 13px; margin-top: -8px; margin-bottom: 14px; }
+
+  .kr-btn{
+    display: inline-block; margin-top: 14px; padding: 14px 30px;
+    background: var(--pale-gold); color: var(--bg-deep); border: none;
+    border-radius: 999px; font-size: 16px; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .kr-btn:hover{ filter: brightness(1.08); }
+  .kr-btn.secondary{
+    background: transparent; color: var(--warm-white);
+    border: 1.5px solid rgba(244,241,234,0.3);
+  }
+  .kr-btn.small{ padding: 10px 20px; font-size: 14px; margin-top: 0; }
+  .kr-btn:disabled{ opacity: .35; cursor: default; }
+  .kr-nav-row{ display:flex; justify-content:center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+
+  /* Range selector */
+  .kr-range-grid{ display:flex; flex-direction:column; gap:12px; margin: 20px 0; }
+  .kr-range-btn{
+    padding: 16px 18px; border-radius: 14px; cursor: pointer; text-align: left;
+    background: rgba(244,241,234,0.04); border: 1.5px solid rgba(217,196,142,0.22);
+    display:flex; align-items:center; justify-content:space-between; gap: 12px;
+  }
+  .kr-range-btn .kana-line{ font-family: var(--font-brand); font-size: 26px; color: var(--warm-white); }
+  .kr-range-btn .row-note{ color: var(--muted-bluegrey); font-size: 12.5px; margin-top: 3px; }
+  .kr-range-btn.selected{
+    background: rgba(217,196,142,0.16); border-color: var(--pale-gold);
+  }
+  .kr-range-btn.selected .kana-line{ color: var(--pale-gold); }
+  .kr-range-check{ font-size: 20px; color: var(--pale-gold); opacity: 0; }
+  .kr-range-btn.selected .kr-range-check{ opacity: 1; }
+
+  /* Question header / progress */
+  .kr-progress{ color: var(--muted-faint); font-size: 12.5px; margin-bottom: 10px; }
+  .kr-range-label{ color: var(--muted-bluegrey); font-size: 12.5px; margin-bottom: 4px; letter-spacing: 0.04em; }
+
+  /* Type A — Hiragana -> Romaji */
+  .kr-big-kana{
+    font-family: var(--font-brand); font-size: 84px; color: var(--warm-white);
+    margin: 14px 0 18px; line-height: 1.1;
+  }
+  .kr-answer-input{
+    width: 100%; max-width: 260px; padding: 14px 18px; font-size: 22px;
+    text-align: center; border-radius: 12px; margin: 6px auto 4px; display:block;
+    background: rgba(244,241,234,0.06); border: 1.5px solid rgba(217,196,142,0.3);
+    color: var(--warm-white); font-family: 'DM Sans', sans-serif; letter-spacing: 0.03em;
+  }
+  .kr-answer-input:focus{ outline: none; border-color: var(--pale-gold); }
+  .kr-answer-input::placeholder{ color: var(--muted-faint); }
+
+  .kr-feedback{ font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; min-height: 24px; margin: 12px 0 4px; }
+  .kr-feedback.good{ color: #9FD6AA; }
+  .kr-feedback.bad{ color: #E7A0AF; }
+  .kr-feedback.reveal{ color: var(--pale-gold); font-size: 17px; }
+
+  /* Type B — Romaji -> Hiragana (write it) */
+  .kr-romaji-prompt{
+    font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 600;
+    letter-spacing: 0.06em; color: var(--pale-gold); margin: 10px 0 18px;
+  }
+  .kr-canvas-wrap{
+    position:relative; display:block; width: min(280px, 74vw); aspect-ratio:1; margin: 0 auto;
+  }
+  .kr-writing-canvas{
+    display:block; width:100%; height:100%; touch-action:none; overscroll-behavior:contain;
+    border-radius:18px; border:1.5px solid rgba(217,196,142,0.35);
+    background: rgba(244,241,234,0.035); cursor:crosshair;
+  }
+  .kr-canvas-guide{ position:absolute; inset:0; pointer-events:none; }
+  .kr-canvas-guide::before, .kr-canvas-guide::after{
+    content:""; position:absolute; background: rgba(217,196,142,0.14);
+  }
+  .kr-canvas-guide::before{ left:50%; top:6%; bottom:6%; width:1px; }
+  .kr-canvas-guide::after{ top:50%; left:6%; right:6%; height:1px; }
+  .kr-write-controls{ display:flex; justify-content:center; gap: 10px; margin: 14px 0 4px; }
+  .kr-revealed-kana{
+    font-family: var(--font-brand); font-size: 72px; color: var(--warm-white);
+    margin: 8px 0 4px;
+  }
+  .kr-check-prompt{ color: var(--warm-white); font-size: 15px; margin: 10px 0 4px; font-weight: 500; }
+
+  /* End-of-round result */
+  .kr-score{
+    font-family: var(--font-brand); font-size: 46px; color: var(--warm-white); margin: 10px 0 4px;
+  }
+  .kr-result-section{ margin: 18px 0; text-align: left; }
+  .kr-result-label{
+    font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted-bluegrey); margin-bottom: 8px; text-align: center;
+  }
+  .kr-result-kana-row{
+    display:flex; justify-content:center; flex-wrap:wrap; gap: 10px 16px;
+    font-family: var(--font-brand); font-size: 30px; color: var(--warm-white);
+  }
+  .kr-result-kana-row.review .item{ color: var(--pale-gold); }
+  .kr-result-good-msg{ color: #9FD6AA; font-family:'DM Sans',sans-serif; font-size: 16px; font-weight:600; margin: 6px 0 4px; }
+
+  @media (max-width: 600px){
+    #kr-app{ width:100%; }
+    .kr-card{ padding:26px 18px; }
+  }
+  @media (max-width: 480px){
+    .kr-card{ padding:24px 14px; border-radius:16px; }
+    .kr-big-kana{ font-size: 64px; }
+    .kr-romaji-prompt{ font-size: 26px; }
+    .kr-score{ font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">Practice</p>
+    <h1 class="page-title">Kana Recall Practice</h1>
+    <p class="page-lead">Can you remember the Hiragana? — ひらがなを おぼえているかな？</p>
+
+    <div id="kr-app"></div>
+  </main>
+
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
+
+  <script src="stars.js"></script>
+  <script src="kana-recall-app.js"></script>
+</body>
+</html>

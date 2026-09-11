@@ -745,6 +745,21 @@ const renderers = {
     }, { secondary: true }));
 
     c.appendChild(actions);
+
+    // Optional bridge to the separate Kana Recall Practice page (active
+    // recall — typing the sound, writing the character from memory).
+    // Not part of this trial's own steps; a plain link out, same
+    // pattern as the "Already know あいうえお?" shortcut on welcome().
+    const shortcut = document.createElement("div");
+    shortcut.className = "exp-practice-shortcut";
+    const prompt = document.createElement("div");
+    prompt.className = "exp-subinstruction";
+    prompt.textContent = "Want to check what you actually remember?";
+    shortcut.appendChild(prompt);
+    shortcut.appendChild(primaryButton("Test Your Memory · かな おさらい", () => {
+      window.location.href = "kana-recall.html?range=a";
+    }, { secondary: true }));
+    c.appendChild(shortcut);
   }
 };
 
