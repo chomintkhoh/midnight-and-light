@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pop Quiz</title>
+<style>
+:root{
+  --bg:#f6f4ef; --card:#fff; --text:#242424; --muted:#85817a;
+  --line:#dedad2; --soft:#f5f3ee; --green:#edf6ee; --red:#fbefef;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;
+}
+.app{width:min(900px,94vw);margin:28px auto 46px}
+header{text-align:center;margin-bottom:18px}
+h1{font-size:clamp(30px,5vw,46px);margin:0;font-weight:800;letter-spacing:-.5px}
+.subtitle{margin-top:4px;color:var(--muted);font-size:14px}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 10px 28px rgba(0,0,0,.055);
+}
+.setup{padding:14px;margin-bottom:16px}
+.drop{
+  min-height:92px;border:2px dashed #c5c0b7;border-radius:15px;background:#faf9f6;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  cursor:pointer;transition:.18s;padding:15px;
+}
+.drop:hover,.drop.drag{border-color:#77716a;background:#f4f1eb}
+.drop .plus{font-size:24px;line-height:1;margin-bottom:5px}
+.drop .main{font-weight:700;font-size:16px}
+.drop .minor{font-size:12px;color:var(--muted);margin-top:3px}
+input[type=file]{display:none}
+
+.ready{
+  display:none;align-items:center;justify-content:space-between;gap:12px;
+  min-height:70px;padding:12px 14px;background:#faf9f6;border-radius:15px;
+}
+.ready strong{font-size:16px}
+.ready .count{font-size:13px;color:var(--muted);margin-top:2px}
+.add-more{
+  border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 11px;
+  cursor:pointer;font-weight:650;color:#444;
+}
+
+.options{
+  display:flex;align-items:center;gap:10px;justify-content:space-between;
+  margin-top:11px;flex-wrap:wrap;
+}
+.mode{
+  display:flex;background:var(--soft);padding:3px;border-radius:11px;gap:2px;
+}
+.mode button{
+  border:0;background:transparent;color:#777;padding:7px 10px;border-radius:8px;
+  cursor:pointer;font-size:12px;font-weight:650;
+}
+.mode button.active{background:#fff;color:#222;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.utility{display:flex;gap:6px}
+.utility button{
+  border:0;background:transparent;color:#918d86;cursor:pointer;font-size:12px;padding:7px 8px;
+}
+.utility button:hover{color:#333}
+
+.quiz{padding:18px}
+.question{
+  text-align:center;font-weight:750;font-size:clamp(20px,3.2vw,29px);
+  margin:4px 0 15px;
+}
+.stage{
+  min-height:390px;border-radius:16px;background:#faf9f6;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:18px;
+}
+.stage img{display:none;max-width:96%;max-height:410px;object-fit:contain}
+.empty{text-align:center;color:#aaa59e;line-height:1.7}
+.empty .dice{font-size:34px;display:block;margin-bottom:6px}
+
+.progress{
+  display:flex;justify-content:center;align-items:center;min-height:32px;
+  color:#8a867f;font-size:13px;margin-top:8px;
+}
+.actions{
+  display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:4px
+}
+.actions button{
+  min-width:128px;padding:11px 16px;border-radius:12px;border:1px solid var(--line);
+  font-weight:750;font-size:14px;cursor:pointer;background:#fff;color:#222;
+}
+.actions .draw{background:#242424;color:#fff;border-color:#242424}
+.actions .correct{background:var(--green)}
+.actions .again{background:var(--red)}
+.actions button:disabled{opacity:.38;cursor:not-allowed}
+
+@media(max-width:600px){
+  .app{margin-top:18px}.stage{min-height:300px}.actions button{min-width:100px;flex:1}
+  .options{align-items:flex-start}.ready{align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Pop Quiz 🎲</h1>
+    <div class="subtitle">Quick Picture Quiz</div>
+  </header>
+
+  <section class="card setup">
+    <label class="drop" id="dropZone" for="fileInput">
+      <div>
+        <div class="plus">＋</div>
+        <div class="main">Drop images here</div>
+        <div class="minor">or click to select</div>
+      </div>
+    </label>
+
+    <div class="ready" id="readyBox">
+      <div>
+        <strong id="readyText">✓ 0 images ready</strong>
+        <div class="count" id="readyCount">Remaining 0 / 0</div>
+      </div>
+      <button class="add-more" id="addMoreBtn">＋ Add</button>
+    </div>
+
+    <input id="fileInput" type="file" accept="image/*" multiple>
+
+    <div class="options">
+      <div class="mode" aria-label="Quiz mode">
+        <button id="removeMode" class="active">✓ Remove when correct</button>
+        <button id="randomMode">∞ Keep all</button>
+      </div>
+      <div class="utility">
+        <button id="resetBtn">Reset</button>
+        <button id="clearBtn">Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card quiz">
+    <div class="question">この絵は日本語で何ですか？</div>
+
+    <div class="stage">
+      <div class="empty" id="emptyState">
+        <span class="dice">🎲</span>
+        Add pictures to start
+      </div>
+      <img id="quizImage" alt="Quiz picture">
+    </div>
+
+    <div class="progress" id="progress"></div>
+
+    <div class="actions">
+      <button class="draw" id="drawBtn">🎲 Draw</button>
+      <button class="correct" id="correctBtn" disabled>✓ Correct</button>
+      <button class="again" id="wrongBtn" disabled>↻ Again</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const fileInput=document.getElementById('fileInput');
+const dropZone=document.getElementById('dropZone');
+const readyBox=document.getElementById('readyBox');
+const readyText=document.getElementById('readyText');
+const readyCount=document.getElementById('readyCount');
+const quizImage=document.getElementById('quizImage');
+const emptyState=document.getElementById('emptyState');
+const progress=document.getElementById('progress');
+const correctBtn=document.getElementById('correctBtn');
+const wrongBtn=document.getElementById('wrongBtn');
+const removeMode=document.getElementById('removeMode');
+const randomMode=document.getElementById('randomMode');
+
+let items=[];
+let currentId=null;
+let lastDrawnId=null;
+let mode='remove';
+
+function addFiles(files){
+  [...files].filter(f=>f.type.startsWith('image/')).forEach(file=>{
+    items.push({
+      id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),
+      url:URL.createObjectURL(file),
+      active:true
+    });
+  });
+  fileInput.value='';
+  updateUI();
+}
+
+function remainingItems(){
+  return mode==='remove'?items.filter(x=>x.active):items;
+}
+
+function updateUI(){
+  const remaining=items.filter(x=>x.active).length;
+
+  if(items.length){
+    dropZone.style.display='none';
+    readyBox.style.display='flex';
+    readyText.textContent=`✓ ${items.length} images ready`;
+    readyCount.textContent=mode==='remove'
+      ? `Remaining ${remaining} / ${items.length}`
+      : `${items.length} pictures in pool`;
+  }else{
+    dropZone.style.display='flex';
+    readyBox.style.display='none';
+  }
+
+  if(mode==='remove' && items.length){
+    progress.textContent=`Remaining ${remaining} / ${items.length}`;
+  }else if(items.length){
+    progress.textContent=`${items.length} pictures`;
+  }else{
+    progress.textContent='';
+  }
+}
+
+function draw(){
+  const pool=remainingItems();
+
+  if(!pool.length){
+    quizImage.style.display='none';
+    emptyState.style.display='block';
+    emptyState.innerHTML='<span class="dice">✓</span>All done!';
+    currentId=null;
+    correctBtn.disabled=true;
+    wrongBtn.disabled=true;
+    return;
+  }
+
+  let choices=pool;
+  if(pool.length>1 && lastDrawnId){
+    const other=pool.filter(x=>x.id!==lastDrawnId);
+    if(other.length) choices=other;
+  }
+
+  const item=choices[Math.floor(Math.random()*choices.length)];
+  currentId=item.id;
+  lastDrawnId=item.id;
+  quizImage.src=item.url;
+  quizImage.style.display='block';
+  emptyState.style.display='none';
+  correctBtn.disabled=false;
+  wrongBtn.disabled=false;
+}
+
+function correct(){
+  if(!currentId)return;
+  if(mode==='remove'){
+    const item=items.find(x=>x.id===currentId);
+    if(item)item.active=false;
+    updateUI();
+  }
+  draw();
+}
+
+function again(){
+  if(!currentId)return;
+  draw();
+}
+
+function reset(){
+  items.forEach(x=>x.active=true);
+  currentId=null;
+  lastDrawnId=null;
+  quizImage.style.display='none';
+  emptyState.style.display='block';
+  emptyState.innerHTML=items.length
+    ? '<span class="dice">🎲</span>Ready to draw'
+    : '<span class="dice">🎲</span>Add pictures to start';
+  correctBtn.disabled=true;
+  wrongBtn.disabled=true;
+  updateUI();
+}
+
+function clearAll(){
+  items.forEach(x=>URL.revokeObjectURL(x.url));
+  items=[];
+  reset();
+}
+
+function setMode(next){
+  mode=next;
+  removeMode.classList.toggle('active',mode==='remove');
+  randomMode.classList.toggle('active',mode==='random');
+  reset();
+}
+
+fileInput.addEventListener('change',e=>addFiles(e.target.files));
+document.getElementById('addMoreBtn').addEventListener('click',()=>fileInput.click());
+
+['dragenter','dragover'].forEach(type=>{
+  dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('drag')});
+});
+['dragleave','drop'].forEach(type=>{
+  dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('drag')});
+});
+dropZone.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+
+document.getElementById('drawBtn').addEventListener('click',draw);
+correctBtn.addEventListener('click',correct);
+wrongBtn.addEventListener('click',again);
+document.getElementById('resetBtn').addEventListener('click',reset);
+document.getElementById('clearBtn').addEventListener('click',clearAll);
+removeMode.addEventListener('click',()=>setMode('remove'));
+randomMode.addEventListener('click',()=>setMode('random'));
+
+updateUI();
+</script>
+</body>
+</html>
