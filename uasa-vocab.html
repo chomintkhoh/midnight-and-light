@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- V2.9.7 Visual Refresh: based on V2.9.6; learning logic unchanged. -->
 <html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
@@ -983,7 +984,7 @@
   }
 
 
-  /* ===== V2.9.6 Midnight & Light x Elaine pixel-cat UI ===== */
+  /* ===== V2.9.6 legacy decorative layer (neutralized by V2.9.7 below) ===== */
 
   .panel,.teacher-options,.start-panel,.journey-card,.learning-range-box,
   .mini-game-card,.fc-face,.reading-card,.daily-card{
@@ -1180,13 +1181,55 @@
   .reading-deeper{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
   .reading-deeper>summary{cursor:pointer;font-weight:800;color:var(--accent-dark)}
 
+
+
+  /* ===== V2.9.7 Visual Refresh: original Pixilart, quieter UI ===== */
+  /* UI stays clean; Elaine's original pixel art carries the character. */
+  .pixel-cat-head{display:none !important}
+  .brand-cat{gap:0}
+
+  /* Remove faux cat/paw decorations from the previous visual pass. */
+  .btn-primary::before,.start-btn::before{display:none !important;content:none !important}
+  .journey-intro::before,.journey-intro::after{display:none !important;content:none !important}
+  .interactive-game-btn.active::after{display:none !important;content:none !important}
+  .journey-no{color:var(--accent-dark);border-radius:50%}
+  .journey-no::before{display:none !important;content:none !important}
+  .journey-card.done .journey-no::after{right:-4px;bottom:-4px}
+
+  /* Original Pixilart assets: intentionally small, crisp, and contextual. */
+  .elaine-pixel{
+    display:block;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    object-fit:contain;
+    user-select:none;
+    pointer-events:none;
+  }
+  .journey-intro{padding-right:150px;min-height:180px}
+  .pixel-home{position:absolute;right:18px;bottom:10px;width:118px;height:118px}
+  .reading-guided-card{position:relative;padding-right:142px;min-height:152px;overflow:hidden}
+  .pixel-reading{position:absolute;right:16px;bottom:10px;width:112px;height:112px}
+  .pixel-success{width:86px;height:86px;margin:0 auto 10px}
+  .empty-state .big-emoji{font-size:0;margin-bottom:8px}
+
+  /* Keep Midnight & Light's light palette calm and let feedback colors stay semantic. */
+  .journey-card,.interactive-game-btn{box-shadow:none}
+  .journey-card.recommended{box-shadow:0 6px 18px rgba(44,53,111,.08)}
+
+  @media(max-width:620px){
+    .journey-intro{padding-right:92px;min-height:164px}
+    .pixel-home{right:8px;bottom:10px;width:76px;height:76px}
+    .reading-guided-card{padding-right:86px;min-height:150px}
+    .pixel-reading{right:7px;bottom:8px;width:72px;height:72px;opacity:.96}
+  }
+
 </style>
 </head>
 <body>
 <div id="app">
 
   <header class="app-header">
-    <div class="brand-cat"><span class="pixel-cat-head" aria-hidden="true"><i></i><b></b></span>Midnight &amp; Light</div>
+    <div class="brand-cat">Midnight &amp; Light</div>
     <h1>华文学习练习</h1>
     <div class="sub">Chinese Learning Practice</div>
     <div class="sub">从认字开始，一步一步提升词汇和阅读能力。<br><span class="sub-en">Build vocabulary and reading skills step by step, starting with character recognition.</span></div>
@@ -1225,6 +1268,7 @@
       <h2 id="journeyHeadline">你的学习路线</h2>
       <p id="firstTimeHint"><b>第一次使用？先从第1关开始。</b><br><span class="sub-en">First time here? Start with Stage 1.</span></p>
       <button class="start-btn" id="btnStartLearning"><span>开始第1关</span><small>Start Stage 1</small></button>
+      <img class="elaine-pixel pixel-home" src="data:image/png;base64,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" alt="" aria-hidden="true">
     </div>
 
     <div class="journey-list" aria-label="Learning Journey">
@@ -1559,7 +1603,7 @@
     <div class="panel" id="reviewPanel">
       <div class="review-status" id="reviewStatus"></div>
       <div id="reviewEmptyState" class="empty-state hidden">
-        <div class="big-emoji">🎉</div>
+        <div class="big-emoji"><img class="elaine-pixel pixel-success" src="data:image/png;base64,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" alt="" aria-hidden="true"></div>
         <div>目前没有需要特别复习的词语，继续保持！</div>
       </div>
       <div id="reviewQuizArea">
@@ -1585,6 +1629,7 @@
         <b>第5关：跟着当前学习范围阅读 / Stage 5: Read with Your Current Set</b>
         <p>先练和今天词语最接近的短文，再决定要不要挑战更深的阅读。<br><span class="sub-en">Start with the passage closest to today’s words, then choose whether to go deeper.</span></p>
         <button class="btn btn-primary" id="btnReadingCurrentRange">开始当前范围阅读 / Start Current-Set Reading</button>
+        <img class="elaine-pixel pixel-reading" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAYAAACI7Fo9AAAJ/ElEQVR42u3db4gcZx0H8CdiKal3ENtUOXJoYzYJlJBAe4ZrbTHSmlCCCP5pQJBCpSkXiDX0VdW+EwoilLZCSEMqKq0EUVAJkquRSG0b45WQNhTveqktJIQiKYLXKxJqfJHM7lx2bnd2d3Z3/nw+bzKZm9198sw9+f7mmdmZFY89vvtyAErtY7oADHTAQAcMdCAXPt7qh3Nzb+ohyLENG26V6ECLRJfkUAzxsdoq3SU6VICBDlUt3ZOcOHFSb0FOTE5uleiAgQ5K9+WsXn1zo4yfOarnYMBqt9wm0YEMEh3SWFfb1Zf3PTt/WOc6RgcMdFC6k6cyt0glar/K9G4+S2kv0UGi64JipuSgE2yQ6V3F6kiiAwY6oHQvhLHxz6ba7sK5d5XpXfw7lPASHSQ6+U+rdtqlWVnSO+2/sarpLtHBQAeU7gxEL5NwVSjNkeiARB+cVsk6qNNmVPeUm0QHiU6/UhwkOmCgA0r3gZbdSZM6SvZi7d8qTMxJdJDoJH2zLH46THoj0QEDHVC6F7ac75e/vnamvnzX7ZvsiIxU4Wo5iQ4SnXhSp73lU7+SXIoj0QEDHZTuNIkmZtqdJ+/XJJyJNyQ6INH7ZZA3iMgqxcfHPh1CCOHchffswDbKfP27RAelO6B0J5eicl3JjkQHiU4kPinTy1dS+3V1Wzy9pTgSHQx0QOnOkjI+bQmf1dVtI1f/XEgo2ZXp/VG2r65KdJDoJP0vnzbJ+znxJsmR6ICBDkp32pbr8TvNJH3RJYuSfSS2vMrEGxIdkOgZJvkgrerjxFu8WlhIWJe1hSH14ciQP1+iAwY6oHQfuna3gO7lTjSDuOItqZSdfXhm6P06ceTrPfdf1ocMZbnrjEQHiV4taSfgklJ8ZudvmpIpq5Tv1EibVEv6+cYDE7nZD8N65JVjdMBAB5TupRYv2SP/SSgz0z637VwGJWracv3a9XnRS//FS/yk8+jR+1TtUECig0QnKVV2fXBnqu1n58+k2u7lcKi+fH/tyb60PZ5q51O2q4wmtu10jA4Y6IDSvfiyurVzdJXZxlq6r6sO4ksX8Um3tO2qwmFYCNWYmJPoINGJ/89fP+3zycZk3PT8y8u+9pl7nmr53p848E4IIfsJuJ+1+dwq2177Qggh+epFiQ4Y6IDSvZBafSVxS3yi7tivuv6M58K+ntuZdGXb3mOP2IHLOXblj9GUV9pJdECil9npjG5A8Fo4EUIIYc9vP1dft23zV0MIITzYpyvkqi46lTnqGB0w0AGlO9lYv2+qad1bT+6vL//y9ZMhhBC+vXlry9ew1KlYH0p0QKKTjeOv/67Fuh1dv+9bFU2tfvB8dMBAB5TuxLz6UqNMv+Puo5m+9w9PHG/58+/svHLHlUNHjjStSxLfLs32y70m7WtbvV/8tWk/4+aLH0h0QKKTsV987e0QQgjr9yWnexaSErtd2qZNx2i7tCmf9rWdJnsn2z31jQdCCO4CCxjogNKd3Fpu0itpYqvX90xTVnfzea3anPbwYfPK1ak+oyznzyU6SHTKYm2b00k/mtx2ZbuMPzd63yVtyfi916b8vCV32R1fXcnfA4kOBjqgdCcT/5o7m2q7xQ8X68t/+8srTeui91m1c7tOjRk9PVtfrtr5c4kOEp1BiO49tyXl459uWHlDffmne7/XtO7fR6Z1alKip7zja9lOqUl0ULoDSvcS29LDE1TJb8le1Qk4iQ4SvbpJPnN4h84ouC89+o/6ctokL/MknEQHpTugdC+ZTs9nkw8/fuhyfXnPwRUhhBDGKvaUVIkOSPR2ZufP6IScW1PbVF8e6/BUWhUm4CQ6KN0BpXtFbIyVheRTfOLN1W8SHSS6LkhmMi6/okm40S5eW7VJOIkOBjqgdK8Ak3H5NebrpxIdkOiJkr6m+ue/n9cxObLnJ43J0U4n4ao6ASfRwUAHlO4lKdOTTOw66jciZ6LnprkKTqIDBjpQidI9Xq5/9POb7PUCGfvBSNfl+sqr+zq+/0+7BBaQ6CVx/vk5ez3nbpxuVF2rxkc6eu372y82/vL8leXPBFWcRAcDHVC6F0R8AsYtnfNvtItz5lGBPzJ9U8v9L9EBiV7GdO+WqqA/oqvgRoe0XyU6YKADSvfSiEr2Z6fcOLKfHv3DzlTb+Z65RAckencaT111P7l+GvVEVIkOGOiA0j0bnuIyOGsSDpNGdItEByR6JjzcYfD2fXl/ffngi1M6RKIDBjoo3UnDZJzDJIkOSHQpAxIdMNABpfuAmIxzmCTRAYkuZbL16j13N62749hLdhISHQx0QOlOPibj3n94KlU5f+OB/Q6TkOgg0cltyiRNwklEJDoY6IDSnSXyPhmXt7YW/TBJogMSvazyNBmXdBVcfKJOIiLRwUAHlO4VlqfJuKS2xCfqTMYh0UGic63o+ei50i7xCp6In/rf7SGEED5fa0wwHnzR76JEBwx0ULrTslx/dsq94oZl9/7GIcjp+cM6RKIDEj1lerdLFfK1n6S8RAcDXReA0r1SpeDsg9/SGQW18eo+VMJLdJDoVU3xEEI4Nf9ECCGERb8PhXXq+0807VfpLtHBQAeU7qVz4b0ZnYBEByR64a07dH3Xr9343AvL/ixPp+tatTMvbS1KX0p0wEAHlO6FES8xp8/cu/x2m14YeukZtbVVO4fZ1iL1pUQHJHrZkrxdOiYlVJRIadMonnSdJljalBxmWwfZl0h0MNABpTsDOjzIa6lapLZKdECiM1hREhbhdFKR2irRAQMdULpXvqxudR54+6Y/dV3S9lICx18btbXd+epBt3WQfYlEB4leFdNvv9PR9s9su7O+fNe63y+73aH77u36M7IStbVVO4fZ1iL1pUQHDHRA6T4U8VsBR7cIjpeRacVLyjwrQjt7aePe46807VckOkj0Kkh6ImeUCpRjv0p3iQ4GOqB0L0Vpd/03n66vO/vHp5u2W3ffd5d9j//+uvGzcyO1EEII4wvz9XXx9+5Up21J2764XtqaRft67cu0bdjiCasSHSR6SVO817SlWKJ9bYJOooOBDijdC1OyK9eV8Nf+TlSthJfoYKADBjpgoAMGOmCgAwY6YKADBjpUSqmvjIuufop/qeHS1oeatvto4WLTuoV331j2fS99uNh4bbjy2sXYukstXttOp21J2764XtqaRft67ctO23DdyYNNvxMSHTDQAQMdMNCBYajEHWbiEzDr13wlhBDCdV98xN4vuWgSzj3jJDoY6ICBDhjoQF6seOzx3ZevXTk392bThvPz/6wvn5g5Wvh/eNKz1yiXsk3C1W65rb48Obm16ecbNtwq0aHKPB8dHKMDBjpQ3tJ9cmKHngOJDhQy0Wu1tXoLhqiXMSjRQekOlLZ0j66wSbpCDsiPVlfDSXSQ6J3/bwE4RgcMdMBABwx0oL3/A1DqOWI9xVmbAAAAAElFTkSuQmCC" alt="" aria-hidden="true">
       </div>
       <details class="reading-deeper">
         <summary>＋ 自由选择更深练习 / Explore More Reading</summary>
