@@ -1262,6 +1262,17 @@
   #screen-interactive .interactive-content .mini-game-card{min-height:calc(100vh - 290px);}
   #diagVerifyOptions .btn-en{font-size:12px;margin-top:5px;color:var(--ink-soft);opacity:1;}
 
+
+  /* ===== V2.10.2 October Reading Focus ===== */
+  /* Temporarily hide non-essential practice hubs until the October exam.
+     Core journey remains: Quick Check → Learn → Review → Context → Reading. */
+  .more-practice{display:none !important;}
+  .october-focus-note{
+    margin:10px 0 16px;padding:11px 13px;border:1px solid var(--border);
+    border-radius:12px;background:#fafaff;color:var(--ink-soft);font-size:13px;line-height:1.5;
+  }
+  .october-focus-note b{color:var(--accent-dark);}
+
 </style>
 </head>
 <body>
@@ -1301,6 +1312,8 @@
       <div class="learning-set-summary" id="learningSetSummary">请选择范围，然后建立今天的学习组。<br><span class="sub-en">Choose a range, then build today's learning set.</span></div>
       <div class="stat-line" id="menuStatLine"></div>
     </div>
+
+    <div class="october-focus-note"><b>📖 十月阅读冲刺模式 / October Reading Focus</b><br>先集中认字词、理解动作／心情／态度，再进入语境和阅读。其他专项练习暂时隐藏。<br><span class="sub-en">Focus first on recognizing vocabulary, actions, feelings and attitudes, then move into context and reading. Other practice tools are temporarily hidden.</span></div>
 
     <div class="start-panel journey-intro">
       <div class="start-kicker">今天从这里开始 / Start Here Today</div>
@@ -1350,7 +1363,7 @@
     </details>
 
     <div class="btn-row center"><button class="btn btn-warn" id="btnResetProgress">重置学习记录 / Reset Progress</button></div>
-    <div class="progress-note">学生体验版 · Student Trial</div>
+    <div class="progress-note">十月阅读冲刺版 · October Reading Focus</div>
   </section>
 
   <!-- ============ 字词小检查 QUICK CHECK ============ -->
