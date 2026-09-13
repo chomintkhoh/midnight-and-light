@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- V2.9.7 Visual Refresh: based on V2.9.6; learning logic unchanged. -->
+<!-- V2.10.4 October Reading Recognition: Stage 2 multi-entry recognition cycle. -->
 <html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
@@ -875,6 +875,30 @@
   .evidence{margin-top:5px;font-size:14px;}
   @media(max-width:620px){.reading-level-grid,.reading-q-options{grid-template-columns:1fr;}}
 
+
+  /* ===== V2.10.4 October Reading Recognition · reference + recall ===== */
+  .diag-reference{margin-top:18px;padding:18px;border:1px solid var(--border);border-radius:14px;background:#fbfbfc;text-align:left;}
+  .diag-ref-grid{display:grid;grid-template-columns:116px 1fr;gap:18px;align-items:center;}
+  .diag-line-icon{width:112px;height:112px;border:1px solid #d9dde5;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;}
+  .diag-line-icon svg{width:82px;height:82px;stroke:#222;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .diag-ref-pinyin{font-size:18px;letter-spacing:.04em;color:#4b5563;margin-bottom:2px;}
+  .diag-ref-word{font-size:38px;font-weight:800;line-height:1.2;}
+  .diag-ref-cat{display:inline-block;margin-top:7px;padding:4px 9px;border:1px solid #cfd5df;border-radius:999px;font-size:12px;background:#fff;}
+  .diag-ref-block{margin-top:13px;padding-top:11px;border-top:1px solid #e1e4ea;line-height:1.65;}
+  .diag-ref-label{font-size:12px;font-weight:700;letter-spacing:.04em;color:#626b79;text-transform:uppercase;}
+  .diag-ref-example{margin-top:6px;}
+  .diag-ref-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;}
+  @media(max-width:620px){.diag-ref-grid{grid-template-columns:1fr;text-align:center}.diag-line-icon{margin:auto}.diag-reference{text-align:left}.diag-ref-grid>div:last-child{text-align:center}}
+  /* ===== V2.10.4 Recognition Ladder ===== */
+  .recognition-levels{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 16px}
+  .recognition-chip{padding:6px 10px;border-radius:999px;background:#f2f4f8;border:1px solid var(--border);font-size:13px}
+  .recognition-chip.active{background:var(--accent-soft);border-color:var(--accent);font-weight:800}
+  .category-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+  .category-options button{min-height:58px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-size:16px;font-weight:700}
+  .compare-note{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+  .compare-note div{padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;line-height:1.45;font-size:14px}
+  .memory-cue{font-size:19px;line-height:1.65;padding:16px;border-radius:12px;background:#f7f8fb;margin:12px 0}
+  @media(max-width:620px){.category-options,.compare-note{grid-template-columns:1fr}}
   /* ===== V2.4 Diagnostic & My Words ===== */
   .diag-card{max-width:620px;margin:18px auto;text-align:center;padding:28px 20px;border:1px solid var(--border);border-radius:16px;background:#fff;}
   .diag-word{font-size:46px;font-weight:800;line-height:1.25;margin:18px 0;}
@@ -1263,7 +1287,7 @@
   #diagVerifyOptions .btn-en{font-size:12px;margin-top:5px;color:var(--ink-soft);opacity:1;}
 
 
-  /* ===== V2.10.2 October Reading Focus ===== */
+  /* ===== V2.10.3 October Reading Focus ===== */
   /* Temporarily hide non-essential practice hubs until the October exam.
      Core journey remains: Quick Check → Learn → Review → Context → Reading. */
   .more-practice{display:none !important;}
@@ -1272,6 +1296,88 @@
     border-radius:12px;background:#fafaff;color:var(--ink-soft);font-size:13px;line-height:1.5;
   }
   .october-focus-note b{color:var(--accent-dark);}
+
+
+
+  /* ===== V2.11 October Reading Sprint: one coherent recognition system ===== */
+  :root{--book-blue:#eef5ff;--book-cream:#fff8e8;--book-green:#eef8ef;--book-rose:#fff0f2;}
+  #screen-diagnostic>.panel,#screen-mywords-learn>.panel,#screen-today-review>.panel,#screen-interactive>.panel{max-width:900px;margin-left:auto;margin-right:auto;}
+  .diag-card{max-width:900px;padding:18px;}
+  .diag-word{font-size:clamp(48px,8vw,72px);margin:24px 0 20px;}
+  .word-book-card{display:grid;grid-template-columns:minmax(280px,45%) minmax(0,55%);gap:16px;align-items:stretch;text-align:left;}
+  .word-book-art{min-height:430px;border:1.5px solid var(--border);border-radius:18px;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:14px;overflow:hidden;}
+  .word-book-art svg{width:100%;height:auto;max-height:360px;stroke:#202231;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+  .word-book-art .scene-caption{margin-top:10px;padding:6px 12px;border-radius:999px;background:#f0f2f7;color:var(--accent-dark);font-weight:700;font-size:13px;text-align:center;}
+  .word-book-info{display:flex;flex-direction:column;gap:10px;min-width:0;}
+  .word-book-head{background:var(--book-cream);border-radius:16px;padding:16px 18px;}
+  .word-book-pinyin{display:flex;align-items:center;gap:10px;font-size:clamp(20px,3.2vw,27px);font-weight:700;}
+  .word-book-main{font-size:clamp(50px,8vw,72px);font-weight:800;line-height:1.1;margin-top:4px;color:#171926;}
+  .word-book-category{display:inline-block;margin-top:9px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid #e5dfca;color:var(--accent-dark);}
+  .word-book-block{border-radius:15px;padding:13px 16px;font-size:16px;line-height:1.7;}
+  .word-book-block.zh{background:var(--book-blue)}.word-book-block.en{background:var(--book-green)}.word-book-block.example{background:var(--book-rose)}
+  .word-book-label{font-size:13px;font-weight:800;color:var(--accent-dark);margin-bottom:3px;}
+  .word-book-example b{color:#1d6fc4;}
+  .word-book-listen{min-width:44px!important;width:44px;height:44px;min-height:44px!important;padding:0!important;border-radius:50%!important;font-size:19px!important;}
+  .diag-ref-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:2px;}
+  .teach-card{max-width:900px;margin:0 auto;}
+  .teach-book-extra{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
+  .teach-context{border:1px solid var(--border);border-radius:13px;padding:11px 13px;background:#fff;line-height:1.65;}
+  .teach-context b{color:var(--accent-dark);font-size:12px;display:block;margin-bottom:4px;}
+  .recognition-levels{justify-content:center;margin:3px 0 12px;}
+  .recognition-chip{font-size:12px;}
+  .october-stage-tip{padding:10px 12px;border-radius:12px;background:#f7f8fc;color:var(--ink-soft);font-size:13px;line-height:1.5;margin-bottom:12px;}
+  /* Stage 4: keep only reading-relevant recognition activities for now. */
+  #screen-interactive .interactive-game-btn[data-minigame="match"],
+  #screen-interactive .interactive-game-btn[data-minigame="listen"],
+  #screen-interactive .interactive-game-btn[data-minigame="spot"]{display:none!important;}
+  #screen-interactive .interactive-sidebar .interactive-grid{grid-template-columns:1fr!important;}
+  .mini-game-card{min-height:430px;display:flex;flex-direction:column;justify-content:center;}
+  @media(max-width:720px){
+    .word-book-card{grid-template-columns:1fr;}
+    .word-book-art{min-height:300px;}
+    .word-book-art svg{max-height:250px;}
+    .teach-book-extra{grid-template-columns:1fr;}
+    .diag-ref-actions{justify-content:center;}
+  }
+
+
+
+/* ===== V2.11.1 Mobile-first compact encyclopedia card ===== */
+@media(max-width:720px){
+  #app{padding:8px 8px 54px;}
+  header.app-header{margin-bottom:10px;}
+  #screen-diagnostic>.panel,#screen-mywords-learn>.panel,#screen-today-review>.panel,#screen-interactive>.panel{padding:10px;margin-bottom:10px;}
+  .diag-card{padding:10px;}
+  .word-book-card{grid-template-columns:minmax(0,42%) minmax(0,58%);gap:8px;align-items:stretch;}
+  .word-book-art{min-height:0;height:auto;padding:7px;border-radius:14px;justify-content:center;}
+  .word-book-art svg{max-height:245px;min-height:190px;}
+  .word-book-art .scene-caption{margin-top:5px;padding:4px 7px;font-size:10px;line-height:1.2;}
+  .word-book-info{gap:6px;}
+  .word-book-head{padding:9px 10px;border-radius:12px;}
+  .word-book-pinyin{font-size:18px;gap:5px;}
+  .word-book-main{font-size:clamp(38px,11vw,54px);margin-top:0;line-height:1.0;}
+  .word-book-category{display:none;}
+  .word-book-listen{width:36px!important;min-width:36px!important;height:36px!important;min-height:36px!important;font-size:16px!important;}
+  .word-book-block{padding:8px 10px;border-radius:11px;font-size:13px;line-height:1.48;}
+  .word-book-label{font-size:11px;margin-bottom:2px;}
+  .diag-ref-actions{margin-top:7px;}
+  .diag-ref-actions .btn{width:100%;}
+  .teach-book-extra{gap:6px;}
+  .teach-context{padding:8px 9px;font-size:13px;}
+  .teach-card .btn-row{gap:6px;margin-top:8px;}
+  .teach-card .btn{padding:9px 10px;min-height:40px;font-size:13px;}
+  .music-control{right:7px;bottom:7px;padding:4px 6px;gap:3px;max-width:142px;}
+  .music-control button{font-size:11px;white-space:nowrap;}
+  .music-control input{width:45px;}
+}
+@media(max-width:390px){
+  .word-book-card{grid-template-columns:minmax(0,40%) minmax(0,60%);gap:6px;}
+  .word-book-art{padding:5px;}
+  .word-book-art svg{min-height:165px;max-height:215px;}
+  .word-book-main{font-size:40px;}
+  .word-book-pinyin{font-size:16px;}
+  .word-book-block{font-size:12.5px;padding:7px 8px;}
+}
 
 </style>
 </head>
@@ -1329,7 +1435,7 @@
       <button class="journey-card" id="journey1" data-journey="diagnostic"><span class="journey-no">1</span><span><b>第1关｜字词小检查</b><small>Quick Check</small><em id="journeyStatus1">建议从这里开始 / Start here</em></span></button>
       <button class="journey-card" id="journey2" data-journey="mywords"><span class="journey-no">2</span><span><b>第2关｜学习生字词</b><small>Learn My Words</small><em id="journeyStatus2">完成检查后继续 / Continue after Quick Check</em></span></button>
       <button class="journey-card" id="journey3" data-journey="review"><span class="journey-no">3</span><span><b>第3关｜今日复习</b><small>Today’s Review</small><em id="journeyStatus3">5个短活动 / 5 short activities</em></span></button>
-      <button class="journey-card" id="journey4" data-journey="context"><span class="journey-no">4</span><span><b>第4关｜词汇与语境</b><small>Vocabulary in Context</small><em id="journeyStatus4">语境＋小游戏反复练习 / Context + mini-games</em></span></button>
+      <button class="journey-card" id="journey4" data-journey="context"><span class="journey-no">4</span><span><b>第4关｜语境认词</b><small>Context Recognition</small><em id="journeyStatus4">用不同句子再次认词 / Recognize words in new sentences</em></span></button>
       <button class="journey-card" id="journey5" data-journey="reading"><span class="journey-no">5</span><span><b>第5关｜阅读挑战</b><small>Reading Challenge</small><em id="journeyStatus5">带着问题阅读 / Read with a purpose</em></span></button>
       </div>
     </details>
@@ -1363,15 +1469,15 @@
     </details>
 
     <div class="btn-row center"><button class="btn btn-warn" id="btnResetProgress">重置学习记录 / Reset Progress</button></div>
-    <div class="progress-note">十月阅读冲刺版 · October Reading Focus</div>
+    <div class="progress-note">V2.11 · 十月阅读冲刺 · October Reading Focus</div>
   </section>
 
   <!-- ============ 字词小检查 QUICK CHECK ============ -->
   <section id="screen-diagnostic" class="screen hidden">
     <div class="mode-topbar"><h2>字词小检查 / Quick Check</h2><button class="btn btn-ghost" data-back="menu">← 返回主菜单 / Main Menu</button></div>
     <div class="panel">
-      <p><b>怎么做 / How to answer：</b>看到字词后，只按你现在真实的感觉作答。这里不是考试。<br><span class="sub-en">Answer based on what you can recognize right now. This is not a test.</span></p>
-      <p>先不要查拼音或英文。系统偶尔会再用一句小题确认“我认识”。<br><span class="sub-en">Do not check pinyin or English first. Sometimes a short question will verify “I Know It”.</span></p>
+      <p><b>怎么做 / How to answer：</b>先看字词，按你现在真实的感觉作答。选择后会打开一张简洁的字词资料卡。<br><span class="sub-en">Look at the word first and answer honestly. A simple word-reference card will open after your choice.</span></p>
+      <p>先判断自己认不认识，再看拼音、读音、简单中文和英文。<br><span class="sub-en">Decide first. Then check the pinyin, pronunciation, simple Chinese meaning and English.</span></p>
       <div class="round-progress" id="diagProgress"></div>
       <div class="diag-card">
         <div class="diag-word" id="diagWord"></div>
@@ -1380,6 +1486,7 @@
           <button class="btn btn-outline" data-diag="unsure">△ 不确定<br><span class="btn-en">Not Sure</span></button>
           <button class="btn btn-warn" data-diag="unknown">✕ 不认识<br><span class="btn-en">I Don't Know It</span></button>
         </div>
+        <div class="diag-reference hidden" id="diagReference"></div>
         <div class="diag-verify hidden" id="diagVerify"></div>
       </div>
       <div class="hidden" id="diagComplete"></div>
@@ -1778,8 +1885,8 @@
         <aside class="interactive-sidebar">
           <div class="interactive-grid" id="interactiveGameMenu">
             <button class="interactive-game-btn" data-minigame="match"><b>🧩 配一配</b><small>Match</small></button>
-            <button class="interactive-game-btn" data-minigame="find"><b>🔎 抓到它</b><small>Find</small></button>
-            <button class="interactive-game-btn" data-minigame="situation"><b>💭 看情境</b><small>Situation</small></button>
+            <button class="interactive-game-btn" data-minigame="find"><b>🔎 句意找词</b><small>Meaning → Word</small></button>
+            <button class="interactive-game-btn" data-minigame="situation"><b>💭 情境选词</b><small>Context → Word</small></button>
             <button class="interactive-game-btn" data-minigame="listen"><b>🔊 听一听</b><small>Listen</small></button>
             <button class="interactive-game-btn" data-minigame="spot"><b>🕵️ 找不同</b><small>Odd one out</small></button>
           </div>
@@ -4270,17 +4377,40 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     return shuffle(pool).slice(0,pool.length);
   }
   function startDiagnostic(){diagState={queue:buildDiagQueue(),index:0,score:0,current:null,verifyPending:false,answered:0};showScreen("diagnostic");document.getElementById("diagComplete").classList.add("hidden");document.querySelector("#screen-diagnostic .diag-card").classList.remove("hidden");renderDiagnostic();}
+  function diagCategoryLabel(cat){
+    const m={"动作":"动作 · Action","情绪":"心情 · Feeling","态度":"态度 · Attitude","性格":"性格 · Character","成语":"成语 · Idiom","阅读常用":"阅读常用 · Reading"};
+    return m[cat]||((cat||"字词")+" · Vocabulary");
+  }
+  function diagLineIcon(cat){
+    if(cat==="情绪") return '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="31"/><circle cx="39" cy="43" r="2" fill="#222"/><circle cx="61" cy="43" r="2" fill="#222"/><path d="M35 63 Q50 73 65 63"/><path d="M23 27 Q31 18 40 17"/></svg>';
+    if(cat==="动作") return '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M19 58 H60"/><path d="M49 46 L63 58 49 70"/><circle cx="26" cy="34" r="8"/><path d="M26 42 V65 M26 49 L13 58 M26 49 L39 55 M26 65 L16 82 M26 65 L38 82"/></svg>';
+    if(cat==="态度") return '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="31"/><path d="M36 51 L46 61 66 38"/><path d="M50 12 V20 M50 80 V88 M12 50 H20 M80 50 H88"/></svg>';
+    if(cat==="性格") return '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="35" r="15"/><path d="M24 82 Q28 58 50 58 Q72 58 76 82"/><path d="M36 36 Q50 45 64 36"/></svg>';
+    if(cat==="成语") return '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M20 24 Q36 19 49 28 V78 Q36 69 20 74 Z"/><path d="M80 24 Q64 19 51 28 V78 Q64 69 80 74 Z"/><path d="M50 28 V78"/></svg>';
+    return '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="42" cy="42" r="23"/><path d="M59 59 L80 80"/><path d="M31 36 H53 M31 45 H50 M31 54 H45"/></svg>';
+  }
+  function showDiagReference(item,status){
+    const box=document.getElementById("diagReference");
+    const example=(item.contexts&&item.contexts.length?item.contexts[0]:(item.writingExample||""));
+    const statusText=status==="known"?"我认识 · I know it":status==="unsure"?"不太确定 · Not sure":"需要学习 · Learn this";
+    box.innerHTML=`<div class="diag-ref-grid"><div class="diag-line-icon">${diagLineIcon(item.category)}</div><div><div class="diag-ref-pinyin">${item.pinyin||"拼音待补充"}</div><div class="diag-ref-word">${item.word}</div><span class="diag-ref-cat">${diagCategoryLabel(item.category)}</span></div></div><div class="diag-ref-block"><div class="diag-ref-label">简单中文 · Simple Chinese</div><div>${item.meaningZh||"这项资料会在学习阶段补充。"}</div><div class="diag-ref-label" style="margin-top:9px">English</div><div>${item.meaningEn||"Meaning will be reviewed in the learning stage."}</div>${example?`<div class="diag-ref-example"><div class="diag-ref-label">例句 · Example</div><div>${example}</div></div>`:""}</div><div class="diag-ref-actions"><button class="btn btn-outline" id="diagListenBtn">🔊 听读音 / Listen</button><span class="status-chip">${statusText}</span><button class="btn btn-primary" id="diagNextBtn">下一个 / Next →</button></div>`;
+    box.classList.remove("hidden");
+    document.getElementById("diagListenBtn").onclick=()=>speakAnswerText(item.word);
+    document.getElementById("diagNextBtn").onclick=advanceDiagnostic;
+  }
   function renderDiagnostic(){
     const item=diagState.queue[diagState.index];diagState.current=item;diagState.verifyPending=false;
     document.getElementById("diagProgress").textContent=`检查进度 / Check Progress：${diagState.index+1} / ${diagState.queue.length}`;
     document.getElementById("diagWord").textContent=item.word;
     document.getElementById("diagActions").classList.remove("hidden");
+    const r=document.getElementById("diagReference");r.classList.add("hidden");r.innerHTML="";
     const v=document.getElementById("diagVerify");v.classList.add("hidden");v.innerHTML="";
   }
   function answerDiagnostic(status){
     const item=diagState.current;if(!item)return;
-    if(status==="known" && !item.poolOnly && item.meaningZh && Math.random()<0.28){showDiagVerification(item);return;}
-    recordDiagResult(item,status);advanceDiagnostic();
+    document.getElementById("diagActions").classList.add("hidden");
+    recordDiagResult(item,status);
+    showDiagReference(item,status);
   }
   function recordDiagResult(item,status){
     diagState.answered++;
@@ -4356,7 +4486,7 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     if(st2)st2.textContent=active.length?`${active.length} 个学习中 / ${active.length} learning`:done?"暂时没有待学习词 / No words waiting":"完成检查后继续 / Continue after Quick Check";
     if(st3){const h=loadDailyHearts().hearts;st3.textContent=`${h}/5 今日机会 · 已掌握 ${mastered} / ${h}/5 chances · ${mastered} mastered`;}
     const btn=document.getElementById("btnStartLearning"),hint=document.getElementById("firstTimeHint");
-    const labels={1:["🌱 开始第1关","Start Quick Check"],2:["📖 继续第2关","Learn My Words"],3:["❤️ 开始第3关","Today’s Review"],4:["🔍 继续第4关","Vocabulary in Context"],5:["📚 进入第5关","Reading Challenge"]};
+    const labels={1:["🌱 开始第1关","Start Quick Check"],2:["📖 继续第2关","Learn My Words"],3:["❤️ 开始第3关","Today’s Review"],4:["🔍 继续第4关","Context Recognition"],5:["📚 进入第5关","Reading Challenge"]};
     if(btn)btn.innerHTML=`<span>${labels[stage][0]}</span><small>${labels[stage][1]}</small>`;
     if(hint)hint.innerHTML=stage===1?'<b>第一次使用？先从第1关开始。</b><br><span class="sub-en">First time here? Start with Stage 1.</span>':'<b>继续你现在的学习进度。</b><br><span class="sub-en">Continue from your recommended next stage.</span>';
   }
@@ -5647,166 +5777,80 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
   }
 
 /* =========================================================================
-   V2.10.0 TEACHING STAGE + SUPPORT WORDS
+   V2.10.4 OCTOBER READING RECOGNITION STAGE
+   Goal: move unknown words to recognizable reading cues, not perfect writing.
    ========================================================================= */
-  let v298LearnPhase="teach", v298ImmediateOK=false, v298DelayedQueue=[], v298DelayedDone=new Set(), v298ForcedHwWord=null, v298SinceDelayed=0;
+  let v298LearnPhase="teach", v298DelayedQueue=[], v298DelayedDone=new Set(), v298ForcedHwWord=null, v298SinceDelayed=0;
+  let v2104Evidence={};
 
   const V210_USAGE_EXAMPLES={
-    "拿":"我从书包里拿出作业本，准备交给老师。",
-    "放":"请把看完的书放回书架上。",
-    "跟":"放学后，我跟同学一起去图书馆。",
-    "让":"老师让我们先读题目，再开始作答。",
-    "带":"明天有美术课，记得带彩色笔来学校。",
-    "告诉":"如果你遇到困难，可以告诉老师。",
-    "发现":"我检查答案时，发现自己漏做了一题。",
-    "突然":"天空突然下起大雨，大家赶快跑进走廊。",
-    "已经":"我已经完成作业，可以开始复习了。",
-    "因为":"因为昨晚下大雨，操场上还有很多积水。",
-    "所以":"他每天认真练习，所以进步得很快。",
-    "虽然":"虽然这道题很难，但是我还是想试一试。",
-    "但是":"我很想参加比赛，但是那天刚好有考试。",
-    "仍然":"外面下着大雨，他仍然准时到学校。",
-    "终于":"经过几次尝试，我终于把这道题做对了。",
-    "渐渐":"经过每天练习，他渐渐敢在大家面前说话了。",
-    "立刻":"听到老师叫名字后，他立刻站起来回答。",
-    "竟然":"我以为他会忘记，没想到他竟然记得我的生日。",
-    "根据":"根据天气预报，明天下午可能会下雨。",
-    "向":"我向老师请教这道不会做的数学题。",
-    "被":"我的雨伞被大风吹翻了。",
-    "按照":"请按照老师写在白板上的步骤完成实验。",
-    "原因":"老师先了解事情发生的原因，再处理问题。",
-    "经过":"经过大家讨论，我们决定一起完成海报。",
-    "结果":"他没有检查答案，结果把简单的题目做错了。",
-    "感受":"读完这篇文章后，请说说你的感受。",
-    "表现":"他在比赛中的表现很稳定，没有因为紧张而出错。",
-    "理由":"你选择这个答案的理由是什么？",
-    "启发":"这次失败给了我很大的启发，让我明白准备的重要性。",
-    "态度":"他虽然答错了，却愿意认真改正，学习态度很好。",
-    "证据":"老师请我们从文章中找出支持答案的证据。",
-    "克服":"她每天练习发音，终于克服了不敢开口的问题。",
-    "危机":"面对突然发生的危机，大家先保持冷静，再想办法处理。"
+    "拿":"我从书包里拿出作业本，准备交给老师。","放":"请把看完的书放回书架上。","跟":"放学后，我跟同学一起去图书馆。","让":"老师让我们先读题目，再开始作答。","带":"明天有美术课，记得带彩色笔来学校。","告诉":"如果你遇到困难，可以告诉老师。","发现":"我检查答案时，发现自己漏做了一题。","突然":"天空突然下起大雨，大家赶快跑进走廊。","已经":"我已经完成作业，可以开始复习了。","因为":"因为昨晚下大雨，操场上还有很多积水。","所以":"他每天认真练习，所以进步得很快。","虽然":"虽然这道题很难，但是我还是想试一试。","但是":"我很想参加比赛，但是那天刚好有考试。","仍然":"外面下着大雨，他仍然准时到学校。","终于":"经过几次尝试，我终于把这道题做对了。","渐渐":"经过每天练习，他渐渐敢在大家面前说话了。","立刻":"听到老师叫名字后，他立刻站起来回答。","竟然":"我以为他会忘记，没想到他竟然记得我的生日。","根据":"根据天气预报，明天下午可能会下雨。","向":"我向老师请教这道不会做的数学题。","被":"我的雨伞被大风吹翻了。","按照":"请按照老师写在白板上的步骤完成实验。","原因":"老师先了解事情发生的原因，再处理问题。","经过":"经过大家讨论，我们决定一起完成海报。","结果":"他没有检查答案，结果把简单的题目做错了。","感受":"读完这篇文章后，请说说你的感受。","表现":"他在比赛中的表现很稳定，没有因为紧张而出错。","理由":"你选择这个答案的理由是什么？","启发":"这次失败给了我很大的启发，让我明白准备的重要性。","态度":"他虽然答错了，却愿意认真改正，学习态度很好。","证据":"老师请我们从文章中找出支持答案的证据。","克服":"她每天练习发音，终于克服了不敢开口的问题。","危机":"面对突然发生的危机，大家先保持冷静，再想办法处理。"
   };
-  function v210DiagInfo(word){
-    const d=typeof DIAG_EXTRA!=="undefined"?DIAG_EXTRA.find(x=>x.word===word):null;
-    return d||null;
+  const V2104_CAT_EN={"情绪":"Feeling","心情":"Feeling","动作":"Action","态度":"Attitude","性格":"Character","关联词":"Conjunction","连词":"Conjunction","结果":"Result / State","状态":"State","阅读":"Reading","其他":"Other"};
+  function v2104Cat(w){
+    const word=w.word||"";
+    if(["因为","所以","虽然","但是","如果","就","不但","而且","于是"].includes(word))return "关联词";
+    return w.category||"其他";
   }
+  function v2104CatLabel(w){const c=v2104Cat(w);return `${c} · ${V2104_CAT_EN[c]||"Other"}`}
+  function v210DiagInfo(word){const d=typeof DIAG_EXTRA!=="undefined"?DIAG_EXTRA.find(x=>x.word===word):null;return d||null;}
   function v298WordData(x){
-    const v=unifiedLearningPool().find(w=>w.word===x.word)||{};
-    const d=v210DiagInfo(x.word)||{};
-    const contexts=(Array.isArray(v.contexts)&&v.contexts.some(c=>String(c||"").trim()))?v.contexts:
-      (V210_USAGE_EXAMPLES[x.word]?[V210_USAGE_EXAMPLES[x.word]]:(Array.isArray(x.contexts)?x.contexts:[]));
-    return {...v,...d,...x,
-      pinyin:x.pinyin||d.pinyin||v.pinyin||"",
-      meaningZh:x.meaningZh||d.meaningZh||v.meaningZh||"",
-      meaningEn:x.meaningEn||d.meaningEn||v.meaningEn||"",
-      contexts,
-      writingUseful:!!v.writingUseful,
-      confusable:v.confusable||[]
-    };
+    const v=unifiedLearningPool().find(w=>w.word===x.word)||{},d=v210DiagInfo(x.word)||{};
+    const contexts=(Array.isArray(v.contexts)&&v.contexts.some(c=>String(c||"").trim()))?v.contexts:(V210_USAGE_EXAMPLES[x.word]?[V210_USAGE_EXAMPLES[x.word]]:(Array.isArray(x.contexts)?x.contexts:[]));
+    return {...v,...d,...x,pinyin:x.pinyin||d.pinyin||v.pinyin||"",meaningZh:x.meaningZh||d.meaningZh||v.meaningZh||"",meaningEn:x.meaningEn||d.meaningEn||v.meaningEn||"",contexts,writingUseful:!!v.writingUseful,confusable:v.confusable||[]};
   }
-  function v298Example(w){
-    const authored=(w.contexts||[]).find(x=>String(x||"").trim());
-    const write=String(w.writingExample||"").trim();
-    return authored || write || V210_USAGE_EXAMPLES[w.word] || "";
-  }
-  function v298Chain(w){
-    const ex=v298Example(w);
-    const blank=ex?ex.replaceAll(w.word,"＿＿"):"";
-    let situation=String(w.writingPrompt||"").trim();
-    if(!situation){
-      if(w.word==="被") situation="一个人或东西承受了别人做的动作";
-      else if(["因为","所以","虽然","但是","仍然","终于","渐渐","立刻","竟然"].includes(w.word)) situation="观察前后句之间的关系或事情发生的方式";
-      else if(["根据","按照","向"].includes(w.word)) situation="留意动作依据、方法或对象";
-      else situation=String(w.meaningZh||"").trim();
-    }
-    const clue=blank || String(w.meaningZh||"").trim();
-    const sit=situation.length>40?situation.slice(0,40)+"…":situation;
-    const shortClue=clue.length>54?clue.slice(0,54)+"…":clue;
-    return `<div class="meaning-link-flow"><span><small>理解重点</small>${sit}</span><b>→</b><span><small>放进句子</small>${shortClue}</span><b>→</b><span class="meaning-link-word"><small>目标词</small>${w.word}</span></div>`;
-  }
-  function v298MeaningOptions(w){
-    const all=unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z));
-    const conf=new Set((w.confusable||[]).map(String));
-    const priority=[
-      ...shuffle(all.filter(z=>conf.has(z.word))),
-      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category===w.category)),
-      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category!==w.category))
-    ];
-    const picked=[];
-    for(const z of priority){if(!picked.some(p=>p.id===z.id)){picked.push(z);if(picked.length===3)break;}}
-    return shuffle([{id:w.id,label:w.meaningZh||w.meaningEn||"这个词的意思"},...picked.map(z=>({id:z.id,label:z.meaningZh}))]);
-  }
+  function v298Example(w,idx=0){const arr=(w.contexts||[]).filter(x=>String(x||"").trim());return arr[idx%Math.max(arr.length,1)]||String(w.writingExample||"").trim()||V210_USAGE_EXAMPLES[w.word]||"";}
+  function v2104Blank(w,idx=0){const ex=v298Example(w,idx);return ex?ex.replaceAll(w.word,"＿＿"):String(w.meaningZh||"");}
   function v298WordOptions(w){
-    const all=unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z));
-    const conf=new Set((w.confusable||[]).map(String));
-    const priority=[
-      ...shuffle(all.filter(z=>conf.has(z.word))),
-      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category===w.category)),
-      ...shuffle(all.filter(z=>!conf.has(z.word)&&z.category!==w.category))
-    ];
-    const picked=[];
-    for(const z of priority){if(!picked.some(p=>p.id===z.id)){picked.push(z);if(picked.length===3)break;}}
+    const all=unifiedLearningPool().filter(z=>z.id!==w.id&&hasUsableMeaning(z)),conf=new Set((w.confusable||[]).map(String));
+    const priority=[...shuffle(all.filter(z=>conf.has(z.word))),...shuffle(all.filter(z=>!conf.has(z.word)&&v2104Cat(z)===v2104Cat(w))),...shuffle(all.filter(z=>!conf.has(z.word)&&v2104Cat(z)!==v2104Cat(w)))];
+    const picked=[];for(const z of priority){if(!picked.some(p=>p.id===z.id)){picked.push(z);if(picked.length===3)break;}}
     return shuffle([{id:w.id,label:w.word},...picked.map(z=>({id:z.id,label:z.word}))]);
   }
+  function v2104EvidenceLevel(word){const n=(v2104Evidence[word]||0);return n>=3?"strong":n>=2?"recognized":"familiar"}
+  function v2104Ladder(word){const l=v2104EvidenceLevel(word);return `<div class="recognition-levels"><span class="recognition-chip ${l==='familiar'?'active':''}">👀 Familiar</span><span class="recognition-chip ${l==='recognized'?'active':''}">🧠 Recognized</span><span class="recognition-chip ${l==='strong'?'active':''}">⭐ Strong</span></div>`}
+  function v2104AddEvidence(word,ok){if(ok)v2104Evidence[word]=(v2104Evidence[word]||0)+1;}
   function startMyWordsLearn(firstWord){
-    const db=loadMyWords(),ids=new Set((state.learningSetIds||[]));
-    let all=Object.values(db).filter(x=>x.status!=="known"&&x.status!=="mastered");
+    const db=loadMyWords(),ids=new Set((state.learningSetIds||[]));let all=Object.values(db).filter(x=>x.status!=="known"&&x.status!=="mastered");
     myLearnQueue=all.filter(x=>{const v=unifiedLearningPool().find(w=>w.word===x.word);return v&&ids.has(v.id)});
     if(!myLearnQueue.length)myLearnQueue=all.filter(x=>{const v=unifiedLearningPool().find(w=>w.word===x.word);return v&&rangePool().some(z=>z.id===v.id)});
-    if(!myLearnQueue.length){openMyWords();return;}
-    if(firstWord){const i=myLearnQueue.findIndex(x=>x.word===firstWord);if(i>0)[myLearnQueue[0],myLearnQueue[i]]=[myLearnQueue[i],myLearnQueue[0]];}
-    myLearnIndex=0;v298LearnPhase="teach";v298ImmediateOK=false;v298DelayedQueue=[];v298DelayedDone.clear();v298SinceDelayed=0;
-    showScreen("mywords-learn");renderMyLearn();setGuidedStep("learn");
+    if(!myLearnQueue.length){openMyWords();return;}if(firstWord){const i=myLearnQueue.findIndex(x=>x.word===firstWord);if(i>0)[myLearnQueue[0],myLearnQueue[i]]=[myLearnQueue[i],myLearnQueue[0]];}
+    myLearnIndex=0;v298LearnPhase="teach";v298DelayedQueue=[];v298DelayedDone.clear();v298SinceDelayed=0;v2104Evidence={};showScreen("mywords-learn");renderMyLearn();setGuidedStep("learn");
   }
   function renderMyLearn(){
-    if(v298LearnPhase==="teach" && v298DelayedQueue.length && v298SinceDelayed>=2){v298SinceDelayed=0;v298RenderDelayed(v298DelayedQueue.shift());return;}
-    if(myLearnIndex>=myLearnQueue.length){ if(v298DelayedQueue.length){v298RenderDelayed(v298DelayedQueue.shift());return;} finishMyLearn();return; }
-    const raw=myLearnQueue[myLearnIndex],w=v298WordData(raw),root=document.getElementById("myLearnCard");
-    document.getElementById("myLearnProgress").textContent=`学习进度 / Learning Progress：${Math.min(myLearnIndex+1,myLearnQueue.length)} / ${myLearnQueue.length}`;
-    if(v298LearnPhase==="immediate"){v298RenderImmediate(w);return;}
-    root.innerHTML=`<div class="teach-card">
-      <div class="teach-step-label">① 看词 + 听读音 / See + Listen</div>
-      <div class="teach-word">${w.word}</div><div class="teach-pinyin">${w.pinyin||""}</div>
-      <div class="teach-block"><b>中文简义 / Chinese：</b>${w.meaningZh||"待学习"}<br><b>English：</b>${w.meaningEn||"To Learn"}</div>
-      <div class="teach-block teach-example"><span class="teach-step-label">② 例句 / Example</span><br>${v298Example(w)}</div>
-      <div class="teach-chain"><span class="teach-step-label">③ 词语链 / Meaning Link</span><br>${v298Chain(w)}</div>
-      ${w.writingUseful||w.confusable.length?`<div class="teach-block"><b>✍️ 建议手写 / Writing recommended</b><br><span class="sub-en">This word is useful to write or easy to confuse.</span><div class="btn-row"><button class="btn btn-outline" id="v298WriteWord">手写这个词 / Write This Word</button></div></div>`:""}
-      <div class="btn-row center"><button class="btn btn-primary" id="v298Recall">我看完了，马上确认 / Immediate Recall</button></div>
-    </div>`;
-    document.getElementById("v298Recall").onclick=()=>{v298LearnPhase="immediate";renderMyLearn();};
-    document.getElementById("v298WriteWord")?.addEventListener("click",()=>{v298ForcedHwWord=w;enterHandwritingMode();});
+    if(v298LearnPhase==="teach"&&v298DelayedQueue.length&&v298SinceDelayed>=3){v298SinceDelayed=0;v2104RenderDelayed(v298DelayedQueue.shift());return;}
+    if(myLearnIndex>=myLearnQueue.length){if(v298DelayedQueue.length){v2104RenderDelayed(v298DelayedQueue.shift());return;}finishMyLearn();return;}
+    const w=v298WordData(myLearnQueue[myLearnIndex]),root=document.getElementById("myLearnCard");document.getElementById("myLearnProgress").textContent=`学习进度 / Learning Progress：${myLearnIndex+1} / ${myLearnQueue.length}`;
+    if(v298LearnPhase==="context"){v2104RenderContext(w);return;}
+    const ex1=v298Example(w,0),ex2=v298Example(w,1);
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">① 先建立印象 / Build the first memory</div>${v2104Ladder(w.word)}<div class="teach-word">${w.word}</div><div class="teach-pinyin">${w.pinyin||""}</div><div style="text-align:center;margin:7px 0"><span class="status-chip">${v2104CatLabel(w)}</span></div><div class="teach-block"><b>简单中文：</b>${w.meaningZh||"待学习"}<br><b>English：</b>${w.meaningEn||"To Learn"}</div><div class="teach-block teach-example"><span class="teach-step-label">② 看两个不同情境 / Two contexts</span><br>• ${ex1}${ex2&&ex2!==ex1?`<br>• ${ex2}`:""}</div>${w.confusable.length?`<div class="teach-block"><b>容易混淆 / Easy to confuse：</b>${w.confusable.slice(0,3).join(" · ")}</div>`:""}${w.writingUseful||w.confusable.length?`<div class="btn-row center"><button class="btn btn-outline" id="v298WriteWord">✍️ 需要时才手写 / Optional Writing</button></div>`:""}<div class="btn-row center"><button class="btn btn-primary" id="v298Recall">不看答案，换情境认一次 / Recall in Context</button></div></div>`;
+    document.getElementById("v298Recall").onclick=()=>{v298LearnPhase="context";renderMyLearn()};document.getElementById("v298WriteWord")?.addEventListener("click",()=>{v298ForcedHwWord=w;enterHandwritingMode()});
   }
-  function v298RenderImmediate(w){
-    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w);
-    const ex=v298Example(w), ctx=ex?ex.replaceAll(w.word,"＿＿"):String(w.meaningZh||"");
-    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">④ Immediate Recall · 不看目标词</div><p style="text-align:center;font-weight:700">看情境，选出最合适的词。<br><span class="sub-en">Choose the word that best completes the context.</span></p><p class="teach-example" style="font-size:19px">${ctx}</p><div class="recall-options" id="v298RecallOpts"></div><div id="v298RecallFb" class="feedback-box hidden"></div></div>`;
-    const box=document.getElementById("v298RecallOpts");
-    opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{
-      if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;b.classList.add(ok?"correct":"wrong");
-      [...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});
-      const fb=document.getElementById("v298RecallFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);
-      fb.innerHTML=ok?'✓ 你能从情境找回这个词。稍后会换另一种方式再确认。<br><span class="sub-en">You recalled the word from context. A different check comes later.</span>':`还没稳。这里最合适的是：<b>${w.word}</b><br><span class="sub-en">This word will return later in a different form.</span>`;
-      v298ImmediateOK=ok;setTimeout(()=>{v298DelayedQueue.push(w);v298SinceDelayed++;myLearnIndex++;v298LearnPhase="teach";renderMyLearn();},650);
-    };box.appendChild(b)});
+  function v2104RenderContext(w){
+    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w),ctx=v2104Blank(w,1);
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">③ 情境认词 / Context Recognition</div>${v2104Ladder(w.word)}<p style="text-align:center;font-weight:700">换一个句子，找出最合适的词。<br><span class="sub-en">Recognize the word in a different context.</span></p><div class="memory-cue">${ctx}</div><div class="recall-options" id="v298RecallOpts"></div><div id="v298RecallFb" class="feedback-box hidden"></div></div>`;
+    const box=document.getElementById("v298RecallOpts");opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;v2104AddEvidence(w.word,ok);b.classList.add(ok?"correct":"wrong");[...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});const fb=document.getElementById("v298RecallFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);fb.innerHTML=ok?`✓ 从新情境认出来了：<b>${w.word}</b><br><span class="sub-en">Good. This word will return after a few other words.</span>`:`正确是 <b>${w.word}</b>。先记住这个情境，稍后会再出现。`;setTimeout(()=>{v298DelayedQueue.push(w);v298SinceDelayed++;myLearnIndex++;v298LearnPhase="teach";renderMyLearn()},700)};box.appendChild(b)});
   }
-  function v298RenderDelayed(w){
-    const root=document.getElementById("myLearnCard"),opts=v298WordOptions(w);
-    document.getElementById("myLearnProgress").textContent=`再次确认 / Delayed Check · ${v298DelayedDone.size+1}`;
-    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">⑤ Delayed Check · 换一种方式</div><p style="text-align:center;font-weight:700">不看例句，根据意思找回这个词。<br><span class="sub-en">Recall the word from its meaning, without the example sentence.</span></p><div class="teach-block" style="font-size:18px"><b>中文线索：</b>${w.meaningZh||""}${w.meaningEn?`<br><b>English clue：</b>${w.meaningEn}`:""}</div><div class="recall-options" id="v298DelayedOpts"></div><div id="v298DelayedFb" class="feedback-box hidden"></div></div>`;
-    const box=document.getElementById("v298DelayedOpts");
-    opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{
-      if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;b.classList.add(ok?"correct":"wrong");
-      [...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});
-      const fb=document.getElementById("v298DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);
-      if(ok){playCorrectSound();setMyWordStatus(w.word,"review");v298DelayedDone.add(w.word);fb.innerHTML='✓ 情境和意思两种方式都认出来了。<br><span class="sub-en">Confirmed through both context and meaning.</span>';}
-      else{setMyWordStatus(w.word,"learning");fb.innerHTML=`这个词还需要练习：<b>${w.word}</b><br><span class="sub-en">Keep this word in your learning list.</span>`;}
-      setTimeout(()=>renderMyLearn(),700);
-    };box.appendChild(b)});
+  function v2104RenderDelayed(w){
+    const root=document.getElementById("myLearnCard");document.getElementById("myLearnProgress").textContent=`隔词再认 / Delayed Recognition`;
+    const mode=(v298DelayedDone.size%2===0)?"category":"compare";
+    if(mode==="category"){
+      const cats=["动作","情绪","态度","性格","关联词"],correct=v2104Cat(w),choices=shuffle([...new Set([correct,...shuffle(cats.filter(c=>c!==correct)).slice(0,3)])]);
+      root.innerHTML=`<div class="teach-card"><div class="teach-step-label">④ 快速分类 / Fast Category</div>${v2104Ladder(w.word)}<div class="teach-word" style="font-size:38px">${w.word}</div><p style="text-align:center">先不用完整翻译。它在文章里主要告诉你什么？<br><span class="sub-en">What kind of clue does this word give in a passage?</span></p><div class="category-options" id="v2104CatOpts"></div><div id="v2104DelayedFb" class="feedback-box hidden"></div></div>`;
+      const box=document.getElementById("v2104CatOpts");choices.forEach(c=>{const b=document.createElement("button");b.textContent=`${c} · ${V2104_CAT_EN[c]||"Other"}`;b.onclick=()=>{if(box.dataset.done)return;box.dataset.done="1";const ok=c===correct;v2104AddEvidence(w.word,ok);b.classList.add(ok?"correct":"wrong");[...box.children].forEach(x=>x.disabled=true);const fb=document.getElementById("v2104DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);fb.innerHTML=ok?`✓ 对。<b>${w.word}</b> → ${v2104CatLabel(w)}`:`这里先记成：<b>${v2104CatLabel(w)}</b>`;setTimeout(()=>v2104FinishDelayed(w),650)};box.appendChild(b)});
+    }else{
+      const opts=v298WordOptions(w),cue=`${w.meaningZh||""}${w.meaningEn?`<br><span class="sub-en">${w.meaningEn}</span>`:""}`;
+      root.innerHTML=`<div class="teach-card"><div class="teach-step-label">⑤ 相近词辨认 / Meaning Contrast</div>${v2104Ladder(w.word)}<div class="memory-cue">${cue}</div><p style="text-align:center">哪一个词最符合这个线索？<br><span class="sub-en">Choose the best word. Similar words come first as distractors.</span></p><div class="recall-options" id="v2104CompareOpts"></div><div id="v2104DelayedFb" class="feedback-box hidden"></div></div>`;
+      const box=document.getElementById("v2104CompareOpts");opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;v2104AddEvidence(w.word,ok);b.classList.add(ok?"correct":"wrong");[...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});const fb=document.getElementById("v2104DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);fb.innerHTML=ok?`✓ 隔了几个词仍能认出 <b>${w.word}</b>。`:`答案是 <b>${w.word}</b>。它会继续留在学习清单。`;setTimeout(()=>v2104FinishDelayed(w),650)};box.appendChild(b)});
+    }
+  }
+  function v2104FinishDelayed(w){
+    const level=v2104EvidenceLevel(w.word);if(level==="strong"||level==="recognized"){setMyWordStatus(w.word,"review");v298DelayedDone.add(w.word)}else setMyWordStatus(w.word,"learning");renderMyLearn();
   }
   function finishMyLearn(){
     setGuidedStep("review");document.getElementById("myLearnProgress").textContent=`学习完成 / Learning Complete`;
-    const still=Object.values(loadMyWords()).filter(x=>myLearnQueue.some(q=>q.word===x.word)&&x.status==="learning").length;
-    document.getElementById("myLearnCard").innerHTML=`<div class="round-complete"><h3>✓ 本轮学习完成 / Learning Complete</h3><p>每个词都经过情境回想和意思回想两种确认。${still?`还有 <b>${still}</b> 个词会继续留在学习清单。`:'这一组已经完成两种确认。'}<br><span class="sub-en">Words were checked through context recall and meaning recall.</span></p><div class="btn-row center"><button class="btn btn-primary" id="btnLearnToReview">进入第3关 / Go to Review</button><button class="btn btn-outline" id="btnLearnMenu">返回学习旅程 / Learning Journey</button></div></div>`;
+    const levels=myLearnQueue.reduce((a,q)=>{const l=v2104EvidenceLevel(q.word);a[l]=(a[l]||0)+1;return a},{familiar:0,recognized:0,strong:0});
+    document.getElementById("myLearnCard").innerHTML=`<div class="round-complete"><h3>✓ 本轮快速认词完成</h3><p>目标不是一次全部会写，而是把陌生词推进到“看到能认”。<br><span class="sub-en">The goal is reading recognition, not perfect writing in one round.</span></p><div class="recognition-levels"><span class="recognition-chip">👀 Familiar ${levels.familiar||0}</span><span class="recognition-chip">🧠 Recognized ${levels.recognized||0}</span><span class="recognition-chip">⭐ Strong ${levels.strong||0}</span></div><div class="btn-row center"><button class="btn btn-primary" id="btnLearnToReview">进入第3关 / Go to Review</button><button class="btn btn-outline" id="btnLearnMenu">返回学习旅程 / Learning Journey</button></div></div>`;
     document.getElementById("btnLearnToReview").onclick=startTodayReview;document.getElementById("btnLearnMenu").onclick=goToMenu;
   }
 
@@ -5858,6 +5902,165 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     document.querySelectorAll(".interactive-game-btn").forEach(b=>b.classList.remove("active"));
     window.scrollTo({top:0,behavior:"smooth"});
   });
+
+
+
+/* =========================================================================
+   V2.11 COMPLETE OCTOBER READING-RECOGNITION PASS
+   One goal: see a word in a passage and quickly recover category + meaning.
+   ========================================================================= */
+const V211_CONJ={
+  "虽然":{pair:"虽然……但是……",en:"although... but...",left:"很累",right:"继续学习"},
+  "但是":{pair:"虽然……但是……",en:"although... but...",left:"很累",right:"继续学习"},
+  "因为":{pair:"因为……所以……",en:"because... so...",left:"下大雨",right:"运动会取消"},
+  "所以":{pair:"因为……所以……",en:"because... so...",left:"下大雨",right:"运动会取消"},
+  "如果":{pair:"如果……就……",en:"if... then...",left:"认真复习",right:"更有把握"},
+  "就":{pair:"如果……就……",en:"if... then...",left:"认真复习",right:"更有把握"},
+  "不但":{pair:"不但……而且……",en:"not only... but also...",left:"认真读书",right:"主动帮人"},
+  "而且":{pair:"不但……而且……",en:"not only... but also...",left:"认真读书",right:"主动帮人"},
+  "于是":{pair:"先发生 → 于是 → 结果",en:"therefore / so then",left:"发现下雨",right:"跑进走廊"}
+};
+function v211Cat(w){const c=v2104Cat(w);return c==="情绪"?"心情":c;}
+function v211CatLabel(w){const c=v211Cat(w),en=V2104_CAT_EN[c]||V2104_CAT_EN[v2104Cat(w)]||"Vocabulary";return `${c} · ${en}`;}
+function v211Esc(t){return String(t||"").replace(/[&<>\"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+function v211SceneSVG(w){
+  const word=w.word||"", cat=v211Cat(w), conj=V211_CONJ[word];
+  if(conj){return `<svg viewBox="0 0 360 300" role="img" aria-label="${v211Esc(conj.pair)}">
+    <rect x="8" y="10" width="344" height="280" rx="18"/>
+    <path d="M20 148 H340" stroke-dasharray="7 7"/>
+    <circle cx="82" cy="70" r="25"/><path d="M68 68 q14 10 28 0"/><circle cx="73" cy="63" r="2" fill="#202231"/><circle cx="91" cy="63" r="2" fill="#202231"/>
+    <path d="M82 96 v38 M82 108 l-29 20 M82 108 l30 18 M82 134 l-22 8 M82 134 l22 8"/><path d="M125 58 h92 q10 0 10 10 v36 q0 10-10 10 h-92 q-10 0-10-10 V68 q0-10 10-10z"/><text x="171" y="89" text-anchor="middle" fill="#202231" stroke="none" font-size="19" font-family="sans-serif">${v211Esc(conj.left)}</text>
+    <circle cx="84" cy="214" r="25"/><path d="M70 218 q14 14 28 0"/><circle cx="75" cy="207" r="2" fill="#202231"/><circle cx="93" cy="207" r="2" fill="#202231"/>
+    <path d="M84 240 v32 M84 248 l-23 14 M84 248 l26-15"/><path d="M126 196 h112 q10 0 10 10 v36 q0 10-10 10 H126 q-10 0-10-10 v-36 q0-10 10-10z"/><text x="182" y="227" text-anchor="middle" fill="#202231" stroke="none" font-size="18" font-family="sans-serif">${v211Esc(conj.right)}</text>
+    <path d="M265 123 q18 25 0 50"/><path d="M257 164 l8 10 9-10"/></svg>`;}
+  if(["提醒","告诉","解释","鼓励"].includes(word))return `<svg viewBox="0 0 360 300"><circle cx="102" cy="92" r="31"/><circle cx="258" cy="118" r="27"/><path d="M102 123 v82 M102 145 l42 24 M102 145 l-38 20 M258 145 v70 M258 160 l-31 18 M258 160 l28 22"/><path d="M145 45 h130 q14 0 14 14 v58 q0 14-14 14 h-67 l-25 22 5-22 h-43 q-14 0-14-14 V59 q0-14 14-14z"/><path d="M163 72 h89 M163 91 h70"/><path d="M115 175 l18-7"/><path d="M61 211 h82 M217 216 h80"/></svg>`;
+  if(["帮助","照顾","保护","扶"].includes(word))return `<svg viewBox="0 0 360 300"><circle cx="106" cy="82" r="28"/><circle cx="236" cy="110" r="26"/><path d="M106 110 v84 M106 135 l66 27 M106 137 l-38 25 M236 136 v77 M236 155 l-65 8 M236 155 l35 24 M106 194 l-25 50 M106 194 l27 48 M236 213 l-20 38 M236 213 l27 35"/><path d="M158 155 q18-22 36 0"/><path d="M268 53 q32 4 40 31 q-20 1-38 16 q-12-28-2-47z"/></svg>`;
+  if(["拒绝","阻止","制止"].includes(word))return `<svg viewBox="0 0 360 300"><circle cx="115" cy="95" r="31"/><path d="M115 126 v85 M115 146 l-55 4 M115 147 l42 25 M115 211 l-27 45 M115 211 l31 44"/><path d="M53 118 v70 M34 137 h38 M42 124 l22 52 M64 124 l-22 52"/><path d="M214 75 q34-25 68 0 v88 q-34 25-68 0z"/><path d="M224 119 h48"/></svg>`;
+  if(["害怕","紧张","担心","惊讶"].includes(word)||cat==="心情")return `<svg viewBox="0 0 360 300"><circle cx="176" cy="125" r="70"/><circle cx="149" cy="112" r="5" fill="#202231"/><circle cx="203" cy="112" r="5" fill="#202231"/><path d="M155 158 q21-18 42 0"/><path d="M109 74 q16-30 40-39 M244 73 q-10-29-36-42"/><path d="M176 195 v65 M176 211 l-48 26 M176 211 l48 26"/><path d="M278 67 l14 29 31 4-23 21 6 31-28-16-28 16 6-31-23-21 31-4z"/></svg>`;
+  if(["后悔","委屈","失望"].includes(word))return `<svg viewBox="0 0 360 300"><circle cx="168" cy="112" r="58"/><circle cx="146" cy="104" r="4" fill="#202231"/><circle cx="190" cy="104" r="4" fill="#202231"/><path d="M145 145 q23-18 46 0"/><path d="M126 83 q-24 17-24 43 M210 83 q24 17 24 43"/><path d="M168 170 v67 M168 193 l-48 25 M168 193 l48 25"/><path d="M251 46 h76 q12 0 12 12 v47 q0 12-12 12 h-40 l-16 16 2-16 h-22 q-12 0-12-12 V58 q0-12 12-12z"/><path d="M260 68 h58 M260 87 h42"/></svg>`;
+  if(["观察","发现","检查","寻找","记录"].includes(word))return `<svg viewBox="0 0 360 300"><circle cx="126" cy="92" r="30"/><path d="M126 122 v88 M126 143 l53 19 M126 143 l-43 22 M126 210 l-25 45 M126 210 l27 44"/><circle cx="230" cy="142" r="44"/><path d="M262 174 l52 52"/><path d="M214 144 q16-32 32 0 M230 111 v65"/><path d="M71 54 h68"/></svg>`;
+  if(cat==="态度"||cat==="性格")return `<svg viewBox="0 0 360 300"><circle cx="135" cy="78" r="28"/><path d="M135 106 v86 M135 130 l-47 28 M135 130 l54 17 M135 192 l-23 51 M135 192 l27 49"/><rect x="190" y="122" width="103" height="83" rx="8"/><path d="M208 146 l11 11 24-27 M208 176 h61"/><path d="M78 220 h220"/></svg>`;
+  if(cat==="动作")return `<svg viewBox="0 0 360 300"><circle cx="110" cy="95" r="29"/><path d="M110 124 v86 M110 145 l55 9 M110 145 l-38 31 M110 210 l-30 45 M110 210 l38 41"/><path d="M184 151 h103"/><path d="M265 132 l24 19-24 19"/><circle cx="303" cy="151" r="8"/></svg>`;
+  return `<svg viewBox="0 0 360 300"><path d="M75 55 q56-18 104 8 v164 q-48-26-104-8z M285 55 q-56-18-104 8 v164 q48-26 104-8z"/><path d="M180 63 v164"/><circle cx="266" cy="186" r="36"/><path d="M292 212 l38 38"/><path d="M102 93 h55 M102 120 h48 M203 93 h55 M203 120 h48"/></svg>`;
+}
+function v211Example(w){return v298Example(v298WordData(w),0)||"";}
+function v211HighlightExample(ex,word){return v211Esc(ex).replaceAll(v211Esc(word),`<b>${v211Esc(word)}</b>`);}
+function v211ReferenceCard(w,statusText=""){
+  const d=v298WordData(w),ex=v211Example(d),conj=V211_CONJ[d.word],meaningZh=d.meaningZh||"先记住这个词在句子中的作用。",meaningEn=d.meaningEn||"Use the sentence to understand this word.";
+  const extra=conj?`<div class="word-book-block zh"><div class="word-book-label">常见搭配 · Pattern</div><b>${v211Esc(conj.pair)}</b><br><span class="sub-en">${v211Esc(conj.en)}</span></div>`:"";
+  return `<div class="word-book-card"><div class="word-book-art">${v211SceneSVG(d)}<div class="scene-caption">${v211CatLabel(d)}</div></div><div class="word-book-info"><div class="word-book-head"><div class="word-book-pinyin"><span>${v211Esc(d.pinyin||"")}</span><button class="btn btn-outline word-book-listen" data-v211-speak="${v211Esc(d.word)}">🔊</button></div><div class="word-book-main">${v211Esc(d.word)}</div><span class="word-book-category">${v211CatLabel(d)}</span></div><div class="word-book-block zh"><div class="word-book-label">简单中文 · Simple Chinese</div>${v211Esc(meaningZh)}</div><div class="word-book-block en"><div class="word-book-label">English</div>${v211Esc(meaningEn)}</div>${extra}${ex?`<div class="word-book-block example word-book-example"><div class="word-book-label">例句 · Example</div>${v211HighlightExample(ex,d.word)}</div>`:""}${statusText?`<div><span class="status-chip">${statusText}</span></div>`:""}</div></div>`;
+}
+function v211BindSpeak(root=document){root.querySelectorAll('[data-v211-speak]').forEach(b=>b.onclick=()=>speakAnswerText(b.dataset.v211Speak));}
+
+// Stage 1: diagnose first, then reveal the large left-image / right-reference card.
+showDiagReference=function(item,status){
+  const box=document.getElementById("diagReference"),statusText=status==="known"?"✅ 我认识 · I know this":status==="unsure"?"△ 不太确定 · Not sure":"✕ 需要学习 · Learn this";
+  box.innerHTML=v211ReferenceCard(item,statusText)+`<div class="diag-ref-actions"><button class="btn btn-primary" id="diagNextBtn">下一个 / Next →</button></div>`;
+  box.classList.remove("hidden");v211BindSpeak(box);document.getElementById("diagNextBtn").onclick=advanceDiagnostic;
+};
+
+// Stage 2: same visual language, but now actively builds multiple memory routes.
+renderMyLearn=function(){
+  if(v298LearnPhase==="teach"&&v298DelayedQueue.length&&v298SinceDelayed>=3){v298SinceDelayed=0;v2104RenderDelayed(v298DelayedQueue.shift());return;}
+  if(myLearnIndex>=myLearnQueue.length){if(v298DelayedQueue.length){v2104RenderDelayed(v298DelayedQueue.shift());return;}finishMyLearn();return;}
+  const w=v298WordData(myLearnQueue[myLearnIndex]),root=document.getElementById("myLearnCard");document.getElementById("myLearnProgress").textContent=`学习进度 / Learning Progress：${myLearnIndex+1} / ${myLearnQueue.length}`;
+  if(v298LearnPhase==="context"){v2104RenderContext(w);return;}
+  const ex1=v298Example(w,0),ex2=v298Example(w,1),second=ex2&&ex2!==ex1?ex2:v211AltContext(w);
+  root.innerHTML=`<div class="teach-card"><div class="teach-step-label">① 看懂并建立印象 / Understand & Build a Memory</div>${v2104Ladder(w.word)}${v211ReferenceCard(w)}<div class="teach-book-extra"><div class="teach-context"><b>情境 A · Context A</b>${v211HighlightExample(ex1,w.word)}</div><div class="teach-context"><b>情境 B · Context B</b>${v211HighlightExample(second,w.word)}</div></div>${w.confusable.length?`<div class="teach-context" style="margin-top:10px"><b>容易混淆 · Easy to confuse</b>${w.confusable.slice(0,3).map(v211Esc).join(" · ")}</div>`:""}<div class="btn-row center">${w.writingUseful||w.confusable.length?`<button class="btn btn-outline" id="v298WriteWord">✍️ 可选手写 / Optional Writing</button>`:""}<button class="btn btn-primary" id="v298Recall">遮住答案，换句子认一次 / Recall in a New Sentence</button></div></div>`;
+  v211BindSpeak(root);document.getElementById("v298Recall").onclick=()=>{v298LearnPhase="context";renderMyLearn()};document.getElementById("v298WriteWord")?.addEventListener("click",()=>{v298ForcedHwWord=w;enterHandwritingMode()});
+};
+function v211AltContext(w){
+  const m={"委屈":"妹妹明明没有拿哥哥的东西，却被误会了，她觉得很委屈。","后悔":"小杰没有听妈妈的话，弄坏了玩具以后十分后悔。","害怕":"天色突然变暗，又听见很大的雷声，弟弟有点害怕。","提醒":"老师提醒我们交卷前要再检查一次。","帮助":"看到同学搬很多书，他主动过去帮助。","观察":"我们先观察叶子的颜色和形状，再记录变化。","耐心":"妹妹不会做题，姐姐耐心地一步一步解释。","诚实":"他发现自己拿错了东西，马上诚实地告诉老师。","负责":"值日生离开前把课室检查一遍，是一种负责的表现。","拒绝":"陌生人请他上车，他马上拒绝了。"};
+  const conj=V211_CONJ[w.word];if(conj)return `${conj.pair.replaceAll("……","")}：${v298Example(w,0)||"前后两件事有清楚的逻辑关系。"}`;return m[w.word]||v298Example(w,0)||w.meaningZh||"";
+}
+
+// Delayed recognition now always alternates category clue and close-word contrast.
+v2104RenderDelayed=function(w){
+  const root=document.getElementById("myLearnCard");document.getElementById("myLearnProgress").textContent="隔几个词再认 / Delayed Recognition";
+  const evidence=(v2104Evidence[w.word]||0),mode=evidence%2===0?"category":"compare";
+  if(mode==="category"){
+    const cats=["动作","心情","态度","性格","关联词","阅读常用"],correct=v211Cat(w),choices=shuffle([...new Set([correct,...shuffle(cats.filter(c=>c!==correct)).slice(0,3)])]);
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">④ 快速分类 / Fast Category</div>${v2104Ladder(w.word)}<div class="teach-word" style="font-size:42px">${v211Esc(w.word)}</div><p style="text-align:center">不用先完整翻译。这个词在文章里主要给你什么线索？<br><span class="sub-en">What kind of clue does this word give you in a passage?</span></p><div class="category-options" id="v2104CatOpts"></div><div id="v2104DelayedFb" class="feedback-box hidden"></div></div>`;
+    const box=document.getElementById("v2104CatOpts");choices.forEach(c=>{const b=document.createElement("button");b.textContent=`${c} · ${V2104_CAT_EN[c]||"Reading clue"}`;b.onclick=()=>{if(box.dataset.done)return;box.dataset.done="1";const ok=c===correct;v2104AddEvidence(w.word,ok);b.classList.add(ok?"correct":"wrong");[...box.children].forEach(x=>x.disabled=true);const fb=document.getElementById("v2104DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);fb.innerHTML=ok?`✓ 对。<b>${v211Esc(w.word)}</b> → ${v211CatLabel(w)}`:`先把 <b>${v211Esc(w.word)}</b> 记成：${v211CatLabel(w)}`;setTimeout(()=>v2104FinishDelayed(w),600)};box.appendChild(b)});
+  }else{
+    const opts=v298WordOptions(w),cue=v211AltContext(w).replaceAll(w.word,"＿＿");
+    root.innerHTML=`<div class="teach-card"><div class="teach-step-label">⑤ 隔词辨认 / Delayed Contrast</div>${v2104Ladder(w.word)}<div class="memory-cue">${v211Esc(cue)}</div><p style="text-align:center">隔了几个词后，再从相近词里找回来。<br><span class="sub-en">Recover the word again among similar choices.</span></p><div class="recall-options" id="v2104CompareOpts"></div><div id="v2104DelayedFb" class="feedback-box hidden"></div></div>`;
+    const box=document.getElementById("v2104CompareOpts");opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>{if(box.dataset.done)return;box.dataset.done="1";const ok=o.id===w.id;v2104AddEvidence(w.word,ok);b.classList.add(ok?"correct":"wrong");[...box.children].forEach((x,i)=>{x.disabled=true;if(opts[i].id===w.id)x.classList.add("correct")});const fb=document.getElementById("v2104DelayedFb");fb.classList.remove("hidden");fb.classList.toggle("wrong",!ok);fb.innerHTML=ok?`✓ 还能认出 <b>${v211Esc(w.word)}</b>。`:`答案是 <b>${v211Esc(w.word)}</b>。稍后还会再遇到。`;setTimeout(()=>v2104FinishDelayed(w),600)};box.appendChild(b)});
+  }
+};
+
+// Stage 3: no self-report and no repeated word->definition quiz. Use active reading cues only.
+availableForms=function(x){const info=reviewInfo(x.word),forms=["recognition"];if(info.contexts.length)forms.push("context","tap");return forms;};
+renderRecognitionTask=function(root,x){
+  const w=v298WordData(x),sentence=v211AltContext(w),blank=sentence.includes(w.word)?sentence.replaceAll(w.word,"______"):v2104Blank(w,0),opts=v298WordOptions(w);
+  taskHeader(root,"隔天再认","Recognition Check");root.innerHTML+=`<div class="review-prompt">${v211Esc(blank)}</div><div class="review-options" id="dailyOpts"></div>`;const box=document.getElementById("dailyOpts");opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.onclick=()=>resolveDailyChoice(b,box,o.id===w.id,x,"recognition");box.appendChild(b)});
+};
+renderMeaningTask=function(root,x){renderRecognitionTask(root,x);};
+
+// Stage 4: only the two activities that directly support passage recognition.
+enterInteractivePractice=function(){
+  showScreen("interactive");injectRangeContext();document.getElementById("interactiveWorkspace")?.classList.remove("playing");
+  const current=ensureLearningSet();document.getElementById("interactiveSetSummary").innerHTML=`<div class="october-stage-tip"><b>第4关只做语境辨认。</b> 不追求小游戏数量，只练“看到意思／句子 → 找回词语”。<br><span class="sub-en">Stage 4 focuses only on passage recognition: meaning or context → word.</span></div><b>🎯 Today Learning Set：${current.length} 个词</b><details class="instruction-help"><summary>查看今天的词 / View Today Words</summary><div>${current.map(w=>w.word).join("、")}</div></details>`;
+  document.querySelectorAll('.interactive-game-btn').forEach(b=>{const keep=["find","situation"].includes(b.dataset.minigame);b.disabled=!keep;b.style.opacity=keep?"1":".35";});
+  document.getElementById("miniGameArea").classList.add("hidden");document.getElementById("miniGameComplete").classList.add("hidden");
+};
+
+// Make the home wording match the narrowed exam goal.
+setTimeout(()=>{
+  const note=document.querySelector('.october-focus-note');if(note)note.innerHTML='<b>📖 十月阅读冲刺 / October Reading Focus</b><br>目标：看到文章里的动作、心情、态度、人物特点和关联词时，能快速认出大概意思。先认得，再理解，不要求每个词都会写。<br><span class="sub-en">Goal: quickly recognize actions, feelings, attitudes, character traits and conjunctions in passages. Recognition comes before writing.</span>';
+  const learnNote=document.querySelector('#screen-mywords-learn .teaching-stage-note');if(learnNote)learnNote.innerHTML='<b>学习方式 / How it works</b><br>百科卡建立印象 → 两个情境 → 换句子找词 → 隔几个词分类／辨认 → 进入短复习。<br><span class="sub-en">Reference card → two contexts → new-sentence recall → delayed category/contrast → short review.</span>';
+},0);
+
+
+
+/* ===== V2.11.1 distinct scenes + self-contained audio ===== */
+function v211SceneSVG(w){
+  const word=w.word||"", cat=v211Cat(w), conj=V211_CONJ[word];
+  const wrap=x=>`<svg viewBox="0 0 360 300" role="img" aria-label="${v211Esc(word)}">${x}</svg>`;
+  const face=(x,y,mouth='sad')=>`<circle cx="${x}" cy="${y}" r="34"/><circle cx="${x-12}" cy="${y-7}" r="3" fill="#202231"/><circle cx="${x+12}" cy="${y-7}" r="3" fill="#202231"/>${mouth==='smile'?`<path d="M${x-15} ${y+10} q15 17 30 0"/>`:mouth==='open'?`<ellipse cx="${x}" cy="${y+12}" rx="8" ry="11"/>`:`<path d="M${x-15} ${y+15} q15-12 30 0"/>`}`;
+  if(conj){
+    return wrap(`<rect x="8" y="10" width="344" height="280" rx="18"/><path d="M20 148 H340" stroke-dasharray="7 7"/>${face(82,70,'sad')}<path d="M82 104v36M82 118l-28 18M82 118l29 18"/><rect x="125" y="50" width="188" height="64" rx="12"/><text x="219" y="88" text-anchor="middle" fill="#202231" stroke="none" font-size="18" font-family="sans-serif">${v211Esc(conj.left)}</text>${face(84,214,'smile')}<path d="M84 248v28M84 256l-25 13M84 256l27-14"/><rect x="126" y="192" width="194" height="64" rx="12"/><text x="223" y="230" text-anchor="middle" fill="#202231" stroke="none" font-size="18" font-family="sans-serif">${v211Esc(conj.right)}</text><path d="M280 123q18 25 0 50"/><path d="M272 164l8 10 9-10"/>`);
+  }
+  const scenes={
+    "提醒":()=>wrap(`${face(95,100,'smile')}<path d="M95 134v93M95 154l43 22M95 154l-36 20"/>${face(252,130,'smile')}<path d="M252 164v66M252 181l-30 16M252 181l27 19"/><path d="M140 44h142q13 0 13 13v57q0 13-13 13h-68l-25 22 5-22h-54q-13 0-13-13V57q0-13 13-13z"/><path d="M163 73h96M163 94h66"/><rect x="214" y="57" width="23" height="42" rx="4"/>`),
+    "帮助":()=>wrap(`${face(105,90,'smile')}${face(235,122,'smile')}<path d="M105 124v88M105 144l70 30M105 144l-37 26M235 156v70M235 173l-61 2M235 173l34 22M105 212l-25 44M105 212l29 42M235 226l-22 31M235 226l29 29"/><rect x="154" y="147" width="42" height="35" rx="5"/>`),
+    "拒绝":()=>wrap(`${face(115,100,'sad')}<path d="M115 134v90M115 154l-58-5M115 154l42 26"/><path d="M50 115v85M27 132h46M38 119l25 64M64 119l-25 64"/><circle cx="270" cy="135" r="52"/><path d="M237 102l66 66 M303 102l-66 66"/>`),
+    "观察":()=>wrap(`${face(115,90,'smile')}<path d="M115 124v91M115 145l48 14M115 145l-38 26"/><circle cx="231" cy="142" r="47"/><path d="M264 176l52 52"/><path d="M212 160q18-42 39 0M231 105v76"/>`),
+    "后悔":()=>wrap(`${face(170,105,'sad')}<path d="M170 139v77M170 160l-40 20M170 160l40 20"/><path d="M250 55q44 20 44 62M294 117l-11-18M294 117l19-8"/><path d="M227 73h54"/><path d="M95 55l25 25M120 55L95 80"/>`),
+    "委屈":()=>wrap(`${face(165,108,'sad')}<path d="M165 142v75M165 163l-43 20M165 163l42 19"/><path d="M133 88q-19 14-17 36M197 88q19 14 17 36"/><path d="M246 53h82q10 0 10 10v56q0 10-10 10h-42l-18 18 3-18h-25q-10 0-10-10V63q0-10 10-10z"/><path d="M258 78h57M258 99h39"/><path d="M95 228h142"/>`),
+    "害怕":()=>wrap(`${face(170,108,'open')}<path d="M170 142v76M170 161l-49 21M170 161l48 20"/><path d="M117 63q17-28 39-34M223 64q-11-27-35-38"/><path d="M278 71l10 21 23 3-17 15 5 23-21-12-21 12 5-23-17-15 23-3z"/>`),
+    "担心":()=>wrap(`${face(165,112,'sad')}<path d="M165 146v73M165 165l-45 19M165 165l43 18"/><path d="M245 55c35 0 63 27 63 61s-28 61-63 61c-14 0-27-4-37-11l-23 8 8-22c-7-10-11-23-11-36 0-34 28-61 63-61z"/><path d="M225 92h42M225 113h58"/>`),
+    "紧张":()=>wrap(`${face(170,108,'open')}<path d="M170 142v78M170 164l-50 28M170 164l49 28"/><path d="M97 92l-22-10M99 112l-27 1M243 91l23-11M242 112l27 2"/><path d="M138 236h64"/>`),
+    "佩服":()=>wrap(`${face(105,125,'smile')}${face(255,95,'smile')}<path d="M105 159v68M105 176l35-22M105 176l28 30M255 129v83M255 151l-43 23M255 151l35 20"/><path d="M172 82l8 17 19 3-14 13 4 19-17-9-17 9 4-19-14-13 19-3z"/><path d="M142 126q28-30 58-34"/><path d="M192 84l13 5-10 10"/>`),
+    "欣慰":()=>wrap(`${face(170,110,'smile')}<path d="M170 144v77M170 164l-43 24M170 164l44 24"/><path d="M240 71l12 24 27 4-20 19 5 27-24-13-24 13 5-27-20-19 27-4z"/><path d="M101 66q17-20 35-4"/>`),
+    "耐心":()=>wrap(`${face(104,93,'smile')}${face(249,121,'sad')}<path d="M104 127v88M104 148l57 17M104 148l-37 27M249 155v71M249 174l-63-7M249 174l33 22"/><rect x="152" y="182" width="77" height="55" rx="5"/><path d="M163 197h54M163 214h44"/>`),
+    "诚实":()=>wrap(`${face(172,96,'smile')}<path d="M172 130v90M172 152l-47 25M172 152l50 25"/><path d="M247 68l24 13v27c0 34-24 51-24 51s-24-17-24-51V81z"/><path d="M233 111l10 10 19-24"/>`),
+    "负责":()=>wrap(`${face(130,93,'smile')}<path d="M130 127v90M130 150l48 15M130 150l-37 29"/><rect x="188" y="117" width="105" height="92" rx="8"/><path d="M208 144l11 11 24-27M208 178h63"/><path d="M80 235h224"/>`),
+    "快乐":()=>wrap(`${face(170,110,'smile')}<path d="M170 144v74M170 163l-52-30M170 163l52-30M170 218l-32 42M170 218l32 42"/><path d="M94 70l8 15 17 2-12 12 3 17-16-8-15 8 3-17-13-12 18-2zM263 76l7 13 15 2-11 10 3 15-14-7-13 7 3-15-11-10 15-2z"/>`),
+    "生气":()=>wrap(`${face(170,110,'sad')}<path d="M145 91l18 8M195 91l-18 8"/><path d="M170 144v75M170 165l-48 8M170 165l48 8"/><path d="M103 58l18 13-12 11M237 58l-18 13 12 11"/>`)
+  };
+  if(scenes[word]) return scenes[word]();
+  if(cat==="心情") return wrap(`${face(170,110,(["开心","高兴","满足"].includes(word)?'smile':'sad'))}<path d="M170 144v78M170 164l-48 24M170 164l48 24"/><path d="M103 68h38M219 68h38"/>`);
+  if(cat==="动作") return wrap(`${face(108,98,'smile')}<path d="M108 132v86M108 153l54 8M108 153l-37 30M108 218l-28 40M108 218l39 36"/><path d="M184 160h104M265 141l24 19-24 19"/><circle cx="307" cy="160" r="8"/>`);
+  if(cat==="态度"||cat==="性格") return wrap(`${face(130,92,'smile')}<path d="M130 126v87M130 148l-44 28M130 148l51 18"/><rect x="190" y="118" width="104" height="88" rx="8"/><path d="M207 145l12 12 25-29M208 178h62"/>`);
+  return wrap(`<path d="M75 55q56-18 104 8v164q-48-26-104-8zM285 55q-56-18-104 8v164q48-26 104-8z"/><path d="M180 63v164"/><circle cx="266" cy="186" r="36"/><path d="M292 212l38 38"/><path d="M102 93h55M102 120h48M203 93h55M203 120h48"/>`);
+}
+
+let v2111AudioCtx=null,v2111MusicGain=null,v2111MusicTimer=null,v2111MusicOn=false;
+function v2111Ctx(){if(!v2111AudioCtx)v2111AudioCtx=new (window.AudioContext||window.webkitAudioContext)();if(v2111AudioCtx.state==='suspended')v2111AudioCtx.resume();return v2111AudioCtx;}
+function v2111Tone(freq,start,dur,vol=.04,type='sine'){
+  try{const c=v2111Ctx(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(0,c.currentTime+start);g.gain.linearRampToValueAtTime(vol,c.currentTime+start+.03);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+start+dur);o.connect(g);g.connect(c.destination);o.start(c.currentTime+start);o.stop(c.currentTime+start+dur+.02);}catch(e){}
+}
+function playCorrectSound(){duckMusic();v2111Tone(660,0,.16,.06,'sine');v2111Tone(880,.11,.22,.05,'sine');}
+function v2111MusicTick(){if(!v2111MusicOn)return;const v=Math.max(.008,Number(document.getElementById('studyMusicVolume')?.value||15)/100*0.12);[[220,0],[277.18,.45],[329.63,.9],[277.18,1.35]].forEach(([f,t])=>v2111Tone(f,t,.52,v,'sine'));}
+function updateMusicButton(on){const b=document.getElementById('btnStudyMusic');if(b)b.textContent=on?'🎵 ON':'🎵 OFF';}
+function toggleStudyMusic(){v2111Ctx();v2111MusicOn=!v2111MusicOn;updateMusicButton(v2111MusicOn);if(v2111MusicTimer){clearInterval(v2111MusicTimer);v2111MusicTimer=null;}if(v2111MusicOn){v2111MusicTick();v2111MusicTimer=setInterval(v2111MusicTick,1900);}try{localStorage.setItem('v2111Music',v2111MusicOn?'1':'0')}catch(e){}}
+function loadMusicPrefs(){v2111MusicOn=false;updateMusicButton(false);const slider=document.getElementById('studyMusicVolume');if(slider&&!slider.value)slider.value='15';}
+function duckMusic(){/* generated study tones are already quiet; no external file dependency */}
+setTimeout(()=>{
+  const b=document.getElementById('btnStudyMusic'); if(b){b.textContent='🎵 OFF';b.title='Tap to start background study music';}
+  const slider=document.getElementById('studyMusicVolume'); if(slider){slider.disabled=false;slider.title='Music volume';}
+},0);
 
 </script>
 </body>
