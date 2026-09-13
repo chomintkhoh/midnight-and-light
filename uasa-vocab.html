@@ -5649,7 +5649,7 @@ function displayDifficulty(v){const m={"基础":"基础 / Basic","进阶":"进�
     showScreen("menu");
   }
 
-  init();
+  /* init moved to end in V2.12.0 so all later constants are initialized first */
 
 /* =========================================================================
    V2.9.9 INTERACTIVE PRACTICE
@@ -6032,7 +6032,7 @@ function v2116Art(word,cat){
 function v211SceneSVG(w){return v2116Art(w.word||"",v211Cat(w));}
 
 
-/* ===== V2.11.9 OCTOBER CURATED LEARNING POOL ===== */
+/* ===== V2.12.0 OCTOBER CURATED LEARNING POOL ===== */
 const V2118_OCTOBER_WORDS=new Set(["欣慰","感激","感动","佩服","惊讶","疑惑","紧张","焦急","担心","失望","委屈","羞愧","内疚","后悔","愤怒","鼓励","劝告","提醒","责备","安慰","阻止","拒绝","答应","承认","解释","道歉","原谅","坚持","放弃","化解","认真","耐心","敷衍","积极","消极","冷静","冲动","谦虚","诚恳","坚定","勇敢","善良","诚实","负责","勤奋","宽容","自私","固执","粗心","乐于助人","半途而废","坚持不懈","全神贯注","恍然大悟","垂头丧气","迫不及待","心急如焚","自言自语","知错能改","助人为乐","误会","否定","尊重","沟通","缺乏","积累","顺利","影响","解决","意识到","拿","放","跟","让","带","告诉","发现","突然","已经","因为","所以","虽然","但是","仍然","终于","渐渐","立刻","竟然","根据","向","被","按照","原因","经过","结果","感受","表现","理由","启发","态度","证据","克服","危机","帮助","害怕","兴奋","观察"]);
 function getRangeCandidatePool(){return unifiedLearningPool().filter(w=>{if(!V2118_OCTOBER_WORDS.has(w.word))return false;const d=typeof DIAG_EXTRA!=="undefined"?DIAG_EXTRA.find(x=>x.word===w.word):null;const teachable=hasUsableMeaning(w)||!!d||["帮助","害怕","兴奋","观察"].includes(w.word);const catOk=state.filterCategory==="全部"||w.category===state.filterCategory;const diffOk=state.filterDifficulty==="全部"||w.difficulty===state.filterDifficulty;return teachable&&catOk&&diffOk;});}
 function learningSetWords(){const ids=new Set(state.learningSetIds||[]);return unifiedLearningPool().filter(w=>ids.has(w.id)&&V2118_OCTOBER_WORDS.has(w.word));}
@@ -6040,7 +6040,7 @@ function ensureLearningSet(){let p=learningSetWords();const invalid=(state.learn
 function getFilteredPool(){const base=getRangeCandidatePool();if(!state.learningSetIds||!state.learningSetIds.length)return base;const wanted=new Set(state.learningSetIds);return unifiedLearningPool().filter(w=>wanted.has(w.id)&&V2118_OCTOBER_WORDS.has(w.word));}
 
 
-/* ===== V2.11.9 ENRICHED OCTOBER POOL + STABLE QUICK CHECK ===== */
+/* ===== V2.12.0 ENRICHED OCTOBER POOL + STABLE QUICK CHECK ===== */
 const V2119_EXTRA_INFO={
   "帮助":{pinyin:"bāng zhù",meaningZh:"用行动让别人更容易或解决困难。",meaningEn:"help",example:"同学跌倒了，他主动帮助同学站起来。"},
   "害怕":{pinyin:"hài pà",meaningZh:"因为可能发生不好的事情而感到担心或紧张。",meaningEn:"be afraid / scared",example:"晚上一个人在家，我有一点害怕。"},
@@ -6082,6 +6082,9 @@ function ensureLearningSet(){
   return p;
 }
 
+
+/* V2.12.0 final initialization after all patches/data declarations */
+init();
 </script>
 </body>
 </html>
