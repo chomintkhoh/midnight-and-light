@@ -97,6 +97,87 @@ body{
   .hud{border-radius:18px}
 }
 
+
+/* ===== UASA Palette Override ===== */
+:root{
+  --ink:#25273b;
+  --soft:#f7f7fc;
+  --card:#ffffff;
+  --line:#dcdff0;
+  --uasa-accent:#5966a8;
+  --uasa-dark:#2c356f;
+  --uasa-soft:#eef0fb;
+  --uasa-midnight:#222952;
+  --uasa-midnight2:#343d78;
+  --uasa-light:#fff9ec;
+  --uasa-moon:#f3d995;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 4%,rgba(89,102,168,.10),transparent 23rem),
+    radial-gradient(circle at 92% 12%,rgba(243,217,149,.14),transparent 21rem),
+    #f7f7fc;
+  color:#25273b;
+}
+.top{
+  background:rgba(247,247,252,.86);
+  border-bottom-color:rgba(89,102,168,.14);
+}
+.hud{
+  border-color:#dcdff0;
+  box-shadow:0 4px 14px rgba(44,53,111,.08);
+}
+.progress{background:#e6e8f4}
+#bar{background:linear-gradient(90deg,#5966a8,#343d78)!important}
+.pick{
+  border-color:#dcdff0!important;
+  box-shadow:0 7px 0 rgba(44,53,111,.08),0 12px 28px rgba(44,53,111,.09)!important;
+}
+.pick:before{background:rgba(89,102,168,.09)}
+.pick:hover{
+  border-color:#aeb5dc!important;
+  box-shadow:0 10px 0 rgba(44,53,111,.07),0 18px 34px rgba(44,53,111,.11)!important;
+}
+#quiz .card,#quiz.card,.card{
+  border-color:#dcdff0;
+  box-shadow:0 7px 0 rgba(44,53,111,.07),0 12px 28px rgba(44,53,111,.09);
+}
+.q{
+  background:linear-gradient(180deg,#fff 0%,#fafaff 100%);
+  border-color:#dcdff0;
+  box-shadow:0 6px 0 rgba(44,53,111,.07);
+  color:#2c356f;
+}
+.ans,.matchcard{
+  border-color:#dcdff0!important;
+  box-shadow:0 5px 0 rgba(44,53,111,.09);
+}
+.ans:hover,.matchcard:hover{border-color:#aeb5dc!important;background:#fbfbff!important}
+.matchcard.selected{
+  outline-color:#5966a8!important;
+  background:#eef0fb!important;
+}
+.next{
+  background:linear-gradient(135deg,#2c356f,#5966a8)!important;
+  color:#fff!important;
+  border-color:#2c356f!important;
+  box-shadow:0 5px 0 rgba(34,41,82,.18)!important;
+}
+.home{
+  border-color:#a8b0d9!important;
+  color:#2c356f!important;
+  background:#fff!important;
+}
+.home:hover{background:#f4f5fc!important}
+@media(max-width:600px){
+  body{
+    background:
+      radial-gradient(circle at 12% 4%,rgba(89,102,168,.09),transparent 17rem),
+      radial-gradient(circle at 92% 12%,rgba(243,217,149,.12),transparent 15rem),
+      #f7f7fc;
+  }
+}
+
 </style></head>
 <body><audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio><audio id=correctSound src="assets/audio/correct.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><button id=musicBtn class=home>🎵 Music</button><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
 <section id=home class=card><h2>选择主题 / Choose a Topic</h2><div id=topics class=grid></div></section>
