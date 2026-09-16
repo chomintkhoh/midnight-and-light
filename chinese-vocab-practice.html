@@ -199,6 +199,14 @@ body{
 .result-weak b{color:#2c356f}
 .perfect-hearts{font-size:22px;font-weight:900;color:#2c356f;margin:10px 0}
 
+
+.question-select{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:4px 0 18px}
+.qnum{border:1px solid var(--border);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:800;cursor:pointer}
+.qnum.active{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 5px 14px rgba(89,102,168,.22)}
+.special-tools{margin-top:18px;padding-top:16px;border-top:1px dashed var(--border)}
+.special-tools h3{margin:0 0 10px;color:var(--ink-soft);font-size:14px}
+.pick.special{background:linear-gradient(145deg,#fff,#eef0fb)}
+.pick.weak-special{background:linear-gradient(145deg,#fff9ec,#fff)}
 </style></head>
 <body>
 <audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio>
@@ -207,7 +215,12 @@ body{
 <audio id=sparkleSound src="assets/audio/fairy-sparkle.mp3" preload=auto></audio>
 <audio id=levelSound src="assets/audio/level-complete.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><span id=combo class="combo hidden">🔥 ×0</span><button id=musicBtn class=home>🎵 Music</button><button id=changeMusicBtn class=home title="Change background music">♫ Change</button><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
 <section id=home class=card><h2>选择主题 / Choose a Topic</h2><div id=topics class=grid></div></section>
-<section id=modes class="card hidden"><h2 id=topicTitle></h2><div class=grid><button class=pick data-mode=quick>⚡ 快速认词<small>Quick Recognition</small></button><button class=pick data-mode=meaning>🎯 中英选择<small>Chinese ↔ English</small></button><button class=pick data-mode=match>🔗 连连看<small>Match & Connect</small></button><button class=pick data-mode=scene>💬 情境填空<small>Choose the best word</small></button><button class=pick data-mode=classify>🧩 分类辨认<small>Meaning Groups</small></button><button class=pick data-mode=write>✏️ 写字练习<small>Writing Practice</small></button></div></section>
+<section id=modes class="card hidden"><h2 id=topicTitle></h2>
+<div class="question-select"><b>题数 / Questions</b>
+<button class="qnum" data-count="5">5</button>
+<button class="qnum active" data-count="10">10</button>
+<button class="qnum" data-count="15">15</button></div>
+<div class=grid><button class=pick data-mode=quick>⚡ 快速认词<small>Quick Recognition</small></button><button class=pick data-mode=meaning>🎯 中英选择<small>Chinese ↔ English</small></button><button class=pick data-mode=match>🔗 连连看<small>Match & Connect</small></button><button class=pick data-mode=scene>💬 情境填空<small>Choose the best word</small></button><button class=pick data-mode=classify>🧩 分类辨认<small>Meaning Groups</small></button><button class=pick data-mode=write>✏️ 写字练习<small>Writing Practice</small></button></div></section>
 <section id=quiz class="card hidden"><b id=count></b><div class=progress><div id=bar class=bar></div></div><div id=body></div><div id=feedback class=feedback></div><button id=next class="next hidden">下一题 / Next →</button></section></main>
 <script>
 const G={"feeling": {"title": "心情 Feeling", "icon": "☺", "words": [["委屈", "wěi qū", "feel wronged"], ["后悔", "hòu huǐ", "regret"], ["感激", "gǎn jī", "grateful"], ["感动", "gǎn dòng", "moved"], ["害怕", "hài pà", "scared"], ["紧张", "jǐn zhāng", "nervous"], ["兴奋", "xīng fèn", "excited"], ["欣慰", "xīn wèi", "relieved"], ["失望", "shī wàng", "disappointed"], ["担心", "dān xīn", "worried"], ["焦急", "jiāo jí", "anxious"], ["惊讶", "jīng yà", "surprised"], ["疑惑", "yí huò", "confused"], ["羞愧", "xiū kuì", "ashamed"], ["内疚", "nèi jiù", "guilty"]], "scenes": [["比赛输了以后，小明低着头，觉得很____。", "失望"], ["妈妈很久还没回家，小丽开始____起来。", "担心"], ["老师说我的华文进步了，我听了十分____。", "欣慰"], ["我误会了朋友，知道真相后感到很____。", "内疚"], ["明天就要上台演讲了，他有一点____。", "紧张"], ["别人帮助了我，我心里非常____。", "感激"], ["听到自己得到比赛第一名，她非常____。", "兴奋"], ["突然听见门外一声巨响，大家都很____。", "惊讶"], ["明明不是我的错，却被大家责怪，我觉得很____。", "委屈"], ["做了不应该做的事以后，他非常____。", "后悔"]]}, "attitude": {"title": "态度／性格 Attitude & Character", "icon": "★", "words": [["耐心", "nài xīn", "patient"], ["诚实", "chéng shí", "honest"], ["负责", "fù zé", "responsible"], ["认真", "rèn zhēn", "serious"], ["积极", "jī jí", "positive"], ["冷静", "lěng jìng", "calm"], ["冲动", "chōng dòng", "impulsive"], ["谦虚", "qiān xū", "humble"], ["善良", "shàn liáng", "kind"], ["宽容", "kuān róng", "tolerant"], ["固执", "gù zhí", "stubborn"], ["粗心", "cū xīn", "careless"], ["坚定", "jiān dìng", "determined"], ["诚恳", "chéng kěn", "sincere"], ["自律", "zì lǜ", "self-disciplined"]], "scenes": [["妹妹不会做功课，姐姐慢慢教她，没有发脾气。姐姐很____。", "耐心"], ["小华打破花瓶后主动告诉妈妈真相。他很____。", "诚实"], ["组长按时完成自己的工作，也检查大家的进度。他很____。", "负责"], ["考试时，她仔细读题和检查答案，态度十分____。", "认真"], ["遇到问题时，他先想清楚再处理，非常____。", "冷静"], ["还没听完解释，他就生气地冲出去，做事太____。", "冲动"], ["虽然她得了第一名，却说自己还有很多要学习，很____。", "谦虚"], ["朋友犯错后真心道歉，他愿意原谅对方，很____。", "宽容"], ["明知道方法不对，他还是不肯听别人的意见，十分____。", "固执"], ["他每天先完成学习计划才玩游戏，非常____。", "自律"]]}, "action": {"title": "动作 Action", "icon": "→", "words": [["观察", "guān chá", "observe"], ["提醒", "tí xǐng", "remind"], ["鼓励", "gǔ lì", "encourage"], ["劝告", "quàn gào", "advise"], ["拒绝", "jù jué", "refuse"], ["承认", "chéng rèn", "admit"], ["解释", "jiě shì", "explain"], ["道歉", "dào qiàn", "apologize"], ["原谅", "yuán liàng", "forgive"], ["帮助", "bāng zhù", "help"], ["解决", "jiě jué", "solve"], ["阻止", "zǔ zhǐ", "stop / prevent"], ["坚持", "jiān chí", "persist"], ["放弃", "fàng qì", "give up"], ["努力", "nǔ lì", "work hard"]], "scenes": [["科学课上，他仔细____植物每天的变化。", "观察"], ["出门前，妈妈____我记得带雨伞。", "提醒"], ["比赛失败后，同学们不断____他再试一次。", "鼓励"], ["朋友想做危险的事，我马上____他不要这样做。", "劝告"], ["陌生人请她做不合理的事情，她立刻____了。", "拒绝"], ["老师问是谁打破花盆，小明主动____是自己做的。", "承认"], ["同学误会了我，我把事情的经过____给他听。", "解释"], ["我不小心撞到同学，马上向他____。", "道歉"], ["两个人讨论以后，终于找到办法____这个问题。", "解决"], ["虽然练习很困难，她还是每天____，没有半途而废。", "坚持"]]}};let topic,mode,items=[],i=0,score=0,done=false,ctx,cv,drawing=false;
@@ -233,10 +246,10 @@ const bgm=document.getElementById("bgm"),
       sparkleSound=document.getElementById("sparkleSound"),
       levelSound=document.getElementById("levelSound");
 const bgmTracks=[
- {src:"assets/audio/study-lofi.mp3",label:"Lo-fi"},
- {src:"assets/audio/classical-6.mp3",label:"Classical 6"}
+ {src:"assets/audio/study-lofi.mp3",label:"Lo-fi",volume:.17},
+ {src:"assets/audio/classical-6.mp3",label:"Classical 6",volume:.25}
 ];
-bgm.volume=.17;correctSound.volume=.25;wrongSound.volume=.17;sparkleSound.volume=.22;levelSound.volume=.27;
+bgm.volume=bgmTracks[0].volume;correctSound.volume=.25;wrongSound.volume=.17;sparkleSound.volume=.22;levelSound.volume=.27;
 function playSound(a){try{a.currentTime=0;a.play().catch(()=>{})}catch(e){}}
 function playCorrect(){playSound(correctSound)}
 function playWrong(){playSound(wrongSound)}
@@ -250,28 +263,82 @@ function getWeak(){try{return JSON.parse(localStorage.getItem(WEAKKEY)||"{}")}ca
 function markWeak(w,bad){let x=getWeak();x[w]=(x[w]||0)+(bad?2:-1);if(x[w]<=0)delete x[w];localStorage.setItem(WEAKKEY,JSON.stringify(x))}
 function weakWords(){let x=getWeak();return Object.keys(x).sort((a,b)=>x[b]-x[a])}
 const $=s=>document.querySelector(s),sh=a=>[...a].sort(()=>Math.random()-.5);
+let questionLimit=10;
+const CORE_TOPICS=["feeling","attitude","action"];
+function allWords(){return CORE_TOPICS.flatMap(k=>G[k].words)}
+function allScenes(){return CORE_TOPICS.flatMap(k=>G[k].scenes)}
+function categoryOf(word){
+ if(G.feeling.words.some(x=>x[0]===word))return "心情 Feeling";
+ if(G.attitude.words.some(x=>x[0]===word))return "态度／性格 Attitude & Character";
+ return "动作 Action";
+}
+function currentWords(){
+ if(topic==="mixed")return allWords();
+ if(topic==="weak"){
+   const ws=weakWords(), map=new Map(allWords().map(x=>[x[0],x]));
+   return ws.map(w=>map.get(w)).filter(Boolean);
+ }
+ return G[topic].words;
+}
+function currentScenes(){
+ if(topic==="mixed")return allScenes();
+ if(topic==="weak"){
+   const ws=new Set(weakWords());
+   return allScenes().filter(x=>ws.has(x[1]));
+ }
+ return G[topic].scenes;
+}
+
 function show(x){["home","modes","quiz"].forEach(y=>$("#"+y).classList.toggle("hidden",x!==y));$("#homeBtn").classList.toggle("hidden",x==="home")}
-$("#topics").innerHTML=Object.entries(G).map(([k,v])=>`<button class=pick data-topic=${k}>${v.icon} ${v.title}<small>15 words</small></button>`).join("");
-document.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>{topic=b.dataset.topic;$("#topicTitle").textContent=G[topic].title;show("modes")});
-document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>start(b.dataset.mode));$("#homeBtn").onclick=()=>show("home");$("#next").onclick=()=>{i++;done=false;render()};
-function start(m){mode=m;i=score=0;done=false;roundMistakes=[];resetCombo();resetLives();$("#next").textContent="下一题 / Next →";$("#next").onclick=()=>{i++;done=false;render()};
- if(m==="scene")items=sh(G[topic].scenes);
- else if(m==="match"){items=[...G[topic].words];matchPool=sh([...items]);matchRound=0;}
- else if(m==="classify")items=sh(G[topic].words).slice(0,12);
- else {let base=sh(G[topic].words), weak=weakWords();base.sort((a,b)=>(weak.includes(b[0])?1:0)-(weak.includes(a[0])?1:0));items=base.slice(0,m==="write"?10:15)}
- show("quiz");render()}
+function renderHome(){
+ const weakCount=weakWords().length;
+ $("#topics").innerHTML=CORE_TOPICS.map(k=>{const v=G[k];return `<button class=pick data-topic=${k}>${v.icon} ${v.title}<small>15 words</small></button>`}).join("")+
+ `<div class="special-tools" style="grid-column:1/-1"><h3>综合复习 / Review Tools</h3><div class=grid>
+ <button class="pick special" data-topic=mixed>🔀 综合挑战<small>Mixed Challenge · 45 words</small></button>
+ <button class="pick weak-special" data-topic=weak>🧠 专练错词<small>Practice Mistakes · ${weakCount} word${weakCount===1?"":"s"}</small></button>
+ </div></div>`;
+ document.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>{
+   topic=b.dataset.topic;
+   if(topic==="weak" && weakWords().length===0){alert("目前没有错词 🎉\\nNo missed words yet.");return}
+   $("#topicTitle").textContent=topic==="mixed"?"🔀 综合挑战 Mixed Challenge":topic==="weak"?"🧠 专练错词 Practice Mistakes":G[topic].title;
+   show("modes");
+ });
+}
+renderHome();
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>start(b.dataset.mode));
+document.querySelectorAll(".qnum").forEach(b=>b.onclick=()=>{questionLimit=Number(b.dataset.count);document.querySelectorAll(".qnum").forEach(x=>x.classList.toggle("active",x===b))});
+$("#homeBtn").onclick=()=>{renderHome();show("home")};$("#next").onclick=()=>{i++;done=false;render()};
+function start(m){
+ mode=m;i=score=0;done=false;roundMistakes=[];resetCombo();resetLives();
+ $("#next").textContent="下一题 / Next →";$("#next").onclick=()=>{i++;done=false;render()};
+ const words=currentWords(), scenes=currentScenes();
+ if(m==="scene"){
+   items=sh(scenes).slice(0,Math.min(questionLimit,scenes.length));
+   if(!items.length){alert("这些错词暂时没有情境题，请先使用快速认词或中英选择。");show("modes");return}
+ }else if(m==="match"){
+   items=sh([...words]).slice(0,Math.min(questionLimit,words.length));
+   matchPool=[...items];matchRound=0;
+ }else if(m==="classify"){
+   items=sh([...words]).slice(0,Math.min(questionLimit,words.length));
+ }else{
+   let base=sh([...words]), weak=weakWords();
+   if(topic!=="weak")base.sort((a,b)=>(weak.includes(b[0])?1:0)-(weak.includes(a[0])?1:0));
+   items=base.slice(0,Math.min(m==="write"?questionLimit:questionLimit,base.length));
+ }
+ show("quiz");render()
+}
 function choices(c,p){return sh([c,...sh(p.filter(x=>x!==c)).slice(0,3)])}
 function render(){$("#feedback").textContent="";$("#next").classList.add("hidden");if(i>=items.length){
  if(mode!=="write")playLevel();
- $("#body").innerHTML=`<div class=q>完成！<br>${mode==="write"?"Writing complete":score+" / "+items.length}</div>${mode==="write"?"":resultExtras()}<button class=next onclick="show('modes')">返回练习 / Back</button>`;
+ $("#body").innerHTML=`<div class=q>完成！<br>${mode==="write"?"Writing complete":score+" / "+items.length}</div>${mode==="write"?"":resultExtras()}<button class=next onclick="backToModes()">返回练习 / Back</button>`;
  $("#bar").style.width="100%";return
 }$("#count").textContent=`${i+1} / ${items.length}`;$("#bar").style.width=(i/items.length*100)+"%";mode==="quick"?quick():mode==="meaning"?meaning():mode==="match"?matchGame():mode==="scene"?scene():mode==="classify"?classify():write()}
-function meaning(){let w=items[i],rev=Math.random()<.35,c=rev?w[0]:w[2],pool=G[topic].words.map(x=>rev?x[0]:x[2]);$("#body").innerHTML=`<div class=q>${rev?w[2]:w[0]}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
-function scene(){let [s,c]=items[i],pool=G[topic].words.map(x=>x[0]);$("#body").innerHTML=`<div class=scene>${s.replace("____","______")}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
+function meaning(){let w=items[i],rev=Math.random()<.35,c=rev?w[0]:w[2],pool=currentWords().map(x=>rev?x[0]:x[2]);$("#body").innerHTML=`<div class=q>${rev?w[2]:w[0]}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
+function scene(){let [s,c]=items[i],pool=currentWords().map(x=>x[0]);$("#body").innerHTML=`<div class=scene>${s.replace("____","______")}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
 function bind(c){document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===c){b.classList.add("good");score++;markWeak(c,false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}else{b.classList.add("bad");markWeak(c,true);comboWrong(c);if(loseLife()){gameOver();return}$("#feedback").textContent="再看看 / Check the answer";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}$("#next").classList.remove("hidden")})}
 
 function quick(){
- let w=items[i], c=w[2], pool=G[topic].words.map(x=>x[2]);
+ let w=items[i], c=w[2], pool=currentWords().map(x=>x[2]);
  $("#body").innerHTML=`<div class=q>${w[0]}</div><div class=weaknote>看到词语后，尽量在几秒内选出意思。<br>Choose the meaning quickly.</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;
  bindQuick(c,w[0]);
 }
@@ -283,7 +350,7 @@ function bindQuick(c,word){
 }
 let matchSelected=null, matchPairs=[], matchDone=0,matchPool=[],matchRound=0;
 function matchGame(){
- $("#count").textContent="5 words";$("#bar").style.width="0%";$("#next").classList.add("hidden");
+ $("#count").textContent=`${Math.min(5,matchPool.length-matchRound*5)} words`;$("#bar").style.width="0%";$("#next").classList.add("hidden");
  let five=matchPool.slice(matchRound*5,matchRound*5+5), right=sh(five);
  matchPairs=five;matchDone=0;matchSelected=null;
  $("#body").innerHTML=`<div class=weaknote>先点左边中文字，再点右边意思。配对后会画线。<br>Tap a Chinese word, then its English meaning.</div>
@@ -299,7 +366,7 @@ function matchTap(b){
  if(matchSelected.dataset.word===b.dataset.word){
    matchSelected.classList.add("matched");b.classList.add("matched");matchSelected.classList.remove("selected");drawLine(matchSelected,b);markWeak(b.dataset.word,false);comboCorrect();playCorrect();matchDone++;score++;
    $("#bar").style.width=(matchDone/5*100)+"%";$("#feedback").textContent="✓ 配对正确";
-   matchSelected=null;if(matchDone===5){
+   matchSelected=null;if(matchDone===five.length){
      matchRound++;
      if(matchRound*5>=matchPool.length){
        playLevel();
@@ -323,7 +390,7 @@ function drawLine(a,b){
  svg.innerHTML+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#69739f" stroke-width="3" stroke-linecap="round"/>`;
 }
 function classify(){
- let w=items[i], correct=topic==="feeling"?"心情 Feeling":topic==="attitude"?"态度／性格 Attitude & Character":"动作 Action";
+ let w=items[i], correct=categoryOf(w[0]);
  $("#body").innerHTML=`<div class=q>${w[0]}</div><div class=weaknote>${w[1]} · ${w[2]}<br>这个词属于哪一类？ / Which group?</div>
  <div class=catbuttons>${["心情 Feeling","态度／性格 Attitude & Character","动作 Action"].map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;
  document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===correct){b.classList.add("good");score++;markWeak(w[0],false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确"}else{b.classList.add("bad");markWeak(w[0],true);comboWrong(w[0]);if(loseLife()){gameOver();return}$("#feedback").textContent="✗ 再看看";document.querySelectorAll(".ans").forEach(x=>x.textContent===correct&&x.classList.add("good"))}$("#next").classList.remove("hidden")})
@@ -335,11 +402,12 @@ const musicBtn=document.getElementById("musicBtn"),changeMusicBtn=document.getEl
 function updateMusicLabels(){musicBtn.textContent=musicOn?"🔊 Music":"🎵 Music Off";changeMusicBtn.textContent="♫ "+bgmTracks[bgmIndex].label}
 async function toggleMusic(){musicOn=!musicOn;if(musicOn){try{await bgm.play()}catch(e){musicOn=false}}else bgm.pause();updateMusicLabels()}
 async function changeMusic(){
- const wasPlaying=musicOn;bgmIndex=(bgmIndex+1)%bgmTracks.length;bgm.pause();bgm.src=bgmTracks[bgmIndex].src;bgm.load();
+ const wasPlaying=musicOn;bgmIndex=(bgmIndex+1)%bgmTracks.length;bgm.pause();bgm.src=bgmTracks[bgmIndex].src;bgm.volume=bgmTracks[bgmIndex].volume;bgm.load();
  if(wasPlaying){try{await bgm.play()}catch(e){musicOn=false}}
  updateMusicLabels();
 }
 musicBtn.onclick=toggleMusic;changeMusicBtn.onclick=changeMusic;updateMusicLabels();
+function backToModes(){renderHome();show("modes")}
 function resultExtras(){
  const perfect=lives===5?`<div class="perfect-hearts">Perfect Hearts! ❤️❤️❤️❤️❤️</div>`:"";
  const weak=roundMistakes.length?`<div class="result-weak"><b>🧠 再看看 / Review:</b><br>${roundMistakes.join("、")}</div>`:`<div class="result-weak"><b>✨ 本轮没有错词 / No missed words</b></div>`;
