@@ -8,14 +8,103 @@
 .weaknote{font-size:13px;color:#6d7489;text-align:center;margin:8px 0}
 .catbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 @media(max-width:600px){.matcharea{gap:10px}.matchcard{font-size:14px;padding:8px 5px}.catbuttons{grid-template-columns:1fr}}
-.hud{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.hearts{font-size:20px;white-space:nowrap}.gameover{text-align:center;padding:30px 8px}</style></head>
-<body><audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio><audio id=correctSound src="assets/audio/correct.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><button id=musicBtn class=home>🎵 Music Off</button><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
+.hud{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.hearts{font-size:20px;white-space:nowrap}.gameover{text-align:center;padding:30px 8px}
+/* ===== Game Skin V4 ===== */
+:root{
+  --ink:#283044;--soft:#f7f4ee;--card:#ffffff;--line:#dfe3ee;
+  --shadow:0 7px 0 rgba(64,70,95,.10),0 12px 28px rgba(64,70,95,.10);
+}
+body{
+  background:
+    radial-gradient(circle at 10% 12%,rgba(255,255,255,.85) 0 70px,transparent 72px),
+    radial-gradient(circle at 88% 18%,rgba(224,220,243,.55) 0 90px,transparent 92px),
+    radial-gradient(circle at 78% 88%,rgba(237,226,205,.45) 0 110px,transparent 112px),
+    linear-gradient(145deg,#f7f4ee,#f0eef7);
+  min-height:100vh;color:var(--ink)
+}
+.app{max-width:900px}
+.top{
+  position:sticky;top:0;z-index:30;
+  backdrop-filter:blur(12px);
+  background:rgba(247,244,238,.82);
+  border-bottom:1px solid rgba(150,155,175,.18);
+  padding-top:10px;padding-bottom:10px
+}
+.hud{
+  background:rgba(255,255,255,.78);border:1px solid rgba(160,165,185,.25);
+  border-radius:999px;padding:6px 8px;box-shadow:0 4px 14px rgba(50,55,80,.08)
+}
+.hearts{filter:drop-shadow(0 2px 2px rgba(70,70,90,.12))}
+.progress{height:13px;border-radius:999px;background:#e5e6ee;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+#bar{border-radius:999px;transition:width .35s ease}
+.pick{
+  min-height:112px;border:1px solid rgba(145,150,175,.22)!important;
+  border-radius:20px!important;background:rgba(255,255,255,.94)!important;
+  box-shadow:var(--shadow)!important;transform:translateY(0);
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+  position:relative;overflow:hidden
+}
+.pick:before{
+  content:"";position:absolute;width:72px;height:72px;border-radius:50%;
+  right:-20px;top:-22px;background:rgba(111,105,151,.08)
+}
+.pick:hover{transform:translateY(-4px);box-shadow:0 10px 0 rgba(64,70,95,.09),0 18px 34px rgba(64,70,95,.12)!important}
+.pick:active{transform:translateY(2px);box-shadow:0 3px 0 rgba(64,70,95,.10)!important}
+.pick small{display:block;margin-top:6px;opacity:.62;font-weight:600}
+#quiz .card,#quiz.card,.card{
+  border:1px solid rgba(145,150,175,.20);border-radius:24px;
+  box-shadow:var(--shadow);background:rgba(255,255,255,.96)
+}
+.q{
+  width:min(560px,92%);margin:14px auto 20px!important;padding:28px 18px!important;
+  background:linear-gradient(180deg,#fff,#faf9fd);border:1px solid #e1e3ec;
+  border-radius:22px;box-shadow:0 6px 0 rgba(70,75,105,.08);
+  font-size:clamp(34px,7vw,58px)!important;font-weight:900;letter-spacing:.04em
+}
+.answers,.catbuttons{gap:12px!important}
+.ans,.matchcard{
+  border:1px solid #d8dce8!important;border-radius:16px!important;
+  background:#fff!important;box-shadow:0 5px 0 rgba(72,77,105,.10);
+  transition:transform .12s ease,box-shadow .12s ease,background .18s ease;
+  font-weight:750!important
+}
+.ans:hover,.matchcard:hover{transform:translateY(-2px)}
+.ans:active,.matchcard:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(72,77,105,.12)}
+.ans.good,.matchcard.matched{
+  background:#e5f5e9!important;border-color:#94c5a2!important;
+  animation:correctPop .28s ease
+}
+.ans.bad{background:#fde9e9!important;border-color:#e3a2a2!important;animation:wrongShake .28s ease}
+.matchcard.selected{outline:3px solid #8c86b6!important;background:#f1effa!important}
+.next{
+  border-radius:16px!important;box-shadow:0 5px 0 rgba(60,65,90,.15);
+  transition:transform .12s ease,box-shadow .12s ease
+}
+.next:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(60,65,90,.12)}
+#feedback{min-height:28px;font-weight:800}
+.gameover,.round-complete{
+  border-radius:22px;background:linear-gradient(180deg,#fff,#faf9fd);
+  border:1px solid #e0e3ec;box-shadow:var(--shadow)
+}
+@keyframes correctPop{0%{transform:scale(.96)}55%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}30%{transform:translateX(-5px)}70%{transform:translateX(5px)}}
+@keyframes heartDrop{0%{transform:scale(1)}45%{transform:scale(.72)}100%{transform:scale(1)}}
+.heart-hit{animation:heartDrop .3s ease}
+@media(max-width:600px){
+  body{background:linear-gradient(145deg,#f7f4ee,#f0eef7)}
+  .pick{min-height:92px;border-radius:17px!important}
+  .q{padding:22px 12px!important}
+  .hud{border-radius:18px}
+}
+
+</style></head>
+<body><audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio><audio id=correctSound src="assets/audio/correct.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><button id=musicBtn class=home>🎵 Music</button><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
 <section id=home class=card><h2>选择主题 / Choose a Topic</h2><div id=topics class=grid></div></section>
-<section id=modes class="card hidden"><h2 id=topicTitle></h2><div class=grid><button class=pick data-mode=quick>快速认词<small>Quick Recognition</small></button><button class=pick data-mode=meaning>中英选择<small>Chinese ↔ English</small></button><button class=pick data-mode=match>连连看<small>Match & Connect</small></button><button class=pick data-mode=scene>情境填空<small>Choose the best word</small></button><button class=pick data-mode=classify>分类辨认<small>Meaning Groups</small></button><button class=pick data-mode=write>写字练习<small>Writing Practice</small></button></div></section>
+<section id=modes class="card hidden"><h2 id=topicTitle></h2><div class=grid><button class=pick data-mode=quick>⚡ 快速认词<small>Quick Recognition</small></button><button class=pick data-mode=meaning>🎯 中英选择<small>Chinese ↔ English</small></button><button class=pick data-mode=match>🔗 连连看<small>Match & Connect</small></button><button class=pick data-mode=scene>💬 情境填空<small>Choose the best word</small></button><button class=pick data-mode=classify>🧩 分类辨认<small>Meaning Groups</small></button><button class=pick data-mode=write>✏️ 写字练习<small>Writing Practice</small></button></div></section>
 <section id=quiz class="card hidden"><b id=count></b><div class=progress><div id=bar class=bar></div></div><div id=body></div><div id=feedback class=feedback></div><button id=next class="next hidden">下一题 / Next →</button></section></main>
 <script>
 const G={"feeling": {"title": "心情 Feeling", "icon": "☺", "words": [["委屈", "wěi qū", "feel wronged"], ["后悔", "hòu huǐ", "regret"], ["感激", "gǎn jī", "grateful"], ["感动", "gǎn dòng", "moved"], ["害怕", "hài pà", "scared"], ["紧张", "jǐn zhāng", "nervous"], ["兴奋", "xīng fèn", "excited"], ["欣慰", "xīn wèi", "relieved"], ["失望", "shī wàng", "disappointed"], ["担心", "dān xīn", "worried"], ["焦急", "jiāo jí", "anxious"], ["惊讶", "jīng yà", "surprised"], ["疑惑", "yí huò", "confused"], ["羞愧", "xiū kuì", "ashamed"], ["内疚", "nèi jiù", "guilty"]], "scenes": [["比赛输了以后，小明低着头，觉得很____。", "失望"], ["妈妈很久还没回家，小丽开始____起来。", "担心"], ["老师说我的华文进步了，我听了十分____。", "欣慰"], ["我误会了朋友，知道真相后感到很____。", "内疚"], ["明天就要上台演讲了，他有一点____。", "紧张"], ["别人帮助了我，我心里非常____。", "感激"], ["听到自己得到比赛第一名，她非常____。", "兴奋"], ["突然听见门外一声巨响，大家都很____。", "惊讶"], ["明明不是我的错，却被大家责怪，我觉得很____。", "委屈"], ["做了不应该做的事以后，他非常____。", "后悔"]]}, "attitude": {"title": "态度／性格 Attitude & Character", "icon": "★", "words": [["耐心", "nài xīn", "patient"], ["诚实", "chéng shí", "honest"], ["负责", "fù zé", "responsible"], ["认真", "rèn zhēn", "serious"], ["积极", "jī jí", "positive"], ["冷静", "lěng jìng", "calm"], ["冲动", "chōng dòng", "impulsive"], ["谦虚", "qiān xū", "humble"], ["善良", "shàn liáng", "kind"], ["宽容", "kuān róng", "tolerant"], ["固执", "gù zhí", "stubborn"], ["粗心", "cū xīn", "careless"], ["坚定", "jiān dìng", "determined"], ["诚恳", "chéng kěn", "sincere"], ["自律", "zì lǜ", "self-disciplined"]], "scenes": [["妹妹不会做功课，姐姐慢慢教她，没有发脾气。姐姐很____。", "耐心"], ["小华打破花瓶后主动告诉妈妈真相。他很____。", "诚实"], ["组长按时完成自己的工作，也检查大家的进度。他很____。", "负责"], ["考试时，她仔细读题和检查答案，态度十分____。", "认真"], ["遇到问题时，他先想清楚再处理，非常____。", "冷静"], ["还没听完解释，他就生气地冲出去，做事太____。", "冲动"], ["虽然她得了第一名，却说自己还有很多要学习，很____。", "谦虚"], ["朋友犯错后真心道歉，他愿意原谅对方，很____。", "宽容"], ["明知道方法不对，他还是不肯听别人的意见，十分____。", "固执"], ["他每天先完成学习计划才玩游戏，非常____。", "自律"]]}, "action": {"title": "动作 Action", "icon": "→", "words": [["观察", "guān chá", "observe"], ["提醒", "tí xǐng", "remind"], ["鼓励", "gǔ lì", "encourage"], ["劝告", "quàn gào", "advise"], ["拒绝", "jù jué", "refuse"], ["承认", "chéng rèn", "admit"], ["解释", "jiě shì", "explain"], ["道歉", "dào qiàn", "apologize"], ["原谅", "yuán liàng", "forgive"], ["帮助", "bāng zhù", "help"], ["解决", "jiě jué", "solve"], ["阻止", "zǔ zhǐ", "stop / prevent"], ["坚持", "jiān chí", "persist"], ["放弃", "fàng qì", "give up"], ["努力", "nǔ lì", "work hard"]], "scenes": [["科学课上，他仔细____植物每天的变化。", "观察"], ["出门前，妈妈____我记得带雨伞。", "提醒"], ["比赛失败后，同学们不断____他再试一次。", "鼓励"], ["朋友想做危险的事，我马上____他不要这样做。", "劝告"], ["陌生人请她做不合理的事情，她立刻____了。", "拒绝"], ["老师问是谁打破花盆，小明主动____是自己做的。", "承认"], ["同学误会了我，我把事情的经过____给他听。", "解释"], ["我不小心撞到同学，马上向他____。", "道歉"], ["两个人讨论以后，终于找到办法____这个问题。", "解决"], ["虽然练习很困难，她还是每天____，没有半途而废。", "坚持"]]}};let topic,mode,items=[],i=0,score=0,done=false,ctx,cv,drawing=false;
-const WEAKKEY="Y6_VOCAB_WEAK_V1";let lives=5,musicOn=false;const bgm=document.getElementById("bgm"),correctSound=document.getElementById("correctSound");bgm.volume=.18;correctSound.volume=.65;function updateHearts(){let e=document.getElementById("hearts");e.textContent="❤️".repeat(lives)+"🩶".repeat(5-lives)}function resetLives(){lives=5;updateHearts();document.getElementById("hearts").classList.toggle("hidden",mode==="write")}function playCorrect(){try{correctSound.currentTime=0;correctSound.play().catch(()=>{})}catch(e){}}function loseLife(){lives=Math.max(0,lives-1);updateHearts();return lives===0}function gameOver(){done=true;$("#feedback").textContent="";$("#next").classList.add("hidden");$("#body").innerHTML=`<div class=gameover><h2>🩶🩶🩶🩶🩶</h2><h2>本轮结束</h2><p>5次机会用完了。再试一次！<br><small>Out of hearts. Try this round again.</small></p><button class=next onclick="start(mode)">重新挑战 / Try Again</button></div>`}
+const WEAKKEY="Y6_VOCAB_WEAK_V1";let lives=5,musicOn=false;const bgm=document.getElementById("bgm"),correctSound=document.getElementById("correctSound");bgm.volume=.18;correctSound.volume=.25;function updateHearts(){let e=document.getElementById("hearts");e.textContent="❤️".repeat(lives)+"🩶".repeat(5-lives)}function resetLives(){lives=5;updateHearts();document.getElementById("hearts").classList.toggle("hidden",mode==="write")}function playCorrect(){try{correctSound.currentTime=0;correctSound.play().catch(()=>{})}catch(e){}}function loseLife(){lives=Math.max(0,lives-1);updateHearts();let e=document.getElementById("hearts");if(e){e.classList.remove("heart-hit");void e.offsetWidth;e.classList.add("heart-hit")}return lives===0}function gameOver(){done=true;$("#feedback").textContent="";$("#next").classList.add("hidden");$("#body").innerHTML=`<div class=gameover><h2>🩶🩶🩶🩶🩶</h2><h2>本轮结束</h2><p>5次机会用完了。再试一次！<br><small>Out of hearts. Try this round again.</small></p><button class=next onclick="start(mode)">重新挑战 / Try Again</button></div>`}
 function getWeak(){try{return JSON.parse(localStorage.getItem(WEAKKEY)||"{}")}catch(e){return {}}}
 function markWeak(w,bad){let x=getWeak();x[w]=(x[w]||0)+(bad?2:-1);if(x[w]<=0)delete x[w];localStorage.setItem(WEAKKEY,JSON.stringify(x))}
 function weakWords(){let x=getWeak();return Object.keys(x).sort((a,b)=>x[b]-x[a])}
@@ -82,4 +171,4 @@ function classify(){
 function write(){let w=items[i];$("#body").innerHTML=`<div class=write><div class=big>${w[0]}</div><div>${w[1]} · ${w[2]}</div></div><div class=padbox><canvas id=pad></canvas></div><div class=tools><button onclick=clearPad()>清除 Clear</button><button onclick=toggleWord()>隐藏／显示词语</button></div>`;setup();$("#next").classList.remove("hidden")}
 function toggleWord(){let e=document.querySelector(".big");e.style.visibility=e.style.visibility==="hidden"?"visible":"hidden"}function clearPad(){ctx&&ctx.clearRect(0,0,cv.width,cv.height)}
 function setup(){cv=$("#pad");let r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx=cv.getContext("2d");ctx.scale(d,d);ctx.lineWidth=5;ctx.lineCap="round";ctx.strokeStyle="#20243a";let p=e=>{let r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};cv.onpointerdown=e=>{drawing=true;let[x,y]=p(e);ctx.beginPath();ctx.moveTo(x,y)};cv.onpointermove=e=>{if(!drawing)return;let[x,y]=p(e);ctx.lineTo(x,y);ctx.stroke()};window.onpointerup=()=>drawing=false}
-const musicBtn=document.getElementById("musicBtn");async function toggleMusic(){musicOn=!musicOn;if(musicOn){try{await bgm.play();musicBtn.textContent="🔊 Music On"}catch(e){musicOn=false;musicBtn.textContent="🎵 Music Off"}}else{bgm.pause();musicBtn.textContent="🎵 Music Off"}}musicBtn.onclick=toggleMusic;</script></body></html>
+const musicBtn=document.getElementById("musicBtn");async function toggleMusic(){musicOn=!musicOn;if(musicOn){try{await bgm.play();musicBtn.textContent="🔊 Music"}catch(e){musicOn=false;musicBtn.textContent="🎵 Music Off"}}else{bgm.pause();musicBtn.textContent="🎵 Music Off"}}musicBtn.onclick=toggleMusic;</script></body></html>
