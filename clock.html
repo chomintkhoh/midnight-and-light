@@ -57,6 +57,8 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .music-btn.active{border-color:var(--pale-gold);box-shadow:0 0 0 1px rgba(217,196,142,.25) inset}
 @media(max-width:600px){.music-control{gap:.35rem}.music-btn{padding:.4rem .62rem;font-size:.78rem}}
 
+
+.calendar-task-note{margin:.55rem auto .2rem;max-width:520px;color:var(--muted-bluegrey);font-size:.92rem}
 </style>
 </head>
 <body>
@@ -89,8 +91,8 @@ successSound.preload="auto";
 successSound.volume=1.0;
 
 const BGM_TRACKS={
-  lofi:"./assets/audio/study-lofi.mp3",
-  classical:"./assets/audio/classical-6.mp3"
+  lofi:{src:"./assets/audio/study-lofi.mp3",volume:0.18},
+  classical:{src:"./assets/audio/classical-6.mp3",volume:0.30}
 };
 const bgm=new Audio();
 bgm.loop=true;
@@ -113,11 +115,12 @@ function setBackgroundMusic(track,userAction=false){
     updateMusicButtons();
     return;
   }
-  const wanted=BGM_TRACKS[track];
+  const wanted=BGM_TRACKS[track].src;
   if(currentBgm!==track||!bgm.src.endsWith(wanted.replace("./",""))){
     bgm.src=wanted;
     currentBgm=track;
   }
+  bgm.volume=BGM_TRACKS[track].volume;
   localStorage.setItem("timePracticeBgm",track);
   updateMusicButtons();
   if(userAction){
@@ -130,7 +133,8 @@ function initMusic(){
   });
   const saved=localStorage.getItem("timePracticeBgm")||"off";
   if(saved!=="off"&&BGM_TRACKS[saved]){
-    bgm.src=BGM_TRACKS[saved];
+    bgm.src=BGM_TRACKS[saved].src;
+    bgm.volume=BGM_TRACKS[saved].volume;
     currentBgm=saved;
     // Browsers normally require a click before playback.
     // Keep the saved selection visible without forcing autoplay.
@@ -188,6 +192,56 @@ function norm(s){return (s||"").replace(/\s+/g,"").trim()} function checkRead(ca
  else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;if(score)playSuccess()}
 function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>({x:e.clientX-r.left,y:e.clientY-r.top});cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
 function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(hd<=7&&md<=4){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
+
+
+const LEARNING_KEY="timePracticeLearningV1";
+const SPECIAL_DATES=[1,2,3,4,5,6,7,8,9,10,14,20,24];
+
+function loadLearning(){
+  try{
+    const x=JSON.parse(localStorage.getItem(LEARNING_KEY)||"{}");
+    return {dates:x.dates||{},recentWrong:Array.isArray(x.recentWrong)?x.recentWrong:[]};
+  }catch(e){return {dates:{},recentWrong:[]}}
+}
+function saveLearning(data){
+  try{localStorage.setItem(LEARNING_KEY,JSON.stringify(data))}catch(e){}
+}
+function recordDateResult(day,correct){
+  const data=loadLearning(),key=String(day);
+  const item=data.dates[key]||{right:0,wrong:0,lastWrong:0};
+  if(correct)item.right=(item.right||0)+1;
+  else{
+    item.wrong=(item.wrong||0)+1;
+    item.lastWrong=Date.now();
+    data.recentWrong=[day,...data.recentWrong.filter(x=>x!==day)].slice(0,8);
+  }
+  data.dates[key]=item;saveLearning(data)
+}
+
+let forcedPracticeDay=null;
+function chooseCalendarDay(max){
+  if(forcedPracticeDay&&forcedPracticeDay<=max){
+    const d=forcedPracticeDay;forcedPracticeDay=null;return d
+  }
+  return weightedCalendarDay(max)
+}
+
+function weightedCalendarDay(max){
+  const data=loadLearning(),pool=[];
+  for(let d=1;d<=max;d++){
+    const item=data.dates[String(d)]||{right:0,wrong:0};
+    let weight=SPECIAL_DATES.includes(d)?6:4; // about 60/40 before personal history
+    const weakness=Math.max(0,(item.wrong||0)-(item.right||0));
+    weight+=Math.min(8,weakness*2);
+    if(data.recentWrong.includes(d))weight+=4;
+    for(let i=0;i<weight;i++)pool.push(d);
+  }
+  return pool[Math.floor(Math.random()*pool.length)]
+}
+function mistakeDates(max){
+  const data=loadLearning();
+  return data.recentWrong.filter(d=>d>=1&&d<=max).slice(0,6)
+}
 
 function daysIn(y,m){return new Date(y,m+1,0).getDate()}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
@@ -534,6 +588,12 @@ function renderCalendar(){
  }else calendarTask(wrap,y,m);
  wrap.append(ws);
  const nav=el("div","page-nav"),back=el("button","","← Previous"),count=el("div","page-count",`${state.calendarPage+1} / 4`),next=el("button","active",state.calendarPage===3?"New Question":"Next →");
+   const weak=mistakeDates(daysIn(y,m));
+   if(weak.length){
+     const pm=el("button","","Practice My Mistakes");
+     pm.onclick=()=>{forcedPracticeDay=weak[Math.floor(Math.random()*weak.length)];newCalendarQuestions();render()};
+     wrap.append(pm);
+   }
  back.disabled=state.calendarPage===0;back.onclick=()=>{if(state.calendarPage>0){state.calendarPage--;render()}};
  next.onclick=()=>{if(state.calendarPage<3){state.calendarPage++;render()}else{newCalendarQuestions();render()}};
  nav.append(back,count,next);wrap.append(nav);p.append(wrap);app.append(p)
