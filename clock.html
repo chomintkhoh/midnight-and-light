@@ -1,602 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Japanese Clock Practice | ミッドナイトとライト</title>
-  <meta name="description" content="Interactive Japanese clock practice: read clocks, write or type Japanese time, and set an analog clock." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg-deep:#0C0E22;
-      --bg-glow:#1B1E45;
-      --panel:rgba(27,30,69,.78);
-      --panel-strong:rgba(18,21,51,.96);
-      --warm-white:#F4F1EA;
-      --muted-bluegrey:#A6A9C9;
-      --pale-gold:#D9C48E;
-      --soft-lavender:#B6A9DA;
-      --good:#7FBF8F;
-      --bad:#E0879A;
-      --border:rgba(217,196,142,.28);
-      --shadow:0 18px 40px rgba(0,0,0,.22);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Japanese Time Practice | ミッドナイトとライト</title>
+<meta name="description" content="Japanese clock, calendar, date and weekday practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#A6A9C9;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 10%,rgba(182,169,218,.16),transparent 30rem),linear-gradient(180deg,var(--bg-glow),var(--bg-deep) 42%)}
+button,input{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 28px));margin:auto;padding:28px 0 54px}.hero{text-align:center;margin-bottom:20px}.hero h1{margin:0;font-size:clamp(30px,4vw,46px)}.hero p{color:var(--muted);font-size:18px}
+.tabs,.subtabs,.modes,.actions,.answer-bank,.choice-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.tabs{margin-bottom:12px}.subtabs{margin-bottom:20px}
+button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,255,.055);border-radius:14px;min-height:48px;padding:10px 16px;font-weight:600}.active{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:20px}.toolbar{text-align:center;margin-bottom:18px}.instruction{font-size:clamp(21px,2.7vw,28px);font-weight:700;margin-bottom:14px}.mode-label{color:var(--muted);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{position:relative;overflow:hidden;background:rgba(12,14,34,.58);border:1px solid rgba(182,169,218,.2);border-radius:19px;padding:14px}.card.correct{border-color:rgba(127,191,143,.72)}.card.incorrect{border-color:rgba(224,135,154,.72)}.q{color:var(--gold);font-weight:700}.hint{color:var(--muted);font-size:14px;min-height:22px;margin:4px 0}
+.clock-wrap{display:flex;justify-content:center}.clock{width:min(100%,220px);height:auto;touch-action:none;user-select:none}
+.slot{position:relative;min-height:60px;border:2px dashed rgba(182,169,218,.38);border-radius:13px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 12px;color:var(--muted);font-size:18px}.slot.selected{outline:3px solid rgba(182,169,218,.7);background:rgba(182,169,218,.12)}.slot.filled{border-style:solid;color:var(--warm)}.slot.has-stamp{padding-right:84px}
+.bank-wrap{grid-column:1/-1;border:1px solid rgba(182,169,218,.24);border-radius:18px;padding:14px;text-align:center}.bank-title{color:var(--gold);font-weight:700;margin-bottom:10px}.answer-chip{font-family:"Zen Kaku Gothic New";font-size:18px}.answer-chip.used{opacity:.38}.answer-chip.selected{outline:3px solid rgba(182,169,218,.7)}.tip{color:var(--muted);font-size:14px;margin-top:9px}
+.answer-zone{position:relative;min-height:100px}.answer-zone.has-stamp input{padding-right:92px}input{width:100%;min-height:52px;border:1px solid rgba(244,241,234,.2);border-radius:13px;background:rgba(255,255,255,.055);color:var(--warm);padding:10px 12px;font-size:21px}
+.feedback{min-height:46px;margin-top:8px}.answer-jp{display:block;color:var(--gold);font-size:18px}.writing{height:120px;background:#f4f1ea;border-radius:12px;touch-action:none;width:100%}
+.listen-card{text-align:center}.listen-btn{width:82px;height:82px;border-radius:50%;font-size:34px;margin:12px auto}.mini-clocks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini-choice{padding:7px}.mini-choice .clock{width:100%}.mini-choice.chosen{outline:3px solid var(--lav)}
+.score{text-align:center;margin:18px auto 0;font-size:20px}.score strong{font-size:30px;color:var(--gold)}
+.set-layout{display:grid;grid-template-columns:1fr minmax(300px,450px);gap:22px}.set-box{text-align:center;background:rgba(12,14,34,.58);border:1px solid var(--border);border-radius:19px;padding:18px}.jp-big{font-family:"Zen Kaku Gothic New";font-size:clamp(30px,5vw,46px);color:var(--gold);font-weight:700}
+.calendar-shell{max-width:900px;margin:auto}.calendar-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.calendar-title{font-size:28px;font-weight:700;color:var(--gold)}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.weekday-head{text-align:center;color:var(--muted);font-size:14px;padding:7px 2px;min-width:0}.weekday-head.sun,.day.sun{color:#E0879A}.weekday-head.sat,.day.sat{color:#78A9E6}.day{min-height:76px;border:1px solid rgba(182,169,218,.22);border-radius:11px;background:rgba(255,255,255,.035);padding:7px;text-align:left;min-width:0}.day.empty{opacity:.18}.day.target{outline:3px solid var(--gold);background:rgba(217,196,142,.12)}
+.calendar-worksheet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}.page-nav{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px}.page-nav .page-count{min-width:70px;text-align:center;color:var(--muted);font-weight:700}.sequence{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.sequence-slot{min-width:92px;min-height:48px;border:1px dashed rgba(217,196,142,.55);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:7px}.choice-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.choice-bank button.used{opacity:.35}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.match-grid button.matched{opacity:.38}.blank-line{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:19px;margin:12px 0}.blank-box{min-width:110px;min-height:44px;border-bottom:2px solid var(--gold);display:inline-flex;align-items:center;justify-content:center}.calendar-question{position:relative;background:rgba(12,14,34,.58);border:1px solid rgba(182,169,218,.2);border-radius:17px;padding:14px;min-width:0}.calendar-question .prompt{font-size:19px;font-weight:700;line-height:1.55;min-height:58px}.calendar-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.calendar-options button{font-family:"Zen Kaku Gothic New";font-size:17px;flex:1 1 42%;min-width:0}.furigana-row{display:flex;justify-content:flex-end;margin-bottom:10px}.furigana-off rt{display:none}ruby{ruby-position:over}rt{font-size:.55em;color:var(--muted);font-weight:500}.write-answer{height:105px;background:#f4f1ea;border-radius:12px;touch-action:none;width:100%;margin-top:10px}.model-answer{margin-top:8px;color:var(--gold);font-family:"Zen Kaku Gothic New";font-size:18px}
+.stamp{position:absolute;width:78px;height:78px;object-fit:contain;right:5px;top:50%;transform:translateY(-50%) rotate(-8deg);pointer-events:none}.fallback{position:absolute;right:8px;top:50%;transform:translateY(-50%) rotate(-8deg);border:4px double var(--good);color:var(--good);border-radius:50%;width:70px;height:70px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.hidden{display:none!important}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar-worksheet{grid-template-columns:repeat(2,minmax(0,1fr))}.set-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.shell{width:min(100% - 12px,1180px);padding-top:16px}.panel{padding:12px;border-radius:18px}.grid,.calendar-worksheet{grid-template-columns:1fr}.tabs,.subtabs{display:grid;grid-template-columns:1fr 1fr}.calendar{gap:2px}.weekday-head{font-size:12px;padding:5px 0}.day{min-height:50px;padding:4px;font-size:14px}.calendar-title{font-size:21px}.mini-clocks{grid-template-columns:repeat(3,minmax(0,1fr))}.card{padding:11px}.clock{max-width:190px}.calendar-question .prompt{min-height:0;font-size:18px}}
 
-    * { box-sizing:border-box; }
-    html { color-scheme:dark; }
-    body {
-      margin:0;
-      min-height:100vh;
-      font-family:Inter, "Zen Kaku Gothic New", system-ui, sans-serif;
-      color:var(--warm-white);
-      background:
-        radial-gradient(circle at 20% 10%, rgba(182,169,218,.16), transparent 30rem),
-        radial-gradient(circle at 80% 0%, rgba(217,196,142,.10), transparent 24rem),
-        linear-gradient(180deg, var(--bg-glow), var(--bg-deep) 42%);
-    }
+/* V2.5 Calendar interaction refinements */
+.calendar-shell{max-width:1040px}.calendar-worksheet{display:block;margin-top:16px}.calendar-worksheet:empty{display:none}.calendar-question{max-width:820px;margin:0 auto;padding:22px}.calendar-question .q{text-align:center;font-size:18px}.calendar-question .prompt{text-align:center;font-size:clamp(22px,3vw,30px);min-height:0;margin:8px 0 18px}.sequence,.choice-bank{justify-content:center}.sequence-slot{min-width:118px;min-height:56px;font-size:20px}.choice-bank button,.match-grid button{font-size:20px;min-height:56px}.match-grid{max-width:700px;margin:12px auto 0;gap:12px 22px}.match-grid button.selected{outline:3px solid var(--lav);background:rgba(182,169,218,.14)}.match-grid button.matched{opacity:.48;border-color:var(--good)}
+.calendar-compact{max-width:650px;margin:0 auto 18px}.calendar-compact .day{min-height:58px;font-size:18px;text-align:center;display:flex;align-items:center;justify-content:center}.calendar-compact .calendar-title{font-size:24px}.day.clickable{cursor:pointer}.day.clickable:hover{background:rgba(182,169,218,.10)}.day.day-correct{outline:3px solid var(--good);background:rgba(127,191,143,.14)}.day.day-wrong{outline:3px solid var(--bad);background:rgba(224,135,154,.12)}
+.answer-mode{display:flex;justify-content:center;gap:8px;margin:10px 0 14px}.answer-mode button{min-height:42px;padding:7px 13px}.answer-area{max-width:620px;margin:auto}.answer-area input{font-family:"Zen Kaku Gothic New";text-align:center;font-size:24px}.write-answer{height:145px}.calendar-task-note{text-align:center;color:var(--muted);font-size:14px;margin-top:-8px;margin-bottom:12px}
+@media(max-width:600px){.calendar-question{padding:16px 10px}.match-grid{gap:8px}.match-grid button{font-size:17px;padding:8px}.sequence-slot{min-width:88px;font-size:17px}.calendar-compact .day{min-height:44px;font-size:15px}.write-answer{height:125px}}
 
-    button, input, select { font:inherit; }
-    button { cursor:pointer; }
-    button:disabled { cursor:not-allowed; opacity:.58; }
-
-    .page-shell {
-      width:min(1180px, calc(100% - 32px));
-      margin:0 auto;
-      padding:32px 0 56px;
-    }
-
-    .hero {
-      text-align:center;
-      margin-bottom:24px;
-    }
-    .hero h1 {
-      margin:0;
-      font-size:clamp(30px, 4vw, 46px);
-      letter-spacing:-.02em;
-    }
-    .hero p {
-      margin:10px auto 0;
-      max-width:760px;
-      color:var(--muted-bluegrey);
-      font-size:clamp(17px, 2vw, 20px);
-      line-height:1.6;
-    }
-
-    .top-tabs,
-    .segmented {
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
-    }
-
-    .top-tabs { margin:0 0 22px; }
-
-    .tab-btn,
-    .seg-btn,
-    .mode-btn,
-    .btn,
-    .small-btn {
-      border:1px solid var(--border);
-      color:var(--warm-white);
-      background:rgba(255,255,255,.055);
-      border-radius:14px;
-      min-height:50px;
-      padding:11px 18px;
-      font-size:18px;
-      font-weight:600;
-      transition:background .18s ease, border-color .18s ease, transform .18s ease;
-    }
-
-    .tab-btn[aria-selected="true"],
-    .seg-btn.active,
-    .mode-btn.active,
-    .btn.primary {
-      background:rgba(217,196,142,.17);
-      border-color:rgba(217,196,142,.78);
-    }
-
-    @media (hover:hover) and (pointer:fine) {
-      .tab-btn:hover, .seg-btn:hover, .mode-btn:hover, .btn:hover, .small-btn:hover {
-        background:rgba(255,255,255,.09);
-      }
-    }
-
-    button:focus-visible, input:focus-visible {
-      outline:3px solid rgba(182,169,218,.7);
-      outline-offset:3px;
-    }
-
-    .panel {
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      padding:22px;
-      backdrop-filter:blur(10px);
-    }
-
-    .toolbar {
-      display:grid;
-      gap:18px;
-      margin-bottom:22px;
-    }
-
-    .toolbar-row {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-
-    .toolbar-label {
-      font-size:17px;
-      color:var(--muted-bluegrey);
-      font-weight:600;
-    }
-
-    .instruction {
-      font-size:clamp(22px, 2.7vw, 28px);
-      font-weight:700;
-      line-height:1.4;
-      text-align:center;
-      margin:4px 0 2px;
-    }
-
-    .mode-grid {
-      display:flex;
-      flex-wrap:wrap;
-      gap:9px;
-    }
-    .mode-btn {
-      font-size:16px;
-      min-height:44px;
-      padding:9px 13px;
-    }
-
-    .worksheet-grid {
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:16px;
-    }
-
-    .section-hint {
-      min-height:24px;
-      margin:2px 0 4px;
-      color:var(--muted-bluegrey);
-      font-size:15px;
-      font-weight:600;
-    }
-    .answer-bank-wrap {
-      grid-column:1 / -1;
-      margin:2px 0 8px;
-      padding:15px;
-      border:1px solid rgba(182,169,218,.24);
-      border-radius:18px;
-      background:rgba(255,255,255,.035);
-      text-align:center;
-    }
-    .answer-bank-title {
-      color:var(--pale-gold);
-      font-size:18px;
-      font-weight:700;
-      margin-bottom:10px;
-    }
-    .answer-bank {
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .answer-chip {
-      min-height:48px;
-      padding:9px 14px;
-      border:1px solid rgba(217,196,142,.38);
-      border-radius:13px;
-      background:rgba(217,196,142,.08);
-      color:var(--warm-white);
-      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
-      font-size:19px;
-      cursor:grab;
-    }
-    .answer-chip.selected {
-      outline:3px solid rgba(182,169,218,.7);
-      background:rgba(182,169,218,.16);
-    }
-    .bank-tip {
-      margin-top:9px;
-      color:var(--muted-bluegrey);
-      font-size:14px;
-    }
-    .drop-zone {
-      position:relative;
-      min-height:62px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:9px 12px;
-      border:2px dashed rgba(182,169,218,.35);
-      border-radius:13px;
-      color:var(--muted-bluegrey);
-      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
-      font-size:18px;
-      text-align:center;
-      transition:.16s ease;
-    }
-    .drop-zone.filled {
-      border-style:solid;
-      color:var(--warm-white);
-      background:rgba(182,169,218,.08);
-    }
-    .drop-zone.drag-over {
-      border-color:var(--pale-gold);
-      background:rgba(217,196,142,.1);
-    }
-    .drop-zone.has-stamp {
-      padding-right:86px;
-    }
-    .drop-zone .stamp {
-      right:5px;
-      top:50%;
-      width:76px;
-      height:76px;
-      transform:translateY(-50%) scale(.35) rotate(-10deg);
-    }
-    .drop-zone .stamp.show {
-      animation:stamp-pop-drop .34s cubic-bezier(.2,1.35,.45,1) forwards;
-    }
-    @keyframes stamp-pop-drop {
-      to { opacity:1; transform:translateY(-50%) scale(1) rotate(-8deg); }
-    }
-    .score-note {
-      margin-top:5px;
-      color:var(--muted-bluegrey);
-      font-size:14px;
-      line-height:1.4;
-    }
-
-    .question-card {
-      min-width:0;
-      background:rgba(12,14,34,.58);
-      border:1px solid rgba(182,169,218,.2);
-      border-radius:20px;
-      padding:15px;
-      position:relative;
-      overflow:hidden;
-    }
-    .question-card.correct {
-      border-color:rgba(127,191,143,.72);
-      background:rgba(127,191,143,.075);
-    }
-    .question-card.incorrect {
-      border-color:rgba(224,135,154,.72);
-      background:rgba(224,135,154,.065);
-    }
-
-    .q-number {
-      font-size:17px;
-      font-weight:700;
-      color:var(--pale-gold);
-      margin-bottom:4px;
-    }
-
-    .clock-wrap {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-width:0;
-    }
-    .clock-svg {
-      display:block;
-      width:min(100%, 220px);
-      height:auto;
-      touch-action:none;
-      user-select:none;
-    }
-
-    .answer-zone {
-      position:relative;
-      min-height:104px;
-    }
-    .answer-input {
-      width:100%;
-      min-height:54px;
-      border:1px solid rgba(244,241,234,.2);
-      border-radius:13px;
-      background:rgba(255,255,255,.055);
-      color:var(--warm-white);
-      padding:10px 13px;
-      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
-      font-size:22px;
-    }
-    .answer-input::placeholder { color:rgba(166,169,201,.72); }
-
-    .feedback {
-      min-height:50px;
-      margin-top:9px;
-      line-height:1.45;
-      font-size:16px;
-    }
-    .feedback strong { font-size:18px; }
-    .answer-jp {
-      display:block;
-      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
-      color:var(--pale-gold);
-      font-size:18px;
-      margin-top:2px;
-    }
-
-    .writing-box {
-      position:relative;
-      background:rgba(244,241,234,.96);
-      border-radius:13px;
-      overflow:hidden;
-      border:1px solid rgba(244,241,234,.32);
-    }
-    .writing-canvas {
-      display:block;
-      width:100%;
-      height:120px;
-      touch-action:none;
-      cursor:crosshair;
-    }
-    .small-btn {
-      min-height:40px;
-      font-size:15px;
-      padding:7px 11px;
-      border-radius:11px;
-    }
-    .canvas-tools {
-      display:flex;
-      justify-content:flex-end;
-      margin-top:8px;
-    }
-
-    .actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
-      margin-top:20px;
-    }
-
-    .btn {
-      min-height:52px;
-      font-size:18px;
-      padding:11px 20px;
-    }
-
-    .score-box {
-      margin:18px auto 0;
-      width:fit-content;
-      min-width:230px;
-      text-align:center;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px 20px;
-      background:rgba(255,255,255,.045);
-      font-size:20px;
-    }
-    .score-box .big {
-      font-size:32px;
-      font-weight:800;
-      color:var(--pale-gold);
-    }
-
-    .write-note {
-      text-align:center;
-      color:var(--muted-bluegrey);
-      font-size:16px;
-      line-height:1.5;
-      margin:14px 0 0;
-    }
-
-    .set-layout {
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) minmax(320px, 460px);
-      gap:24px;
-      align-items:start;
-    }
-
-    .set-prompt-card {
-      background:rgba(12,14,34,.62);
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:20px;
-      text-align:center;
-    }
-    .set-prompt-label {
-      color:var(--muted-bluegrey);
-      font-size:17px;
-      margin-bottom:10px;
-    }
-    .set-prompt-value {
-      font-family:"Zen Kaku Gothic New", Inter, sans-serif;
-      font-size:clamp(32px, 5vw, 48px);
-      font-weight:700;
-      color:var(--pale-gold);
-      min-height:72px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      word-break:break-word;
-    }
-
-    .interactive-clock .clock-svg {
-      width:min(100%, 420px);
-    }
-
-    .hand-controls {
-      display:grid;
-      gap:12px;
-      margin-top:16px;
-    }
-    .hand-row {
-      display:grid;
-      grid-template-columns:1fr auto auto;
-      gap:9px;
-      align-items:center;
-    }
-    .hand-row .label {
-      text-align:left;
-      font-weight:700;
-      font-size:18px;
-    }
-
-    .round-btn {
-      width:48px;
-      height:48px;
-      border-radius:50%;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      color:var(--warm-white);
-      font-size:26px;
-      font-weight:700;
-    }
-
-    .set-feedback {
-      min-height:82px;
-      margin-top:14px;
-      font-size:18px;
-      line-height:1.5;
-    }
-    .correct-feedback .feedback-head {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:16px;
-      min-height:118px;
-    }
-    .correct-feedback .feedback-head strong {
-      font-size:28px;
-    }
-    .correct-feedback .feedback-head .stamp {
-      position:static;
-      width:118px;
-      height:118px;
-      flex:0 0 118px;
-    }
-    .correct-feedback .feedback-head .fallback-stamp {
-      position:static;
-      width:104px;
-      height:104px;
-      flex:0 0 104px;
-    }
+/* V2.6 regression-safe calendar refinements */
+.sequence-slot{cursor:pointer;background:rgba(255,255,255,.025)}
+.sequence-slot.selected{outline:3px solid var(--lav);background:rgba(182,169,218,.13)}
+.sequence-slot.filled{border-style:solid;border-color:var(--good);color:var(--warm)}
+.choice-bank button.selected{outline:3px solid var(--lav);background:rgba(182,169,218,.13)}
+.choice-bank button.used{opacity:.42}
+.calendar-question{max-width:900px}
+.calendar-compact{max-width:560px}
+.calendar-compact .day{min-height:50px}
+.calendar-task-type{text-align:center;color:var(--gold);font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.month-reading{font-family:"Zen Kaku Gothic New";font-size:clamp(28px,4vw,40px);text-align:center;color:var(--gold);font-weight:700;margin:8px 0 16px}
+@media(max-width:600px){.calendar-compact{max-width:100%}.calendar-compact .day{min-height:42px}.sequence-slot{min-width:70px}}
 
 
-    .answer-zone.has-stamp .answer-input {
-      padding-right:92px;
-    }
-    .answer-zone .stamp {
-      position:absolute;
-      right:6px;
-      top:-10px;
-      width:82px;
-      height:82px;
-      z-index:4;
-      filter:drop-shadow(0 5px 10px rgba(0,0,0,.28));
-    }
-    .answer-zone .fallback-stamp {
-      position:absolute;
-      right:8px;
-      top:-6px;
-      width:76px;
-      height:76px;
-      z-index:4;
-    }
+.music-control{display:flex;align-items:center;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-top:.8rem}
+.music-label{font-size:.88rem;color:var(--muted-bluegrey);margin-right:.1rem}
+.music-btn{padding:.42rem .72rem;border-radius:999px;font-size:.82rem;line-height:1.1}
+.music-btn.active{border-color:var(--pale-gold);box-shadow:0 0 0 1px rgba(217,196,142,.25) inset}
+@media(max-width:600px){.music-control{gap:.35rem}.music-btn{padding:.4rem .62rem;font-size:.78rem}}
 
-    .stamp {
-      position:absolute;
-      right:10px;
-      top:8px;
-      width:82px;
-      height:82px;
-      object-fit:contain;
-      pointer-events:none;
-      opacity:0;
-      transform:scale(.35) rotate(-10deg);
-    }
-    .stamp.show {
-      animation:stamp-pop .34s cubic-bezier(.2,1.35,.45,1) forwards;
-    }
-    @keyframes stamp-pop {
-      to { opacity:1; transform:scale(1) rotate(-8deg); }
-    }
-
-    .fallback-stamp {
-      position:absolute;
-      right:12px;
-      top:10px;
-      width:76px;
-      height:76px;
-      border:4px double var(--good);
-      color:var(--good);
-      border-radius:50%;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-weight:800;
-      font-size:15px;
-      line-height:1.05;
-      transform:rotate(-8deg);
-      background:rgba(12,14,34,.82);
-      pointer-events:none;
-    }
-    .fallback-stamp.show {
-      display:flex;
-      animation:stamp-pop .34s cubic-bezier(.2,1.35,.45,1) forwards;
-    }
-
-    .hidden { display:none !important; }
-
-    @media (max-width:900px) {
-      .worksheet-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .set-layout { grid-template-columns:1fr; }
-      .interactive-clock .clock-svg { width:min(100%, 360px); }
-    }
-
-    @media (max-width:600px) {
-      .page-shell { width:min(100% - 20px, 1180px); padding-top:20px; }
-      .panel { padding:14px; border-radius:18px; }
-      .worksheet-grid { grid-template-columns:1fr; gap:13px; }
-      .question-card { padding:14px; }
-      .clock-svg { width:min(100%, 230px); }
-      .top-tabs, .segmented { display:grid; grid-template-columns:1fr 1fr; width:100%; }
-      .tab-btn, .seg-btn { width:100%; font-size:17px; padding-inline:10px; }
-      .mode-grid { display:grid; grid-template-columns:1fr 1fr; width:100%; }
-      .mode-btn { width:100%; }
-      .toolbar-row { align-items:stretch; }
-      .toolbar-label { width:100%; text-align:center; }
-      .actions { display:grid; grid-template-columns:1fr; }
-      .btn { width:100%; }
-      .writing-canvas { height:135px; }
-      .hand-row { grid-template-columns:1fr 48px 48px; }
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.001ms !important; }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <main class="page-shell">
-    <header class="hero">
-      <h1>Japanese Clock Practice</h1>
-      <p>Practice reading Japanese time and setting an analog clock.</p>
-    </header>
+<main class="shell">
+<header class="hero">
+<h1>Japanese Time Practice</h1>
+<p>Clock, calendar, dates and weekdays.</p>
+<div class="music-control" aria-label="Background music">
+  <span class="music-label">🎵 Music</span>
+  <button type="button" class="music-btn active" data-track="off">Off</button>
+  <button type="button" class="music-btn" data-track="lofi">Study Lofi</button>
+  <button type="button" class="music-btn" data-track="classical">Classical</button>
+</div>
+</header>
+<nav class="tabs">
+<button id="clockMain" class="active">🕐 Clock</button>
+<button id="calendarMain">📅 Calendar</button>
+</nav>
+<nav id="clockSubs" class="subtabs">
+<button id="readTab" class="active">Read & Write</button>
+<button id="setTab">Set the Clock</button>
+</nav>
+<section id="app" aria-live="polite"></section>
+</main>
+<script>
+const STAMP_SRC="./assets/images/great-stamp.png";
+const SUCCESS_SOUND_SRC="./assets/audio/ui/success-stamp.mp3";
+const successSound=new Audio(SUCCESS_SOUND_SRC);
+successSound.preload="auto";
+successSound.volume=1.0;
 
-    <nav class="top-tabs" aria-label="Practice type">
-      <button class="tab-btn" id="readTab" type="button" aria-selected="true">Read &amp; Write</button>
-      <button class="tab-btn" id="setTab" type="button" aria-selected="false">Set the Clock</button>
-    </nav>
+const BGM_TRACKS={
+  lofi:"./assets/audio/study-lofi.mp3",
+  classical:"./assets/audio/classical-6.mp3"
+};
+const bgm=new Audio();
+bgm.loop=true;
+bgm.preload="metadata";
+bgm.volume=0.18;
+let currentBgm="off";
 
-    <section id="app" aria-live="polite"></section>
-  </main>
+function updateMusicButtons(){
+  document.querySelectorAll(".music-btn").forEach(btn=>{
+    const on=btn.dataset.track===currentBgm;
+    btn.classList.toggle("active",on);
+    btn.setAttribute("aria-pressed",on?"true":"false");
+  });
+}
+function setBackgroundMusic(track,userAction=false){
+  if(track==="off"||!BGM_TRACKS[track]){
+    bgm.pause();
+    currentBgm="off";
+    localStorage.setItem("timePracticeBgm","off");
+    updateMusicButtons();
+    return;
+  }
+  const wanted=BGM_TRACKS[track];
+  if(currentBgm!==track||!bgm.src.endsWith(wanted.replace("./",""))){
+    bgm.src=wanted;
+    currentBgm=track;
+  }
+  localStorage.setItem("timePracticeBgm",track);
+  updateMusicButtons();
+  if(userAction){
+    bgm.play().catch(()=>{});
+  }
+}
+function initMusic(){
+  document.querySelectorAll(".music-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>setBackgroundMusic(btn.dataset.track,true));
+  });
+  const saved=localStorage.getItem("timePracticeBgm")||"off";
+  if(saved!=="off"&&BGM_TRACKS[saved]){
+    bgm.src=BGM_TRACKS[saved];
+    currentBgm=saved;
+    // Browsers normally require a click before playback.
+    // Keep the saved selection visible without forcing autoplay.
+  }
+  updateMusicButtons();
+}
+const MODES=[["oclock","O'clock"],["every10","Every 10 Minutes"],["every5","Every 5 Minutes"],["minutes1to10","Minutes 1–10"],["mixed","Mixed"]];
+const HOUR={1:"いちじ",2:"にじ",3:"さんじ",4:"よじ",5:"ごじ",6:"ろくじ",7:"しちじ",8:"はちじ",9:"くじ",10:"じゅうじ",11:"じゅういちじ",12:"じゅうにじ"};
+const MIN={0:"",1:"いっぷん",2:"にふん",3:"さんぷん",4:"よんぷん",5:"ごふん",6:"ろっぷん",7:"ななふん",8:"はっぷん",9:"きゅうふん",10:"じゅっぷん",15:"じゅうごふん",20:"にじゅっぷん",25:"にじゅうごふん",30:"さんじゅっぷん",35:"さんじゅうごふん",40:"よんじゅっぷん",45:"よんじゅうごふん",50:"ごじゅっぷん",55:"ごじゅうごふん"};
+const WEEKDAYS=["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"];
+const MONTHS=["いちがつ","にがつ","さんがつ","しがつ","ごがつ","ろくがつ","しちがつ","はちがつ","くがつ","じゅうがつ","じゅういちがつ","じゅうにがつ"];
+const DATE_READ={1:"ついたち",2:"ふつか",3:"みっか",4:"よっか",5:"いつか",6:"むいか",7:"なのか",8:"ようか",9:"ここのか",10:"とおか",11:"じゅういちにち",12:"じゅうににち",13:"じゅうさんにち",14:"じゅうよっか",15:"じゅうごにち",16:"じゅうろくにち",17:"じゅうしちにち",18:"じゅうはちにち",19:"じゅうくにち",20:"はつか",21:"にじゅういちにち",22:"にじゅうににち",23:"にじゅうさんにち",24:"にじゅうよっか",25:"にじゅうごにち",26:"にじゅうろくにち",27:"にじゅうしちにち",28:"にじゅうはちにち",29:"にじゅうくにち",30:"さんじゅうにち",31:"さんじゅういちにち"};
+const state={main:"clock",sub:"read",mode:"mixed",worksheet:[],calendarDifficulty:"easy",calendarDate:new Date(),calendarQuestions:[],calendarPage:0,furigana:true,setTarget:null,setClock:null};
+const app=document.getElementById("app");
+function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
+function playSuccess(){successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}
+function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
+function minsFor(mode){return mode==="oclock"?[0]:mode==="every10"?[0,10,20,30,40,50]:mode==="every5"?[0,5,10,15,20,25,30,35,40,45,50,55]:mode==="minutes1to10"?[1,2,3,4,5,6,7,8,9,10]:[0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55]}
+function minuteReading(n){if(MIN[n]!==undefined)return MIN[n];const tens=Math.floor(n/10)*10,ones=n%10;const tensMap={20:"にじゅう",30:"さんじゅう",40:"よんじゅう",50:"ごじゅう"};return (tensMap[tens]||"")+MIN[ones]}
+function timeObj(h,m){return {h,m,reading:HOUR[h]+(m?" "+minuteReading(m):"")}}
+function randomTimes(n){const pool=[];for(let h=1;h<=12;h++)for(const m of minsFor(state.mode))pool.push(timeObj(h,m));pool.sort(()=>Math.random()-.5);return pool.slice(0,n)}
+function hourAngle(h,m){return ((h%12)*30)+(m*.5)} function minuteAngle(m){return m*6}
+function clockSVG(time,interactive=false){
+ const NS="http://www.w3.org/2000/svg",s=240,c=120,r=110,svg=document.createElementNS(NS,"svg");svg.setAttribute("viewBox","0 0 240 240");svg.classList.add("clock");
+ const face=document.createElementNS(NS,"circle");for(const [k,v] of Object.entries({cx:c,cy:c,r:r,fill:"rgba(244,241,234,.06)",stroke:"rgba(217,196,142,.55)","stroke-width":2}))face.setAttribute(k,v);svg.append(face);
+ for(let i=0;i<60;i++){const a=i*6*Math.PI/180,maj=i%5===0,o=r-6,inn=r-(maj?14:9),ln=document.createElementNS(NS,"line");ln.setAttribute("x1",c+Math.sin(a)*inn);ln.setAttribute("y1",c-Math.cos(a)*inn);ln.setAttribute("x2",c+Math.sin(a)*o);ln.setAttribute("y2",c-Math.cos(a)*o);ln.setAttribute("stroke",maj?"rgba(217,196,142,.75)":"rgba(244,241,234,.22)");ln.setAttribute("stroke-width",maj?2:1);svg.append(ln)}
+ for(let n=1;n<=12;n++){const a=(n*30-90)*Math.PI/180,t=document.createElementNS(NS,"text");t.setAttribute("x",c+Math.cos(a)*(r-29));t.setAttribute("y",c+Math.sin(a)*(r-29)+7);t.setAttribute("text-anchor","middle");t.setAttribute("font-size","19");t.setAttribute("fill","#F4F1EA");t.textContent=n;svg.append(t)}
+ function hand(len,w,col){const l=document.createElementNS(NS,"line");l.setAttribute("x1",c);l.setAttribute("y1",c);l.setAttribute("x2",c);l.setAttribute("y2",c-r*len);l.setAttribute("stroke",col);l.setAttribute("stroke-width",w);l.setAttribute("stroke-linecap","round");svg.append(l);return l}
+ const hh=hand(.5,7,"#D9C48E"),mh=hand(.78,4.5,"#B6A9DA");const dot=document.createElementNS(NS,"circle");dot.setAttribute("cx",c);dot.setAttribute("cy",c);dot.setAttribute("r",5);dot.setAttribute("fill","#F4F1EA");svg.append(dot);
+ let angles={hour:hourAngle(time.h,time.m),minute:minuteAngle(time.m)};function set(){hh.setAttribute("transform",`rotate(${angles.hour} ${c} ${c})`);mh.setAttribute("transform",`rotate(${angles.minute} ${c} ${c})`)}set();
+ if(interactive){svg.style.touchAction="none";let which=null;function ang(e){const b=svg.getBoundingClientRect(),x=(e.clientX-b.left)/b.width*s,y=(e.clientY-b.top)/b.height*s;let d=Math.atan2(x-c,-(y-c))*180/Math.PI;return d<0?d+360:d}
+   svg.addEventListener("pointerdown",e=>{e.preventDefault();const a=ang(e);const dh=Math.min(Math.abs(a-angles.hour),360-Math.abs(a-angles.hour)),dm=Math.min(Math.abs(a-angles.minute),360-Math.abs(a-angles.minute));which=dh<dm?"hour":"minute";svg.setPointerCapture(e.pointerId);angles[which]=a;set()});
+   svg.addEventListener("pointermove",e=>{if(!which)return;angles[which]=ang(e);set()});svg.addEventListener("pointerup",()=>which=null);svg.addEventListener("pointercancel",()=>which=null)}
+ return {svg,get:()=>({...angles}),setTime:t=>{angles={hour:hourAngle(t.h,t.m),minute:minuteAngle(t.m)};set()}}
+}
+function renderModes(parent){const m=el("div","modes");MODES.forEach(([id,label])=>{const b=el("button",state.mode===id?"active":"",label);b.onclick=()=>{state.mode=id;state.worksheet=[];render()};m.append(b)});parent.append(m)}
+function renderRead(){
+ if(!state.worksheet.length)state.worksheet=randomTimes(9);const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Look at the clocks and answer in Japanese."));renderModes(tb);p.append(tb);
+ const g=el("div","grid"),cards=[],slots=[];let selectedSlot=null,selectedChip=null;
+ state.worksheet.forEach((t,i)=>{const c=el("article","card");c.append(el("div","q",`Question ${i+1}`));c.append(el("div","hint",i<3?"Match the answers.":i<6?"Type the time in Japanese.":"Write the time in Japanese."));const cw=el("div","clock-wrap");cw.append(clockSVG(t).svg);c.append(cw);
+   if(i<3){const s=el("button","slot","Tap here");s.dataset.answer="";s.onclick=()=>{slots.forEach(x=>x.classList.remove("selected"));s.classList.add("selected");selectedSlot=s;if(selectedChip)assign(selectedChip,s)};slots.push(s);c.append(s);c.append(el("div","feedback"))}
+   else if(i<6){const az=el("div","answer-zone"),inp=el("input");inp.placeholder="e.g. はちじ ごふん";az.append(inp,el("div","feedback"));c.append(az)}
+   else{const cv=el("canvas","writing");c.append(cv);const clear=el("button","","Clear");clear.onclick=()=>cv.getContext("2d").clearRect(0,0,cv.width,cv.height);c.append(clear,el("div","feedback"));requestAnimationFrame(()=>drawInit(cv))}
+   cards.push(c);g.append(c)});
+ const bank=el("div","bank-wrap");bank.append(el("div","bank-title","Answer Bank"));const bi=el("div","answer-bank");
+ const answers=state.worksheet.slice(0,3).map(x=>x.reading).sort(()=>Math.random()-.5);
+ function refreshUsed(){const used=slots.map(s=>s.dataset.answer).filter(Boolean);bi.querySelectorAll(".answer-chip").forEach(ch=>ch.classList.toggle("used",used.includes(ch.dataset.answer)))}
+ function assign(ch,s){if(!ch||!s)return;s.dataset.answer=ch.dataset.answer;s.textContent=ch.dataset.answer;s.classList.add("filled");s.classList.remove("selected");selectedSlot=null;selectedChip=null;bi.querySelectorAll(".answer-chip").forEach(x=>x.classList.remove("selected"));refreshUsed()}
+ answers.forEach(a=>{const ch=el("button","answer-chip",a);ch.dataset.answer=a;ch.onclick=()=>{bi.querySelectorAll(".answer-chip").forEach(x=>x.classList.remove("selected"));ch.classList.add("selected");selectedChip=ch;if(selectedSlot)assign(ch,selectedSlot)};bi.append(ch)});bank.append(bi,el("div","tip","Tap a box, then tap an answer."));g.insertBefore(bank,cards[3]);p.append(g);
+ const act=el("div","actions"),check=el("button","active","Check Answers"),fresh=el("button","","New Questions");check.onclick=()=>checkRead(cards);fresh.onclick=()=>{state.worksheet=randomTimes(9);render()};act.append(check,fresh);p.append(act);const sc=el("div","score hidden");sc.id="score";p.append(sc);app.append(p)
+}
+function norm(s){return (s||"").replace(/\s+/g,"").trim()} function checkRead(cards){let score=0;cards.forEach((c,i)=>{c.classList.remove("correct","incorrect");c.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());c.querySelectorAll(".has-stamp").forEach(x=>x.classList.remove("has-stamp"));const t=state.worksheet[i],fb=c.querySelector(".feedback");
+ if(i<3){const s=c.querySelector(".slot"),ok=norm(s.dataset.answer)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(ok){score++;s.classList.add("has-stamp");stamp(s)}}
+ else if(i<6){const az=c.querySelector(".answer-zone"),ok=norm(az.querySelector("input").value)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
+ else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;if(score)playSuccess()}
+function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>({x:e.clientX-r.left,y:e.clientY-r.top});cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
+function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(hd<=7&&md<=4){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
 
-  <script type="module" src="./clock-app.js"></script>
-</body>
-</html>
+function daysIn(y,m){return new Date(y,m+1,0).getDate()}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+const WD_KAN=["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"];
+const WD_KANA=["にちようび","げつようび","かようび","すいようび","もくようび","きんようび","どようび"];
+const WD_SHORT_KAN=["日","月","火","水","木","金","土"];
+const WD_SHORT_KANA=["にち","げつ","か","すい","もく","きん","ど"];
+function weekdayHTML(i,short=false){
+ return short?WD_SHORT_KAN[i]:WD_KAN[i]
+}
+function setHTML(node,html){node.innerHTML=html;return node}
+function monthHTML(m){return `${m+1}月`}
+function dateLabel(day){return `${day}日`}
+function newCalendarQuestions(){
+ const d=state.calendarDate,y=d.getFullYear(),m=d.getMonth(),max=daysIn(y,m);
+ const day=1+Math.floor(Math.random()*max);
+ const kinds=state.calendarDifficulty==="easy"
+   ?["click-number","click-reading","date-reading","month-reading"]
+   :["click-number","click-reading","date-reading","month-reading","full-date-reading","weekday-of-date","click-weekday"];
+ let kind=kinds[Math.floor(Math.random()*kinds.length)];
+ state.calendarQuestions=[day,kind,Math.random()];
+}
+function flashWrong(...nodes){
+ nodes.forEach(n=>n.classList.add("incorrect"));
+ setTimeout(()=>nodes.forEach(n=>n.classList.remove("incorrect","selected")),450)
+}
+function tapPlacement(q,ids){
+ const slots=el("div","sequence"),bank=el("div","choice-bank");
+ let selectedSlot=null,selectedCard=null,done=0;
+ const slotEls=[],cardEls=[];
+ ids.forEach((id,pos)=>{
+   const s=el("button","sequence-slot",String(pos+1));
+   s.dataset.pos=String(pos); s.dataset.answer=String(id);
+   s.onclick=()=>{
+     if(s.classList.contains("filled"))return;
+     slotEls.forEach(x=>x.classList.remove("selected"));
+     s.classList.add("selected"); selectedSlot=s;
+     if(selectedCard)tryPair();
+   };
+   slotEls.push(s); slots.append(s)
+ });
+ shuffle(ids).forEach(id=>{
+   const b=el("button","","");
+   setHTML(b,weekdayHTML(id));
+   b.dataset.id=String(id);
+   b.onclick=()=>{
+     if(b.classList.contains("used"))return;
+     cardEls.forEach(x=>x.classList.remove("selected"));
+     b.classList.add("selected"); selectedCard=b;
+     if(selectedSlot)tryPair();
+   };
+   cardEls.push(b);bank.append(b)
+ });
+ function tryPair(){
+   if(!selectedSlot||!selectedCard)return;
+   const expected=Number(selectedSlot.dataset.answer),picked=Number(selectedCard.dataset.id);
+   if(expected===picked){
+     selectedSlot.innerHTML=weekdayHTML(picked);
+     selectedSlot.classList.remove("selected");selectedSlot.classList.add("filled");
+     selectedCard.classList.remove("selected");selectedCard.classList.add("used");selectedCard.disabled=true;
+     selectedSlot.disabled=true;selectedSlot=null;selectedCard=null;done++;
+     if(done===ids.length){stamp(q);playSuccess()}
+   }else{
+     const a=selectedSlot,b=selectedCard;selectedSlot=null;selectedCard=null;flashWrong(a,b)
+   }
+ }
+ q.append(slots,bank)
+}
+
+function tapPlacementKana(q,ids){
+ const slots=el("div","sequence"),bank=el("div","choice-bank");
+ let selectedSlot=null,selectedCard=null,done=0;
+ const slotEls=[],cardEls=[];
+ ids.forEach((id,pos)=>{
+   const s=el("button","sequence-slot",String(pos+1));
+   s.dataset.pos=String(pos);s.dataset.answer=String(id);
+   s.onclick=()=>{
+     if(s.classList.contains("filled"))return;
+     slotEls.forEach(x=>x.classList.remove("selected"));
+     s.classList.add("selected");selectedSlot=s;
+     if(selectedCard)tryPair();
+   };
+   slotEls.push(s);slots.append(s)
+ });
+ shuffle(ids).forEach(id=>{
+   const b=el("button","",WD_KANA[id]);b.dataset.id=String(id);
+   b.onclick=()=>{
+     if(b.classList.contains("used"))return;
+     cardEls.forEach(x=>x.classList.remove("selected"));
+     b.classList.add("selected");selectedCard=b;
+     if(selectedSlot)tryPair();
+   };
+   cardEls.push(b);bank.append(b)
+ });
+ function tryPair(){
+   if(!selectedSlot||!selectedCard)return;
+   const expected=Number(selectedSlot.dataset.answer),picked=Number(selectedCard.dataset.id);
+   if(expected===picked){
+     selectedSlot.textContent=WD_KANA[picked];
+     selectedSlot.classList.remove("selected");selectedSlot.classList.add("filled");
+     selectedCard.classList.remove("selected");selectedCard.classList.add("used");selectedCard.disabled=true;
+     selectedSlot.disabled=true;selectedSlot=null;selectedCard=null;done++;
+     if(done===ids.length){stamp(q);playSuccess()}
+   }else{
+     const a=selectedSlot,b=selectedCard;selectedSlot=null;selectedCard=null;flashWrong(a,b)
+   }
+ }
+ q.append(slots,bank)
+}
+function tapMatch(q,pairs){
+ const box=el("div","match-grid"),left=shuffle(pairs.map((p,i)=>({html:p[0],i}))),right=shuffle(pairs.map((p,i)=>({html:p[1],i})));
+ let selected=null,done=0;const all=[];
+ const clearSelected=()=>{all.forEach(b=>b.classList.remove("selected"));selected=null};
+ const make=(o,side)=>{const b=el("button","","");setHTML(b,o.html);b.dataset.side=side;b.dataset.pair=String(o.i);all.push(b);
+   b.onclick=()=>{
+     if(b.classList.contains("matched"))return;
+     if(!selected){b.classList.add("selected");selected=b;return}
+     if(selected===b){clearSelected();return}
+     if(selected.dataset.side===side){selected.classList.remove("selected");b.classList.add("selected");selected=b;return}
+     if(selected.dataset.pair===b.dataset.pair){
+       selected.classList.remove("selected");selected.classList.add("matched");b.classList.add("matched");
+       selected.disabled=true;b.disabled=true;selected=null;done++;
+       if(done===pairs.length){stamp(q);playSuccess()}
+     }else{const first=selected;selected=null;flashWrong(first,b)}
+   };return b};
+ left.forEach((o,i)=>box.append(make(o,"L"),make(right[i],"R")));q.append(box)
+}
+function fillBlank(q,beforeHTML,answerHTML,afterHTML,poolHTML){
+ const line=el("div","blank-line");line.append(setHTML(el("span"),beforeHTML),el("span","blank-box","?"),setHTML(el("span"),afterHTML));
+ const bank=el("div","choice-bank");
+ shuffle(poolHTML).forEach(x=>{const b=el("button","","");setHTML(b,x);b.onclick=()=>{
+   if(x===answerHTML){setHTML(line.querySelector(".blank-box"),x);bank.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("active");stamp(q);playSuccess()}
+   else{b.classList.add("incorrect");setTimeout(()=>b.classList.remove("incorrect"),450)}
+ };bank.append(b)});q.append(line,bank)
+}
+
+function weekdayMissingPuzzle(q,missingCount,difficulty){
+ const len=difficulty==="easy"?4:5;
+ const start=Math.floor(Math.random()*7);
+ const seq=Array.from({length:len},(_,i)=>(start+i)%7);
+ const eligible=Array.from({length:len},(_,i)=>i);
+ const missing=shuffle(eligible).slice(0,Math.min(missingCount,len-2));
+ const line=el("div","sequence"),bank=el("div","choice-bank");
+ let selectedSlot=null,selectedCard=null,done=0;
+ const slots=[],cards=[];
+ seq.forEach((id,pos)=>{
+   if(missing.includes(pos)){
+     const s=el("button","sequence-slot","?");
+     s.dataset.answer=String(id);
+     s.onclick=()=>{
+       if(s.classList.contains("filled"))return;
+       slots.forEach(x=>x.classList.remove("selected"));s.classList.add("selected");selectedSlot=s;
+       if(selectedCard)pair()
+     };
+     slots.push(s);line.append(s)
+   }else line.append(el("div","sequence-slot filled",WD_KANA[id]))
+ });
+ const distractors=shuffle([0,1,2,3,4,5,6].filter(id=>!missing.map(p=>seq[p]).includes(id))).slice(0,difficulty==="easy"?2:3);
+ const options=shuffle([...missing.map(p=>seq[p]),...distractors]);
+ options.forEach(id=>{
+   const b=el("button","",WD_KANA[id]);b.dataset.id=String(id);
+   b.onclick=()=>{
+     if(b.classList.contains("used"))return;
+     cards.forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedCard=b;
+     if(selectedSlot)pair()
+   };
+   cards.push(b);bank.append(b)
+ });
+ function pair(){
+   if(!selectedSlot||!selectedCard)return;
+   if(Number(selectedSlot.dataset.answer)===Number(selectedCard.dataset.id)){
+     selectedSlot.textContent=selectedCard.textContent;selectedSlot.classList.remove("selected");selectedSlot.classList.add("filled");selectedSlot.disabled=true;
+     selectedCard.classList.remove("selected");selectedCard.classList.add("used");selectedCard.disabled=true;
+     selectedSlot=null;selectedCard=null;done++;
+     if(done===missing.length){stamp(q);playSuccess()}
+   }else{
+     const a=selectedSlot,b=selectedCard;selectedSlot=null;selectedCard=null;flashWrong(a,b)
+   }
+ }
+ q.append(line,bank)
+}
+function weekdayWrongPuzzle(q,difficulty){
+ const len=difficulty==="easy"?4:5,start=Math.floor(Math.random()*7),correct=Array.from({length:len},(_,i)=>(start+i)%7);
+ const wrongPos=1+Math.floor(Math.random()*(len-2)),correctId=correct[wrongPos];
+ let wrongId=correctId;
+ while(wrongId===correctId||wrongId===correct[(wrongPos-1+len)%len]||wrongId===correct[(wrongPos+1)%len])wrongId=Math.floor(Math.random()*7);
+ const shown=[...correct];shown[wrongPos]=wrongId;
+ const line=el("div","sequence"),bank=el("div","choice-bank");let selectedWrong=null,selectedCard=null;
+ const cells=[],cards=[];
+ shown.forEach((id,pos)=>{
+   const b=el("button","sequence-slot filled",WD_KANA[id]);b.dataset.pos=String(pos);
+   b.onclick=()=>{
+     cells.forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedWrong=b;
+     if(selectedCard)check()
+   };cells.push(b);line.append(b)
+ });
+ const opts=shuffle([correctId,...shuffle([0,1,2,3,4,5,6].filter(x=>x!==correctId)).slice(0,difficulty==="easy"?2:3)]);
+ opts.forEach(id=>{
+   const b=el("button","",WD_KANA[id]);b.dataset.id=String(id);
+   b.onclick=()=>{
+     cards.forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedCard=b;
+     if(selectedWrong)check()
+   };cards.push(b);bank.append(b)
+ });
+ function check(){
+   if(!selectedWrong||!selectedCard)return;
+   const pos=Number(selectedWrong.dataset.pos),id=Number(selectedCard.dataset.id);
+   if(pos===wrongPos&&id===correctId){
+     selectedWrong.textContent=WD_KANA[correctId];selectedWrong.classList.remove("selected");selectedWrong.classList.add("filled");
+     cells.forEach(x=>x.disabled=true);cards.forEach(x=>x.disabled=true);selectedCard.classList.add("active");stamp(q);playSuccess()
+   }else{
+     const a=selectedWrong,b=selectedCard;selectedWrong=null;selectedCard=null;flashWrong(a,b)
+   }
+ }
+ q.append(line,bank)
+}
+function drawCalendar(wrap,y,m,onDayClick=null,compact=false){
+ const holder=el("div",compact?"calendar-compact":"");
+ const head=el("div","calendar-head"),prev=el("button","","‹"),next=el("button","","›"),title=el("div","calendar-title","");
+ title.innerHTML=`${y}年 ${monthHTML(m)}`;
+ prev.onclick=()=>{state.calendarDate=new Date(y,m-1,1);newCalendarQuestions();render()};
+ next.onclick=()=>{state.calendarDate=new Date(y,m+1,1);newCalendarQuestions();render()};
+ head.append(prev,title,next);holder.append(head);
+ const cal=el("div","calendar");
+ for(let i=0;i<7;i++){const h=el("div","weekday-head "+(i===0?"sun":i===6?"sat":""));h.innerHTML=weekdayHTML(i,true);cal.append(h)}
+ const first=new Date(y,m,1).getDay();for(let i=0;i<first;i++)cal.append(el("div","day empty",""));
+ for(let day=1;day<=daysIn(y,m);day++){
+   const dow=new Date(y,m,day).getDay(),cell=el("button","day "+(dow===0?"sun":dow===6?"sat":""),String(day));
+   cell.type="button";cell.dataset.day=String(day);
+   if(onDayClick){cell.classList.add("clickable");cell.onclick=()=>onDayClick(day,cell,cal)}
+   else cell.disabled=true;
+   cal.append(cell)
+ }
+ holder.append(cal);wrap.append(holder);return cal
+}
+function makeOptions(correct,pool,onCorrect,htmlMode=false){
+ const box=el("div","calendar-options");
+ const choices=shuffle([correct,...shuffle([...new Set(pool)].filter(x=>x!==correct)).slice(0,3)]);
+ choices.forEach(x=>{
+   const b=el("button","","");htmlMode?setHTML(b,x):b.textContent=x;
+   b.onclick=()=>{
+     if(b.disabled)return;
+     if(x===correct){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("active");onCorrect(b)}
+     else{b.classList.add("incorrect");setTimeout(()=>b.classList.remove("incorrect"),450)}
+   };box.append(b)
+ });return box
+}
+function typingOrWriting(q,answer,displayAnswer=answer){
+ const modes=el("div","answer-mode"),typeBtn=el("button","active","⌨ Type"),writeBtn=el("button","","✍ Write"),area=el("div","answer-area");let mode="type";
+ const paint=()=>{
+   area.innerHTML="";typeBtn.classList.toggle("active",mode==="type");writeBtn.classList.toggle("active",mode==="write");
+   if(mode==="type"){
+     const input=el("input","");input.placeholder="Type your answer in Japanese";
+     const row=el("div","actions"),check=el("button","active","Check Answer");
+     check.onclick=()=>{const v=norm(input.value);if(v===norm(answer)){q.classList.add("correct");stamp(q);playSuccess()}else{q.classList.add("incorrect");setTimeout(()=>q.classList.remove("incorrect"),500);showModel()}};
+     row.append(check);area.append(input,row)
+   }else{
+     const cv=el("canvas","write-answer"),row=el("div","actions"),clear=el("button","","Clear"),check=el("button","active","Check Answer");
+     clear.onclick=()=>cv.getContext("2d").clearRect(0,0,cv.width,cv.height);
+     check.onclick=()=>showModel();
+     row.append(clear,check);area.append(cv,row);requestAnimationFrame(()=>drawInit(cv))
+   }
+ };
+ const showModel=()=>{let a=q.querySelector(".model-answer");if(!a){a=el("div","model-answer");q.append(a)}a.textContent=displayAnswer};
+ typeBtn.onclick=()=>{mode="type";paint()};writeBtn.onclick=()=>{mode="write";paint()};
+ modes.append(typeBtn,writeBtn);q.append(modes,area);paint()
+}
+function calendarTask(wrap,y,m){
+ const max=daysIn(y,m),day=Math.min(state.calendarQuestions[0]||1,max),kind=state.calendarQuestions[1]||"click-number",wd=new Date(y,m,day).getDay();
+ const q=el("article","calendar-question");
+ const label=el("div","calendar-task-type",kind.replaceAll("-"," "));
+ q.append(label);
+ const prompt=el("div","prompt");q.append(prompt);
+ const finish=()=>{stamp(q);playSuccess()};
+ if(kind==="click-number"||kind==="click-reading"||kind==="click-weekday"){
+   if(kind==="click-number")prompt.innerHTML=`Click the correct date.<br><strong class="jp-big">${DATE_READ[day]}</strong>`;
+   if(kind==="click-reading")prompt.innerHTML=`Click the correct date.<br><strong class="jp-big">${MONTHS[m]} ${DATE_READ[day]}</strong>`;
+   if(kind==="click-weekday"){prompt.innerHTML=`Click any matching date.<br><strong class="jp-big">${WD_KANA[wd]}</strong>`}
+   q.append(el("div","calendar-task-note","Tap the correct date on the calendar."));
+   let finished=false;
+   drawCalendar(wrap,y,m,(picked,cell,cal)=>{
+     if(finished)return;
+     const ok=kind==="click-weekday"?new Date(y,m,picked).getDay()===wd:picked===day;
+     if(ok){finished=true;cell.classList.add("day-correct");cal.querySelectorAll(".day").forEach(x=>x.disabled=true);finish()}
+     else{cell.classList.add("day-wrong");setTimeout(()=>cell.classList.remove("day-wrong"),450)}
+   },true);
+   wrap.append(q);return
+ }
+ if(kind!=="weekday-of-date")drawCalendar(wrap,y,m,null,true);
+ if(kind==="month-reading"){
+   prompt.innerHTML=`Read the month.<br><strong class="jp-big">${m+1}月</strong>`;
+   typingOrWriting(q,MONTHS[m])
+ }else if(kind==="date-reading"){
+   prompt.innerHTML=`Read the date.<br><strong class="jp-big">${day}日</strong>`;
+   typingOrWriting(q,DATE_READ[day])
+ }else if(kind==="weekday-of-date"){
+   const deltas=[-3,-2,-1,1,2,3];
+   let anchorDay=day+deltas[Math.floor(Math.random()*deltas.length)];
+   if(anchorDay<1||anchorDay>max) anchorDay=day===1?2:day-1;
+   const anchorWd=new Date(y,m,anchorDay).getDay();
+   prompt.innerHTML=`Use the clue to choose the weekday.<br><strong class="jp-big">${m+1}月${day}日</strong>`;
+   q.append(el("div","calendar-task-note",`Clue: ${m+1}月${anchorDay}日 = ${WD_KANA[anchorWd]}`));
+   q.append(makeOptions(WD_KANA[wd],WD_KANA,finish,false))
+ }else{
+   prompt.innerHTML=`Write this date in hiragana.<br><strong class="jp-big">${m+1}月${day}日</strong>`;
+   typingOrWriting(q,`${MONTHS[m]} ${DATE_READ[day]}`)
+ }
+ wrap.append(q)
+}
+function renderCalendar(){
+ if(!state.calendarQuestions.length)newCalendarQuestions();
+ const p=el("div","panel"),wrap=el("div","calendar-shell");
+ const top=el("div","toolbar");top.append(el("div","instruction","Calendar Practice"));
+ const levels=el("div","modes");
+ [["easy","Easy"],["normal","Normal"]].forEach(([id,label])=>{
+   const b=el("button",state.calendarDifficulty===id?"active":"",label);
+   b.onclick=()=>{state.calendarDifficulty=id;state.calendarPage=0;newCalendarQuestions();render()};levels.append(b)
+ });
+ top.append(levels);wrap.append(top);
+
+ const d=state.calendarDate,y=d.getFullYear(),m=d.getMonth(),ws=el("div","calendar-worksheet");
+ if(state.calendarPage===0){
+   const q=el("article","calendar-question");
+   q.append(el("div","q","Weekday Order"),el("div","prompt","Match each weekday to its correct position."));
+   const ids=state.calendarDifficulty==="easy"?[1,2,3,4,5]:[1,2,3,4,5,6,0];
+   tapPlacementKana(q,ids);ws.append(q)
+ }else if(state.calendarPage===1){
+   const q=el("article","calendar-question");
+   q.append(el("div","q","Match"),el("div","prompt","Tap either side, then tap its match."));
+   const ids=state.calendarDifficulty==="easy"?[1,2,3,4]:shuffle([0,1,2,3,4,5,6]).slice(0,5);
+   tapMatch(q,ids.map(i=>[weekdayHTML(i),WD_KANA[i]]));ws.append(q)
+ }else if(state.calendarPage===2){
+   const q=el("article","calendar-question");
+   const puzzleKinds=state.calendarDifficulty==="easy"?["missing","wrong"]:["missing","missing2","wrong"];
+   const kind=puzzleKinds[Math.floor(Math.random()*puzzleKinds.length)];
+   if(kind==="wrong"){
+     q.append(el("div","q","Find the Wrong Weekday"),el("div","prompt","Find the wrong weekday, then choose the correct one."));
+     weekdayWrongPuzzle(q,state.calendarDifficulty);
+   }else{
+     q.append(el("div","q","Weekday Puzzle"),el("div","prompt","Complete the weekday sequence."));
+     weekdayMissingPuzzle(q,kind==="missing2"?2:1,state.calendarDifficulty);
+   }
+   ws.append(q)
+ }else calendarTask(wrap,y,m);
+ wrap.append(ws);
+ const nav=el("div","page-nav"),back=el("button","","← Previous"),count=el("div","page-count",`${state.calendarPage+1} / 4`),next=el("button","active",state.calendarPage===3?"New Question":"Next →");
+ back.disabled=state.calendarPage===0;back.onclick=()=>{if(state.calendarPage>0){state.calendarPage--;render()}};
+ next.onclick=()=>{if(state.calendarPage<3){state.calendarPage++;render()}else{newCalendarQuestions();render()}};
+ nav.append(back,count,next);wrap.append(nav);p.append(wrap);app.append(p)
+}
+function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
+function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else renderSet()}
+document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};
+initMusic();
+render();
+</script>
+</body></html>
