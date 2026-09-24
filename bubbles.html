@@ -1220,7 +1220,7 @@ function onTap(bub, word) {
       bub.style.animation = '';
       // Re-apply shimmer after shake
       const shimOffset = Math.random() * 8;
-      bub.style.animation = \`iriShimmer \${10 + Math.random()*6}s \${shimOffset}s ease-in-out infinite\`;
+      bub.style.animation = `iriShimmer ${10 + Math.random()*6}s ${shimOffset}s ease-in-out infinite`;
     }, 460);
     // Update error visuals
     G.live.forEach(b => {
