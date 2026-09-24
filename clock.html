@@ -111,7 +111,7 @@ function setBackgroundMusic(track,userAction=false){
   if(track==="off"||!BGM_TRACKS[track]){
     bgm.pause();
     currentBgm="off";
-    localStorage.setItem("timePracticeBgm","off");
+    try{localStorage.setItem("timePracticeBgm","off")}catch(e){}
     updateMusicButtons();
     return;
   }
@@ -121,7 +121,7 @@ function setBackgroundMusic(track,userAction=false){
     currentBgm=track;
   }
   bgm.volume=BGM_TRACKS[track].volume;
-  localStorage.setItem("timePracticeBgm",track);
+  try{localStorage.setItem("timePracticeBgm",track)}catch(e){}
   updateMusicButtons();
   if(userAction){
     bgm.play().catch(()=>{});
@@ -155,6 +155,13 @@ function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remo
 function minsFor(mode){return mode==="oclock"?[0]:mode==="every10"?[0,10,20,30,40,50]:mode==="every5"?[0,5,10,15,20,25,30,35,40,45,50,55]:mode==="minutes1to10"?[1,2,3,4,5,6,7,8,9,10]:[0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55]}
 function minuteReading(n){if(MIN[n]!==undefined)return MIN[n];const tens=Math.floor(n/10)*10,ones=n%10;const tensMap={20:"にじゅう",30:"さんじゅう",40:"よんじゅう",50:"ごじゅう"};return (tensMap[tens]||"")+MIN[ones]}
 function timeObj(h,m){return {h,m,reading:HOUR[h]+(m?" "+minuteReading(m):"")}}
+/* 也算对的其他读法：30分＝はん；10/20/30/40/50分的「じゅっぷん」也可写成「じっぷん」 */
+function acceptedReadings(t){
+ const out=[t.reading];
+ if(t.m===30)out.push(HOUR[t.h]+" はん");
+ if(t.m&&t.m%10===0)out.push(HOUR[t.h]+" "+minuteReading(t.m).replace("じゅっぷん","じっぷん"));
+ return [...new Set(out)];
+}
 function randomTimes(n){const pool=[];for(let h=1;h<=12;h++)for(const m of minsFor(state.mode))pool.push(timeObj(h,m));pool.sort(()=>Math.random()-.5);return pool.slice(0,n)}
 function hourAngle(h,m){return ((h%12)*30)+(m*.5)} function minuteAngle(m){return m*6}
 function clockSVG(time,interactive=false){
@@ -166,8 +173,8 @@ function clockSVG(time,interactive=false){
  const hh=hand(.5,7,"#D9C48E"),mh=hand(.78,4.5,"#B6A9DA");const dot=document.createElementNS(NS,"circle");dot.setAttribute("cx",c);dot.setAttribute("cy",c);dot.setAttribute("r",5);dot.setAttribute("fill","#F4F1EA");svg.append(dot);
  let angles={hour:hourAngle(time.h,time.m),minute:minuteAngle(time.m)};function set(){hh.setAttribute("transform",`rotate(${angles.hour} ${c} ${c})`);mh.setAttribute("transform",`rotate(${angles.minute} ${c} ${c})`)}set();
  if(interactive){svg.style.touchAction="none";let which=null;function ang(e){const b=svg.getBoundingClientRect(),x=(e.clientX-b.left)/b.width*s,y=(e.clientY-b.top)/b.height*s;let d=Math.atan2(x-c,-(y-c))*180/Math.PI;return d<0?d+360:d}
-   svg.addEventListener("pointerdown",e=>{e.preventDefault();const a=ang(e);const dh=Math.min(Math.abs(a-angles.hour),360-Math.abs(a-angles.hour)),dm=Math.min(Math.abs(a-angles.minute),360-Math.abs(a-angles.minute));which=dh<dm?"hour":"minute";svg.setPointerCapture(e.pointerId);angles[which]=a;set()});
-   svg.addEventListener("pointermove",e=>{if(!which)return;angles[which]=ang(e);set()});svg.addEventListener("pointerup",()=>which=null);svg.addEventListener("pointercancel",()=>which=null)}
+   const snap=(w,a)=>w==="minute"?(Math.round(a/6)*6)%360:a;svg.addEventListener("pointerdown",e=>{e.preventDefault();const a=ang(e);const dh=Math.min(Math.abs(a-angles.hour),360-Math.abs(a-angles.hour)),dm=Math.min(Math.abs(a-angles.minute),360-Math.abs(a-angles.minute));which=dh<dm?"hour":"minute";svg.setPointerCapture(e.pointerId);angles[which]=snap(which,a);set()});
+   svg.addEventListener("pointermove",e=>{if(!which)return;angles[which]=snap(which,ang(e));set()});svg.addEventListener("pointerup",()=>which=null);svg.addEventListener("pointercancel",()=>which=null)}
  return {svg,get:()=>({...angles}),setTime:t=>{angles={hour:hourAngle(t.h,t.m),minute:minuteAngle(t.m)};set()}}
 }
 function renderModes(parent){const m=el("div","modes");MODES.forEach(([id,label])=>{const b=el("button",state.mode===id?"active":"",label);b.onclick=()=>{state.mode=id;state.worksheet=[];render()};m.append(b)});parent.append(m)}
@@ -182,16 +189,16 @@ function renderRead(){
  const bank=el("div","bank-wrap");bank.append(el("div","bank-title","Answer Bank"));const bi=el("div","answer-bank");
  const answers=state.worksheet.slice(0,3).map(x=>x.reading).sort(()=>Math.random()-.5);
  function refreshUsed(){const used=slots.map(s=>s.dataset.answer).filter(Boolean);bi.querySelectorAll(".answer-chip").forEach(ch=>ch.classList.toggle("used",used.includes(ch.dataset.answer)))}
- function assign(ch,s){if(!ch||!s)return;s.dataset.answer=ch.dataset.answer;s.textContent=ch.dataset.answer;s.classList.add("filled");s.classList.remove("selected");selectedSlot=null;selectedChip=null;bi.querySelectorAll(".answer-chip").forEach(x=>x.classList.remove("selected"));refreshUsed()}
+ function assign(ch,s){if(!ch||!s)return;slots.forEach(o=>{if(o!==s&&o.dataset.answer===ch.dataset.answer){o.dataset.answer="";o.textContent="Tap here";o.classList.remove("filled")}});s.dataset.answer=ch.dataset.answer;s.textContent=ch.dataset.answer;s.classList.add("filled");s.classList.remove("selected");selectedSlot=null;selectedChip=null;bi.querySelectorAll(".answer-chip").forEach(x=>x.classList.remove("selected"));refreshUsed()}
  answers.forEach(a=>{const ch=el("button","answer-chip",a);ch.dataset.answer=a;ch.onclick=()=>{bi.querySelectorAll(".answer-chip").forEach(x=>x.classList.remove("selected"));ch.classList.add("selected");selectedChip=ch;if(selectedSlot)assign(ch,selectedSlot)};bi.append(ch)});bank.append(bi,el("div","tip","Tap a box, then tap an answer."));g.insertBefore(bank,cards[3]);p.append(g);
  const act=el("div","actions"),check=el("button","active","Check Answers"),fresh=el("button","","New Questions");check.onclick=()=>checkRead(cards);fresh.onclick=()=>{state.worksheet=randomTimes(9);render()};act.append(check,fresh);p.append(act);const sc=el("div","score hidden");sc.id="score";p.append(sc);app.append(p)
 }
 function norm(s){return (s||"").replace(/\s+/g,"").trim()} function checkRead(cards){let score=0;cards.forEach((c,i)=>{c.classList.remove("correct","incorrect");c.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());c.querySelectorAll(".has-stamp").forEach(x=>x.classList.remove("has-stamp"));const t=state.worksheet[i],fb=c.querySelector(".feedback");
  if(i<3){const s=c.querySelector(".slot"),ok=norm(s.dataset.answer)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(ok){score++;s.classList.add("has-stamp");stamp(s)}}
- else if(i<6){const az=c.querySelector(".answer-zone"),ok=norm(az.querySelector("input").value)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
+ else if(i<6){const az=c.querySelector(".answer-zone"),acc=acceptedReadings(t),ok=acc.some(r=>norm(r)===norm(az.querySelector("input").value));c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${acc.join("／")}</span>`;if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
  else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;if(score)playSuccess()}
-function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>({x:e.clientX-r.left,y:e.clientY-r.top});cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
-function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(hd<=7&&md<=4){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
+function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>{const b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top}};cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
+function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg,fb,act);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(hd<=7&&md<=4){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(right);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
 
 
 const LEARNING_KEY="timePracticeLearningV1";
@@ -209,7 +216,7 @@ function saveLearning(data){
 function recordDateResult(day,correct){
   const data=loadLearning(),key=String(day);
   const item=data.dates[key]||{right:0,wrong:0,lastWrong:0};
-  if(correct)item.right=(item.right||0)+1;
+  if(correct){item.right=(item.right||0)+1;data.recentWrong=data.recentWrong.filter(x=>x!==day)}
   else{
     item.wrong=(item.wrong||0)+1;
     item.lastWrong=Date.now();
@@ -257,7 +264,9 @@ function monthHTML(m){return `${m+1}月`}
 function dateLabel(day){return `${day}日`}
 function newCalendarQuestions(){
  const d=state.calendarDate,y=d.getFullYear(),m=d.getMonth(),max=daysIn(y,m);
- const day=1+Math.floor(Math.random()*max);
+ const forced=!!(forcedPracticeDay&&forcedPracticeDay<=max);
+ const day=chooseCalendarDay(max);
+ if(forced){const dk=["click-number","click-reading","date-reading"];state.calendarQuestions=[day,dk[Math.floor(Math.random()*dk.length)],Math.random()];return}
  const kinds=state.calendarDifficulty==="easy"
    ?["click-number","click-reading","date-reading","month-reading"]
    :["click-number","click-reading","date-reading","month-reading","full-date-reading","weekday-of-date","click-weekday"];
@@ -477,7 +486,7 @@ function drawCalendar(wrap,y,m,onDayClick=null,compact=false){
  }
  holder.append(cal);wrap.append(holder);return cal
 }
-function makeOptions(correct,pool,onCorrect,htmlMode=false){
+function makeOptions(correct,pool,onCorrect,htmlMode=false,onWrong=null){
  const box=el("div","calendar-options");
  const choices=shuffle([correct,...shuffle([...new Set(pool)].filter(x=>x!==correct)).slice(0,3)]);
  choices.forEach(x=>{
@@ -485,18 +494,18 @@ function makeOptions(correct,pool,onCorrect,htmlMode=false){
    b.onclick=()=>{
      if(b.disabled)return;
      if(x===correct){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("active");onCorrect(b)}
-     else{b.classList.add("incorrect");setTimeout(()=>b.classList.remove("incorrect"),450)}
+     else{onWrong&&onWrong();b.classList.add("incorrect");setTimeout(()=>b.classList.remove("incorrect"),450)}
    };box.append(b)
  });return box
 }
-function typingOrWriting(q,answer,displayAnswer=answer){
+function typingOrWriting(q,answer,displayAnswer=answer,onResult=null){
  const modes=el("div","answer-mode"),typeBtn=el("button","active","⌨ Type"),writeBtn=el("button","","✍ Write"),area=el("div","answer-area");let mode="type";
  const paint=()=>{
    area.innerHTML="";typeBtn.classList.toggle("active",mode==="type");writeBtn.classList.toggle("active",mode==="write");
    if(mode==="type"){
      const input=el("input","");input.placeholder="Type your answer in Japanese";
      const row=el("div","actions"),check=el("button","active","Check Answer");
-     check.onclick=()=>{const v=norm(input.value);if(v===norm(answer)){q.classList.add("correct");stamp(q);playSuccess()}else{q.classList.add("incorrect");setTimeout(()=>q.classList.remove("incorrect"),500);showModel()}};
+     check.onclick=()=>{const v=norm(input.value);if(v===norm(answer)){onResult&&onResult(true);q.classList.add("correct");stamp(q);playSuccess()}else{onResult&&onResult(false);q.classList.add("incorrect");setTimeout(()=>q.classList.remove("incorrect"),500);showModel()}};
      row.append(check);area.append(input,row)
    }else{
      const cv=el("canvas","write-answer"),row=el("div","actions"),clear=el("button","","Clear"),check=el("button","active","Check Answer");
@@ -512,10 +521,12 @@ function typingOrWriting(q,answer,displayAnswer=answer){
 function calendarTask(wrap,y,m){
  const max=daysIn(y,m),day=Math.min(state.calendarQuestions[0]||1,max),kind=state.calendarQuestions[1]||"click-number",wd=new Date(y,m,day).getDay();
  const q=el("article","calendar-question");
- const label=el("div","calendar-task-type",kind.replaceAll("-"," "));
+ const KIND_LABEL={"click-number":"Find the Date","click-reading":"Find the Date","click-weekday":"Find the Weekday","date-reading":"Read the Date","month-reading":"Read the Month","full-date-reading":"Write the Date","weekday-of-date":"Which Weekday?"};
+ const label=el("div","calendar-task-type",KIND_LABEL[kind]||kind);
+ let recorded=false;const rec=ok=>{if(recorded)return;recorded=true;recordDateResult(day,ok)};
  q.append(label);
  const prompt=el("div","prompt");q.append(prompt);
- const finish=()=>{stamp(q);playSuccess()};
+ const finish=()=>{rec(true);stamp(q);playSuccess()};
  if(kind==="click-number"||kind==="click-reading"||kind==="click-weekday"){
    if(kind==="click-number")prompt.innerHTML=`Click the correct date.<br><strong class="jp-big">${DATE_READ[day]}</strong>`;
    if(kind==="click-reading")prompt.innerHTML=`Click the correct date.<br><strong class="jp-big">${MONTHS[m]} ${DATE_READ[day]}</strong>`;
@@ -525,18 +536,18 @@ function calendarTask(wrap,y,m){
    drawCalendar(wrap,y,m,(picked,cell,cal)=>{
      if(finished)return;
      const ok=kind==="click-weekday"?new Date(y,m,picked).getDay()===wd:picked===day;
-     if(ok){finished=true;cell.classList.add("day-correct");cal.querySelectorAll(".day").forEach(x=>x.disabled=true);finish()}
-     else{cell.classList.add("day-wrong");setTimeout(()=>cell.classList.remove("day-wrong"),450)}
+     if(ok){finished=true;cell.classList.add("day-correct");cal.querySelectorAll(".day").forEach(x=>x.disabled=true);if(kind==="click-weekday")recorded=true;finish()}
+     else{if(kind!=="click-weekday")rec(false);cell.classList.add("day-wrong");setTimeout(()=>cell.classList.remove("day-wrong"),450)}
    },true);
    wrap.append(q);return
  }
  if(kind!=="weekday-of-date")drawCalendar(wrap,y,m,null,true);
  if(kind==="month-reading"){
    prompt.innerHTML=`Read the month.<br><strong class="jp-big">${m+1}月</strong>`;
-   typingOrWriting(q,MONTHS[m])
+   recorded=true;typingOrWriting(q,MONTHS[m])
  }else if(kind==="date-reading"){
    prompt.innerHTML=`Read the date.<br><strong class="jp-big">${day}日</strong>`;
-   typingOrWriting(q,DATE_READ[day])
+   typingOrWriting(q,DATE_READ[day],DATE_READ[day],rec)
  }else if(kind==="weekday-of-date"){
    const deltas=[-3,-2,-1,1,2,3];
    let anchorDay=day+deltas[Math.floor(Math.random()*deltas.length)];
@@ -544,10 +555,10 @@ function calendarTask(wrap,y,m){
    const anchorWd=new Date(y,m,anchorDay).getDay();
    prompt.innerHTML=`Use the clue to choose the weekday.<br><strong class="jp-big">${m+1}月${day}日</strong>`;
    q.append(el("div","calendar-task-note",`Clue: ${m+1}月${anchorDay}日 = ${WD_KANA[anchorWd]}`));
-   q.append(makeOptions(WD_KANA[wd],WD_KANA,finish,false))
+   q.append(makeOptions(WD_KANA[wd],WD_KANA,finish,false,()=>rec(false)))
  }else{
    prompt.innerHTML=`Write this date in hiragana.<br><strong class="jp-big">${m+1}月${day}日</strong>`;
-   typingOrWriting(q,`${MONTHS[m]} ${DATE_READ[day]}`)
+   typingOrWriting(q,`${MONTHS[m]} ${DATE_READ[day]}`,`${MONTHS[m]} ${DATE_READ[day]}`,rec)
  }
  wrap.append(q)
 }
@@ -566,7 +577,7 @@ function renderCalendar(){
  if(state.calendarPage===0){
    const q=el("article","calendar-question");
    q.append(el("div","q","Weekday Order"),el("div","prompt","Match each weekday to its correct position."));
-   const ids=state.calendarDifficulty==="easy"?[1,2,3,4,5]:[1,2,3,4,5,6,0];
+   const ids=state.calendarDifficulty==="easy"?[0,1,2,3,4]:[0,1,2,3,4,5,6];
    tapPlacementKana(q,ids);ws.append(q)
  }else if(state.calendarPage===1){
    const q=el("article","calendar-question");
@@ -591,7 +602,7 @@ function renderCalendar(){
    const weak=mistakeDates(daysIn(y,m));
    if(weak.length){
      const pm=el("button","","Practice My Mistakes");
-     pm.onclick=()=>{forcedPracticeDay=weak[Math.floor(Math.random()*weak.length)];newCalendarQuestions();render()};
+     pm.onclick=()=>{forcedPracticeDay=weak[Math.floor(Math.random()*weak.length)];state.calendarPage=3;newCalendarQuestions();render()};
      wrap.append(pm);
    }
  back.disabled=state.calendarPage===0;back.onclick=()=>{if(state.calendarPage>0){state.calendarPage--;render()}};
