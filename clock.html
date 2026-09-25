@@ -298,6 +298,27 @@ function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio|
 function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(logResult("set",tLabel(t),hd<=7&&md<=4)){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
 
 
+/* ===== Stamp sound: same volume every time =====
+   The file is decoded once and played through Web Audio at a fixed volume,
+   starting after the file's silent beginning. Repeats within 0.3 s are ignored. */
+const SFX=(()=>{
+ const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.9;
+ let ctx=null,buf=null,last=0;const fb=new Audio(SRC);fb.preload="auto";fb.volume=VOLUME;
+ function init(){
+   if(ctx)return;
+   try{ctx=new (window.AudioContext||window.webkitAudioContext)();
+     fetch(SRC).then(r=>r.arrayBuffer()).then(a=>new Promise((res,rej)=>ctx.decodeAudioData(a,res,rej))).then(b=>{buf=b}).catch(()=>{})}catch(e){ctx=null}
+ }
+ ["pointerdown","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,init,{once:true,passive:true}));
+ function play(){
+   const now=Date.now();if(now-last<300)return;last=now;init();
+   if(ctx&&buf){try{if(ctx.state==="suspended")ctx.resume();const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=VOLUME;s.buffer=buf;s.connect(g);g.connect(ctx.destination);s.start(0,OFFSET);return}catch(e){}}
+   try{fb.pause();fb.currentTime=OFFSET;fb.play().catch(()=>{})}catch(e){}
+ }
+ return {play}
+})();
+function playSuccess(){SFX.play()}
+
 /* ===== から／まで 练习（V4：合并修正版） ===== */
 const CONTEXT_PLACES=[
  {jp:"がっこう",img:"./assets/images/japanese/places/school.png",open:[7,9],close:[14,17]},
@@ -572,7 +593,7 @@ function addStamp(){
  try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
 }
 function celebrateCard(n){
- const t=el("div","card-toast",`🎉 Stamp card #${n} complete! Show your teacher!`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+ const t=el("div","card-toast",`🎉 Stamp card full! A new card starts now.`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
 }
 function stampCardEl(){
  const st=loadStamps(),box=el("div","stamp-card");

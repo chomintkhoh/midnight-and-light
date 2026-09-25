@@ -156,6 +156,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 .q-ask{font-size:1.15rem}
 .big-scene-emoji,.conseq-emoji{white-space:nowrap}
 @media(max-width:600px){.play-top .play-mode{display:none}.play-top .lang-toggle{margin-right:0}.lang-toggle button{padding:4px 10px}}
+.count-line{text-align:center;color:var(--muted);margin:8px 0 0}
 
 </style>
 </head>
@@ -170,11 +171,30 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <script src="./data/particles-kids.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
-const successSound=new Audio("./assets/audio/ui/success-stamp.mp3");successSound.preload="auto";
 const app=document.getElementById("app");
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function setHTML(node,html){node.innerHTML=html;return node}
-function playSuccess(){try{successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}catch(e){}}
+/* ===== Stamp sound: same volume every time =====
+   The file is decoded once and played through Web Audio at a fixed volume,
+   starting after the file's silent beginning. Repeats within 0.3 s are ignored. */
+const SFX=(()=>{
+ const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.9;
+ let ctx=null,buf=null,last=0;const fb=new Audio(SRC);fb.preload="auto";fb.volume=VOLUME;
+ function init(){
+   if(ctx)return;
+   try{ctx=new (window.AudioContext||window.webkitAudioContext)();
+     fetch(SRC).then(r=>r.arrayBuffer()).then(a=>new Promise((res,rej)=>ctx.decodeAudioData(a,res,rej))).then(b=>{buf=b}).catch(()=>{})}catch(e){ctx=null}
+ }
+ ["pointerdown","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,init,{once:true,passive:true}));
+ function play(){
+   const now=Date.now();if(now-last<300)return;last=now;init();
+   if(ctx&&buf){try{if(ctx.state==="suspended")ctx.resume();const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=VOLUME;s.buffer=buf;s.connect(g);g.connect(ctx.destination);s.start(0,OFFSET);return}catch(e){}}
+   try{fb.pause();fb.currentTime=OFFSET;fb.play().catch(()=>{})}catch(e){}
+ }
+ return {play}
+})();
+function playSuccess(){SFX.play()}
+
 function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
 /* ===== Homework report: sends results to the teacher's Google Sheet ===== */
 /* Paste the Apps Script web-app URL between the quotes: */
@@ -201,7 +221,7 @@ function addStamp(){
  try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
 }
 function celebrateCard(n){
- const t=el("div","card-toast",`🎉 Stamp card #${n} complete! Show your teacher!`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+ const t=el("div","card-toast",`🎉 Stamp card full! A new card starts now.`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
 }
 function stampCardEl(){
  const st=loadStamps(),box=el("div","stamp-card");
@@ -348,13 +368,27 @@ function renderPMenu(){
  const start=el("button","active start-btn",t("start")),n=pPool().length;
  if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line",t("pickOne")))}
  else if(n<1){start.disabled=true;p.append(el("p","hint-line",t("noSent")))}
+ else p.append(el("p","count-line",L(`${n} questions for these particles${n<10?" — choose more particles for a longer round":""}`,`这些助词共有 ${n} 题${n<10?"——多选几个助词，题目会更多":""}`)))
  start.onclick=startPRound;p.append(start);app.append(p)
 }
+/* rounds never repeat a question, and prefer sentences not seen recently */
+const SEEN_KEY="particleSeenV1";
+function loadSeen(){try{const x=JSON.parse(localStorage.getItem(SEEN_KEY)||"[]");return Array.isArray(x)?x:[]}catch(e){return []}}
+function saveSeen(list){try{localStorage.setItem(SEEN_KEY,JSON.stringify(list.slice(0,120)))}catch(e){}}
+function qKey(it){return it.si+":"+it.i}
 function startPRound(){
- const pool=shuffle(pPool());
- const q=[];for(const it of pool){if(q.length>=10)break;if(!q.length||q[q.length-1].si!==it.si)q.push(it)}
- let guard=0;while(q.length<Math.min(10,pool.length*2)&&pool.length&&guard++<200){const it=pool[Math.floor(Math.random()*pool.length)];if(q[q.length-1].si!==it.si||guard>150)q.push(it)}
- PR.queue=q.slice(0,10);PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";render()
+ const seen=loadSeen(),rank=k=>{const r=seen.indexOf(k);return r<0?-1:r};
+ /* not-seen first (random), then the ones seen longest ago */
+ const pool=shuffle(pPool()).sort((a,b)=>{const ra=rank(qKey(a)),rb=rank(qKey(b));if(ra<0&&rb<0)return 0;if(ra<0)return -1;if(rb<0)return 1;return rb-ra});
+ const q=[],usedSentence=new Set();
+ for(const it of pool){if(q.length>=10)break;if(!usedSentence.has(it.si)){q.push(it);usedSentence.add(it.si)}}
+ for(const it of pool){if(q.length>=10)break;if(!q.includes(it))q.push(it)}
+ const r=shuffle(q);
+ /* spread out two questions from the same sentence */
+ for(let k=1;k<r.length;k++)if(r[k].si===r[k-1].si){const j=r.findIndex((x,idx)=>idx>k&&x.si!==r[k].si&&(!r[idx+1]||r[idx+1].si!==r[k].si));if(j>0)[r[k],r[j]]=[r[j],r[k]]}
+ PR.queue=r;PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";
+ saveSeen([...q.map(qKey),...seen.filter(k=>!q.some(x=>qKey(x)===k))]);
+ render()
 }
 function pProgress(){const n=PR.queue.length,d=Math.min(PR.idx,n);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${n?d/n*100:0}%"></div><span>${d} / ${n}</span>`;return b}
 function emojiSize(str,maxRem,base){

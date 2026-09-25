@@ -116,11 +116,30 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <script src="./data/vocab-kids.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
-const successSound=new Audio("./assets/audio/ui/success-stamp.mp3");successSound.preload="auto";
 const app=document.getElementById("app");
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function setHTML(node,html){node.innerHTML=html;return node}
-function playSuccess(){try{successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}catch(e){}}
+/* ===== Stamp sound: same volume every time =====
+   The file is decoded once and played through Web Audio at a fixed volume,
+   starting after the file's silent beginning. Repeats within 0.3 s are ignored. */
+const SFX=(()=>{
+ const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.9;
+ let ctx=null,buf=null,last=0;const fb=new Audio(SRC);fb.preload="auto";fb.volume=VOLUME;
+ function init(){
+   if(ctx)return;
+   try{ctx=new (window.AudioContext||window.webkitAudioContext)();
+     fetch(SRC).then(r=>r.arrayBuffer()).then(a=>new Promise((res,rej)=>ctx.decodeAudioData(a,res,rej))).then(b=>{buf=b}).catch(()=>{})}catch(e){ctx=null}
+ }
+ ["pointerdown","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,init,{once:true,passive:true}));
+ function play(){
+   const now=Date.now();if(now-last<300)return;last=now;init();
+   if(ctx&&buf){try{if(ctx.state==="suspended")ctx.resume();const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=VOLUME;s.buffer=buf;s.connect(g);g.connect(ctx.destination);s.start(0,OFFSET);return}catch(e){}}
+   try{fb.pause();fb.currentTime=OFFSET;fb.play().catch(()=>{})}catch(e){}
+ }
+ return {play}
+})();
+function playSuccess(){SFX.play()}
+
 function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
 /* ===== Homework report: sends results to the teacher's Google Sheet ===== */
 /* Paste the Apps Script web-app URL between the quotes: */
@@ -147,7 +166,7 @@ function addStamp(){
  try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
 }
 function celebrateCard(n){
- const t=el("div","card-toast",`🎉 Stamp card #${n} complete! Show your teacher!`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+ const t=el("div","card-toast",`🎉 Stamp card full! A new card starts now.`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
 }
 function stampCardEl(){
  const st=loadStamps(),box=el("div","stamp-card");
@@ -388,7 +407,7 @@ function renderPlay(){
  if(V.idx>=V.queue.length)return renderEnd(p);
  const w=V.queue[V.idx],stage=el("div","q-stage");p.append(stage);
  let tried=false;
- const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");stamp(stage);playSuccess();speak(w.jp);afterAnswer(w,!tried)};
+ const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");stamp(stage);playSuccess();setTimeout(()=>speak(w.jp),750);afterAnswer(w,!tried)};
  const wrong=(btn)=>{if(!tried)wrongOnce(w);tried=true;if(btn){btn.classList.add("wrong");btn.disabled=true}};
  if(V.mode==="pic2word"){
    stage.innerHTML=picHTML(w,true);stage.append(el("div","q-ask","Which word is this?"));
@@ -435,7 +454,7 @@ function renderMatch(p,items){
    if(!sel||sel.side===side){grid.querySelectorAll(".selected").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");sel={b,side,w};return}
    if(sel.w.id===w.id){
      [sel.b,b].forEach(x=>{x.classList.remove("selected");x.classList.add("matched")});
-     logResult("vocab-match",logItem(w),true);if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;speak(w.jp);done++;sel=null;
+     logResult("vocab-match",logItem(w),true);if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w.jp),350);done++;sel=null;
      if(done===items.length){stamp(stage);playSuccess();setTimeout(()=>{V.idx++;render()},900)}
    }else{
      const a=sel.b,wa=sel.w;sel=null;[a,b].forEach(x=>{x.classList.add("wrong");setTimeout(()=>x.classList.remove("wrong","selected"),450)});
