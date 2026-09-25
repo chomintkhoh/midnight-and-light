@@ -25,21 +25,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
-  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
-     longer than the original 夜與光 (3 characters). Without this,
-     any leftover narrow width from the old short mark forces CJK
-     text to wrap character-by-character. Deliberately specific
-     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
-  .site-nav .nav-mark{
-    white-space: nowrap;
-    width: auto;
-    max-width: none;
-    flex-shrink: 0;
-    font-size: 20px;
-  }
-  @media (max-width: 480px){
-    .site-nav .nav-mark{ font-size: 15px; }
-  }
 
   .contact-lead{
     font-size: clamp(19px,2.4vw,23px); font-weight:400; color:var(--warm-white);
@@ -48,13 +33,13 @@
   form.contact-form{ display:flex; flex-direction:column; gap:20px; max-width:520px; }
   .field{ display:flex; flex-direction:column; gap:7px; }
   .field label{
-    font-size:12px; letter-spacing:0.06em; color:var(--muted-bluegrey); text-transform:uppercase;
+    font-size:14px; letter-spacing:0.04em; color:var(--service-primary); text-transform:uppercase;
   }
   .field input, .field select, .field textarea{
     background: rgba(244,241,234,0.04);
     border: 1px solid rgba(244,241,234,0.16);
     border-radius: 6px; padding: 12px 14px;
-    font-family: inherit; font-size: 14.5px; color: var(--warm-white);
+    font-family: inherit; font-size: 16px; color: var(--warm-white);
     outline: none; resize: vertical;
     transition: border-color .2s, background .2s;
   }
@@ -66,15 +51,17 @@
   .radio-row{ display:flex; gap:22px; flex-wrap:wrap; }
   .radio-row label{
     display:flex; align-items:center; gap:8px;
-    font-size:14px; color:var(--warm-white); text-transform:none; letter-spacing:0;
+    font-size:16px; color:var(--warm-white); text-transform:none; letter-spacing:0; min-height:44px;
   }
   .radio-row input{ width:auto; accent-color:var(--pale-gold); }
+  .field-hint{ font-size:14px; color:var(--muted-bluegrey); }
+  .field .optional{ text-transform:none; letter-spacing:0; color:var(--muted-bluegrey); }
 
   .btn-send{
     align-self:flex-start; margin-top:6px;
-    font-size:14px; font-weight:500; letter-spacing:0.03em;
-    color: var(--bg-deep); background: var(--warm-white);
-    padding: 13px 30px; border-radius: 6px; border:none;
+    font-size:16px; font-weight:600; letter-spacing:0.02em;
+    color: var(--bg-deep); background: var(--pale-gold);
+    padding: 14px 32px; border-radius: 6px; border:none;
     cursor:pointer;
     transition: opacity .2s, transform .2s;
   }
@@ -82,7 +69,7 @@
   .btn-send:disabled{ opacity:.6; cursor:default; transform:none; }
 
   .form-note{
-    font-size:13px; color:var(--bad, #E1958A); min-height:0;
+    font-size:15px; color:var(--bad, #E1958A); min-height:0;
   }
 
   .thank-you{
@@ -92,7 +79,7 @@
     font-family:var(--font-brand); font-weight:400;
     font-size:24px; color:var(--warm-white); margin-bottom:12px;
   }
-  .thank-you p{ color:var(--muted-bluegrey); font-size:15px; line-height:1.8; }
+  .thank-you p{ color:var(--service-primary); font-size:17px; line-height:1.8; }
   .fade-in{ animation: fadeIn .5s ease both; }
   @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
   @media (prefers-reduced-motion: reduce){ .fade-in{ animation:none; } }
@@ -124,8 +111,22 @@
         </div>
 
         <div class="field">
+          <label>How should I reply?</label>
+          <div class="radio-row">
+            <label><input type="radio" name="reply_by" value="Email" checked /> Email</label>
+            <label><input type="radio" name="reply_by" value="WhatsApp" /> WhatsApp</label>
+          </div>
+        </div>
+
+        <div class="field" id="emailField">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input type="email" id="email" name="email" autocomplete="email" required />
+        </div>
+
+        <div class="field" id="waField">
+          <label for="whatsapp">WhatsApp number</label>
+          <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" inputmode="tel" placeholder="e.g. 012-345 6789" pattern="[+0-9][0-9 \-]{7,17}" />
+          <span class="field-hint" id="waHint">Include the country code if you are outside Malaysia.</span>
         </div>
 
         <div class="field">
@@ -183,7 +184,25 @@
   <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
+  <script src="nav.js"></script>
   <script>
+    /* Reply by Email or WhatsApp: the chosen one is required, the other optional */
+    (function () {
+      const email = document.getElementById('email');
+      const wa = document.getElementById('whatsapp');
+      const emailLabel = document.querySelector('label[for="email"]');
+      const waLabel = document.querySelector('label[for="whatsapp"]');
+      function update() {
+        const byWa = document.querySelector('input[name="reply_by"]:checked').value === 'WhatsApp';
+        email.required = !byWa;
+        wa.required = byWa;
+        emailLabel.innerHTML = byWa ? 'Email <span class="optional">(optional)</span>' : 'Email';
+        waLabel.innerHTML = byWa ? 'WhatsApp number' : 'WhatsApp number <span class="optional">(optional)</span>';
+      }
+      document.querySelectorAll('input[name="reply_by"]').forEach(function (r) { r.addEventListener('change', update); });
+      update();
+    })();
+
     (function () {
       const form = document.getElementById('contactForm');
       const wrap = document.getElementById('contactFormWrap');

@@ -47,21 +47,6 @@
 }
 </script>
 <style>
-  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
-     longer than the original 夜與光 (3 characters). Without this,
-     any leftover narrow width from the old short mark forces CJK
-     text to wrap character-by-character. Deliberately specific
-     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
-  .site-nav .nav-mark{
-    white-space: nowrap;
-    width: auto;
-    max-width: none;
-    flex-shrink: 0;
-    font-size: 20px;
-  }
-  @media (max-width: 480px){
-    .site-nav .nav-mark{ font-size: 15px; }
-  }
 
   .hero{
     position:relative; z-index:1;
@@ -87,17 +72,17 @@
   /* Generous separation before the lesson info */
   .divider{
     width:1px; height:52px; background: var(--muted-bluegrey);
-    opacity:.3; margin: 68px 0 40px;
+    opacity:.3; margin: 56px 0 36px;
   }
 
   /* Lesson info — clear internal hierarchy, still secondary to brand */
   .service-primary{
-    font-size: clamp(17px,2.2vw,19px); font-weight:600;
+    font-size: clamp(19px,2.4vw,22px); font-weight:600;
     color: var(--service-primary); letter-spacing:0.02em;
     margin-bottom: 12px;
   }
   .service-secondary{
-    font-size: clamp(13.5px,1.6vw,14.5px); font-weight:400;
+    font-size: clamp(16px,1.9vw,17px); font-weight:400;
     color: var(--muted-bluegrey); line-height:1.95; letter-spacing:0.01em;
   }
   .service-secondary .line{ display:block; }
@@ -105,9 +90,9 @@
 
   /* The poem — a separate, quiet moment */
   .poem{
-    margin-top: 76px; font-family: var(--font-sans);
+    margin-top: 64px; font-family: var(--font-sans);
     font-style:italic; font-weight:400;
-    font-size: clamp(15.5px,1.9vw,18px); color: var(--soft-lavender);
+    font-size: clamp(17px,2vw,19px); color: var(--soft-lavender);
     line-height:1.75; max-width:340px; opacity:.9;
   }
 
@@ -122,7 +107,7 @@
   <div class="stars" aria-hidden="true" data-density="22" data-clear-center></div>
 
   <nav class="site-nav">
-    <span class="nav-mark">ミッドナイトとライト</span>
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
     <div class="nav-links">
       <a href="index.html" aria-current="page">Home</a>
       <a href="about.html">About</a>
@@ -146,6 +131,10 @@
         <span class="line">Private &amp; Small Group Lessons</span>
         <span class="line">Online · In-Person</span>
       </p>
+      <div class="cta-row center">
+        <a class="btn btn-primary" href="experience.html">Try a free mini lesson</a>
+        <a class="btn btn-ghost" href="contact.html">Ask about lessons</a>
+      </div>
     </div>
 
     <p class="poem">Between the things we learn<br />and the things we create.</p>
@@ -154,5 +143,6 @@
   <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

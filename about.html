@@ -25,27 +25,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
-  /* Brand mark fix — ミッドナイトとライト (10 characters) is much
-     longer than the original 夜與光 (3 characters). Without this,
-     any leftover narrow width from the old short mark forces CJK
-     text to wrap character-by-character. Deliberately specific
-     (.site-nav .nav-mark) so it takes precedence over cosmic.css. */
-  .site-nav .nav-mark{
-    white-space: nowrap;
-    width: auto;
-    max-width: none;
-    flex-shrink: 0;
-    font-size: 20px;
-  }
-  @media (max-width: 480px){
-    .site-nav .nav-mark{ font-size: 15px; }
-  }
 
   .about-lead{
     font-size: clamp(20px,2.6vw,25px); font-weight:400; color:var(--warm-white);
     line-height:1.5; max-width:520px; margin-bottom:40px;
   }
-  .about-body p{ margin-bottom:20px; max-width:560px; color:var(--muted-bluegrey); font-size:15.5px; line-height:1.9; }
+  .about-body p{ margin-bottom:20px; max-width:560px; color:var(--service-primary); font-size:17px; line-height:1.9; }
   .about-body p:last-child{ margin-bottom:0; }
 
   .info-grid{
@@ -53,10 +38,10 @@
     gap:40px; margin-top:16px;
   }
   .info-label{
-    font-size:12px; letter-spacing:0.18em; text-transform:uppercase;
+    font-size:13px; letter-spacing:0.16em; text-transform:uppercase;
     color:var(--pale-gold); margin-bottom:14px;
   }
-  .info-list li{ font-size:15px; color:var(--warm-white); line-height:2; }
+  .info-list li{ font-size:17px; color:var(--warm-white); line-height:2; }
 </style>
 </head>
 <body>
@@ -108,5 +93,6 @@
   <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
 
   <script src="stars.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>
