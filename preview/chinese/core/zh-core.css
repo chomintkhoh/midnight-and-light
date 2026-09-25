@@ -15,7 +15,7 @@
 .ml-reading.mode-ruby{display:inline;font-size:var(--ml-hz);line-height:2.6}
 .mode-ruby ruby{display:ruby;ruby-position:over;ruby-align:center;ruby-overhang:auto;margin:0;padding:0;white-space:normal}
 .mode-ruby ruby rb{display:ruby-base}
-.mode-ruby ruby rt{display:ruby-text;font-family:Arial,sans-serif;font-size:var(--ml-rt);font-weight:500;color:#5b5963;line-height:1;letter-spacing:0;white-space:nowrap}
+.mode-ruby ruby rt{display:ruby-text;font-family:Arial,sans-serif;font-size:var(--ml-rt);font-weight:500;color:#5b5963;line-height:1;letter-spacing:-0.02em;margin:0;padding:0;white-space:nowrap}
 .mode-ruby .punct{display:inline;margin:0;padding:0}
 .ml-reading.mode-pinyin{font-size:var(--ml-py-main);line-height:2.25}
 .pinyinMain{display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-end;vertical-align:baseline;margin:0 .08em;line-height:1.08;white-space:nowrap}
