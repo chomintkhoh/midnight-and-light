@@ -60,6 +60,22 @@
   }
   .expect-list li strong{ color:var(--pale-gold); font-weight:500; }
   .location-item .location-price{ color:var(--pale-gold); font-size:17px; margin-top:6px; font-weight:500; }
+  .fee-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+  .fee-card{ border:1px solid rgba(217,196,142,0.22); border-radius:16px; padding:20px 20px 18px; background:rgba(244,241,234,0.03); }
+  .fee-card h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; color:var(--service-primary); margin-bottom:6px; }
+  .fee-card .fee-price{ font-family:var(--font-brand); font-size:34px; color:var(--pale-gold); line-height:1.2; }
+  .fee-card .fee-price span{ font-family:var(--font-sans); font-size:15px; color:var(--muted-bluegrey); }
+  .fee-card .fee-price.small{ font-size:26px; }
+  .fee-card .fee-note{ margin-top:6px; font-size:15px; color:var(--muted-bluegrey); line-height:1.5; }
+  .teach-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px 36px; }
+  .teach-grid h3{ font-family:var(--font-brand); font-weight:400; font-size:20px; color:var(--warm-white); margin-bottom:10px; }
+  .policy{ border-top:1px solid rgba(244,241,234,0.12); border-bottom:1px solid rgba(244,241,234,0.12); padding:4px 0; }
+  .policy summary{ cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:52px; font-size:17px; color:var(--warm-white); }
+  .policy summary::-webkit-details-marker{ display:none; }
+  .policy summary::after{ content:"+"; font-size:22px; color:var(--pale-gold); }
+  .policy[open] summary::after{ content:"–"; }
+  .policy summary:focus-visible{ outline:2px solid var(--pale-gold); outline-offset:4px; border-radius:4px; }
+  .policy .expect-list{ padding:6px 0 16px; }
 </style>
 </head>
 <body>
@@ -79,71 +95,64 @@
   <main class="page">
     <p class="page-eyebrow">Lessons</p>
     <h1 class="page-title">Japanese &amp; Mandarin</h1>
-    <p class="page-lead">Private and small group lessons online, anywhere in Malaysia. In-person lessons in selected areas of Kuala Lumpur.</p>
+    <p class="page-lead">Online lessons for children and adults, anywhere in Malaysia.</p>
 
     <section class="page-section">
-      <h2 class="page-section-title">Japanese</h2>
-      <p class="lesson-note">Private lessons tailored to your level and learning goals. Depending on your goals:</p>
-      <div class="lesson-tags">
-        <span>Conversation</span><span>Grammar</span><span>Reading</span><span>JLPT</span>
-      </div>
-    </section>
-
-    <section class="page-section">
-      <h2 class="page-section-title">Mandarin</h2>
-      <p class="lesson-note">Private lessons tailored to your level and learning goals. Depending on your goals:</p>
-      <div class="lesson-tags">
-        <span>Speaking</span><span>Pronunciation</span><span>Pinyin</span><span>Reading</span>
-      </div>
-    </section>
-
-    <section class="page-section">
-      <h2 class="page-section-title">What to Expect from My Lessons</h2>
-      <p class="lesson-note">Every student starts from a different place, so here's a little about how lessons actually work — not just what's on the syllabus.</p>
-      <ul class="expect-list">
-        <li><strong>Built around where you are.</strong> Lessons start from your current level and what you actually want to use the language for — not a fixed, one-size-fits-all plan.</li>
-        <li><strong>Focused on real communication.</strong> The goal is language you can actually use — speaking and understanding that holds up outside the lesson, not just on paper.</li>
-        <li><strong>Paced to you.</strong> Some weeks move quickly, some slower. We adjust as we go, based on what's actually working for you.</li>
-        <li><strong>A mix of structure and practice.</strong> Enough structure to keep things moving forward, enough real conversation to make it stick.</li>
-        <li><strong>A comfortable place to get things wrong.</strong> Asking questions and making mistakes are part of how this works — there's no pressure to get everything right straight away.</li>
-      </ul>
-    </section>
-
-    <section class="page-section">
-      <h2 class="page-section-title">Lessons &amp; Fees</h2>
-      <p class="lesson-note">Online lessons are my main format, so you can join from anywhere in Malaysia.</p>
-      <div class="location-grid">
-        <div class="location-item">
+      <h2 class="page-section-title">Fees</h2>
+      <div class="fee-grid">
+        <div class="fee-card">
           <h3>1-to-1 · Online</h3>
-          <p>Private lessons tailored to your level and learning goals.</p>
-          <p class="location-price">RM90 / hour</p>
+          <p class="fee-price">RM90<span> / hour</span></p>
         </div>
-        <div class="location-item">
-          <h3>Small Group · Online</h3>
-          <p>For 2–4 students learning together — family, friends or colleagues. Minimum 2 students per lesson.</p>
-          <p class="location-price">RM75 per person / hour</p>
+        <div class="fee-card">
+          <h3>Small group · Online</h3>
+          <p class="fee-price">RM75<span> / person / hour</span></p>
+          <p class="fee-note">2–4 students learning together</p>
         </div>
-        <div class="location-item">
-          <h3>In Person</h3>
-          <p>Available in selected areas of Kuala Lumpur when the location suits. Fees depend on the location and group size.</p>
-          <p class="location-price">Please ask</p>
+        <div class="fee-card">
+          <h3>In person</h3>
+          <p class="fee-price small">Please ask</p>
+          <p class="fee-note">Selected areas of Kuala Lumpur</p>
         </div>
       </div>
     </section>
 
     <section class="page-section">
-      <h2 class="page-section-title">Booking &amp; Cancellation</h2>
+      <h2 class="page-section-title">What I teach</h2>
+      <div class="teach-grid">
+        <div>
+          <h3>Japanese</h3>
+          <div class="lesson-tags"><span>Conversation</span><span>Grammar</span><span>Reading</span><span>JLPT</span></div>
+        </div>
+        <div>
+          <h3>Mandarin</h3>
+          <div class="lesson-tags"><span>Speaking</span><span>Pronunciation</span><span>Pinyin</span><span>Reading</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <h2 class="page-section-title">How lessons work</h2>
       <ul class="expect-list">
-        <li><strong>Pay before the lesson.</strong> Payment in advance confirms your lesson slot.</li>
-        <li><strong>Need to change the time?</strong> Let me know at least 24 hours before the lesson and we will find a new time.</li>
-        <li><strong>Less than 24 hours' notice.</strong> The lesson counts as taken and is not refunded.</li>
-        <li><strong>Only one person in a group can come?</strong> The lesson can go ahead as a 1-to-1 lesson at RM90, or be moved with at least 24 hours' notice.</li>
+        <li><strong>Built around you.</strong> We start from your level and goals, and go at your pace.</li>
+        <li><strong>Real communication.</strong> Enough structure to move forward, enough conversation to make it stick.</li>
+        <li><strong>Mistakes are welcome.</strong> No pressure to get everything right straight away.</li>
       </ul>
+    </section>
+
+    <section class="page-section">
+      <details class="policy">
+        <summary>Booking &amp; cancellation</summary>
+        <ul class="expect-list">
+          <li>Please pay before the lesson to confirm your slot.</li>
+          <li>Change the time with at least 24 hours' notice. Later cancellations count as a lesson taken.</li>
+          <li>Small groups need at least 2 students. If only one can come, the lesson becomes 1-to-1 (RM90) or can be moved with 24 hours' notice.</li>
+        </ul>
+      </details>
     </section>
 
     <section class="page-section">
       <h2 class="page-section-title">Not sure where to start?</h2>
-      <p>Try the free mini lesson first, or send me a message about what you would like to learn.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="contact.html">Ask about lessons</a>
         <a class="btn btn-ghost" href="experience.html">Try a free mini lesson</a>
