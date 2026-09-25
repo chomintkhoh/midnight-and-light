@@ -2,7 +2,7 @@
 const fs=require("fs"),vm=require("vm");
 function load(p,name){let c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync(p,"utf8"),c);return c.window[name]}
 const B="preview/chinese/data/linking-words/";
-const T=load(B+"teacher-scenes.js","ML_TEACHER_SCENES"),D=load(B+"detective-cases.js","ML_DETECTIVE_CASES");
+function loadTeacher(){let c={window:{}};c.window=c;vm.createContext(c);for(const p of ["teacher-scenes-1.js","teacher-scenes-2.js","teacher-scenes-3.js","teacher-scenes.js"])vm.runInContext(fs.readFileSync(B+p,"utf8"),c);return c.ML_TEACHER_SCENES}const T=loadTeacher(),D=load(B+"detective-cases.js","ML_DETECTIVE_CASES");
 const syn=[["但是","可是","不过","然而"],["仍然","依然","还是"],["竟然","居然"],["接着","然后"],["所以","因此","于是"]];
 const near=(a,b)=>syn.some(g=>g.includes(a)&&g.includes(b));
 const legit=[["因为","才"],["如果","才"],["即使","还"]];
