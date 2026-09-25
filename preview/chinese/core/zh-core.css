@@ -3,8 +3,7 @@
   --ml-scale:1;
   --ml-hz:calc(34px * var(--ml-scale));
   --ml-rt:calc(16px * var(--ml-scale));
-  --ml-py-main:calc(26px * var(--ml-scale));
-  --ml-py-hz:calc(18px * var(--ml-scale));
+  --ml-py-big:calc(22px * var(--ml-scale));
   --ml-ui:calc(18px * var(--ml-scale));
   --ml-choice:calc(24px * var(--ml-scale));
   --ml-body:calc(18px * var(--ml-scale));
@@ -12,21 +11,15 @@
 }
 .ml-reading{font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",Arial,sans-serif;letter-spacing:0;word-spacing:0}
 .mltok{cursor:pointer}.mltok.punct{cursor:default}
-.ml-reading.mode-ruby{display:inline;font-size:var(--ml-hz);line-height:2.6}
-.mode-ruby ruby{display:ruby;ruby-position:over;ruby-align:center;ruby-overhang:auto;margin:0;padding:0;white-space:normal}
-.mode-ruby ruby rb{display:ruby-base}
-.mode-ruby ruby rt{display:ruby-text;font-family:Arial,sans-serif;font-size:var(--ml-rt);font-weight:500;color:#5b5963;line-height:1;letter-spacing:-0.02em;margin:0;padding:0;white-space:nowrap}
-.mode-ruby .punct{display:inline;margin:0;padding:0}
-.ml-reading.mode-pinyin{font-size:var(--ml-py-main);line-height:2.25}
-.pinyinMain{display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-end;vertical-align:baseline;margin:0 .08em;line-height:1.08;white-space:nowrap}
-.pinyinMain b{order:1;font-size:var(--ml-py-main);font-weight:600;line-height:1.05;margin-bottom:3px}
-.pinyinMain small{order:2;font-size:var(--ml-py-hz);font-weight:500;opacity:.62;line-height:1.1}
-.mode-pinyin .punct{display:inline-block;vertical-align:baseline;transform:translateY(.08em);margin:0;padding:0;font-size:var(--ml-py-main)}
-.ml-reading.mode-hanzi{font-size:var(--ml-hz);line-height:2}
+.ml-reading.mode-ruby,.ml-reading.mode-pinyin{display:inline;font-size:var(--ml-hz);line-height:2.6;color:var(--ml-ink)}
+.mode-ruby ruby,.mode-pinyin ruby{display:ruby;ruby-position:over;ruby-align:center;ruby-overhang:auto;margin:0;padding:0;white-space:normal}
+.mode-ruby ruby rb,.mode-pinyin ruby rb{display:ruby-base;color:var(--ml-ink);font-size:var(--ml-hz);font-weight:500}
+.mode-ruby ruby rt,.mode-pinyin ruby rt{display:ruby-text;font-family:Arial,sans-serif;font-size:var(--ml-rt);font-weight:500;color:#5b5963;line-height:1;letter-spacing:-0.02em;margin:0;padding:0;white-space:nowrap}
+.mode-pinyin ruby rt{font-size:var(--ml-py-big);font-weight:600;color:#3f4657}
+.mode-ruby .punct,.mode-pinyin .punct{display:inline;margin:0;padding:0;font-size:var(--ml-hz);color:var(--ml-ink)}
+.ml-reading.mode-hanzi{font-size:var(--ml-hz);line-height:2;color:var(--ml-ink)}
 .peekable{position:relative}
 .peekable.peeking:after{content:attr(data-show);position:absolute;left:50%;bottom:115%;transform:translateX(-50%);background:#fff7cf;border:2px solid var(--ml-ink);padding:5px 8px;border-radius:8px;white-space:nowrap;font-size:var(--ml-rt);z-index:5}
-.ml-lens{position:absolute;width:170px;height:170px;border:3px solid var(--ml-ink);border-radius:50%;pointer-events:none;background:#fffdf8f4;box-shadow:4px 4px 0 var(--ml-ink);display:none;overflow:hidden;z-index:8}
-.ml-lens .lens-hz{font-size:44px;line-height:1.1}.ml-lens .lens-py{font-size:20px;line-height:1.15;margin-top:6px}
 .ml-zero{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:999;animation:mlZeroLife 1.6s forwards}
 .ml-zero svg{width:min(300px,72vw)}
 .ml-zero path{fill:none;stroke:var(--ml-red);stroke-width:18;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900;animation:mlDraw .7s forwards}
@@ -36,14 +29,12 @@
   :root{
     --ml-hz:calc(26px * var(--ml-scale));
     --ml-rt:calc(13px * var(--ml-scale));
-    --ml-py-main:calc(22px * var(--ml-scale));
-    --ml-py-hz:calc(15px * var(--ml-scale));
+    --ml-py-big:calc(17px * var(--ml-scale));
     --ml-ui:calc(17px * var(--ml-scale));
     --ml-choice:calc(22px * var(--ml-scale));
     --ml-body:calc(17px * var(--ml-scale));
     --ml-small:calc(14px * var(--ml-scale));
   }
-  .ml-reading.mode-ruby{line-height:2.6}
-  .ml-reading.mode-pinyin{line-height:2.25}
+  .ml-reading.mode-ruby,.ml-reading.mode-pinyin{line-height:2.6}
   .ml-reading.mode-hanzi{line-height:2}
 }
