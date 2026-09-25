@@ -130,6 +130,32 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 .next-btn{display:block;margin:12px auto 0;min-width:160px}
 .yn-row{display:flex;gap:12px;justify-content:center;margin:6px 0 10px}.yn{min-width:140px;font-size:1.2rem;min-height:58px}
 @media(max-width:600px){.p-grid{grid-template-columns:repeat(2,1fr)}.yn{min-width:0;flex:1}}
+/* v2: bigger, clearer */
+.lang-toggle{display:flex;gap:6px;justify-content:flex-end}.lang-toggle button{min-height:36px;padding:4px 12px;font-size:.9rem}
+.play-top .lang-toggle{margin-left:auto;margin-right:10px}
+.big-scene{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:22px;padding:16px 18px;margin:6px auto 8px;max-width:760px}
+.big-scene-emoji{font-size:clamp(3.2rem,9vw,5.6rem);line-height:1.15}
+.big-scene-text{font-size:clamp(1.15rem,2.6vw,1.7rem);font-weight:700;margin-top:6px}
+.p-sentence{font-size:clamp(1.6rem,5vw,2.6rem)}
+.p-blank{min-width:80px;min-height:64px}
+.p-opts .kana-opt{font-size:clamp(1.6rem,4vw,2.2rem);min-height:76px}
+.opt-grid.kana.p-opts{grid-template-columns:repeat(auto-fit,minmax(80px,120px))}
+.p-feedback{max-width:760px}
+.conseq{background:rgba(224,135,154,.12);border:2px solid rgba(224,135,154,.55);border-radius:22px;padding:16px 18px;margin-top:10px;animation:pop .35s}
+.conseq-top{font-weight:800;color:var(--gold);font-size:1.1rem;margin-bottom:6px}
+.conseq-said-title{color:var(--muted);font-size:.95rem}
+.said-line{font-family:"Zen Kaku Gothic New";font-size:clamp(1.4rem,4vw,2.1rem);margin:4px 0 10px;line-height:1.9}
+.said-bad{color:#fff;background:var(--bad);border-radius:8px;padding:0 6px;margin:0 2px;font-weight:700}
+.said-ok{color:var(--lav);font-weight:700}
+.conseq-kind{font-weight:800;font-size:1.05rem;margin-top:4px}.conseq-kind.funny{color:#F3B8C4}.conseq-kind.real{color:#F2D27A}
+.conseq-emoji{font-size:clamp(3.4rem,10vw,6rem);line-height:1.2;margin:8px 0}
+.conseq-text{font-size:clamp(1.2rem,2.8vw,1.7rem);font-weight:800;line-height:1.4}
+.right-title{font-size:1.6rem;font-weight:800;color:var(--good);margin-top:8px}
+.need-line{font-size:1.15rem;font-weight:700}
+.missed-scene{font-size:1.4rem;margin-right:6px}
+.q-ask{font-size:1.15rem}
+.big-scene-emoji,.conseq-emoji{white-space:nowrap}
+@media(max-width:600px){.play-top .play-mode{display:none}.play-top .lang-toggle{margin-right:0}.lang-toggle button{padding:4px 10px}}
 
 </style>
 </head>
@@ -137,7 +163,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <main class="shell">
 <header class="hero">
 <h1>Japanese Particles</h1>
-<p>は・が・を・で・へ・に・から・まで・と・も — pick the wrong one and see what happens!</p>
+<p>は・が・を・で・へ・に・から・まで・と・も</p>
 </header>
 <section id="app" aria-live="polite"></section>
 </main>
@@ -274,19 +300,30 @@ function initReport(){
 /* ===== Particle practice (reads PARTICLE_SENTENCES / PARTICLE_INFO) ===== */
 const ALL_P=["は","が","を","で","へ","に","から","まで","と","も"];
 const P_MODES=[["fill","✏️","Fill the Particle"],["judge","⭕❌","Right or Wrong?"]];
-const PR={level:"easy",focus:new Set(ALL_P),mode:"fill",screen:"menu"};
-try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus);PR.mode=s.mode||PR.mode}}catch(e){}
-function savePPrefs(){try{localStorage.setItem("particlePrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode}))}catch(e){}}
+const PR={level:"easy",focus:new Set(ALL_P),mode:"fill",screen:"menu",lang:"en"};
+try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
+function savePPrefs(){try{localStorage.setItem("particlePrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode,lang:PR.lang}))}catch(e){}}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function jpHTML(s){if(PR.level!=="easy"||!/[ァ-ヶ]/.test(s))return esc(s);return esc(s).replace(/[ァ-ヶー]+/g,m=>m==="ー"?m:`<ruby>${m}<rt>${kataToHira(m)}</rt></ruby>`)}
-function speak(text){try{if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.85;const v=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+/* one language at a time: English or Chinese */
+const T={
+ en:{you:"You",said:"You just said:",funny:"😹 That would mean…",real:"🤔 That IS real Japanese — but it means something else:",none:"🤔 Japanese doesn't say it this way.",hint:"Hint — we need the particle that means:",tryAgain:"Try another one!",right:"✓ Correct!",isRight:"Is this sentence right for the picture?",rightBtn:"⭕ Right",wrongBtn:"❌ Wrong",wasWrong:"It was wrong! Here's what it said:",goodEye:"✓ Good eye! It's wrong. Here's what it said:",fixIt:"Now fix it:",wasRight:"It was actually right!",next:"Next →",level:"1. Level",which:"2. Which particles?",game:"3. Choose a game",easy:"Easy · 3 choices",normal:"Normal · more choices",all:"Select all",deh:"で・へ only",clear:"Clear",start:"▶ Start",pickOne:"Choose at least one particle.",noSent:"No sentences for these particles yet.",menu:"← Menu",firstTry:"correct on the first try",again:"Practice these again:",playAgain:"↻ Play Again",back:"Menu"},
+ zh:{you:"你",said:"你刚刚说的是：",funny:"😹 意思会变成……",real:"🤔 这是真的日文——但是意思不一样：",none:"🤔 日文不这样说。",hint:"提示——这里要用的助词意思是：",tryAgain:"再选一次！",right:"✓ 答对了！",isRight:"这个句子跟图一样吗？",rightBtn:"⭕ 对",wrongBtn:"❌ 错",wasWrong:"这句是错的！它的意思是：",goodEye:"✓ 眼睛真利！是错的。它的意思是：",fixIt:"现在改正它：",wasRight:"其实这句是对的！",next:"下一题 →",level:"1. 程度",which:"2. 练习哪些助词？",game:"3. 选游戏",easy:"简单 · 3个选项",normal:"普通 · 更多选项",all:"全选",deh:"只练 で・へ",clear:"清除",start:"▶ 开始",pickOne:"请至少选一个助词。",noSent:"这些助词还没有题目。",menu:"← 菜单",firstTry:"一次就答对",again:"再练习这些：",playAgain:"↻ 再玩一次",back:"菜单"}
+};
+function t(k){return T[PR.lang][k]}
+function L(en,zh){return PR.lang==="zh"?zh:en}
+const MODE_ZH={fill:"填助词",judge:"判断对错"};
 function slotsOf(s){return s.parts.map((p,i)=>typeof p==="object"?i:-1).filter(i=>i>=0)}
 function sentenceText(s,fill){return s.parts.map((p,i)=>typeof p==="object"?(fill&&fill[i]!==undefined?fill[i]:p.ok[0]):p).join("")}
 function logKey(s,i){return `${sentenceText(s)}（${s.parts[i].ok.join("／")}）`}
-
-/* question pool: every (sentence, slot) whose correct particle is in the focus set */
+function langToggle(){
+ const box=el("div","lang-toggle");
+ [["en","English"],["zh","中文"]].forEach(([id,label])=>{const b=el("button",PR.lang===id?"active":"",label);b.onclick=()=>{PR.lang=id;savePPrefs();rerender()};box.append(b)});
+ return box
+}
+let rerender=()=>render();
 function pPool(){
  const out=[];
  PARTICLE_SENTENCES.forEach((s,si)=>slotsOf(s).forEach(i=>{if(s.parts[i].ok.some(p=>PR.focus.has(p)))out.push({s,si,i})}));
@@ -294,42 +331,62 @@ function pPool(){
 }
 function renderPMenu(){
  const p=el("div","panel");
+ p.append(langToggle());
  const lv=el("div","modes");
- [["easy","Easy · 3 choices"],["normal","Normal · more choices"]].forEach(([id,label])=>{const b=el("button",PR.level===id?"active":"",label);b.onclick=()=>{PR.level=id;savePPrefs();render()};lv.append(b)});
- p.append(el("div","step-title","1. Level"),lv,el("div","step-title","2. Which particles?"));
+ [["easy",t("easy")],["normal",t("normal")]].forEach(([id,label])=>{const b=el("button",PR.level===id?"active":"",label);b.onclick=()=>{PR.level=id;savePPrefs();render()};lv.append(b)});
+ p.append(el("div","step-title",t("level")),lv,el("div","step-title",t("which")));
  const g=el("div","p-grid");
- ALL_P.forEach(k=>{const b=el("button","p-chip"+(PR.focus.has(k)?" on":""),"");b.innerHTML=`<span class="p-big">${k}</span><span class="p-mean">${esc(PARTICLE_INFO[k][0])}</span>`;
+ ALL_P.forEach(k=>{const b=el("button","p-chip"+(PR.focus.has(k)?" on":""),"");b.innerHTML=`<span class="p-big">${k}</span><span class="p-mean">${esc(L(...PARTICLE_INFO[k]))}</span>`;
    b.onclick=()=>{PR.focus.has(k)?PR.focus.delete(k):PR.focus.add(k);savePPrefs();render()};g.append(b)});
  p.append(g);
- const q=el("div","modes small"),all=el("button","","Select all"),dh=el("button","","で・へ・に only"),none=el("button","","Clear");
- all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ","に"]);savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
- q.append(all,dh,none);p.append(q,el("div","step-title","3. Choose a game"));
+ const q=el("div","modes small"),all=el("button","",t("all")),dh=el("button","",t("deh")),none=el("button","",t("clear"));
+ all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ"]);savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
+ q.append(all,dh,none);p.append(q,el("div","step-title",t("game")));
  const md=el("div","mode-grid");
- P_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${label}</span>`;b.onclick=()=>{PR.mode=id;savePPrefs();render()};md.append(b)});
+ P_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${L(label,MODE_ZH[id])}</span>`;b.onclick=()=>{PR.mode=id;savePPrefs();render()};md.append(b)});
  p.append(md);
- const start=el("button","active start-btn","▶ Start"),n=pPool().length;
- if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line","Choose at least one particle."))}
- else if(n<1){start.disabled=true;p.append(el("p","hint-line","No sentences for these particles yet."))}
+ const start=el("button","active start-btn",t("start")),n=pPool().length;
+ if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line",t("pickOne")))}
+ else if(n<1){start.disabled=true;p.append(el("p","hint-line",t("noSent")))}
  start.onclick=startPRound;p.append(start);app.append(p)
 }
 function startPRound(){
  const pool=shuffle(pPool());
- /* avoid the same sentence twice in a row */
  const q=[];for(const it of pool){if(q.length>=10)break;if(!q.length||q[q.length-1].si!==it.si)q.push(it)}
  let guard=0;while(q.length<Math.min(10,pool.length*2)&&pool.length&&guard++<200){const it=pool[Math.floor(Math.random()*pool.length)];if(q[q.length-1].si!==it.si||guard>150)q.push(it)}
  PR.queue=q.slice(0,10);PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";render()
 }
-function pProgress(){const t=PR.queue.length,d=Math.min(PR.idx,t);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${t?d/t*100:0}%"></div><span>${d} / ${t}</span>`;return b}
-function sceneCard(emoji,en,zh,kind){
- const c=el("div","scene-card "+kind);
- c.innerHTML=`<div class="scene-emoji">${emoji}</div><div class="scene-en">${esc(en)}</div><div class="scene-zh">${esc(zh)}</div>`;return c
+function pProgress(){const n=PR.queue.length,d=Math.min(PR.idx,n);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${n?d/n*100:0}%"></div><span>${d} / ${n}</span>`;return b}
+function emojiSize(str,maxRem,base){
+ let n=0;try{n=[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(str)].filter(g=>g.segment.trim()).length}catch(e){n=[...str].filter(c=>c.trim()).length}
+ n=Math.max(n,1);return `font-size:min(${Math.min(maxRem,base/n).toFixed(2)}rem,${(56/n).toFixed(1)}vw)`
 }
-function wrongCard(slot,pick){
- const w=slot.wrong[pick];
- if(w)return sceneCard(w[0],w[1],w[2],"oops");
- return sceneCard("🤔❓",`「${pick}」 doesn't work here — Japanese doesn't say it this way.`,`这里不能用「${pick}」——日文不这样说。`,"oops")
+/* the big picture of what the sentence really means */
+function bigScene(s){
+ const c=el("div","big-scene");
+ c.innerHTML=`<div class="big-scene-emoji" style="${emojiSize(s.scene,5.2,30)}">${s.scene}</div><div class="big-scene-text">${esc(L(s.en,s.zh))}</div>`;return c
 }
-function needLine(slot){const k=slot.ok[0];return el("div","need-line",`Here we need 「${slot.ok.join("」 or 「")}」 = ${PARTICLE_INFO[k][0]} ／ ${PARTICLE_INFO[k][1]}`)}
+/* “you said …” with the chosen particle highlighted */
+function saidLine(s,i,pick){
+ const line=el("div","said-line");
+ s.parts.forEach((p,k)=>{
+   if(typeof p==="string"){const sp=el("span","");sp.innerHTML=jpHTML(p);line.append(sp)}
+   else line.append(el("span",k===i?"said-bad":"said-ok",k===i?pick:p.ok[0]))
+ });return line
+}
+function consequenceCard(s,i,pick,kindTitle){
+ const slot=s.parts[i],w=slot.wrong[pick],card=el("div","conseq");
+ card.append(el("div","conseq-said-title",t("said")),saidLine(s,i,pick));
+ if(w){
+   card.append(el("div","conseq-kind "+(w[3]==="real"?"real":"funny"),w[3]==="real"?t("real"):t("funny")));
+   const em=el("div","conseq-emoji",w[0]);em.setAttribute("style",emojiSize(w[0],5.6,30));card.append(em,el("div","conseq-text",L(w[1],w[2])));
+ }else{
+   card.append(el("div","conseq-kind funny",t("none")),el("div","conseq-emoji","🤔❓"));
+ }
+ if(kindTitle)card.prepend(el("div","conseq-top",kindTitle));
+ return card
+}
+function hintLine(slot){const k=slot.ok[0];return el("div","need-line",`${t("hint")} ${L(...PARTICLE_INFO[k])}`)}
 function sentenceLine(s,blankIdx,shown){
  const line=el("div","p-sentence");
  s.parts.forEach((p,i)=>{
@@ -341,68 +398,67 @@ function sentenceLine(s,blankIdx,shown){
 }
 function renderPPlay(){
  const p=el("div","panel play");
- const top=el("div","play-top"),back=el("button","small-btn","← Menu");back.onclick=()=>{PR.screen="menu";render()};
- top.append(back,el("div","play-mode",P_MODES.find(m=>m[0]===PR.mode)[2]));p.append(top,pProgress());
+ const top=el("div","play-top"),back=el("button","small-btn",t("menu"));back.onclick=()=>{PR.screen="menu";render()};
+ top.append(back,langToggle(),el("div","play-mode",L(P_MODES.find(m=>m[0]===PR.mode)[2],MODE_ZH[PR.mode])));p.append(top,pProgress());
  if(PR.idx>=PR.queue.length){renderPEnd(p);return}
  const {s,i}=PR.queue[PR.idx],slot=s.parts[i],stage=el("div","q-stage");p.append(stage);app.append(p);
  let tries=0;
- const meaning=el("div","meaning-line");meaning.innerHTML=`<span class="scene-mini">${s.scene}</span> ${esc(s.en)} <small>${esc(s.zh)}</small>`;
  const feedback=el("div","p-feedback");
- const next=(ok)=>{const b=el("button","active next-btn","Next →");b.onclick=()=>{PR.idx++;render()};feedback.append(b);if(ok)stamp(stage)};
- const finishRight=(chosen,msgExtra)=>{
+ const missed=()=>{if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx)};
+ const next=(ok)=>{const b=el("button","active next-btn",t("next"));b.onclick=()=>{PR.idx++;render()};feedback.append(b);if(ok)stamp(stage)};
+ const finishRight=(chosen)=>{
    logResult("part-"+PR.mode,logKey(s,i),true);if(tries===0)PR.score++;
-   stage.querySelector(".p-blank").textContent=chosen;stage.querySelector(".p-blank").classList.add("filled");
-   feedback.innerHTML="";const card=sceneCard(s.scene,s.en,s.zh,"right");
-   if(msgExtra)card.prepend(el("div","also-ok",msgExtra));
-   feedback.append(card);playSuccess();speak(sentenceText(s,{[i]:chosen}));next(tries===0)
+   const blank=stage.querySelector(".p-blank");blank.textContent=chosen;blank.classList.remove("shown");blank.classList.add("filled");
+   feedback.innerHTML="";feedback.append(el("div","right-title",t("right")));playSuccess();next(tries===0)
  };
  const choose=(opts,onPick)=>{const box=el("div","opt-grid kana p-opts");opts.forEach(o=>{const b=el("button","opt kana-opt",o);b.onclick=()=>{if(b.disabled)return;onPick(o,b,box)};box.append(b)});return box};
- const wrongPick=(pick,b)=>{
-   tries++;logResult("part-"+PR.mode,logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx);
+ const wrongPick=(pick,b,title)=>{
+   tries++;logResult("part-"+PR.mode,logKey(s,i),false);missed();
    if(b){b.disabled=true;b.classList.add("wrong")}
-   feedback.innerHTML="";feedback.append(el("div","oops-title","😹 Oops! You just said:"));
-   const said=el("div","p-said");said.innerHTML=jpHTML(sentenceText(s,{[i]:pick}));feedback.append(said,wrongCard(slot,pick));
-   if(tries>=2)feedback.append(needLine(slot))
+   feedback.innerHTML="";feedback.append(consequenceCard(s,i,pick,title));
+   if(tries>=2)feedback.append(hintLine(slot));
  };
+ stage.append(bigScene(s));
  if(PR.mode==="fill"){
-   stage.append(meaning,sentenceLine(s,i));
+   stage.append(sentenceLine(s,i));
    let opts;
    if(PR.level==="easy"){const wrongs=shuffle(slot.opts.filter(o=>!slot.ok.includes(o)));const withCards=wrongs.filter(o=>slot.wrong[o]);opts=shuffle([slot.ok[0],...[...withCards,...wrongs.filter(o=>!slot.wrong[o])].slice(0,2)])}
    else opts=shuffle(slot.opts);
    stage.append(choose(opts,(o,b,box)=>{
-     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");
-       const other=slot.ok.filter(x=>x!==o);finishRight(o,other.length?`✓ 「${other.join("」「")}」 is also correct here!`:"")}
-     else wrongPick(o,b)
+     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");finishRight(o)}
+     else wrongPick(o,b,"")
    }),feedback)
  }else{
-   /* judge: show a sentence that is right or wrong */
    const wrongs=slot.opts.filter(o=>!slot.ok.includes(o)),showWrong=Math.random()<.5&&wrongs.length;
    const withCards=wrongs.filter(o=>slot.wrong[o]);
-   const shown=showWrong?(withCards.length&&Math.random()<.8?withCards[Math.floor(Math.random()*withCards.length)]:wrongs[Math.floor(Math.random()*wrongs.length)]):slot.ok[Math.floor(Math.random()*slot.ok.length)];
-   stage.append(meaning,el("div","q-ask","Is this sentence right for the picture?"),sentenceLine(s,i,shown));
-   const yn=el("div","yn-row"),yes=el("button","yn yes","⭕ Right"),no=el("button","yn no","❌ Wrong");yn.append(yes,no);stage.append(yn,feedback);
+   const shown=showWrong?(withCards.length&&Math.random()<.8?withCards[Math.floor(Math.random()*withCards.length)]:wrongs[Math.floor(Math.random()*wrongs.length)]):slot.ok[0];
+   stage.append(el("div","q-ask",t("isRight")),sentenceLine(s,i,shown));
+   const yn=el("div","yn-row"),yes=el("button","yn yes",t("rightBtn")),no=el("button","yn no",t("wrongBtn"));yn.append(yes,no);stage.append(yn,feedback);
+   const fixStep=()=>{feedback.append(el("div","q-ask",t("fixIt")),choose(shuffle(slot.opts.filter(o=>o!==shown)),(o,b,box)=>{
+     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o)}
+     else{tries++;b.disabled=true;b.classList.add("wrong");logResult("part-judge",logKey(s,i),false);missed();if(tries>=2&&!feedback.querySelector(".need-line"))feedback.append(hintLine(slot))}
+   }))};
    yes.onclick=()=>{yes.disabled=no.disabled=true;
-     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);stage.querySelector(".p-blank").classList.add("filled");feedback.append(sceneCard(s.scene,s.en,s.zh,"right"));playSuccess();speak(sentenceText(s));next(true)}
-     else{wrongPick(shown,null);feedback.prepend(el("div","oops-title","It was wrong!"));const fix=el("div","q-ask","Choose the right particle:");feedback.append(fix);
-       feedback.append(choose(shuffle(slot.opts),(o,b,box)=>{if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o,"")}else{b.disabled=true;b.classList.add("wrong")}}))}
+     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");feedback.append(el("div","right-title",t("right")));playSuccess();next(true)}
+     else{wrongPick(shown,null,t("wasWrong"));fixStep()}
    };
    no.onclick=()=>{yes.disabled=no.disabled=true;
-     if(showWrong){feedback.append(el("div","oops-title","✓ Good eye! It's wrong. Here's what it said:"),wrongCard(slot,shown),el("div","q-ask","Now fix it:"));
-       feedback.append(choose(shuffle(slot.opts.filter(o=>o!==shown)),(o,b,box)=>{if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o,"")}else{tries++;b.disabled=true;b.classList.add("wrong");logResult("part-judge",logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx)}}))}
-     else{tries++;logResult("part-judge",logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx);
-       stage.querySelector(".p-blank").classList.add("filled");feedback.append(el("div","oops-title","It was actually right!"),sceneCard(s.scene,s.en,s.zh,"right"),needLine(slot));next(false)}
+     if(showWrong){feedback.append(consequenceCard(s,i,shown,t("goodEye")));fixStep()}
+     else{tries++;logResult("part-judge",logKey(s,i),false);missed();const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");
+       feedback.append(el("div","oops-title",t("wasRight")));next(false)}
    }
  }
+ rerender=()=>{app.innerHTML="";const keep=PR.idx;renderPPlay()}
 }
 function renderPEnd(p){
- const t=PR.queue.length,box=el("div","end-box"),pct=t?PR.score/t:0;
- box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${t}`),el("div","end-sub","correct on the first try"));
- if(PR.missed.length){box.append(el("div","end-sub strong","Practice these again:"));const ul=el("div","missed-list");
-   PR.missed.forEach(k=>{const {s}=PR.queue[k];const d=el("div","missed-item","");d.innerHTML=`<span>${jpHTML(sentenceText(s))}</span>`;ul.append(d)});box.append(ul)}
- const act=el("div","actions"),again=el("button","active","↻ Play Again"),menu=el("button","","Menu");again.onclick=startPRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
+ const n=PR.queue.length,box=el("div","end-box"),pct=n?PR.score/n:0;
+ box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${n}`),el("div","end-sub",t("firstTry")));
+ if(PR.missed.length){box.append(el("div","end-sub strong",t("again")));const ul=el("div","missed-list");
+   PR.missed.forEach(k=>{const {s}=PR.queue[k];const d=el("div","missed-item","");d.innerHTML=`<span class="missed-scene">${s.scene}</span><span>${jpHTML(sentenceText(s))}</span>`;ul.append(d)});box.append(ul)}
+ const act=el("div","actions"),again=el("button","active",t("playAgain")),menu=el("button","",t("back"));again.onclick=startPRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
  p.append(box);app.append(p);if(pct===1)stamp(box)
 }
-function render(){app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
+function render(){rerender=()=>render();app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
 
 initReport();
 render();
