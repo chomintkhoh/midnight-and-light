@@ -10,8 +10,8 @@
    Destination uses へ only (に + いきます is not taught yet).
    ===================================================================== */
 const PARTICLE_INFO={
- "は":["as for … (the topic)","……呢（主题）"],
- "が":["what you like / what it is","喜欢的是……"],
+ "は":["the topic: who / what you are talking about","主题：说的是谁／什么（わたしは＝说到我）"],
+ "が":["with すき: the thing you like","配合すき：喜欢的对象"],
  "を":["the thing you eat / drink / do / watch","吃、喝、做、看的东西"],
  "で":["by (how you go) / at (where you do it)","用什么方式／在哪里做"],
  "へ":["to (where you go)","往（去的地方）"],
@@ -164,5 +164,123 @@ const PARTICLE_SENTENCES=[
  {scene:"🧒 🚶 ➡️ 🏫",en:"I walk to school.",zh:"我走路去学校。",parts:["あるいて がっこう",
    {ok:["へ"],opts:["へ","で","を"],wrong:{
      "で":["🏫❓","You say something happens AT school… but where are you going?","你说「在学校」……那你到底去哪里？"],
-     "を":["🚶🏫🚶","You walk right through the school and out the other side!","你从学校中间穿过去，走到另一边！"]}},"いきます。"]}
+     "を":["🚶🏫🚶","You walk right through the school and out the other side!","你从学校中间穿过去，走到另一边！"]}},"いきます。"]},
+ /* ---- more が ---- */
+ {scene:"🧒 ❤️ 🐶",en:"I like dogs.",zh:"我喜欢狗。",parts:["わたしは いぬ",
+   {ok:["が"],opts:["が","を","で","と"],wrong:{
+     "で":["🐶🧒❓","USING a dog, you like… what?","「用狗」，你喜欢……什么？"],
+     "と":["🧒🤝🐶 ❤️❓","You and the dog like… WHAT? Something is missing!","你和狗一起喜欢……什么？少了东西！"]}},"すきです。"]},
+ {scene:"🧒 ❤️ ⚽",en:"I like football.",zh:"我喜欢足球。",parts:["わたしは サッカー",
+   {ok:["が"],opts:["が","を","で","と"],wrong:{
+     "と":["🧒🤝⚽ ❤️❓","You and football like… what?","你和足球一起喜欢……什么？"],
+     "で":["⚽🧒❓","USING football, you like… what?","「用足球」，你喜欢……什么？"]}},"すきです。"]},
+ {scene:"🧒 🙅 🫑",en:"I don't like green peppers.",zh:"我不喜欢青椒。",parts:["わたしは ピーマン",
+   {ok:["が"],opts:["が","を","で","と"],wrong:{
+     "と":["🧒🤝🫑 🙅❓","You and the green pepper don't like… what?","你和青椒一起不喜欢……什么？"]}},"すきじゃないです。"]},
+ {scene:"👨 ❤️ 🍜",en:"Dad likes ramen.",zh:"爸爸喜欢拉面。",parts:["おとうさんは ラーメン",
+   {ok:["が"],opts:["が","を","で","と"],wrong:{
+     "で":["🍜👨❓","USING ramen, Dad likes… what?","「用拉面」，爸爸喜欢……什么？"],
+     "と":["👨🤝🍜 ❤️❓","Dad and the ramen like… what?","爸爸和拉面一起喜欢……什么？"]}},"すきです。"]},
+ /* ---- more は ---- */
+ {scene:"👉 🍎",en:"This is an apple.",zh:"这是苹果。",parts:["これ",
+   {ok:["は"],opts:["は","を","で","と"],wrong:{
+     "と":["👉🤝🍎","“This AND the apple are…” — are what?","「这个和苹果是……」——是什么？"],
+     "で":["👉🍎❓","USING this… it's an apple? Using it for what?","「用这个」……是苹果？用来做什么？"]}},"りんごです。"]},
+ {scene:"👉(near you) 📖",en:"That (near you) is a book.",zh:"那（你旁边的）是书。",parts:["それ",
+   {ok:["は"],opts:["は","を","で","と"],wrong:{
+     "と":["👉🤝📖","“That AND the book are…” — are what?","「那个和书是……」——是什么？"]}},"ほんです。"]},
+ {scene:"👉 … 🏫 (far away)",en:"That (over there) is a school.",zh:"那（远处的）是学校。",parts:["あれ",
+   {ok:["は"],opts:["は","を","で","と"],wrong:{
+     "を":["👀🏫❓","“That… school” — what about it? The sentence doesn't work.","「那个……学校」——然后呢？句子不通。"]}},"がっこうです。"]},
+ {scene:"👧 5️⃣",en:"My little sister is 5.",zh:"我妹妹5岁。",parts:["いもうと",
+   {ok:["は"],opts:["は","を","で","と"],wrong:{
+     "と":["👧🤝❓ 5️⃣","You and your sister are 5… who else?","你和妹妹5岁……还有谁？"]}},"5さいです。"]},
+ {scene:"📅 👉 🗓️",en:"Today is Wednesday.",zh:"今天是星期三。",parts:["きょう",
+   {ok:["は"],opts:["は","を","で","と"],wrong:{
+     "と":["📅🤝❓","“Today AND Wednesday…” — are what?","「今天和星期三……」——是什么？"]}},"すいようびです。"]},
+ /* ---- more も ---- */
+ {scene:"🧑❤️🐶  ＋ 🧒❤️🐶",en:"I like dogs too.",zh:"我也喜欢狗。",parts:["わたし",
+   {ok:["も"],opts:["も","は","を","で"],wrong:{
+     "は":["🧒❤️🐶","Real Japanese: “I like dogs.” But look — your friend likes dogs as well!","这是真的日文：「我喜欢狗」。但是图里朋友也喜欢狗！","real"],
+     "で":["🧒🐶❓","USING me… like dogs? That doesn't work.","「用我」……喜欢狗？说不通。"]}},"いぬが すきです。"]},
+ {scene:"👨😴  ＋ 👩😴",en:"Mum goes to bed too.",zh:"妈妈也睡觉。",parts:["おかあさん",
+   {ok:["も"],opts:["も","は","を","で"],wrong:{
+     "は":["👩😴","Real Japanese: “Mum goes to bed.” But look — Dad is sleeping already!","这是真的日文：「妈妈睡觉」。但是爸爸已经在睡了！","real"],
+     "を":["😴👩","Mum is the thing you sleep? You sleep ON Mum!","妈妈是你睡的东西？你睡在妈妈身上！"]}},"ねます。"]},
+ {scene:"🍎  ＋ 👉🍎",en:"This is an apple too.",zh:"这也是苹果。",parts:["これ",
+   {ok:["も"],opts:["も","は","を","で"],wrong:{
+     "は":["👉🍎","Real Japanese: “This is an apple.” But look — there is ANOTHER apple already!","这是真的日文：「这是苹果」。但是图里已经有「另一个」苹果了！","real"]}},"りんごです。"]},
+ {scene:"🧃😋  ＋ 🥛😋",en:"I drink milk too.",zh:"我也喝牛奶。",parts:["ぎゅうにゅう",
+   {ok:["も"],opts:["も","を","で","と"],wrong:{
+     "を":["🥛😋","Real Japanese: “I drink milk.” But look — you are drinking juice as well!","这是真的日文：「我喝牛奶」。但是你也在喝果汁！","real"],
+     "で":["🥛➡️🥤","You drink something USING milk as your cup!","你「用」牛奶当杯子来喝东西！"],
+     "と":["🧒🤝🥛","You drink together WITH the milk — cheers!","牛奶陪你一起喝东西——干杯！"]}},"のみます。"]},
+ /* ---- more から / まで ---- */
+ {scene:"🏊 🕘 → 🕔",en:"The pool is open from 9 to 5.",zh:"游泳池从9点到5点。",parts:["プールは 9じ",
+   {ok:["から"],opts:["から","まで","で","と"],wrong:{
+     "まで":["🏊 ❓→🕘 ❓→🕔","Until 9… until 5… so when does it OPEN?","到9点……到5点……那什么时候开？"],
+     "と":["🕘🤝🕔","9 o'clock AND 5 o'clock… only two times?","9点「和」5点……只有两个时间？"]}},"5じ",
+   {ok:["まで"],opts:["まで","から","で","と"],wrong:{
+     "から":["🏊 🕘→ 🕔→ ♾️","From 9… from 5… the pool NEVER closes!","从9点、从5点……游泳池永远不关门！"]}},"です。"]},
+ {scene:"🏦 🕤 → 🕓",en:"The bank is open from 9:30 to 4.",zh:"银行从9点半到4点。",parts:["ぎんこうは 9じはん",
+   {ok:["から"],opts:["から","まで","で","と"],wrong:{
+     "まで":["🏦 ❓→🕤 ❓→🕓","Until 9:30… until 4… so when does it OPEN?","到9点半……到4点……那什么时候开？"]}},"4じ",
+   {ok:["まで"],opts:["まで","から","で","と"],wrong:{
+     "から":["🏦 🕤→ 🕓→ ♾️","From 9:30… from 4… the bank NEVER closes!","从9点半、从4点……银行永远不关门！"]}},"です。"]},
+ {scene:"🛒 🌅8 → 🌙10",en:"The supermarket is open from 8 a.m. to 10 p.m.",zh:"超市从早上8点到晚上10点。",parts:["スーパーは あさ 8じ",
+   {ok:["から"],opts:["から","まで","で","と"],wrong:{
+     "まで":["🛒 ❓→🌅 ❓→🌙","Until 8 a.m.… until 10 p.m.… when does it OPEN?","到早上8点……到晚上10点……那什么时候开？"]}},"よる 10じ",
+   {ok:["まで"],opts:["まで","から","で","と"],wrong:{
+     "から":["🛒 🌅→ 🌙→ ♾️","From 8… from 10… it NEVER closes!","从8点、从10点……永远不关门！"]}},"です。"]},
+ {scene:"🏫 月 → 金",en:"School is from Monday to Friday.",zh:"学校从星期一到星期五。",parts:["がっこうは げつようび",
+   {ok:["から"],opts:["から","まで","で","と"],wrong:{
+     "と":["月🤝金","Only Monday AND Friday? What about the other days?","只有星期一「和」星期五？其他天呢？"],
+     "まで":["🏫 ❓→月 ❓→金","Until Monday… until Friday… when does it START?","到星期一……到星期五……那从哪天开始？"]}},"きんようび",
+   {ok:["まで"],opts:["まで","から","で","と"],wrong:{
+     "から":["🏫 月→ 金→ ♾️","From Monday… from Friday… school every day forever!","从星期一、从星期五……天天都要上学，永远没有假期！"],
+     "と":["月🤝金","Only Monday AND Friday? What about the other days?","只有星期一「和」星期五？其他天呢？"]}},"です。"]},
+ /* ---- more に (time) ---- */
+ {scene:"🕢 🧒 ➡️ 🏫",en:"I go to school at 7:30.",zh:"我7点半去学校。",parts:["7じはん",
+   {ok:["に"],opts:["に","まで","で","と"],wrong:{
+     "まで":["🧒🚶🚶🚶 … 🕢","You keep walking to school UNTIL 7:30 — all night long!","你一直走去学校，走到7点半——走了一整晚！"],
+     "と":["🕢🤝🧒 ➡️🏫","You and 7:30 walk to school together!","你和7点半一起走去学校！"]}},"がっこう",
+   {ok:["へ"],opts:["へ","で","を"],wrong:{
+     "で":["🏫❓","You say something happens AT school… but where are you going?","你说「在学校」……那你到底去哪里？"],
+     "を":["🚶🏫🚶","You walk right through the school and out the other side!","你从学校中间穿过去，走到另一边！"]}},"いきます。"]},
+ {scene:"🕛 🍱😋",en:"I eat school lunch at 12.",zh:"我12点吃学校午餐。",parts:["12じ",
+   {ok:["に"],opts:["に","まで","で","と"],wrong:{
+     "まで":["🍱😋😋😋 … 🕛","Real Japanese: you keep eating lunch UNTIL 12 — a very long lunch!","这是真的日文：你一直吃午餐吃「到」12点——吃好久！","real"],
+     "と":["🕛🤝🍱","You eat lunch together WITH 12 o'clock!","你和12点钟一起吃午餐！"]}},"きゅうしょく",
+   {ok:["を"],opts:["を","で","と","へ"],wrong:{
+     "と":["🧒🤝🍱","You eat together WITH your lunch — lunch is your friend!","午餐变成你的朋友，陪你一起吃！"],
+     "へ":["🧒➡️🍱","You walk INTO your lunch box!","你走进便当盒里面了！"]}},"たべます。"]},
+ {scene:"🕗 📺👀",en:"I watch TV at 8.",zh:"我8点看电视。",parts:["8じ",
+   {ok:["に"],opts:["に","まで","で","と"],wrong:{
+     "まで":["📺👀 … 🕗","Real Japanese: you watch TV UNTIL 8 — that's a different meaning!","这是真的日文：你看电视看「到」8点——意思不一样！","real"],
+     "と":["🕗🤝📺","You and 8 o'clock watch TV together!","你和8点钟一起看电视！"]}},"テレビ",
+   {ok:["を"],opts:["を","へ","と","で"],wrong:{
+     "へ":["🧒➡️📺","You walk INTO the TV!","你往电视里面走进去了！"]}},"みます。"]},
+ {scene:"🕒 🧒🏠",en:"I go home at 3.",zh:"我3点回家。",parts:["3じ",
+   {ok:["に"],opts:["に","で","と","を"],wrong:{
+     "と":["🕒🤝🧒🏠","You and 3 o'clock go home together!","你和3点钟一起回家！"]}},"かえります。"]},
+ /* ---- more と ---- */
+ {scene:"🧒🤝👨 ➡️ 🏞️",en:"I go to the park with Dad.",zh:"我和爸爸去公园。",parts:["おとうさん",
+   {ok:["と"],opts:["と","で","を","は"],wrong:{
+     "で":["🧒🏇👨","Dad is how you travel — you ride on Dad!","爸爸变成交通工具——你骑在爸爸身上！"],
+     "は":["👨💨🏞️   🧒😢","DAD goes to the park — without you!","是爸爸去公园——没有你！","real"]}},"こうえん",
+   {ok:["へ"],opts:["へ","で","を"],wrong:{}},"いきます。"]},
+ {scene:"🧒🤝👧 🍰😋",en:"I eat cake with my little sister.",zh:"我和妹妹吃蛋糕。",parts:["いもうと",
+   {ok:["と"],opts:["と","を","で","は"],wrong:{
+     "を":["😋👧","Your sister is what you eat — you EAT your sister!","妹妹变成你吃的东西——你把妹妹吃掉了！"],
+     "で":["👧🍴","You eat cake USING your sister as a spoon!","你「用」妹妹当汤匙吃蛋糕！"],
+     "は":["👧🍰😋   🧒😢","Your SISTER eats the cake — you get none!","是妹妹吃蛋糕——你一口都没有！","real"]}},"ケーキ",
+   {ok:["を"],opts:["を","と","で","へ"],wrong:{
+     "へ":["🧒➡️🍰","You walk INTO the cake!","你走进蛋糕里面了！"],
+     "と":["🧒🤝🍰","You eat together WITH the cake — the cake is your friend!","蛋糕变成你的朋友，陪你一起吃！"]}},"たべます。"]},
+ {scene:"🧒🤝👵 📺",en:"I watch TV with Grandma.",zh:"我和奶奶看电视。",parts:["おばあさん",
+   {ok:["と"],opts:["と","を","で","へ"],wrong:{
+     "を":["🧒👀👵","Grandma is what you watch — you stare at Grandma!","奶奶变成你看的东西——你一直盯着奶奶看！"],
+     "で":["👵📺","You use Grandma as the TV screen!","你「用」奶奶当电视屏幕！"]}},"テレビ",
+   {ok:["を"],opts:["を","と","へ","で"],wrong:{
+     "へ":["🧒➡️📺","You walk INTO the TV!","你往电视里面走进去了！"]}},"みます。"]}
 ];
