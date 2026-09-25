@@ -59,6 +59,56 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 
 
 .calendar-task-note{margin:.55rem auto .2rem;max-width:520px;color:var(--muted-bluegrey);font-size:.92rem}
+
+/* V4 从～到 */
+.fromto-sheet{max-width:980px;margin:auto}
+.fromto-question{position:relative;padding:1.2rem .4rem 1.4rem;border-top:1px solid rgba(139,143,179,.22)}
+.fromto-question:first-child{border-top:0}
+.fromto-question.ft-bad{animation:ftShake .35s}
+@keyframes ftShake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.question-no{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;background:rgba(217,196,142,.16);color:var(--gold);font-weight:800}
+.ft-scene{display:flex;align-items:center;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin:.2rem auto .8rem}
+.ft-place{text-align:center}.ft-place img{width:150px;height:112px;object-fit:contain;display:block;margin:0 auto .2rem}
+.ft-place .jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;font-weight:700;color:var(--gold)}
+.ft-clocks{display:flex;align-items:center;gap:.8rem}
+.ft-clock{text-align:center}.ft-clock .clock{width:140px;display:block;margin:0 auto}
+.ft-period{margin-top:.2rem;font-family:"Zen Kaku Gothic New";font-weight:700;font-size:1.05rem;padding:.15rem .6rem;border-radius:999px;display:inline-block}
+.ft-period.am{background:rgba(242,201,76,.18);color:#F2D27A}.ft-period.pm{background:rgba(120,140,230,.2);color:#AFC0FF}
+.ft-arrow{font-size:1.8rem;color:var(--gold)}
+.ft-types{margin-top:10px}
+.cb-label{max-width:900px;margin:.3rem auto;color:var(--muted);font-size:.9rem;font-weight:700}
+.cb-answer,.cb-bank{max-width:900px;margin:.3rem auto .8rem;padding:.8rem;border-radius:16px;display:flex;flex-wrap:wrap;gap:.6rem;align-content:flex-start;touch-action:none}
+.cb-answer{min-height:90px;border:2px dashed rgba(217,196,142,.58);background:rgba(217,196,142,.07)}
+.cb-bank{min-height:90px;justify-content:center;background:rgba(182,169,218,.09)}
+.cb-answer.dragover,.cb-bank.dragover{border-style:solid;background:rgba(217,196,142,.16)}
+.cb-card{min-width:80px;min-height:56px;padding:.6rem .9rem;border-radius:12px;background:#F4F1EA;color:#17192d;font-family:"Zen Kaku Gothic New";font-size:1.2rem;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.cb-card.short{min-width:60px}.cb-card.dragging{position:relative;z-index:50;opacity:.9;box-shadow:0 10px 24px rgba(0,0,0,.35);cursor:grabbing}
+.cb-card.wrong-pos{outline:3px solid var(--bad);background:#FBE3E8}
+.ft-fill{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;font-size:1.25rem;margin:.6rem 0}
+.ft-fill select{font:inherit;font-family:"Zen Kaku Gothic New";min-width:84px;min-height:46px;border-radius:10px;background:#F4F1EA;color:#17192d;border:0;padding:0 .4rem}
+.ft-q{text-align:center;font-family:"Zen Kaku Gothic New";font-size:1.2rem;color:var(--lav);margin:.3rem 0 .6rem}
+.fromto-question .type-answer{max-width:640px;display:block;margin:.4rem auto;font-family:"Zen Kaku Gothic New";text-align:center}
+.ft-write{max-width:760px;display:block;margin:.4rem auto;height:150px}
+.muted{display:block;color:var(--muted);font-size:.95rem}
+@media(max-width:620px){.ft-place img{width:110px;height:84px}.ft-clock .clock{width:100px}.ft-arrow{font-size:1.3rem}.cb-card{min-width:64px;min-height:50px;font-size:1.05rem;padding:.5rem .7rem}.ft-fill{font-size:1.05rem}}
+
+.done-btn{position:fixed;right:14px;bottom:14px;z-index:40;min-height:54px;padding:10px 18px;border-radius:999px;background:#D9C48E;color:#14162e;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35);border:0}
+.done-count{font-size:.8em;opacity:.75;margin-left:4px}
+.shell{padding-bottom:90px}
+.code-warning{margin:10px auto 0;max-width:520px;padding:8px 12px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4;font-size:14px}
+.report-overlay{position:fixed;inset:0;z-index:100;background:rgba(6,7,20,.72);display:flex;align-items:center;justify-content:center;padding:14px}
+.report-box{width:min(560px,100%);max-height:92vh;overflow:auto;background:#F4F1EA;color:#17192d;border-radius:20px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.report-box h2{margin:0 0 10px;text-align:center;color:#2b2d5c}
+.report-meta{font-size:15px;line-height:1.7;background:#fff;border-radius:12px;padding:8px 12px;margin-bottom:10px}
+.report-table{display:grid;gap:6px;margin-bottom:10px}
+.report-row{display:flex;justify-content:space-between;gap:10px;background:#fff;border-radius:10px;padding:8px 12px;font-size:15px}
+.report-sub{font-weight:700;margin:8px 0 4px;color:#2b2d5c}
+.report-mistakes{margin:0;padding-left:20px;font-family:"Zen Kaku Gothic New";font-size:16px;line-height:1.7}
+.report-empty{text-align:center}
+.report-box .actions button{color:#17192d;background:#fff;border-color:#b9bde0}
+.report-box .actions button.active{background:#2b2d5c;color:#fff}
+.report-box button:disabled{opacity:.45}
+.report-status{text-align:center;margin-top:10px;font-size:14.5px;color:#444;min-height:20px}
 </style>
 </head>
 <body>
@@ -80,6 +130,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 <nav id="clockSubs" class="subtabs">
 <button id="readTab" class="active">Read & Write</button>
 <button id="setTab">Set the Clock</button>
+<button id="fromtoTab">From ～ To</button>
 </nav>
 <section id="app" aria-live="polite"></section>
 </main>
@@ -131,7 +182,7 @@ function initMusic(){
   document.querySelectorAll(".music-btn").forEach(btn=>{
     btn.addEventListener("click",()=>setBackgroundMusic(btn.dataset.track,true));
   });
-  const saved=localStorage.getItem("timePracticeBgm")||"off";
+  let saved="off";try{saved=localStorage.getItem("timePracticeBgm")||"off"}catch(e){}
   if(saved!=="off"&&BGM_TRACKS[saved]){
     bgm.src=BGM_TRACKS[saved].src;
     bgm.volume=BGM_TRACKS[saved].volume;
@@ -147,7 +198,7 @@ const MIN={0:"",1:"いっぷん",2:"にふん",3:"さんぷん",4:"よんぷん"
 const WEEKDAYS=["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"];
 const MONTHS=["いちがつ","にがつ","さんがつ","しがつ","ごがつ","ろくがつ","しちがつ","はちがつ","くがつ","じゅうがつ","じゅういちがつ","じゅうにがつ"];
 const DATE_READ={1:"ついたち",2:"ふつか",3:"みっか",4:"よっか",5:"いつか",6:"むいか",7:"なのか",8:"ようか",9:"ここのか",10:"とおか",11:"じゅういちにち",12:"じゅうににち",13:"じゅうさんにち",14:"じゅうよっか",15:"じゅうごにち",16:"じゅうろくにち",17:"じゅうしちにち",18:"じゅうはちにち",19:"じゅうくにち",20:"はつか",21:"にじゅういちにち",22:"にじゅうににち",23:"にじゅうさんにち",24:"にじゅうよっか",25:"にじゅうごにち",26:"にじゅうろくにち",27:"にじゅうしちにち",28:"にじゅうはちにち",29:"にじゅうくにち",30:"さんじゅうにち",31:"さんじゅういちにち"};
-const state={main:"clock",sub:"read",mode:"mixed",worksheet:[],calendarDifficulty:"easy",calendarDate:new Date(),calendarQuestions:[],calendarPage:0,furigana:true,setTarget:null,setClock:null};
+const state={main:"clock",sub:"read",mode:"mixed",worksheet:[],calendarDifficulty:"easy",calendarDate:new Date(),calendarQuestions:[],calendarPage:0,furigana:true,setTarget:null,setClock:null,fromToDifficulty:"easy",fromToQuestions:[]};
 const app=document.getElementById("app");
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function playSuccess(){successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}
@@ -194,12 +245,313 @@ function renderRead(){
  const act=el("div","actions"),check=el("button","active","Check Answers"),fresh=el("button","","New Questions");check.onclick=()=>checkRead(cards);fresh.onclick=()=>{state.worksheet=randomTimes(9);render()};act.append(check,fresh);p.append(act);const sc=el("div","score hidden");sc.id="score";p.append(sc);app.append(p)
 }
 function norm(s){return (s||"").replace(/\s+/g,"").trim()} function checkRead(cards){let score=0;cards.forEach((c,i)=>{c.classList.remove("correct","incorrect");c.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());c.querySelectorAll(".has-stamp").forEach(x=>x.classList.remove("has-stamp"));const t=state.worksheet[i],fb=c.querySelector(".feedback");
- if(i<3){const s=c.querySelector(".slot"),ok=norm(s.dataset.answer)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(ok){score++;s.classList.add("has-stamp");stamp(s)}}
- else if(i<6){const az=c.querySelector(".answer-zone"),acc=acceptedReadings(t),ok=acc.some(r=>norm(r)===norm(az.querySelector("input").value));c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${acc.join("／")}</span>`;if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
+ if(i<3){const s=c.querySelector(".slot"),ok=norm(s.dataset.answer)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(s.dataset.answer)logResult("read",tLabel(t),ok);if(ok){score++;s.classList.add("has-stamp");stamp(s)}}
+ else if(i<6){const az=c.querySelector(".answer-zone"),acc=acceptedReadings(t),ok=acc.some(r=>norm(r)===norm(az.querySelector("input").value));c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${acc.join("／")}</span>`;if(az.querySelector("input").value.trim())logResult("read",tLabel(t),ok);if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
  else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;if(score)playSuccess()}
 function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>{const b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top}};cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
-function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg,fb,act);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(hd<=7&&md<=4){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(right);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
+function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(logResult("set",tLabel(t),hd<=7&&md<=4)){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
 
+
+/* ===== から／まで 练习（V4：合并修正版） ===== */
+const CONTEXT_PLACES=[
+ {jp:"がっこう",img:"./assets/images/japanese/places/school.png",open:[7,9],close:[14,17]},
+ {jp:"ぎんこう",img:"./assets/images/japanese/places/bank.png",open:[8,10],close:[15,17]},
+ {jp:"としょかん",img:"./assets/images/japanese/places/library.png",open:[9,11],close:[17,20]},
+ {jp:"びょういん",img:"./assets/images/japanese/places/hospital.png",open:[8,10],close:[16,19]},
+ {jp:"スーパー",img:"./assets/images/japanese/places/supermarket.png",open:[8,10],close:[19,22]},
+ {jp:"ほんや",img:"./assets/images/japanese/places/bookstore.png",open:[9,11],close:[18,21]},
+ {jp:"くすりや",img:"./assets/images/japanese/places/pharmacy.png",open:[8,10],close:[18,21]},
+ {jp:"プール",img:"./assets/images/japanese/places/pool.png",open:[7,10],close:[17,21]},
+ {jp:"ゆうびんきょく",img:"./assets/images/japanese/places/post-office.png",open:[8,10],close:[16,18]}
+];
+const FT_TYPES=[["arrange","🧩 Card Builder"],["fill","✏️ Fill"],["type","⌨ Type"],["write","✍ Write"]];
+let fromToPracticeType="arrange",lastFromToSignature="";
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function ftH12(h){return h%12||12}
+function ftPeriod(h){return h<12?"ごぜん":"ごご"}
+/* 简单：7じ（数字）；进阶：しちじ（平假名读法） */
+function ftHourTok(h,level){return level==="easy"?`${ftH12(h)}じ`:HOUR[ftH12(h)]}
+function ftTokens(x,level){
+ return [x.place.jp,"は",ftPeriod(x.from),ftHourTok(x.from,level),"から",ftPeriod(x.to),ftHourTok(x.to,level),"まで","です"]
+}
+function ftSentence(x,level){
+ return `${x.place.jp}は ${ftPeriod(x.from)}${ftHourTok(x.from,level)}から ${ftPeriod(x.to)}${ftHourTok(x.to,level)}までです。`
+}
+/* 显示的Answer: 一律给出平假名读法；简单级别在括号里附上数字写法 */
+function ftModel(x,level){
+ const kana=ftSentence(x,"normal");
+ return level==="easy"?`${kana}（${ftSentence(x,"easy")}）`:kana
+}
+function ftNorm(s){
+ return (s||"").replace(/[０-９]/g,d=>String.fromCharCode(d.charCodeAt(0)-0xFEE0)).replace(/[\s　。．.、,]/g,"").replace(/時/g,"じ")
+}
+/* 打字判定：平假名读法永远算对；数字写法只有简单级别算对 */
+function ftAccepted(x,level){
+ const out=[ftSentence(x,"normal")];
+ if(level==="easy")out.push(ftSentence(x,"easy"));
+ return out.map(ftNorm)
+}
+function makeContextItems(n){
+ return shuffle(CONTEXT_PLACES).slice(0,n).map(p=>{
+   const from=rand(p.open[0],p.open[1]),to=rand(Math.max(from+2,p.close[0]),p.close[1]);
+   return {place:p,from,to}
+ })
+}
+function newFromToQuestions(){
+ let tries=0,items,sig;
+ do{items=makeContextItems(6);sig=items.map(x=>`${x.place.jp}:${x.from}-${x.to}`).join("|");tries++}
+ while(sig===lastFromToSignature&&tries<12);
+ lastFromToSignature=sig;state.fromToQuestions=items;
+}
+/* 时钟下面标示上午／下午：简单＝图示＋字；进阶＝只有图示 */
+function ftClock(h,level){
+ const box=el("div","ft-clock");
+ box.append(clockSVG(timeObj(ftH12(h),0)).svg);
+ const am=h<12,tag=el("div","ft-period "+(am?"am":"pm"));
+ tag.textContent=level==="easy"?(am?"☀️ ごぜん":"🌙 ごご"):(am?"☀️":"🌙");
+ box.append(tag);return box
+}
+function ftScene(x,level){
+ const scene=el("div","ft-scene"),place=el("div","ft-place"),im=new Image();
+ im.src=x.place.img;im.alt=x.place.jp;im.onerror=()=>im.remove();
+ place.append(im,el("div","jp",x.place.jp));
+ const clocks=el("div","ft-clocks");
+ clocks.append(ftClock(x.from,level),el("div","ft-arrow","→"),ftClock(x.to,level));
+ scene.append(place,clocks);return scene
+}
+function ftFeedback(host,fb,ok,wrongMsg,x,level){
+ logResult("fromto-"+fromToPracticeType,ftSentence(x,"normal"),ok);
+ host.classList.remove("ft-ok","ft-bad");
+ if(ok){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${ftModel(x,"normal")}</span>`;host.classList.add("ft-ok");stamp(host);playSuccess()}
+ else{fb.innerHTML=`<strong>${wrongMsg}</strong>`;host.classList.add("ft-bad");setTimeout(()=>host.classList.remove("ft-bad"),600)}
+}
+
+/* ---- 排句子：点一下＝放进／拿出；按住拖动＝调整位置（手机、平板、电脑都能用） ---- */
+function ftArrange(host,x,level){
+ const target=ftTokens(x,level);
+ const answer=el("div","cb-answer"),bank=el("div","cb-bank"),fb=el("div","feedback");
+ host.append(el("div","cb-label","ANSWER AREA (tap to add · hold and drag to move)"),answer,el("div","cb-label","WORD CARDS"),bank);
+ const cards=shuffle(target).map(text=>{
+   const d=el("div","cb-card"+(text.length<=2?" short":""),text);d.dataset.text=text;bank.append(d);return d
+ });
+ let drag=null;
+ function zoneAt(px,py){
+   for(const z of [answer,bank]){const r=z.getBoundingClientRect();if(px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom)return z}
+   return null
+ }
+ function placeInZone(zone,card,px,py){
+   const sibs=[...zone.querySelectorAll(".cb-card")].filter(c=>c!==card);
+   const after=sibs.find(s=>{const r=s.getBoundingClientRect();return py<r.top+r.height/2&&py>=r.top-8?px<r.left+r.width/2:py<r.top});
+   after?zone.insertBefore(card,after):zone.append(card)
+ }
+ cards.forEach(card=>{
+   card.addEventListener("pointerdown",e=>{
+     e.preventDefault();card.setPointerCapture(e.pointerId);
+     drag={card,x0:e.clientX,y0:e.clientY,moved:false}
+   });
+   card.addEventListener("pointermove",e=>{
+     if(!drag||drag.card!==card)return;
+     const dx=e.clientX-drag.x0,dy=e.clientY-drag.y0;
+     if(!drag.moved&&Math.hypot(dx,dy)<8)return;
+     drag.moved=true;card.classList.add("dragging");
+     card.style.transform=`translate(${dx}px,${dy}px)`;
+     [answer,bank].forEach(z=>z.classList.toggle("dragover",zoneAt(e.clientX,e.clientY)===z));
+   });
+   const end=e=>{
+     if(!drag||drag.card!==card)return;
+     const wasMoved=drag.moved;drag=null;
+     card.style.transform="";card.classList.remove("dragging");
+     [answer,bank].forEach(z=>z.classList.remove("dragover"));
+     if(wasMoved){const z=zoneAt(e.clientX,e.clientY);if(z)placeInZone(z,card,e.clientX,e.clientY)}
+     else (card.parentElement===bank?answer:bank).append(card);
+     fb.textContent="";answer.querySelectorAll(".cb-card").forEach(c=>c.classList.remove("wrong-pos"))
+   };
+   card.addEventListener("pointerup",end);
+   card.addEventListener("pointercancel",e=>{if(drag&&drag.card===card){drag=null;card.style.transform="";card.classList.remove("dragging")}});
+ });
+ const controls=el("div","actions"),check=el("button","active","Check"),reset=el("button","","Reset");
+ check.onclick=()=>{
+   const placed=[...answer.querySelectorAll(".cb-card")],got=placed.map(d=>d.dataset.text);
+   placed.forEach(c=>c.classList.remove("wrong-pos"));
+   if(got.length!==target.length){fb.innerHTML="<strong>Move all the cards into the Answer Area.</strong>";return}
+   const bad=got.findIndex((v,i)=>v!==target[i]);
+   if(bad===-1)ftFeedback(host,fb,true,"",x,level);
+   else{placed[bad].classList.add("wrong-pos");ftFeedback(host,fb,false,`Card ${bad+1} is in the wrong place. Try again.`,x,level)}
+ };
+ reset.onclick=()=>{shuffle(cards).forEach(c=>{c.classList.remove("wrong-pos");bank.append(c)});fb.textContent=""};
+ controls.append(check,reset);host.append(controls,fb)
+}
+
+/* ---- 填空：选は・から・まで ---- */
+function ftFill(host,x,level){
+ const line=el("div","ft-fill"),opts=["","は","から","まで","に","で"];
+ const mk=()=>{const s=el("select");opts.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"？";s.append(o)});return s};
+ const s1=mk(),s2=mk(),s3=mk();
+ line.append(el("span","answer-jp",x.place.jp),s1,
+   el("span","answer-jp",ftPeriod(x.from)+ftHourTok(x.from,level)),s2,
+   el("span","answer-jp",ftPeriod(x.to)+ftHourTok(x.to,level)),s3,el("span","answer-jp","です。"));
+ const fb=el("div","feedback"),act=el("div","actions"),check=el("button","active","Check");
+ check.onclick=()=>{
+   const ok=s1.value==="は"&&s2.value==="から"&&s3.value==="まで";
+   ftFeedback(host,fb,ok,'Try again: which one means "from", and which one means "to"?',x,level)
+ };
+ act.append(check);host.append(line,act,fb)
+}
+
+/* ---- 打字 ---- */
+function ftType(host,x,level){
+ host.append(el("div","ft-q","なんじから なんじまでですか。"));
+ const inp=el("input","type-answer");
+ inp.placeholder=level==="easy"?"e.g. ぎんこうは ごぜん9じから ごご3じまでです。":"e.g. ぎんこうは ごぜんくじから ごごさんじまでです。";
+ const fb=el("div","feedback"),act=el("div","actions"),check=el("button","active","Check");
+ check.onclick=()=>{
+   const v=ftNorm(inp.value),ok=ftAccepted(x,level).includes(v);
+   let msg="Check the place, は, the times, から, まで and です.";
+   if(!ok&&level!=="easy"&&v===ftNorm(ftSentence(x,"easy")))msg="Good sentence! At Normal level, write the times in hiragana (しちじ, not 7じ).";
+   ftFeedback(host,fb,ok,msg,x,level);
+   if(!ok)fb.innerHTML+=`<span class="answer-jp muted">Answer: ${ftModel(x,level)}</span>`
+ };
+ act.append(check);host.append(inp,act,fb)
+}
+
+/* ---- 手写 ---- */
+function ftWrite(host,x,level){
+ host.append(el("div","ft-q","なんじから なんじまでですか。"));
+ const cv=el("canvas","writing ft-write");host.append(cv);requestAnimationFrame(()=>drawInit(cv));
+ const act=el("div","actions"),clear=el("button","","Clear"),show=el("button","active","Show Answer"),fb=el("div","feedback");
+ clear.onclick=()=>cv.getContext("2d").clearRect(0,0,cv.width,cv.height);
+ show.onclick=()=>{fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${ftModel(x,level)}</span>`};
+ act.append(clear,show);host.append(act,fb)
+}
+
+function renderFromTo(){
+ const p=el("div","panel"),tb=el("div","toolbar");
+ tb.append(el("div","instruction","From ～ To: なんじから なんじまで"));
+ const levels=el("div","modes");
+ [["easy","Easy (numbers: 7じ)"],["normal","Normal (hiragana: しちじ)"]].forEach(([id,label])=>{
+   const b=el("button",state.fromToDifficulty===id?"active":"",label);
+   b.onclick=()=>{state.fromToDifficulty=id;newFromToQuestions();render()};levels.append(b)
+ });
+ const types=el("div","modes ft-types");
+ FT_TYPES.forEach(([id,label])=>{
+   const b=el("button",fromToPracticeType===id?"active":"",label);
+   b.onclick=()=>{fromToPracticeType=id;newFromToQuestions();render()};types.append(b)
+ });
+ tb.append(levels,types);p.append(tb);
+ if(!state.fromToQuestions.length)newFromToQuestions();
+ const level=state.fromToDifficulty,sheet=el("div","fromto-sheet");
+ state.fromToQuestions.forEach((x,i)=>{
+   const q=el("section","fromto-question");
+   q.append(el("div","question-no",String(i+1)),ftScene(x,level));
+   if(fromToPracticeType==="arrange")ftArrange(q,x,level);
+   else if(fromToPracticeType==="fill")ftFill(q,x,level);
+   else if(fromToPracticeType==="type")ftType(q,x,level);
+   else ftWrite(q,x,level);
+   sheet.append(q)
+ });
+ p.append(sheet);
+ const act=el("div","actions"),fresh=el("button","active","New Questions");fresh.onclick=()=>{newFromToQuestions();render()};act.append(fresh);p.append(act);
+ app.append(p)
+}
+
+/* ===== Homework report: sends results to the teacher's Google Sheet ===== */
+/* Paste the Apps Script web-app URL between the quotes: */
+const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
+const STUDENT_CODE=(new URLSearchParams(location.search).get("s")||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+const SESSION_KEY="timePracticeSessionV1";
+const ACT_EN={"read":"Read the Clock","set":"Set the Clock","fromto-arrange":"From～To: Card Builder","fromto-fill":"From～To: Fill","fromto-type":"From～To: Type","calendar":"Calendar"};
+const ACT_ZH={"read":"看鐘寫時間","set":"撥時鐘","fromto-arrange":"から・まで 排句子","fromto-fill":"から・まで 填空","fromto-type":"から・まで 打字","calendar":"日曆日期"};
+function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{}}}
+function loadSession(){
+ try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
+   if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000&&x.items)return x}catch(e){}
+ return newSession()
+}
+let session=loadSession();
+function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+function tLabel(t){return `${t.h}:${String(t.m).padStart(2,"0")} ${t.reading}`}
+/* returns ok so it can be used inside if(...) */
+function logResult(activity,item,ok){
+ const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
+ it.tries++;if(ok)it.solved=true;else it.wrong++;
+ session.items[k]=it;saveSession();updateDoneBtn();return ok
+}
+function summarize(){
+ const acts={};
+ Object.values(session.items).forEach(it=>{
+   const a=acts[it.activity]||(acts[it.activity]={n:0,first:0,later:0,notyet:0,mistakes:[]});
+   a.n++;
+   if(it.solved&&it.wrong===0)a.first++;else if(it.solved)a.later++;else a.notyet++;
+   if(it.wrong>0)a.mistakes.push(it);
+ });
+ return acts
+}
+function minutesSpent(){return Math.max(1,Math.round((Date.now()-session.start)/60000))}
+function updateDoneBtn(){
+ const b=document.getElementById("doneBtn");if(!b)return;
+ const n=Object.keys(session.items).length;
+ b.querySelector(".done-count").textContent=n?`${n} done`:"";
+}
+function reportPayload(acts){
+ const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答對`+(a.later?`，${a.later} 題改對`:"")+(a.notyet?`，${a.notyet} 題沒答對`:"")).join("；");
+ const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（錯${m.wrong}次${m.solved?"，後來改對":"，沒答對"}）`)).join("\n");
+ const detail=JSON.stringify(Object.fromEntries(Object.entries(acts).map(([k,a])=>[k,{questions:a.n,firstTry:a.first,fixedLater:a.later,notSolved:a.notyet}])));
+ return {code:STUDENT_CODE,page:"clock.html",minutes:minutesSpent(),summary:summary||"（沒有做任何題目）",mistakes,detail}
+}
+function openReport(){
+ const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0);
+ const ov=el("div","report-overlay"),box=el("div","report-box");
+ const now=new Date();
+ box.append(el("h2","","📋 Homework Report"));
+ const meta=el("div","report-meta");
+ meta.innerHTML=`<div><b>Student code:</b> ${STUDENT_CODE||"—"}</div><div><b>Date:</b> ${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</div><div><b>Time spent:</b> ${minutesSpent()} min</div>`;
+ box.append(meta);
+ if(!total){box.append(el("p","report-empty","You haven't answered any questions yet. Do some practice first!"))}
+ else{
+   const tbl=el("div","report-table");
+   Object.entries(acts).forEach(([k,a])=>{
+     const row=el("div","report-row");
+     const stars=a.first===a.n?"⭐⭐⭐":a.first>=a.n/2?"⭐⭐":"⭐";
+     row.innerHTML=`<span>${ACT_EN[k]||k}</span><span><b>${a.first}/${a.n}</b> first try ${stars}</span>`;
+     tbl.append(row)
+   });
+   box.append(tbl);
+   const ms=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>({k,m})));
+   if(ms.length){
+     box.append(el("div","report-sub","Practice these again:"));
+     const ul=el("ul","report-mistakes");
+     ms.slice(0,12).forEach(({k,m})=>{const li=el("li","",`${m.item}`);ul.append(li)});
+     box.append(ul)
+   }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
+ }
+ const status=el("div","report-status");
+ const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
+ close.onclick=()=>ov.remove();
+ const canSend=!!(REPORT_URL&&STUDENT_CODE&&total);
+ if(!STUDENT_CODE)status.textContent="This is not your personal link. Take a screenshot and send it to your teacher.";
+ else if(!REPORT_URL)status.textContent="Take a screenshot of this report and send it to your teacher.";
+ send.disabled=!canSend;
+ send.onclick=async()=>{
+   send.disabled=true;status.textContent="Sending…";
+   try{
+     await fetch(REPORT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(reportPayload(acts))});
+     status.innerHTML="<b>✓ Sent to your teacher!</b> You can also take a screenshot.";
+     session=newSession();saveSession();updateDoneBtn();
+     send.textContent="✓ Sent";close.textContent="Close";
+   }catch(e){
+     status.textContent="Could not send (check the internet). Take a screenshot and send it to your teacher.";
+     send.disabled=false
+   }
+ };
+ act.append(send,close);box.append(act,status);ov.append(box);document.body.append(ov);
+ ov.onclick=e=>{if(e.target===ov)ov.remove()}
+}
+function initReport(){
+ const b=el("button","done-btn");b.id="doneBtn";b.type="button";
+ b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;
+ b.onclick=openReport;document.body.append(b);updateDoneBtn();
+ if(!STUDENT_CODE){const n=el("div","code-warning","⚠ Please open this page with the personal link from your teacher.");document.querySelector(".hero").append(n)}
+}
 
 const LEARNING_KEY="timePracticeLearningV1";
 const SPECIAL_DATES=[1,2,3,4,5,6,7,8,9,10,14,20,24];
@@ -214,6 +566,7 @@ function saveLearning(data){
   try{localStorage.setItem(LEARNING_KEY,JSON.stringify(data))}catch(e){}
 }
 function recordDateResult(day,correct){
+  logResult("calendar",`${(state.calendarDate.getMonth()+1)}月${day}日`,correct);
   const data=loadLearning(),key=String(day);
   const item=data.dates[key]||{right:0,wrong:0,lastWrong:0};
   if(correct){item.right=(item.right||0)+1;data.recentWrong=data.recentWrong.filter(x=>x!==day)}
@@ -577,7 +930,7 @@ function renderCalendar(){
  if(state.calendarPage===0){
    const q=el("article","calendar-question");
    q.append(el("div","q","Weekday Order"),el("div","prompt","Match each weekday to its correct position."));
-   const ids=state.calendarDifficulty==="easy"?[0,1,2,3,4]:[0,1,2,3,4,5,6];
+   const ids=state.calendarDifficulty==="easy"?[1,2,3,4,5]:[1,2,3,4,5,6,0];
    tapPlacementKana(q,ids);ws.append(q)
  }else if(state.calendarPage===1){
    const q=el("article","calendar-question");
@@ -609,10 +962,11 @@ function renderCalendar(){
  next.onclick=()=>{if(state.calendarPage<3){state.calendarPage++;render()}else{newCalendarQuestions();render()}};
  nav.append(back,count,next);wrap.append(nav);p.append(wrap);app.append(p)
 }
-function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
-function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else renderSet()}
-document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};
+function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set","fromto"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
+function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else if(state.sub==="set")renderSet();else renderFromTo()}
+document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};document.getElementById("fromtoTab").onclick=()=>{state.sub="fromto";render()};
 initMusic();
+initReport();
 render();
 </script>
 </body></html>
