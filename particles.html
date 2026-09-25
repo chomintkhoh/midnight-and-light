@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Japanese Particles | ミッドナイトとライト</title>
+<meta name="description" content="Japanese particle practice — see what happens when you use the wrong particle!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#A6A9C9;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
+*{box-sizing:border-box}html{color-scheme:dark}
+body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 10%,rgba(182,169,218,.16),transparent 30rem),linear-gradient(180deg,var(--bg-glow),var(--bg-deep) 42%)}
+button{font:inherit;cursor:pointer;border:1px solid var(--border);color:var(--warm);background:rgba(255,255,255,.055);border-radius:14px;min-height:48px;padding:10px 16px;font-weight:600}
+button:disabled{cursor:default}
+button.active{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78)}
+.shell{width:min(980px,calc(100% - 24px));margin:auto;padding:24px 0 100px}
+.hero{text-align:center;margin-bottom:16px}.hero h1{margin:0;font-size:clamp(28px,4vw,42px)}.hero p{color:var(--muted);margin:.4rem 0 0}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:20px;position:relative}
+.step-title{font-weight:800;color:var(--gold);margin:14px 0 8px}
+.modes{display:flex;flex-wrap:wrap;gap:8px}.modes.small button{min-height:38px;padding:6px 12px;font-size:.9rem;margin-top:8px}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.cat-chip{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:16px;text-align:center;opacity:.75}
+.cat-chip.on{opacity:1;background:rgba(217,196,142,.2);border-color:var(--gold);box-shadow:0 0 0 1px rgba(217,196,142,.4) inset}
+.cat-ic{font-size:30px}.cat-jp{font-family:"Zen Kaku Gothic New";font-size:1.05rem}.cat-en{font-size:.78rem;color:var(--muted);font-weight:500}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.mode-card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px}
+.mode-card.on{background:rgba(217,196,142,.2);border-color:var(--gold)}
+.mode-ic{font-family:"Zen Kaku Gothic New";font-size:1.4rem}
+.start-btn{display:block;margin:20px auto 0;min-width:220px;font-size:1.25rem;min-height:58px}
+.hint-line{text-align:center;color:var(--bad)}
+.play-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.play-mode{color:var(--gold);font-weight:800}
+.small-btn{min-height:38px;padding:6px 12px;font-size:.9rem}
+.progress{position:relative;height:22px;border-radius:999px;background:rgba(255,255,255,.07);margin:12px 0;overflow:hidden;text-align:center;font-size:.8rem;line-height:22px;color:var(--muted)}
+.progress-fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,rgba(217,196,142,.45),rgba(182,169,218,.45))}.progress span{position:relative}
+.q-stage{position:relative;text-align:center;padding:6px 0 10px}
+.pic{display:flex;align-items:center;justify-content:center}
+.pic.big{min-height:150px;margin:6px auto}.pic.big .emoji{font-size:110px;line-height:1}
+.pic .emoji{font-size:54px;line-height:1}
+.swatch{display:inline-block;width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,.6)}.pic.big .swatch{width:120px;height:120px}
+.pic.meaning{flex-direction:column;background:#F4F1EA;color:#17192d;border-radius:14px;padding:10px 14px;min-height:74px}
+.pic.big.meaning{max-width:360px;min-height:130px}
+.m-en{font-weight:800;font-size:1.05rem}.m-zh{font-size:1rem;color:#444}.pic.big .m-en{font-size:1.6rem}.pic.big .m-zh{font-size:1.4rem}
+.q-ask{color:var(--lav);font-weight:700;margin:8px 0 10px}
+.q-word{font-family:"Zen Kaku Gothic New";font-size:clamp(36px,7vw,56px);font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0}
+.speak-btn{min-height:40px;min-width:40px;padding:4px 8px;border-radius:50%;font-size:1.1rem}
+.opt-grid{display:grid;gap:10px;max-width:640px;margin:0 auto}
+.opt-grid.words{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.opt-grid.pics{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.opt-grid.kana{grid-template-columns:repeat(auto-fit,minmax(64px,90px));justify-content:center}
+.opt{font-family:"Zen Kaku Gothic New";font-size:1.45rem;min-height:64px}
+.opt.picopt{min-height:110px;padding:8px}
+.kana-opt{font-size:1.7rem;min-height:68px}
+.opt.right{border-color:var(--good);background:rgba(127,191,143,.22)}
+.opt.wrong{border-color:var(--bad);background:rgba(224,135,154,.16);opacity:.6}
+.opt.used{opacity:.3}
+ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
+.kana-line{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.kana-box{min-width:54px;height:62px;border-radius:12px;background:#F4F1EA;color:#17192d;font-family:"Zen Kaku Gothic New";font-size:2rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 6px}
+.kana-box.hole{background:rgba(217,196,142,.15);color:var(--gold);border:2px dashed var(--gold)}
+.kana-box.filled{background:#DDF1E1}
+.kana-box.empty{background:rgba(255,255,255,.06);border:2px dashed rgba(182,169,218,.5)}
+.kana-line.solved .kana-box{background:#DDF1E1}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:640px;margin:0 auto}
+.match-col{display:flex;flex-direction:column;gap:10px}
+.match-item{min-height:84px;padding:6px}.match-item .pic .emoji{font-size:44px}.match-item .pic.meaning{min-height:60px;padding:6px}
+.word-side{font-family:"Zen Kaku Gothic New";font-size:1.4rem}
+.match-item.selected{outline:3px solid var(--lav);background:rgba(182,169,218,.16)}
+.match-item.matched{opacity:.35;border-color:var(--good)}
+.match-item.wrong{border-color:var(--bad);background:rgba(224,135,154,.16)}
+.end-box{position:relative;text-align:center;padding:10px}
+.end-stars{font-size:2.4rem}.end-score{font-size:3rem;font-weight:800;color:var(--gold)}.end-sub{color:var(--muted)}.end-sub.strong{color:var(--lav);font-weight:800;margin-top:14px}
+.missed-list{display:flex;flex-direction:column;gap:6px;max-width:460px;margin:8px auto}
+.missed-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border-radius:12px;padding:6px 10px;font-family:"Zen Kaku Gothic New";font-size:1.2rem;text-align:left}
+.missed-item small{color:var(--muted);font-family:Inter;font-size:.8rem;margin-left:auto}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.stamp{position:absolute;width:86px;height:86px;object-fit:contain;right:6px;top:6px;transform:rotate(-8deg);pointer-events:none}
+.fallback{position:absolute;right:8px;top:8px;transform:rotate(-8deg);border:4px double var(--good);color:var(--good);border-radius:50%;width:76px;height:76px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+/* report / stamps (shared with the clock page) */
+.done-btn{position:fixed;right:14px;bottom:14px;z-index:40;min-height:54px;padding:10px 18px;border-radius:999px;background:#D9C48E;color:#14162e;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35);border:0}
+.done-count{font-size:.8em;opacity:.75;margin-left:4px}
+.code-warning{margin:10px auto 0;max-width:520px;padding:8px 12px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4;font-size:14px}
+.report-overlay{position:fixed;inset:0;z-index:100;background:rgba(6,7,20,.72);display:flex;align-items:center;justify-content:center;padding:14px}
+.report-box{width:min(560px,100%);max-height:92vh;overflow:auto;background:#F4F1EA;color:#17192d;border-radius:20px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.report-box h2{margin:0 0 10px;text-align:center;color:#2b2d5c}
+.report-meta{font-size:15px;line-height:1.7;background:#fff;border-radius:12px;padding:8px 12px;margin-bottom:10px}
+.report-table{display:grid;gap:6px;margin-bottom:10px}
+.report-row{display:flex;justify-content:space-between;gap:10px;background:#fff;border-radius:10px;padding:8px 12px;font-size:15px}
+.report-sub{font-weight:700;margin:8px 0 4px;color:#2b2d5c}
+.report-mistakes{margin:0;padding-left:20px;font-family:"Zen Kaku Gothic New";font-size:16px;line-height:1.7}
+.report-empty{text-align:center}
+.report-box .actions button{color:#17192d;background:#fff;border-color:#b9bde0}
+.report-box .actions button.active{background:#2b2d5c;color:#fff}
+.report-box button:disabled{opacity:.45}
+.report-status{text-align:center;margin-top:10px;font-size:14.5px;color:#444;min-height:20px}
+.stamp-card{margin-top:8px}.stamp-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.stamp-cell{aspect-ratio:1;border:1.5px dashed #b9bde0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden}
+.stamp-cell.on{border-style:solid;border-color:#D9C48E;background:#fff8e6}.stamp-cell img{width:100%;height:100%;object-fit:contain}
+.card-toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:200;background:#D9C48E;color:#14162e;font-weight:800;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+@media(max-width:600px){.shell{width:calc(100% - 16px);padding-top:14px}.panel{padding:14px;border-radius:18px}.cat-grid{grid-template-columns:repeat(2,1fr)}.mode-grid{grid-template-columns:repeat(2,1fr)}.pic.big .emoji{font-size:90px}.kana-box{min-width:44px;height:54px;font-size:1.6rem}.match-item{min-height:70px}}
+.opt.word{white-space:nowrap;font-size:clamp(1.05rem,4.6vw,1.45rem);padding:10px 8px}
+@media(max-width:600px){.opt-grid.words{grid-template-columns:1fr}.opt-grid.pics{grid-template-columns:repeat(2,1fr)}.word-side{font-size:clamp(1rem,4.5vw,1.3rem);white-space:nowrap;padding:6px 4px}}
+
+.p-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.p-chip{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;opacity:.7}
+.p-chip.on{opacity:1;background:rgba(217,196,142,.2);border-color:var(--gold)}
+.p-big{font-family:"Zen Kaku Gothic New";font-size:1.9rem;color:var(--gold);line-height:1}
+.p-mean{font-size:.75rem;color:var(--muted);font-weight:500;line-height:1.3}
+.meaning-line{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.05);border-radius:14px;padding:8px 14px;margin:4px auto 10px;font-size:1rem}
+.meaning-line small{color:var(--muted)}.scene-mini{font-size:1.8rem}
+.p-sentence{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px;font-family:"Zen Kaku Gothic New";font-size:clamp(1.4rem,5vw,2rem);margin:10px 0 16px;line-height:2}
+.p-blank{display:inline-flex;min-width:64px;min-height:52px;align-items:center;justify-content:center;border:2px dashed var(--gold);border-radius:12px;color:var(--gold);padding:0 8px;background:rgba(217,196,142,.1)}
+.p-blank.shown{border-style:solid;color:var(--warm);background:rgba(182,169,218,.18);border-color:var(--lav)}
+.p-blank.filled{border-style:solid;border-color:var(--good);color:var(--good);background:rgba(127,191,143,.15)}
+.p-fixed{color:var(--lav);font-weight:700}
+.p-opts{margin-bottom:10px}
+.p-feedback{max-width:560px;margin:10px auto 0}
+.scene-card{border-radius:18px;padding:14px;margin:8px 0;text-align:center}
+.scene-card.right{background:rgba(127,191,143,.16);border:1px solid rgba(127,191,143,.6)}
+.scene-card.oops{background:rgba(224,135,154,.14);border:1px solid rgba(224,135,154,.6);animation:pop .35s}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:none;opacity:1}}
+.scene-emoji{font-size:clamp(2.4rem,9vw,3.6rem);line-height:1.2;margin-bottom:6px}
+.scene-en{font-weight:700;font-size:1.05rem}.scene-zh{color:var(--muted);margin-top:2px}
+.oops-title{font-weight:800;color:var(--bad);font-size:1.1rem;margin-top:6px}
+.p-said{font-family:"Zen Kaku Gothic New";font-size:1.3rem;margin:4px 0}
+.need-line{background:rgba(217,196,142,.14);border-radius:12px;padding:8px 12px;margin-top:8px;font-size:.95rem}
+.also-ok{color:var(--good);font-weight:800;margin-bottom:6px}
+.next-btn{display:block;margin:12px auto 0;min-width:160px}
+.yn-row{display:flex;gap:12px;justify-content:center;margin:6px 0 10px}.yn{min-width:140px;font-size:1.2rem;min-height:58px}
+@media(max-width:600px){.p-grid{grid-template-columns:repeat(2,1fr)}.yn{min-width:0;flex:1}}
+
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="hero">
+<h1>Japanese Particles</h1>
+<p>は・が・を・で・へ・に・から・まで・と・も — pick the wrong one and see what happens!</p>
+</header>
+<section id="app" aria-live="polite"></section>
+</main>
+<script src="./data/particles-kids.js"></script>
+<script>
+const STAMP_SRC="./assets/images/great-stamp.png";
+const successSound=new Audio("./assets/audio/ui/success-stamp.mp3");successSound.preload="auto";
+const app=document.getElementById("app");
+function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
+function setHTML(node,html){node.innerHTML=html;return node}
+function playSuccess(){try{successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}catch(e){}}
+function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
+/* ===== Homework report: sends results to the teacher's Google Sheet ===== */
+/* Paste the Apps Script web-app URL between the quotes: */
+const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
+const STUDENT_CODE=(new URLSearchParams(location.search).get("s")||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+const SESSION_KEY="particleSessionV1";
+const ACT_EN={"part-fill":"Fill the Particle","part-judge":"Right or Wrong?"};
+const ACT_ZH={"part-fill":"助詞 填空","part-judge":"助詞 判斷對錯"};
+function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{}}}
+function loadSession(){
+ try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
+   if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000&&x.items)return x}catch(e){}
+ return newSession()
+}
+let session=loadSession();
+function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+/* stamp card: one stamp for every question answered correctly; 20 stamps = 1 full card */
+const STAMP_CARD=20;
+function stampKey(){return "timePracticeStamps_"+(STUDENT_CODE||"guest")}
+function loadStamps(){try{const x=JSON.parse(localStorage.getItem(stampKey())||"null");if(x&&typeof x.count==="number")return x}catch(e){}return {count:0,cards:0}}
+function addStamp(){
+ const st=loadStamps();st.count++;
+ if(st.count>=STAMP_CARD){st.count=0;st.cards++;setTimeout(()=>celebrateCard(st.cards),300)}
+ try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
+}
+function celebrateCard(n){
+ const t=el("div","card-toast",`🎉 Stamp card #${n} complete! Show your teacher!`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+}
+function stampCardEl(){
+ const st=loadStamps(),box=el("div","stamp-card");
+ box.append(el("div","report-sub",`⭐ Stamp Card ${st.cards?`(${st.cards} full card${st.cards>1?"s":""} done!)`:""}`));
+ const g=el("div","stamp-grid");
+ for(let i=0;i<STAMP_CARD;i++){const c=el("div","stamp-cell"+(i<st.count?" on":""));if(i<st.count){const im=new Image();im.src=STAMP_SRC;im.onerror=()=>{im.remove();c.textContent="⭐"};c.append(im)}g.append(c)}
+ box.append(g);return box
+}
+function tLabel(t){return `${t.h}:${String(t.m).padStart(2,"0")} ${t.reading}`}
+/* returns ok so it can be used inside if(...) */
+function logResult(activity,item,ok){
+ const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
+ it.tries++;if(ok){if(!it.solved)addStamp();it.solved=true}else it.wrong++;
+ session.items[k]=it;saveSession();updateDoneBtn();return ok
+}
+function summarize(){
+ const acts={};
+ Object.values(session.items).forEach(it=>{
+   const a=acts[it.activity]||(acts[it.activity]={n:0,first:0,later:0,notyet:0,mistakes:[]});
+   a.n++;
+   if(it.solved&&it.wrong===0)a.first++;else if(it.solved)a.later++;else a.notyet++;
+   if(it.wrong>0)a.mistakes.push(it);
+ });
+ return acts
+}
+function minutesSpent(){return Math.max(1,Math.round((Date.now()-session.start)/60000))}
+function updateDoneBtn(){
+ const b=document.getElementById("doneBtn");if(!b)return;
+ const n=Object.keys(session.items).length;
+ const st=loadStamps();b.querySelector(".done-count").textContent=`⭐ ${st.count}/${STAMP_CARD}`;
+}
+function reportPayload(acts){
+ const st=loadStamps();
+ const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答對`+(a.later?`，${a.later} 題改對`:"")+(a.notyet?`，${a.notyet} 題沒答對`:"")).join("；")+(session.rushBest?`；限時搶答最高 ${session.rushBest} 題`:"")+`；印章卡：已集滿 ${st.cards} 張，目前 ${st.count}/${STAMP_CARD}`;
+ const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（錯${m.wrong}次${m.solved?"，後來改對":"，沒答對"}）`)).join("\n");
+ const detail=JSON.stringify(Object.fromEntries(Object.entries(acts).map(([k,a])=>[k,{questions:a.n,firstTry:a.first,fixedLater:a.later,notSolved:a.notyet}])));
+ return {code:STUDENT_CODE,page:"particles.html",minutes:minutesSpent(),summary:summary||"（沒有做任何題目）",mistakes,detail}
+}
+function openReport(){
+ const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0);
+ const ov=el("div","report-overlay"),box=el("div","report-box");
+ const now=new Date();
+ box.append(el("h2","","📋 Homework Report"));
+ const meta=el("div","report-meta");
+ meta.innerHTML=`<div><b>Student code:</b> ${STUDENT_CODE||"—"}</div><div><b>Date:</b> ${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</div><div><b>Time spent:</b> ${minutesSpent()} min</div>`;
+ box.append(meta);
+ if(!total){box.append(el("p","report-empty","You haven't answered any questions yet. Do some practice first!"))}
+ else{
+   const tbl=el("div","report-table");
+   Object.entries(acts).forEach(([k,a])=>{
+     const row=el("div","report-row");
+     const stars=a.first===a.n?"⭐⭐⭐":a.first>=a.n/2?"⭐⭐":"⭐";
+     row.innerHTML=`<span>${ACT_EN[k]||k}</span><span><b>${a.first}/${a.n}</b> first try ${stars}</span>`;
+     tbl.append(row)
+   });
+   box.append(tbl);
+   if(session.rushBest)box.append(el("div","report-row",`⏱ Clock Rush best today: ${session.rushBest}`));
+   const ms=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>({k,m})));
+   if(ms.length){
+     box.append(el("div","report-sub","Practice these again:"));
+     const ul=el("ul","report-mistakes");
+     ms.slice(0,12).forEach(({k,m})=>{const li=el("li","",`${m.item}`);ul.append(li)});
+     box.append(ul)
+   }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
+ }
+ box.append(stampCardEl());
+ const status=el("div","report-status");
+ const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
+ close.onclick=()=>ov.remove();
+ const canSend=!!(REPORT_URL&&STUDENT_CODE&&total);
+ if(!STUDENT_CODE)status.textContent="This is not your personal link. Take a screenshot and send it to your teacher.";
+ else if(!REPORT_URL)status.textContent="Take a screenshot of this report and send it to your teacher.";
+ send.disabled=!canSend;
+ send.onclick=async()=>{
+   send.disabled=true;status.textContent="Sending…";
+   try{
+     await fetch(REPORT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(reportPayload(acts))});
+     status.innerHTML="<b>✓ Sent to your teacher!</b> You can also take a screenshot.";
+     session=newSession();saveSession();updateDoneBtn();
+     send.textContent="✓ Sent";close.textContent="Close";
+   }catch(e){
+     status.textContent="Could not send (check the internet). Take a screenshot and send it to your teacher.";
+     send.disabled=false
+   }
+ };
+ act.append(send,close);box.append(act,status);ov.append(box);document.body.append(ov);
+ ov.onclick=e=>{if(e.target===ov)ov.remove()}
+}
+function initReport(){
+ const b=el("button","done-btn");b.id="doneBtn";b.type="button";
+ b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;
+ b.onclick=openReport;document.body.append(b);updateDoneBtn();
+ if(!STUDENT_CODE){const n=el("div","code-warning","⚠ Please open this page with the personal link from your teacher.");document.querySelector(".hero").append(n)}
+}
+
+/* ===== Particle practice (reads PARTICLE_SENTENCES / PARTICLE_INFO) ===== */
+const ALL_P=["は","が","を","で","へ","に","から","まで","と","も"];
+const P_MODES=[["fill","✏️","Fill the Particle"],["judge","⭕❌","Right or Wrong?"]];
+const PR={level:"easy",focus:new Set(ALL_P),mode:"fill",screen:"menu"};
+try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus);PR.mode=s.mode||PR.mode}}catch(e){}
+function savePPrefs(){try{localStorage.setItem("particlePrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode}))}catch(e){}}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function jpHTML(s){if(PR.level!=="easy"||!/[ァ-ヶ]/.test(s))return esc(s);return esc(s).replace(/[ァ-ヶー]+/g,m=>m==="ー"?m:`<ruby>${m}<rt>${kataToHira(m)}</rt></ruby>`)}
+function speak(text){try{if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.85;const v=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+function slotsOf(s){return s.parts.map((p,i)=>typeof p==="object"?i:-1).filter(i=>i>=0)}
+function sentenceText(s,fill){return s.parts.map((p,i)=>typeof p==="object"?(fill&&fill[i]!==undefined?fill[i]:p.ok[0]):p).join("")}
+function logKey(s,i){return `${sentenceText(s)}（${s.parts[i].ok.join("／")}）`}
+
+/* question pool: every (sentence, slot) whose correct particle is in the focus set */
+function pPool(){
+ const out=[];
+ PARTICLE_SENTENCES.forEach((s,si)=>slotsOf(s).forEach(i=>{if(s.parts[i].ok.some(p=>PR.focus.has(p)))out.push({s,si,i})}));
+ return out
+}
+function renderPMenu(){
+ const p=el("div","panel");
+ const lv=el("div","modes");
+ [["easy","Easy · 3 choices"],["normal","Normal · more choices"]].forEach(([id,label])=>{const b=el("button",PR.level===id?"active":"",label);b.onclick=()=>{PR.level=id;savePPrefs();render()};lv.append(b)});
+ p.append(el("div","step-title","1. Level"),lv,el("div","step-title","2. Which particles?"));
+ const g=el("div","p-grid");
+ ALL_P.forEach(k=>{const b=el("button","p-chip"+(PR.focus.has(k)?" on":""),"");b.innerHTML=`<span class="p-big">${k}</span><span class="p-mean">${esc(PARTICLE_INFO[k][0])}</span>`;
+   b.onclick=()=>{PR.focus.has(k)?PR.focus.delete(k):PR.focus.add(k);savePPrefs();render()};g.append(b)});
+ p.append(g);
+ const q=el("div","modes small"),all=el("button","","Select all"),dh=el("button","","で・へ・に only"),none=el("button","","Clear");
+ all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ","に"]);savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
+ q.append(all,dh,none);p.append(q,el("div","step-title","3. Choose a game"));
+ const md=el("div","mode-grid");
+ P_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${label}</span>`;b.onclick=()=>{PR.mode=id;savePPrefs();render()};md.append(b)});
+ p.append(md);
+ const start=el("button","active start-btn","▶ Start"),n=pPool().length;
+ if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line","Choose at least one particle."))}
+ else if(n<1){start.disabled=true;p.append(el("p","hint-line","No sentences for these particles yet."))}
+ start.onclick=startPRound;p.append(start);app.append(p)
+}
+function startPRound(){
+ const pool=shuffle(pPool());
+ /* avoid the same sentence twice in a row */
+ const q=[];for(const it of pool){if(q.length>=10)break;if(!q.length||q[q.length-1].si!==it.si)q.push(it)}
+ let guard=0;while(q.length<Math.min(10,pool.length*2)&&pool.length&&guard++<200){const it=pool[Math.floor(Math.random()*pool.length)];if(q[q.length-1].si!==it.si||guard>150)q.push(it)}
+ PR.queue=q.slice(0,10);PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";render()
+}
+function pProgress(){const t=PR.queue.length,d=Math.min(PR.idx,t);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${t?d/t*100:0}%"></div><span>${d} / ${t}</span>`;return b}
+function sceneCard(emoji,en,zh,kind){
+ const c=el("div","scene-card "+kind);
+ c.innerHTML=`<div class="scene-emoji">${emoji}</div><div class="scene-en">${esc(en)}</div><div class="scene-zh">${esc(zh)}</div>`;return c
+}
+function wrongCard(slot,pick){
+ const w=slot.wrong[pick];
+ if(w)return sceneCard(w[0],w[1],w[2],"oops");
+ return sceneCard("🤔❓",`「${pick}」 doesn't work here — Japanese doesn't say it this way.`,`这里不能用「${pick}」——日文不这样说。`,"oops")
+}
+function needLine(slot){const k=slot.ok[0];return el("div","need-line",`Here we need 「${slot.ok.join("」 or 「")}」 = ${PARTICLE_INFO[k][0]} ／ ${PARTICLE_INFO[k][1]}`)}
+function sentenceLine(s,blankIdx,shown){
+ const line=el("div","p-sentence");
+ s.parts.forEach((p,i)=>{
+   if(typeof p==="string"){const sp=el("span","p-text");sp.innerHTML=jpHTML(p);line.append(sp)}
+   else if(i===blankIdx){line.append(el("span","p-blank"+(shown?" shown":""),shown||"？"))}
+   else line.append(el("span","p-fixed",p.ok[0]))
+ });
+ return line
+}
+function renderPPlay(){
+ const p=el("div","panel play");
+ const top=el("div","play-top"),back=el("button","small-btn","← Menu");back.onclick=()=>{PR.screen="menu";render()};
+ top.append(back,el("div","play-mode",P_MODES.find(m=>m[0]===PR.mode)[2]));p.append(top,pProgress());
+ if(PR.idx>=PR.queue.length){renderPEnd(p);return}
+ const {s,i}=PR.queue[PR.idx],slot=s.parts[i],stage=el("div","q-stage");p.append(stage);app.append(p);
+ let tries=0;
+ const meaning=el("div","meaning-line");meaning.innerHTML=`<span class="scene-mini">${s.scene}</span> ${esc(s.en)} <small>${esc(s.zh)}</small>`;
+ const feedback=el("div","p-feedback");
+ const next=(ok)=>{const b=el("button","active next-btn","Next →");b.onclick=()=>{PR.idx++;render()};feedback.append(b);if(ok)stamp(stage)};
+ const finishRight=(chosen,msgExtra)=>{
+   logResult("part-"+PR.mode,logKey(s,i),true);if(tries===0)PR.score++;
+   stage.querySelector(".p-blank").textContent=chosen;stage.querySelector(".p-blank").classList.add("filled");
+   feedback.innerHTML="";const card=sceneCard(s.scene,s.en,s.zh,"right");
+   if(msgExtra)card.prepend(el("div","also-ok",msgExtra));
+   feedback.append(card);playSuccess();speak(sentenceText(s,{[i]:chosen}));next(tries===0)
+ };
+ const choose=(opts,onPick)=>{const box=el("div","opt-grid kana p-opts");opts.forEach(o=>{const b=el("button","opt kana-opt",o);b.onclick=()=>{if(b.disabled)return;onPick(o,b,box)};box.append(b)});return box};
+ const wrongPick=(pick,b)=>{
+   tries++;logResult("part-"+PR.mode,logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx);
+   if(b){b.disabled=true;b.classList.add("wrong")}
+   feedback.innerHTML="";feedback.append(el("div","oops-title","😹 Oops! You just said:"));
+   const said=el("div","p-said");said.innerHTML=jpHTML(sentenceText(s,{[i]:pick}));feedback.append(said,wrongCard(slot,pick));
+   if(tries>=2)feedback.append(needLine(slot))
+ };
+ if(PR.mode==="fill"){
+   stage.append(meaning,sentenceLine(s,i));
+   let opts;
+   if(PR.level==="easy"){const wrongs=shuffle(slot.opts.filter(o=>!slot.ok.includes(o)));const withCards=wrongs.filter(o=>slot.wrong[o]);opts=shuffle([slot.ok[0],...[...withCards,...wrongs.filter(o=>!slot.wrong[o])].slice(0,2)])}
+   else opts=shuffle(slot.opts);
+   stage.append(choose(opts,(o,b,box)=>{
+     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");
+       const other=slot.ok.filter(x=>x!==o);finishRight(o,other.length?`✓ 「${other.join("」「")}」 is also correct here!`:"")}
+     else wrongPick(o,b)
+   }),feedback)
+ }else{
+   /* judge: show a sentence that is right or wrong */
+   const wrongs=slot.opts.filter(o=>!slot.ok.includes(o)),showWrong=Math.random()<.5&&wrongs.length;
+   const withCards=wrongs.filter(o=>slot.wrong[o]);
+   const shown=showWrong?(withCards.length&&Math.random()<.8?withCards[Math.floor(Math.random()*withCards.length)]:wrongs[Math.floor(Math.random()*wrongs.length)]):slot.ok[Math.floor(Math.random()*slot.ok.length)];
+   stage.append(meaning,el("div","q-ask","Is this sentence right for the picture?"),sentenceLine(s,i,shown));
+   const yn=el("div","yn-row"),yes=el("button","yn yes","⭕ Right"),no=el("button","yn no","❌ Wrong");yn.append(yes,no);stage.append(yn,feedback);
+   yes.onclick=()=>{yes.disabled=no.disabled=true;
+     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);stage.querySelector(".p-blank").classList.add("filled");feedback.append(sceneCard(s.scene,s.en,s.zh,"right"));playSuccess();speak(sentenceText(s));next(true)}
+     else{wrongPick(shown,null);feedback.prepend(el("div","oops-title","It was wrong!"));const fix=el("div","q-ask","Choose the right particle:");feedback.append(fix);
+       feedback.append(choose(shuffle(slot.opts),(o,b,box)=>{if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o,"")}else{b.disabled=true;b.classList.add("wrong")}}))}
+   };
+   no.onclick=()=>{yes.disabled=no.disabled=true;
+     if(showWrong){feedback.append(el("div","oops-title","✓ Good eye! It's wrong. Here's what it said:"),wrongCard(slot,shown),el("div","q-ask","Now fix it:"));
+       feedback.append(choose(shuffle(slot.opts.filter(o=>o!==shown)),(o,b,box)=>{if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o,"")}else{tries++;b.disabled=true;b.classList.add("wrong");logResult("part-judge",logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx)}}))}
+     else{tries++;logResult("part-judge",logKey(s,i),false);if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx);
+       stage.querySelector(".p-blank").classList.add("filled");feedback.append(el("div","oops-title","It was actually right!"),sceneCard(s.scene,s.en,s.zh,"right"),needLine(slot));next(false)}
+   }
+ }
+}
+function renderPEnd(p){
+ const t=PR.queue.length,box=el("div","end-box"),pct=t?PR.score/t:0;
+ box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${t}`),el("div","end-sub","correct on the first try"));
+ if(PR.missed.length){box.append(el("div","end-sub strong","Practice these again:"));const ul=el("div","missed-list");
+   PR.missed.forEach(k=>{const {s}=PR.queue[k];const d=el("div","missed-item","");d.innerHTML=`<span>${jpHTML(sentenceText(s))}</span>`;ul.append(d)});box.append(ul)}
+ const act=el("div","actions"),again=el("button","active","↻ Play Again"),menu=el("button","","Menu");again.onclick=startPRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
+ p.append(box);app.append(p);if(pct===1)stamp(box)
+}
+function render(){app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
+
+initReport();
+render();
+</script>
+</body></html>
