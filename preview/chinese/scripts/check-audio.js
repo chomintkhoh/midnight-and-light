@@ -1,2 +1,12 @@
 #!/usr/bin/env node
-const fs=require("fs"),vm=require("vm");function load(p,n){let c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync(p,"utf8"),c);return c.window[n]}function loadTeacher(){let c={window:{}};c.window=c;vm.createContext(c);for(const p of ["teacher-scenes-1.js","teacher-scenes-2.js","teacher-scenes-3.js","teacher-scenes.js"])vm.runInContext(fs.readFileSync("preview/chinese/data/linking-words/"+p,"utf8"),c);return c.ML_TEACHER_SCENES}const T=loadTeacher(),dir="preview/chinese/audio/linking-words",need=[];for(let i=1;i<=T.openers.length;i++)need.push("line-open-"+String(i).padStart(2,"0")+".mp3");for(let i=1;i<=T.praise.length;i++)need.push("line-praise-"+String(i).padStart(2,"0")+".mp3");for(let i=1;i<=T.tease.length;i++)need.push("line-tease-"+String(i).padStart(2,"0")+".mp3");need.push("line-tease-right.mp3");for(const s of T.scenes)need.push(s.audio.correct,...s.audio.errors);let missing=need.filter(x=>!fs.existsSync(dir+"/"+x));console.log("Need:",need.length,"Missing:",missing.length);missing.forEach(x=>console.log(x));
+const fs=require("fs"),vm=require("vm");
+function load(p,n){let c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync(p,"utf8"),c);return c.window[n]}
+const T=load("preview/chinese/data/linking-words/teacher-scenes.js","ML_TEACHER_SCENES"),dir="preview/chinese/audio/linking-words",need=[];
+for(let i=1;i<=T.openers.length;i++)need.push("line-open-"+String(i).padStart(2,"0")+".mp3");
+for(let i=1;i<=T.praise.length;i++)need.push("line-praise-"+String(i).padStart(2,"0")+".mp3");
+for(let i=1;i<=T.tease.length;i++)need.push("line-tease-"+String(i).padStart(2,"0")+".mp3");
+need.push("line-tease-right.mp3");
+for(const s of T.scenes)need.push(s.audio.correct,...s.audio.errors);
+let missing=need.filter(x=>!fs.existsSync(dir+"/"+x));
+console.log("Need:",need.length,"Missing:",missing.length);
+missing.forEach(x=>console.log(x));
