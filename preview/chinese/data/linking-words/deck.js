@@ -1,0 +1,1 @@
+window.ML_LINKING_DECK=window.LINKING_WORDS_MASTER_DECK||[];
