@@ -109,6 +109,50 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .report-box .actions button.active{background:#2b2d5c;color:#fff}
 .report-box button:disabled{opacity:.45}
 .report-status{text-align:center;margin-top:10px;font-size:14.5px;color:#444;min-height:20px}
+
+.ft-blank{display:inline-flex;min-width:96px;min-height:44px;align-items:center;justify-content:center;border-bottom:3px solid var(--gold);color:var(--gold);font-family:"Zen Kaku Gothic New";font-weight:700;padding:0 6px}
+.ft-blank.filled{color:var(--good);border-color:var(--good)}
+.ft-options{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:.6rem auto;max-width:760px}
+.ft-options button{font-family:"Zen Kaku Gothic New";font-size:1.12rem;min-height:52px;min-width:96px}
+.ft-options button.incorrect,.mall-floor.incorrect{border-color:var(--bad);background:rgba(224,135,154,.16)}
+.mall-layout{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:start}
+.mall-map{display:flex;flex-direction:column;gap:6px;background:rgba(12,14,34,.55);border:1px solid var(--border);border-radius:18px;padding:10px}
+.mall-map-title{text-align:center;color:var(--gold);font-weight:800;letter-spacing:.12em;font-size:13px}
+.mall-floor{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;border-radius:10px;text-align:left;background:rgba(255,255,255,.04)}
+.mall-floor.pick{border-color:rgba(182,169,218,.6)}
+.mall-floor.lit{background:rgba(217,196,142,.28);border-color:var(--gold);box-shadow:0 0 14px rgba(217,196,142,.35)}
+.mf-code{font-weight:800;min-width:30px;color:var(--gold)}.mf-read{font-family:"Zen Kaku Gothic New";font-size:.9rem;color:var(--muted)}.mf-icons{margin-left:auto}
+.mall-stage{min-width:0}
+.mall-progress{margin-top:10px;color:var(--muted);font-weight:700}
+.mall-task{display:flex;gap:14px;align-items:center;background:rgba(217,196,142,.1);border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.mall-emoji{font-size:44px}.mall-task-en{font-size:1.05rem}.mall-task-jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;color:var(--gold);font-weight:700}
+.mall-bubble{display:flex;gap:10px;align-items:baseline;margin:8px 0;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05)}
+.mall-bubble.staff{background:rgba(182,169,218,.14)}.mall-bubble.me{background:rgba(217,196,142,.12)}
+.mall-who{flex:0 0 auto;font-size:.85rem;color:var(--muted);font-weight:700}.mall-say{font-family:"Zen Kaku Gothic New";font-size:1.25rem;line-height:1.9}
+.mall-step{margin:12px 0 4px;font-weight:700;color:var(--lav)}
+.mall-opt{font-family:"Zen Kaku Gothic New";font-size:1.1rem;line-height:1.8}
+.mall-input{max-width:560px;display:block;margin:.5rem 0;font-family:"Zen Kaku Gothic New"}
+.mall-now{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:8px 0}
+.mall-hours-card{background:#F4F1EA;color:#17192d;border-radius:14px;padding:10px 14px;font-weight:700;text-align:center;line-height:1.8;font-family:"Zen Kaku Gothic New"}
+.mall-done{font-size:1.6rem;font-weight:800;color:var(--gold);text-align:center;margin-top:20px}.mall-note{text-align:center;color:var(--muted)}
+.rush-stage{max-width:640px;margin:auto;text-align:center}
+.rush-go{font-size:1.2rem;min-width:180px;margin:12px auto}
+.rush-best{font-size:1.2rem;color:var(--gold);font-weight:700;margin:10px 0}
+.rush-score{font-size:4rem;font-weight:800;color:var(--gold)}
+.rush-top{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.rush-time{color:var(--bad)}.rush-live{color:var(--good)}
+.rush-clock .clock{width:min(100%,240px)}
+.rush-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.rush-options button{font-family:"Zen Kaku Gothic New";font-size:1.15rem;min-height:60px}
+.rush-options button.incorrect{border-color:var(--bad);background:rgba(224,135,154,.16)}
+.rush-missed{list-style:none;padding:0;font-family:"Zen Kaku Gothic New";font-size:1.1rem;line-height:1.8}
+.stamp-card{margin-top:8px}
+.stamp-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.stamp-cell{aspect-ratio:1;border:1.5px dashed #b9bde0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden}
+.stamp-cell.on{border-style:solid;border-color:#D9C48E;background:#fff8e6}.stamp-cell img{width:100%;height:100%;object-fit:contain}
+.card-toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:200;background:#D9C48E;color:#14162e;font-weight:800;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.mall-map.inline{display:none;margin:8px 0}
+@media(max-width:760px){.mall-layout{grid-template-columns:1fr}.mall-map{order:2}.mall-floor{min-height:40px}.mall-layout.picking>.mall-map{display:none}.mall-map.inline{display:flex}}
 </style>
 </head>
 <body>
@@ -131,6 +175,8 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 <button id="readTab" class="active">Read & Write</button>
 <button id="setTab">Set the Clock</button>
 <button id="fromtoTab">From ～ To</button>
+<button id="mallTab">🏬 Mall Mission</button>
+<button id="rushTab">⏱ Clock Rush</button>
 </nav>
 <section id="app" aria-live="polite"></section>
 </main>
@@ -268,46 +314,60 @@ const FT_TYPES=[["arrange","🧩 Card Builder"],["fill","✏️ Fill"],["type","
 let fromToPracticeType="arrange",lastFromToSignature="";
 function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
 function ftH12(h){return h%12||12}
-function ftPeriod(h){return h<12?"ごぜん":"ごご"}
-/* 简单：7じ（数字）；进阶：しちじ（平假名读法） */
-function ftHourTok(h,level){return level==="easy"?`${ftH12(h)}じ`:HOUR[ftH12(h)]}
+/* times are {h:0-23, m:0|30} */
+function ftT(t){return typeof t==="number"?{h:t,m:0}:t}
+function ftPeriod(t){return ftT(t).h<12?"ごぜん":"ごご"}
+/* easy: 7じ / 9じはん (digits)  normal: しちじ / くじはん (hiragana) */
+function ftHourTok(t,level){t=ftT(t);const base=level==="easy"?`${ftH12(t.h)}じ`:HOUR[ftH12(t.h)];return base+(t.m===30?"はん":"")}
+function ftTimeJP(t,level){return ftPeriod(t)+ftHourTok(t,level)}
+/* every acceptable way to type one time */
+function ftTimeVariants(t,level){
+ t=ftT(t);const p=ftPeriod(t),h=ftH12(t.h),out=[];
+ const kana=HOUR[h],dig=`${h}じ`;
+ const tails=t.m===30?["はん","さんじゅっぷん","さんじっぷん"]:[""];
+ tails.forEach(x=>out.push(p+kana+x));
+ if(level==="easy")(t.m===30?["はん","30ぷん","30ふん"]:[""]).forEach(x=>out.push(p+dig+x));
+ return out
+}
 function ftTokens(x,level){
  return [x.place.jp,"は",ftPeriod(x.from),ftHourTok(x.from,level),"から",ftPeriod(x.to),ftHourTok(x.to,level),"まで","です"]
 }
 function ftSentence(x,level){
- return `${x.place.jp}は ${ftPeriod(x.from)}${ftHourTok(x.from,level)}から ${ftPeriod(x.to)}${ftHourTok(x.to,level)}までです。`
+ return `${x.place.jp}は ${ftTimeJP(x.from,level)}から ${ftTimeJP(x.to,level)}までです。`
 }
-/* 显示的Answer: 一律给出平假名读法；简单级别在括号里附上数字写法 */
+/* model answer: always hiragana; easy level also shows the digit form */
 function ftModel(x,level){
  const kana=ftSentence(x,"normal");
  return level==="easy"?`${kana}（${ftSentence(x,"easy")}）`:kana
 }
+function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
 function ftNorm(s){
- return (s||"").replace(/[０-９]/g,d=>String.fromCharCode(d.charCodeAt(0)-0xFEE0)).replace(/[\s　。．.、,]/g,"").replace(/時/g,"じ")
+ return kataToHira((s||"").replace(/[０-９]/g,d=>String.fromCharCode(d.charCodeAt(0)-0xFEE0))).replace(/[\s　。．.、,？?！!]/g,"").replace(/時/g,"じ").replace(/半/g,"はん")
 }
-/* 打字判定：平假名读法永远算对；数字写法只有简单级别算对 */
 function ftAccepted(x,level){
- const out=[ftSentence(x,"normal")];
- if(level==="easy")out.push(ftSentence(x,"easy"));
+ const out=[];
+ ftTimeVariants(x.from,level).forEach(a=>ftTimeVariants(x.to,level).forEach(b=>out.push(`${x.place.jp}は${a}から${b}までです`)));
  return out.map(ftNorm)
 }
 function makeContextItems(n){
+ const half=state.fromToDifficulty!=="easy";
  return shuffle(CONTEXT_PLACES).slice(0,n).map(p=>{
-   const from=rand(p.open[0],p.open[1]),to=rand(Math.max(from+2,p.close[0]),p.close[1]);
-   return {place:p,from,to}
+   const fh=rand(p.open[0],p.open[1]),th=rand(Math.max(fh+2,p.close[0]),p.close[1]);
+   const fm=half&&Math.random()<.35?30:0,tm=half&&Math.random()<.35?30:0;
+   return {place:p,from:{h:fh,m:fm},to:{h:th,m:tm}}
  })
 }
 function newFromToQuestions(){
  let tries=0,items,sig;
- do{items=makeContextItems(6);sig=items.map(x=>`${x.place.jp}:${x.from}-${x.to}`).join("|");tries++}
+ do{items=makeContextItems(6);sig=items.map(x=>`${x.place.jp}:${x.from.h}${x.from.m}-${x.to.h}${x.to.m}`).join("|");tries++}
  while(sig===lastFromToSignature&&tries<12);
  lastFromToSignature=sig;state.fromToQuestions=items;
 }
-/* 时钟下面标示上午／下午：简单＝图示＋字；进阶＝只有图示 */
-function ftClock(h,level){
- const box=el("div","ft-clock");
- box.append(clockSVG(timeObj(ftH12(h),0)).svg);
- const am=h<12,tag=el("div","ft-period "+(am?"am":"pm"));
+/* AM/PM under each clock: easy = icon + word, normal = icon only */
+function ftClock(t,level){
+ t=ftT(t);const box=el("div","ft-clock");
+ box.append(clockSVG(timeObj(ftH12(t.h),t.m)).svg);
+ const am=t.h<12,tag=el("div","ft-period "+(am?"am":"pm"));
  tag.textContent=level==="easy"?(am?"☀️ ごぜん":"🌙 ごご"):(am?"☀️":"🌙");
  box.append(tag);return box
 }
@@ -324,6 +384,18 @@ function ftFeedback(host,fb,ok,wrongMsg,x,level){
  host.classList.remove("ft-ok","ft-bad");
  if(ok){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${ftModel(x,"normal")}</span>`;host.classList.add("ft-ok");stamp(host);playSuccess()}
  else{fb.innerHTML=`<strong>${wrongMsg}</strong>`;host.classList.add("ft-bad");setTimeout(()=>host.classList.remove("ft-bad"),600)}
+}
+/* wrong-but-close time options for a given time */
+function timeDistractors(t,level){
+ t=ftT(t);const cands=[
+   {h:(t.h+12)%24,m:t.m},                       /* ごぜん ↔ ごご */
+   {h:t.h+1>23?t.h-1:t.h+1,m:t.m},
+   {h:t.h-1<0?t.h+2:t.h-1,m:t.m},
+   {h:t.h,m:t.m===30?0:30}
+ ].filter(c=>level!=="easy"||c.m===0);
+ const seen=new Set([ftTimeJP(t,level)]),out=[];
+ shuffle(cands).forEach(c=>{const s=ftTimeJP(c,level);if(!seen.has(s)){seen.add(s);out.push(s)}});
+ return out.slice(0,3)
 }
 
 /* ---- 排句子：点一下＝放进／拿出；按住拖动＝调整位置（手机、平板、电脑都能用） ---- */
@@ -382,20 +454,41 @@ function ftArrange(host,x,level){
  controls.append(check,reset);host.append(controls,fb)
 }
 
-/* ---- 填空：选は・から・まで ---- */
+/* ---- Fill: a different blank every question ---- */
+function choiceBlank(host,{question,parts,correct,options,wrongMsg},x,level){
+ if(question)host.append(el("div","ft-q",question));
+ const line=el("div","ft-fill");let blank;
+ parts.forEach(p=>{if(p===null){blank=el("span","ft-blank","？");line.append(blank)}else line.append(el("span","answer-jp",p))});
+ const bank=el("div","ft-options"),fb=el("div","feedback");let done=false;
+ shuffle([correct,...options.filter(o=>o!==correct)]).forEach(o=>{
+   const b=el("button","",o);
+   b.onclick=()=>{
+     if(done)return;
+     if(o===correct){done=true;blank.textContent=o;blank.classList.add("filled");b.classList.add("active");bank.querySelectorAll("button").forEach(z=>z.disabled=true);ftFeedback(host,fb,true,"",x,level)}
+     else{b.classList.add("incorrect");b.disabled=true;ftFeedback(host,fb,false,wrongMsg,x,level)}
+   };bank.append(b)
+ });
+ host.append(line,bank,fb)
+}
 function ftFill(host,x,level){
- const line=el("div","ft-fill"),opts=["","は","から","まで","に","で"];
- const mk=()=>{const s=el("select");opts.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"？";s.append(o)});return s};
- const s1=mk(),s2=mk(),s3=mk();
- line.append(el("span","answer-jp",x.place.jp),s1,
-   el("span","answer-jp",ftPeriod(x.from)+ftHourTok(x.from,level)),s2,
-   el("span","answer-jp",ftPeriod(x.to)+ftHourTok(x.to,level)),s3,el("span","answer-jp","です。"));
- const fb=el("div","feedback"),act=el("div","actions"),check=el("button","active","Check");
- check.onclick=()=>{
-   const ok=s1.value==="は"&&s2.value==="から"&&s3.value==="まで";
-   ftFeedback(host,fb,ok,'Try again: which one means "from", and which one means "to"?',x,level)
- };
- act.append(check);host.append(line,act,fb)
+ const kinds=["particle","from","to","qword","half"];
+ const kind=kinds[rand(0,kinds.length-1)];
+ const P=x.place.jp,F=ftTimeJP(x.from,level),T=ftTimeJP(x.to,level);
+ if(kind==="particle"){
+   const which=rand(0,2),parts=[P,"は",F,"から",T,"まで","です。"],idx=[1,3,5][which],correct=parts[idx];
+   parts[idx]=null;
+   const others=["は","から","まで"].filter(p=>p!==correct),extra=shuffle(["に","で","へ"]).slice(0,1);
+   choiceBlank(host,{parts,correct,options:[...others,...extra],wrongMsg:"Not that one. Read the whole sentence again."},x,level)
+ }else if(kind==="from"||kind==="to"){
+   const isFrom=kind==="from",t=isFrom?x.from:x.to,correct=ftTimeJP(t,level);
+   const parts=isFrom?[P,"は",null,"から",T,"まで","です。"]:[P,"は",F,"から",null,"まで","です。"];
+   choiceBlank(host,{parts,correct,options:timeDistractors(t,level),wrongMsg:"Look at the clock again — and check ☀️ / 🌙."},x,level)
+ }else if(kind==="qword"){
+   choiceBlank(host,{question:"Ask for the opening hours.",parts:[P,"は",null,"から なんじまでですか。"],correct:"なんじ",options:["なんがい","なんようび","なんがつ"],wrongMsg:"That word doesn't ask about the time."},x,level)
+ }else{
+   const askTo=Math.random()<.5,t=askTo?x.to:x.from,correct=ftTimeJP(t,level);
+   choiceBlank(host,{question:askTo?`${P}は なんじまでですか。`:`${P}は なんじからですか。`,parts:[null,askTo?"までです。":"からです。"],correct,options:timeDistractors(t,level),wrongMsg:askTo?"It asks when it CLOSES (まで). Check the second clock.":"It asks when it OPENS (から). Check the first clock."},x,level)
+ }
 }
 
 /* ---- 打字 ---- */
@@ -459,8 +552,8 @@ function renderFromTo(){
 const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
 const STUDENT_CODE=(new URLSearchParams(location.search).get("s")||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
 const SESSION_KEY="timePracticeSessionV1";
-const ACT_EN={"read":"Read the Clock","set":"Set the Clock","fromto-arrange":"From～To: Card Builder","fromto-fill":"From～To: Fill","fromto-type":"From～To: Type","calendar":"Calendar"};
-const ACT_ZH={"read":"看鐘寫時間","set":"撥時鐘","fromto-arrange":"から・まで 排句子","fromto-fill":"から・まで 填空","fromto-type":"から・まで 打字","calendar":"日曆日期"};
+const ACT_EN={"mall-ask":"Mall: Asking","mall-listen":"Mall: Understanding","mall-open":"Mall: Open or Closed?","rush":"Clock Rush","read":"Read the Clock","set":"Set the Clock","fromto-arrange":"From～To: Card Builder","fromto-fill":"From～To: Fill","fromto-type":"From～To: Type","calendar":"Calendar"};
+const ACT_ZH={"mall-ask":"商場任務 問句","mall-listen":"商場任務 聽懂回答","mall-open":"商場任務 開門了嗎","rush":"限時搶答","read":"看鐘寫時間","set":"撥時鐘","fromto-arrange":"から・まで 排句子","fromto-fill":"から・まで 填空","fromto-type":"から・まで 打字","calendar":"日曆日期"};
 function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{}}}
 function loadSession(){
  try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
@@ -469,11 +562,30 @@ function loadSession(){
 }
 let session=loadSession();
 function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+/* stamp card: one stamp for every question answered correctly; 20 stamps = 1 full card */
+const STAMP_CARD=20;
+function stampKey(){return "timePracticeStamps_"+(STUDENT_CODE||"guest")}
+function loadStamps(){try{const x=JSON.parse(localStorage.getItem(stampKey())||"null");if(x&&typeof x.count==="number")return x}catch(e){}return {count:0,cards:0}}
+function addStamp(){
+ const st=loadStamps();st.count++;
+ if(st.count>=STAMP_CARD){st.count=0;st.cards++;setTimeout(()=>celebrateCard(st.cards),300)}
+ try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
+}
+function celebrateCard(n){
+ const t=el("div","card-toast",`🎉 Stamp card #${n} complete! Show your teacher!`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+}
+function stampCardEl(){
+ const st=loadStamps(),box=el("div","stamp-card");
+ box.append(el("div","report-sub",`⭐ Stamp Card ${st.cards?`(${st.cards} full card${st.cards>1?"s":""} done!)`:""}`));
+ const g=el("div","stamp-grid");
+ for(let i=0;i<STAMP_CARD;i++){const c=el("div","stamp-cell"+(i<st.count?" on":""));if(i<st.count){const im=new Image();im.src=STAMP_SRC;im.onerror=()=>{im.remove();c.textContent="⭐"};c.append(im)}g.append(c)}
+ box.append(g);return box
+}
 function tLabel(t){return `${t.h}:${String(t.m).padStart(2,"0")} ${t.reading}`}
 /* returns ok so it can be used inside if(...) */
 function logResult(activity,item,ok){
  const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
- it.tries++;if(ok)it.solved=true;else it.wrong++;
+ it.tries++;if(ok){if(!it.solved)addStamp();it.solved=true}else it.wrong++;
  session.items[k]=it;saveSession();updateDoneBtn();return ok
 }
 function summarize(){
@@ -490,10 +602,11 @@ function minutesSpent(){return Math.max(1,Math.round((Date.now()-session.start)/
 function updateDoneBtn(){
  const b=document.getElementById("doneBtn");if(!b)return;
  const n=Object.keys(session.items).length;
- b.querySelector(".done-count").textContent=n?`${n} done`:"";
+ const st=loadStamps();b.querySelector(".done-count").textContent=`⭐ ${st.count}/${STAMP_CARD}`;
 }
 function reportPayload(acts){
- const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答對`+(a.later?`，${a.later} 題改對`:"")+(a.notyet?`，${a.notyet} 題沒答對`:"")).join("；");
+ const st=loadStamps();
+ const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答對`+(a.later?`，${a.later} 題改對`:"")+(a.notyet?`，${a.notyet} 題沒答對`:"")).join("；")+(session.rushBest?`；限時搶答最高 ${session.rushBest} 題`:"")+`；印章卡：已集滿 ${st.cards} 張，目前 ${st.count}/${STAMP_CARD}`;
  const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（錯${m.wrong}次${m.solved?"，後來改對":"，沒答對"}）`)).join("\n");
  const detail=JSON.stringify(Object.fromEntries(Object.entries(acts).map(([k,a])=>[k,{questions:a.n,firstTry:a.first,fixedLater:a.later,notSolved:a.notyet}])));
  return {code:STUDENT_CODE,page:"clock.html",minutes:minutesSpent(),summary:summary||"（沒有做任何題目）",mistakes,detail}
@@ -516,6 +629,7 @@ function openReport(){
      tbl.append(row)
    });
    box.append(tbl);
+   if(session.rushBest)box.append(el("div","report-row",`⏱ Clock Rush best today: ${session.rushBest}`));
    const ms=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>({k,m})));
    if(ms.length){
      box.append(el("div","report-sub","Practice these again:"));
@@ -524,6 +638,7 @@ function openReport(){
      box.append(ul)
    }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
  }
+ box.append(stampCardEl());
  const status=el("div","report-status");
  const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
  close.onclick=()=>ov.remove();
@@ -551,6 +666,254 @@ function initReport(){
  b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;
  b.onclick=openReport;document.body.append(b);updateDoneBtn();
  if(!STUDENT_CODE){const n=el("div","code-warning","⚠ Please open this page with the personal link from your teacher.");document.querySelector(".hero").append(n)}
+}
+
+/* ===== Mall Mission: ask the floor + the opening hours ===== */
+const MALL_FLOORS=[
+ {code:"RF",read:"おくじょう"},{code:"4F",read:"よんかい"},{code:"3F",read:"さんがい"},{code:"2F",read:"にかい"},
+ {code:"1F",read:"いっかい"},{code:"G",read:"グラウンドフロア"},{code:"B1",read:"ちかいっかい"},{code:"B2",read:"ちかにかい"}
+];
+const MALL_SHOPS=[
+ {jp:"ほんや",emoji:"📚",task:"You want to buy a book.",floor:"2F",open:{h:10,m:0},close:{h:21,m:30}},
+ {jp:"おもちゃや",emoji:"🧸",task:"You want to buy a toy.",floor:"2F",open:{h:10,m:0},close:{h:21,m:0}},
+ {jp:"ぶんぼうぐや",emoji:"✏️",task:"You need a new eraser.",floor:"2F",open:{h:10,m:0},close:{h:21,m:0}},
+ {jp:"ぎんこう",emoji:"🏦",task:"You need to go to the bank.",floor:"G",open:{h:9,m:30},close:{h:16,m:30}},
+ {jp:"はなや",emoji:"💐",task:"You want to buy flowers for Mum.",floor:"G",open:{h:9,m:0},close:{h:19,m:0}},
+ {jp:"やっきょく",emoji:"💊",task:"You need some medicine.",floor:"G",open:{h:8,m:30},close:{h:22,m:0}},
+ {jp:"ゆうびんきょく",emoji:"📮",task:"You want to send a letter.",floor:"B1",open:{h:9,m:0},close:{h:17,m:0}},
+ {jp:"スーパー",emoji:"🛒",task:"You need to buy vegetables.",floor:"B1",open:{h:8,m:0},close:{h:22,m:0}},
+ {jp:"パンや",emoji:"🥐",task:"You want to buy bread.",floor:"B1",open:{h:7,m:0},close:{h:20,m:0}},
+ {jp:"はいしゃ",emoji:"🦷",task:"You have a toothache.",floor:"3F",open:{h:9,m:0},close:{h:18,m:0}},
+ {jp:"ペットショップ",emoji:"🐶",task:"You want to buy dog food.",floor:"3F",open:{h:11,m:0},close:{h:20,m:0}},
+ {jp:"ジム",emoji:"🏋️",task:"You want to exercise.",floor:"3F",open:{h:7,m:0},close:{h:22,m:0}},
+ {jp:"ダンススクール",emoji:"💃",task:"You have a dance class.",floor:"3F",open:{h:15,m:0},close:{h:21,m:0}},
+ {jp:"めがねや",emoji:"👓",task:"You need new glasses.",floor:"1F",open:{h:10,m:0},close:{h:21,m:0}},
+ {jp:"えいがかん",emoji:"🎬",task:"You want to watch a movie.",floor:"4F",open:{h:11,m:0},close:{h:23,m:0}},
+ {jp:"すしや",emoji:"🍣",task:"You want to eat sushi.",floor:"4F",open:{h:11,m:30},close:{h:21,m:30}},
+ {jp:"カラオケ",emoji:"🎤",task:"You want to sing karaoke.",floor:"4F",open:{h:13,m:0},close:{h:23,m:0}},
+ {jp:"アイスクリームや",emoji:"🍦",task:"You want some ice cream.",floor:"4F",open:{h:14,m:0},close:{h:22,m:0}}
+];
+const MALL_ROUND=5;
+let mall=null;
+function hasKata(s){return /[ァ-ヶ]/.test(s)}
+/* easy level: hiragana reading above katakana (the 7-year-old reads hiragana only) */
+function jpHTML(s,level){
+ if(level!=="easy"||!hasKata(s))return s;
+ return s.replace(/[ァ-ヶー]+/g,m=>m==="ー"?m:`<ruby>${m}<rt>${kataToHira(m)}</rt></ruby>`)
+}
+function floorRead(code){return MALL_FLOORS.find(f=>f.code===code).read}
+function newMallRound(){
+ const picked=[],usedFloors=new Set();
+ for(const s of shuffle(MALL_SHOPS)){if(picked.length>=MALL_ROUND)break;if(!usedFloors.has(s.floor)||usedFloors.size>=6){picked.push(s);usedFloors.add(s.floor)}}
+ mall={shops:picked,i:0,step:"task",lit:new Set(),found:new Set(),fails:0};
+}
+function hoursText(s){return `${s.open.h<12?"☀️":"🌙"} ${ftH12(s.open.h)}:${String(s.open.m).padStart(2,"0")}  →  ${s.close.h<12?"☀️":"🌙"} ${ftH12(s.close.h)}:${String(s.close.m).padStart(2,"0")}`}
+function hoursCardFor(o,c){return {open:o,close:c}}
+function mallBubble(who,html,cls=""){
+ const b=el("div","mall-bubble "+cls);b.innerHTML=`<span class="mall-who">${who}</span><span class="mall-say">${html}</span>`;return b
+}
+function mallChoices(host,options,correct,logAct,logItem,onOk,wrongMsg){
+ const box=el("div","ft-options"),fb=el("div","feedback");
+ shuffle(options).forEach(o=>{
+   const b=el("button","mall-opt","");b.innerHTML=o.html||o;
+   const val=o.val||o;
+   b.onclick=()=>{
+     if(val===correct){logResult(logAct,logItem,true);box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("active");playSuccess();setTimeout(onOk,650)}
+     else{logResult(logAct,logItem,false);b.classList.add("incorrect");b.disabled=true;fb.innerHTML=`<strong>${wrongMsg}</strong>`}
+   };box.append(b)
+ });
+ host.append(box,fb)
+}
+function mallTyping(host,validList,logAct,logItem,onOk,hints){
+ const inp=el("input","type-answer mall-input");inp.placeholder="Type in Japanese…";
+ const act=el("div","actions"),check=el("button","active","Say it"),hintBtn=el("button","","💡 Hint"),fb=el("div","feedback");
+ const valid=validList.map(ftNorm);
+ check.onclick=()=>{
+   const v=ftNorm(inp.value);if(!v){fb.innerHTML="<strong>Type your question first.</strong>";return}
+   if(valid.includes(v)){logResult(logAct,logItem,true);playSuccess();inp.disabled=true;check.disabled=true;setTimeout(onOk,500)}
+   else{
+     logResult(logAct,logItem,false);mall.fails++;
+     const special=hints.check&&hints.check(v);
+     fb.innerHTML=`<strong>${special||"Not quite. Try again!"}</strong>`+(mall.fails>=2?`<span class="answer-jp muted">${hints.pattern}</span>`:"")
+   }
+ };
+ hintBtn.onclick=()=>{fb.innerHTML=`<span class="answer-jp muted">${hints.pattern}</span>`};
+ inp.addEventListener("keydown",e=>{if(e.key==="Enter")check.click()});
+ act.append(check,hintBtn);host.append(inp,act,fb)
+}
+function renderMallMap(level,clickable,onPick,inline=false){
+ const map=el("div","mall-map"+(inline?" inline":""));
+ map.append(el("div","mall-map-title","MIDNIGHT MALL"));
+ MALL_FLOORS.forEach(f=>{
+   const b=el("button","mall-floor"+(mall.lit.has(f.code)?" lit":""),"");
+   b.innerHTML=`<span class="mf-code">${f.code}</span>`+(level==="easy"?`<span class="mf-read">${jpHTML(f.read,level)}</span>`:"");
+   const here=mall.shops.filter((s,idx)=>idx<mall.i&&s.floor===f.code).map(s=>s.emoji).join("");
+   if(here)b.append(el("span","mf-icons",here));
+   if(clickable){b.classList.add("pick");b.onclick=()=>onPick(f.code,b)}else b.disabled=true;
+   map.append(b)
+ });
+ return map
+}
+function renderMall(){
+ const level=state.fromToDifficulty;
+ if(!mall)newMallRound();
+ const p=el("div","panel"),tb=el("div","toolbar");
+ tb.append(el("div","instruction","🏬 Mall Mission"));
+ const levels=el("div","modes");
+ [["easy","Easy (tap)"],["normal","Normal (type the question)"]].forEach(([id,label])=>{
+   const b=el("button",level===id?"active":"",label);b.onclick=()=>{state.fromToDifficulty=id;newMallRound();render()};levels.append(b)
+ });
+ tb.append(levels,el("div","mall-progress",`Mission ${Math.min(mall.i+1,MALL_ROUND)} / ${MALL_ROUND}　${"🟡".repeat(mall.i)}${"⚪".repeat(MALL_ROUND-mall.i)}`));
+ p.append(tb);
+ const lay=el("div","mall-layout"),stage=el("div","mall-stage");
+ if(mall.i>=MALL_ROUND){
+   lay.append(renderMallMap(level,false),stage);
+   stage.append(el("div","mall-done","🎉 All missions complete!"),el("p","mall-note","You found every shop. Great Japanese!"));
+   const again=el("button","active","New Round");again.onclick=()=>{newMallRound();render()};
+   const a=el("div","actions");a.append(again);stage.append(a);
+   p.append(lay);app.append(p);stamp(stage);return
+ }
+ const s=mall.shops[mall.i],K=kataToHira(s.jp),shopH=jpHTML(s.jp,level);
+ const next=st=>{mall.step=st;mall.fails=0;render()};
+ const card=el("div","mall-task");card.innerHTML=`<div class="mall-emoji">${s.emoji}</div><div><div class="mall-task-en">${s.task}</div><div class="mall-task-jp">${shopH}</div></div>`;
+ stage.append(card);
+ const staff="🧑‍💼 Information";
+ const floorQ=`すみません。${s.jp}は なんがいですか。`;
+ const hoursQ=`${s.jp}は なんじから なんじまでですか。`;
+ if(mall.step==="task"){
+   stage.append(mallBubble(staff,"いらっしゃいませ。","staff"),el("div","mall-step","Step 1: Ask which floor the shop is on."));
+   if(level==="easy"){
+     mallChoices(stage,[
+       {val:"a",html:jpHTML(floorQ,level)},
+       {val:"b",html:jpHTML(`すみません。${s.jp}は なんですか。`,level)},
+       {val:"c",html:jpHTML(`すみません。${s.jp}は なんじですか。`,level)}
+     ],"a","mall-ask",`${s.jp}：なんがいですか`,()=>next("floor"),"That question asks something else. Which one asks about the FLOOR?")
+   }else{
+     mallTyping(stage,[`${K}はなんがいですか`,`すみません${K}はなんがいですか`],"mall-ask",`${s.jp}：なんがいですか`,()=>next("floor"),
+       {pattern:"すみません。＿＿＿は なんがいですか。",check:v=>v.includes("なんかい")?"Almost! It's なんがい (が, not か).":v.includes("なんがい")&&!v.includes(K)?"Say the shop name first: ＿＿＿は なんがいですか。":""})
+   }
+ }else if(mall.step==="floor"){
+   stage.append(mallBubble("🙋 You",jpHTML(floorQ,level),"me"),mallBubble(staff,jpHTML(`${s.jp}ですか。${floorRead(s.floor)}です。`,level),"staff"),
+     el("div","mall-step","Step 2: Tap that floor on the map."));
+   const fb=el("div","feedback");
+   const pick=(code,btn)=>{
+     const ok=code===s.floor;logResult("mall-listen",`${s.jp}：${floorRead(s.floor)}`,ok);
+     if(ok){btn.classList.add("lit");playSuccess();setTimeout(()=>next("askhours"),600)}
+     else{btn.classList.add("incorrect");setTimeout(()=>btn.classList.remove("incorrect"),450);fb.innerHTML=`<strong>Listen again: ${floorRead(s.floor)}</strong>`}
+   };
+   stage.append(renderMallMap(level,true,pick,true),fb);
+   lay.classList.add("picking");
+   lay.append(renderMallMap(level,true,pick),stage);
+   p.append(lay);app.append(p);return
+ }else if(mall.step==="askhours"){
+   stage.append(mallBubble(staff,jpHTML(`${floorRead(s.floor)}です。`,level),"staff"),el("div","mall-step","Step 3: Now ask what time it opens and closes."));
+   if(level==="easy"){
+     mallChoices(stage,[
+       {val:"a",html:jpHTML(hoursQ,level)},
+       {val:"b",html:jpHTML(`${s.jp}は なんがいですか。`,level)},
+       {val:"c",html:jpHTML(`${s.jp}は なんようびですか。`,level)}
+     ],"a","mall-ask",`${s.jp}：なんじから なんじまで`,()=>next("hours"),"Which one asks about the TIME (から … まで)?")
+   }else{
+     mallTyping(stage,["なんじからなんじまでですか",`${K}はなんじからなんじまでですか`,`すみません${K}はなんじからなんじまでですか`,`すみませんなんじからなんじまでですか`],"mall-ask",`${s.jp}：なんじから なんじまで`,()=>next("hours"),
+       {pattern:"＿＿＿は なんじから なんじまでですか。",check:v=>v.includes("から")&&!v.includes("まで")?"Don't forget まで!":!v.includes("から")&&v.includes("まで")?"Don't forget から!":""})
+   }
+ }else if(mall.step==="hours"){
+   const ans=`${ftTimeJP(s.open,level)}から ${ftTimeJP(s.close,level)}までです。`;
+   stage.append(mallBubble("🙋 You",jpHTML(hoursQ,level),"me"),mallBubble(staff,ans,"staff"),el("div","mall-step","Step 4: Which card shows those hours?"));
+   const correct=hoursText(s),opts=new Set([correct]);
+   const variants=shuffle([
+     {open:{h:(s.open.h+12)%24,m:s.open.m},close:s.close},{open:s.open,close:{h:(s.close.h+12)%24,m:s.close.m}},
+     {open:{h:s.open.h+1,m:s.open.m},close:s.close},{open:s.open,close:{h:s.close.h-1,m:s.close.m}},
+     {open:{h:s.open.h,m:s.open.m?0:30},close:s.close}
+   ]);
+   for(const v of variants){if(opts.size>=3)break;const t=hoursText(v);if(!opts.has(t))opts.add(t)}
+   mallChoices(stage,[...opts].map(t=>({val:t,html:t})),correct,"mall-listen",`${s.jp}：${ans}`,()=>next("open"),"Listen again — check ☀️ / 🌙 and はん.")
+ }else if(mall.step==="open"){
+   const inside=Math.random()<.5;let now;
+   if(inside){const a=s.open.h*60+s.open.m+30,b=s.close.h*60+s.close.m-30,t=rand(a,Math.max(a,b));now={h:Math.floor(t/60),m:t%60<30?0:30}}
+   else{now=Math.random()<.5?{h:Math.max(6,s.open.h-rand(1,2)),m:0}:{h:Math.min(23,s.close.h+1),m:0}}
+   const open=(now.h*60+now.m)>=(s.open.h*60+s.open.m)&&(now.h*60+now.m)<(s.close.h*60+s.close.m);
+   stage.append(setHTML(el("div","mall-step"),`Step 5: It is now ${ftTimeJP(now,level)}. Is ${jpHTML(s.jp,level)} open?`));
+   const c=el("div","mall-now");c.append(ftClock(now,level),el("div","mall-hours-card",`${s.emoji} ${jpHTML(s.jp,level)}<br>${hoursText(s)}`));
+   c.querySelector(".mall-hours-card").innerHTML=`${s.emoji} ${jpHTML(s.jp,level)}<br>${hoursText(s)}`;
+   stage.append(c);
+   mallChoices(stage,[{val:"yes",html:"はい 🟢"},{val:"no",html:"いいえ 🔴"}],open?"yes":"no","mall-open",`${s.jp} @ ${ftTimeJP(now,"normal")}`,()=>next("thanks"),"Look at the clock and the opening hours again.")
+ }else if(mall.step==="thanks"){
+   stage.append(el("div","mall-step","Step 6: Say thank you to the staff."));
+   mallChoices(stage,[{val:"a",html:"わかりました。ありがとうございます。"},{val:"b",html:"いただきます。"},{val:"c",html:"おやすみなさい。"}],"a","mall-ask","わかりました。ありがとうございます。",()=>{
+     mall.lit.add(s.floor);mall.i++;mall.step="task";mall.fails=0;render()
+   },"That's not what you say here!")
+ }
+ lay.append(renderMallMap(level,false),stage);p.append(lay);app.append(p)
+}
+
+/* ===== Clock Rush: 60-second challenge, beat your own best ===== */
+const RUSH_SECONDS=60;
+let rush=null;
+function rushBestKey(){return "timePracticeRushBest_"+(STUDENT_CODE||"guest")+"_"+state.fromToDifficulty}
+function rushBest(){try{return Number(localStorage.getItem(rushBestKey())||0)}catch(e){return 0}}
+function rushSaveBest(n){try{localStorage.setItem(rushBestKey(),String(n))}catch(e){}}
+function rushReading(h,m){return m===30?HOUR[h]+"はん":timeObj(h,m).reading}
+function rushQuestion(level){
+ const h=rand(1,12),mins=level==="easy"?[0]:[0,0,5,10,15,20,30,30,40,45,50];
+ const m=mins[rand(0,mins.length-1)],correct=rushReading(h,m);
+ const pool=new Set([correct]);
+ const near=[[h%12+1,m],[(h+10)%12+1,m],[h,(m+5)%60],[h,(m+30)%60],[[4,7,9][rand(0,2)],m],[h,m===0?30:0]]
+   .map(([hh,mm])=>[hh,level==="easy"?0:mm]).filter(([hh,mm])=>level!=="easy"||mm===0).filter(([hh,mm])=>level!=="easy"||true);
+ for(const [hh,mm] of shuffle(near)){if(pool.size>=4)break;const r=rushReading(hh,mm);if(!pool.has(r))pool.add(r)}
+ while(pool.size<4){const r=rushReading(rand(1,12),level==="easy"?0:mins[rand(0,mins.length-1)]);pool.add(r)}
+ return {h,m,correct,options:shuffle([...pool])}
+}
+function renderRush(){
+ const level=state.fromToDifficulty;
+ const p=el("div","panel"),tb=el("div","toolbar");
+ tb.append(el("div","instruction","⏱ Clock Rush"));
+ const levels=el("div","modes");
+ [["easy","Easy (o'clock only)"],["normal","Normal (minutes & はん)"]].forEach(([id,label])=>{
+   const b=el("button",level===id?"active":"",label);b.onclick=()=>{if(rush&&rush.timer)clearInterval(rush.timer);rush=null;state.fromToDifficulty=id;render()};levels.append(b)
+ });
+ tb.append(levels);p.append(tb);
+ const stage=el("div","rush-stage");p.append(stage);app.append(p);
+ if(!rush||rush.state==="idle"){
+   stage.append(el("div","rush-best",`🏆 Your best: ${rushBest()}`),el("p","mall-note",`Read as many clocks as you can in ${RUSH_SECONDS} seconds!`));
+   const go=el("button","active rush-go","▶ Start");go.onclick=()=>{startRush();};stage.append(go);return
+ }
+ if(rush.state==="done"){
+   const best=rushBest(),newBest=rush.score>=best&&rush.score>0;
+   if(rush.score>best)rushSaveBest(rush.score);
+   stage.append(el("div","rush-score",`${rush.score}`),el("div","rush-best",newBest?"🎉 New personal best!":`🏆 Your best: ${Math.max(best,rush.score)}`));
+   session.rushBest=Math.max(session.rushBest||0,rush.score);saveSession();
+   if(rush.missed.length){stage.append(el("div","report-sub rush-sub","Practice these:"));const ul=el("ul","rush-missed");rush.missed.slice(0,8).forEach(r=>ul.append(el("li","",r)));stage.append(ul)}
+   const again=el("button","active rush-go","↻ Try Again");again.onclick=()=>{rush=null;startRush()};stage.append(again);
+   if(newBest)stamp(stage);return
+ }
+ /* playing */
+ const top=el("div","rush-top");
+ top.append(el("div","rush-time",`⏱ ${rush.left}s`),el("div","rush-live",`✔ ${rush.score}`));
+ stage.append(top);
+ const q=rush.q,cw=el("div","clock-wrap rush-clock");cw.append(clockSVG(timeObj(q.h,q.m)).svg);stage.append(cw);
+ const opts=el("div","rush-options");
+ q.options.forEach(o=>{
+   const b=el("button","",o);
+   b.onclick=()=>{
+     if(rush.lock)return;
+     const ok=o===q.correct;logResult("rush",q.correct,ok);
+     if(ok){rush.score++;b.classList.add("active");rush.lock=true;setTimeout(()=>{rush.lock=false;rush.q=rushQuestion(level);render()},220)}
+     else{b.classList.add("incorrect");b.disabled=true;if(!rush.missed.includes(q.correct))rush.missed.push(q.correct)}
+   };opts.append(b)
+ });
+ stage.append(opts)
+}
+function startRush(){
+ const level=state.fromToDifficulty;
+ rush={state:"play",left:RUSH_SECONDS,score:0,missed:[],q:rushQuestion(level),lock:false};
+ rush.timer=setInterval(()=>{
+   if(state.sub!=="rush"){clearInterval(rush.timer);rush=null;return}
+   rush.left--;
+   const t=document.querySelector(".rush-time");if(t)t.textContent=`⏱ ${rush.left}s`;
+   if(rush.left<=0){clearInterval(rush.timer);rush.timer=null;rush.state="done";render()}
+ },1000);
+ render()
 }
 
 const LEARNING_KEY="timePracticeLearningV1";
@@ -962,9 +1325,9 @@ function renderCalendar(){
  next.onclick=()=>{if(state.calendarPage<3){state.calendarPage++;render()}else{newCalendarQuestions();render()}};
  nav.append(back,count,next);wrap.append(nav);p.append(wrap);app.append(p)
 }
-function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set","fromto"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
-function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else if(state.sub==="set")renderSet();else renderFromTo()}
-document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};document.getElementById("fromtoTab").onclick=()=>{state.sub="fromto";render()};
+function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set","fromto","mall","rush"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
+function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else if(state.sub==="set")renderSet();else if(state.sub==="mall")renderMall();else if(state.sub==="rush")renderRush();else renderFromTo()}
+document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};document.getElementById("fromtoTab").onclick=()=>{state.sub="fromto";render()};document.getElementById("mallTab").onclick=()=>{state.sub="mall";render()};document.getElementById("rushTab").onclick=()=>{state.sub="rush";render()};
 initMusic();
 initReport();
 render();
