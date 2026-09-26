@@ -33,7 +33,7 @@ function blankDeckTokens(tokens,zh){let out=tokens.map(t=>[...t]);for(const part
 function connectorChoiceHtml(o){return S.reading==="hanzi"?'<span class="choice-hz">'+o.zh+'</span>':'<span class="choice-hz">'+o.zh+'</span><span class="choice-py">'+(o.pinyin||"")+'</span>'}
 function splitExampleTokens(tokens,connectorZh){
   const punct=/^[，。！？；：、,.!?;：“”‘’（）()…—-]+$/;
-  const marks=new Array(tokens.length).fill(false),connectors=String(connectorZh||"").split("……").filter(Boolean).map(Array.from);
+  const marks=new Array(tokens.length).fill(false),connectors=String(connectorZh||"").split("……").filter(Boolean).map(x=>Array.from(x));
   let seek=0;
   for(const chars of connectors){
     let found=-1;
