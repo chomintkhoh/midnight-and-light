@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="robots" content="noindex, nofollow" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Japanese Particles | ミッドナイトとライト</title>
-<meta name="description" content="Japanese particle practice — see what happens when you use the wrong particle!">
+<meta name="robots" content="noindex, nofollow">
+<title>Japanese Question Words | ミッドナイトとライト</title>
+<meta name="description" content="Japanese question word practice — read the answer, then build the question!">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -103,6 +103,8 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 @media(max-width:600px){.shell{width:calc(100% - 16px);padding-top:14px}.panel{padding:14px;border-radius:18px}.cat-grid{grid-template-columns:repeat(2,1fr)}.mode-grid{grid-template-columns:repeat(2,1fr)}.pic.big .emoji{font-size:90px}.kana-box{min-width:44px;height:54px;font-size:1.6rem}.match-item{min-height:70px}}
 .opt.word{white-space:nowrap;font-size:clamp(1.05rem,4.6vw,1.45rem);padding:10px 8px}
 @media(max-width:600px){.opt-grid.words{grid-template-columns:1fr}.opt-grid.pics{grid-template-columns:repeat(2,1fr)}.word-side{font-size:clamp(1rem,4.5vw,1.3rem);white-space:nowrap;padding:6px 4px}}
+/* who is practising (report.js) */
+.who-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:12px auto 0;font-size:15px;color:var(--muted)}.who-bar a{color:var(--gold);text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 4px}.who-bar a:hover{text-decoration:underline}.who-code b{color:var(--warm);letter-spacing:.06em}.who-bar.no-code{max-width:520px;padding:8px 14px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4}.who-bar.no-code a{color:#fff;text-decoration:underline}
 
 .p-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .p-chip{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;opacity:.7}
@@ -159,18 +161,28 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 @media(max-width:600px){.play-top .play-mode{display:none}.play-top .lang-toggle{margin-right:0}.lang-toggle button{padding:4px 10px}}
 .count-line{text-align:center;color:var(--muted);margin:8px 0 0}
 
-.who-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:12px auto 0;font-size:15px;color:var(--muted)}.who-bar a{color:var(--gold);text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 4px}.who-bar a:hover{text-decoration:underline}.who-code b{color:var(--warm);letter-spacing:.06em}.who-bar.no-code{max-width:520px;padding:8px 14px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4}.who-bar.no-code a{color:#fff;text-decoration:underline}
+/* question-word page */
+.qa-label{font-weight:800;color:var(--gold);font-size:1.05rem;text-align:center;margin:6px 0 2px}
+.big-scene .qa-label{margin-top:0}
+.qa-jp{font-family:"Zen Kaku Gothic New";font-size:clamp(1.5rem,4.4vw,2.2rem);font-weight:700;margin-top:6px;line-height:1.9}
+.qa-mean{color:var(--muted);font-size:clamp(1rem,2.4vw,1.25rem);margin-top:2px}
+.p-sentence .p-text{white-space:pre-wrap}
+.opt-grid.kana.p-opts.end-opts{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.p-opts.end-opts .kana-opt{font-size:clamp(1.1rem,3.4vw,1.7rem);min-height:66px;white-space:nowrap;padding-left:6px;padding-right:6px}
+.q-mean{font-size:clamp(1.1rem,2.6vw,1.4rem);font-weight:700;margin-top:4px}
+.said-line span{white-space:pre-wrap}
+
 </style>
 </head>
 <body>
 <main class="shell">
 <header class="hero">
-<h1>Japanese Particles</h1>
-<p>は・が・を・で・へ・に・から・まで・と・も</p>
+<h1>Japanese Question Words</h1>
+<p>だれ・どこ・なに・なん・どれ・なんで</p>
 </header>
 <section id="app" aria-live="polite"></section>
 </main>
-<script src="./data/particles-kids.js"></script>
+<script src="./data/questions-kids.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
 const app=document.getElementById("app");
@@ -209,9 +221,9 @@ const STUDENT_CODE=(function(){
  if(fromUrl){try{localStorage.setItem(CODE_KEY,fromUrl)}catch(e){}return fromUrl}
  try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}
 })();
-const SESSION_KEY="particleSessionV1";
-const ACT_EN={"part-fill":"Fill the Particle","part-judge":"Right or Wrong?"};
-const ACT_ZH={"part-fill":"助詞 填空","part-judge":"助詞 判斷對錯"};
+const SESSION_KEY="questionSessionV1";
+const ACT_EN={"q-word":"Question Word","q-end":"Question Ending"};
+const ACT_ZH={"q-word":"疑問詞 選字","q-end":"疑問詞 選句尾"};
 function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{}}}
 function loadSession(){
  try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
@@ -267,7 +279,7 @@ function reportPayload(acts){
  const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答對`+(a.later?`，${a.later} 題改對`:"")+(a.notyet?`，${a.notyet} 題沒答對`:"")).join("；")+(session.rushBest?`；限時搶答最高 ${session.rushBest} 題`:"")+`；印章卡：已集滿 ${st.cards} 張，目前 ${st.count}/${STAMP_CARD}`;
  const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（錯${m.wrong}次${m.solved?"，後來改對":"，沒答對"}）`)).join("\n");
  const detail=JSON.stringify(Object.fromEntries(Object.entries(acts).map(([k,a])=>[k,{questions:a.n,firstTry:a.first,fixedLater:a.later,notSolved:a.notyet}])));
- return {code:STUDENT_CODE,page:"particles.html",minutes:minutesSpent(),summary:summary||"（沒有做任何題目）",mistakes,detail}
+ return {code:STUDENT_CODE,page:"questions.html",minutes:minutesSpent(),summary:summary||"（沒有做任何題目）",mistakes,detail}
 }
 function openReport(){
  const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0);
@@ -330,182 +342,161 @@ function initReport(){
  document.querySelector(".hero").append(who)
 }
 
-/* ===== Particle practice (reads PARTICLE_SENTENCES / PARTICLE_INFO) ===== */
-const ALL_P=["は","が","を","で","へ","に","から","まで","と","も"];
-const P_MODES=[["fill","✏️","Fill the Particle"],["judge","⭕❌","Right or Wrong?"]];
-const PR={level:"easy",focus:new Set(ALL_P),mode:"fill",screen:"menu",lang:"en"};
-try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
-function savePPrefs(){try{localStorage.setItem("particlePrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode,lang:PR.lang}))}catch(e){}}
+/* ===== Question-word practice (reads Q_SENTENCES / QW_INFO / ENDING_INFO) ===== */
+const ALL_QW=["だれ","どこ","なに","なん","どれ","なんで"];
+const Q_MODES=[["word","❓","Question Word"],["end","🔚","Question Ending"]];
+const MODE_ZH={word:"选疑问词",end:"选句尾"};
+const PR={level:"easy",focus:new Set(ALL_QW),mode:"word",screen:"menu",lang:"en"};
+try{const s=JSON.parse(localStorage.getItem("questionPrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus.filter(x=>ALL_QW.includes(x)));if(!PR.focus.size)PR.focus=new Set(ALL_QW);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
+function saveQPrefs(){try{localStorage.setItem("questionPrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode,lang:PR.lang}))}catch(e){}}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function jpHTML(s){if(PR.level!=="easy"||!/[ァ-ヶ]/.test(s))return esc(s);return esc(s).replace(/[ァ-ヶー]+/g,m=>m==="ー"?m:`<ruby>${m}<rt>${kataToHira(m)}</rt></ruby>`)}
-/* one language at a time: English or Chinese */
 const T={
- en:{you:"You",said:"You just said:",funny:"😹 That would mean…",real:"🤔 That IS real Japanese — but it means something else:",none:"🤔 Japanese doesn't say it this way.",hint:"Hint — we need the particle that means:",tryAgain:"Try another one!",right:"✓ Correct!",isRight:"Is this sentence right for the picture?",rightBtn:"⭕ Right",wrongBtn:"❌ Wrong",wasWrong:"It was wrong! Here's what it said:",goodEye:"✓ Good eye! It's wrong. Here's what it said:",fixIt:"Now fix it:",wasRight:"It was actually right!",next:"Next →",level:"1. Level",which:"2. Which particles?",game:"3. Choose a game",easy:"Easy · 3 choices",normal:"Normal · more choices",all:"Select all",deh:"で・へ only",clear:"Clear",start:"▶ Start",pickOne:"Choose at least one particle.",noSent:"No sentences for these particles yet.",menu:"← Menu",firstTry:"correct on the first try",again:"Practice these again:",playAgain:"↻ Play Again",back:"Menu"},
- zh:{you:"你",said:"你刚刚说的是：",funny:"😹 意思会变成……",real:"🤔 这是真的日文——但是意思不一样：",none:"🤔 日文不这样说。",hint:"提示——这里要用的助词意思是：",tryAgain:"再选一次！",right:"✓ 答对了！",isRight:"这个句子跟图一样吗？",rightBtn:"⭕ 对",wrongBtn:"❌ 错",wasWrong:"这句是错的！它的意思是：",goodEye:"✓ 眼睛真利！是错的。它的意思是：",fixIt:"现在改正它：",wasRight:"其实这句是对的！",next:"下一题 →",level:"1. 程度",which:"2. 练习哪些助词？",game:"3. 选游戏",easy:"简单 · 3个选项",normal:"普通 · 更多选项",all:"全选",deh:"只练 で・へ",clear:"清除",start:"▶ 开始",pickOne:"请至少选一个助词。",noSent:"这些助词还没有题目。",menu:"← 菜单",firstTry:"一次就答对",again:"再练习这些：",playAgain:"↻ 再玩一次",back:"菜单"}
+ en:{said:"You just asked:",funny:"😹 That would mean…",real:"🤔 That IS real Japanese — but it asks something else:",none:"🤔 Japanese doesn't say it this way.",hintW:"Hint — we need the question word that means:",hintE:"Hint — we need the ending that means:",right:"✓ Correct!",answer:"💬 The answer is:",question:"❓ So the question is:",next:"Next →",level:"1. Level",which:"2. Which question words?",game:"3. Choose a game",easy:"Easy · ですか・ますか",normal:"Normal · + ました・ません",all:"Select all",clear:"Clear",start:"▶ Start",pickOne:"Choose at least one question word.",noSent:"No questions for these words yet.",menu:"← Menu",firstTry:"correct on the first try",again:"Practice these again:",playAgain:"↻ Play Again",back:"Menu",means:"It means:"},
+ zh:{said:"你刚刚问的是：",funny:"😹 意思会变成……",real:"🤔 这是真的日文——但是问的是别的东西：",none:"🤔 日文不这样说。",hintW:"提示——这里要用的疑问词意思是：",hintE:"提示——这里要用的句尾意思是：",right:"✓ 答对了！",answer:"💬 回答是：",question:"❓ 所以问题是：",next:"下一题 →",level:"1. 程度",which:"2. 练习哪些疑问词？",game:"3. 选游戏",easy:"简单 · ですか・ますか",normal:"普通 · 加上 ました・ません",all:"全选",clear:"清除",start:"▶ 开始",pickOne:"请至少选一个疑问词。",noSent:"这些疑问词还没有题目。",menu:"← 菜单",firstTry:"一次就答对",again:"再练习这些：",playAgain:"↻ 再玩一次",back:"菜单",means:"意思是："}
 };
 function t(k){return T[PR.lang][k]}
 function L(en,zh){return PR.lang==="zh"?zh:en}
-const MODE_ZH={fill:"填助词",judge:"判断对错"};
-function slotsOf(s){return s.parts.map((p,i)=>typeof p==="object"?i:-1).filter(i=>i>=0)}
-function sentenceText(s,fill){return s.parts.map((p,i)=>typeof p==="object"?(fill&&fill[i]!==undefined?fill[i]:p.ok[0]):p).join("")}
+function slotIdx(s,kind){return s.parts.findIndex(p=>typeof p==="object"&&p.k===kind)}
+function qwOf(s){return s.parts[slotIdx(s,"qw")].ok[0]}
+function endOf(s){return s.parts[slotIdx(s,"end")].ok[0]}
+function levelOK(s){return PR.level!=="easy"||EASY_ENDINGS.includes(endOf(s))}
+function sentenceText(s,fillIdx,fill){return s.parts.map((p,i)=>typeof p==="object"?(i===fillIdx&&fill!==undefined?fill:p.ok[0]):p).join("")}
 function logKey(s,i){return `${sentenceText(s)}（${s.parts[i].ok.join("／")}）`}
+/* choices and wrong-cards for one slot */
+function slotOpts(s,i){const p=s.parts[i];if(p.k==="qw")return p.opts;return PR.level==="easy"?EASY_ENDINGS:ALL_ENDINGS}
+function wrongCard(s,i,pick){
+ const p=s.parts[i];
+ if(p.wrong&&p.wrong[pick])return p.wrong[pick];
+ if(p.k==="end"){const okIsVerb=p.ok[0]!=="ですか",pickIsVerb=pick!=="ですか";if(okIsVerb&&pickIsVerb)return ENDING_CARDS[pick]||null}
+ return null
+}
+function infoOf(s,i){const p=s.parts[i];return p.k==="qw"?QW_INFO[p.ok[0]]:ENDING_INFO[p.ok[0]]}
 function langToggle(){
  const box=el("div","lang-toggle");
- [["en","English"],["zh","中文"]].forEach(([id,label])=>{const b=el("button",PR.lang===id?"active":"",label);b.onclick=()=>{PR.lang=id;savePPrefs();rerender()};box.append(b)});
+ [["en","English"],["zh","中文"]].forEach(([id,label])=>{const b=el("button",PR.lang===id?"active":"",label);b.onclick=()=>{PR.lang=id;saveQPrefs();rerender()};box.append(b)});
  return box
 }
 let rerender=()=>render();
-function pPool(){
- const out=[];
- PARTICLE_SENTENCES.forEach((s,si)=>slotsOf(s).forEach(i=>{if(s.parts[i].ok.some(p=>PR.focus.has(p)))out.push({s,si,i})}));
+function qPool(){
+ const kind=PR.mode==="word"?"qw":"end",out=[];
+ Q_SENTENCES.forEach((s,si)=>{if(levelOK(s)&&PR.focus.has(qwOf(s)))out.push({s,si,i:slotIdx(s,kind)})});
  return out
 }
-function renderPMenu(){
+function renderQMenu(){
  const p=el("div","panel");
  p.append(langToggle());
  const lv=el("div","modes");
- [["easy",t("easy")],["normal",t("normal")]].forEach(([id,label])=>{const b=el("button",PR.level===id?"active":"",label);b.onclick=()=>{PR.level=id;savePPrefs();render()};lv.append(b)});
+ [["easy",t("easy")],["normal",t("normal")]].forEach(([id,label])=>{const b=el("button",PR.level===id?"active":"",label);b.onclick=()=>{PR.level=id;saveQPrefs();render()};lv.append(b)});
  p.append(el("div","step-title",t("level")),lv,el("div","step-title",t("which")));
  const g=el("div","p-grid");
- ALL_P.forEach(k=>{const b=el("button","p-chip"+(PR.focus.has(k)?" on":""),"");b.innerHTML=`<span class="p-big">${k}</span><span class="p-mean">${esc(L(...PARTICLE_INFO[k]))}</span>`;
-   b.onclick=()=>{PR.focus.has(k)?PR.focus.delete(k):PR.focus.add(k);savePPrefs();render()};g.append(b)});
+ ALL_QW.forEach(k=>{const b=el("button","p-chip"+(PR.focus.has(k)?" on":""),"");b.innerHTML=`<span class="p-big">${k}</span><span class="p-mean">${esc(L(...QW_INFO[k]))}</span>`;
+   b.onclick=()=>{PR.focus.has(k)?PR.focus.delete(k):PR.focus.add(k);saveQPrefs();render()};g.append(b)});
  p.append(g);
- const q=el("div","modes small"),all=el("button","",t("all")),dh=el("button","",t("deh")),none=el("button","",t("clear"));
- all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ"]);savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
- q.append(all,dh,none);p.append(q,el("div","step-title",t("game")));
+ const q=el("div","modes small"),all=el("button","",t("all")),none=el("button","",t("clear"));
+ all.onclick=()=>{PR.focus=new Set(ALL_QW);saveQPrefs();render()};none.onclick=()=>{PR.focus.clear();saveQPrefs();render()};
+ q.append(all,none);p.append(q,el("div","step-title",t("game")));
  const md=el("div","mode-grid");
- P_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${L(label,MODE_ZH[id])}</span>`;b.onclick=()=>{PR.mode=id;savePPrefs();render()};md.append(b)});
+ Q_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${L(label,MODE_ZH[id])}</span>`;b.onclick=()=>{PR.mode=id;saveQPrefs();render()};md.append(b)});
  p.append(md);
- const start=el("button","active start-btn",t("start")),n=pPool().length;
+ const start=el("button","active start-btn",t("start")),n=qPool().length;
  if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line",t("pickOne")))}
  else if(n<1){start.disabled=true;p.append(el("p","hint-line",t("noSent")))}
- else p.append(el("p","count-line",L(`${n} questions for these particles${n<10?" — choose more particles for a longer round":""}`,`这些助词共有 ${n} 题${n<10?"——多选几个助词，题目会更多":""}`)))
- start.onclick=startPRound;p.append(start);app.append(p)
+ else p.append(el("p","count-line",L(`${n} questions${n<10?" — choose more question words for a longer round":""}`,`共有 ${n} 题${n<10?"——多选几个疑问词，题目会更多":""}`)));
+ start.onclick=startQRound;p.append(start);app.append(p)
 }
-/* rounds never repeat a question, and prefer sentences not seen recently */
-const SEEN_KEY="particleSeenV1";
+/* rounds never repeat a sentence, and prefer ones not seen recently */
+const SEEN_KEY="questionSeenV1";
 function loadSeen(){try{const x=JSON.parse(localStorage.getItem(SEEN_KEY)||"[]");return Array.isArray(x)?x:[]}catch(e){return []}}
 function saveSeen(list){try{localStorage.setItem(SEEN_KEY,JSON.stringify(list.slice(0,120)))}catch(e){}}
 function qKey(it){return it.si+":"+it.i}
-function startPRound(){
- const seen=loadSeen(),rank=k=>{const r=seen.indexOf(k);return r<0?-1:r};
- /* not-seen first (random), then the ones seen longest ago */
- const pool=shuffle(pPool()).sort((a,b)=>{const ra=rank(qKey(a)),rb=rank(qKey(b));if(ra<0&&rb<0)return 0;if(ra<0)return -1;if(rb<0)return 1;return rb-ra});
- const q=[],usedSentence=new Set();
- for(const it of pool){if(q.length>=10)break;if(!usedSentence.has(it.si)){q.push(it);usedSentence.add(it.si)}}
- for(const it of pool){if(q.length>=10)break;if(!q.includes(it))q.push(it)}
- const r=shuffle(q);
- /* spread out two questions from the same sentence */
- for(let k=1;k<r.length;k++)if(r[k].si===r[k-1].si){const j=r.findIndex((x,idx)=>idx>k&&x.si!==r[k].si&&(!r[idx+1]||r[idx+1].si!==r[k].si));if(j>0)[r[k],r[j]]=[r[j],r[k]]}
- PR.queue=r;PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";
+function startQRound(){
+ const seen=loadSeen(),rank=k=>seen.indexOf(k);
+ const pool=shuffle(qPool()).sort((a,b)=>{const ra=rank(qKey(a)),rb=rank(qKey(b));if(ra<0&&rb<0)return 0;if(ra<0)return -1;if(rb<0)return 1;return rb-ra});
+ const q=pool.slice(0,10);
+ PR.queue=shuffle(q);PR.idx=0;PR.score=0;PR.missed=[];PR.screen="play";
  saveSeen([...q.map(qKey),...seen.filter(k=>!q.some(x=>qKey(x)===k))]);
  render()
 }
-function pProgress(){const n=PR.queue.length,d=Math.min(PR.idx,n);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${n?d/n*100:0}%"></div><span>${d} / ${n}</span>`;return b}
+function qProgress(){const n=PR.queue.length,d=Math.min(PR.idx,n);const b=el("div","progress");b.innerHTML=`<div class="progress-fill" style="width:${n?d/n*100:0}%"></div><span>${d} / ${n}</span>`;return b}
 function emojiSize(str,maxRem,base){
  let n=0;try{n=[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(str)].filter(g=>g.segment.trim()).length}catch(e){n=[...str].filter(c=>c.trim()).length}
  n=Math.max(n,1);return `font-size:min(${Math.min(maxRem,base/n).toFixed(2)}rem,${(56/n).toFixed(1)}vw)`
 }
-/* the big picture of what the sentence really means */
-function bigScene(s){
+/* the answer: picture + Japanese + meaning */
+function answerBox(s){
  const c=el("div","big-scene");
- c.innerHTML=`<div class="big-scene-emoji" style="${emojiSize(s.scene,5.2,30)}">${s.scene}</div><div class="big-scene-text">${esc(L(s.en,s.zh))}</div>`;return c
+ c.innerHTML=`<div class="qa-label">${esc(t("answer"))}</div><div class="big-scene-emoji" style="${emojiSize(s.scene,5.2,30)}">${s.scene}</div><div class="qa-jp">${jpHTML(s.ans)}</div><div class="qa-mean">${esc(L(s.aEn,s.aZh))}</div>`;return c
 }
-/* “you said …” with the chosen particle highlighted */
 function saidLine(s,i,pick){
  const line=el("div","said-line");
  s.parts.forEach((p,k)=>{
-   if(typeof p==="string"){const sp=el("span","");sp.innerHTML=jpHTML(p);line.append(sp)}
-   else line.append(el("span",k===i?"said-bad":"said-ok",k===i?pick:p.ok[0]))
+   if(k===i)line.append(el("span","said-bad",pick));
+   else{const sp=el("span","");sp.innerHTML=jpHTML(typeof p==="string"?p:p.ok[0]);line.append(sp)}
  });return line
 }
-function consequenceCard(s,i,pick,kindTitle){
- const slot=s.parts[i],w=slot.wrong[pick],card=el("div","conseq");
+function consequenceCard(s,i,pick){
+ const w=wrongCard(s,i,pick),card=el("div","conseq");
  card.append(el("div","conseq-said-title",t("said")),saidLine(s,i,pick));
  if(w){
    card.append(el("div","conseq-kind "+(w[3]==="real"?"real":"funny"),w[3]==="real"?t("real"):t("funny")));
    const em=el("div","conseq-emoji",w[0]);em.setAttribute("style",emojiSize(w[0],5.6,30));card.append(em,el("div","conseq-text",L(w[1],w[2])));
- }else{
-   card.append(el("div","conseq-kind funny",t("none")),el("div","conseq-emoji","🤔❓"));
- }
- if(kindTitle)card.prepend(el("div","conseq-top",kindTitle));
+ }else card.append(el("div","conseq-kind funny",t("none")),el("div","conseq-emoji","🤔❓"));
  return card
 }
-function hintLine(slot){const k=slot.ok[0];return el("div","need-line",`${t("hint")} ${L(...PARTICLE_INFO[k])}`)}
-function sentenceLine(s,blankIdx,shown){
- const line=el("div","p-sentence");
+function hintLine(s,i){return el("div","need-line",`${s.parts[i].k==="qw"?t("hintW"):t("hintE")} ${L(...infoOf(s,i))}`)}
+function sentenceLine(s,blankIdx){
+ /* text around the blank is joined, so "いき"+"ますか" reads as one word */
+ const line=el("div","p-sentence");let run="";
+ const flush=()=>{if(run){const sp=el("span","p-text");sp.innerHTML=jpHTML(run.trim());line.append(sp);run=""}};
  s.parts.forEach((p,i)=>{
-   if(typeof p==="string"){const sp=el("span","p-text");sp.innerHTML=jpHTML(p);line.append(sp)}
-   else if(i===blankIdx){line.append(el("span","p-blank"+(shown?" shown":""),shown||"？"))}
-   else line.append(el("span","p-fixed",p.ok[0]))
+   if(i===blankIdx){flush();line.append(el("span","p-blank","？"))}
+   else run+=typeof p==="string"?p:p.ok[0]
  });
- return line
+ flush();return line
 }
-function renderPPlay(){
+function renderQPlay(){
  const p=el("div","panel play");
  const top=el("div","play-top"),back=el("button","small-btn",t("menu"));back.onclick=()=>{PR.screen="menu";render()};
- top.append(back,langToggle(),el("div","play-mode",L(P_MODES.find(m=>m[0]===PR.mode)[2],MODE_ZH[PR.mode])));p.append(top,pProgress());
- if(PR.idx>=PR.queue.length){renderPEnd(p);return}
+ top.append(back,langToggle(),el("div","play-mode",L(Q_MODES.find(m=>m[0]===PR.mode)[2],MODE_ZH[PR.mode])));p.append(top,qProgress());
+ if(PR.idx>=PR.queue.length){renderQEnd(p);return}
  const {s,i}=PR.queue[PR.idx],slot=s.parts[i],stage=el("div","q-stage");p.append(stage);app.append(p);
  let tries=0;
- const feedback=el("div","p-feedback");
+ const feedback=el("div","p-feedback"),act="q-"+PR.mode;
  const missed=()=>{if(!PR.missed.includes(PR.idx))PR.missed.push(PR.idx)};
- const next=(ok)=>{const b=el("button","active next-btn",t("next"));b.onclick=()=>{PR.idx++;render()};feedback.append(b);if(ok)stamp(stage)};
- const finishRight=(chosen)=>{
-   logResult("part-"+PR.mode,logKey(s,i),true);if(tries===0)PR.score++;
-   const blank=stage.querySelector(".p-blank");blank.textContent=chosen;blank.classList.remove("shown");blank.classList.add("filled");
-   feedback.innerHTML="";feedback.append(el("div","right-title",t("right")));playSuccess();next(tries===0)
- };
- const choose=(opts,onPick)=>{const box=el("div","opt-grid kana p-opts");opts.forEach(o=>{const b=el("button","opt kana-opt",o);b.onclick=()=>{if(b.disabled)return;onPick(o,b,box)};box.append(b)});return box};
- const wrongPick=(pick,b,title)=>{
-   tries++;logResult("part-"+PR.mode,logKey(s,i),false);missed();
-   if(b){b.disabled=true;b.classList.add("wrong")}
-   feedback.innerHTML="";feedback.append(consequenceCard(s,i,pick,title));
-   if(tries>=2)feedback.append(hintLine(slot));
- };
- stage.append(bigScene(s));
- if(PR.mode==="fill"){
-   stage.append(sentenceLine(s,i));
-   let opts;
-   if(PR.level==="easy"){const wrongs=shuffle(slot.opts.filter(o=>!slot.ok.includes(o)));const withCards=wrongs.filter(o=>slot.wrong[o]);opts=shuffle([slot.ok[0],...[...withCards,...wrongs.filter(o=>!slot.wrong[o])].slice(0,2)])}
-   else opts=shuffle(slot.opts);
-   stage.append(choose(opts,(o,b,box)=>{
-     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");finishRight(o)}
-     else wrongPick(o,b,"")
-   }),feedback)
- }else{
-   const wrongs=slot.opts.filter(o=>!slot.ok.includes(o)),showWrong=Math.random()<.5&&wrongs.length;
-   const withCards=wrongs.filter(o=>slot.wrong[o]);
-   const shown=showWrong?(withCards.length&&Math.random()<.8?withCards[Math.floor(Math.random()*withCards.length)]:wrongs[Math.floor(Math.random()*wrongs.length)]):slot.ok[0];
-   stage.append(el("div","q-ask",t("isRight")),sentenceLine(s,i,shown));
-   const yn=el("div","yn-row"),yes=el("button","yn yes",t("rightBtn")),no=el("button","yn no",t("wrongBtn"));yn.append(yes,no);stage.append(yn,feedback);
-   const fixStep=()=>{feedback.append(el("div","q-ask",t("fixIt")),choose(shuffle(slot.opts.filter(o=>o!==shown)),(o,b,box)=>{
-     if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o)}
-     else{tries++;b.disabled=true;b.classList.add("wrong");logResult("part-judge",logKey(s,i),false);missed();if(tries>=2&&!feedback.querySelector(".need-line"))feedback.append(hintLine(slot))}
-   }))};
-   yes.onclick=()=>{yes.disabled=no.disabled=true;
-     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");feedback.append(el("div","right-title",t("right")));playSuccess();next(true)}
-     else{wrongPick(shown,null,t("wasWrong"));fixStep()}
-   };
-   no.onclick=()=>{yes.disabled=no.disabled=true;
-     if(showWrong){feedback.append(consequenceCard(s,i,shown,t("goodEye")));fixStep()}
-     else{tries++;logResult("part-judge",logKey(s,i),false);missed();const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");
-       feedback.append(el("div","oops-title",t("wasRight")));next(false)}
+ stage.append(answerBox(s),el("div","qa-label",t("question")),sentenceLine(s,i));
+ let opts=slotOpts(s,i);
+ if(slot.k==="qw"&&PR.level==="easy"){const wrongs=shuffle(opts.filter(o=>!slot.ok.includes(o)));const withCards=wrongs.filter(o=>wrongCard(s,i,o));opts=[slot.ok[0],...[...withCards,...wrongs.filter(o=>!wrongCard(s,i,o))].slice(0,2)]}
+ const box=el("div","opt-grid kana p-opts"+(slot.k==="end"?" end-opts":""));
+ shuffle(opts).forEach(o=>{const b=el("button","opt kana-opt",o);b.onclick=()=>{
+   if(b.disabled)return;
+   if(slot.ok.includes(o)){
+     box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");
+     logResult(act,logKey(s,i),true);if(tries===0)PR.score++;
+     const bl=stage.querySelector(".p-blank");bl.textContent=o;bl.classList.add("filled");
+     feedback.innerHTML="";feedback.append(el("div","right-title",t("right")),el("div","q-mean",`${t("means")} ${L(s.qEn,s.qZh)}`));playSuccess();
+     const nb=el("button","active next-btn",t("next"));nb.onclick=()=>{PR.idx++;render()};feedback.append(nb);if(tries===0)stamp(stage)
+   }else{
+     tries++;logResult(act,logKey(s,i),false);missed();
+     b.disabled=true;b.classList.add("wrong");
+     feedback.innerHTML="";feedback.append(consequenceCard(s,i,o));
+     if(tries>=2)feedback.append(hintLine(s,i))
    }
- }
- rerender=()=>{app.innerHTML="";const keep=PR.idx;renderPPlay()}
+ };box.append(b)});
+ stage.append(box,feedback);
+ rerender=()=>{app.innerHTML="";renderQPlay()}
 }
-function renderPEnd(p){
+function renderQEnd(p){
  const n=PR.queue.length,box=el("div","end-box"),pct=n?PR.score/n:0;
  box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${n}`),el("div","end-sub",t("firstTry")));
  if(PR.missed.length){box.append(el("div","end-sub strong",t("again")));const ul=el("div","missed-list");
    PR.missed.forEach(k=>{const {s}=PR.queue[k];const d=el("div","missed-item","");d.innerHTML=`<span class="missed-scene">${s.scene}</span><span>${jpHTML(sentenceText(s))}</span>`;ul.append(d)});box.append(ul)}
- const act=el("div","actions"),again=el("button","active",t("playAgain")),menu=el("button","",t("back"));again.onclick=startPRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
+ const act=el("div","actions"),again=el("button","active",t("playAgain")),menu=el("button","",t("back"));again.onclick=startQRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
  p.append(box);app.append(p);if(pct===1)stamp(box)
 }
-function render(){rerender=()=>render();app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
+function render(){rerender=()=>render();app.innerHTML="";if(PR.screen==="menu")renderQMenu();else renderQPlay()}
 
 initReport();
 render();

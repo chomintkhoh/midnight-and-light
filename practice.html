@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>My Practice | ミッドナイトとライト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* ── Students' practice list — not linked from the menu, not indexed ── */
+  .pr{ position:relative; z-index:1; max-width:880px; margin:0 auto; padding:40px 20px 80px; }
+  .pr-brand{ font-family:var(--font-cn); font-size:16px; color:var(--muted-bluegrey); letter-spacing:.04em; }
+  .pr-title{ font-family:var(--font-brand); font-weight:400; font-size:clamp(34px,6vw,46px); color:var(--warm-white); line-height:1.2; margin:18px 0 10px; }
+  .pr-who{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 16px; font-size:17px; color:var(--service-primary); }
+  .pr-who b{ color:var(--warm-white); letter-spacing:.06em; }
+  .pr-who a{ color:var(--pale-gold); font-weight:600; min-height:44px; display:inline-flex; align-items:center; }
+  .pr-who a:hover{ text-decoration:underline; }
+  .pr-stamps{ margin-top:14px; display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px;
+    background:rgba(217,196,142,.12); border:1px solid rgba(217,196,142,.35); color:var(--warm-white); font-size:16px; }
+  .pr-stamps b{ color:var(--pale-gold); }
+
+  .pr-sec{ margin-top:52px; }
+  .pr-sec h2{ font-family:var(--font-brand); font-weight:400; font-size:26px; color:var(--warm-white); margin-bottom:6px; }
+  .pr-sec h2 span{ font-family:"Zen Kaku Gothic New",var(--font-cn); font-size:18px; color:var(--muted-bluegrey); margin-left:10px; }
+  .pr-sec > p{ color:var(--muted-bluegrey); font-size:16px; margin-bottom:16px; }
+  .pr-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; }
+  .pr-card{ display:flex; align-items:center; gap:16px; min-height:92px; padding:14px 16px; border-radius:18px;
+    background:rgba(244,241,234,.045); border:1px solid rgba(217,196,142,.2); color:var(--warm-white);
+    transition:border-color .15s, background .15s; }
+  .pr-card:hover{ border-color:var(--pale-gold); background:rgba(244,241,234,.07); }
+  .pr-card:focus-visible{ outline:2px solid var(--pale-gold); outline-offset:3px; }
+  .pr-ic{ flex:none; width:58px; height:58px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+    font-size:30px; background:rgba(182,169,218,.14); }
+  .pr-ic.cn{ font-family:"Noto Serif TC",serif; font-size:26px; color:var(--pale-gold); }
+  .pr-txt{ min-width:0; }
+  .pr-name{ display:block; font-size:18px; font-weight:600; line-height:1.3; }
+  .pr-desc{ display:block; margin-top:3px; font-size:15px; color:var(--service-primary); line-height:1.45; font-family:"DM Sans","Zen Kaku Gothic New",sans-serif; }
+  .pr-badge{ display:inline-block; margin-top:6px; font-size:13px; color:var(--pale-gold); }
+
+  /* code gate */
+  .gate{ max-width:460px; margin:28px 0 0; padding:26px 24px; border-radius:20px;
+    background:rgba(244,241,234,.045); border:1px solid rgba(217,196,142,.25); }
+  .gate h2{ font-family:var(--font-brand); font-weight:400; font-size:24px; color:var(--warm-white); margin-bottom:6px; }
+  .gate p{ color:var(--service-primary); font-size:16px; line-height:1.7; }
+  .gate form{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; margin-top:18px; }
+  .gate input::placeholder{ text-transform:none; letter-spacing:.02em; font-weight:400; color:var(--muted-faint); }
+  .gate input{ width:100%; min-width:0; min-height:54px; padding:10px 16px; border-radius:14px; font:600 22px "DM Sans",sans-serif;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--warm-white);
+    background:rgba(244,241,234,.06); border:1.5px solid rgba(244,241,234,.25); outline:none; }
+  .gate input:focus{ border-color:var(--pale-gold); }
+  .gate button{ min-height:54px; padding:0 26px; border:0; border-radius:14px; background:var(--pale-gold); color:var(--bg-deep);
+    font:600 17px "DM Sans",sans-serif; cursor:pointer; }
+  .gate button:focus-visible{ outline:2px solid var(--warm-white); outline-offset:3px; }
+  .gate-err{ min-height:24px; margin-top:10px; color:#F3B8C4; font-size:15px; }
+  .gate-visitor{ margin-top:14px; font-size:15px; }
+  .gate-visitor a{ color:var(--pale-gold); }
+  [hidden]{ display:none !important; }
+  @media (max-width:480px){
+    .pr{ padding:28px 16px 64px; }
+    .pr-grid{ grid-template-columns:1fr; }
+    .pr-card{ min-height:84px; }
+    .gate{ padding:22px 18px; }
+    .gate form{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="14"></div>
+
+  <main class="pr">
+    <div class="pr-brand">ミッドナイトとライト</div>
+    <h1 class="pr-title">My Practice</h1>
+
+    <!-- shown when the student is known -->
+    <div id="known" hidden>
+      <div class="pr-who"><span>Student <b id="whoCode"></b></span><a href="practice.html?switch=1">Not you?</a></div>
+      <div class="pr-stamps" id="stamps" hidden></div>
+      <div id="lists"></div>
+    </div>
+
+    <!-- shown when we don't know who this is -->
+    <section class="gate" id="gate" hidden aria-labelledby="gateTitle">
+      <h2 id="gateTitle">Enter your code</h2>
+      <p>Type the code your teacher gave you.</p>
+      <form id="gateForm" autocomplete="off">
+        <label class="sr-only" for="codeInput">Your code</label>
+        <input id="codeInput" name="code" maxlength="20" autocapitalize="characters" spellcheck="false" placeholder="e.g. AB12C" required />
+        <button type="submit">Start</button>
+      </form>
+      <div class="gate-err" id="gateErr" role="alert"></div>
+      <p class="gate-visitor">Not a student yet? <a href="index.html">Visit Midnight &amp; Light</a></p>
+    </section>
+  </main>
+
+  <script>
+  /* ================================================================
+     Student codes — add a new student by adding their code here
+     (and in the 學生代號 sheet of the Google Spreadsheet).
+     ================================================================ */
+  const CODES = ["K4FUX","46PXW","AFZUQ","K4HNE","2NUVJ","KARCC","TCP5D","P5DTM"];
+
+  /* stars: true = this page gives stamps and sends results to the teacher */
+  const SECTIONS = [
+    { title:"Japanese", sub:"日本語", note:"", items:[
+      { href:"vocab.html",     ic:"🍎", name:"Words",          desc:"Pictures and words in 16 topics", stars:true },
+      { href:"particles.html", ic:"🧩", name:"Particles",      desc:"は・が・を・で・へ and more", stars:true },
+      { href:"questions.html", ic:"❓", name:"Question Words", desc:"だれ・どこ・なに・なん・どれ", stars:true },
+      { href:"clock.html",     ic:"🕒", name:"Time & Clock",   desc:"Read the clock, から～まで, mall mission", stars:true },
+      { href:"worksheet.html", ic:"✍️", name:"Hiragana Writing", desc:"Trace and write あ〜そ" },
+      { href:"kana-recall.html", ic:"🧠", name:"Kana Recall",  desc:"Remember the sound, write from memory" },
+      { href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT" }
+    ]},
+    { title:"Chinese", sub:"华语", note:"", items:[
+      { href:"chinese-vocab-practice.html", ic:"词", cn:true, name:"六年级华文词语", desc:"Year 6 Chinese words" },
+      { href:"vocabtrainer.html",           ic:"练", cn:true, name:"UASA 华语词汇训练", desc:"UASA vocabulary training" },
+      { href:"uasa-vocab.html",             ic:"读", cn:true, name:"华语字词与阅读", desc:"Words and reading" }
+    ]},
+    { title:"Games", sub:"", note:"Japanese and Chinese", items:[
+      { href:"boardgame.html", ic:"🎲", name:"Board Game",   desc:"Answer questions and move ahead" },
+      { href:"bubbles.html",   ic:"🫧", name:"Bubble Words", desc:"Pop the bubble with the right word" }
+    ]}
+  ];
+
+  const KEY = "mlStudentCode";
+  const clean = v => (v || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 20);
+  const valid = c => CODES.includes(c);
+  const store = {
+    get(){ try{ return clean(localStorage.getItem(KEY)); }catch(e){ return ""; } },
+    set(c){ try{ localStorage.setItem(KEY, c); }catch(e){} },
+    clear(){ try{ localStorage.removeItem(KEY); }catch(e){} }
+  };
+  function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+  function stampLine(code){
+    let st = null;
+    try{ st = JSON.parse(localStorage.getItem("timePracticeStamps_" + code) || "null"); }catch(e){}
+    const box = document.getElementById("stamps");
+    if(!st || (!st.count && !st.cards)){ box.hidden = true; return; }
+    box.innerHTML = `⭐ <span><b>${st.count} / 20</b> on your stamp card${st.cards ? ` · ${st.cards} full card${st.cards > 1 ? "s" : ""} done` : ""}</span>`;
+    box.hidden = false;
+  }
+
+  function showList(code){
+    document.getElementById("gate").hidden = true;
+    document.getElementById("known").hidden = false;
+    document.getElementById("whoCode").textContent = code;
+    stampLine(code);
+    const q = "?s=" + encodeURIComponent(code);   /* works even if this device can't remember the code */
+    document.getElementById("lists").innerHTML = SECTIONS.map(sec => `
+      <section class="pr-sec">
+        <h2>${esc(sec.title)}${sec.sub ? `<span>${esc(sec.sub)}</span>` : ""}</h2>
+        ${sec.note ? `<p>${esc(sec.note)}</p>` : ""}
+        <div class="pr-grid">
+          ${sec.items.map(it => `
+            <a class="pr-card" href="${it.href}${q}">
+              <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${esc(it.ic)}</span>
+              <span class="pr-txt">
+                <span class="pr-name">${esc(it.name)}</span>
+                <span class="pr-desc">${esc(it.desc)}</span>
+                ${it.stars ? `<span class="pr-badge">⭐ Stamps</span>` : ""}
+              </span>
+            </a>`).join("")}
+        </div>
+      </section>`).join("");
+  }
+
+  function showGate(msg){
+    document.getElementById("known").hidden = true;
+    document.getElementById("gate").hidden = false;
+    document.getElementById("gateErr").textContent = msg || "";
+  }
+
+  (function start(){
+    const params = new URLSearchParams(location.search);
+    if(params.has("switch")){ store.clear(); history.replaceState(null, "", "practice.html"); showGate(); return; }
+    const fromUrl = clean(params.get("s"));
+    if(fromUrl){
+      if(valid(fromUrl)){ store.set(fromUrl); showList(fromUrl); return; }
+      showGate("That link's code doesn't match. Please check with your teacher."); return;
+    }
+    const saved = store.get();
+    if(valid(saved)){ showList(saved); return; }
+    showGate();
+  })();
+
+  document.getElementById("gateForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const input = document.getElementById("codeInput");
+    const code = clean(input.value);
+    if(!valid(code)){
+      document.getElementById("gateErr").textContent = "That code doesn't match. Please check with your teacher.";
+      input.focus(); input.select(); return;
+    }
+    store.set(code);
+    history.replaceState(null, "", "practice.html?s=" + code);   /* bookmark keeps the code */
+    showList(code);
+    window.scrollTo(0, 0);
+  });
+  </script>
+  <script src="stars.js"></script>
+</body>
+</html>

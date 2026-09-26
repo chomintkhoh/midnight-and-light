@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Japanese Time Practice | ミッドナイトとライト</title>
 <meta name="description" content="Japanese clock, calendar, date and weekday practice.">
@@ -153,6 +154,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .card-toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:200;background:#D9C48E;color:#14162e;font-weight:800;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
 .mall-map.inline{display:none;margin:8px 0}
 @media(max-width:760px){.mall-layout{grid-template-columns:1fr}.mall-map{order:2}.mall-floor{min-height:40px}.mall-layout.picking>.mall-map{display:none}.mall-map.inline{display:flex}}
+.who-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:12px auto 0;font-size:15px;color:var(--muted)}.who-bar a{color:var(--gold);text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 4px}.who-bar a:hover{text-decoration:underline}.who-code b{color:var(--warm);letter-spacing:.06em}.who-bar.no-code{max-width:520px;padding:8px 14px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4}.who-bar.no-code a{color:#fff;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -571,7 +573,14 @@ function renderFromTo(){
 /* ===== Homework report: sends results to the teacher's Google Sheet ===== */
 /* Paste the Apps Script web-app URL between the quotes: */
 const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
-const STUDENT_CODE=(new URLSearchParams(location.search).get("s")||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+/* The code from ?s= is remembered on this device, so every practice page knows who is working. */
+const CODE_KEY="mlStudentCode";
+const STUDENT_CODE=(function(){
+ const clean=v=>(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+ const fromUrl=clean(new URLSearchParams(location.search).get("s"));
+ if(fromUrl){try{localStorage.setItem(CODE_KEY,fromUrl)}catch(e){}return fromUrl}
+ try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}
+})();
 const SESSION_KEY="timePracticeSessionV1";
 const ACT_EN={"mall-ask":"Mall: Asking","mall-listen":"Mall: Understanding","mall-open":"Mall: Open or Closed?","rush":"Clock Rush","read":"Read the Clock","set":"Set the Clock","fromto-arrange":"From～To: Card Builder","fromto-fill":"From～To: Fill","fromto-type":"From～To: Type","calendar":"Calendar"};
 const ACT_ZH={"mall-ask":"商場任務 問句","mall-listen":"商場任務 聽懂回答","mall-open":"商場任務 開門了嗎","rush":"限時搶答","read":"看鐘寫時間","set":"撥時鐘","fromto-arrange":"から・まで 排句子","fromto-fill":"から・まで 填空","fromto-type":"から・まで 打字","calendar":"日曆日期"};
@@ -664,7 +673,7 @@ function openReport(){
  const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
  close.onclick=()=>ov.remove();
  const canSend=!!(REPORT_URL&&STUDENT_CODE&&total);
- if(!STUDENT_CODE)status.textContent="This is not your personal link. Take a screenshot and send it to your teacher.";
+ if(!STUDENT_CODE)status.textContent="Your code is missing, so this can't be sent. Take a screenshot and send it to your teacher.";
  else if(!REPORT_URL)status.textContent="Take a screenshot of this report and send it to your teacher.";
  send.disabled=!canSend;
  send.onclick=async()=>{
@@ -686,7 +695,11 @@ function initReport(){
  const b=el("button","done-btn");b.id="doneBtn";b.type="button";
  b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;
  b.onclick=openReport;document.body.append(b);updateDoneBtn();
- if(!STUDENT_CODE){const n=el("div","code-warning","⚠ Please open this page with the personal link from your teacher.");document.querySelector(".hero").append(n)}
+ /* who is practising + way back to the practice list */
+ const who=el("div","who-bar");
+ if(STUDENT_CODE)who.innerHTML=`<a class="who-back" href="practice.html">← All practice</a><span class="who-code">Student <b>${STUDENT_CODE}</b></span><a class="who-switch" href="practice.html?switch=1">Not you?</a>`;
+ else{who.classList.add("no-code");who.innerHTML=`⚠ I don't know who you are yet. <a href="practice.html">Enter your code</a>`}
+ document.querySelector(".hero").append(who)
 }
 
 /* ===== Mall Mission: ask the floor + the opening hours ===== */
