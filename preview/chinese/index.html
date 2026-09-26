@@ -33,10 +33,10 @@ function setBar(){document.documentElement.style.setProperty("--bar-h",bar.getBo
 new ResizeObserver(setBar).observe(bar);setBar();
 function broadcastScale(v){frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.scale",scale:v},"*")}catch(e){}})}
 function applyScale(v){v=Number(v)||1;document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===v));broadcastScale(v)}
-function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab)}
+function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);requestAnimationFrame(()=>broadcastScale(Number(settings().scale)||1));if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab)}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
 document.querySelectorAll("[data-scale]").forEach(b=>b.onclick=()=>{let s=settings();s.scale=Number(b.dataset.scale);store(s);applyScale(s.scale)});
-frames.forEach(f=>f.addEventListener("load",()=>broadcastScale(settings().scale||1)));
+frames.forEach(f=>f.addEventListener("load",()=>broadcastScale(Number(settings().scale)||1)));
 window.addEventListener("hashchange",()=>selectTab(location.hash.slice(1),false));
 let s=settings(),initial=["vocab","linking"].includes(location.hash.slice(1))?location.hash.slice(1):(s.tab||"vocab");selectTab(initial,true);applyScale(s.scale||1);
 </script></body></html>
