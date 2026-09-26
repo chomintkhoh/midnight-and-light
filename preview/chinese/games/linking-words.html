@@ -63,7 +63,7 @@ function splitBuildTokens(tokens,x){
   let parts=[],cur=[],count=0;
   const flush=()=>{if(cur.length){parts.push(cur);cur=[];count=0}};
   for(const u of units){
-    const slice=tokens.slice(u.start,u.end).map(t=>[...t]),len=slice.filter(t=>!punctBuild(t[0])).length;
+    const slice=tokens.slice(u.start,u.end).map(t=>[...t]),len=slice.length;
     if(u.connector){flush();parts.push(slice);continue}
     if(count&&count+len>5)flush();
     cur.push(...slice);count+=len;
