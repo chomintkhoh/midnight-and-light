@@ -58,6 +58,6 @@ for(const c of D){
 const texts=D.map(c=>c.tokens.map(t=>t[0]).join(""));texts.forEach((t,i)=>{if(texts.indexOf(t)!==i)bad.push(D[i].id+": 文章内容和 "+D[texts.indexOf(t)].id+" 完全相同")});
 const sents=T.scenes.map(s=>s.tokens.map(t=>t[0]).join(""));sents.forEach((t,i)=>{if(sents.indexOf(t)!==i)bad.push(T.scenes[i].id+": 句子和 "+T.scenes[sents.indexOf(t)].id+" 完全相同")});
 if(T.scenes.length!==34)bad.push("浏览器/数据题数应为 34，实际 "+T.scenes.length);
-if(D.length!==3)bad.push("Detective 题数应为 3，实际 "+D.length);
+if(D.length!==15)bad.push("Detective 题数应为 15，实际 "+D.length);
 if(bad.length){console.error(bad.join("\n"));process.exit(1)}
 console.log("QA PASS:",T.scenes.length,"teacher scenes,",D.length,"detective cases; core reading modes PASS");

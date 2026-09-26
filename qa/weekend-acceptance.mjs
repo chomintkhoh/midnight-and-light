@@ -14,7 +14,7 @@ for (const [w, h, tag] of [[1280, 860, 'desktop'], [390, 844, 'mobile']]) {
   let L = frame(p, /games\/linking-words/);
   // 1. 字级：A+ 后切到词语页签
   await p.click('[data-scale="1.25"]'); await p.waitForTimeout(300); await p.click('[data-tab=vocab]'); await p.waitForTimeout(300);
-  const z = await frame(p, /games\/vocab/).evaluate(() => getComputedStyle(document.documentElement).zoom);
+  const z = await frame(p, /chinese-vocab-practice/).evaluate(() => getComputedStyle(document.documentElement).zoom);
   ok(`${tag} 词语页 A+ zoom=1.25`, z === '1.25', z);
   await p.click('[data-scale="1"]'); await p.click('[data-tab=linking]'); await p.waitForTimeout(300); L = frame(p, /games\/linking-words/);
   // 2. 手机控制列最小字级

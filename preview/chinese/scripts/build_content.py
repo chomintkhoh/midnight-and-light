@@ -26,7 +26,7 @@ def sandhi(words):
             else: s[ci]="yi2" if t=="4" else "yi4"
     return words
 def fmt(s): return "".join(to_tone(x.replace("5","")) if x[-1].isdigit() else x for x in s)
-FIX={"爸爸":"bàba","妈妈":"māma","爷爷":"yéye","名字":"míngzi","马来西亚人":"Mǎláixīyàrén","反而":"fǎn'ér","早上":"zǎoshang","上":"shang","起来":"qǐlai","过":"guo","唱":"chàng","哥哥":"gēge","新年":"Xīnnián","喜欢":"xǐhuan","所以不":"suǒyǐ bù","但是不":"dànshì bù","也不":"yě bù","妹妹":"mèimei","弟弟":"dìdi","舒服":"shūfu","清楚":"qīngchu","还是":"háishi","晚上":"wǎnshang","路上":"lùshang","外面":"wàimian",
+FIX={"光华":"Guānghuá","小丽":"Xiǎolì","家豪":"Jiāháo","小美":"Xiǎoměi","伟杰":"Wěijié","佩玲":"Pèilíng","子轩":"Zǐxuān","俊宏":"Jùnhóng","诗琪":"Shīqí","拉吉":"Lājí","慧敏":"Huìmǐn","家伟":"Jiāwěi","晓晴":"Xiǎoqíng","国强":"Guóqiáng","嘛嘛档":"māmā dàng","拉茶":"lāchá","阿曼":"Āmàn","马来语":"Mǎláiyǔ","开斋节":"Kāizhāijié","小黑":"Xiǎohēi","美美":"Měiměi","槟城":"Bīnchéng","福建话":"Fújiànhuà","文冬":"Wéndōng","说不出话":"shuō bu chū huà","爸爸":"bàba","妈妈":"māma","爷爷":"yéye","名字":"míngzi","马来西亚人":"Mǎláixīyàrén","反而":"fǎn'ér","早上":"zǎoshang","上":"shang","起来":"qǐlai","过":"guo","唱":"chàng","哥哥":"gēge","新年":"Xīnnián","喜欢":"xǐhuan","所以不":"suǒyǐ bù","但是不":"dànshì bù","也不":"yě bù","妹妹":"mèimei","弟弟":"dìdi","舒服":"shūfu","清楚":"qīngchu","还是":"háishi","晚上":"wǎnshang","路上":"lùshang","外面":"wàimian",
 "个":"ge","答案":"dá'àn","小明":"Xiǎomíng","阿莉":"Ālì","美玲":"Měilíng","志豪":"Zhìháo","阿明":"Āmíng","华语":"Huáyǔ","日语":"Rìyǔ","空":"kòng",
 "朋友":"péngyou","东西":"dōngxi","得":"de","农历新年":"Nónglì Xīnnián","咖啡店":"kāfēidiàn","面试官":"miànshìguān","自我介绍":"zìwǒ jièshào","家人":"jiārén","年饼":"niánbǐng","觉得":"juéde","那种":"nà zhǒng","种":"zhǒng"}
 POLY=set("还得都了着地长重行便觉只为好空教发乐更")

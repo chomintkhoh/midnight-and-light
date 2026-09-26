@@ -232,6 +232,11 @@ body{
 }
 </style></head>
 <body>
+<!-- 华文练习入口页的字级（A-/A/A+）。单独打开本页时，也会沿用上次在入口页选的字级 -->
+<script>
+(()=>{const KEY="ml.zh.settings";function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}try{applyScale(JSON.parse(localStorage.getItem(KEY)||"{}").scale||1)}catch(e){applyScale(1)}window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);if(d.type==="ml.zh.tab"&&d.tab!=="vocab"&&typeof musicOn!=="undefined"&&musicOn&&typeof toggleMusic==="function")toggleMusic()})})();
+</script>
+
 <audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio>
 <audio id=correctSound src="assets/audio/correct.mp3" preload=auto></audio>
 <audio id=wrongSound src="assets/audio/wrong.mp3" preload=auto></audio>

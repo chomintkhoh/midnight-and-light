@@ -23,7 +23,7 @@
   </div>
 </nav>
 <div class="frames">
-  <iframe id="vocabFrame" class="practice" src="games/vocab.html" title="词语练习"></iframe>
+  <iframe id="vocabFrame" class="practice" src="../../chinese-vocab-practice.html" title="词语练习"></iframe>
   <iframe id="linkingFrame" class="practice" src="games/linking-words.html" title="关联词练习"></iframe>
 </div>
 <script>
@@ -34,7 +34,7 @@ function setBar(){document.documentElement.style.setProperty("--bar-h",bar.getBo
 new ResizeObserver(setBar).observe(bar);setBar();
 function broadcastScale(v){frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.scale",scale:v},"*")}catch(e){}})}
 function applyScale(v){v=Number(v)||1;document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===v));broadcastScale(v)}
-function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab)}
+function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab);frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.tab",tab},"*")}catch(e){}})}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
 document.querySelectorAll("[data-scale]").forEach(b=>b.onclick=()=>{let s=settings();s.scale=Number(b.dataset.scale);store(s);applyScale(s.scale)});
 frames.forEach(f=>f.addEventListener("load",()=>broadcastScale(settings().scale||1)));
