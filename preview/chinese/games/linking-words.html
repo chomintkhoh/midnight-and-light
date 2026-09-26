@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关联词 Logic Lab Weekend Preview</title><link rel="stylesheet" href="../core/zh-core.css?v=weekend4"><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关联词 Logic Lab Weekend Preview</title><link rel="stylesheet" href="../core/zh-core.css?v=weekend5"><style>
 body{font-family:Arial,"Microsoft YaHei",sans-serif;background:#f3efe5;color:#202033;margin:0}.app{max-width:1080px;margin:auto;padding:18px}.panel{background:#fffdf8;border:2px solid #202033;border-radius:22px;padding:18px;box-shadow:6px 6px 0 #202033;margin:18px 0}button,select{font-family:inherit;font-size:var(--ml-ui);border:2px solid #202033;border-radius:12px;background:#fff;padding:9px 12px;font-weight:800;min-height:48px}button:disabled{opacity:.55;cursor:not-allowed}.controls,.modes,.options{display:flex;gap:8px;flex-wrap:wrap}.modes button.active{background:#ffd75a}.sentence{font-size:var(--ml-hz);line-height:2}.teacher{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:center}.avatar svg{width:150px;display:block}.bubble{border:3px solid #202033;border-radius:25px;padding:18px 20px;background:white;position:relative;max-width:800px;width:fit-content}.bubble:before{content:"";position:absolute;left:-18px;top:45px;border-width:12px 18px 12px 0;border-style:solid;border-color:transparent #202033 transparent transparent}.casefile{position:relative;max-width:860px;margin:12px auto;border:2px solid #202033;padding:20px;background:#fff;font-size:21px;line-height:2.1;min-height:180px;box-sizing:border-box}
 .detective-case{cursor:url("../assets/magnifier.svg") 26 26,pointer}
 .detective-case .mltok:not(.punct):hover{background:#fff3bf;outline:2px dashed #202033;border-radius:5px}
@@ -6,9 +6,9 @@ body{font-family:Arial,"Microsoft YaHei",sans-serif;background:#f3efe5;color:#20
 .detective-check-card .check-lens{position:relative;width:154px;height:154px}.detective-check-card .check-lens img{position:absolute;inset:0;width:154px;height:154px}.check-lens-word{position:absolute;left:14px;top:14px;width:96px;height:96px;display:grid;place-items:center;font-size:var(--ml-choice);font-weight:900;white-space:nowrap;z-index:2}.inspect-py{font-size:var(--ml-rt);color:#555d70;margin-top:3px}.mltok.mark-good,.mltok.mark-bad{position:relative}.mltok.mark-good::after,.mltok.mark-bad::after{position:absolute;right:-.42em;top:-.9em;font-size:.5em;font-weight:900;line-height:1;z-index:3}.mltok.mark-good::after{content:"✔";color:#2d7d46}.mltok.mark-bad::after{content:"✘";color:#c43e38}
 .inspect-toggle{display:none;position:absolute;right:10px;bottom:10px;width:56px;height:56px;border-radius:50%;padding:7px;background:#fff;z-index:5}.inspect-toggle img{width:100%;height:100%}.inspect-toggle.active{background:#ffd75a}.detective-case.inspect-on{border-style:dashed}.detective-case.inspect-off .mltok{pointer-events:none}
 .build-card{display:inline-block;vertical-align:top;margin:5px;padding:9px 12px}.build-zone{min-height:90px}.deck-example{margin:16px auto;max-width:900px}.mltok.selected{background:#ffe08b;outline:2px solid #202033;border-radius:4px}.mltok.mark-good{background:#d9f2df;outline:2px solid #2d7d46}.mltok.mark-bad{background:#ffd8d4;outline:2px solid #c43e38}.result,.notice{padding:14px;background:#eee9dc;border-left:6px solid #202033;margin-top:12px;font-size:var(--ml-body);line-height:1.5}.notice{background:#fff3bf}.listen{margin-top:10px}.score{font-weight:900;font-size:var(--ml-ui)}.lensHint{font-size:var(--ml-small)}.question{margin-top:18px}.qopt{display:block;margin:10px 0;text-align:left;width:100%;font-size:var(--ml-choice)}.english{margin-top:10px;color:#4c4a55;font-size:var(--ml-body);line-height:1.5}.bubble>b{font-size:var(--ml-body);font-weight:900}.result-correct{margin:8px 0}.choice{font-size:var(--ml-choice);line-height:1.15;min-width:92px}.choice-py{display:block;font-size:var(--ml-rt);font-weight:500;color:#5b5963;margin-top:3px}.choice-hz{display:block;font-size:var(--ml-choice)}.qopt .choice-token{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 .08em}.qopt .choice-token.punct{display:inline;margin:0}.qopt .choice-hz{font-size:var(--ml-choice)}.qopt .choice-py{font-size:var(--ml-rt)}.scale-controls{display:flex;gap:6px}.scale-controls button.active{background:#ffd75a}.teacher-answer-area{margin-top:16px;padding-bottom:16px}.embedded h1,.embedded .scale-controls{display:none!important}.embedded .app{padding-top:8px}
-@media(max-width:600px){.app{padding:10px}.panel{padding:13px}.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.modes button{width:100%;padding:9px 6px}.teacher{display:block}.avatar{margin:0 0 10px 4px}.avatar svg{width:90px}.sentence{font-size:var(--ml-hz)}.bubble{padding:13px;border-width:2px;width:auto;max-width:none}.bubble:before{display:none}.casefile{padding:15px 15px 76px}.controls{flex-direction:column;align-items:flex-start}.scale-controls{width:100%}.scale-controls button{flex:1}.embedded .controls{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.45fr) auto;gap:5px;align-items:center;margin:6px 0;padding:7px}.embedded .controls select,.embedded .controls button{min-width:0;width:100%;min-height:40px;padding:5px 6px;font-size:13px}.embedded .modes{gap:5px}.embedded .modes button{min-height:40px;font-size:13px;padding:6px 4px}.embedded .panel{margin:7px 0;padding:10px}.embedded .score{font-size:14px}.detective-case{cursor:auto}.detective-case .mltok:not(.punct):hover{background:transparent;outline:0}.inspect-toggle{display:block}.detective-check-card{grid-template-columns:58px minmax(0,1fr);padding:12px}.detective-check-card{grid-template-columns:154px minmax(0,1fr);gap:10px}.detective-check-card .check-lens{width:154px;height:154px}.detective-check-card .check-lens img{width:154px;height:154px}.check-lens-word{left:14px;top:14px;width:96px;height:96px}}
+@media(max-width:600px){.app{padding:10px}.panel{padding:13px}.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.modes button{width:100%;padding:9px 6px}.teacher{display:block}.avatar{margin:0 0 10px 4px}.avatar svg{width:90px}.sentence{font-size:var(--ml-hz)}.bubble{padding:13px;border-width:2px;width:auto;max-width:none}.bubble:before{display:none}.casefile{padding:15px 15px 76px}.controls{flex-direction:column;align-items:flex-start}.scale-controls{width:100%}.scale-controls button{flex:1}.embedded .controls{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.45fr) auto;gap:5px;align-items:center;margin:6px 0;padding:7px}.embedded .controls select,.embedded .controls button{min-width:0;width:100%;min-height:40px;padding:4px 5px;font-size:14px}.embedded .modes{gap:5px}.embedded .modes button{min-height:40px;font-size:14px;padding:5px 3px}.embedded .panel{margin:7px 0;padding:10px}.embedded .score{font-size:14px}.detective-case{cursor:auto}.detective-case .mltok:not(.punct):hover{background:transparent;outline:0}.inspect-toggle{display:block}.detective-check-card{grid-template-columns:58px minmax(0,1fr);padding:12px}.detective-check-card{grid-template-columns:154px minmax(0,1fr);gap:10px}.detective-check-card .check-lens{width:154px;height:154px}.detective-check-card .check-lens img{width:154px;height:154px}.check-lens-word{left:14px;top:14px;width:96px;height:96px}}
 </style></head><body><div class="app"><h1>关联词 Logic Lab · Weekend Preview</h1><div class="panel controls"><select id="difficulty"><option value="basic">Basic</option><option value="mixed">Mixed</option><option value="challenge">Challenge</option></select><select id="reading"><option value="ruby">汉字+拼音 Hanzi+Pinyin</option><option value="pinyin">大拼音 Big Pinyin</option><option value="hanzi">汉字挑战 Hanzi Only</option></select><button id="english">English ON</button><div class="scale-controls" aria-label="Text size"><button data-scale="0.85">A-</button><button data-scale="1">A</button><button data-scale="1.25">A+</button></div></div><div class="modes"><button data-mode="match" class="active">🧩 MATCH</button><button data-mode="build">🏗️ BUILD</button><button data-mode="detective">🔍 DETECTIVE · 抓错字</button><button data-mode="deck">🃏 WORD DECK</button><button data-mode="teacher" id="teacherModeBtn">👩‍🏫 老师说错了！</button></div><div class="panel"><div class="score" id="status"></div><div id="play"></div></div></div>
-<script src="../../data/linking-words-masterdeck.js?v=weekend4"></script><script src="../core/zh-core.js?v=weekend4"></script><script src="../data/linking-words/deck-tokens.js?v=weekend4"></script><script src="../data/linking-words/teacher-scenes.js?v=weekend4"></script><script src="../data/linking-words/detective-cases.js?v=weekend4"></script><script>
+<script src="../../data/linking-words-masterdeck.js?v=weekend4"></script><script src="../core/zh-core.js?v=weekend4"></script><script src="../data/linking-words/deck-tokens.js?v=weekend4"></script><script src="../data/linking-words/build-cards.js?v=weekend5"></script><script src="../data/linking-words/teacher-scenes.js?v=weekend4"></script><script src="../data/linking-words/detective-cases.js?v=weekend4"></script><script>
 const ENABLE_TEACHER=false,$=id=>document.getElementById(id),S=MLZH.settings(),audio=MLZH.player("../audio/linking-words/");if(window.self!==window.top)document.documentElement.classList.add("embedded");let mode=ENABLE_TEACHER?"teacher":"match",round=0,correct=0,peek=0,used=new Set(),current=null,answered=false,lastAudio=null,inspectMode=false,hoverPeekTimer=null,hoverPeeked=new WeakSet();
 $("difficulty").value=S.difficulty;$("reading").value=S.reading||"ruby";$("english").textContent="English "+(S.english?"ON":"OFF");function applyScale(){let v=Number(S.scale)||1;document.documentElement.style.setProperty("--ml-scale",v);document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===v))}applyScale();document.querySelectorAll("[data-scale]").forEach(b=>b.onclick=()=>{S.scale=Number(b.dataset.scale);MLZH.save(S);applyScale()});window.addEventListener("message",e=>{let d=e.data||{};if(d.type!=="ml.zh.scale")return;S.scale=Number(d.scale)||1;MLZH.save(S);applyScale()});if(!ENABLE_TEACHER){let tb=$("teacherModeBtn");if(tb)tb.style.display="none"}
 function save(){S.difficulty=$("difficulty").value;S.reading=$("reading").value;MLZH.save(S)}
@@ -31,8 +31,8 @@ function normSlot(v){if(v&&v.correct)return v;if(Array.isArray(v))return{correct
 function deckExampleTokens(x){let lv=S.difficulty||"basic",t=window.ML_DECK_TOKENS&&ML_DECK_TOKENS[x.id]&&ML_DECK_TOKENS[x.id][lv];if(t)return t.map(v=>[...v]);let raw=x[lv]||x.basic||"";return Array.from(raw).map(ch=>[ch,""])}
 function blankDeckTokens(tokens,zh){let out=tokens.map(t=>[...t]);for(const part of zh.split("……").filter(Boolean)){let chars=Array.from(part);for(let i=0;i<=out.length-chars.length;i++){if(chars.every((c,j)=>out[i+j]&&out[i+j][0]===c)){out[i]=["＿＿",""];for(let j=1;j<chars.length;j++)out[i+j]=null;break}}out=out.filter(Boolean)}return out}
 function connectorChoiceHtml(o){return S.reading==="hanzi"?'<span class="choice-hz">'+o.zh+'</span>':'<span class="choice-hz">'+o.zh+'</span><span class="choice-py">'+(o.pinyin||"")+'</span>'}
+const BUILD_STOP=/^[，；：、。！？,;:.!?]+$/;
 function splitExampleTokens(tokens,connectorZh){
-  const punct=/^[，。！？；：、,.!?;：“”‘’（）()…—-]+$/;
   const marks=new Array(tokens.length).fill(false),connectors=String(connectorZh||"").split("……").filter(Boolean).map(x=>Array.from(x));
   let seek=0;
   for(const chars of connectors){
@@ -41,35 +41,37 @@ function splitExampleTokens(tokens,connectorZh){
     if(found<0){for(let i=0;i<=tokens.length-chars.length;i++){if(!marks.slice(i,i+chars.length).some(Boolean)&&chars.every((c,j)=>tokens[i+j]&&tokens[i+j][0]===c)){found=i;break}}}
     if(found>=0){for(let j=0;j<chars.length;j++)marks[found+j]=true;seek=found+chars.length}
   }
-  const parts=[];let i=0;
+  // 先按分句标点切：标点跟着前一张卡，卡片不会跨过分句。
+  const stop=t=>BUILD_STOP.test(t[0]),parts=[];let i=0,pending=[];
+  function add(p){if(pending.length){p.unshift(...pending);pending=[]}parts.push(p)}
   function pushGap(a,b){
     if(a>=b)return;
-    const slice=tokens.slice(a,b),text=slice.map(t=>t[0]).join(""),atoms=[];let pos=0;
-    try{const seg=new Intl.Segmenter("zh",{granularity:"word"});for(const x of seg.segment(text)){let n=Array.from(x.segment).length;atoms.push(slice.slice(pos,pos+n).map(t=>[...t]));pos+=n}}
-    catch(e){while(pos<slice.length){atoms.push([[...slice[pos]]]);pos++}}
-    const chunks=[];let cur=[],count=0;
-    for(const atom of atoms){
-      let n=atom.length;
-      if(cur.length&&count>=3&&count+n>5){chunks.push(cur);cur=[];count=0}
-      cur.push(...atom);count+=n
-    }
-    if(cur.length)chunks.push(cur);
-    if(chunks.length>1){
-      let last=chunks[chunks.length-1],lc=last.length;
-      if(lc<3){let prev=chunks[chunks.length-2];while(lc<3&&prev.length){let moved=prev.splice(Math.max(0,prev.length-(3-lc)));last.unshift(...moved);lc=last.length}if(!prev.length)chunks.splice(chunks.length-2,1)}
-    }
-    parts.push(...chunks.filter(x=>x.length))
+    const slice=tokens.slice(a,b).map(t=>[...t]),n=slice.length;
+    // 6 字以内整段一张，不为了凑字数切开。
+    if(n<=6){add(slice);return}
+    // 超过 6 字：只在词语边界切，每张 1–6 字，尽量接近 4 字。
+    const edge=new Set([0,n]);
+    try{const seg=new Intl.Segmenter("zh",{granularity:"word"});let pos=0;for(const x of seg.segment(slice.map(t=>t[0]).join(""))){pos+=Array.from(x.segment).length;edge.add(pos)}}catch(e){}
+    const best=new Array(n+1).fill(null);best[0]={cost:0,cuts:[]};
+    for(let k=0;k<n;k++){if(!best[k])continue;for(let e=k+1;e<=Math.min(n,k+6);e++){let s=e-k,c=best[k].cost+(s-4)*(s-4)+(edge.has(e)?0:1000);if(!best[e]||c<best[e].cost)best[e]={cost:c,cuts:[...best[k].cuts,e]}}}
+    let a2=0;for(const e of best[n].cuts){add(slice.slice(a2,e));a2=e}
   }
   while(i<tokens.length){
-    if(marks[i]){let j=i+1;while(j<tokens.length&&marks[j])j++;parts.push(tokens.slice(i,j).map(t=>[...t]));i=j}
-    else{let j=i+1;while(j<tokens.length&&!marks[j])j++;pushGap(i,j);i=j}
+    if(stop(tokens[i])){if(parts.length)parts[parts.length-1].push([...tokens[i]]);else pending.push([...tokens[i]]);i++}
+    else if(marks[i]){let j=i+1;while(j<tokens.length&&marks[j])j++;add(tokens.slice(i,j).map(t=>[...t]));i=j}
+    else{let j=i+1;while(j<tokens.length&&!marks[j]&&!stop(tokens[j]))j++;pushGap(i,j);i=j}
   }
   return parts
 }
-function buildEligible(parts,connectorZh){
-  const target=new Set(String(connectorZh||"").split("……").filter(Boolean));
-  if(parts.length<4)return false;
-  return parts.every(p=>{let h=p.map(t=>t[0]).join("");if(target.has(h))return true;return p.length>=3&&p.length<=5})
+function buildParts(x,tokens){
+  // 优先用 Mint 审核过的切法（build-cards.js）；文字对不上时才自动切。
+  let s=window.ML_BUILD_CARDS&&ML_BUILD_CARDS[x.id]&&ML_BUILD_CARDS[x.id][S.difficulty||"basic"];
+  if(s&&s.replace(/\|/g,"")===tokens.map(t=>t[0]).join("")){let parts=[],i=0;for(const c of s.split("|")){let n=Array.from(c).length;parts.push(tokens.slice(i,i+n).map(t=>[...t]));i+=n}return parts}
+  return splitExampleTokens(tokens,x.zh)
+}
+function buildEligible(parts){
+  if(parts.length<3)return false;
+  return parts.every(p=>{let k=p.findIndex(t=>BUILD_STOP.test(t[0])),body=k<0?p:p.slice(0,k);if(!body.length||body.length>6)return false;return k<0||p.slice(k).every(t=>BUILD_STOP.test(t[0]))})
 }
 
 function detective(){let list=ML_DETECTIVE_CASES.filter(x=>x.level===S.difficulty),notice="";if(!list.length){list=ML_DETECTIVE_CASES.filter(x=>x.level==="basic");notice="此难度题库制作中，暂用 Basic。"}let c=list[Math.floor(Math.random()*list.length)],toks=c.tokens.map(x=>[...x]),slots=Object.keys(c.slots),wrongSlots=[],errors={};let n=Math.random()<.1?0:Math.min(slots.length,1+Math.floor(Math.random()*3));shuffle(slots).slice(0,n).forEach(sl=>{let i=toks.findIndex(x=>x[3]===sl),def=normSlot(c.slots[sl]);if(!def.errors.length)return;let ei=Math.floor(Math.random()*def.errors.length),e=def.errors[ei];if(i>=0){toks[i][0]=e[0];toks[i][1]=e[1];wrongSlots.push(sl);errors[sl]=e}});inspectMode=false;current={kind:"detective",c,toks,wrongSlots,errors,marks:{},notice,closed:false,peekedIndices:new Set()};drawDetective()}
@@ -89,8 +91,8 @@ function build(repaint=false){
   if(repaint&&current&&current.kind==="build"){({x,toks,parts,order,chosen}=current)}
   else{
     let found=null;
-    for(const cand of shuffle(d)){let tt=deckExampleTokens(cand),pp=splitExampleTokens(tt,cand.zh);if(buildEligible(pp,cand.zh)){found={x:cand,toks:tt,parts:pp};break}}
-    if(!found){x=d[Math.floor(Math.random()*d.length)];toks=deckExampleTokens(x);parts=splitExampleTokens(toks,x.zh)}else({x,toks,parts}=found);
+    for(const cand of shuffle(d)){let tt=deckExampleTokens(cand),pp=buildParts(cand,tt);if(buildEligible(pp)){found={x:cand,toks:tt,parts:pp};break}}
+    if(!found){x=d[Math.floor(Math.random()*d.length)];toks=deckExampleTokens(x);parts=buildParts(x,toks)}else({x,toks,parts}=found);
     order=shuffle(parts.map((_,i)=>i));chosen=[];current={kind:"build",x,toks,parts,order,chosen}
   }
   function paintZone(){$("zone").innerHTML=chosen.map(i=>'<span class="build-card">'+tokensHtml(parts[i])+'</span>').join("")}
