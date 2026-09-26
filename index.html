@@ -96,7 +96,32 @@
     line-height:1.75; max-width:340px; opacity:.9;
   }
 
+  /* Trial-lesson call to action, with the black cat peeking over the corner */
+  .trial{
+    position:relative; margin-top:96px; width:100%; max-width:520px;
+    padding:34px 28px 30px; border-radius:24px;
+    background:rgba(27,30,69,0.62);
+    border:1px solid rgba(217,196,142,0.32);
+  }
+  .trial-text{ font-size:17px; line-height:1.75; color:var(--service-primary); }
+  .trial-text + .trial-text{ margin-top:8px; }
+  .trial-text strong{ color:var(--pale-gold); font-weight:600; }
+  .trial .cta-row{ margin-top:26px; }
+  .btn-trial{ min-height:56px; padding:14px 34px; font-size:17px; box-shadow:0 8px 24px rgba(217,196,142,0.25); }
+  /* black cat on a cream circle so it stays visible on the dark background */
+  .trial-cat{
+    position:absolute; top:-84px; right:-10px;
+    width:112px; height:112px; border-radius:50%;
+    background:#F4F1EA; overflow:hidden;
+    box-shadow:0 8px 22px rgba(0,0,0,0.35);
+    border:3px solid var(--pale-gold);
+  }
+  .trial-cat img{ width:100%; height:100%; image-rendering:pixelated; transform:translate(4px,4px); }
+
   @media (max-width:480px){
+    .trial{ padding:30px 18px 24px; margin-top:84px; }
+    .trial-cat{ width:96px; height:96px; top:-72px; right:-2px; }
+    .trial-text{ font-size:16px; }
     .divider{ margin:48px 0 32px; height:40px; }
     .poem{ margin-top:52px; }
     .brand-cn{ font-size: clamp(22px,7vw,32px); letter-spacing:0.02em; }
@@ -131,11 +156,20 @@
         <span class="line">Private &amp; Small Group Lessons</span>
         <span class="line">Online · In-Person</span>
       </p>
-      <div class="cta-row center">
-        <a class="btn btn-primary" href="experience.html">Try a free mini lesson</a>
-        <a class="btn btn-ghost" href="contact.html">Ask about lessons</a>
-      </div>
     </div>
+
+    <section class="trial" aria-labelledby="trial-title">
+      <div class="trial-cat" aria-hidden="true">
+        <img src="assets/images/mascot/cat-peek-256.png" alt="" width="256" height="256" />
+      </div>
+      <h2 id="trial-title" class="sr-only">Book a trial lesson</h2>
+      <p class="trial-text">I teach <strong>Japanese and Mandarin</strong> to both children and adults.</p>
+      <p class="trial-text">Lessons are online from anywhere in Malaysia, or face-to-face in selected areas of Kuala Lumpur.</p>
+      <div class="cta-row center">
+        <a class="btn btn-primary btn-trial" href="contact.html">Book a trial lesson</a>
+        <a class="btn btn-ghost" href="experience.html">Try a free mini lesson</a>
+      </div>
+    </section>
 
     <p class="poem">Between the things we learn<br />and the things we create.</p>
   </main>

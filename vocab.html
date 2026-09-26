@@ -9,8 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mascot.css">
 <style>
-:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#A6A9C9;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
+:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#D6D2E6;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
 *{box-sizing:border-box}html{color-scheme:dark}
 body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 10%,rgba(182,169,218,.16),transparent 30rem),linear-gradient(180deg,var(--bg-glow),var(--bg-deep) 42%)}
 button{font:inherit;cursor:pointer;border:1px solid var(--border);color:var(--warm);background:rgba(255,255,255,.055);border-radius:14px;min-height:48px;padding:10px 16px;font-weight:600}
@@ -37,7 +38,8 @@ button.active{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78
 .progress-fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,rgba(217,196,142,.45),rgba(182,169,218,.45))}.progress span{position:relative}
 .q-stage{position:relative;text-align:center;padding:6px 0 10px}
 .pic{display:flex;align-items:center;justify-content:center}
-.pic.big{min-height:150px;margin:6px auto}.pic.big .emoji{font-size:110px;line-height:1}
+.pic.big{min-height:150px;margin:6px auto;max-width:260px;background:#F4F1EA;color:#17192d;border-radius:18px;padding:10px}
+.opt.picopt .pic,.match-item .pic{background:#F4F1EA;color:#17192d;border-radius:12px;min-height:84px;padding:6px}.pic.big .emoji{font-size:110px;line-height:1}
 .pic .emoji{font-size:54px;line-height:1}
 .swatch{display:inline-block;width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,.6)}.pic.big .swatch{width:120px;height:120px}
 .pic.meaning{flex-direction:column;background:#F4F1EA;color:#17192d;border-radius:14px;padding:10px 14px;min-height:74px}
@@ -116,6 +118,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <section id="app" aria-live="polite"></section>
 </main>
 <script src="./data/vocab-kids.js"></script>
+<script src="mascot.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
 const app=document.getElementById("app");
@@ -241,6 +244,7 @@ function openReport(){
      box.append(ul)
    }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
  }
+ box.append(Mascot.card(total?"stamp":"sleep",total?"Here are your stamps!":"Nothing yet… answer a few questions first."));
  box.append(stampCardEl());
  const status=el("div","report-status");
  const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
@@ -367,7 +371,7 @@ function renderMenu(){
  if(!V.cats.size){start.disabled=true;p.append(el("p","hint-line","Choose at least one topic."))}
  else if(n<4){start.disabled=true;p.append(el("p","hint-line","Not enough words for this game — choose more topics."))}
  start.onclick=startRound;
- p.append(start);
+ p.append(Mascot.at("peek"),start);
  app.append(p)
 }
 
@@ -420,8 +424,8 @@ function renderPlay(){
  if(V.idx>=V.queue.length)return renderEnd(p);
  const w=V.queue[V.idx],stage=el("div","q-stage");p.append(stage);
  let tried=false;
- const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");stamp(stage);playSuccess();setTimeout(()=>speak(w.jp),750);afterAnswer(w,!tried)};
- const wrong=(btn)=>{if(!tried)wrongOnce(w);tried=true;if(btn){btn.classList.add("wrong");btn.disabled=true}};
+ const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");Mascot.set("sugoi");stamp(stage);playSuccess();setTimeout(()=>speak(w.jp),750);afterAnswer(w,!tried)};
+ const wrong=(btn)=>{Mascot.set("confused");if(!tried)wrongOnce(w);tried=true;if(btn){btn.classList.add("wrong");btn.disabled=true}};
  if(V.mode==="pic2word"){
    stage.innerHTML=picHTML(w,true);stage.append(el("div","q-ask","Which word is this?"));
    const opts=el("div","opt-grid words");
@@ -456,6 +460,7 @@ function renderPlay(){
    const undo=el("button","small-btn","↶ Undo");undo.onclick=()=>{const t=built.pop();if(!t)return;const b=[...bank.children].find(x=>x.disabled&&x.textContent===t.u&&x.classList.contains("used"));if(b){b.disabled=false;b.classList.remove("used")}paint()};
    stage.append(slots,bank,undo)
  }
+ stage.append(Mascot.at("think"));
  app.append(p)
 }
 function renderMatch(p,items){
@@ -467,22 +472,22 @@ function renderMatch(p,items){
    if(!sel||sel.side===side){grid.querySelectorAll(".selected").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");sel={b,side,w};return}
    if(sel.w.id===w.id){
      [sel.b,b].forEach(x=>{x.classList.remove("selected");x.classList.add("matched")});
-     logResult("vocab-match",logItem(w),true);if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w.jp),350);done++;sel=null;
+     logResult("vocab-match",logItem(w),true);Mascot.set("sugoi");if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w.jp),350);done++;sel=null;
      if(done===items.length){stamp(stage);playSuccess();setTimeout(()=>{V.idx++;render()},900)}
    }else{
      const a=sel.b,wa=sel.w;sel=null;[a,b].forEach(x=>{x.classList.add("wrong");setTimeout(()=>x.classList.remove("wrong","selected"),450)});
-     const target=side==="L"?w:wa;if(!wrongSet.has(target.id)){wrongSet.add(target.id);logResult("vocab-match",logItem(target),false);if(!V.missed.find(m=>m.id===target.id))V.missed.push(target)}
+     const target=side==="L"?w:wa;Mascot.set("confused");if(!wrongSet.has(target.id)){wrongSet.add(target.id);logResult("vocab-match",logItem(target),false);if(!V.missed.find(m=>m.id===target.id))V.missed.push(target)}
    }
  };
  shuffle(items).forEach(w=>{const b=el("button","match-item pic-side","");b.dataset.id=w.id;b.innerHTML=picHTML(w);b.onclick=()=>click(b,"L",w);L.append(b)});
  shuffle(items).forEach(w=>{const b=el("button","match-item word-side","");b.dataset.id=w.id;b.innerHTML=jpHTML(w.jp);b.onclick=()=>click(b,"R",w);R.append(b)});
- grid.append(L,R);stage.append(grid);p.append(stage)
+ grid.append(L,R);stage.append(grid,Mascot.at("think"));p.append(stage)
 }
 function renderEnd(p){
  const total=V.mode==="match"?V.matchRounds.reduce((s,r)=>s+r.length,0):new Set(V.queue.map(w=>w.id)).size;
  const box=el("div","end-box");
  const pct=total?V.score/total:0;
- box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${V.score} / ${total}`),el("div","end-sub","correct on the first try"));
+ box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${V.score} / ${total}`),el("div","end-sub","correct on the first try"),Mascot.at("stamp",pct===1?"Perfect! Stamp time!":"Round finished! Well done!"));
  if(V.missed.length){box.append(el("div","end-sub strong","Practice these again:"));const ul=el("div","missed-list");V.missed.forEach(w=>{const d=el("div","missed-item","");d.innerHTML=`${w.pic&&w.pic[0]!=="#"?w.pic:"•"} <span>${jpHTML(w.jp)}</span> <small>${esc(w.en)} ${esc(w.zh)}</small>`;d.append(speakBtn(w.jp));ul.append(d)});box.append(ul)}
  const act=el("div","actions"),again=el("button","active","↻ Play Again"),menu=el("button","","Choose Another Game");
  again.onclick=startRound;menu.onclick=()=>{V.screen="menu";render()};act.append(again,menu);box.append(act);

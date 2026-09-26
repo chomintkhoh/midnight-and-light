@@ -9,8 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mascot.css">
 <style>
-:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#A6A9C9;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
+:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#D6D2E6;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 10%,rgba(182,169,218,.16),transparent 30rem),linear-gradient(180deg,var(--bg-glow),var(--bg-deep) 42%)}
 button,input{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 28px));margin:auto;padding:28px 0 54px}.hero{text-align:center;margin-bottom:20px}.hero h1{margin:0;font-size:clamp(30px,4vw,46px)}.hero p{color:var(--muted);font-size:18px}
 .tabs,.subtabs,.modes,.actions,.answer-bank,.choice-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.tabs{margin-bottom:12px}.subtabs{margin-bottom:20px}
@@ -69,7 +70,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 @keyframes ftShake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .question-no{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;background:rgba(217,196,142,.16);color:var(--gold);font-weight:800}
 .ft-scene{display:flex;align-items:center;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin:.2rem auto .8rem}
-.ft-place{text-align:center}.ft-place img{width:150px;height:112px;object-fit:contain;display:block;margin:0 auto .2rem}
+.ft-place{text-align:center}.ft-place img{width:150px;height:112px;object-fit:contain;display:block;margin:0 auto .3rem;background:#F4F1EA;border-radius:16px;padding:6px}
 .ft-place .jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;font-weight:700;color:var(--gold)}
 .ft-clocks{display:flex;align-items:center;gap:.8rem}
 .ft-clock{text-align:center}.ft-clock .clock{width:140px;display:block;margin:0 auto}
@@ -91,7 +92,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .fromto-question .type-answer{max-width:640px;display:block;margin:.4rem auto;font-family:"Zen Kaku Gothic New";text-align:center}
 .ft-write{max-width:760px;display:block;margin:.4rem auto;height:150px}
 .muted{display:block;color:var(--muted);font-size:.95rem}
-@media(max-width:620px){.ft-place img{width:110px;height:84px}.ft-clock .clock{width:100px}.ft-arrow{font-size:1.3rem}.cb-card{min-width:64px;min-height:50px;font-size:1.05rem;padding:.5rem .7rem}.ft-fill{font-size:1.05rem}}
+@media(max-width:620px){.ft-place img{width:110px;height:84px;padding:4px}.ft-clock .clock{width:100px}.ft-arrow{font-size:1.3rem}.cb-card{min-width:64px;min-height:50px;font-size:1.05rem;padding:.5rem .7rem}.ft-fill{font-size:1.05rem}}
 
 .done-btn{position:fixed;right:14px;bottom:14px;z-index:40;min-height:54px;padding:10px 18px;border-radius:999px;background:#D9C48E;color:#14162e;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35);border:0}
 .done-count{font-size:.8em;opacity:.75;margin-left:4px}
@@ -182,6 +183,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 </nav>
 <section id="app" aria-live="polite"></section>
 </main>
+<script src="mascot.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
 const SUCCESS_SOUND_SRC="./assets/audio/ui/success-stamp.mp3";
@@ -295,7 +297,7 @@ function renderRead(){
 function norm(s){return (s||"").replace(/\s+/g,"").trim()} function checkRead(cards){let score=0;cards.forEach((c,i)=>{c.classList.remove("correct","incorrect");c.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());c.querySelectorAll(".has-stamp").forEach(x=>x.classList.remove("has-stamp"));const t=state.worksheet[i],fb=c.querySelector(".feedback");
  if(i<3){const s=c.querySelector(".slot"),ok=norm(s.dataset.answer)===norm(t.reading);c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;if(s.dataset.answer)logResult("read",tLabel(t),ok);if(ok){score++;s.classList.add("has-stamp");stamp(s)}}
  else if(i<6){const az=c.querySelector(".answer-zone"),acc=acceptedReadings(t),ok=acc.some(r=>norm(r)===norm(az.querySelector("input").value));c.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${acc.join("／")}</span>`;if(az.querySelector("input").value.trim())logResult("read",tLabel(t),ok);if(ok){score++;az.classList.add("has-stamp");stamp(az)}}
- else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;if(score)playSuccess()}
+ else fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`});const sc=document.getElementById("score");sc.classList.remove("hidden");sc.innerHTML=`Auto-checked Score<br><strong>${score} / 6</strong>`;Mascot.set(score===6?"stamp":score>=3?"sugoi":"confused",score===6?"All correct! Stamp time!":score>=3?`すごい! ${score} / 6 correct.`:"Hmm… check the red ones again.");if(score)playSuccess()}
 function drawInit(cv){const r=cv.getBoundingClientRect(),ratio=devicePixelRatio||1;cv.width=r.width*ratio;cv.height=r.height*ratio;const x=cv.getContext("2d");x.scale(ratio,ratio);x.strokeStyle="#15172a";x.lineWidth=3;x.lineCap="round";let on=false,last;const pt=e=>{const b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top}};cv.onpointerdown=e=>{e.preventDefault();on=true;last=pt(e);cv.setPointerCapture(e.pointerId)};cv.onpointermove=e=>{if(!on)return;const q=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(q.x,q.y);x.stroke();last=q};cv.onpointerup=cv.onpointercancel=()=>on=false}
 function renderSet(){if(!state.setTarget)state.setTarget=randomTimes(1)[0];const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Set the clock to match the time shown."));renderModes(tb);p.append(tb);const lay=el("div","set-layout"),left=el("div","set-box"),right=el("div","set-box"),t=state.setTarget;left.append(el("div","jp-big",t.reading));const fb=el("div","feedback");left.append(fb);const act=el("div","actions"),check=el("button","active","Check Answer"),next=el("button","","New Question");act.append(check,next);left.append(act);const ck=clockSVG(timeObj(12,0),true);right.append(ck.svg);check.onclick=()=>{const a=ck.get(),hd=Math.min(Math.abs(a.hour-hourAngle(t.h,t.m)),360-Math.abs(a.hour-hourAngle(t.h,t.m))),md=Math.min(Math.abs(a.minute-minuteAngle(t.m)),360-Math.abs(a.minute-minuteAngle(t.m)));if(logResult("set",tLabel(t),hd<=7&&md<=4)){fb.innerHTML=`<strong>Correct!</strong><span class="answer-jp">${t.reading}</span>`;stamp(left);playSuccess()}else{fb.innerHTML=`<strong>Not quite.</strong><span class="answer-jp">${t.reading}</span>`;ck.setTime(t)}};next.onclick=()=>{state.setTarget=randomTimes(1)[0];render()};lay.append(left,right);p.append(lay);app.append(p)}
 
@@ -668,6 +670,7 @@ function openReport(){
      box.append(ul)
    }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
  }
+ box.append(Mascot.card(total?"stamp":"sleep",total?"Here are your stamps!":"Nothing yet… answer a few questions first."));
  box.append(stampCardEl());
  const status=el("div","report-status");
  const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
@@ -1362,6 +1365,38 @@ function renderCalendar(){
 function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set","fromto","mall","rush"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
 function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else if(state.sub==="set")renderSet();else if(state.sub==="mall")renderMall();else if(state.sub==="rush")renderRush();else renderFromTo()}
 document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};document.getElementById("fromtoTab").onclick=()=>{state.sub="fromto";render()};document.getElementById("mallTab").onclick=()=>{state.sub="mall";render()};document.getElementById("rushTab").onclick=()=>{state.sub="rush";render()};
+/* ===== Black-cat mascot: one cat per screen, placed next to the feedback ===== */
+let mascotTap=null;
+document.addEventListener("pointerdown",e=>{mascotTap=e.target},true);
+const QUESTION_BOX=".fromto-question,.calendar-question,.set-box,.mall-stage,.rush-stage";
+const _logResult=logResult;
+logResult=function(activity,item,ok){
+ const r=_logResult(activity,item,ok);
+ Mascot.set(ok?"sugoi":"confused");
+ /* move the cat under the question that was just answered */
+ const box=mascotTap&&mascotTap.closest&&mascotTap.closest(QUESTION_BOX),cat=document.querySelector("#app .mascot");
+ if(box&&cat&&!box.contains(cat)&&!box.classList.contains("set-box"))box.append(cat);
+ return r
+};
+function placeMascot(){
+ const panel=app.querySelector(".panel");if(!panel)return;
+ let mood="think",text;
+ if(state.main==="clock"&&state.sub==="rush"){if(!rush||rush.state==="idle")mood="peek";else if(rush.state==="done"){mood="stamp";text=`Time's up! You read ${rush.score} clocks.`}}
+ if(state.main==="clock"&&state.sub==="mall"&&mall&&mall.i>=MALL_ROUND){mood="stamp";text="All missions complete! Stamp!"}
+ const cat=Mascot.at(mood,text);
+ const setFb=panel.querySelector(".set-box .feedback"),stage=panel.querySelector(".rush-stage,.mall-stage,.calendar-question"),score=panel.querySelector("#score");
+ if(setFb)setFb.after(cat);
+ else if(stage)stage.append(cat);
+ else if(score)score.before(cat);
+ else{const acts=panel.querySelectorAll(":scope > .actions");acts.length?acts[acts.length-1].before(cat):panel.append(cat)}
+}
+const _render=render;
+render=function(){_render();placeMascot()};
+/* calendar puzzles: a wrong tap flashes red, a finished puzzle gets a stamp */
+const _flashWrong=flashWrong;
+flashWrong=function(...nodes){Mascot.set("confused");return _flashWrong(...nodes)};
+const _stamp=stamp;
+stamp=function(host){if(Mascot.mood!=="sugoi")Mascot.set("stamp");return _stamp(host)};
 initMusic();
 initReport();
 render();

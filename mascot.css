@@ -1,0 +1,35 @@
+/* ════════════════════════════════════════════════════
+   Black-cat mascot — used by the practice pages
+   The cat is black, so it always sits on a cream card
+   (#F4F1EA) with dark text; the page stays dark around it.
+════════════════════════════════════════════════════ */
+.mascot{
+  display:flex; align-items:center; gap:12px;
+  width:fit-content; max-width:min(460px,100%);
+  margin:14px auto 0; padding:8px 16px 8px 8px;
+  background:#F4F1EA; color:#17192d;
+  border-radius:20px; box-shadow:0 6px 18px rgba(0,0,0,.28);
+  text-align:left;
+}
+.mascot-pic{
+  flex:0 0 auto; width:112px; height:112px;
+  image-rendering:pixelated; object-fit:contain;
+}
+.mascot-say{
+  min-width:0; font-weight:700; font-size:1.05rem; line-height:1.45;
+  font-family:Inter,"Zen Kaku Gothic New",sans-serif;
+}
+.mascot-say:empty{ display:none; }
+.mascot.pop .mascot-pic{ animation:mascotPop .35s ease-out; }
+@keyframes mascotPop{ 0%{ transform:scale(.8) } 60%{ transform:scale(1.06) } 100%{ transform:none } }
+@media (prefers-reduced-motion: reduce){ .mascot.pop .mascot-pic{ animation:none } }
+@media (max-width:600px){
+  .mascot{ gap:10px; padding:6px 12px 6px 6px; border-radius:16px; }
+  .mascot-pic{ width:96px; height:96px; }
+  .mascot-say{ font-size:.98rem; }
+}
+/* inside the cream report box it needs no second card */
+.report-box .mascot{ box-shadow:none; background:#fff; margin:6px auto 4px; }
+
+/* any pixel-art image stays crisp when scaled */
+img.pixel, .mascot img{ image-rendering:pixelated; }

@@ -9,11 +9,11 @@
   --bg-glow:      #1B1E45;
   --bg-glow-2:    #2A2350;
 
-  /* text */
+  /* text — body copy is a bright off-white so it reads easily on the dark sky */
   --warm-white:      #F4F1EA;
-  --service-primary: #B9BEDD;   /* one step down from brand white */
-  --muted-bluegrey:  #8B8FB3;   /* secondary / body text */
-  --muted-faint:     #6A6E90;   /* footer / least prominent */
+  --service-primary: #E8E4F0;   /* body text */
+  --muted-bluegrey:  #D8D3E6;   /* secondary text, still bright */
+  --muted-faint:     #ABA8C6;   /* footer / least prominent */
 
   /* accent */
   --pale-gold:     #D9C48E;

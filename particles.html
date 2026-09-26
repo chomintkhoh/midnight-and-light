@@ -9,8 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mascot.css">
 <style>
-:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#A6A9C9;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
+:root{--bg-deep:#0C0E22;--bg-glow:#1B1E45;--panel:rgba(27,30,69,.78);--warm:#F4F1EA;--muted:#D6D2E6;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
 *{box-sizing:border-box}html{color-scheme:dark}
 body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 10%,rgba(182,169,218,.16),transparent 30rem),linear-gradient(180deg,var(--bg-glow),var(--bg-deep) 42%)}
 button{font:inherit;cursor:pointer;border:1px solid var(--border);color:var(--warm);background:rgba(255,255,255,.055);border-radius:14px;min-height:48px;padding:10px 16px;font-weight:600}
@@ -134,7 +135,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 /* v2: bigger, clearer */
 .lang-toggle{display:flex;gap:6px;justify-content:flex-end}.lang-toggle button{min-height:36px;padding:4px 12px;font-size:.9rem}
 .play-top .lang-toggle{margin-left:auto;margin-right:10px}
-.big-scene{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:22px;padding:16px 18px;margin:6px auto 8px;max-width:760px}
+.big-scene{background:#F4F1EA;color:#17192d;border:1px solid var(--border);border-radius:22px;padding:16px 18px;margin:6px auto 8px;max-width:760px}
 .big-scene-emoji{font-size:clamp(3.2rem,9vw,5.6rem);line-height:1.15}
 .big-scene-text{font-size:clamp(1.15rem,2.6vw,1.7rem);font-weight:700;margin-top:6px}
 .p-sentence{font-size:clamp(1.6rem,5vw,2.6rem)}
@@ -149,7 +150,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 .said-bad{color:#fff;background:var(--bad);border-radius:8px;padding:0 6px;margin:0 2px;font-weight:700}
 .said-ok{color:var(--lav);font-weight:700}
 .conseq-kind{font-weight:800;font-size:1.05rem;margin-top:4px}.conseq-kind.funny{color:#F3B8C4}.conseq-kind.real{color:#F2D27A}
-.conseq-emoji{font-size:clamp(3.4rem,10vw,6rem);line-height:1.2;margin:8px 0}
+.conseq-emoji{font-size:clamp(3.4rem,10vw,6rem);line-height:1.2;margin:8px auto;background:#F4F1EA;border-radius:18px;padding:4px 16px;width:fit-content;max-width:100%}
 .conseq-text{font-size:clamp(1.2rem,2.8vw,1.7rem);font-weight:800;line-height:1.4}
 .right-title{font-size:1.6rem;font-weight:800;color:var(--good);margin-top:8px}
 .need-line{font-size:1.15rem;font-weight:700}
@@ -171,6 +172,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <section id="app" aria-live="polite"></section>
 </main>
 <script src="./data/particles-kids.js"></script>
+<script src="mascot.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
 const app=document.getElementById("app");
@@ -296,6 +298,7 @@ function openReport(){
      box.append(ul)
    }else box.append(el("div","report-sub","No mistakes — amazing! 🎉"));
  }
+ box.append(Mascot.card(total?"stamp":"sleep",total?"Here are your stamps!":"Nothing yet… answer a few questions first."));
  box.append(stampCardEl());
  const status=el("div","report-status");
  const act=el("div","actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");
@@ -382,7 +385,7 @@ function renderPMenu(){
  if(!PR.focus.size){start.disabled=true;p.append(el("p","hint-line",t("pickOne")))}
  else if(n<1){start.disabled=true;p.append(el("p","hint-line",t("noSent")))}
  else p.append(el("p","count-line",L(`${n} questions for these particles${n<10?" — choose more particles for a longer round":""}`,`这些助词共有 ${n} 题${n<10?"——多选几个助词，题目会更多":""}`)))
- start.onclick=startPRound;p.append(start);app.append(p)
+ start.onclick=startPRound;p.append(Mascot.at("peek"),start);app.append(p)
 }
 /* rounds never repeat a question, and prefer sentences not seen recently */
 const SEEN_KEY="particleSeenV1";
@@ -456,12 +459,12 @@ function renderPPlay(){
  const finishRight=(chosen)=>{
    logResult("part-"+PR.mode,logKey(s,i),true);if(tries===0)PR.score++;
    const blank=stage.querySelector(".p-blank");blank.textContent=chosen;blank.classList.remove("shown");blank.classList.add("filled");
-   feedback.innerHTML="";feedback.append(el("div","right-title",t("right")));playSuccess();next(tries===0)
+   feedback.innerHTML="";feedback.append(el("div","right-title",t("right")));Mascot.set("sugoi");playSuccess();next(tries===0)
  };
  const choose=(opts,onPick)=>{const box=el("div","opt-grid kana p-opts");opts.forEach(o=>{const b=el("button","opt kana-opt",o);b.onclick=()=>{if(b.disabled)return;onPick(o,b,box)};box.append(b)});return box};
  const wrongPick=(pick,b,title)=>{
    tries++;logResult("part-"+PR.mode,logKey(s,i),false);missed();
-   if(b){b.disabled=true;b.classList.add("wrong")}
+   Mascot.set("confused");if(b){b.disabled=true;b.classList.add("wrong")}
    feedback.innerHTML="";feedback.append(consequenceCard(s,i,pick,title));
    if(tries>=2)feedback.append(hintLine(slot));
  };
@@ -474,38 +477,38 @@ function renderPPlay(){
    stage.append(choose(opts,(o,b,box)=>{
      if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);b.classList.add("right");finishRight(o)}
      else wrongPick(o,b,"")
-   }),feedback)
+   }),Mascot.at("think"),feedback)
  }else{
    const wrongs=slot.opts.filter(o=>!slot.ok.includes(o)),showWrong=Math.random()<.5&&wrongs.length;
    const withCards=wrongs.filter(o=>slot.wrong[o]);
    const shown=showWrong?(withCards.length&&Math.random()<.8?withCards[Math.floor(Math.random()*withCards.length)]:wrongs[Math.floor(Math.random()*wrongs.length)]):slot.ok[0];
    stage.append(el("div","q-ask",t("isRight")),sentenceLine(s,i,shown));
-   const yn=el("div","yn-row"),yes=el("button","yn yes",t("rightBtn")),no=el("button","yn no",t("wrongBtn"));yn.append(yes,no);stage.append(yn,feedback);
+   const yn=el("div","yn-row"),yes=el("button","yn yes",t("rightBtn")),no=el("button","yn no",t("wrongBtn"));yn.append(yes,no);stage.append(yn,Mascot.at("think"),feedback);
    const fixStep=()=>{feedback.append(el("div","q-ask",t("fixIt")),choose(shuffle(slot.opts.filter(o=>o!==shown)),(o,b,box)=>{
      if(slot.ok.includes(o)){box.querySelectorAll("button").forEach(z=>z.disabled=true);finishRight(o)}
-     else{tries++;b.disabled=true;b.classList.add("wrong");logResult("part-judge",logKey(s,i),false);missed();if(tries>=2&&!feedback.querySelector(".need-line"))feedback.append(hintLine(slot))}
+     else{tries++;b.disabled=true;b.classList.add("wrong");Mascot.set("confused");logResult("part-judge",logKey(s,i),false);missed();if(tries>=2&&!feedback.querySelector(".need-line"))feedback.append(hintLine(slot))}
    }))};
    yes.onclick=()=>{yes.disabled=no.disabled=true;
-     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");feedback.append(el("div","right-title",t("right")));playSuccess();next(true)}
+     if(!showWrong){PR.score++;logResult("part-judge",logKey(s,i),true);const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");feedback.append(el("div","right-title",t("right")));Mascot.set("sugoi");playSuccess();next(true)}
      else{wrongPick(shown,null,t("wasWrong"));fixStep()}
    };
    no.onclick=()=>{yes.disabled=no.disabled=true;
-     if(showWrong){feedback.append(consequenceCard(s,i,shown,t("goodEye")));fixStep()}
+     if(showWrong){Mascot.set("sugoi",L("Good eye! Now fix it.","眼睛真利！现在改正它。"));feedback.append(consequenceCard(s,i,shown,t("goodEye")));fixStep()}
      else{tries++;logResult("part-judge",logKey(s,i),false);missed();const bl=stage.querySelector(".p-blank");bl.classList.remove("shown");bl.classList.add("filled");
-       feedback.append(el("div","oops-title",t("wasRight")));next(false)}
+       feedback.append(el("div","oops-title",t("wasRight")));Mascot.set("confused");next(false)}
    }
  }
- rerender=()=>{app.innerHTML="";const keep=PR.idx;renderPPlay()}
+ rerender=()=>{Mascot.setLang(PR.lang);app.innerHTML="";const keep=PR.idx;renderPPlay()}
 }
 function renderPEnd(p){
  const n=PR.queue.length,box=el("div","end-box"),pct=n?PR.score/n:0;
- box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${n}`),el("div","end-sub",t("firstTry")));
+ box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${PR.score} / ${n}`),el("div","end-sub",t("firstTry")),Mascot.at("stamp",pct===1?L("Perfect! Stamp time!","全对！盖章！"):L("Round finished! Well done!","完成了！做得好！")));
  if(PR.missed.length){box.append(el("div","end-sub strong",t("again")));const ul=el("div","missed-list");
    PR.missed.forEach(k=>{const {s}=PR.queue[k];const d=el("div","missed-item","");d.innerHTML=`<span class="missed-scene">${s.scene}</span><span>${jpHTML(sentenceText(s))}</span>`;ul.append(d)});box.append(ul)}
  const act=el("div","actions"),again=el("button","active",t("playAgain")),menu=el("button","",t("back"));again.onclick=startPRound;menu.onclick=()=>{PR.screen="menu";render()};act.append(again,menu);box.append(act);
  p.append(box);app.append(p);if(pct===1)stamp(box)
 }
-function render(){rerender=()=>render();app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
+function render(){rerender=()=>render();Mascot.setLang(PR.lang);app.innerHTML="";if(PR.screen==="menu")renderPMenu();else renderPPlay()}
 
 initReport();
 render();
