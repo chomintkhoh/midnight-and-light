@@ -1,0 +1,141 @@
+/* ════════════════════════════════════════════════════
+   Light theme for the practice pages (clock / vocab / particles)
+   Loaded after each page's own <style>, so it only changes colours:
+   layout, sizes and behaviour stay as they are.
+   The top title band stays midnight blue as the brand bar;
+   the homework-report popup keeps its own styling.
+════════════════════════════════════════════════════ */
+:root{
+  --warm:#1E2140;          /* main text */
+  --muted:#5E6282;         /* secondary text */
+  --gold:#7A5F10;          /* gold TEXT (headings, answers): deeper so it reads on white */
+  --accent:#B8962E;        /* gold accent: buttons, borders, selected, progress */
+  --lav:#5B4E9A;           /* secondary accent (prompts) */
+  --good:#3E9B5F;  --good-bg:#E7F5EC;
+  --bad:#D0556B;   --bad-bg:#FBE9EC;
+  --panel:#FFFFFF;
+  --border:#E6E0D2;
+  --pick-bg:#F6EDD3;       /* pale gold for selected states */
+  --soft:#FAF8F2;          /* quiet fill inside white cards */
+  --shadow:0 4px 16px rgba(30,33,64,0.08);
+  --muted-bluegrey:#5E6282; --pale-gold:#B8962E;
+}
+html{ color-scheme:light; }
+body{ background:#F7F4EC; color:var(--warm); }
+
+/* ── Brand bar: the title area stays midnight blue ── */
+.shell{ padding-top:0; }
+.hero{
+  --warm:#F4F1EA; --muted:#C9C5E0; --gold:#D9C48E; --border:rgba(217,196,142,.4); --muted-bluegrey:#C9C5E0;
+  background:#141735; color:#F4F1EA;
+  box-shadow:0 0 0 100vmax #141735; clip-path:inset(0 -100vmax);
+  padding:26px 0 22px;
+}
+.hero h1{ color:#F4F1EA; }
+.hero > p{ color:#D9C48E; }
+.shell .hero button{ background:rgba(255,255,255,.06); color:#F4F1EA; border-color:rgba(217,196,142,.4); box-shadow:none; }
+.shell .hero button.active{ background:rgba(217,196,142,.2); border-color:#D9C48E; }
+
+/* ── Cards, panels, question blocks: white, soft shadow ── */
+.panel,.card,.set-box,.calendar-question,.mall-map,.bank-wrap,.big-scene{
+  background:#FFFFFF; border:1px solid var(--border); box-shadow:var(--shadow);
+}
+.fromto-question{ border-top-color:var(--border); }
+.mall-task{ background:#FBF6E7; border-color:var(--border); }
+.mall-bubble{ background:var(--soft); }
+.mall-bubble.staff{ background:#EFECF8; }
+.mall-bubble.me{ background:#FBF6E7; }
+.mall-floor{ background:var(--soft); }
+.missed-item,.meaning-line{ background:var(--soft); border:1px solid var(--border); }
+.need-line{ background:#FBF6E7; }
+.cb-bank{ background:#F3F1F8; }
+.cb-answer{ background:#FDFBF4; }
+.cb-card{ background:#FFFFFF; color:var(--warm); border:1px solid var(--border); box-shadow:0 2px 8px rgba(30,33,64,.1); }
+.cb-card.dragging{ box-shadow:0 10px 24px rgba(30,33,64,.2); }
+.mall-hours-card{ background:var(--soft); color:var(--warm); border:1px solid var(--border); }
+
+/* pictures sit on white with a light frame */
+.pic.big,.opt.picopt .pic,.match-item .pic,.pic.meaning{ background:#FFFFFF; color:var(--warm); border:1px solid var(--border); }
+.m-zh{ color:var(--muted); }
+.ft-place img{ background:#FFFFFF; border:1px solid var(--border); }
+.conseq-emoji{ background:#FFFFFF; border:1px solid var(--border); }
+/* colour swatches: a grey ring so white (しろ) and light colours stay visible */
+.swatch{ border:3px solid #C9C3B3; }
+/* writing pads: same cream as before, now framed so they show on white */
+.writing,.write-answer{ border:1px solid var(--border); }
+
+/* ── Buttons & options: white, beige border, navy text ── */
+.shell button{ background:#FFFFFF; color:var(--warm); border-color:var(--border); }
+.shell button.active,.shell .active{ background:var(--pick-bg); border-color:var(--accent); }
+.shell button:disabled{ color:var(--warm); }
+input{ background:#FFFFFF; color:var(--warm); border-color:var(--border); }
+input::placeholder{ color:#8A8DA8; }
+.ft-fill select{ background:#FFFFFF; color:var(--warm); border:1px solid var(--border); }
+
+/* selected states → pale gold */
+.slot.selected,.sequence-slot.selected,.match-grid button.selected,.choice-bank button.selected,
+.match-item.selected,.mini-choice.chosen{ background:var(--pick-bg); outline-color:var(--accent); }
+.answer-chip.selected{ outline-color:var(--accent); background:var(--pick-bg); }
+.cat-chip.on,.mode-card.on,.p-chip.on{ background:var(--pick-bg); border-color:var(--accent); box-shadow:none; }
+.day.target{ background:var(--pick-bg); outline-color:var(--accent); }
+.day.clickable:hover{ background:var(--soft); }
+.mall-floor.lit{ background:var(--pick-bg); border-color:var(--accent); box-shadow:0 0 12px rgba(184,150,46,.3); }
+.mall-floor.pick{ border-color:var(--accent); }
+.slot{ border-color:#CFC8B8; }
+.sequence-slot{ background:var(--soft); border-color:#D9CBA0; }
+.day{ background:var(--soft); border-color:var(--border); }
+.kana-box.empty{ background:var(--soft); border-color:#CFC8B8; }
+.kana-box.hole{ background:var(--pick-bg); }
+.p-blank{ background:#FDFBF4; }
+.p-blank.shown{ background:#EFECF8; }
+
+/* progress bar */
+.progress{ background:#EFEADF; color:var(--muted); }
+.progress-fill{ background:linear-gradient(90deg,#E3CF94,#C9A94A); }
+.progress span{ color:var(--warm); }
+
+/* ── Correct / wrong ── */
+.opt.right,.card.correct,.match-item.matched,.sequence-slot.filled,.day.day-correct,
+.match-grid button.matched,.p-blank.filled,.scene-card.right{ border-color:var(--good); background:var(--good-bg); }
+.day.day-correct{ outline-color:var(--good); }
+.opt.wrong,.card.incorrect,.match-item.wrong,.ft-options button.incorrect,.mall-floor.incorrect,
+.rush-options button.incorrect,.scene-card.oops,.day.day-wrong{ border-color:var(--bad); background:var(--bad-bg); }
+.day.day-wrong{ outline-color:var(--bad); }
+.kana-box.filled,.kana-line.solved .kana-box{ background:var(--good-bg); }
+.cb-card.wrong-pos{ background:var(--bad-bg); outline-color:var(--bad); }
+.conseq{ background:var(--bad-bg); border-color:rgba(208,85,107,.55); }
+.ft-blank.filled{ color:var(--good); border-color:var(--good); }
+
+/* colours that were tuned for the dark page */
+.weekday-head.sun,.day.sun{ color:#C8435C; }
+.weekday-head.sat,.day.sat{ color:#2F6FC0; }
+.ft-period.am{ background:#FFF3CC; color:#7E6200; }
+.ft-period.pm{ background:#E4E9FF; color:#3A4FB0; }
+.conseq-kind.funny{ color:#B83A57; }
+.conseq-kind.real{ color:#7E6200; }
+.code-warning{ background:var(--bad-bg); color:#A33A50; }
+
+/* ── Clock faces (drawn in SVG with dark-theme colours) ── */
+.clock circle[fill="rgba(244,241,234,.06)"]{ fill:#FBF9F3; stroke:#B8962E; }
+.clock line[stroke="rgba(217,196,142,.75)"]{ stroke:#B8962E; }
+.clock line[stroke="rgba(244,241,234,.22)"]{ stroke:#CFC8B8; }
+.clock text{ fill:#1E2140; }
+.clock line[stroke="#D9C48E"]{ stroke:#B8962E; }   /* hour hand */
+.clock line[stroke="#B6A9DA"]{ stroke:#5B4E9A; }   /* minute hand */
+.clock circle[fill="#F4F1EA"]{ fill:#1E2140; }
+
+/* ── "Finish & Send" stays gold, with an edge that shows on the light page ── */
+.done-btn{ background:#D9C48E; color:#14162e; border:1px solid #B8962E; box-shadow:0 6px 18px rgba(30,33,64,.22); }
+.card-toast{ border:1px solid #B8962E; box-shadow:0 10px 30px rgba(30,33,64,.25); }
+
+/* the mascot card: white page now, so give it a frame instead of a heavy shadow */
+#app .mascot{ border:1px solid var(--border); box-shadow:var(--shadow); }
+
+/* page rules that draw gold borders keep the brighter accent gold */
+.kana-box.hole,.p-blank{ border-color:var(--accent); }
+.blank-box,.ft-blank{ border-bottom-color:var(--accent); }
+.p-blank.shown{ border-color:var(--lav); }
+.p-blank.filled,.ft-blank.filled{ border-color:var(--good); }
+.mode-card.on{ border-color:var(--accent); }
+/* picture options: the button already frames the picture */
+.opt.picopt .pic,.match-item .pic{ border:0; }
