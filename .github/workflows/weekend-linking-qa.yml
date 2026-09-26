@@ -1,0 +1,25 @@
+name: Weekend linking QA
+on:
+  push:
+    branches: [weekend-linking-p0-20260926]
+  workflow_dispatch:
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Run local server
+        run: python3 -m http.server 8000 >/tmp/ml-server.log 2>&1 & echo $! > /tmp/ml-server.pid
+      - name: Browser acceptance checks and screenshots
+        run: node .github/weekend-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weekend-linking-qa
+          path: qa-output/
+          if-no-files-found: warn
