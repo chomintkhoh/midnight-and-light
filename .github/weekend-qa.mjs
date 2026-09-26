@@ -2,11 +2,13 @@ import { chromium } from "playwright";
 import fs from "fs";
 fs.mkdirSync("qa-output",{recursive:true});
 const report=[];
-function ok(name,cond,detail=""){report.push({name,pass:!!cond,detail});if(!cond)throw new Error(name+" :: "+detail)}
+let failed=false;
+function ok(name,cond,detail=""){report.push({name,pass:!!cond,detail});console.log((cond?"PASS ":"FAIL ")+name+(detail?" :: "+detail:""));if(!cond)failed=true}
 const browser=await chromium.launch({headless:true});
+try{
 async function fresh(width,height=900){
   const p=await browser.newPage({viewport:{width,height}});
-  await p.goto("http://127.0.0.1:8000/preview/chinese/index.html#vocab",{waitUntil:"networkidle"});
+  await p.goto("http://127.0.0.1:8000/preview/chinese/index.html#vocab",{waitUntil:"domcontentloaded"});
   return p;
 }
 async function vocabShot(width,label,scale){
@@ -100,6 +102,9 @@ async function detectiveShot(width){
   await p.close();
 }
 await detectiveShot(1280); await detectiveShot(390);
-await browser.close();
-fs.writeFileSync("qa-output/report.json",JSON.stringify(report,null,2));
-fs.writeFileSync("qa-output/report.txt",report.map(x=>(x.pass?"PASS ":"FAIL ")+x.name+(x.detail?" :: "+x.detail:"")).join("\n")+"\n");
+} finally {
+  await browser.close();
+  fs.writeFileSync("qa-output/report.json",JSON.stringify(report,null,2));
+  fs.writeFileSync("qa-output/report.txt",report.map(x=>(x.pass?"PASS ":"FAIL ")+x.name+(x.detail?" :: "+x.detail:"")).join("\n")+"\n");
+}
+if(failed)process.exitCode=1;
