@@ -1,58 +1,115 @@
 /* ══════════════════════════════════════════════
    Experience / Trial Lesson — あいうえお
-   Revision pass: English is the primary instructional
-   language throughout; Japanese is reserved for the
-   actual learning material (the characters themselves).
-   Teaching screens use Previous/Next based on stepIndex.
-   Guided handwriting uses two boxes for each new character:
-   one tracing box and one free-writing box.
-   Practice begins with a transition screen, then advances only
-   through Listening, Find the Difference, and Hiragana Maze.
-   Real Hiragana audio (repo-root mp3 files) is used by the
-   speaker buttons and listening practice. Vocabulary has no audio.
+   13 steps: welcome → one page per character (listen, write, words)
+   → vowels & chart → sound pattern → writing systems → 3 practices → finish.
+   Learning pages have no romaji (speaker only); explanation pages keep it.
+   English / Simplified Chinese, one at a time; switching keeps page state.
 ══════════════════════════════════════════════ */
 
 const app = document.getElementById("exp-app");
 
+/* ---------- Language ---------- */
+
+const LANG_KEY = "expLangV1";
+let lang = "en";
+try {
+  const saved = localStorage.getItem(LANG_KEY);
+  if (saved === "en" || saved === "zh") lang = saved;
+  else if (/^zh/i.test(navigator.language || "")) lang = "zh";
+} catch (e) {}
+
+const L = (en, zh) => (lang === "zh" ? zh : en);
+const k = s => `<span class="kana" lang="ja">${s}</span>`;
+
+// Every translatable node remembers how to repaint itself, so switching
+// language never resets drawings, game progress or revealed cards.
+const live = new Map();
+function paint(node) {
+  const e = live.get(node);
+  if (e.html) node.innerHTML = e.fn(); else node.textContent = e.fn();
+}
+function setT(node, fn, html = false) {
+  live.set(node, { fn, html });
+  paint(node);
+  return node;
+}
+function el(tag, cls, text, html = false) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (typeof text === "function") setT(n, text, html);
+  else if (text != null) { if (html) n.innerHTML = text; else n.textContent = text; }
+  return n;
+}
+
+function paintHeader() {
+  document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+  const set = (id, fn, html) => { const n = document.getElementById(id); if (n) { if (html) n.innerHTML = fn(); else n.textContent = fn(); } };
+  set("exp-eyebrow", () => L("Free Trial", "免费体验"));
+  set("exp-title", () => L("Experience a Lesson", "体验一堂日语课"));
+  set("exp-lead", () => L(
+    `A short, interactive first look at Japanese — learn your first five Hiragana, ${k("あいうえお")}.`,
+    `简短的互动体验课——学会你的第一批平假名：${k("あいうえお")}。`
+  ), true);
+}
+
+function setLang(next) {
+  lang = next;
+  try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+  paintHeader();
+  live.forEach((_, node) => { if (node.isConnected) paint(node); });
+  document.querySelectorAll(".lang-toggle button").forEach(b => b.classList.toggle("active", b.dataset.lang === lang));
+}
+
+function langToggle() {
+  const box = el("div", "lang-toggle");
+  box.setAttribute("role", "group");
+  box.setAttribute("aria-label", "Language / 语言");
+  [["en", "English"], ["zh", "中文"]].forEach(([id, label]) => {
+    const b = el("button", id === lang ? "active" : "", label);
+    b.type = "button";
+    b.dataset.lang = id;
+    b.addEventListener("click", () => setLang(id));
+    box.appendChild(b);
+  });
+  return box;
+}
+
+/* ---------- Lesson data ---------- */
+
 const CHARS = [
-  { char: "あ", romaji: "a", vocab: [
-      { word: "あめ", romaji: "ame", emoji: "🌧️", meaning: "Rain" },
-      { word: "あさ", romaji: "asa", emoji: "🌅", meaning: "Morning" },
-      { word: "あか", romaji: "aka", emoji: "🔴", meaning: "Red" }
+  { char: "あ", vocab: [
+      { word: "あめ", romaji: "ame", emoji: "🌧️", en: "Rain", zh: "雨" },
+      { word: "あさ", romaji: "asa", emoji: "🌅", en: "Morning", zh: "早上" },
+      { word: "あか", romaji: "aka", emoji: "🔴", en: "Red", zh: "红色" }
     ] },
-  { char: "い", romaji: "i", vocab: [
-      { word: "いぬ", romaji: "inu", emoji: "🐶", meaning: "Dog" },
-      { word: "いえ", romaji: "ie", emoji: "🏠", meaning: "House" },
-      { word: "いす", romaji: "isu", emoji: "🪑", meaning: "Chair" }
+  { char: "い", vocab: [
+      { word: "いぬ", romaji: "inu", emoji: "🐶", en: "Dog", zh: "狗" },
+      { word: "いえ", romaji: "ie", emoji: "🏠", en: "House", zh: "房子" },
+      { word: "いす", romaji: "isu", emoji: "🪑", en: "Chair", zh: "椅子" }
     ] },
-  { char: "う", romaji: "u", vocab: [
-      { word: "うみ", romaji: "umi", emoji: "🌊", meaning: "Sea" },
-      { word: "うし", romaji: "ushi", emoji: "🐄", meaning: "Cow" },
-      { word: "うた", romaji: "uta", emoji: "🎵", meaning: "Song" }
+  { char: "う", vocab: [
+      { word: "うみ", romaji: "umi", emoji: "🌊", en: "Sea", zh: "海" },
+      { word: "うし", romaji: "ushi", emoji: "🐄", en: "Cow", zh: "牛" },
+      { word: "うた", romaji: "uta", emoji: "🎵", en: "Song", zh: "歌" }
     ] },
-  { char: "え", romaji: "e", vocab: [
-      { word: "えき", romaji: "eki", emoji: "🚉", meaning: "Station" },
-      { word: "えんぴつ", romaji: "enpitsu", emoji: "✏️", meaning: "Pencil" },
-      { word: "えほん", romaji: "ehon", emoji: "📖", meaning: "Picture book" }
+  { char: "え", vocab: [
+      { word: "えき", romaji: "eki", emoji: "🚉", en: "Station", zh: "车站" },
+      { word: "えんぴつ", romaji: "enpitsu", emoji: "✏️", en: "Pencil", zh: "铅笔" },
+      { word: "えほん", romaji: "ehon", emoji: "📖", en: "Picture book", zh: "绘本" }
     ] },
-  { char: "お", romaji: "o", vocab: [
-      { word: "おちゃ", romaji: "ocha", emoji: "🍵", meaning: "Tea" },
-      { word: "おかし", romaji: "okashi", emoji: "🍪", meaning: "Snack / Sweets" },
-      { word: "おと", romaji: "oto", emoji: "🔊", meaning: "Sound" }
+  { char: "お", vocab: [
+      { word: "おちゃ", romaji: "ocha", emoji: "🍵", en: "Tea", zh: "茶" },
+      { word: "おかし", romaji: "okashi", emoji: "🍪", en: "Snacks", zh: "零食" },
+      { word: "おと", romaji: "oto", emoji: "🔊", en: "Sound", zh: "声音" }
     ] }
 ];
 
-/* ---------- Reusable lesson data ----------
-   This lesson's vowel group and a generic distractor pool. A future
-   lesson (かきくけこ, etc.) only needs its own GROUP + DISTRACTOR_POOL
-   — every game runner below is generic over these, not hardcoded to
-   あいうえお specifically. */
+const SCRIPT_NAMES = {
+  Hiragana: { en: "Hiragana", zh: "平假名" },
+  Katakana: { en: "Katakana", zh: "片假名" },
+  Kanji: { en: "Kanji", zh: "汉字" }
+};
 
-// Two genuinely different example sentences for the writing-system
-// identification activity. Both use only 私 in common (deliberately,
-// for reinforcement) — otherwise different vocabulary, different
-// grammar pattern, and the second one shows that not every sentence
-// needs all three writing systems.
 const SENTENCES = [
   {
     parts: [
@@ -63,7 +120,7 @@ const SENTENCES = [
       { text: "です", label: "Hiragana" },
       { text: "。", label: null }
     ],
-    translation: "I am Malaysian."
+    en: "I am Malaysian.", zh: "我是马来西亚人。"
   },
   {
     parts: [
@@ -75,13 +132,11 @@ const SENTENCES = [
       { text: "です", label: "Hiragana" },
       { text: "。", label: null }
     ],
-    translation: "I like coffee."
+    en: "I like coffee.", zh: "我喜欢咖啡。"
   }
 ];
 
-// The Gojuon chart, for orientation only — not memorisation. Empty
-// strings represent the real gaps in the historical 5x10 grid (や row
-// has no yi/ye; わ row has only わ and を; ん stands alone).
+// Empty strings are the real gaps in the grid (や row, わ row, ん).
 const GOJUON_ROWS = [
   ["あ", "い", "う", "え", "お"],
   ["か", "き", "く", "け", "こ"],
@@ -97,33 +152,29 @@ const GOJUON_ROWS = [
 ];
 
 const K_ROW_PATTERN = [
-  { consonant: "K", vowel: "A", romaji: "KA", kana: "か" },
-  { consonant: "K", vowel: "I", romaji: "KI", kana: "き" },
-  { consonant: "K", vowel: "U", romaji: "KU", kana: "く" },
-  { consonant: "K", vowel: "E", romaji: "KE", kana: "け" },
-  { consonant: "K", vowel: "O", romaji: "KO", kana: "こ" }
+  { vowel: "A", romaji: "KA", kana: "か" },
+  { vowel: "I", romaji: "KI", kana: "き" },
+  { vowel: "U", romaji: "KU", kana: "く" },
+  { vowel: "E", romaji: "KE", kana: "け" },
+  { vowel: "O", romaji: "KO", kana: "こ" }
 ];
 
 const PREVIEW_SOUNDS = [
-  { label: "Voiced sounds", pairs: [{ from: "か", to: "が" }, { from: "さ", to: "ざ" }] },
-  { label: "Semi-voiced sounds", pairs: [{ from: "は", to: "ぱ" }] },
-  { label: "Combination sounds", pairs: [{ from: "き + ゃ", to: "きゃ" }, { from: "し + ゅ", to: "しゅ" }] }
+  { en: "Voiced sounds", zh: "浊音", pairs: [["か", "が"], ["さ", "ざ"]] },
+  { en: "Semi-voiced sounds", zh: "半浊音", pairs: [["は", "ぱ"]] },
+  { en: "Combination sounds", zh: "拗音", pairs: [["き + ゃ", "きゃ"], ["し + ゅ", "しゅ"]] }
 ];
 
-const GROUP = CHARS.map(c => c.char); // ["あ","い","う","え","お"]
-// Broader beginner-safe pool so repeated practice sessions feel genuinely different.
-// The target remains あいうえお; these characters are only distractors.
+const GROUP = CHARS.map(c => c.char);
+// Distractors only; the targets are always あいうえお.
 const DISTRACTOR_POOL = [
-  "か", "き", "く", "け", "こ",
-  "さ", "し", "す", "せ", "そ",
-  "た", "ち", "つ", "て", "と",
-  "な", "に", "ぬ", "ね", "の",
-  "は", "ひ", "ふ", "へ", "ほ",
-  "ま", "み", "む", "め", "も",
-  "や", "ゆ", "よ",
-  "ら", "り", "る", "れ", "ろ",
-  "わ", "を", "ん"
+  "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ",
+  "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の",
+  "は", "ひ", "ふ", "へ", "ほ", "ま", "み", "む", "め", "も",
+  "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"
 ];
+
+/* ---------- Practice sets ---------- */
 
 let lastPracticeSignature = null;
 let currentPracticeSet = null;
@@ -134,27 +185,19 @@ function sampleUnique(pool, count, excluded = []) {
 }
 
 function buildPracticeSet(group, distractorPool) {
-  let set;
-  let signature;
-  let attempts = 0;
+  let set, signature, attempts = 0;
   do {
-    const listeningOrder = shuffle(group);
-    const listening = listeningOrder.map(target => {
-      const distractors = sampleUnique(distractorPool, 4);
-      return { target, choices: shuffle([target, ...distractors]) };
-    });
-
-    const oddTargets = sampleUnique(distractorPool, 3);
-    const oddOneOut = oddTargets.map((distractor, index) => {
+    const listening = shuffle(group).map(target => ({
+      target, choices: shuffle([target, ...sampleUnique(distractorPool, 4)])
+    }));
+    const oddOneOut = sampleUnique(distractorPool, 3).map((distractor, index) => {
       const omitted = group[(Math.floor(Math.random() * group.length) + index) % group.length];
       return { target: distractor, choices: shuffle([...group.filter(c => c !== omitted), distractor]) };
     });
-
     set = { listening, oddOneOut };
     signature = JSON.stringify(set);
     attempts++;
   } while (signature === lastPracticeSignature && attempts < 30);
-
   lastPracticeSignature = signature;
   return set;
 }
@@ -163,39 +206,11 @@ function ensurePracticeSet() {
   if (!currentPracticeSet) currentPracticeSet = buildPracticeSet(GROUP, DISTRACTOR_POOL);
   return currentPracticeSet;
 }
-
 function resetPracticeSet() {
   currentPracticeSet = buildPracticeSet(GROUP, DISTRACTOR_POOL);
 }
 
-// One listening question per character in `group`, each appearing as
-// the target exactly once (guaranteed by mapping over the group itself).
-function buildListeningQuestions(group, distractorPool) {
-  // Every vowel is still tested exactly once, but the question order and
-  // distractors are regenerated each time the practice is entered.
-  return shuffle(group).map(target => {
-    const otherOptions = shuffle([...group.filter(c => c !== target), ...distractorPool]).slice(0, 4);
-    return { target, choices: shuffle([target, ...otherOptions]) };
-  });
-}
-
-// `count` odd-one-out questions. Each shows the group MINUS one random
-// member, plus one distractor — 5 total choices, matching the format
-// "あ い う え か → か" (four of the five vowels, not all five).
-function buildOddOneOutQuestions(group, distractorPool, count) {
-  return shuffle(distractorPool).slice(0, count).map(distractor => {
-    const omitted = group[Math.floor(Math.random() * group.length)];
-    const shownGroup = group.filter(c => c !== omitted);
-    return { target: distractor, choices: shuffle([...shownGroup, distractor]) };
-  });
-}
-
-/* ---------- Real Hiragana audio ----------
-   Hiragana audio files are stored in:
-   assets/audio/japanese/hiragana/
-
-   Used by the speaker button on each learnChar screen and Game 1.
-   Vocabulary intentionally has NO audio anywhere. */
+/* ---------- Audio (characters only; vocabulary has no audio) ---------- */
 
 const HIRAGANA_AUDIO_FILES = {
   "あ": "assets/audio/japanese/hiragana/a.mp3",
@@ -206,77 +221,74 @@ const HIRAGANA_AUDIO_FILES = {
 };
 let currentAudio = null;
 
-function playHiraganaAudio(char) {
+function playHiraganaAudio(char, btn) {
   const src = HIRAGANA_AUDIO_FILES[char];
   if (!src) return;
-  if (currentAudio) { currentAudio.pause(); }
+  if (currentAudio) currentAudio.pause();
   currentAudio = new Audio(src);
-  currentAudio.play().catch(() => { /* ignore — e.g. autoplay restrictions */ });
-}
-
-function speakerButton(char) {
-  const btn = document.createElement("button");
-  btn.className = "exp-speaker";
-  btn.textContent = "🔊";
-  btn.addEventListener("click", () => playHiraganaAudio(char));
-  return btn;
+  if (btn) {
+    btn.classList.add("playing");
+    const done = () => btn.classList.remove("playing");
+    currentAudio.addEventListener("ended", done);
+    currentAudio.addEventListener("error", done);
+    currentAudio.addEventListener("pause", done);
+  }
+  currentAudio.play().catch(() => {});
 }
 
 /* ---------- Small helpers ---------- */
 
 function primaryButton(label, onClick, opts = {}) {
-  const btn = document.createElement("button");
-  btn.className = "exp-btn" + (opts.secondary ? " secondary" : "");
-  btn.textContent = label;
+  const btn = el("button", "exp-btn" + (opts.secondary ? " secondary" : ""), label, opts.html);
+  btn.type = "button";
   btn.addEventListener("click", onClick);
   return btn;
 }
 
 function instructionBlock(main, sub) {
-  const wrap = document.createElement("div");
-  const m = document.createElement("div");
-  m.className = "exp-instruction";
-  m.textContent = main;
-  wrap.appendChild(m);
-  if (sub) {
-    const s = document.createElement("div");
-    s.className = "exp-subinstruction";
-    s.textContent = sub;
-    wrap.appendChild(s);
-  }
+  const wrap = el("div");
+  wrap.appendChild(el("div", "exp-instruction", main, true));
+  if (sub) wrap.appendChild(el("div", "exp-subinstruction", sub, true));
   return wrap;
 }
 
-function card() {
-  const c = document.createElement("div");
-  c.className = "exp-card";
+function note(text, cls = "exp-note") {
+  return el("p", cls, text, true);
+}
+
+// Every screen starts with a top bar: position on the left, language on the right.
+function card(label) {
+  if (currentAudio) currentAudio.pause();
+  live.clear();
+  const c = el("div", "exp-card");
+  const bar = el("div", "exp-topbar");
+  bar.appendChild(el("div", "exp-step-count", label || `${stepIndex + 1} / ${steps.length}`));
+  bar.appendChild(langToggle());
+  c.appendChild(bar);
+  const progress = el("div", "exp-progress");
+  const fill = el("div", "exp-progress-fill");
+  fill.style.width = `${((stepIndex + 1) / steps.length) * 100}%`;
+  progress.appendChild(fill);
+  c.appendChild(progress);
   app.innerHTML = "";
   app.appendChild(c);
   return c;
 }
 
-// Shared "fast student" extension offer — used by any game runner that
-// has an optional extraQuestions set. Kept lightweight and generic
-// rather than duplicated per game, per the reusability requirement.
-function renderExtraOffer(onExtra, onContinue) {
-  const c = card();
-  c.appendChild(instructionBlock("Nicely done!", "Want a little more practice?"));
-  const row = document.createElement("div");
-  row.className = "exp-nav-row";
-  row.appendChild(primaryButton("Continue", onContinue, { secondary: true }));
-  row.appendChild(primaryButton("Extra Practice", onExtra));
-  c.appendChild(row);
+function practiceLabel(n, en, zh) {
+  return () => L(`Practice ${n} of 3 · ${en}`, `练习 ${n} / 3 · ${zh}`);
 }
 
-/* ---------- Bidirectional navigation ---------- */
+function vowelLine() {
+  return el("div", "exp-big exp-vowel-line kana", "あ　い　う　え　お");
+}
 
-function appendNav(c, { showNext = true } = {}) {
-  const row = document.createElement("div");
-  row.className = "exp-nav-row";
-  if (stepIndex > 0) row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
-  // Practice screens do not call appendNav, so their own interactions
-  // control progression without exposing Previous / Next.
-  if (showNext && stepIndex < steps.length - 1) row.appendChild(primaryButton("Next", goNext));
+/* ---------- Navigation ---------- */
+
+function appendNav(c, { nextLabel, onNext } = {}) {
+  const row = el("div", "exp-nav-row");
+  if (stepIndex > 0) row.appendChild(primaryButton(() => L("← Previous", "← 上一页"), goPrevious, { secondary: true }));
+  if (stepIndex < steps.length - 1) row.appendChild(primaryButton(nextLabel || (() => L("Next →", "下一页 →")), onNext || goNext));
   c.appendChild(row);
 }
 
@@ -286,8 +298,13 @@ function goNext() {
 function goPrevious() {
   if (stepIndex > 0) { stepIndex--; render(); }
 }
+function goToPractice() {
+  stepIndex = steps.findIndex(s => s.type === "game1");
+  resetPracticeSet();
+  render();
+}
 
-/* ---------- Guided handwriting canvas ---------- */
+/* ---------- Handwriting canvas ---------- */
 
 function enableDrawing(canvas) {
   const ctx = canvas.getContext("2d");
@@ -295,7 +312,6 @@ function enableDrawing(canvas) {
   ctx.lineJoin = "round";
   ctx.strokeStyle = "#F4F1EA";
   ctx.lineWidth = 12;
-
   let drawing = false;
 
   function pointFromEvent(e) {
@@ -305,7 +321,6 @@ function enableDrawing(canvas) {
       y: (e.clientY - rect.top) * (canvas.height / rect.height)
     };
   }
-
   canvas.addEventListener("pointerdown", e => {
     drawing = true;
     canvas.setPointerCapture(e.pointerId);
@@ -313,381 +328,233 @@ function enableDrawing(canvas) {
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
   });
-
   canvas.addEventListener("pointermove", e => {
     if (!drawing) return;
     const p = pointFromEvent(e);
     ctx.lineTo(p.x, p.y);
     ctx.stroke();
   });
-
   function stopDrawing(e) {
     if (!drawing) return;
     drawing = false;
     ctx.closePath();
-    if (e && canvas.hasPointerCapture(e.pointerId)) {
-      canvas.releasePointerCapture(e.pointerId);
-    }
+    if (e && canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
   }
-
   canvas.addEventListener("pointerup", stopDrawing);
   canvas.addEventListener("pointercancel", stopDrawing);
-  canvas.addEventListener("pointerleave", e => {
-    if (e.buttons === 0) stopDrawing(e);
-  });
+  canvas.addEventListener("pointerleave", e => { if (e.buttons === 0) stopDrawing(e); });
 }
 
-/* ---------- Build the linear step sequence ---------- */
+/* ---------- Steps ---------- */
 
-const steps = [];
-steps.push({ type: "welcome" });
-steps.push({ type: "writingSystems" });
-steps.push({ type: "sentenceExample", sentence: SENTENCES[0] });
-steps.push({ type: "sentenceExample", sentence: SENTENCES[1] });
-steps.push({ type: "gojuonChart" });
-steps.push({ type: "fiveVowels" });
-steps.push({ type: "soundPattern" });
-steps.push({ type: "lookAhead" });
-steps.push({ type: "hiraganaIntro" });
-CHARS.forEach(c => {
-  steps.push({ type: "learnChar", char: c });
-  steps.push({ type: "writingPractice", char: c });
-  steps.push({ type: "vocab", char: c });
-});
-// Guided handwriting belongs to teaching, not to the quiz section.
-// Practice begins with a transition screen, then uses three short
-// interaction-led activities. Drag-and-drop, fill-in-the-blank,
-// vocabulary writing, and the old Final Review remain removed.
-steps.push({ type: "practiceIntro" });
-steps.push({ type: "game1" });
-steps.push({ type: "game2" });
-steps.push({ type: "game3" });
-steps.push({ type: "finish" });
+const steps = [
+  { type: "welcome" },
+  ...CHARS.map(c => ({ type: "learnChar", char: c })),
+  { type: "vowelsChart" },
+  { type: "soundPattern" },
+  { type: "writingSystems" },
+  { type: "game1" },
+  { type: "game2" },
+  { type: "game3" },
+  { type: "finish" }
+];
 
 let stepIndex = 0;
 
 function render() {
   const step = steps[stepIndex];
   renderers[step.type](step);
+  const top = app.getBoundingClientRect().top + window.scrollY - 90;
+  if (window.scrollY > top) window.scrollTo({ top, behavior: "smooth" });
 }
-
-/* ---------- Screen renderers ---------- */
 
 const renderers = {
   welcome() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">Welcome!</div>`;
-    c.appendChild(instructionBlock("This is a short trial lesson.", "Let's learn your first Hiragana characters together."));
-    appendNav(c);
+    c.appendChild(el("div", "exp-mid", () => L("Welcome!", "欢迎！")));
+    c.appendChild(note(() => L(
+      "Japanese is written with Hiragana, Katakana and Kanji. Everyone starts with Hiragana.",
+      "日语用平假名、片假名和汉字来书写。大家都从平假名开始学。"
+    )));
+    c.appendChild(vowelLine());
+    c.appendChild(note(() => L(
+      "In the next few minutes you'll learn your first five — how they sound, how to write them, and a few words that use them.",
+      "接下来几分钟，你会学会最先的五个：怎么念、怎么写，还有用到它们的几个词。"
+    )));
+    appendNav(c, { nextLabel: () => L("Start →", "开始 →") });
 
-    const shortcut = document.createElement("div");
-    shortcut.className = "exp-practice-shortcut";
-    const prompt = document.createElement("div");
-    prompt.className = "exp-subinstruction";
-    prompt.textContent = "Already know あいうえお?";
-    shortcut.appendChild(prompt);
-    shortcut.appendChild(primaryButton("Go to Practice →", () => {
-      stepIndex = steps.findIndex(step => step.type === "practiceIntro");
-      currentPracticeSet = null;
-      render();
-    }, { secondary: true }));
+    const shortcut = el("div", "exp-practice-shortcut");
+    shortcut.appendChild(el("div", "exp-subinstruction", () => L(`Already know ${k("あいうえお")}?`, `已经会 ${k("あいうえお")} 了？`), true));
+    shortcut.appendChild(primaryButton(() => L("Go to Practice →", "直接去练习 →"), goToPractice, { secondary: true }));
     c.appendChild(shortcut);
   },
 
-  writingSystems() {
+  learnChar(step) {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">Japanese Writing Systems</div>`;
-    const row = document.createElement("div");
-    row.className = "exp-writing-row";
-    row.innerHTML = `
-      <div class="exp-writing-item"><span class="type-label">Hiragana</span>あ　い　う</div>
-      <div class="exp-writing-item"><span class="type-label">Katakana</span>ア　イ　ウ</div>
-      <div class="exp-writing-item"><span class="type-label">Kanji</span>日　本　人</div>
-    `;
-    const intro = document.createElement("p");
-    intro.className = "exp-note";
-    intro.textContent = "Japanese uses three main writing systems: Hiragana, Katakana, and Kanji.";
-    c.appendChild(intro);
-    c.appendChild(row);
-    const note = document.createElement("p");
-    note.className = "exp-note";
-    note.textContent = "They often appear together in the same sentence.";
-    c.appendChild(note);
+    const { char, vocab } = step.char;
+
+    c.appendChild(el("div", "exp-big exp-char kana", char));
+
+    const speaker = el("button", "exp-speaker");
+    speaker.type = "button";
+    speaker.innerHTML = `<span aria-hidden="true">🔊</span>`;
+    speaker.setAttribute("aria-label", "Play the sound / 播放发音");
+    speaker.addEventListener("click", () => playHiraganaAudio(char, speaker));
+    c.appendChild(speaker);
+    c.appendChild(el("div", "exp-subinstruction", () => L("Tap to listen, then say it out loud.", "点一下听发音，然后大声跟着念。")));
+
+    // Write it
+    c.appendChild(el("div", "exp-section-title", () => L("Write it", "写一写")));
+    const pair = el("div", "exp-writing-pair");
+    const canvases = [];
+    [[() => L("Trace", "描一描"), true], [() => L("By yourself", "自己写"), false]].forEach(([label, withRef]) => {
+      const box = el("div", "exp-writing-box");
+      box.appendChild(el("div", "exp-writing-label", label));
+      const wrap = el("div", "exp-canvas-wrap");
+      const canvas = el("canvas", "exp-writing-canvas");
+      canvas.width = 440;
+      canvas.height = 440;
+      canvas.setAttribute("aria-label", `Writing practice for ${char}`);
+      wrap.appendChild(canvas);
+      if (withRef) wrap.appendChild(el("div", "exp-writing-ref kana", char));
+      box.appendChild(wrap);
+      pair.appendChild(box);
+      enableDrawing(canvas);
+      canvases.push(canvas);
+    });
+    c.appendChild(pair);
+    const clear = el("button", "exp-clear-btn", () => L("Clear", "清除"));
+    clear.type = "button";
+    clear.addEventListener("click", () => canvases.forEach(cv => cv.getContext("2d").clearRect(0, 0, cv.width, cv.height)));
+    c.appendChild(clear);
+
+    // Words
+    c.appendChild(el("div", "exp-section-title", () => L(`Words with ${k(char)}`, `有 ${k(char)} 的词`), true));
+    c.appendChild(el("div", "exp-subinstruction", () => L("Tap a word to see its meaning.", "点一下词语，看看是什么意思。")));
+    const grid = el("div", "exp-vocab-grid");
+    vocab.forEach(v => {
+      const item = el("button", "exp-vocab-card");
+      item.type = "button";
+      item.appendChild(el("div", "emoji", v.emoji));
+      item.appendChild(el("div", "word kana", v.word.replace(char, `<strong>${char}</strong>`), true));
+      item.appendChild(el("div", "vocab-romaji", v.romaji));
+      item.appendChild(el("div", "meaning", () => L(v.en, v.zh)));
+      item.addEventListener("click", () => item.classList.toggle("revealed"));
+      grid.appendChild(item);
+    });
+    c.appendChild(grid);
+
     appendNav(c);
   },
 
-  sentenceExample(step) {
+  vowelsChart() {
     const c = card();
-    c.appendChild(instructionBlock("Tap each part to see which writing system it uses."));
-
-    const sentence = document.createElement("div");
-    sentence.className = "exp-clickable-sentence";
-    const reveal = document.createElement("div");
-    reveal.className = "exp-tag-reveal";
-
-    step.sentence.parts.forEach(p => {
-      const span = document.createElement("span");
-      span.textContent = p.text;
-      if (p.label) {
-        span.addEventListener("click", () => {
-          sentence.querySelectorAll("span").forEach(s => s.classList.remove("tapped"));
-          span.classList.add("tapped");
-          reveal.textContent = p.label;
-        });
-      }
-      sentence.appendChild(span);
-    });
-    c.appendChild(sentence);
-    c.appendChild(reveal);
-
-    const translation = document.createElement("p");
-    translation.className = "exp-note";
-    translation.textContent = step.sentence.translation;
-    c.appendChild(translation);
-
-    appendNav(c);
-  },
-
-  gojuonChart() {
-    const c = card();
-    c.innerHTML = `<div class="exp-mid">Gojūon 五十音</div>`;
-    const note1 = document.createElement("p");
-    note1.className = "exp-note";
-    note1.textContent = "Gojūon is the basic sound chart used to organise Hiragana.";
-    c.appendChild(note1);
-    const note2 = document.createElement("p");
-    note2.className = "exp-note";
-    note2.textContent = "You do not need to learn the whole chart today.";
-    c.appendChild(note2);
-    const chart = document.createElement("div");
-    chart.className = "exp-gojuon-chart";
-    GOJUON_ROWS.forEach((row, ri) => {
-      row.forEach(ch => {
-        const cell = document.createElement("div");
-        cell.className = "exp-gojuon-cell" + (ri === 0 && ch ? " highlight" : "");
-        cell.textContent = ch;
-        chart.appendChild(cell);
-      });
-    });
+    c.appendChild(el("div", "exp-mid", () => L("The Five Vowels", "五个元音")));
+    c.appendChild(vowelLine());
+    c.appendChild(el("div", "exp-romaji exp-vowel-romaji", "a　i　u　e　o"));
+    c.appendChild(note(() => L(
+      "You just learned all five. They are the first row of the Hiragana chart, called Gojūon (五十音).",
+      "你已经学会这五个了。它们是平假名表的第一行，这张表叫“五十音”。"
+    )));
+    const chart = el("div", "exp-gojuon-chart kana");
+    GOJUON_ROWS.forEach((row, ri) => row.forEach(ch => {
+      chart.appendChild(el("div", "exp-gojuon-cell" + (ri === 0 && ch ? " highlight" : ""), ch));
+    }));
     c.appendChild(chart);
-    c.appendChild(instructionBlock("Today, we will start here."));
-    appendNav(c);
-  },
-
-  fiveVowels() {
-    const c = card();
-    c.innerHTML = `<div class="exp-mid">The Five Vowels</div>`;
-    const big = document.createElement("div");
-    big.className = "exp-big exp-vowel-line";
-    big.textContent = "あ　い　う　え　お";
-    c.appendChild(big);
-    const romaji = document.createElement("div");
-    romaji.className = "exp-romaji exp-vowel-romaji";
-    romaji.textContent = "a　i　u　e　o";
-    c.appendChild(romaji);
-    const note = document.createElement("p");
-    note.className = "exp-note";
-    note.textContent = "These are the five basic vowel sounds in Japanese.";
-    c.appendChild(note);
+    c.appendChild(note(() => L("You don't need to learn the whole chart today.", "今天不用学整张表。"), "exp-note small"));
     appendNav(c);
   },
 
   soundPattern() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">How the Sound Pattern Works</div>`;
-    const rows = document.createElement("div");
-    rows.className = "exp-pattern-rows";
+    c.appendChild(el("div", "exp-mid", () => L("How the Chart Works", "这张表的规律")));
+    c.appendChild(note(() => L(
+      "Each row is one consonant + the five vowels. Here is the K row:",
+      "每一行都是一个辅音，加上这五个元音。比如 K 这一行："
+    )));
+    const rows = el("div", "exp-pattern-rows");
     K_ROW_PATTERN.forEach(p => {
-      const row = document.createElement("div");
-      row.className = "exp-pattern-row";
-      row.textContent = `${p.consonant} + ${p.vowel} → ${p.romaji} → ${p.kana}`;
-      rows.appendChild(row);
+      rows.appendChild(el("div", "exp-pattern-row", `K + ${p.vowel} → ${p.romaji} → ${k(p.kana)}`, true));
     });
     c.appendChild(rows);
-    const note = document.createElement("p");
-    note.className = "exp-note";
-    note.textContent = "The same vowel pattern continues through many other Hiragana rows.";
-    c.appendChild(note);
-    const chain = document.createElement("div");
-    chain.className = "exp-pattern-chain";
-    chain.innerHTML = "A I U E O<br>↓<br>KA KI KU KE KO<br>↓<br>SA SHI SU SE SO";
-    c.appendChild(chain);
-    appendNav(c);
-  },
+    c.appendChild(el("div", "exp-pattern-chain", "A I U E O<br>↓<br>KA KI KU KE KO<br>↓<br>SA SHI SU SE SO", true));
+    c.appendChild(note(() => L(
+      "So if you know the vowels well, every new row is easier.",
+      "所以元音学好了，后面每一行都会更容易。"
+    )));
 
-  lookAhead() {
-    const c = card();
-    c.innerHTML = `<div class="exp-mid">A Quick Look Ahead</div>`;
-    PREVIEW_SOUNDS.forEach(group => {
-      const label = document.createElement("div");
-      label.className = "exp-preview-label";
-      label.textContent = group.label;
-      c.appendChild(label);
-      const row = document.createElement("div");
-      row.className = "exp-preview-row";
-      group.pairs.forEach(p => {
-        const example = document.createElement("span");
-        example.className = "exp-preview-example";
-        example.textContent = `${p.from} → ${p.to}`;
-        row.appendChild(example);
-      });
-      c.appendChild(row);
+    c.appendChild(el("div", "exp-preview-label", () => L("Later on", "以后会学到")));
+    const preview = el("div", "exp-preview");
+    PREVIEW_SOUNDS.forEach(g => {
+      const item = el("div", "exp-preview-item");
+      item.appendChild(el("div", "exp-preview-name", () => L(g.en, g.zh)));
+      item.appendChild(el("div", "exp-preview-row kana", g.pairs.map(([a, b]) => `<span>${a} → ${b}</span>`).join(""), true));
+      preview.appendChild(item);
     });
-    const note = document.createElement("p");
-    note.className = "exp-note";
-    note.textContent = "You do not need to learn these today. We will meet them later.";
-    c.appendChild(note);
+    c.appendChild(preview);
     appendNav(c);
   },
 
-  hiraganaIntro() {
+  writingSystems() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">Today: あいうえお</div>`;
-    c.appendChild(instructionBlock("Let's start with the five basic vowel sounds."));
-    const big = document.createElement("div");
-    big.className = "exp-big exp-vowel-line";
-    big.textContent = "あ　い　う　え　お";
-    c.appendChild(big);
-    appendNav(c);
-  },
-
-  learnChar(step) {
-    const c = card();
-    const { char, romaji } = step.char;
-    c.innerHTML = `<div class="exp-big">${char}</div><div class="exp-romaji">${romaji}</div>`;
-    c.appendChild(instructionBlock("Listen and repeat.", `Say "${romaji}" out loud.`));
-    c.appendChild(speakerButton(char));
-    appendNav(c);
-  },
-
-  writingPractice(step) {
-    const c = card();
-    const { char } = step.char;
-    c.innerHTML = `<div class="exp-mid">Write ${char}</div>`;
-    c.appendChild(instructionBlock(`Trace ${char} once, then try writing it by yourself.`));
-
-    const practice = document.createElement("div");
-    practice.className = "exp-handwriting";
-    const pair = document.createElement("div");
-    pair.className = "exp-writing-pair";
-
-    function makeWritingBox(labelText, withReference) {
-      const item = document.createElement("div");
-      item.className = "exp-writing-box";
-
-      const label = document.createElement("div");
-      label.className = "exp-writing-label";
-      label.textContent = labelText;
-      item.appendChild(label);
-
-      const wrap = document.createElement("div");
-      wrap.className = "exp-canvas-wrap";
-      const canvas = document.createElement("canvas");
-      canvas.className = "exp-writing-canvas";
-      canvas.width = 440;
-      canvas.height = 440;
-      canvas.setAttribute("aria-label", `${labelText} writing practice for ${char}`);
-      wrap.appendChild(canvas);
-
-      if (withReference) {
-        const reference = document.createElement("div");
-        reference.className = "exp-writing-ref";
-        reference.textContent = char;
-        wrap.appendChild(reference);
-      }
-
-      item.appendChild(wrap);
-      return { item, canvas };
-    }
-
-    const traceBox = makeWritingBox("Trace", true);
-    const freeBox = makeWritingBox("Try it yourself", false);
-    pair.appendChild(traceBox.item);
-    pair.appendChild(freeBox.item);
-    practice.appendChild(pair);
-
-    const clear = document.createElement("button");
-    clear.className = "exp-clear-btn";
-    clear.textContent = "Clear";
-    clear.addEventListener("click", () => {
-      [traceBox.canvas, freeBox.canvas].forEach(canvas => {
-        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      });
+    c.appendChild(el("div", "exp-mid", () => L("Three Writing Systems", "三种文字")));
+    const row = el("div", "exp-writing-row");
+    [["Hiragana", "あ い う"], ["Katakana", "ア イ ウ"], ["Kanji", "日 本 人"]].forEach(([name, sample]) => {
+      const item = el("div", "exp-writing-item");
+      item.appendChild(el("span", "type-label", () => L(SCRIPT_NAMES[name].en, SCRIPT_NAMES[name].zh)));
+      item.appendChild(el("span", "kana", sample));
+      row.appendChild(item);
     });
-    practice.appendChild(clear);
-    c.appendChild(practice);
-
-    enableDrawing(traceBox.canvas);
-    enableDrawing(freeBox.canvas);
-    appendNav(c);
-  },
-
-  vocab(step) {
-    const c = card();
-    const { char, vocab } = step.char;
-    c.innerHTML = `<div class="exp-mid">Words with ${char}</div>`;
-    c.appendChild(instructionBlock("Tap a word to see its meaning."));
-    const grid = document.createElement("div");
-    grid.className = "exp-vocab-grid";
-    vocab.forEach(v => {
-      const item = document.createElement("div");
-      item.className = "exp-vocab-card";
-      const highlighted = v.word.replace(char, `<strong>${char}</strong>`);
-      item.innerHTML = `
-        <div class="emoji">${v.emoji}</div>
-        <div>
-          <div class="word">${highlighted}</div>
-          <div class="vocab-romaji">${v.romaji}</div>
-          <div class="meaning">${v.meaning}</div>
-        </div>
-      `;
-      // Visual-only reveal — no audio anywhere in vocabulary.
-      item.addEventListener("click", () => item.classList.toggle("revealed"));
-      grid.appendChild(item);
-    });
-    c.appendChild(grid);
-    appendNav(c);
-  },
-
-  practiceIntro() {
-    const c = card();
-    c.innerHTML = `<div class="exp-mid">Practice Time</div>`;
-    c.appendChild(instructionBlock("Now let's check what you remember.", "You'll try three short activities."));
-
-    const activities = document.createElement("div");
-    activities.className = "exp-practice-list";
-    ["Listening", "Find the Difference", "Hiragana Maze"].forEach(label => {
-      const item = document.createElement("div");
-      item.className = "exp-practice-item";
-      item.textContent = label;
-      activities.appendChild(item);
-    });
-    c.appendChild(activities);
-
-    const row = document.createElement("div");
-    row.className = "exp-nav-row";
-    row.appendChild(primaryButton("Previous", goPrevious, { secondary: true }));
-    row.appendChild(primaryButton("Start Practice", () => { resetPracticeSet(); goNext(); }));
     c.appendChild(row);
+    c.appendChild(instructionBlock(
+      () => L("They are often mixed in one sentence.", "一个句子里常常三种一起用。"),
+      () => L("Tap each part to see which one it is.", "点每个部分，看看它是哪一种。")
+    ));
+
+    let si = 0;
+    const sentence = el("div", "exp-clickable-sentence kana");
+    sentence.lang = "ja";
+    const reveal = el("div", "exp-tag-reveal");
+    const translation = el("p", "exp-note");
+    function showSentence() {
+      const s = SENTENCES[si];
+      sentence.innerHTML = "";
+      setT(reveal, () => "");
+      s.parts.forEach(p => {
+        const span = el("span", "", p.text);
+        if (p.label) {
+          span.addEventListener("click", () => {
+            sentence.querySelectorAll("span").forEach(x => x.classList.remove("tapped"));
+            span.classList.add("tapped");
+            setT(reveal, () => L(SCRIPT_NAMES[p.label].en, SCRIPT_NAMES[p.label].zh));
+          });
+        }
+        sentence.appendChild(span);
+      });
+      setT(translation, () => L(s.en, s.zh));
+    }
+    showSentence();
+    c.appendChild(sentence);
+    c.appendChild(reveal);
+    c.appendChild(translation);
+    const another = el("button", "exp-clear-btn", () => L("Another sentence", "换一句"));
+    another.type = "button";
+    another.addEventListener("click", () => { si = (si + 1) % SENTENCES.length; showSentence(); });
+    c.appendChild(another);
+
+    appendNav(c, { nextLabel: () => L("Start Practice →", "开始练习 →"), onNext: () => { resetPracticeSet(); goNext(); } });
   },
 
-  /* Game 1 — listening recognition. Target never appears in the
-     question text; uses the real Hiragana audio, same as elsewhere. */
   game1() {
-    // 5 required questions — every character in GROUP appears as the
-    // target exactly once, guaranteed by the generator itself.
-    const questions = ensurePracticeSet().listening;
-    runListeningGame({ questions, onDone: goNext });
+    runListeningGame({ questions: ensurePracticeSet().listening, onDone: goNext });
   },
 
   game2() {
-    // A fresh set of three odd-one-out questions is generated on every run.
-    const questions = ensurePracticeSet().oddOneOut;
     runChoiceGame({
-      instruction: "Which one is different?",
-      questions,
-      buildChoices: q => q.choices,
-      isCorrect: (choice, q) => choice === q.target,
+      label: practiceLabel(2, "Find the Difference", "找不同"),
+      instruction: () => L("Which one is different?", "哪一个不一样？"),
+      sub: () => L("Four of them are from today's lesson.", "其中四个是今天学过的。"),
+      questions: ensurePracticeSet().oddOneOut,
       onDone: goNext
     });
   },
@@ -698,178 +565,64 @@ const renderers = {
 
   finish() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">Great job!</div>`;
-    const note1 = document.createElement("p");
-    note1.className = "exp-note";
-    note1.textContent = "You can now recognise:";
-    c.appendChild(note1);
+    c.appendChild(el("div", "exp-mid", () => L("Great job!", "做得好！")));
+    c.appendChild(note(() => L("You can now hear, read and write:", "你现在会听、会认、也会写：")));
+    c.appendChild(vowelLine());
+    c.appendChild(el("div", "exp-instruction", () => L("Want to keep learning Japanese with me?", "想继续跟我学日语吗？")));
+    c.appendChild(note(() => L(
+      "If you enjoyed this trial, contact me to ask about lessons.",
+      "如果你喜欢这堂体验课，欢迎联系我了解课程。"
+    )));
 
-    const big = document.createElement("div");
-    big.className = "exp-big exp-vowel-line";
-    big.textContent = "あ　い　う　え　お";
-    c.appendChild(big);
-
-    const note2 = document.createElement("p");
-    note2.className = "exp-note";
-    note2.textContent = "You practised listening, recognising, and writing the five basic Hiragana vowel sounds.";
-    c.appendChild(note2);
-
-    const ctaTitle = document.createElement("div");
-    ctaTitle.className = "exp-instruction";
-    ctaTitle.textContent = "Want to continue learning Japanese with me?";
-    c.appendChild(ctaTitle);
-
-    const ctaNote = document.createElement("p");
-    ctaNote.className = "exp-note";
-    ctaNote.textContent = "If you enjoyed this trial, you can contact me to ask about lessons or arrange a trial lesson.";
-    c.appendChild(ctaNote);
-
-    const actions = document.createElement("div");
-    actions.className = "exp-nav-row";
-
-    actions.appendChild(primaryButton("Contact Me", () => {
-      window.location.href = "contact.html";
-    }));
-
-    actions.appendChild(primaryButton("Go to Practice", () => {
-      stepIndex = steps.findIndex(step => step.type === "practiceIntro");
-      currentPracticeSet = null;
-      render();
-    }, { secondary: true }));
-
-    actions.appendChild(primaryButton("Start Again", () => {
-      // Returning to the start means Practice will generate a new set when
-      // the learner reaches it again. No quiz answers are stored between runs.
-      stepIndex = 0;
-      render();
-    }, { secondary: true }));
-
+    const actions = el("div", "exp-nav-row");
+    actions.appendChild(primaryButton(() => L("Contact Me", "联系我"), () => { window.location.href = "contact.html"; }));
+    actions.appendChild(primaryButton(() => L("Practice Again", "再练一次"), goToPractice, { secondary: true }));
+    actions.appendChild(primaryButton(() => L("Start Again", "从头开始"), () => { stepIndex = 0; render(); }, { secondary: true }));
     c.appendChild(actions);
 
-    // Optional bridge to the separate Kana Recall Practice page (active
-    // recall — typing the sound, writing the character from memory).
-    // Not part of this trial's own steps; a plain link out, same
-    // pattern as the "Already know あいうえお?" shortcut on welcome().
-    const shortcut = document.createElement("div");
-    shortcut.className = "exp-practice-shortcut";
-    const prompt = document.createElement("div");
-    prompt.className = "exp-subinstruction";
-    prompt.textContent = "Want to check what you actually remember?";
-    shortcut.appendChild(prompt);
-    shortcut.appendChild(primaryButton("Test Your Memory · かな おさらい", () => {
-      window.location.href = "kana-recall.html?range=a";
-    }, { secondary: true }));
+    const shortcut = el("div", "exp-practice-shortcut");
+    shortcut.appendChild(el("div", "exp-subinstruction", () => L("Want to check what you really remember?", "想测一测自己真正记住了多少？")));
+    shortcut.appendChild(primaryButton(
+      () => L(`Test Your Memory · ${k("かな おさらい")}`, `记忆测验 · ${k("かな おさらい")}`),
+      () => { window.location.href = "kana-recall.html?range=a"; },
+      { secondary: true, html: true }
+    ));
     c.appendChild(shortcut);
   }
 };
 
-/* ---------- Shared choice-game runner (Game 2) ---------- */
+/* ---------- Practice 1 — listening ---------- */
 
-function runChoiceGame({ instruction, subinstruction, questions, extraQuestions, buildChoices, isCorrect, onDone, showCount = true }) {
+function runListeningGame({ questions, onDone }) {
   let qi = 0;
-  let activeQuestions = questions;
   function renderQuestion() {
     const c = card();
-    const q = activeQuestions[qi];
-    if (showCount) {
-      const stepLabel = document.createElement("div");
-      stepLabel.className = "exp-step-count";
-      stepLabel.textContent = `Question ${qi + 1} / ${activeQuestions.length}`;
-      c.appendChild(stepLabel);
-    }
-    c.appendChild(instructionBlock(instruction, subinstruction));
+    const q = questions[qi];
+    const label = practiceLabel(1, "Listening", "听力");
+    setT(c.querySelector(".exp-step-count"), () => `${label()} · ${qi + 1}/${questions.length}`);
+    c.appendChild(instructionBlock(() => L("Listen and choose the Hiragana you hear.", "听一听，选出你听到的平假名。")));
 
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-
-    const grid = document.createElement("div");
-    grid.className = "exp-choice-grid";
-    buildChoices(q).forEach(choice => {
-      const btn = document.createElement("button");
-      btn.className = "exp-choice";
-      btn.textContent = choice;
-      btn.addEventListener("click", () => {
-        if (isCorrect(choice, q)) {
-          btn.classList.add("correct");
-          feedback.textContent = "Correct.";
-          feedback.className = "exp-feedback good";
-          grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          setTimeout(() => {
-            qi++;
-            if (qi < activeQuestions.length) {
-              renderQuestion();
-            } else if (activeQuestions === questions && extraQuestions && extraQuestions.length) {
-              renderExtraOffer(() => { activeQuestions = extraQuestions; qi = 0; renderQuestion(); }, onDone);
-            } else {
-              onDone();
-            }
-          }, 700);
-        } else {
-          btn.classList.add("wrong");
-          feedback.textContent = "Try again.";
-          feedback.className = "exp-feedback bad";
-        }
-      });
-      grid.appendChild(btn);
-    });
-    c.appendChild(grid);
-    c.appendChild(feedback);
-    // No Previous/Next here — Practice uses only the activity's own
-    // controls (tapping an answer), per the confirmed lesson structure.
-  }
-  renderQuestion();
-}
-
-/* ---------- Game 1's listening variant: Listen button (auto-plays,
-   replayable) instead of text naming the target. ---------- */
-
-function runListeningGame({ questions, extraQuestions, onDone }) {
-  let qi = 0;
-  let activeQuestions = questions;
-  function renderQuestion() {
-    const c = card();
-    const q = activeQuestions[qi];
-    const stepLabel = document.createElement("div");
-    stepLabel.className = "exp-step-count";
-    stepLabel.textContent = `Question ${qi + 1} / ${activeQuestions.length}`;
-    c.appendChild(stepLabel);
-
-    c.appendChild(instructionBlock("Listen and choose the Hiragana you hear."));
-
-    const listenBtn = document.createElement("button");
-    listenBtn.className = "exp-btn";
-    listenBtn.innerHTML = `🔊 Listen`;
-    listenBtn.addEventListener("click", () => playHiraganaAudio(q.target));
+    const listenBtn = primaryButton(() => L("🔊 Listen", "🔊 听"), () => playHiraganaAudio(q.target, listenBtn));
     c.appendChild(listenBtn);
 
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-
-    const grid = document.createElement("div");
-    grid.className = "exp-choice-grid";
-    shuffle(q.choices).forEach(choice => {
-      const btn = document.createElement("button");
-      btn.className = "exp-choice";
-      btn.textContent = choice;
+    const feedback = el("div", "exp-feedback");
+    const grid = el("div", "exp-choice-grid kana");
+    q.choices.forEach(choice => {
+      const btn = el("button", "exp-choice", choice);
+      btn.type = "button";
       btn.addEventListener("click", () => {
         if (choice === q.target) {
           btn.classList.add("correct");
-          feedback.textContent = `Correct! ${q.target}`;
+          setT(feedback, () => L("Correct!", "答对了！"));
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           setTimeout(() => {
             qi++;
-            if (qi < activeQuestions.length) {
-              renderQuestion();
-            } else if (activeQuestions === questions && extraQuestions && extraQuestions.length) {
-              renderExtraOffer(() => { activeQuestions = extraQuestions; qi = 0; renderQuestion(); }, onDone);
-            } else {
-              onDone();
-            }
-          }, 1100);
+            if (qi < questions.length) renderQuestion(); else onDone();
+          }, 1000);
         } else {
           btn.classList.add("wrong");
-          feedback.textContent = "Try again.";
+          setT(feedback, () => L("Try again.", "再试一次。"));
           feedback.className = "exp-feedback bad";
         }
       });
@@ -877,38 +630,73 @@ function runListeningGame({ questions, extraQuestions, onDone }) {
     });
     c.appendChild(grid);
     c.appendChild(feedback);
-    // No Previous/Next here — Practice uses only the activity's own
-    // controls (tapping an answer), per the confirmed lesson structure.
 
-    playHiraganaAudio(q.target); // auto-play once; Listen button replays
+    if (qi === 0) {
+      const row = el("div", "exp-nav-row");
+      row.appendChild(primaryButton(() => L("← Back to the lesson", "← 回到课程"), goPrevious, { secondary: true }));
+      c.appendChild(row);
+    }
+
+    playHiraganaAudio(q.target, listenBtn);
   }
-
   renderQuestion();
 }
 
-/* ---------- Game 3 — Hiragana Maze / Find in Order ---------- */
+/* ---------- Practice 2 — odd one out ---------- */
+
+function runChoiceGame({ label, instruction, sub, questions, onDone }) {
+  let qi = 0;
+  function renderQuestion() {
+    const c = card();
+    const q = questions[qi];
+    setT(c.querySelector(".exp-step-count"), () => `${label()} · ${qi + 1}/${questions.length}`);
+    c.appendChild(instructionBlock(instruction, sub));
+
+    const feedback = el("div", "exp-feedback");
+    const grid = el("div", "exp-choice-grid kana");
+    q.choices.forEach(choice => {
+      const btn = el("button", "exp-choice", choice);
+      btn.type = "button";
+      btn.addEventListener("click", () => {
+        if (choice === q.target) {
+          btn.classList.add("correct");
+          setT(feedback, () => L("Correct!", "答对了！"));
+          feedback.className = "exp-feedback good";
+          grid.querySelectorAll("button").forEach(b => b.disabled = true);
+          setTimeout(() => {
+            qi++;
+            if (qi < questions.length) renderQuestion(); else onDone();
+          }, 800);
+        } else {
+          btn.classList.add("wrong");
+          setT(feedback, () => L("Try again.", "再试一次。"));
+          feedback.className = "exp-feedback bad";
+        }
+      });
+      grid.appendChild(btn);
+    });
+    c.appendChild(grid);
+    c.appendChild(feedback);
+  }
+  renderQuestion();
+}
+
+/* ---------- Practice 3 — Hiragana maze (find in order) ---------- */
 
 function runHiraganaMaze({ group, distractorPool, onDone }) {
+  const label = practiceLabel(3, "Hiragana Maze", "平假名迷宫");
   let previousBoardKey = null;
   let previousDistractors = [];
 
   function buildBoard() {
-    // Use 11 unique distractors. For the independent round, prefer a different
-    // distractor set as well as a different layout, not merely a reshuffle.
     let distractors = sampleUnique(distractorPool, 11, previousDistractors);
-    if (distractors.length < 11) {
-      distractors = sampleUnique(distractorPool, 11);
-    }
-
-    let board;
-    let key;
-    let attempts = 0;
+    if (distractors.length < 11) distractors = sampleUnique(distractorPool, 11);
+    let board, key, attempts = 0;
     do {
       board = shuffle([...group, ...distractors]);
       key = board.join("|");
       attempts++;
     } while (key === previousBoardKey && attempts < 30);
-
     previousBoardKey = key;
     previousDistractors = distractors;
     return board;
@@ -916,51 +704,42 @@ function runHiraganaMaze({ group, distractorPool, onDone }) {
 
   function runRound({ guided, onComplete }) {
     const c = card();
+    setT(c.querySelector(".exp-step-count"), label);
     c.appendChild(instructionBlock(
-      guided ? "Find the Hiragana in order." : "Find all five Hiragana in the correct order.",
-      guided ? "Follow the order below." : "This time, try it by yourself."
+      guided ? () => L("Tap the Hiragana in order.", "按顺序点出平假名。")
+             : () => L("Now find all five in order — no hints.", "这次没有提示，按顺序找出五个。"),
+      guided ? () => L("Follow the order below.", "照下面的顺序。") : null
     ));
 
-    if (guided) {
-      const targetLine = document.createElement("div");
-      targetLine.className = "exp-maze-sequence";
-      targetLine.textContent = group.join(" → ");
-      c.appendChild(targetLine);
-    }
+    if (guided) c.appendChild(el("div", "exp-maze-sequence kana", group.join(" → ")));
 
-    const progress = document.createElement("div");
-    progress.className = "exp-maze-progress";
+    const progress = el("div", "exp-maze-progress");
     c.appendChild(progress);
-
-    const feedback = document.createElement("div");
-    feedback.className = "exp-feedback";
-
-    const cells = buildBoard();
+    const feedback = el("div", "exp-feedback");
     let nextIndex = 0;
 
     function updateProgress() {
-      progress.innerHTML = group.map((char, i) =>
+      progress.innerHTML = group.map((_, i) =>
         `<span class="${i < nextIndex ? "done" : ""}">${i < nextIndex ? "●" : "○"}</span>`
       ).join("");
     }
     updateProgress();
 
-    const grid = document.createElement("div");
-    grid.className = "exp-maze-grid";
-    cells.forEach(char => {
-      const btn = document.createElement("button");
-      btn.className = "exp-maze-cell";
-      btn.textContent = char;
+    const grid = el("div", "exp-maze-grid kana");
+    buildBoard().forEach(char => {
+      const btn = el("button", "exp-maze-cell", char);
+      btn.type = "button";
       btn.addEventListener("click", () => {
         if (btn.disabled) return;
         if (char === group[nextIndex]) {
           btn.classList.add("correct");
           btn.disabled = true;
           nextIndex++;
+          const next = group[nextIndex];
           if (nextIndex < group.length) {
-            feedback.textContent = guided ? `Good! Next: ${group[nextIndex]}` : "Good! Keep going.";
+            setT(feedback, guided ? () => L(`Good! Next: ${k(next)}`, `很好！下一个：${k(next)}`) : () => L("Good! Keep going.", "很好！继续。"), true);
           } else {
-            feedback.textContent = "Great! You found them all.";
+            setT(feedback, () => L("Great! You found them all.", "太棒了！全部找到了。"));
           }
           feedback.className = "exp-feedback good";
           updateProgress();
@@ -970,23 +749,23 @@ function runHiraganaMaze({ group, distractorPool, onDone }) {
           }
         } else {
           btn.classList.add("wrong");
-          feedback.textContent = "Try again.";
+          setT(feedback, () => L("Try again.", "再试一次。"));
           feedback.className = "exp-feedback bad";
           setTimeout(() => btn.classList.remove("wrong"), 450);
         }
       });
       grid.appendChild(btn);
     });
-
     c.appendChild(grid);
     c.appendChild(feedback);
   }
 
   function renderIndependentIntro() {
     const c = card();
-    c.innerHTML = `<div class="exp-mid">One more time!</div>`;
-    c.appendChild(instructionBlock("Now try it by yourself.", "This time, the order hint will be hidden."));
-    c.appendChild(primaryButton("Try It Yourself", () => runRound({ guided: false, onComplete: onDone })));
+    setT(c.querySelector(".exp-step-count"), label);
+    c.appendChild(el("div", "exp-mid", () => L("One more time!", "再来一次！")));
+    c.appendChild(instructionBlock(() => L("This time the order hint is hidden.", "这次不显示顺序提示。")));
+    c.appendChild(primaryButton(() => L("Try It Yourself", "自己试试"), () => runRound({ guided: false, onComplete: onDone })));
   }
 
   runRound({ guided: true, onComplete: renderIndependentIntro });
@@ -1001,4 +780,5 @@ function shuffle(arr) {
   return a;
 }
 
+paintHeader();
 render();

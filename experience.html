@@ -4,207 +4,174 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Free Trial Experience — Learn Hiragana | ミッドナイトとライト</title>
-<meta name="description" content="Try a short interactive Japanese trial lesson — learn your first five Hiragana characters, あいうえお, with ミッドナイトとライト." />
+<meta name="description" content="Try a short interactive Japanese trial lesson — learn your first five Hiragana characters, あいうえお, with ミッドナイトとライト. In English or Chinese." />
 <link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/experience.html" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Serif+SC:wght@500&family=Klee+One:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
-  /* ══════════════════════════════════════════════
-     Experience page — reuses the site's shared
-     variables from cosmic.css. Current trial flow:
-     teaching + two-box guided handwriting + three practice activities.
-   ══════════════════════════════════════════════ */
-
+  /* Experience page — reuses cosmic.css variables. Kana use Klee One (handwriting-style, good for tracing). */
+  :root{ --font-kana: 'Klee One', 'Noto Serif TC', serif; }
+  .kana, .kana *{ font-family: var(--font-kana); }
+  html[lang="zh-Hans"] .page-title{ font-family: 'Noto Serif SC', var(--font-cn); }
 
   #exp-app{ max-width: 620px; margin: 0 auto; }
   .exp-card{
     background: rgba(244,241,234,0.05);
     border: 1px solid rgba(217,196,142,0.22);
     border-radius: 18px;
-    padding: 32px 26px;
+    padding: 18px 26px 30px;
     margin-top: 8px;
     text-align: center;
   }
-  .exp-big{
-    font-family: var(--font-brand);
-    font-size: 64px;
-    color: var(--warm-white);
-    margin: 10px 0;
-    line-height: 1.3;
+
+  /* Top bar: position + language */
+  .exp-topbar{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .exp-step-count{ color: var(--muted-faint); font-size: 12.5px; text-align:left; }
+  .lang-toggle{ display:flex; gap:4px; padding:3px; border-radius:999px; border:1px solid rgba(244,241,234,0.18); flex-shrink:0; }
+  .lang-toggle button{
+    min-height:30px; padding:2px 12px; border-radius:999px; border:none; cursor:pointer;
+    background:transparent; color:var(--muted-bluegrey); font:500 13px var(--font-sans);
   }
-  .exp-vowel-line{
-    white-space:nowrap;
-    font-size:clamp(38px, 9vw, 64px);
-    letter-spacing:0.01em;
-  }
+  .lang-toggle button.active{ background:rgba(217,196,142,0.2); color:var(--pale-gold); }
+  .exp-progress{ height:3px; border-radius:3px; background:rgba(244,241,234,0.08); margin:10px 0 18px; overflow:hidden; }
+  .exp-progress-fill{ height:100%; background:var(--pale-gold); opacity:.7; transition:width .3s; }
+
+  .exp-big{ font-size: 64px; color: var(--warm-white); margin: 10px 0; line-height: 1.3; }
+  .exp-char{ font-size: 108px; font-weight:600; margin: 0 0 6px; line-height:1.15; }
+  .exp-vowel-line{ white-space:nowrap; font-size:clamp(38px, 9vw, 60px); letter-spacing:0.01em; }
   .exp-vowel-romaji{ white-space:nowrap; letter-spacing:0.08em; }
-  .exp-mid{
-    font-family: var(--font-brand);
-    font-size: 30px;
-    color: var(--warm-white);
-    margin: 8px 0;
-  }
+  .exp-mid{ font-family: var(--font-brand); font-size: 30px; color: var(--warm-white); margin: 4px 0 8px; }
+  html[lang="zh-Hans"] .exp-mid{ font-family: 'Noto Serif SC', var(--font-cn); font-size:27px; }
   .exp-romaji{ color: var(--pale-gold); font-size: 22px; margin-bottom: 4px; }
-  .exp-note{ color: var(--muted-bluegrey); font-size: 15px; line-height: 1.8; margin: 10px 0 18px; }
-  .exp-instruction{
-    font-family: 'DM Sans', sans-serif; color: var(--warm-white); font-size: 17px;
-    margin: 14px 0 6px; font-weight: 500;
-  }
+  .exp-note{ color: var(--muted-bluegrey); font-size: 15px; line-height: 1.8; margin: 10px 0 14px; }
+  .exp-note.small{ font-size:13.5px; margin-top:4px; }
+  .exp-instruction{ color: var(--warm-white); font-size: 17px; margin: 14px 0 6px; font-weight: 500; }
   .exp-subinstruction{ color: var(--muted-bluegrey); font-size: 14px; margin-bottom: 14px; }
+  .exp-section-title{
+    margin: 26px 0 8px; padding-top: 18px; border-top: 1px solid rgba(217,196,142,0.14);
+    color: var(--pale-gold); font-size: 15px; font-weight: 600; letter-spacing: .04em;
+  }
+  .exp-section-title .kana{ font-size: 19px; }
+
   .exp-btn{
     display: inline-block; margin-top: 18px; padding: 14px 30px;
     background: var(--pale-gold); color: var(--bg-deep); border: none;
     border-radius: 999px; font-size: 16px; font-weight: 600; cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-sans);
   }
   .exp-btn:hover{ filter: brightness(1.08); }
-  .exp-btn.secondary{
-    background: transparent; color: var(--warm-white);
-    border: 1.5px solid rgba(244,241,234,0.3);
-  }
+  .exp-btn.secondary{ background: transparent; color: var(--warm-white); border: 1.5px solid rgba(244,241,234,0.3); }
   .exp-btn:disabled{ opacity: .35; cursor: default; }
+  .exp-btn.playing{ filter: brightness(1.15); }
+
+  /* Big speaker on learning pages — replaces romaji */
   .exp-speaker{
     display: inline-flex; align-items: center; justify-content: center;
-    width: 46px; height: 46px; border-radius: 50%;
-    background: rgba(182,169,218,0.12); border: 1px solid rgba(182,169,218,0.35);
-    font-size: 20px; cursor: pointer; margin: 6px 0 0;
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(182,169,218,0.16); border: 1.5px solid rgba(182,169,218,0.5);
+    font-size: 30px; cursor: pointer; margin: 4px 0 8px;
+    transition: transform .15s, background .15s, box-shadow .2s;
   }
-  .exp-writing-row{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin: 18px 0; }
+  .exp-speaker:hover{ transform: scale(1.05); background: rgba(182,169,218,0.24); }
+  .exp-speaker.playing{ box-shadow: 0 0 0 8px rgba(182,169,218,0.14); background: rgba(182,169,218,0.3); }
+  .exp-speaker:focus-visible, .exp-btn:focus-visible, .lang-toggle button:focus-visible{ outline:2px solid var(--pale-gold); outline-offset:3px; }
 
-  /* Gojuon chart — orientation only, あいうえお row highlighted */
-  .exp-gojuon-chart{
-    display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
-    max-width:340px; margin:18px auto;
-  }
+  /* Gojuon chart */
+  .exp-gojuon-chart{ display:grid; grid-template-columns:repeat(5,1fr); gap:5px; max-width:300px; margin:14px auto 6px; }
   .exp-gojuon-cell{
-    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
-    border-radius:8px; font-family: var(--font-brand); font-size:18px;
-    background: rgba(244,241,234,0.03); color: var(--muted-bluegrey);
+    aspect-ratio:1.25; display:flex; align-items:center; justify-content:center;
+    border-radius:7px; font-size:17px; background: rgba(244,241,234,0.03); color: var(--muted-bluegrey);
   }
-  .exp-gojuon-cell.highlight{
-    background: rgba(217,196,142,0.18); color: var(--pale-gold);
-    font-weight:600; border:1px solid rgba(217,196,142,0.4);
-  }
-  @media (max-width:480px){ .exp-gojuon-cell{ font-size:15px; } }
+  .exp-gojuon-cell.highlight{ background: rgba(217,196,142,0.18); color: var(--pale-gold); font-weight:600; border:1px solid rgba(217,196,142,0.4); }
 
-  /* Sound-pattern explanation (K-row example) */
-  .exp-pattern-rows{ display:flex; flex-direction:column; gap:8px; margin:18px 0; align-items:center; }
-  .exp-pattern-row{ font-family: var(--font-brand); font-size:17px; color: var(--warm-white); }
-  .exp-pattern-chain{
-    margin-top:20px; font-size:14px; color: var(--soft-lavender);
-    line-height:2; letter-spacing:0.04em;
-  }
+  /* Sound pattern */
+  .exp-pattern-rows{ display:flex; flex-direction:column; gap:6px; margin:14px 0; align-items:center; }
+  .exp-pattern-row{ font-size:17px; color: var(--warm-white); letter-spacing:.03em; }
+  .exp-pattern-row .kana{ font-size:22px; color: var(--pale-gold); }
+  .exp-pattern-chain{ margin-top:14px; font-size:14px; color: var(--soft-lavender); line-height:1.9; letter-spacing:0.04em; }
+  .exp-preview-label{ margin: 22px 0 10px; padding-top:16px; border-top:1px solid rgba(217,196,142,0.14); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted-bluegrey); }
+  .exp-preview{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px 26px; }
+  .exp-preview-name{ font-size:12.5px; color: var(--muted-faint); }
+  .exp-preview-row{ display:flex; justify-content:center; gap:14px; font-size:19px; color: var(--service-primary); white-space:nowrap; }
 
-  /* "Quick look ahead" preview sounds */
-  .exp-preview-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted-bluegrey); margin: 18px 0 8px; }
-  .exp-preview-row{
-    display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
-    gap:10px 34px; font-family: var(--font-brand); font-size:22px; color: var(--warm-white);
-  }
-  .exp-preview-example{ white-space:nowrap; }
+  /* Writing systems */
+  .exp-writing-row{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin: 12px 0; }
   .exp-writing-item{
     background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
-    border-radius: 14px; padding: 18px 22px; font-family: var(--font-brand); font-size: 34px;
-    color: var(--warm-white);
+    border-radius: 14px; padding: 12px 18px; font-size: 28px; color: var(--warm-white);
   }
-  .exp-writing-item .type-label{ font-family:'DM Sans',sans-serif; font-size:12px; color:var(--muted-bluegrey); display:block; margin-bottom:6px; }
-
-  .exp-clickable-sentence{ font-family: var(--font-brand); font-size: 32px; margin: 20px 0; line-height: 1.7; }
+  .exp-writing-item .type-label{ font-size:12px; color:var(--muted-bluegrey); display:block; margin-bottom:2px; }
+  .exp-clickable-sentence{ font-size: 32px; margin: 14px 0 6px; line-height: 1.7; }
   .exp-clickable-sentence span{ cursor: pointer; padding: 2px 3px; border-radius: 6px; transition: background .15s; }
   .exp-clickable-sentence span:hover, .exp-clickable-sentence span.tapped{ background: rgba(217,196,142,0.22); }
-  .exp-tag-reveal{ color: var(--pale-gold); font-size: 15px; margin-top: 4px; min-height: 20px; }
+  .exp-tag-reveal{ color: var(--pale-gold); font-size: 15px; min-height: 22px; }
 
-  .exp-vocab-grid{ display:flex; flex-direction:column; gap: 12px; margin: 18px 0; }
+  /* Vocabulary — romaji small and faded */
+  .exp-vocab-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap: 10px; margin: 6px 0 4px; }
   .exp-vocab-card{
     background: rgba(244,241,234,0.04); border: 1px solid rgba(217,196,142,0.2);
-    border-radius: 14px; padding: 16px; cursor: pointer; text-align: left;
-    display:flex; align-items:center; gap: 14px;
+    border-radius: 14px; padding: 12px 6px; cursor: pointer; color: inherit; font: inherit;
+    display:flex; flex-direction:column; align-items:center; gap: 2px; min-width:0;
   }
-  .exp-vocab-card .emoji{ font-size: 32px; }
-  .exp-vocab-card .word{ font-family: var(--font-brand); font-size: 26px; color: var(--warm-white); }
-  .exp-vocab-card .word strong{ color: var(--pale-gold); }
-  .exp-vocab-card .vocab-romaji{ color:var(--pale-gold); font-size:14px; margin-top:1px; letter-spacing:.02em; }
-  .exp-vocab-card .meaning{ color: var(--muted-bluegrey); font-size: 14px; margin-top: 3px; display:none; }
-  .exp-vocab-card.revealed .meaning{ display: block; }
+  .exp-vocab-card:hover{ border-color: rgba(217,196,142,0.4); }
+  .exp-vocab-card .emoji{ font-size: 30px; line-height:1.3; }
+  .exp-vocab-card .word{ font-size: 24px; color: var(--warm-white); white-space:nowrap; }
+  .exp-vocab-card .word strong{ color: var(--pale-gold); font-weight:600; }
+  .exp-vocab-card .vocab-romaji{ color: var(--muted-faint); font-size: 11px; opacity:.75; letter-spacing:.03em; }
+  .exp-vocab-card .meaning{ color: var(--soft-lavender); font-size: 13.5px; margin-top: 2px; visibility:hidden; min-height:1.5em; }
+  .exp-vocab-card.revealed .meaning{ visibility:visible; }
+  .exp-vocab-card.revealed{ border-color: rgba(182,169,218,0.45); }
 
+  /* Choice games */
   .exp-choice-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap: 12px; margin: 20px 0; }
   .exp-choice{
     width: 76px; height: 76px; border-radius: 14px;
     background: rgba(244,241,234,0.05); border: 1.5px solid rgba(217,196,142,0.25);
-    font-family: var(--font-brand); font-size: 34px; color: var(--warm-white); cursor: pointer;
+    font-size: 36px; color: var(--warm-white); cursor: pointer;
   }
   .exp-choice.correct{ background: rgba(127,191,143,0.25); border-color: #7FBF8F; }
   .exp-choice.wrong{ background: rgba(224,135,154,0.25); border-color: #E0879A; }
-
-  .exp-feedback{ font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; min-height: 26px; margin: 10px 0; }
+  .exp-feedback{ font-size: 17px; font-weight: 600; min-height: 26px; margin: 10px 0; }
   .exp-feedback.good{ color: #9FD6AA; }
   .exp-feedback.bad{ color: #E7A0AF; }
 
-  /* Guided handwriting — trace once, then write once independently */
-  .exp-handwriting{
-    display:flex; flex-direction:column; align-items:center; margin:18px 0 8px;
-  }
-  .exp-writing-pair{
-    width:100%; display:flex; justify-content:center; align-items:flex-start; gap:18px;
-  }
-  .exp-writing-box{ min-width:0; flex:0 1 220px; }
-  .exp-writing-label{
-    min-height:20px; margin-bottom:8px; color:var(--muted-bluegrey);
-    font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif;
-  }
-  .exp-canvas-wrap{
-    position:relative; display:block; width:100%; max-width:220px; aspect-ratio:1; margin:0 auto;
-  }
+  /* Handwriting — trace + free, side by side even on phones */
+  .exp-writing-pair{ display:flex; justify-content:center; align-items:flex-start; gap:14px; margin-top:6px; }
+  .exp-writing-box{ min-width:0; flex:0 1 200px; }
+  .exp-writing-label{ min-height:20px; margin-bottom:6px; color:var(--muted-bluegrey); font-size:13px; font-weight:500; }
+  .exp-canvas-wrap{ position:relative; width:100%; aspect-ratio:1; margin:0 auto; }
   .exp-writing-canvas{
     display:block; width:100%; height:100%; touch-action:none; overscroll-behavior:contain;
     border-radius:16px; border:1.5px solid rgba(217,196,142,0.35);
-    background: rgba(244,241,234,0.035); cursor:crosshair;
+    background:
+      linear-gradient(rgba(217,196,142,0.1),rgba(217,196,142,0.1)) center/100% 1px no-repeat,
+      linear-gradient(rgba(217,196,142,0.1),rgba(217,196,142,0.1)) center/1px 100% no-repeat,
+      rgba(244,241,234,0.035);
+    cursor:crosshair;
   }
   .exp-writing-ref{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    pointer-events:none; user-select:none; font-family:var(--font-brand);
-    font-size:112px; color:rgba(244,241,234,0.13); line-height:1;
+    pointer-events:none; user-select:none; font-size:clamp(90px, 30vw, 132px); color:rgba(244,241,234,0.16); line-height:1; padding-bottom:6%;
   }
   .exp-clear-btn{
-    margin-top:14px; padding:9px 18px; border-radius:999px; font-size:13px;
-    background:transparent; color:var(--warm-white);
-    border:1.5px solid rgba(244,241,234,0.3); cursor:pointer;
-    font-family:'DM Sans',sans-serif;
+    margin-top:12px; padding:8px 18px; border-radius:999px; font-size:13px;
+    background:transparent; color:var(--warm-white); border:1.5px solid rgba(244,241,234,0.3); cursor:pointer;
+    font-family:var(--font-sans);
   }
   .exp-clear-btn:hover{ border-color:rgba(217,196,142,0.55); }
 
-
-  /* Practice transition */
-  .exp-practice-list{
-    display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:20px 0 6px;
-  }
-  .exp-practice-item{
-    display:flex; align-items:center; justify-content:center; min-height:64px; padding:10px;
-    border-radius:12px; border:1px solid rgba(217,196,142,0.2);
-    background:rgba(244,241,234,0.035); color:var(--warm-white); font-size:14px;
-  }
-
-  /* Hiragana Maze / Find in Order */
-  .exp-maze-sequence{
-    margin:16px 0 8px; white-space:nowrap; font-family:var(--font-brand);
-    font-size:clamp(20px,5.5vw,28px); color:var(--pale-gold);
-  }
-  .exp-maze-progress{
-    min-height:24px; display:flex; justify-content:center; gap:10px; margin:4px 0 14px;
-    color:rgba(244,241,234,.35); font-size:16px;
-  }
+  /* Hiragana Maze */
+  .exp-maze-sequence{ margin:14px 0 6px; white-space:nowrap; font-size:clamp(20px,5.5vw,28px); color:var(--pale-gold); }
+  .exp-maze-progress{ min-height:24px; display:flex; justify-content:center; gap:10px; margin:4px 0 14px; color:rgba(244,241,234,.35); font-size:16px; }
   .exp-maze-progress .done{ color:var(--pale-gold); }
-  .exp-maze-grid{
-    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
-    width:min(100%, 390px); margin:0 auto 14px;
-  }
+  .exp-maze-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; width:min(100%, 390px); margin:0 auto 14px; }
   .exp-maze-cell{
     aspect-ratio:1; min-width:0; border-radius:13px;
     background:rgba(244,241,234,0.05); border:1.5px solid rgba(217,196,142,0.25);
-    font-family:var(--font-brand); font-size:30px; color:var(--warm-white); cursor:pointer;
+    font-size:32px; color:var(--warm-white); cursor:pointer;
     transition:transform .12s, background .15s, border-color .15s;
   }
   .exp-maze-cell:hover{ transform:translateY(-1px); }
@@ -212,46 +179,36 @@
   .exp-maze-cell.wrong{ background:rgba(224,135,154,0.25); border-color:#E0879A; }
   .exp-maze-cell:disabled{ cursor:default; opacity:1; }
 
-  .exp-step-count{ color: var(--muted-faint); font-size: 12.5px; margin-bottom: 6px; }
-
-  /* Navigation row: Previous | Next */
-  .exp-nav-row{ display:flex; justify-content:center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+  .exp-nav-row{ display:flex; justify-content:center; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
   .exp-nav-row .exp-btn{ margin-top: 0; }
-
-  .exp-practice-shortcut{
-    margin-top:24px; padding-top:18px; border-top:1px solid rgba(217,196,142,0.14);
-  }
+  .exp-practice-shortcut{ margin-top:24px; padding-top:18px; border-top:1px solid rgba(217,196,142,0.14); }
   .exp-practice-shortcut .exp-subinstruction{ margin-bottom:0; }
   .exp-practice-shortcut .exp-btn{ margin-top:10px; padding:11px 22px; font-size:14px; }
 
   @media (max-width: 600px){
-    #exp-app{ width:100%; }
-    .exp-card{ padding:26px 18px; }
+    .exp-card{ padding:16px 18px 26px; }
     .exp-clickable-sentence{ font-size:clamp(25px,7.2vw,32px); }
-    .exp-choice{ width:68px; height:68px; font-size:30px; }
-    .exp-practice-list{ grid-template-columns:1fr; }
-  }
-  @media (max-width: 520px){
-    .exp-writing-pair{ flex-direction:column; align-items:center; gap:18px; }
-    .exp-writing-box{ width:min(250px,82vw); flex:none; }
-    .exp-canvas-wrap{ max-width:250px; }
-    .exp-writing-ref{ font-size:124px; }
+    .exp-choice{ width:66px; height:66px; font-size:32px; }
   }
   @media (max-width: 480px){
-    .exp-card{ padding:24px 14px; border-radius:16px; }
+    .page{ padding-top: calc(var(--nav-h) + 5vh); }
+    .exp-card{ padding:14px 12px 24px; border-radius:16px; }
     .exp-big{ font-size:48px; }
+    .exp-char{ font-size:92px; }
     .exp-vowel-line{ font-size:clamp(32px,10.5vw,44px); }
     .exp-vowel-romaji{ font-size:18px; letter-spacing:0.04em; }
-    .exp-gojuon-chart{ max-width:310px; gap:4px; }
-    .exp-gojuon-cell{ font-size:15px; border-radius:7px; }
-    .exp-preview-row{ gap:10px 22px; font-size:20px; }
-    .exp-vocab-card{ padding:14px 12px; gap:12px; }
-    .exp-vocab-card .emoji{ font-size:28px; }
-    .exp-vocab-card .word{ font-size:24px; }
+    .exp-writing-pair{ gap:10px; }
+    .exp-vocab-grid{ gap:7px; }
+    .exp-vocab-card .word{ font-size:20px; }
+    .exp-vocab-card .emoji{ font-size:26px; }
     .exp-nav-row{ gap:10px; }
     .exp-nav-row .exp-btn{ padding:12px 20px; font-size:15px; }
     .exp-maze-grid{ gap:8px; width:min(100%,340px); }
     .exp-maze-cell{ font-size:28px; border-radius:12px; }
+    .exp-writing-row{ flex-wrap:nowrap; gap:8px; }
+    .exp-writing-item{ font-size:19px; padding:8px 10px; white-space:nowrap; }
+    .exp-clickable-sentence{ font-size:clamp(20px,6.3vw,28px); white-space:nowrap; }
+    .exp-clickable-sentence span{ padding:2px 1px; }
   }
 </style>
 </head>
@@ -270,9 +227,9 @@
   </nav>
 
   <main class="page">
-    <p class="page-eyebrow">Free Trial</p>
-    <h1 class="page-title">Experience a Lesson</h1>
-    <p class="page-lead">A short, interactive first look at Japanese — learn your first five Hiragana, あいうえお.</p>
+    <p class="page-eyebrow" id="exp-eyebrow">Free Trial</p>
+    <h1 class="page-title" id="exp-title">Experience a Lesson</h1>
+    <p class="page-lead" id="exp-lead">A short, interactive first look at Japanese — learn your first five Hiragana, あいうえお.</p>
 
     <div id="exp-app"></div>
   </main>
