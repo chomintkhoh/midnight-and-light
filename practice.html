@@ -102,9 +102,17 @@
      ================================================================ */
   const CODES = ["K4FUX","46PXW","AFZUQ","K4HNE","2NUVJ","KARCC","TCP5D","P5DTM"];
 
+  /* 每位学生学哪一科：ja = 只学日文，zh = 只学中文，没写或 all = 两科都看得到。
+     例：只学中文的学生写 "K4FUX":"zh", */
+  const STUDENT_LANGS = {
+    "K4HNE":"ja", "2NUVJ":"ja", "TCP5D":"ja", "P5DTM":"ja",
+    "KARCC":"zh"
+    /* K4FUX、46PXW、AFZUQ 两科都学，不用写 */
+  };
+
   /* stars: true = this page gives stamps and sends results to the teacher */
   const SECTIONS = [
-    { title:"Japanese", sub:"日本語", note:"", items:[
+    { title:"Japanese", sub:"日本語", note:"", lang:"ja", items:[
       { href:"vocab.html",     ic:"🍎", name:"Words",          desc:"Pictures and words in 16 topics", stars:true },
       { href:"particles.html", ic:"🧩", name:"Particles",      desc:"は・が・を・で・へ and more", stars:true },
       { href:"questions.html", ic:"❓", name:"Question Words", desc:"だれ・どこ・なに・なん・どれ", stars:true },
@@ -113,10 +121,11 @@
       { href:"kana-recall.html", ic:"🧠", name:"Kana Recall",  desc:"Remember the sound, write from memory" },
       { href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT" }
     ]},
-    { title:"Chinese", sub:"华语", note:"", items:[
-      { href:"chinese-vocab-practice.html", ic:"词", cn:true, name:"六年级华文词语", desc:"Year 6 Chinese words" },
+    { title:"Chinese", sub:"华语", note:"", lang:"zh", items:[
+      { href:"chinese-vocab-practice.html", ic:"华", cn:true, name:"华文练习", desc:"词语 · 关联词 Words & linking words" }
+      /* 暂时隐藏（档案仍在，旧连结照样能开）：
       { href:"vocabtrainer.html",           ic:"练", cn:true, name:"UASA 华语词汇训练", desc:"UASA vocabulary training" },
-      { href:"uasa-vocab.html",             ic:"读", cn:true, name:"华语字词与阅读", desc:"Words and reading" }
+      { href:"uasa-vocab.html",             ic:"读", cn:true, name:"华语字词与阅读", desc:"Words and reading" } */
     ]},
     { title:"Games", sub:"", note:"Japanese and Chinese", items:[
       { href:"boardgame.html", ic:"🎲", name:"Board Game",   desc:"Answer questions and move ahead" },
@@ -149,7 +158,8 @@
     document.getElementById("whoCode").textContent = code;
     stampLine(code);
     const q = "?s=" + encodeURIComponent(code);   /* works even if this device can't remember the code */
-    document.getElementById("lists").innerHTML = SECTIONS.map(sec => `
+    const lang = STUDENT_LANGS[code] || "all";
+    document.getElementById("lists").innerHTML = SECTIONS.filter(sec => !sec.lang || lang === "all" || sec.lang === lang).map(sec => `
       <section class="pr-sec">
         <h2>${esc(sec.title)}${sec.sub ? `<span>${esc(sec.sub)}</span>` : ""}</h2>
         ${sec.note ? `<p>${esc(sec.note)}</p>` : ""}
