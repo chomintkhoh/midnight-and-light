@@ -34,7 +34,13 @@ function connectorChoiceHtml(o){return S.reading==="hanzi"?'<span class="choice-
 function splitExampleTokens(tokens,connectorZh){
   const punct=/^[，。！？；：、,.!?;：“”‘’（）()…—-]+$/;
   const marks=new Array(tokens.length).fill(false),connectors=String(connectorZh||"").split("……").filter(Boolean).map(Array.from);
-  for(const chars of connectors){for(let i=0;i<=tokens.length-chars.length;i++){if(chars.every((c,j)=>tokens[i+j]&&tokens[i+j][0]===c)){for(let j=0;j<chars.length;j++)marks[i+j]=true;break}}}
+  let seek=0;
+  for(const chars of connectors){
+    let found=-1;
+    for(let i=seek;i<=tokens.length-chars.length;i++){if(chars.every((c,j)=>tokens[i+j]&&tokens[i+j][0]===c)){found=i;break}}
+    if(found<0){for(let i=0;i<=tokens.length-chars.length;i++){if(!marks.slice(i,i+chars.length).some(Boolean)&&chars.every((c,j)=>tokens[i+j]&&tokens[i+j][0]===c)){found=i;break}}}
+    if(found>=0){for(let j=0;j<chars.length;j++)marks[found+j]=true;seek=found+chars.length}
+  }
   const parts=[];let i=0;
   function pushGap(a,b){
     if(a>=b)return;
@@ -42,18 +48,28 @@ function splitExampleTokens(tokens,connectorZh){
     try{const seg=new Intl.Segmenter("zh",{granularity:"word"});for(const x of seg.segment(text)){let n=Array.from(x.segment).length;atoms.push(slice.slice(pos,pos+n).map(t=>[...t]));pos+=n}}
     catch(e){while(pos<slice.length){atoms.push([[...slice[pos]]]);pos++}}
     const chunks=[];let cur=[],count=0;
-    for(const atom of atoms){let n=atom.filter(t=>!punct.test(t[0])).length;if(cur.length&&count>=3&&count+n>5){chunks.push(cur);cur=[];count=0}cur.push(...atom);count+=n}
+    for(const atom of atoms){
+      let n=atom.length;
+      if(cur.length&&count>=3&&count+n>5){chunks.push(cur);cur=[];count=0}
+      cur.push(...atom);count+=n
+    }
     if(cur.length)chunks.push(cur);
-    if(chunks.length>1){let last=chunks[chunks.length-1],lc=last.filter(t=>!punct.test(t[0])).length;if(lc<3){let prev=chunks[chunks.length-2];while(lc<3&&prev.length){let cut=prev.length-1;while(cut>0&&punct.test(prev[cut][0]))cut--;let moved=prev.splice(cut);last.unshift(...moved);lc=last.filter(t=>!punct.test(t[0])).length}if(!prev.length)chunks.splice(chunks.length-2,1)}}
-    parts.push(...chunks.filter(x=>x.length));
+    if(chunks.length>1){
+      let last=chunks[chunks.length-1],lc=last.length;
+      if(lc<3){let prev=chunks[chunks.length-2];while(lc<3&&prev.length){let moved=prev.splice(Math.max(0,prev.length-(3-lc)));last.unshift(...moved);lc=last.length}if(!prev.length)chunks.splice(chunks.length-2,1)}
+    }
+    parts.push(...chunks.filter(x=>x.length))
   }
-  while(i<tokens.length){if(marks[i]){let j=i+1;while(j<tokens.length&&marks[j])j++;parts.push(tokens.slice(i,j).map(t=>[...t]));i=j}else{let j=i+1;while(j<tokens.length&&!marks[j])j++;pushGap(i,j);i=j}}
-  return parts;
+  while(i<tokens.length){
+    if(marks[i]){let j=i+1;while(j<tokens.length&&marks[j])j++;parts.push(tokens.slice(i,j).map(t=>[...t]));i=j}
+    else{let j=i+1;while(j<tokens.length&&!marks[j])j++;pushGap(i,j);i=j}
+  }
+  return parts
 }
 function buildEligible(parts,connectorZh){
   const target=new Set(String(connectorZh||"").split("……").filter(Boolean));
   if(parts.length<4)return false;
-  return parts.every(p=>{let h=p.map(t=>t[0]).join("");if(target.has(h))return true;let n=p.filter(t=>!/^[，。！？；：、,.!?;：“”‘’（）()…—-]+$/.test(t[0])).length;return n>=3&&n<=5});
+  return parts.every(p=>{let h=p.map(t=>t[0]).join("");if(target.has(h))return true;return p.length>=3&&p.length<=5})
 }
 
 function detective(){let list=ML_DETECTIVE_CASES.filter(x=>x.level===S.difficulty),notice="";if(!list.length){list=ML_DETECTIVE_CASES.filter(x=>x.level==="basic");notice="此难度题库制作中，暂用 Basic。"}let c=list[Math.floor(Math.random()*list.length)],toks=c.tokens.map(x=>[...x]),slots=Object.keys(c.slots),wrongSlots=[],errors={};let n=Math.random()<.1?0:Math.min(slots.length,1+Math.floor(Math.random()*3));shuffle(slots).slice(0,n).forEach(sl=>{let i=toks.findIndex(x=>x[3]===sl),def=normSlot(c.slots[sl]);if(!def.errors.length)return;let ei=Math.floor(Math.random()*def.errors.length),e=def.errors[ei];if(i>=0){toks[i][0]=e[0];toks[i][1]=e[1];wrongSlots.push(sl);errors[sl]=e}});inspectMode=false;current={kind:"detective",c,toks,wrongSlots,errors,marks:{},notice,closed:false,peekedIndices:new Set()};drawDetective()}
