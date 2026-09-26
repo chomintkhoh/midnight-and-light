@@ -16,6 +16,7 @@
 .mode-ruby ruby rb,.mode-pinyin ruby rb{display:ruby-base;color:var(--ml-ink);font-size:var(--ml-hz);font-weight:500}
 .mode-ruby ruby rt,.mode-pinyin ruby rt{display:ruby-text;font-family:Arial,sans-serif;font-size:var(--ml-rt);font-weight:500;color:#5b5963;line-height:1;letter-spacing:-0.02em;margin:0;padding:0;white-space:nowrap}
 .mode-pinyin ruby rt{font-size:var(--ml-py-big);font-weight:600;color:#3f4657}
+.mode-pinyin .ml-ruby-gap{display:inline-block;width:.15em;height:1px}
 .mode-ruby .punct,.mode-pinyin .punct{display:inline;margin:0;padding:0;font-size:var(--ml-hz);color:var(--ml-ink)}
 .ml-reading.mode-hanzi{font-size:var(--ml-hz);line-height:2;color:var(--ml-ink)}
 .peekable{position:relative}
