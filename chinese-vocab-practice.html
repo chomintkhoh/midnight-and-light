@@ -12,7 +12,8 @@
 .scale{display:flex;gap:6px;margin-left:auto}.scale button{min-width:52px}
 .frames{height:calc(100dvh - var(--bar-h));overflow:hidden}.practice{display:none;width:100%;height:100%;border:0;background:white}.practice.active{display:block}
 @media(max-width:600px){.topbar{flex-wrap:wrap;padding:8px}.tabs{order:1;flex:0 0 100%;width:100%}.tab{width:50%;padding:8px 6px}.scale{order:2;width:100%;justify-content:flex-end}.scale button{min-width:58px}}
-</style></head>
+</style><link rel="stylesheet" href="assets/bgm.css">
+</head>
 <body>
 <nav class="topbar" id="topbar" aria-label="华文练习切换">
   <div class="tabs">
@@ -23,16 +24,18 @@
     <button data-scale="0.85">A-</button><button data-scale="1">A</button><button data-scale="1.25">A+</button>
   </div>
 </nav>
+<div class="music-control" data-shared-bgm aria-label="Background music"></div>
 <div class="frames">
   <iframe id="vocabFrame" class="practice" src="chinese-vocab.html" title="词语练习"></iframe>
   <iframe id="linkingFrame" class="practice" src="preview/chinese/games/linking-words.html" title="关联词练习"></iframe>
 </div>
+<script src="assets/bgm.js"></script>
 <script>
 const KEY="ml.zh.settings",bar=document.getElementById("topbar"),frames=[vocabFrame,linkingFrame];
 function settings(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
 function store(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
-function setBar(){document.documentElement.style.setProperty("--bar-h",bar.getBoundingClientRect().height+"px")}
-new ResizeObserver(setBar).observe(bar);setBar();
+function setBar(){document.documentElement.style.setProperty("--bar-h",(bar.getBoundingClientRect().height+document.querySelector("[data-shared-bgm]").getBoundingClientRect().height)+"px")}
+new ResizeObserver(setBar).observe(bar);new ResizeObserver(setBar).observe(document.querySelector("[data-shared-bgm]"));setBar();
 function broadcastScale(v){frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.scale",scale:v},"*")}catch(e){}})}
 function applyScale(v){v=Number(v)||1;document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===v));broadcastScale(v)}
 function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab);frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.tab",tab},"*")}catch(e){}})}

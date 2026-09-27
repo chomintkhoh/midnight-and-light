@@ -173,12 +173,14 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 .said-line span{white-space:pre-wrap}
 
 </style>
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
 <main class="shell">
 <header class="hero">
 <h1>Japanese Question Words</h1>
 <p>だれ・どこ・なに・なん・どれ・なんで</p>
+<div class="music-control" data-shared-bgm aria-label="Background music"></div>
 </header>
 <section id="app" aria-live="polite"></section>
 </main>
@@ -501,4 +503,5 @@ function render(){rerender=()=>render();app.innerHTML="";if(PR.screen==="menu")r
 initReport();
 render();
 </script>
+<script src="assets/bgm.js"></script>
 </body></html>
