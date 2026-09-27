@@ -385,7 +385,10 @@ const renderers = {
 
     const shortcut = el("div", "exp-practice-shortcut");
     shortcut.appendChild(el("div", "exp-subinstruction", () => L(`Already know ${k("あいうえお")}?`, `已经会 ${k("あいうえお")} 了？`), true));
-    shortcut.appendChild(primaryButton(() => L("Go to Practice →", "直接去练习 →"), goToPractice, { secondary: true }));
+    shortcut.appendChild(el("div", "exp-subinstruction", () => L(
+      "🔒 Kana Recall — Under construction · Not yet available",
+      "🔒 Kana Recall — 建設中，尚未開放"
+    )));
     c.appendChild(shortcut);
   },
 

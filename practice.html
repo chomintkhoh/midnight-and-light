@@ -124,8 +124,8 @@
       { href:"particles.html", ic:"🧩", name:"Particles",      desc:"は・が・を・で・へ and more", stars:true },
       { href:"questions.html", ic:"❓", name:"Question Words", desc:"だれ・どこ・なに・なん・どれ", stars:true },
       { href:"clock.html",     ic:"🕒", name:"Time & Clock",   desc:"Read the clock, から～まで, mall mission", stars:true },
-      { href:"worksheet.html", ic:"✍️", name:"Hiragana Writing", desc:"Trace and write あ〜そ" },
-      { href:"kana-recall.html", ic:"🧠", name:"Kana Recall",  desc:"Remember the sound, write from memory" },
+      { href:"worksheet.html", ic:"✍️", name:"Hiragana Writing", desc:"Under construction · Not yet available / 建設中，尚未開放", locked:true },
+      { href:"kana-recall.html", ic:"🧠", name:"Kana Recall",  desc:"Under construction · Not yet available / 建設中，尚未開放", locked:true },
       { href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT", adult:true }
     ]},
     { title:"Chinese", sub:"华语", note:"", lang:"zh", items:[
@@ -174,8 +174,8 @@
         ${sec.note ? `<p>${esc(sec.note)}</p>` : ""}
         <div class="pr-grid">
           ${sec.items.filter(it => !it.adult || adult).map(it => `
-            <a class="pr-card" href="${it.href}${q}">
-              <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${esc(it.ic)}</span>
+            <a class="pr-card" ${it.locked ? 'role="link" aria-disabled="true" style="opacity:.65;cursor:not-allowed"' : `href="${it.href}${q}"`}>
+              <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${it.locked ? "🔒" : esc(it.ic)}</span>
               <span class="pr-txt">
                 <span class="pr-name">${esc(it.name)}</span>
                 <span class="pr-desc">${esc(it.desc)}</span>
