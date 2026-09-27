@@ -121,6 +121,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <section id="app" aria-live="polite"></section>
 </main>
 <script src="./data/vocab-kids.js"></script>
+<script src="./data/vocab-audio.js"></script>
 <script src="mascot.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
@@ -315,11 +316,27 @@ function picHTML(w,big=false){
  if(w.pic[0]==="#")return `<div class="${cls}"><span class="swatch" style="background:${w.pic}"></span></div>`;
  return `<div class="${cls}"><span class="emoji">${w.pic}</span></div>`
 }
-function speak(text){
+const vocabAudioPlayer=new Audio();
+let vocabAudioRequest=0;
+function speakFallback(text){
  try{if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.85;
    const v=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}
 }
-function speakBtn(text){const b=el("button","speak-btn","🔊");b.type="button";b.title="Listen";b.onclick=e=>{e.stopPropagation();speak(text)};return b}
+async function speak(word){
+ const request=++vocabAudioRequest;
+ vocabAudioPlayer.pause();
+ if("speechSynthesis" in window)speechSynthesis.cancel();
+ const src=typeof VOCAB_AUDIO!=="undefined"&&VOCAB_AUDIO[word.id];
+ if(!src){speakFallback(word.jp);return}
+ vocabAudioPlayer.src=src;
+ vocabAudioPlayer.playbackRate=1;
+ try{await vocabAudioPlayer.play()}
+ catch(error){
+   // A newer word intentionally interrupts the previous recording.
+   if(request===vocabAudioRequest&&error.name!=="AbortError")speakFallback(word.jp);
+ }
+}
+function speakBtn(word){const b=el("button","speak-btn","🔊");b.type="button";b.title="Listen";b.onclick=e=>{e.stopPropagation();speak(word)};return b}
 function logItem(w){return `${w.jp}（${w.en}）`}
 
 /* kana units: small ゃゅょ etc. stay with the kana before them */
@@ -427,7 +444,7 @@ function renderPlay(){
  if(V.idx>=V.queue.length)return renderEnd(p);
  const w=V.queue[V.idx],stage=el("div","q-stage");p.append(stage);
  let tried=false;
- const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");Mascot.set("sugoi");stamp(stage);playSuccess();setTimeout(()=>speak(w.jp),750);afterAnswer(w,!tried)};
+ const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");Mascot.set("sugoi");stamp(stage);playSuccess();setTimeout(()=>speak(w),750);afterAnswer(w,!tried)};
  const wrong=(btn)=>{Mascot.set("confused");if(!tried)wrongOnce(w);tried=true;if(btn){btn.classList.add("wrong");btn.disabled=true}};
  if(V.mode==="pic2word"){
    stage.innerHTML=picHTML(w,true);stage.append(el("div","q-ask","Which word is this?"));
@@ -435,7 +452,7 @@ function renderPlay(){
    optionsFor(w,x=>x.jp).forEach(o=>{const b=el("button","opt word","");b.innerHTML=jpHTML(o.jp);b.onclick=()=>{if(b.disabled)return;o.jp===w.jp?(opts.querySelectorAll("button").forEach(z=>z.disabled=true),correct(b)):wrong(b)};opts.append(b)});
    stage.append(opts)
  }else if(V.mode==="word2pic"){
-   const wd=el("div","q-word");wd.innerHTML=jpHTML(w.jp);wd.append(speakBtn(w.jp));stage.append(wd,el("div","q-ask","Which picture is it?"));
+   const wd=el("div","q-word");wd.innerHTML=jpHTML(w.jp);wd.append(speakBtn(w));stage.append(wd,el("div","q-ask","Which picture is it?"));
    const opts=el("div","opt-grid pics");
    optionsFor(w,picKey).forEach(o=>{const b=el("button","opt picopt","");b.innerHTML=picHTML(o);b.onclick=()=>{if(b.disabled)return;picKey(o)===picKey(w)&&o.en===w.en?(opts.querySelectorAll("button").forEach(z=>z.disabled=true),correct(b)):wrong(b)};opts.append(b)});
    stage.append(opts)
@@ -475,7 +492,7 @@ function renderMatch(p,items){
    if(!sel||sel.side===side){grid.querySelectorAll(".selected").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");sel={b,side,w};return}
    if(sel.w.id===w.id){
      [sel.b,b].forEach(x=>{x.classList.remove("selected");x.classList.add("matched")});
-     logResult("vocab-match",logItem(w),true);Mascot.set("sugoi");if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w.jp),350);done++;sel=null;
+     logResult("vocab-match",logItem(w),true);Mascot.set("sugoi");if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w),350);done++;sel=null;
      if(done===items.length){stamp(stage);playSuccess();setTimeout(()=>{V.idx++;render()},900)}
    }else{
      const a=sel.b,wa=sel.w;sel=null;[a,b].forEach(x=>{x.classList.add("wrong");setTimeout(()=>x.classList.remove("wrong","selected"),450)});
@@ -491,7 +508,7 @@ function renderEnd(p){
  const box=el("div","end-box");
  const pct=total?V.score/total:0;
  box.append(el("div","end-stars",pct===1?"⭐⭐⭐":pct>=.6?"⭐⭐":"⭐"),el("div","end-score",`${V.score} / ${total}`),el("div","end-sub","correct on the first try"),Mascot.at("stamp",pct===1?"Perfect! Stamp time!":"Round finished! Well done!"));
- if(V.missed.length){box.append(el("div","end-sub strong","Practice these again:"));const ul=el("div","missed-list");V.missed.forEach(w=>{const d=el("div","missed-item","");d.innerHTML=`${w.pic&&w.pic[0]!=="#"?w.pic:"•"} <span>${jpHTML(w.jp)}</span> <small>${esc(w.en)} ${esc(w.zh)}</small>`;d.append(speakBtn(w.jp));ul.append(d)});box.append(ul)}
+ if(V.missed.length){box.append(el("div","end-sub strong","Practice these again:"));const ul=el("div","missed-list");V.missed.forEach(w=>{const d=el("div","missed-item","");d.innerHTML=`${w.pic&&w.pic[0]!=="#"?w.pic:"•"} <span>${jpHTML(w.jp)}</span> <small>${esc(w.en)} ${esc(w.zh)}</small>`;d.append(speakBtn(w));ul.append(d)});box.append(ul)}
  const act=el("div","actions"),again=el("button","active","↻ Play Again"),menu=el("button","","Choose Another Game");
  again.onclick=startRound;menu.onclick=()=>{V.screen="menu";render()};act.append(again,menu);box.append(act);
  p.append(box);app.append(p);if(pct===1)stamp(box)
