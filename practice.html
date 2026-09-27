@@ -100,13 +100,19 @@
      Student codes — add a new student by adding their code here
      (and in the 學生代號 sheet of the Google Spreadsheet).
      ================================================================ */
-  const CODES = ["K4FUX","46PXW","AFZUQ","K4HNE","2NUVJ","KARCC","TCP5D","P5DTM"];
+  const CODES = ["K4FUX","46PXW","AFZUQ","K4HNE","2NUVJ","KARCC","TCP5D","P5DTM",
+                 "6X3UU","37YKU","DM9HR","D5UQN","FRD9J","J4YK4","P6FCN"];
+
+  /* 大人：看得到 JLPT（也看得到小孩的练习）。没列在这里的代号＝小孩，看不到 JLPT。 */
+  const ADULTS = ["K4HNE","6X3UU","37YKU","DM9HR","D5UQN","FRD9J"];
 
   /* 每位学生学哪一科：ja = 只学日文，zh = 只学中文，没写或 all = 两科都看得到。
      例：只学中文的学生写 "K4FUX":"zh", */
   const STUDENT_LANGS = {
     "K4HNE":"ja", "2NUVJ":"ja", "TCP5D":"ja", "P5DTM":"ja",
-    "KARCC":"zh"
+    "KARCC":"zh",
+    "6X3UU":"ja", "37YKU":"ja", "DM9HR":"ja", "FRD9J":"ja",
+    "D5UQN":"zh", "J4YK4":"zh", "P6FCN":"zh"
     /* K4FUX、46PXW、AFZUQ 两科都学，不用写 */
   };
 
@@ -119,18 +125,19 @@
       { href:"clock.html",     ic:"🕒", name:"Time & Clock",   desc:"Read the clock, から～まで, mall mission", stars:true },
       { href:"worksheet.html", ic:"✍️", name:"Hiragana Writing", desc:"Trace and write あ〜そ" },
       { href:"kana-recall.html", ic:"🧠", name:"Kana Recall",  desc:"Remember the sound, write from memory" },
-      { href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT" }
+      { href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT", adult:true }
     ]},
     { title:"Chinese", sub:"华语", note:"", lang:"zh", items:[
       { href:"chinese-vocab-practice.html", ic:"华", cn:true, name:"华文练习", desc:"词语 · 关联词 Words & linking words" }
       /* 暂时隐藏（档案仍在，旧连结照样能开）：
       { href:"vocabtrainer.html",           ic:"练", cn:true, name:"UASA 华语词汇训练", desc:"UASA vocabulary training" },
       { href:"uasa-vocab.html",             ic:"读", cn:true, name:"华语字词与阅读", desc:"Words and reading" } */
-    ]},
+    ]}
+    /* Games 暂时隐藏，以后改良（档案仍在）：
     { title:"Games", sub:"", note:"Japanese and Chinese", items:[
       { href:"boardgame.html", ic:"🎲", name:"Board Game",   desc:"Answer questions and move ahead" },
       { href:"bubbles.html",   ic:"🫧", name:"Bubble Words", desc:"Pop the bubble with the right word" }
-    ]}
+    ]} */
   ];
 
   const KEY = "mlStudentCode";
@@ -159,12 +166,13 @@
     stampLine(code);
     const q = "?s=" + encodeURIComponent(code);   /* works even if this device can't remember the code */
     const lang = STUDENT_LANGS[code] || "all";
+    const adult = ADULTS.includes(code);
     document.getElementById("lists").innerHTML = SECTIONS.filter(sec => !sec.lang || lang === "all" || sec.lang === lang).map(sec => `
       <section class="pr-sec">
         <h2>${esc(sec.title)}${sec.sub ? `<span>${esc(sec.sub)}</span>` : ""}</h2>
         ${sec.note ? `<p>${esc(sec.note)}</p>` : ""}
         <div class="pr-grid">
-          ${sec.items.map(it => `
+          ${sec.items.filter(it => !it.adult || adult).map(it => `
             <a class="pr-card" href="${it.href}${q}">
               <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${esc(it.ic)}</span>
               <span class="pr-txt">
