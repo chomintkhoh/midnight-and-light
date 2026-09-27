@@ -128,22 +128,17 @@ const STAMP_SRC="./assets/images/great-stamp.png";
 const app=document.getElementById("app");
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function setHTML(node,html){node.innerHTML=html;return node}
-/* ===== Stamp sound: same volume every time =====
-   The file is decoded once and played through Web Audio at a fixed volume,
-   starting after the file's silent beginning. Repeats within 0.3 s are ignored. */
+/* One stamp player: fixed volume, no overlapping stamp recordings. */
 const SFX=(()=>{
  const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.9;
- let ctx=null,buf=null,last=0;const fb=new Audio(SRC);fb.preload="auto";fb.volume=VOLUME;
- function init(){
-   if(ctx)return;
-   try{ctx=new (window.AudioContext||window.webkitAudioContext)();
-     fetch(SRC).then(r=>r.arrayBuffer()).then(a=>new Promise((res,rej)=>ctx.decodeAudioData(a,res,rej))).then(b=>{buf=b}).catch(()=>{})}catch(e){ctx=null}
- }
- ["pointerdown","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,init,{once:true,passive:true}));
+ const player=new Audio(SRC);player.preload="auto";player.volume=VOLUME;
+ let last=-Infinity;
  function play(){
-   const now=Date.now();if(now-last<300)return;last=now;init();
-   if(ctx&&buf){try{if(ctx.state==="suspended")ctx.resume();const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=VOLUME;s.buffer=buf;s.connect(g);g.connect(ctx.destination);s.start(0,OFFSET);return}catch(e){}}
-   try{fb.pause();fb.currentTime=OFFSET;fb.play().catch(()=>{})}catch(e){}
+   const now=Date.now();if(now-last<300)return;last=now;
+   // Reuse and restart the same player; a previous stamp never stacks.
+   try{player.pause();player.volume=VOLUME;player.playbackRate=1;
+     player.currentTime=OFFSET;player.play().catch(()=>{});
+   }catch(e){}
  }
  return {play}
 })();
