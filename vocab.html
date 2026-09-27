@@ -130,19 +130,19 @@ function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt
 function setHTML(node,html){node.innerHTML=html;return node}
 /* One stamp player: fixed volume, no overlapping stamp recordings. */
 const SFX=(()=>{
- const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.9;
+ const SRC="./assets/audio/ui/success-stamp.mp3",OFFSET=0.25,VOLUME=0.7;
  const player=new Audio(SRC);player.preload="auto";player.volume=VOLUME;
  let last=-Infinity;
- function play(){
+ function play(volume=VOLUME){
    const now=Date.now();if(now-last<300)return;last=now;
    // Reuse and restart the same player; a previous stamp never stacks.
-   try{player.pause();player.volume=VOLUME;player.playbackRate=1;
+   try{player.pause();player.volume=volume;player.playbackRate=1;
      player.currentTime=OFFSET;player.play().catch(()=>{});
    }catch(e){}
  }
  return {play}
 })();
-function playSuccess(){SFX.play()}
+function playSuccess(volume=0.7){SFX.play(volume)}
 
 function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
 /* ===== Homework report: sends results to the teacher's Google Sheet ===== */
@@ -177,7 +177,7 @@ function addStamp(){
  try{localStorage.setItem(stampKey(),JSON.stringify(st))}catch(e){}
 }
 function celebrateCard(n){
- const t=el("div","card-toast",`🎉 Stamp card full! A new card starts now.`);document.body.append(t);playSuccess();setTimeout(()=>t.remove(),3200)
+ const t=el("div","card-toast",`🎉 Stamp card full! A new card starts now.`);document.body.append(t);playSuccess(0.9);setTimeout(()=>t.remove(),3200)
 }
 function stampCardEl(){
  const st=loadStamps(),box=el("div","stamp-card");
