@@ -234,14 +234,14 @@ body{
 <body>
 <!-- 词语练习本体（由 chinese-vocab-practice.html 入口页的「词语」页签载入）。字级跟随入口页的 A-/A/A+ -->
 <script>
-(()=>{const KEY="ml.zh.settings";function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}try{applyScale(JSON.parse(localStorage.getItem(KEY)||"{}").scale||1)}catch(e){applyScale(1)}window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);if(d.type==="ml.zh.tab"&&d.tab!=="vocab"&&typeof musicOn!=="undefined"&&musicOn&&typeof toggleMusic==="function")toggleMusic()})})();
+(()=>{const KEY="ml.zh.settings";function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}try{applyScale(JSON.parse(localStorage.getItem(KEY)||"{}").scale||1)}catch(e){applyScale(1)}window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);})})();
 </script>
 
-<audio id=bgm src="assets/audio/study-lofi.mp3" loop preload=auto></audio>
+
 <audio id=correctSound src="assets/audio/correct.mp3" preload=auto></audio>
 <audio id=wrongSound src="assets/audio/wrong.mp3" preload=auto></audio>
 <audio id=sparkleSound src="assets/audio/fairy-sparkle.mp3" preload=auto></audio>
-<audio id=levelSound src="assets/audio/level-complete.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><span id=combo class="combo hidden">🔥 ×0</span><button id=musicBtn class=home>🎵 Music</button><button id=changeMusicBtn class=home title="Change background music">♫ Change</button><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
+<audio id=levelSound src="assets/audio/level-complete.mp3" preload=auto></audio><main class=app><div class=top><div><h1>六年级华文词语练习</h1><p class=sub>Year 6 Chinese Vocabulary Practice</p></div><div class="hud"><span id=hearts class="hearts hidden">❤️❤️❤️❤️❤️</span><span id=combo class="combo hidden">🔥 ×0</span><button id=homeBtn class="home hidden">⌂ Home</button></div></div>
 <section id=home class=card><h2>选择主题 / Choose a Topic</h2><div id=topics class=grid></div></section>
 <section id=modes class="card hidden"><h2 id=topicTitle></h2>
 <div class="question-select"><b>题数 / Questions</b>
@@ -267,17 +267,12 @@ function comboCorrect(){
 }
 function comboWrong(word){comboCount=0;renderCombo();if(word&&!roundMistakes.includes(word))roundMistakes.push(word)}
 const WEAKKEY="Y6_VOCAB_WEAK_V1";
-let lives=5,musicOn=false,bgmIndex=0;
-const bgm=document.getElementById("bgm"),
-      correctSound=document.getElementById("correctSound"),
+let lives=5;
+const correctSound=document.getElementById("correctSound"),
       wrongSound=document.getElementById("wrongSound"),
       sparkleSound=document.getElementById("sparkleSound"),
       levelSound=document.getElementById("levelSound");
-const bgmTracks=[
- {src:"assets/audio/study-lofi.mp3",label:"Lo-fi",volume:.17},
- {src:"assets/audio/classical-6.mp3",label:"Classical 6",volume:.25}
-];
-bgm.volume=bgmTracks[0].volume;correctSound.volume=.25;wrongSound.volume=.17;sparkleSound.volume=.22;levelSound.volume=.27;
+correctSound.volume=.25;wrongSound.volume=.17;sparkleSound.volume=.22;levelSound.volume=.27;
 function playSound(a){try{a.currentTime=0;a.play().catch(()=>{})}catch(e){}}
 function playCorrect(){playSound(correctSound)}
 function playWrong(){playSound(wrongSound)}
@@ -467,15 +462,6 @@ function classify(){
 function write(){let w=items[i];$("#body").innerHTML=`<div class=write><div class=big>${w[0]}</div><div>${w[1]} · ${w[2]}</div></div><div class=padbox><canvas id=pad></canvas></div><div class=tools><button onclick=clearPad()>清除 Clear</button><button onclick=toggleWord()>隐藏／显示词语</button></div>`;setup();$("#next").classList.remove("hidden")}
 function toggleWord(){let e=document.querySelector(".big");e.style.visibility=e.style.visibility==="hidden"?"visible":"hidden"}function clearPad(){ctx&&ctx.clearRect(0,0,cv.width,cv.height)}
 function setup(){cv=$("#pad");let r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx=cv.getContext("2d");ctx.scale(d,d);ctx.lineWidth=5;ctx.lineCap="round";ctx.strokeStyle="#20243a";let p=e=>{let r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};cv.onpointerdown=e=>{drawing=true;let[x,y]=p(e);ctx.beginPath();ctx.moveTo(x,y)};cv.onpointermove=e=>{if(!drawing)return;let[x,y]=p(e);ctx.lineTo(x,y);ctx.stroke()};window.onpointerup=()=>drawing=false}
-const musicBtn=document.getElementById("musicBtn"),changeMusicBtn=document.getElementById("changeMusicBtn");
-function updateMusicLabels(){musicBtn.textContent=musicOn?"🔊 Music":"🎵 Music Off";changeMusicBtn.textContent="♫ "+bgmTracks[bgmIndex].label}
-async function toggleMusic(){musicOn=!musicOn;if(musicOn){try{await bgm.play()}catch(e){musicOn=false}}else bgm.pause();updateMusicLabels()}
-async function changeMusic(){
- const wasPlaying=musicOn;bgmIndex=(bgmIndex+1)%bgmTracks.length;bgm.pause();bgm.src=bgmTracks[bgmIndex].src;bgm.volume=bgmTracks[bgmIndex].volume;bgm.load();
- if(wasPlaying){try{await bgm.play()}catch(e){musicOn=false}}
- updateMusicLabels();
-}
-musicBtn.onclick=toggleMusic;changeMusicBtn.onclick=changeMusic;updateMusicLabels();
 function backToModes(){renderHome();show("modes")}
 function resultExtras(){
  const perfect=lives===5?`<div class="perfect-hearts">Perfect Hearts! ❤️❤️❤️❤️❤️</div>`:"";

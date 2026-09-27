@@ -53,13 +53,6 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 @media(max-width:600px){.calendar-compact{max-width:100%}.calendar-compact .day{min-height:42px}.sequence-slot{min-width:70px}}
 
 
-.music-control{display:flex;align-items:center;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-top:.8rem}
-.music-label{font-size:.88rem;color:var(--muted-bluegrey);margin-right:.1rem}
-.music-btn{padding:.42rem .72rem;border-radius:999px;font-size:.82rem;line-height:1.1}
-.music-btn.active{border-color:var(--pale-gold);box-shadow:0 0 0 1px rgba(217,196,142,.25) inset}
-@media(max-width:600px){.music-control{gap:.35rem}.music-btn{padding:.4rem .62rem;font-size:.78rem}}
-
-
 .calendar-task-note{margin:.55rem auto .2rem;max-width:520px;color:var(--muted-bluegrey);font-size:.92rem}
 
 /* V4 从～到 */
@@ -158,18 +151,14 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .who-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:12px auto 0;font-size:15px;color:var(--muted)}.who-bar a{color:var(--gold);text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 4px}.who-bar a:hover{text-decoration:underline}.who-code b{color:var(--warm);letter-spacing:.06em}.who-bar.no-code{max-width:520px;padding:8px 14px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4}.who-bar.no-code a{color:#fff;text-decoration:underline}
 </style>
 <link rel="stylesheet" href="practice-light.css">
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
 <main class="shell">
 <header class="hero">
 <h1>Japanese Time Practice</h1>
 <p>Clock, calendar, dates and weekdays.</p>
-<div class="music-control" aria-label="Background music">
-  <span class="music-label">🎵 Music</span>
-  <button type="button" class="music-btn active" data-track="off">Off</button>
-  <button type="button" class="music-btn" data-track="lofi">Study Lofi</button>
-  <button type="button" class="music-btn" data-track="classical">Classical</button>
-</div>
+<div class="music-control" data-shared-bgm aria-label="Background music"></div>
 </header>
 <nav class="tabs">
 <button id="clockMain" class="active">🕐 Clock</button>
@@ -192,57 +181,7 @@ const successSound=new Audio(SUCCESS_SOUND_SRC);
 successSound.preload="auto";
 successSound.volume=1.0;
 
-const BGM_TRACKS={
-  lofi:{src:"./assets/audio/study-lofi.mp3",volume:0.18},
-  classical:{src:"./assets/audio/classical-6.mp3",volume:0.50}
-};
-const bgm=new Audio();
-bgm.loop=true;
-bgm.preload="metadata";
-bgm.volume=0.18;
-let currentBgm="off";
 
-function updateMusicButtons(){
-  document.querySelectorAll(".music-btn").forEach(btn=>{
-    const on=btn.dataset.track===currentBgm;
-    btn.classList.toggle("active",on);
-    btn.setAttribute("aria-pressed",on?"true":"false");
-  });
-}
-function setBackgroundMusic(track,userAction=false){
-  if(track==="off"||!BGM_TRACKS[track]){
-    bgm.pause();
-    currentBgm="off";
-    try{localStorage.setItem("timePracticeBgm","off")}catch(e){}
-    updateMusicButtons();
-    return;
-  }
-  const wanted=BGM_TRACKS[track].src;
-  if(currentBgm!==track||!bgm.src.endsWith(wanted.replace("./",""))){
-    bgm.src=wanted;
-    currentBgm=track;
-  }
-  bgm.volume=BGM_TRACKS[track].volume;
-  try{localStorage.setItem("timePracticeBgm",track)}catch(e){}
-  updateMusicButtons();
-  if(userAction){
-    bgm.play().catch(()=>{});
-  }
-}
-function initMusic(){
-  document.querySelectorAll(".music-btn").forEach(btn=>{
-    btn.addEventListener("click",()=>setBackgroundMusic(btn.dataset.track,true));
-  });
-  let saved="off";try{saved=localStorage.getItem("timePracticeBgm")||"off"}catch(e){}
-  if(saved!=="off"&&BGM_TRACKS[saved]){
-    bgm.src=BGM_TRACKS[saved].src;
-    bgm.volume=BGM_TRACKS[saved].volume;
-    currentBgm=saved;
-    // Browsers normally require a click before playback.
-    // Keep the saved selection visible without forcing autoplay.
-  }
-  updateMusicButtons();
-}
 const MODES=[["oclock","O'clock"],["every10","Every 10 Minutes"],["every5","Every 5 Minutes"],["minutes1to10","Minutes 1–10"],["mixed","Mixed"]];
 const HOUR={1:"いちじ",2:"にじ",3:"さんじ",4:"よじ",5:"ごじ",6:"ろくじ",7:"しちじ",8:"はちじ",9:"くじ",10:"じゅうじ",11:"じゅういちじ",12:"じゅうにじ"};
 const MIN={0:"",1:"いっぷん",2:"にふん",3:"さんぷん",4:"よんぷん",5:"ごふん",6:"ろっぷん",7:"ななふん",8:"はっぷん",9:"きゅうふん",10:"じゅっぷん",15:"じゅうごふん",20:"にじゅっぷん",25:"にじゅうごふん",30:"さんじゅっぷん",35:"さんじゅうごふん",40:"よんじゅっぷん",45:"よんじゅうごふん",50:"ごじゅっぷん",55:"ごじゅうごふん"};
@@ -1398,8 +1337,8 @@ const _flashWrong=flashWrong;
 flashWrong=function(...nodes){Mascot.set("confused");return _flashWrong(...nodes)};
 const _stamp=stamp;
 stamp=function(host){if(Mascot.mood!=="sugoi")Mascot.set("stamp");return _stamp(host)};
-initMusic();
 initReport();
 render();
 </script>
+<script src="assets/bgm.js"></script>
 </body></html>
