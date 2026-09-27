@@ -316,25 +316,30 @@ function picHTML(w,big=false){
  if(w.pic[0]==="#")return `<div class="${cls}"><span class="swatch" style="background:${w.pic}"></span></div>`;
  return `<div class="${cls}"><span class="emoji">${w.pic}</span></div>`
 }
-const vocabAudioPlayer=new Audio();
-let vocabAudioRequest=0;
-function speakFallback(text){
- try{if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.85;
-   const v=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}
-}
-async function speak(word){
- const request=++vocabAudioRequest;
- vocabAudioPlayer.pause();
- if("speechSynthesis" in window)speechSynthesis.cancel();
+const vocabAudioCache=new Map();
+let cancelVocabSpeech=null,vocabView=0;
+function recordingFor(word){
  const src=typeof VOCAB_AUDIO!=="undefined"&&VOCAB_AUDIO[word.id];
- if(!src){speakFallback(word.jp);return}
- vocabAudioPlayer.src=src;
- vocabAudioPlayer.playbackRate=1;
- try{await vocabAudioPlayer.play()}
- catch(error){
-   // A newer word intentionally interrupts the previous recording.
-   if(request===vocabAudioRequest&&error.name!=="AbortError")speakFallback(word.jp);
- }
+ if(!src)return null;
+ if(!vocabAudioCache.has(src)){const a=new Audio(src);a.preload="auto";a.load();vocabAudioCache.set(src,a)}
+ return vocabAudioCache.get(src);
+}
+function stopVocabSpeech(){if(cancelVocabSpeech)cancelVocabSpeech();if("speechSynthesis" in window)speechSynthesis.cancel()}
+function speak(word){
+ stopVocabSpeech();
+ return new Promise(resolve=>{
+  const a=recordingFor(word);let done=false,fallbackStarted=false,timer;
+  const finish=()=>{if(done)return;done=true;clearTimeout(timer);if(a){a.onended=null;a.onerror=null;a.pause()}if(cancelVocabSpeech===finish)cancelVocabSpeech=null;resolve()};
+  const fallback=()=>{
+   if(done||fallbackStarted)return;fallbackStarted=true;
+   if(!("speechSynthesis" in window)){finish();return}
+   try{const u=new SpeechSynthesisUtterance(word.jp);u.lang="ja-JP";u.rate=.85;u.onend=finish;u.onerror=finish;const voice=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang));if(voice)u.voice=voice;speechSynthesis.speak(u)}catch(e){finish()}
+  };
+  cancelVocabSpeech=finish;timer=setTimeout(finish,8000);
+  if(!a){fallback();return}
+  a.currentTime=0;a.playbackRate=1;a.onended=finish;a.onerror=()=>{a.onerror=null;fallback()};
+  a.play().catch(error=>{if(!done){a.onerror=null;error.name==="AbortError"?finish():fallback()}});
+ });
 }
 function speakBtn(word){const b=el("button","speak-btn","🔊");b.type="button";b.title="Listen";b.onclick=e=>{e.stopPropagation();speak(word)};return b}
 function logItem(w){return `${w.jp}（${w.en}）`}
@@ -411,9 +416,10 @@ function startRound(){
  if(V.mode==="match"){V.matchRounds=[V.queue.slice(0,5),V.queue.slice(5,10)].filter(r=>r.length>=3);V.idx=0}
  render()
 }
-function afterAnswer(w,firstTry){
+async function afterAnswer(w,firstTry){
  V.answered++;if(firstTry)V.firstTry++;
- setTimeout(()=>{V.idx++;render()},firstTry?650:1100)
+ const view=vocabView;await speak(w);
+ if(view===vocabView&&V.screen==="play"){V.idx++;render()}
 }
 function wrongOnce(w){
  logResult("vocab-"+V.mode,logItem(w),false);
@@ -443,8 +449,9 @@ function renderPlay(){
  if(V.mode==="match"){if(V.idx>=V.matchRounds.length)return renderEnd(p);renderMatch(p,V.matchRounds[V.idx]);app.append(p);return}
  if(V.idx>=V.queue.length)return renderEnd(p);
  const w=V.queue[V.idx],stage=el("div","q-stage");p.append(stage);
+ recordingFor(w);if(V.queue[V.idx+1])recordingFor(V.queue[V.idx+1]);
  let tried=false;
- const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");Mascot.set("sugoi");stamp(stage);playSuccess();setTimeout(()=>speak(w),750);afterAnswer(w,!tried)};
+ const correct=(btn)=>{logResult("vocab-"+V.mode,logItem(w),true);if(!tried&&!V.requeued.has(w.id))V.score++;btn&&btn.classList.add("right");Mascot.set("sugoi");stamp(stage);playSuccess();afterAnswer(w,!tried)};
  const wrong=(btn)=>{Mascot.set("confused");if(!tried)wrongOnce(w);tried=true;if(btn){btn.classList.add("wrong");btn.disabled=true}};
  if(V.mode==="pic2word"){
    stage.innerHTML=picHTML(w,true);stage.append(el("div","q-ask","Which word is this?"));
@@ -484,6 +491,7 @@ function renderPlay(){
  app.append(p)
 }
 function renderMatch(p,items){
+ items.forEach(recordingFor);
  const stage=el("div","q-stage");stage.append(el("div","q-ask","Tap a picture, then tap its word."));
  const grid=el("div","match-cols"),L=el("div","match-col"),R=el("div","match-col");
  let sel=null,done=0;const wrongSet=new Set();
@@ -492,8 +500,8 @@ function renderMatch(p,items){
    if(!sel||sel.side===side){grid.querySelectorAll(".selected").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");sel={b,side,w};return}
    if(sel.w.id===w.id){
      [sel.b,b].forEach(x=>{x.classList.remove("selected");x.classList.add("matched")});
-     logResult("vocab-match",logItem(w),true);Mascot.set("sugoi");if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;setTimeout(()=>speak(w),350);done++;sel=null;
-     if(done===items.length){stamp(stage);playSuccess();setTimeout(()=>{V.idx++;render()},900)}
+     logResult("vocab-match",logItem(w),true);Mascot.set("sugoi");if(!wrongSet.has(w.id)){V.score++;V.firstTry++}V.answered++;const view=vocabView,spoken=speak(w);done++;sel=null;
+     if(done===items.length){stamp(stage);playSuccess();spoken.then(()=>{if(view===vocabView&&V.screen==="play"){V.idx++;render()}})}
    }else{
      const a=sel.b,wa=sel.w;sel=null;[a,b].forEach(x=>{x.classList.add("wrong");setTimeout(()=>x.classList.remove("wrong","selected"),450)});
      const target=side==="L"?w:wa;Mascot.set("confused");if(!wrongSet.has(target.id)){wrongSet.add(target.id);logResult("vocab-match",logItem(target),false);if(!V.missed.find(m=>m.id===target.id))V.missed.push(target)}
@@ -513,7 +521,7 @@ function renderEnd(p){
  again.onclick=startRound;menu.onclick=()=>{V.screen="menu";render()};act.append(again,menu);box.append(act);
  p.append(box);app.append(p);if(pct===1)stamp(box)
 }
-function render(){app.innerHTML="";if(V.screen==="menu")renderMenu();else renderPlay()}
+function render(){vocabView++;stopVocabSpeech();app.innerHTML="";if(V.screen==="menu")renderMenu();else renderPlay()}
 
 initReport();
 render();
