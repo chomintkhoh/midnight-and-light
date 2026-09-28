@@ -509,8 +509,8 @@ const renderers = {
     });
     infoCol.appendChild(grid);
 
-    layout.appendChild(writingCol);
     layout.appendChild(infoCol);
+    layout.appendChild(writingCol);
     c.appendChild(layout);
     appendNav(c);
   },
