@@ -208,12 +208,35 @@ function sampleUnique(pool, count, excluded = []) {
   return shuffle(pool.filter(ch => !blocked.has(ch))).slice(0, count);
 }
 
+// Use a shuffled bag of answer positions, rather than independent random draws.
+// Every option position is used once before a new bag is started.
+function spreadAnswerPositions(questions) {
+  let positions = [];
+  let choiceCount = 0;
+  let previous = -1;
+  return questions.map(question => {
+    const count = question.choices.length;
+    if (!positions.length || choiceCount !== count) {
+      positions = shuffle(Array.from({ length: count }, (_, index) => index));
+      choiceCount = count;
+      if (count > 1 && positions[positions.length - 1] === previous) {
+        [positions[0], positions[count - 1]] = [positions[count - 1], positions[0]];
+      }
+    }
+    const position = positions.pop();
+    previous = position;
+    const choices = shuffle(question.choices.filter(choice => choice !== question.target));
+    choices.splice(position, 0, question.target);
+    return { ...question, choices };
+  });
+}
+
 function buildPracticeSet(group, distractorPool) {
   let set, signature, attempts = 0;
   do {
-    const listening = shuffle(group).map(target => ({
-      target, choices: shuffle([target, ...sampleUnique(distractorPool, 4)])
-    }));
+    const listening = spreadAnswerPositions(shuffle(group).map(target => ({
+      target, choices: [target, ...sampleUnique(distractorPool, 4)]
+    })));
     const oddOneOut = sampleUnique(distractorPool, 3).map((distractor, index) => {
       const omitted = group[(Math.floor(Math.random() * group.length) + index) % group.length];
       return { target: distractor, choices: shuffle([...group.filter(c => c !== omitted), distractor]) };
@@ -567,7 +590,7 @@ const renderers = {
 
   miniCheck(step) {
     runListeningGame({
-      questions: shuffle(step.group).slice(0, 2).map(target => ({target, choices:shuffle(step.group)})),
+      questions: spreadAnswerPositions(shuffle(step.group).slice(0, 2).map(target => ({target, choices:step.group.slice()}))),
       onDone: goNext,
       quick: true
     });
