@@ -123,6 +123,9 @@
     border-radius:7px; font-size:17px; background: rgba(244,241,234,0.03); color: var(--muted-bluegrey);
   }
   .exp-gojuon-cell.highlight{ background: rgba(217,196,142,0.18); color: var(--pale-gold); font-weight:600; border:1px solid rgba(217,196,142,0.4); }
+  .exp-kana-map-groups{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; width:min(100%,720px); margin:16px auto 4px; }
+  .exp-kana-map-item{ min-width:0; padding:10px 8px; border-radius:12px; border:1px solid rgba(182,169,218,.22); background:rgba(182,169,218,.055); display:flex; flex-direction:column; gap:5px; }
+  .exp-kana-map-item strong{ color:var(--warm-white); font-size:clamp(16px,2.2vw,21px); font-weight:500; white-space:nowrap; }
 
   /* Sound pattern */
   .exp-pattern-rows{ display:flex; flex-direction:column; gap:6px; margin:14px 0; align-items:center; }
@@ -229,6 +232,7 @@
   @media (max-width: 720px){
     .exp-card{ min-height:auto; }
     .exp-prompt-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .exp-kana-map-groups{ grid-template-columns:1fr; }
   }
   @media (max-width: 600px){
     .exp-card{ padding:16px 18px 26px; }
