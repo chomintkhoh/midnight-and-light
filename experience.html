@@ -393,6 +393,51 @@
     .exp-card .exp-pattern-row .kana{font-size:23px;}
     .exp-card .exp-pattern-chain{font-size:18px;}
   }
+
+  /* Classroom stage: use the viewport for teaching after the welcome. */
+  body.lesson-active .page{max-width:1360px;padding:calc(var(--nav-h,70px) + 12px) 24px 24px;}
+  body.lesson-active #exp-eyebrow,body.lesson-active #exp-title,body.lesson-active #exp-lead{display:none;}
+  body.lesson-active #exp-app{max-width:1240px;}
+  body.lesson-active .exp-card{margin-top:0;min-height:calc(100svh - var(--nav-h,70px) - 48px);}
+  body.lesson-active .site-footer{display:none;}
+  .exp-teacher-note summary,.exp-dialogue summary{cursor:pointer;font-weight:700;min-height:28px;line-height:1.7;}
+  .exp-teacher-note-body{padding-top:10px;line-height:1.7;}
+  .exp-phrase-grid{display:grid;gap:12px;margin:12px 0;}
+  .exp-phrase{padding:20px 16px;background:#DDD9E2;border-radius:14px;}
+  .exp-phrase .kana{font-size:clamp(23px,3vw,34px);overflow-wrap:anywhere;}
+  .exp-phrase-romaji{font-size:17px;font-weight:600;color:#49516A;margin-top:8px;}
+  .exp-phrase .exp-note{margin:8px 0 0;}
+  .exp-dialogue{margin:18px 0;text-align:left;padding:16px;border:1px solid #AAA1BA;border-radius:14px;}
+  .exp-dialogue-line{font-size:clamp(22px,3vw,30px);overflow-wrap:anywhere;}
+  .exp-stroke-model{position:absolute;inset:0;pointer-events:none;}
+  .exp-stroke-model svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;}
+  .stroke-guide{stroke:rgba(37,43,69,.22);}
+  .stroke-ink{stroke:#705322;visibility:hidden;}
+  .stroke-ink.visible{visibility:visible;animation:stroke-draw 1s linear both;}
+  @keyframes stroke-draw{from{stroke-dasharray:1;stroke-dashoffset:1;}to{stroke-dasharray:1;stroke-dashoffset:0;}}
+  .exp-writing-canvas{position:relative;z-index:1;background-color:transparent;}
+  .exp-stroke-model{z-index:2;}
+  .exp-stroke-controls .exp-btn{margin-top:0;padding:10px 18px;}
+  .exp-stroke-controls .exp-note{margin:10px 0;}
+  .exp-credits{font-size:12px;line-height:1.6;color:#49516A;margin:16px auto 0;}
+  .exp-credits a{color:#584077;text-decoration:underline;}
+  .exp-card button:focus-visible,.exp-card summary:focus-visible{outline:3px solid #64508A;outline-offset:3px;}
+  @media(prefers-reduced-motion:reduce){.stroke-ink.visible{animation:none;}}
+  @media(min-width:901px){
+    .lesson-active .exp-map-slide .exp-mid{font-size:28px;}
+    .lesson-active .exp-map-slide .exp-gojuon-cell,.lesson-active .exp-map-slide .exp-sound-cell{min-height:29px;}
+    .lesson-active .exp-map-slide > .exp-nav-row{padding-top:14px;}
+  }
+  @media(max-width:720px){
+    body.lesson-active .page{padding:calc(var(--nav-h,70px) + 8px) 10px 16px;}
+    body.lesson-active .exp-card{min-height:calc(100svh - var(--nav-h,70px) - 32px);padding:14px 14px 20px;}
+    .exp-phrase{padding:16px 10px;}
+    .exp-phrase-romaji{font-size:15px;}
+    .exp-teacher-note{box-sizing:border-box;}
+    .exp-map-advanced{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .exp-card .exp-map-panel h3{font-size:13px;letter-spacing:0;}
+    .exp-mid{font-size:26px;}
+  }
 </style>
 </head>
 <body>
