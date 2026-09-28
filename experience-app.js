@@ -339,7 +339,7 @@ function enableDrawing(canvas) {
   const ctx = canvas.getContext("2d");
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
-  ctx.strokeStyle = "#F4F1EA";
+  ctx.strokeStyle = "#252B45";
   ctx.lineWidth = 12;
   let drawing = false;
 
@@ -718,16 +718,16 @@ function runListeningGame({ questions, onDone }) {
       btn.addEventListener("click", () => {
         if (choice === q.target) {
           btn.classList.add("correct");
-          setT(feedback, () => L("Correct!", "答对了！"));
+          setT(feedback, () => L("✓ Correct!", "✓ 答对了！"));
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          setTimeout(() => {
+          c.appendChild(primaryButton(() => L("Next question →", "下一题 →"), () => {
             qi++;
             if (qi < questions.length) renderQuestion(); else onDone();
-          }, 1000);
+          }));
         } else {
           btn.classList.add("wrong");
-          setT(feedback, () => L("Try again.", "再试一次。"));
+          setT(feedback, () => L("↻ Try again.", "↻ 再试一次。"));
           feedback.className = "exp-feedback bad";
         }
       });
@@ -765,16 +765,16 @@ function runChoiceGame({ label, instruction, sub, questions, onDone }) {
       btn.addEventListener("click", () => {
         if (choice === q.target) {
           btn.classList.add("correct");
-          setT(feedback, () => L("Correct!", "答对了！"));
+          setT(feedback, () => L("✓ Correct!", "✓ 答对了！"));
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
-          setTimeout(() => {
+          c.appendChild(primaryButton(() => L("Next question →", "下一题 →"), () => {
             qi++;
             if (qi < questions.length) renderQuestion(); else onDone();
-          }, 800);
+          }));
         } else {
           btn.classList.add("wrong");
-          setT(feedback, () => L("Try again.", "再试一次。"));
+          setT(feedback, () => L("↻ Try again.", "↻ 再试一次。"));
           feedback.className = "exp-feedback bad";
         }
       });
@@ -850,11 +850,11 @@ function runHiraganaMaze({ group, distractorPool, onDone }) {
           updateProgress();
           if (nextIndex === group.length) {
             grid.querySelectorAll("button").forEach(b => b.disabled = true);
-            setTimeout(onComplete, 900);
+            c.appendChild(primaryButton(() => L("Continue →", "继续 →"), onComplete));
           }
         } else {
           btn.classList.add("wrong");
-          setT(feedback, () => L("Try again.", "再试一次。"));
+          setT(feedback, () => L("↻ Try again.", "↻ 再试一次。"));
           feedback.className = "exp-feedback bad";
           setTimeout(() => btn.classList.remove("wrong"), 450);
         }
