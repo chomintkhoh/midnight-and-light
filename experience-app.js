@@ -166,6 +166,20 @@ const GOJUON_ROWS = [
   ["ん", "", "", "", ""]
 ];
 
+const DAKUTEN_ROWS = [
+  ["が", "ぎ", "ぐ", "げ", "ご"],
+  ["ざ", "じ", "ず", "ぜ", "ぞ"],
+  ["だ", "ぢ", "づ", "で", "ど"],
+  ["ば", "び", "ぶ", "べ", "ぼ"]
+];
+const HANDAKUTEN_ROW = ["ぱ", "ぴ", "ぷ", "ぺ", "ぽ"];
+const COMBINATION_ROWS = [
+  ["きゃ", "きゅ", "きょ"], ["しゃ", "しゅ", "しょ"], ["ちゃ", "ちゅ", "ちょ"],
+  ["にゃ", "にゅ", "にょ"], ["ひゃ", "ひゅ", "ひょ"], ["みゃ", "みゅ", "みょ"],
+  ["りゃ", "りゅ", "りょ"], ["ぎゃ", "ぎゅ", "ぎょ"], ["じゃ", "じゅ", "じょ"],
+  ["びゃ", "びゅ", "びょ"], ["ぴゃ", "ぴゅ", "ぴょ"]
+];
+
 const K_ROW_PATTERN = [
   { vowel: "A", romaji: "KA", kana: "か" },
   { vowel: "I", romaji: "KI", kana: "き" },
@@ -435,20 +449,13 @@ const renderers = {
 
   learnChar(step) {
     const c = card();
+    c.classList.add("exp-learn-slide");
     const { char, vocab } = step.char;
+    const layout = el("div", "exp-learn-layout");
+    const writingCol = el("section", "exp-learn-writing");
+    const infoCol = el("section", "exp-learn-info");
 
-    c.appendChild(el("div", "exp-big exp-char kana", char));
-
-    const speaker = el("button", "exp-speaker");
-    speaker.type = "button";
-    speaker.innerHTML = `<span aria-hidden="true">🔊</span>`;
-    speaker.setAttribute("aria-label", "Play the sound / 播放发音");
-    speaker.addEventListener("click", () => playHiraganaAudio(char, speaker));
-    c.appendChild(speaker);
-    c.appendChild(el("div", "exp-subinstruction", () => L("Tap to listen, then say it out loud.", "点一下听发音，然后大声跟着念。")));
-
-    // Write it
-    c.appendChild(el("div", "exp-section-title", () => L("Write it", "写一写")));
+    writingCol.appendChild(el("div", "exp-section-title", () => L("Write it", "写一写")));
     const pair = el("div", "exp-writing-pair");
     const canvases = [];
     [[() => L("Trace", "描一描"), true], [() => L("By yourself", "自己写"), false]].forEach(([label, withRef]) => {
@@ -466,62 +473,84 @@ const renderers = {
       enableDrawing(canvas);
       canvases.push(canvas);
     });
-    c.appendChild(pair);
-    const clear = el("button", "exp-clear-btn", () => L("Clear", "清除"));
+    writingCol.appendChild(pair);
+    const clear = el("button", "exp-clear-btn", () => L("Clear both", "全部清除"));
     clear.type = "button";
     clear.addEventListener("click", () => canvases.forEach(cv => cv.getContext("2d").clearRect(0, 0, cv.width, cv.height)));
-    c.appendChild(clear);
+    writingCol.appendChild(clear);
 
-    // Words
-    c.appendChild(el("div", "exp-section-title", () => L(`Words with ${k(char)}`, `有 ${k(char)} 的词`), true));
-    c.appendChild(el("div", "exp-subinstruction", () => L("Tap a word to see its meaning.", "点一下词语，看看是什么意思。")));
+    const soundHead = el("div", "exp-learn-sound");
+    soundHead.appendChild(el("div", "exp-big exp-char kana", char));
+    const soundText = el("div", "exp-learn-sound-actions");
+    const speaker = el("button", "exp-speaker");
+    speaker.type = "button";
+    speaker.innerHTML = `<span aria-hidden="true">🔊</span>`;
+    speaker.setAttribute("aria-label", "Play the sound / 播放发音");
+    speaker.addEventListener("click", () => playHiraganaAudio(char, speaker));
+    soundText.appendChild(speaker);
+    soundText.appendChild(el("div", "exp-subinstruction", () => L("Listen, then say it aloud.", "听一听，然后大声跟读。")));
+    soundHead.appendChild(soundText);
+    infoCol.appendChild(soundHead);
+
+    infoCol.appendChild(el("div", "exp-section-title", () => L(`Words with ${k(char)}`, `有 ${k(char)} 的词`), true));
+    infoCol.appendChild(el("div", "exp-subinstruction", () => L("Tap a word to reveal its meaning.", "点一下词语，显示意思。")));
     const grid = el("div", "exp-vocab-grid");
     vocab.forEach(v => {
       const item = el("button", "exp-vocab-card");
       item.type = "button";
       item.appendChild(el("div", "emoji", v.emoji));
-      item.appendChild(el("div", "word kana", v.word.replace(char, `<strong>${char}</strong>`), true));
-      item.appendChild(el("div", "vocab-romaji", v.romaji));
+      const wordBlock = el("div", "exp-vocab-wordblock");
+      wordBlock.appendChild(el("div", "word kana", v.word.replace(char, `<strong>${char}</strong>`), true));
+      wordBlock.appendChild(el("div", "vocab-romaji", v.romaji));
+      item.appendChild(wordBlock);
       item.appendChild(el("div", "meaning", () => L(v.en, v.zh)));
       item.addEventListener("click", () => item.classList.toggle("revealed"));
       grid.appendChild(item);
     });
-    c.appendChild(grid);
+    infoCol.appendChild(grid);
 
+    layout.appendChild(writingCol);
+    layout.appendChild(infoCol);
+    c.appendChild(layout);
     appendNav(c);
   },
 
   kanaOverview() {
     const c = card();
+    c.classList.add("exp-map-slide");
     c.appendChild(el("div", "exp-slide-kicker", () => L("The sound map", "日语声音地图")));
-    c.appendChild(el("div", "exp-mid", () => L("The Hiragana System", "完整的平假名系统")));
-    c.appendChild(note(() => L(
-      "The basic chart is called Gojūon. Japanese also uses voiced sounds, semi-voiced sounds and combination sounds.",
-      "基础表叫作“五十音”。日语还会使用浊音、半浊音和拗音（组合音）。"
-    )));
+    c.appendChild(el("div", "exp-mid", () => L("The Complete Hiragana System", "完整的平假名系统")));
+    const mapLayout = el("div", "exp-kana-map-layout");
+
+    const basic = el("section", "exp-map-panel exp-map-basic");
+    basic.appendChild(el("h3", "", () => L("Basic Gojūon", "基础五十音")));
     const chart = el("div", "exp-gojuon-chart kana");
     GOJUON_ROWS.forEach((row, ri) => row.forEach(ch => {
       chart.appendChild(el("div", "exp-gojuon-cell" + (ri === 0 && ch ? " highlight" : ""), ch));
     }));
-    c.appendChild(chart);
+    basic.appendChild(chart);
 
-    const groups = el("div", "exp-kana-map-groups");
-    [
-      ["Voiced sounds · Dakuten", "浊音 · Dakuten", "が　ざ　だ　ば"],
-      ["Semi-voiced · Handakuten", "半浊音 · Handakuten", "ぱ　ぴ　ぷ　ぺ　ぽ"],
-      ["Combination sounds", "拗音／组合音", "きゃ　しゅ　ちょ"]
-    ].forEach(([en, zh, sample]) => {
-      const item = el("div", "exp-kana-map-item");
-      item.appendChild(el("span", "exp-preview-name", () => L(en, zh)));
-      item.appendChild(el("strong", "kana", sample));
-      groups.appendChild(item);
-    });
-    c.appendChild(groups);
+    const advanced = el("section", "exp-map-panel exp-map-advanced");
+    const voicedTitle = el("h3", "", () => L("Dakuten & Handakuten", "浊音与半浊音"));
+    advanced.appendChild(voicedTitle);
+    const voiced = el("div", "exp-sound-grid exp-sound-grid-five kana");
+    [...DAKUTEN_ROWS, HANDAKUTEN_ROW].forEach((row, ri) => row.forEach(ch => {
+      voiced.appendChild(el("div", "exp-sound-cell" + (ri === DAKUTEN_ROWS.length ? " handakuten" : ""), ch));
+    }));
+    advanced.appendChild(voiced);
+    advanced.appendChild(el("h3", "exp-combo-title", () => L("Combination Sounds", "拗音／组合音")));
+    const combos = el("div", "exp-sound-grid exp-sound-grid-three kana");
+    COMBINATION_ROWS.forEach(row => row.forEach(ch => combos.appendChild(el("div", "exp-sound-cell", ch))));
+    advanced.appendChild(combos);
+
+    mapLayout.appendChild(basic);
+    mapLayout.appendChild(advanced);
+    c.appendChild(mapLayout);
     c.appendChild(note(() => L(
-      "This is the whole map — you do not need to memorise it today.",
-      "这是完整的学习地图——今天不需要全部记住。"
+      "This is the whole map. Today we will focus only on the highlighted first row.",
+      "这就是完整的学习地图。今天只专注左边标亮的第一行。"
     ), "exp-note small"));
-    appendNav(c, { nextLabel: () => L("Today’s small goal →", "看看今天的小目标 →") });
+    appendNav(c, { nextLabel: () => L("Today’s five vowels →", "今天的五个元音 →") });
   },
 
   vowelsChart() {
