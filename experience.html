@@ -311,6 +311,71 @@
   .exp-learn-info .exp-vocab-card .vocab-romaji{ font-size:14px; font-weight:600; opacity:1; color:#D8D3E6; }
   .exp-vocab-card .meaning{ font-size:16px; font-weight:600; color:#E0D5FA; }
   @media(max-width:480px){ .exp-learn-info .exp-vocab-card .word{font-size:24px;} }
+
+  /* Light lesson surface, with the surrounding night sky preserved. */
+  .exp-card{
+    --warm-white:#242B43; --service-primary:#303850; --muted-bluegrey:#49516A;
+    --muted-faint:#565D72; --pale-gold:#705322; --soft-lavender:#64508A;
+    background:#F8F5EF; color:#242B43; border-color:#DBD5E4; backdrop-filter:none;
+  }
+  .exp-card .exp-note,.exp-card .exp-subinstruction,.exp-card .exp-writing-label,
+  .exp-card .exp-note.small,.exp-card .exp-step-count,.exp-card .exp-teacher-note,
+  .exp-card .exp-clear-btn,.exp-card .exp-preview-name,.exp-card .type-label{color:#49516A;}
+  .exp-card .exp-note,.exp-card .exp-subinstruction{font-size:18px;line-height:1.65;}
+  .exp-card .exp-btn{background:#3D365E;color:#FFF;}
+  .exp-card .exp-btn.secondary,.exp-card .exp-clear-btn{background:#FFF;color:#34304F;border-color:#AAA1BA;min-height:44px;}
+  .exp-card .lang-toggle{border-color:#AAA1BA;}
+  .exp-card .lang-toggle button{min-height:40px;}
+  .exp-card .lang-toggle button.active{background:#E3DCEE;color:#3D365E;}
+  .exp-card .exp-progress{background:#E2DCEA;}
+  .exp-card .exp-progress-fill{background:#74618F;}
+  .exp-card .exp-prompt,.exp-card .exp-vocab-card,.exp-card .exp-writing-item,
+  .exp-card .exp-map-panel{background:#F0ECF5;border-color:#D4CCDF;}
+  .exp-card .exp-prompt.selected,.exp-card .exp-vocab-card.revealed{background:#E4DDEF;border-color:#796595;}
+  .exp-card .exp-gojuon-cell,.exp-card .exp-sound-cell{color:#242B43;background:#E7E2ED;}
+  .exp-card .exp-gojuon-cell.highlight,.exp-card .exp-sound-cell.handakuten{background:#EEE0BA;color:#59431E;border-color:#B39A62;}
+  .exp-card .exp-vocab-card .meaning{color:#584077;}
+  .exp-card .exp-vocab-card .vocab-romaji{color:#525A71;}
+  .exp-card .exp-writing-canvas{border-color:#AFA7BE;background:
+    linear-gradient(#DDD7E5,#DDD7E5) center/100% 1px no-repeat,
+    linear-gradient(#DDD7E5,#DDD7E5) center/1px 100% no-repeat,#FFFDF9;}
+  .exp-card .exp-writing-ref.kana{color:rgba(37,43,69,.28);}
+  .exp-card .exp-choice,.exp-card .exp-maze-cell{background:#EAE4F2;border:2px solid #C1B5D1;color:#242B43;}
+  .exp-card .exp-choice{width:120px;height:120px;font-size:56px;border-radius:18px;}
+  .exp-card .exp-maze-grid{width:min(100%,520px);gap:12px;}
+  .exp-card .exp-maze-cell{font-size:46px;}
+  .exp-card .correct{background:#D6EBDD;border-color:#36714B;}
+  .exp-card .wrong{background:#F4DDD9;border-color:#A34D48;}
+  .exp-card .exp-feedback.good{color:#27603A;}
+  .exp-card .exp-feedback.bad{color:#923D36;}
+  .exp-card .exp-maze-progress{color:#777184;}
+  .exp-card .exp-maze-progress .done{color:#36714B;}
+  .exp-map-advanced{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start;}
+  .exp-map-advanced > h3:first-child{grid-column:1;grid-row:1;}
+  .exp-map-advanced > .exp-sound-grid-five{grid-column:1;grid-row:2;align-self:start;}
+  .exp-map-advanced > .exp-combo-title{grid-column:2;grid-row:1;margin-top:0;}
+  .exp-map-advanced > .exp-sound-grid-three{grid-column:2;grid-row:2;}
+  .exp-kana-map-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);}
+  .exp-card .exp-map-panel{padding:10px;}
+  .exp-card .exp-map-panel h3{font-size:14px;}
+  .exp-card .exp-gojuon-cell,.exp-card .exp-sound-cell{min-height:32px;font-size:18px;}
+  @media(max-width:900px){
+    .exp-kana-map-layout{grid-template-columns:1fr;}
+  }
+  @media(max-width:720px){
+    .exp-card .exp-choice{width:90px;height:90px;font-size:44px;}
+    .exp-card .exp-maze-grid{gap:8px;}
+    .exp-card .exp-maze-cell{font-size:36px;}
+    .exp-card .exp-note,.exp-card .exp-subinstruction{font-size:16px;}
+    .exp-card .exp-clickable-sentence{white-space:normal;overflow-wrap:anywhere;}
+    .exp-card .exp-writing-row{flex-wrap:wrap;}
+  }
+  @media(max-width:380px){
+    .exp-map-advanced{display:block;}
+    .exp-map-advanced .exp-combo-title{margin-top:16px;}
+    .exp-card .exp-choice{width:76px;height:76px;font-size:38px;}
+    .exp-card .exp-maze-cell{font-size:30px;}
+  }
 </style>
 </head>
 <body>
