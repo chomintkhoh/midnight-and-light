@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Serif+SC:wght@500&family=Klee+One:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Serif+SC:wght@500&family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@500;600;700&family=Noto+Sans+SC:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
   /* Experience page — reuses cosmic.css variables. Kana use Klee One (handwriting-style, good for tracing). */
@@ -239,10 +239,10 @@
   .exp-map-panel .exp-combo-title{ margin-top:12px; }
   .exp-sound-grid-three .exp-sound-cell{ font-size:16px; }
 
-  .exp-learn-layout{ display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:28px; align-items:start; width:100%; text-align:left; }
+  .exp-learn-layout{ display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); gap:28px; align-items:start; width:100%; text-align:left; }
   .exp-learn-layout section{ min-width:0; }
   .exp-learn-layout .exp-section-title{ margin:4px 0 10px; padding-top:0; border-top:0; text-align:center; }
-  .exp-learn-writing{ padding-right:26px; border-right:1px solid rgba(217,196,142,.16); text-align:center; }
+  .exp-learn-writing{ padding-left:26px; border-left:1px solid rgba(217,196,142,.16); text-align:center; }
   .exp-learn-writing .exp-writing-pair{ gap:12px; }
   .exp-learn-writing .exp-writing-box{ flex:1 1 0; max-width:230px; }
   .exp-learn-info{ text-align:center; }
@@ -264,7 +264,7 @@
   @media (max-width: 720px){
     .exp-card{ min-height:auto; }
     .exp-kana-map-layout,.exp-learn-layout{ grid-template-columns:1fr; }
-    .exp-learn-writing{ padding-right:0; padding-bottom:20px; border-right:0; border-bottom:1px solid rgba(217,196,142,.16); }
+    .exp-learn-writing{ padding-left:0; padding-top:20px; border-left:0; border-top:1px solid rgba(217,196,142,.16); }
     .exp-map-panel .exp-gojuon-cell,.exp-sound-cell{ min-height:25px; font-size:15px; }
     .exp-prompt-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
     .exp-kana-map-groups{ grid-template-columns:1fr; }
@@ -294,6 +294,23 @@
     .exp-clickable-sentence{ font-size:clamp(20px,6.3vw,28px); white-space:nowrap; }
     .exp-clickable-sentence span{ padding:2px 1px; }
   }
+  /* Legible teaching type; handwriting model remains handwriting-shaped. */
+  body{ font-family:'DM Sans','Noto Sans SC',sans-serif; font-weight:500; }
+  .page-title,.exp-mid,html[lang="zh-Hans"] .page-title,html[lang="zh-Hans"] .exp-mid{
+    font-family:'DM Sans','Noto Sans SC',sans-serif; font-weight:700;
+  }
+  .kana,.kana *{ font-family:'Noto Sans JP',sans-serif; font-weight:600; }
+  .exp-writing-ref.kana{ font-family:'Klee One',serif; font-weight:600; color:rgba(244,241,234,.34); }
+  .exp-note,.exp-subinstruction,.exp-writing-label{ color:#E8E4F0; font-weight:500; font-size:16px; }
+  .exp-note.small,.exp-step-count,.exp-teacher-note,.exp-clear-btn,.exp-preview-name,.type-label{
+    font-weight:600; font-size:14px; color:#DDD8EA;
+  }
+  .exp-section-title,.exp-map-panel h3{ font-size:16px; font-weight:700; }
+  .exp-gojuon-cell,.exp-sound-cell{ color:#F4F1EA; }
+  .exp-learn-info .exp-vocab-card .word{ font-size:28px; font-weight:600; }
+  .exp-learn-info .exp-vocab-card .vocab-romaji{ font-size:14px; font-weight:600; opacity:1; color:#D8D3E6; }
+  .exp-vocab-card .meaning{ font-size:16px; font-weight:600; color:#E0D5FA; }
+  @media(max-width:480px){ .exp-learn-info .exp-vocab-card .word{font-size:24px;} }
 </style>
 </head>
 <body>
