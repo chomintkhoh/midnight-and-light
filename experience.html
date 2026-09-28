@@ -402,7 +402,10 @@
   body.lesson-active .site-footer{display:none;}
   .exp-teacher-note summary,.exp-dialogue summary{cursor:pointer;font-weight:700;min-height:28px;line-height:1.7;}
   .exp-teacher-note-body{padding-top:10px;line-height:1.7;}
-  .exp-phrase-grid{display:grid;gap:12px;margin:12px 0;}
+  .exp-phrase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0;}
+  .exp-phrase-grid .exp-phrase{display:flex;flex-direction:column;justify-content:center;min-height:210px;}
+  .exp-phrase-grid .kana{font-size:clamp(23px,2.1vw,28px);}
+  @media(max-width:900px){.exp-phrase-grid{grid-template-columns:1fr;}.exp-phrase-grid .exp-phrase{min-height:0;}}
   .exp-phrase{padding:20px 16px;background:#DDD9E2;border-radius:14px;}
   .exp-phrase .kana{font-size:clamp(23px,3vw,34px);overflow-wrap:anywhere;}
   .exp-phrase-romaji{font-size:17px;font-weight:600;color:#49516A;margin-top:8px;}
