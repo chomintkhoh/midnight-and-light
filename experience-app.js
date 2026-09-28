@@ -411,7 +411,9 @@ const renderers = {
     topics.forEach(([icon, en, zh]) => {
       const b = el("button", "exp-prompt");
       b.type = "button";
-      b.innerHTML = `<span aria-hidden="true">${icon}</span><b>${L(en, zh)}</b>`;
+      const iconNode = el("span", "", icon); iconNode.setAttribute("aria-hidden", "true");
+      b.appendChild(iconNode);
+      b.appendChild(el("b", "", () => L(en, zh)));
       b.addEventListener("click", () => b.classList.toggle("selected"));
       grid.appendChild(b);
     });
