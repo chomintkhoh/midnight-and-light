@@ -390,6 +390,7 @@ function strokeControls(model, char) {
     if (shown === VOWEL_STROKES[char].length) {
       model.querySelectorAll(".stroke-ink").forEach(p => p.classList.remove("visible"));
       shown = 0;
+      model.getBoundingClientRect(); // Commit the reset before replaying the first stroke.
     }
     const path = model.querySelectorAll(".stroke-ink")[shown++];
     path.classList.add("visible");
