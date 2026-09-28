@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Serif+SC:wght@500&family=Klee+One:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Serif+SC:wght@500&family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@500;600;700&family=Noto+Sans+SC:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cosmic.css" />
 <style>
   /* Experience page — reuses cosmic.css variables. Kana use Klee One (handwriting-style, good for tracing). */
@@ -17,7 +17,44 @@
   .kana, .kana *{ font-family: var(--font-kana); }
   html[lang="zh-Hans"] .page-title{ font-family: 'Noto Serif SC', var(--font-cn); }
 
-  #exp-app{ max-width: 620px; margin: 0 auto; }
+  /* Teacher-led slideshow stage */
+  .page{ max-width:1120px; padding-top:calc(var(--nav-h) + 5vh); }
+  .page-eyebrow,.page-title,.page-lead{ max-width:920px; margin-left:auto; margin-right:auto; text-align:center; }
+  .page-lead{ margin-bottom:22px; }
+  #exp-app{ max-width: 980px; margin: 0 auto; }
+  .exp-card{
+    min-height:min(650px, calc(100vh - 150px));
+    display:flex; flex-direction:column; justify-content:flex-start;
+    box-shadow:0 24px 80px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035);
+    backdrop-filter:blur(8px);
+  }
+  .exp-card > .exp-nav-row{ margin-top:auto; padding-top:26px; }
+  .exp-slide-kicker{ color:var(--pale-gold); font-size:12px; letter-spacing:.18em; text-transform:uppercase; margin-top:6px; }
+  .exp-prompt-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:22px auto 8px; width:min(100%,720px); }
+  .exp-prompt{
+    min-height:92px; padding:14px 12px; border-radius:15px; cursor:pointer;
+    border:1px solid rgba(217,196,142,.24); background:rgba(244,241,234,.04);
+    color:var(--warm-white); font:500 15px var(--font-sans);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  }
+  .exp-prompt span{ font-size:27px; }
+  .exp-prompt.selected{ border-color:var(--pale-gold); background:rgba(217,196,142,.16); }
+  .exp-teacher-note{ width:min(100%,760px); margin:18px auto 0; padding:12px 16px; border-radius:12px; text-align:left; color:var(--muted-bluegrey); background:rgba(182,169,218,.08); border-left:3px solid rgba(182,169,218,.55); font-size:13px; }
+  .exp-teacher-note strong{ color:var(--soft-lavender); }
+
+  /* Quiet living sky — page-specific, deliberately slow and low contrast. */
+  body::before,body::after{ content:""; position:fixed; pointer-events:none; z-index:0; border-radius:50%; filter:blur(10px); opacity:.2; }
+  body::before{ width:54vw; height:42vw; left:-15vw; top:14vh; background:radial-gradient(circle,rgba(95,88,158,.38),transparent 68%); animation:sky-breathe 24s ease-in-out infinite alternate; }
+  body::after{ width:46vw; height:38vw; right:-12vw; bottom:-10vh; background:radial-gradient(circle,rgba(55,95,145,.28),transparent 70%); animation:sky-breathe 31s ease-in-out -8s infinite alternate-reverse; }
+  .stars span{ animation-name:quiet-twinkle,star-drift; animation-duration:var(--twinkle-time,10s),var(--drift-time,38s); animation-timing-function:ease-in-out,linear; animation-iteration-count:infinite; }
+  .stars::before,.stars::after{ content:""; position:absolute; width:70px; height:1px; opacity:0; transform:rotate(-24deg); background:linear-gradient(90deg,transparent,rgba(244,241,234,.45),transparent); }
+  .stars::before{ top:18%; left:78%; animation:soft-comet 28s ease-in-out 9s infinite; }
+  .stars::after{ top:42%; left:12%; animation:soft-comet 36s ease-in-out 21s infinite; }
+  @keyframes quiet-twinkle{0%,100%{opacity:.2}50%{opacity:.58}}
+  @keyframes star-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(10px,-7px,0)}}
+  @keyframes sky-breathe{from{transform:translate3d(0,0,0) scale(.96)}to{transform:translate3d(3vw,-2vh,0) scale(1.04)}}
+  @keyframes soft-comet{0%,88%,100%{opacity:0;transform:translate3d(0,0,0) rotate(-24deg)}91%{opacity:.38}96%{opacity:0;transform:translate3d(-150px,70px,0) rotate(-24deg)}}
+
   .exp-card{
     background: rgba(244,241,234,0.05);
     border: 1px solid rgba(217,196,142,0.22);
@@ -86,6 +123,9 @@
     border-radius:7px; font-size:17px; background: rgba(244,241,234,0.03); color: var(--muted-bluegrey);
   }
   .exp-gojuon-cell.highlight{ background: rgba(217,196,142,0.18); color: var(--pale-gold); font-weight:600; border:1px solid rgba(217,196,142,0.4); }
+  .exp-kana-map-groups{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; width:min(100%,720px); margin:16px auto 4px; }
+  .exp-kana-map-item{ min-width:0; padding:10px 8px; border-radius:12px; border:1px solid rgba(182,169,218,.22); background:rgba(182,169,218,.055); display:flex; flex-direction:column; gap:5px; }
+  .exp-kana-map-item strong{ color:var(--warm-white); font-size:clamp(16px,2.2vw,21px); font-weight:500; white-space:nowrap; }
 
   /* Sound pattern */
   .exp-pattern-rows{ display:flex; flex-direction:column; gap:6px; margin:14px 0; align-items:center; }
@@ -185,6 +225,50 @@
   .exp-practice-shortcut .exp-subinstruction{ margin-bottom:0; }
   .exp-practice-shortcut .exp-btn{ margin-top:10px; padding:11px 22px; font-size:14px; }
 
+  /* Full-width teaching compositions */
+  .exp-kana-map-layout{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:18px; width:100%; margin:8px auto 0; text-align:left; }
+  .exp-map-panel{ min-width:0; padding:14px; border-radius:15px; background:rgba(244,241,234,.025); border:1px solid rgba(217,196,142,.16); }
+  .exp-map-panel h3{ margin:0 0 8px; text-align:center; color:var(--pale-gold); font-size:13px; letter-spacing:.05em; font-weight:600; }
+  .exp-map-panel .exp-gojuon-chart{ max-width:none; margin:0; gap:4px; }
+  .exp-map-panel .exp-gojuon-cell{ aspect-ratio:auto; min-height:27px; border-radius:5px; font-size:17px; }
+  .exp-sound-grid{ display:grid; gap:4px; }
+  .exp-sound-grid-five{ grid-template-columns:repeat(5,minmax(0,1fr)); }
+  .exp-sound-grid-three{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .exp-sound-cell{ min-height:27px; display:flex; align-items:center; justify-content:center; border-radius:5px; background:rgba(244,241,234,.035); color:var(--service-primary); font-size:17px; }
+  .exp-sound-cell.handakuten{ color:var(--pale-gold); background:rgba(217,196,142,.12); }
+  .exp-map-panel .exp-combo-title{ margin-top:12px; }
+  .exp-sound-grid-three .exp-sound-cell{ font-size:16px; }
+
+  .exp-learn-layout{ display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); gap:28px; align-items:start; width:100%; text-align:left; }
+  .exp-learn-layout section{ min-width:0; }
+  .exp-learn-layout .exp-section-title{ margin:4px 0 10px; padding-top:0; border-top:0; text-align:center; }
+  .exp-learn-writing{ padding-left:26px; border-left:1px solid rgba(217,196,142,.16); text-align:center; }
+  .exp-learn-writing .exp-writing-pair{ gap:12px; }
+  .exp-learn-writing .exp-writing-box{ flex:1 1 0; max-width:230px; }
+  .exp-learn-info{ text-align:center; }
+  .exp-learn-sound{ display:flex; justify-content:center; align-items:center; gap:18px; min-height:135px; }
+  .exp-learn-sound .exp-char{ margin:0; font-size:118px; }
+  .exp-learn-sound-actions{ display:flex; flex-direction:column; align-items:center; max-width:150px; }
+  .exp-learn-info .exp-vocab-grid{ grid-template-columns:1fr; gap:8px; }
+  .exp-learn-info .exp-vocab-card{ min-height:70px; padding:8px 12px; display:grid; grid-template-columns:45px minmax(0,1fr) minmax(72px,.8fr); text-align:left; column-gap:10px; }
+  .exp-learn-info .exp-vocab-card .emoji{ text-align:center; }
+  .exp-learn-info .exp-vocab-wordblock{ min-width:0; }
+  .exp-learn-info .exp-vocab-card .meaning{ text-align:right; min-height:0; margin:0; align-self:center; }
+  .exp-learn-info .exp-vocab-card .word{ font-size:23px; }
+  .exp-learn-info .exp-vocab-card .vocab-romaji{ font-size:11px; }
+
+  @media (prefers-reduced-motion:reduce){
+    body::before,body::after,.stars span,.stars::before,.stars::after{ animation:none !important; }
+    .stars span{ opacity:.36; }
+  }
+  @media (max-width: 720px){
+    .exp-card{ min-height:auto; }
+    .exp-kana-map-layout,.exp-learn-layout{ grid-template-columns:1fr; }
+    .exp-learn-writing{ padding-left:0; padding-top:20px; border-left:0; border-top:1px solid rgba(217,196,142,.16); }
+    .exp-map-panel .exp-gojuon-cell,.exp-sound-cell{ min-height:25px; font-size:15px; }
+    .exp-prompt-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .exp-kana-map-groups{ grid-template-columns:1fr; }
+  }
   @media (max-width: 600px){
     .exp-card{ padding:16px 18px 26px; }
     .exp-clickable-sentence{ font-size:clamp(25px,7.2vw,32px); }
@@ -210,10 +294,157 @@
     .exp-clickable-sentence{ font-size:clamp(20px,6.3vw,28px); white-space:nowrap; }
     .exp-clickable-sentence span{ padding:2px 1px; }
   }
+  /* Legible teaching type; handwriting model remains handwriting-shaped. */
+  body{ font-family:'DM Sans','Noto Sans SC',sans-serif; font-weight:500; }
+  .page-title,.exp-mid,html[lang="zh-Hans"] .page-title,html[lang="zh-Hans"] .exp-mid{
+    font-family:'DM Sans','Noto Sans SC',sans-serif; font-weight:700;
+  }
+  .kana,.kana *{ font-family:'Noto Sans JP',sans-serif; font-weight:600; }
+  .exp-writing-ref.kana{ font-family:'Klee One',serif; font-weight:600; color:rgba(244,241,234,.34); }
+  .exp-note,.exp-subinstruction,.exp-writing-label{ color:#E8E4F0; font-weight:500; font-size:16px; }
+  .exp-note.small,.exp-step-count,.exp-teacher-note,.exp-clear-btn,.exp-preview-name,.type-label{
+    font-weight:600; font-size:14px; color:#DDD8EA;
+  }
+  .exp-section-title,.exp-map-panel h3{ font-size:16px; font-weight:700; }
+  .exp-gojuon-cell,.exp-sound-cell{ color:#F4F1EA; }
+  .exp-learn-info .exp-vocab-card .word{ font-size:28px; font-weight:600; }
+  .exp-learn-info .exp-vocab-card .vocab-romaji{ font-size:14px; font-weight:600; opacity:1; color:#D8D3E6; }
+  .exp-vocab-card .meaning{ font-size:16px; font-weight:600; color:#E0D5FA; }
+  @media(max-width:480px){ .exp-learn-info .exp-vocab-card .word{font-size:24px;} }
+
+  /* Light lesson surface, with the surrounding night sky preserved. */
+  .exp-card{
+    --warm-white:#242B43; --service-primary:#303850; --muted-bluegrey:#49516A;
+    --muted-faint:#565D72; --pale-gold:#705322; --soft-lavender:#64508A;
+    background:#E5E2DC; color:#242B43; border-color:#DBD5E4; backdrop-filter:none;
+  }
+  .exp-card .exp-note,.exp-card .exp-subinstruction,.exp-card .exp-writing-label,
+  .exp-card .exp-note.small,.exp-card .exp-step-count,.exp-card .exp-teacher-note,
+  .exp-card .exp-clear-btn,.exp-card .exp-preview-name,.exp-card .type-label{color:#49516A;}
+  .exp-card .exp-note,.exp-card .exp-subinstruction{font-size:18px;line-height:1.65;}
+  .exp-card .exp-btn{background:#3D365E;color:#FFF;}
+  .exp-card .exp-btn.secondary,.exp-card .exp-clear-btn{background:#EDEAE5;color:#34304F;border-color:#AAA1BA;min-height:44px;}
+  .exp-card .lang-toggle{border-color:#AAA1BA;}
+  .exp-card .lang-toggle button{min-height:40px;}
+  .exp-card .lang-toggle button.active{background:#E3DCEE;color:#3D365E;}
+  .exp-card .exp-progress{background:#E2DCEA;}
+  .exp-card .exp-progress-fill{background:#74618F;}
+  .exp-card .exp-prompt,.exp-card .exp-vocab-card,.exp-card .exp-writing-item,
+  .exp-card .exp-map-panel{background:#DDD9E2;border-color:#D4CCDF;}
+  .exp-card .exp-prompt.selected,.exp-card .exp-vocab-card.revealed{background:#E4DDEF;border-color:#796595;}
+  .exp-card .exp-gojuon-cell,.exp-card .exp-sound-cell{color:#242B43;background:#E7E2ED;}
+  .exp-card .exp-gojuon-cell.highlight{background:#EEE0BA;color:#59431E;border-color:#B39A62;}
+  .exp-card .exp-vocab-card .meaning{color:#584077;}
+  .exp-card .exp-vocab-card .vocab-romaji{color:#525A71;}
+  .exp-card .exp-writing-canvas{border-color:#AFA7BE;background:
+    linear-gradient(#DDD7E5,#DDD7E5) center/100% 1px no-repeat,
+    linear-gradient(#DDD7E5,#DDD7E5) center/1px 100% no-repeat,#EEEBE5;}
+  .exp-card .exp-writing-ref.kana{color:rgba(37,43,69,.28);}
+  .exp-card .exp-choice,.exp-card .exp-maze-cell{background:#EAE4F2;border:2px solid #C1B5D1;color:#242B43;}
+  .exp-card .exp-choice{width:120px;height:120px;font-size:56px;border-radius:18px;}
+  .exp-card .exp-maze-grid{width:min(100%,520px);gap:12px;}
+  .exp-card .exp-maze-cell{font-size:46px;}
+  .exp-card .correct{background:#D6EBDD;border-color:#36714B;}
+  .exp-card .wrong{background:#F4DDD9;border-color:#A34D48;}
+  .exp-card .exp-feedback.good{color:#27603A;}
+  .exp-card .exp-feedback.bad{color:#923D36;}
+  .exp-card .exp-maze-progress{color:#777184;}
+  .exp-card .exp-maze-progress .done{color:#36714B;}
+  .exp-map-advanced{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start;}
+  .exp-map-advanced > h3:first-child{grid-column:1;grid-row:1;}
+  .exp-map-advanced > .exp-sound-grid-five{grid-column:1;grid-row:2;align-self:start;}
+  .exp-map-advanced > .exp-combo-title{grid-column:2;grid-row:1;margin-top:0;}
+  .exp-map-advanced > .exp-sound-grid-three{grid-column:2;grid-row:2;}
+  .exp-kana-map-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);}
+  .exp-card .exp-map-panel{padding:10px;}
+  .exp-card .exp-map-panel h3{font-size:14px;}
+  .exp-card .exp-gojuon-cell,.exp-card .exp-sound-cell{min-height:32px;font-size:18px;}
+  @media(max-width:900px){
+    .exp-kana-map-layout{grid-template-columns:1fr;}
+  }
+  @media(max-width:720px){
+    .exp-card .exp-choice{width:90px;height:90px;font-size:44px;}
+    .exp-card .exp-maze-grid{gap:8px;}
+    .exp-card .exp-maze-cell{font-size:36px;}
+    .exp-card .exp-note,.exp-card .exp-subinstruction{font-size:16px;}
+    .exp-card .exp-clickable-sentence{white-space:normal;overflow-wrap:anywhere;}
+    .exp-card .exp-writing-row{flex-wrap:wrap;}
+  }
+  @media(max-width:380px){
+    .exp-map-advanced{display:block;}
+    .exp-map-advanced .exp-combo-title{margin-top:16px;}
+    .exp-card .exp-choice{width:76px;height:76px;font-size:38px;}
+    .exp-card .exp-maze-cell{font-size:30px;}
+  }
+
+  /* Reserve emphasis for today's vowels; keep the rest of the map neutral. */
+  .exp-map-slide .exp-sound-cell,
+  .exp-map-slide .exp-sound-cell.handakuten{
+    background:#D5D1DB; color:#242B43; border-color:transparent;
+  }
+  .exp-card .exp-pattern-row{font-size:22px;font-weight:700;color:#242B43;}
+  .exp-card .exp-pattern-row .kana,
+  .exp-card .exp-pattern-row .kana *{font-size:26px;font-weight:700;}
+  .exp-card .exp-pattern-chain{font-size:20px;font-weight:700;color:#403653;line-height:1.8;}
+  .exp-card .exp-preview-row,
+  .exp-card .exp-preview-row *{font-weight:700;}
+  @media(max-width:480px){
+    .exp-card .exp-pattern-row{font-size:19px;}
+    .exp-card .exp-pattern-row .kana{font-size:23px;}
+    .exp-card .exp-pattern-chain{font-size:18px;}
+  }
+
+  /* Classroom stage: use the viewport for teaching after the welcome. */
+  body.lesson-active .page{max-width:1360px;padding:calc(var(--nav-h,70px) + 12px) 24px 24px;}
+  body.lesson-active #exp-eyebrow,body.lesson-active #exp-title,body.lesson-active #exp-lead{display:none;}
+  body.lesson-active #exp-app{max-width:1240px;}
+  body.lesson-active .exp-card{margin-top:0;min-height:calc(100svh - var(--nav-h,70px) - 48px);}
+  body.lesson-active .site-footer{display:none;}
+  .exp-teacher-note summary,.exp-dialogue summary{cursor:pointer;font-weight:700;min-height:28px;line-height:1.7;}
+  .exp-teacher-note-body{padding-top:10px;line-height:1.7;}
+  .exp-phrase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0;}
+  .exp-phrase-grid .exp-phrase{display:flex;flex-direction:column;justify-content:center;min-height:210px;}
+  .exp-phrase-grid .kana{font-size:clamp(23px,2.1vw,28px);}
+  @media(max-width:900px){.exp-phrase-grid{grid-template-columns:1fr;}.exp-phrase-grid .exp-phrase{min-height:0;}}
+  .exp-phrase{padding:20px 16px;background:#DDD9E2;border-radius:14px;}
+  .exp-phrase .kana{font-size:clamp(23px,3vw,34px);overflow-wrap:anywhere;}
+  .exp-phrase-romaji{font-size:17px;font-weight:600;color:#49516A;margin-top:8px;}
+  .exp-phrase .exp-note{margin:8px 0 0;}
+  .exp-dialogue{margin:18px 0;text-align:left;padding:16px;border:1px solid #AAA1BA;border-radius:14px;}
+  .exp-dialogue-line{font-size:clamp(22px,3vw,30px);overflow-wrap:anywhere;}
+  .exp-stroke-model{position:absolute;inset:0;pointer-events:none;}
+  .exp-stroke-model svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;}
+  .stroke-guide{stroke:rgba(37,43,69,.22);}
+  .stroke-ink{stroke:#705322;visibility:hidden;}
+  .stroke-ink.visible{visibility:visible;animation:stroke-draw 1s linear both;}
+  @keyframes stroke-draw{from{stroke-dasharray:1;stroke-dashoffset:1;}to{stroke-dasharray:1;stroke-dashoffset:0;}}
+  .exp-writing-canvas{position:relative;z-index:1;background-color:transparent;}
+  .exp-stroke-model{z-index:2;}
+  .exp-stroke-controls .exp-btn{margin-top:0;padding:10px 18px;}
+  .exp-stroke-controls .exp-note{margin:10px 0;}
+  .exp-credits{font-size:12px;line-height:1.6;color:#49516A;margin:16px auto 0;}
+  .exp-credits a{color:#584077;text-decoration:underline;}
+  .exp-card button:focus-visible,.exp-card summary:focus-visible{outline:3px solid #64508A;outline-offset:3px;}
+  @media(prefers-reduced-motion:reduce){.stroke-ink.visible{animation:none;}}
+  @media(min-width:901px){
+    .lesson-active .exp-map-slide .exp-mid{font-size:28px;}
+    .lesson-active .exp-map-slide .exp-gojuon-cell,.lesson-active .exp-map-slide .exp-sound-cell{min-height:29px;}
+    .lesson-active .exp-map-slide > .exp-nav-row{padding-top:14px;}
+  }
+  @media(max-width:720px){
+    body.lesson-active .page{padding:calc(var(--nav-h,70px) + 8px) 10px 16px;}
+    body.lesson-active .exp-card{min-height:calc(100svh - var(--nav-h,70px) - 32px);padding:14px 14px 20px;}
+    .exp-phrase{padding:16px 10px;}
+    .exp-phrase-romaji{font-size:15px;}
+    .exp-teacher-note{box-sizing:border-box;}
+    .exp-map-advanced{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .exp-card .exp-map-panel h3{font-size:13px;letter-spacing:0;}
+    .exp-mid{font-size:26px;}
+  }
 </style>
 </head>
 <body>
-  <div class="stars" aria-hidden="true" data-density="14"></div>
+  <div class="stars" aria-hidden="true" data-density="30"></div>
 
   <nav class="site-nav">
     <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
