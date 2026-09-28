@@ -110,6 +110,21 @@ const SCRIPT_NAMES = {
   Kanji: { en: "Kanji", zh: "汉字" }
 };
 
+const SCRIPT_EXPLANATIONS = {
+  Hiragana: {
+    en: "Hiragana — grammar, particles, endings and many Japanese words",
+    zh: "平假名——用于助词、词尾、文法以及许多日语词汇"
+  },
+  Katakana: {
+    en: "Katakana — foreign words, names and special emphasis",
+    zh: "片假名——用于外来语、外国名字以及特别强调"
+  },
+  Kanji: {
+    en: "Kanji — carries the main meaning of many words",
+    zh: "汉字——承载许多词汇的主要意思"
+  }
+};
+
 const SENTENCES = [
   {
     parts: [
@@ -587,7 +602,7 @@ const renderers = {
           span.addEventListener("click", () => {
             sentence.querySelectorAll("span").forEach(x => x.classList.remove("tapped"));
             span.classList.add("tapped");
-            setT(reveal, () => L(SCRIPT_NAMES[p.label].en, SCRIPT_NAMES[p.label].zh));
+            setT(reveal, () => L(SCRIPT_EXPLANATIONS[p.label].en, SCRIPT_EXPLANATIONS[p.label].zh));
           });
         }
         sentence.appendChild(span);
