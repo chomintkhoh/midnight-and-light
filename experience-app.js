@@ -349,6 +349,7 @@ function enableDrawing(canvas) {
 
 const steps = [
   { type: "welcome" },
+  { type: "motivation" },
   ...CHARS.map(c => ({ type: "learnChar", char: c })),
   { type: "vowelsChart" },
   { type: "soundPattern" },
@@ -390,6 +391,36 @@ const renderers = {
       "🔒 Kana Recall — 建設中，尚未開放"
     )));
     c.appendChild(shortcut);
+  },
+
+
+  motivation() {
+    const c = card();
+    c.appendChild(el("div", "exp-slide-kicker", () => L("Before we begin", "开始之前")));
+    c.appendChild(el("div", "exp-mid", () => L("Why Japanese?", "为什么想学日语？")));
+    c.appendChild(note(() => L(
+      "Choose anything that interests you. There is no right answer — this helps your teacher understand you.",
+      "选择你感兴趣的项目。没有标准答案——这能帮助老师了解你。"
+    )));
+
+    const topics = [
+      ["🎌", "Japan", "日本"], ["✈️", "Travel", "旅行"], ["🎮", "Games", "游戏"],
+      ["🎬", "Anime & films", "动漫与电影"], ["🍙", "Food", "日本料理"], ["📚", "Study or work", "学习或工作"]
+    ];
+    const grid = el("div", "exp-prompt-grid");
+    topics.forEach(([icon, en, zh]) => {
+      const b = el("button", "exp-prompt");
+      b.type = "button";
+      b.innerHTML = `<span aria-hidden="true">${icon}</span><b>${L(en, zh)}</b>`;
+      b.addEventListener("click", () => b.classList.toggle("selected"));
+      grid.appendChild(b);
+    });
+    c.appendChild(grid);
+    c.appendChild(el("div", "exp-teacher-note", () => L(
+      "<strong>Teacher prompt:</strong> Have you learned Japanese before? Do you already know any Japanese words? What would you like to do in Japanese?",
+      "<strong>老师提示：</strong>以前学过日语吗？已经认识哪些日语？最希望将来能用日语做什么？"
+    ), true));
+    appendNav(c, { nextLabel: () => L("Let’s explore Japanese →", "一起认识日语 →") });
   },
 
   learnChar(step) {
@@ -785,3 +816,17 @@ function shuffle(arr) {
 
 paintHeader();
 render();
+
+
+/* Slideshow controls for teacher-led screen sharing. */
+document.addEventListener("keydown", event => {
+  const tag = (event.target && event.target.tagName || "").toLowerCase();
+  if (["input", "textarea", "select"].includes(tag)) return;
+  if (event.key === "ArrowRight" || event.key === "PageDown") {
+    event.preventDefault();
+    goNext();
+  } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+    event.preventDefault();
+    goPrevious();
+  }
+});
