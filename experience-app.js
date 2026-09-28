@@ -350,10 +350,11 @@ function enableDrawing(canvas) {
 const steps = [
   { type: "welcome" },
   { type: "motivation" },
-  ...CHARS.map(c => ({ type: "learnChar", char: c })),
-  { type: "vowelsChart" },
-  { type: "soundPattern" },
   { type: "writingSystems" },
+  { type: "kanaOverview" },
+  { type: "vowelsChart" },
+  ...CHARS.map(c => ({ type: "learnChar", char: c })),
+  { type: "soundPattern" },
   { type: "game1" },
   { type: "game2" },
   { type: "game3" },
@@ -372,27 +373,19 @@ function render() {
 const renderers = {
   welcome() {
     const c = card();
-    c.appendChild(el("div", "exp-mid", () => L("Welcome!", "欢迎！")));
+    c.appendChild(el("div", "exp-slide-kicker", () => L("Free Japanese Trial Lesson", "日语免费体验课")));
+    c.appendChild(el("div", "exp-mid", () => L("Welcome to Your Trial Lesson", "欢迎来到日语体验课程")));
+    c.appendChild(el("div", "exp-big kana", "ようこそ"));
     c.appendChild(note(() => L(
-      "Japanese is written with Hiragana, Katakana and Kanji. Everyone starts with Hiragana.",
-      "日语用平假名、片假名和汉字来书写。大家都从平假名开始学。"
+      "Today, we will explore how Japanese is written and learn your first five Hiragana sounds together.",
+      "今天，我们会一起认识日语的书写方式，并学习最开始的五个平假名发音。"
     )));
-    c.appendChild(vowelLine());
-    c.appendChild(note(() => L(
-      "In the next few minutes you'll learn your first five — how they sound, how to write them, and a few words that use them.",
-      "接下来几分钟，你会学会最先的五个：怎么念、怎么写，还有用到它们的几个词。"
-    )));
-    appendNav(c, { nextLabel: () => L("Start →", "开始 →") });
-
-    const shortcut = el("div", "exp-practice-shortcut");
-    shortcut.appendChild(el("div", "exp-subinstruction", () => L(`Already know ${k("あいうえお")}?`, `已经会 ${k("あいうえお")} 了？`), true));
-    shortcut.appendChild(el("div", "exp-subinstruction", () => L(
-      "🔒 Kana Recall — Under construction · Not yet available",
-      "🔒 Kana Recall — 建設中，尚未開放"
-    )));
-    c.appendChild(shortcut);
+    c.appendChild(el("div", "exp-teacher-note", () => L(
+      "<strong>Teacher opening:</strong> Welcome the student, introduce yourself briefly, and explain that they can ask questions at any time.",
+      "<strong>老师开场：</strong>欢迎学生，简单自我介绍，并告诉学生过程中随时可以提问。"
+    ), true));
+    appendNav(c, { nextLabel: () => L("Let’s begin →", "开始体验 →") });
   },
-
 
   motivation() {
     const c = card();
@@ -483,22 +476,54 @@ const renderers = {
     appendNav(c);
   },
 
-  vowelsChart() {
+  kanaOverview() {
     const c = card();
-    c.appendChild(el("div", "exp-mid", () => L("The Five Vowels", "五个元音")));
-    c.appendChild(vowelLine());
-    c.appendChild(el("div", "exp-romaji exp-vowel-romaji", "a　i　u　e　o"));
+    c.appendChild(el("div", "exp-slide-kicker", () => L("The sound map", "日语声音地图")));
+    c.appendChild(el("div", "exp-mid", () => L("The Hiragana System", "完整的平假名系统")));
     c.appendChild(note(() => L(
-      "You just learned all five. They are the first row of the Hiragana chart, called Gojūon (五十音).",
-      "你已经学会这五个了。它们是平假名表的第一行，这张表叫“五十音”。"
+      "The basic chart is called Gojūon. Japanese also uses voiced sounds, semi-voiced sounds and combination sounds.",
+      "基础表叫作“五十音”。日语还会使用浊音、半浊音和拗音（组合音）。"
     )));
     const chart = el("div", "exp-gojuon-chart kana");
     GOJUON_ROWS.forEach((row, ri) => row.forEach(ch => {
       chart.appendChild(el("div", "exp-gojuon-cell" + (ri === 0 && ch ? " highlight" : ""), ch));
     }));
     c.appendChild(chart);
-    c.appendChild(note(() => L("You don't need to learn the whole chart today.", "今天不用学整张表。"), "exp-note small"));
-    appendNav(c);
+
+    const groups = el("div", "exp-kana-map-groups");
+    [
+      ["Voiced sounds · Dakuten", "浊音 · Dakuten", "が　ざ　だ　ば"],
+      ["Semi-voiced · Handakuten", "半浊音 · Handakuten", "ぱ　ぴ　ぷ　ぺ　ぽ"],
+      ["Combination sounds", "拗音／组合音", "きゃ　しゅ　ちょ"]
+    ].forEach(([en, zh, sample]) => {
+      const item = el("div", "exp-kana-map-item");
+      item.appendChild(el("span", "exp-preview-name", () => L(en, zh)));
+      item.appendChild(el("strong", "kana", sample));
+      groups.appendChild(item);
+    });
+    c.appendChild(groups);
+    c.appendChild(note(() => L(
+      "This is the whole map — you do not need to memorise it today.",
+      "这是完整的学习地图——今天不需要全部记住。"
+    ), "exp-note small"));
+    appendNav(c, { nextLabel: () => L("Today’s small goal →", "看看今天的小目标 →") });
+  },
+
+  vowelsChart() {
+    const c = card();
+    c.appendChild(el("div", "exp-slide-kicker", () => L("Today’s lesson", "今天的课程")));
+    c.appendChild(el("div", "exp-mid", () => L("We’ll Start with the Five Vowels", "今天先学习五个元音")));
+    c.appendChild(vowelLine());
+    c.appendChild(el("div", "exp-romaji exp-vowel-romaji", "a　i　u　e　o"));
+    c.appendChild(note(() => L(
+      "These are the first row and the foundation of the Hiragana chart. We will learn how they sound, how they look and how to write them.",
+      "它们是平假名表的第一行，也是后面所有发音的基础。今天会学习它们的声音、字形和写法。"
+    )));
+    c.appendChild(el("div", "exp-teacher-note", () => L(
+      "<strong>Lesson goal:</strong> By the end, the student should be able to hear, recognise and try writing あ・い・う・え・お.",
+      "<strong>本课目标：</strong>课程结束时，学生可以听辨、认读并尝试书写「あ・い・う・え・お」。"
+    ), true));
+    appendNav(c, { nextLabel: () => L("Learn あ →", "开始学习「あ」→") });
   },
 
   soundPattern() {
@@ -578,7 +603,7 @@ const renderers = {
     another.addEventListener("click", () => { si = (si + 1) % SENTENCES.length; showSentence(); });
     c.appendChild(another);
 
-    appendNav(c, { nextLabel: () => L("Start Practice →", "开始练习 →"), onNext: () => { resetPracticeSet(); goNext(); } });
+    appendNav(c, { nextLabel: () => L("See the sound system →", "看看日语的声音系统 →") });
   },
 
   game1() {
