@@ -17,7 +17,44 @@
   .kana, .kana *{ font-family: var(--font-kana); }
   html[lang="zh-Hans"] .page-title{ font-family: 'Noto Serif SC', var(--font-cn); }
 
-  #exp-app{ max-width: 620px; margin: 0 auto; }
+  /* Teacher-led slideshow stage */
+  .page{ max-width:1120px; padding-top:calc(var(--nav-h) + 5vh); }
+  .page-eyebrow,.page-title,.page-lead{ max-width:920px; margin-left:auto; margin-right:auto; text-align:center; }
+  .page-lead{ margin-bottom:22px; }
+  #exp-app{ max-width: 980px; margin: 0 auto; }
+  .exp-card{
+    min-height:min(650px, calc(100vh - 150px));
+    display:flex; flex-direction:column; justify-content:flex-start;
+    box-shadow:0 24px 80px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035);
+    backdrop-filter:blur(8px);
+  }
+  .exp-card > .exp-nav-row{ margin-top:auto; padding-top:26px; }
+  .exp-slide-kicker{ color:var(--pale-gold); font-size:12px; letter-spacing:.18em; text-transform:uppercase; margin-top:6px; }
+  .exp-prompt-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:22px auto 8px; width:min(100%,720px); }
+  .exp-prompt{
+    min-height:92px; padding:14px 12px; border-radius:15px; cursor:pointer;
+    border:1px solid rgba(217,196,142,.24); background:rgba(244,241,234,.04);
+    color:var(--warm-white); font:500 15px var(--font-sans);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  }
+  .exp-prompt span{ font-size:27px; }
+  .exp-prompt.selected{ border-color:var(--pale-gold); background:rgba(217,196,142,.16); }
+  .exp-teacher-note{ width:min(100%,760px); margin:18px auto 0; padding:12px 16px; border-radius:12px; text-align:left; color:var(--muted-bluegrey); background:rgba(182,169,218,.08); border-left:3px solid rgba(182,169,218,.55); font-size:13px; }
+  .exp-teacher-note strong{ color:var(--soft-lavender); }
+
+  /* Quiet living sky — page-specific, deliberately slow and low contrast. */
+  body::before,body::after{ content:""; position:fixed; pointer-events:none; z-index:0; border-radius:50%; filter:blur(10px); opacity:.2; }
+  body::before{ width:54vw; height:42vw; left:-15vw; top:14vh; background:radial-gradient(circle,rgba(95,88,158,.38),transparent 68%); animation:sky-breathe 24s ease-in-out infinite alternate; }
+  body::after{ width:46vw; height:38vw; right:-12vw; bottom:-10vh; background:radial-gradient(circle,rgba(55,95,145,.28),transparent 70%); animation:sky-breathe 31s ease-in-out -8s infinite alternate-reverse; }
+  .stars span{ animation-name:quiet-twinkle,star-drift; animation-duration:var(--twinkle-time,10s),var(--drift-time,38s); animation-timing-function:ease-in-out,linear; animation-iteration-count:infinite; }
+  .stars::before,.stars::after{ content:""; position:absolute; width:70px; height:1px; opacity:0; transform:rotate(-24deg); background:linear-gradient(90deg,transparent,rgba(244,241,234,.45),transparent); }
+  .stars::before{ top:18%; left:78%; animation:soft-comet 28s ease-in-out 9s infinite; }
+  .stars::after{ top:42%; left:12%; animation:soft-comet 36s ease-in-out 21s infinite; }
+  @keyframes quiet-twinkle{0%,100%{opacity:.2}50%{opacity:.58}}
+  @keyframes star-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(10px,-7px,0)}}
+  @keyframes sky-breathe{from{transform:translate3d(0,0,0) scale(.96)}to{transform:translate3d(3vw,-2vh,0) scale(1.04)}}
+  @keyframes soft-comet{0%,88%,100%{opacity:0;transform:translate3d(0,0,0) rotate(-24deg)}91%{opacity:.38}96%{opacity:0;transform:translate3d(-150px,70px,0) rotate(-24deg)}}
+
   .exp-card{
     background: rgba(244,241,234,0.05);
     border: 1px solid rgba(217,196,142,0.22);
@@ -185,6 +222,14 @@
   .exp-practice-shortcut .exp-subinstruction{ margin-bottom:0; }
   .exp-practice-shortcut .exp-btn{ margin-top:10px; padding:11px 22px; font-size:14px; }
 
+  @media (prefers-reduced-motion:reduce){
+    body::before,body::after,.stars span,.stars::before,.stars::after{ animation:none !important; }
+    .stars span{ opacity:.36; }
+  }
+  @media (max-width: 720px){
+    .exp-card{ min-height:auto; }
+    .exp-prompt-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
   @media (max-width: 600px){
     .exp-card{ padding:16px 18px 26px; }
     .exp-clickable-sentence{ font-size:clamp(25px,7.2vw,32px); }
@@ -213,7 +258,7 @@
 </style>
 </head>
 <body>
-  <div class="stars" aria-hidden="true" data-density="14"></div>
+  <div class="stars" aria-hidden="true" data-density="30"></div>
 
   <nav class="site-nav">
     <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
