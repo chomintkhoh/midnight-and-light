@@ -225,12 +225,47 @@
   .exp-practice-shortcut .exp-subinstruction{ margin-bottom:0; }
   .exp-practice-shortcut .exp-btn{ margin-top:10px; padding:11px 22px; font-size:14px; }
 
+  /* Full-width teaching compositions */
+  .exp-kana-map-layout{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:18px; width:100%; margin:8px auto 0; text-align:left; }
+  .exp-map-panel{ min-width:0; padding:14px; border-radius:15px; background:rgba(244,241,234,.025); border:1px solid rgba(217,196,142,.16); }
+  .exp-map-panel h3{ margin:0 0 8px; text-align:center; color:var(--pale-gold); font-size:13px; letter-spacing:.05em; font-weight:600; }
+  .exp-map-panel .exp-gojuon-chart{ max-width:none; margin:0; gap:4px; }
+  .exp-map-panel .exp-gojuon-cell{ aspect-ratio:auto; min-height:27px; border-radius:5px; font-size:17px; }
+  .exp-sound-grid{ display:grid; gap:4px; }
+  .exp-sound-grid-five{ grid-template-columns:repeat(5,minmax(0,1fr)); }
+  .exp-sound-grid-three{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .exp-sound-cell{ min-height:27px; display:flex; align-items:center; justify-content:center; border-radius:5px; background:rgba(244,241,234,.035); color:var(--service-primary); font-size:17px; }
+  .exp-sound-cell.handakuten{ color:var(--pale-gold); background:rgba(217,196,142,.12); }
+  .exp-map-panel .exp-combo-title{ margin-top:12px; }
+  .exp-sound-grid-three .exp-sound-cell{ font-size:16px; }
+
+  .exp-learn-layout{ display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:28px; align-items:start; width:100%; text-align:left; }
+  .exp-learn-layout section{ min-width:0; }
+  .exp-learn-layout .exp-section-title{ margin:4px 0 10px; padding-top:0; border-top:0; text-align:center; }
+  .exp-learn-writing{ padding-right:26px; border-right:1px solid rgba(217,196,142,.16); text-align:center; }
+  .exp-learn-writing .exp-writing-pair{ gap:12px; }
+  .exp-learn-writing .exp-writing-box{ flex:1 1 0; max-width:230px; }
+  .exp-learn-info{ text-align:center; }
+  .exp-learn-sound{ display:flex; justify-content:center; align-items:center; gap:18px; min-height:135px; }
+  .exp-learn-sound .exp-char{ margin:0; font-size:118px; }
+  .exp-learn-sound-actions{ display:flex; flex-direction:column; align-items:center; max-width:150px; }
+  .exp-learn-info .exp-vocab-grid{ grid-template-columns:1fr; gap:8px; }
+  .exp-learn-info .exp-vocab-card{ min-height:70px; padding:8px 12px; display:grid; grid-template-columns:45px minmax(0,1fr) minmax(72px,.8fr); text-align:left; column-gap:10px; }
+  .exp-learn-info .exp-vocab-card .emoji{ text-align:center; }
+  .exp-learn-info .exp-vocab-wordblock{ min-width:0; }
+  .exp-learn-info .exp-vocab-card .meaning{ text-align:right; min-height:0; margin:0; align-self:center; }
+  .exp-learn-info .exp-vocab-card .word{ font-size:23px; }
+  .exp-learn-info .exp-vocab-card .vocab-romaji{ font-size:11px; }
+
   @media (prefers-reduced-motion:reduce){
     body::before,body::after,.stars span,.stars::before,.stars::after{ animation:none !important; }
     .stars span{ opacity:.36; }
   }
   @media (max-width: 720px){
     .exp-card{ min-height:auto; }
+    .exp-kana-map-layout,.exp-learn-layout{ grid-template-columns:1fr; }
+    .exp-learn-writing{ padding-right:0; padding-bottom:20px; border-right:0; border-bottom:1px solid rgba(217,196,142,.16); }
+    .exp-map-panel .exp-gojuon-cell,.exp-sound-cell{ min-height:25px; font-size:15px; }
     .exp-prompt-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
     .exp-kana-map-groups{ grid-template-columns:1fr; }
   }
