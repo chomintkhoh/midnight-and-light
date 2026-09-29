@@ -50,11 +50,11 @@ else who.className="no-code",who.innerHTML=`⚠ I don't know who you are yet. <a
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 const PREF_KEY="thingsPlacesPrefsV1";let lang="en";try{const p=JSON.parse(localStorage.getItem(PREF_KEY)||"null");if(p&&p.lang)lang=p.lang}catch(e){}
-const SESSION_KEY="thingsPlacesSessionV1";function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{},attempts:[]}}function loadSession(){try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000){if(!Array.isArray(x.attempts))x.attempts=[];return x}}catch(e){}return newSession()}let session=loadSession();function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+const SESSION_KEY="thingsPlacesSessionV1";function newSession(){return {code:STUDENT_CODE,start:Date.now(),items:{},attempts:[],stamped:{}}}function loadSession(){try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000){if(!Array.isArray(x.attempts))x.attempts=[];if(!x.stamped)x.stamped={};return x}}catch(e){}return newSession()}let session=loadSession();function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
 const STAMP_CARD=20;function stampKey(){return "timePracticeStamps_"+(STUDENT_CODE||"guest")}function loadStamps(){try{const x=JSON.parse(localStorage.getItem(stampKey())||"null");if(x&&typeof x.count==="number")return x}catch(e){}return {count:0,cards:0}}function addStamp(){const s=loadStamps();s.count++;if(s.count>=STAMP_CARD){s.count=0;s.cards++;const t=el("div","toast","🎉 Stamp card full! A new card starts now.");document.body.append(t);setTimeout(()=>t.remove(),3000)}try{localStorage.setItem(stampKey(),JSON.stringify(s))}catch(e){}updateDoneBtn()}
 function logResult(activity,item,ok,picked){
  const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
- it.tries++;if(ok){if(!it.solved)addStamp();it.solved=true}else it.wrong++;
+ it.tries++;if(ok){if(!session.stamped[item]){addStamp();session.stamped[item]=true}it.solved=true}else it.wrong++;
  session.items[k]=it;
  if(!ok&&picked)session.attempts.push({activity,item,picked,at:Date.now()});
  saveSession();updateDoneBtn()
