@@ -114,4 +114,51 @@ const TP_QUESTIONS=[
 {id:"neg-not-umbrella",group:"negative",scene:"👉📖   ☂️❌",en:"Say: “This is not an umbrella.”",zh:"说：「这不是雨伞。」",options:[
  {jp:"これは かさじゃないです。",ok:true},
  {jp:"これは かさです。",kind:"real",emoji:"📖☔💦",en:"Please try holding that “umbrella” over your head in the rain. Report back.",zh:"下雨时请把这把「伞」举在头上试试看。记得回报结果。",teachEn:"じゃないです changes “is” to “is not”.",teachZh:"じゃないです 把「是」变成「不是」。"},
- {jp:"これは ほんじゃないです。",kind:"real",emoji:"📖😵",en:"You denied the one thing the picture is actually showing.",zh:"图片明明是书，你却偏偏否认了它唯一正确的身份。",t
+ {jp:"これは ほんじゃないです。",kind:"real",emoji:"📖😵",en:"You denied the one thing the picture is actually showing.",zh:"图片明明是书，你却偏偏否认了它唯一正确的身份。",teachEn:"The sentence should deny かさ, not ほん.",teachZh:"这里要否定的是 かさ，不是 ほん。"}
+]},
+{id:"neg-not-apple",group:"negative",scene:"👉☂️   🍎❌",en:"Say: “This is not an apple.”",zh:"说：「这不是苹果。」",options:[
+ {jp:"これは りんごじゃないです。",ok:true},
+ {jp:"これは りんごです。",kind:"real",emoji:"☂️🍎",en:"That apple has an unusually long handle and questionable flavour.",zh:"这颗苹果的柄也太长了，而且味道可能不太对。",teachEn:"Use じゃないです when you want to say the thing is NOT that noun.",teachZh:"要表达「不是某个名词」，使用 じゃないです。"},
+ {jp:"これは かさじゃないです。",kind:"real",emoji:"☂️😤",en:"The umbrella has been denied umbrella citizenship.",zh:"雨伞被取消了雨伞身份。",teachEn:"The target is “not an apple”, so the noun before じゃないです should be りんご.",teachZh:"目标是「不是苹果」，所以 じゃないです 前面要放 りんご。"}
+]},
+{id:"neg-owner",group:"negative",scene:"👩☂️   👨❌",en:"The umbrella is Mum's, not Dad's.",zh:"这把雨伞是妈妈的，不是爸爸的。",options:[
+ {jp:"これは おとうさんの かさじゃないです。",ok:true},
+ {jp:"これは おとうさんの かさです。",kind:"real",emoji:"👨☂️  👩😑",en:"Congratulations, you have reassigned Mum's umbrella to Dad again.",zh:"恭喜，你又一次把妈妈的伞重新分配给爸爸了。",teachEn:"The sentence needs じゃないです because the picture says it is NOT Dad's umbrella.",teachZh:"图片表示「不是爸爸的伞」，所以句尾要用 じゃないです。"},
+ {jp:"これは おかあさんの かさじゃないです。",kind:"real",emoji:"👩☂️😧",en:"Mum is literally holding her umbrella and you just told her it isn't hers.",zh:"妈妈手上正拿着自己的伞，你却告诉她「不是你的」。",teachEn:"The negative sentence should reject the wrong owner, おとうさん.",teachZh:"否定句应该否定错误的主人，也就是 おとうさん。"}
+]},
+{id:"neg-my-book",group:"negative",scene:"🙋📖   👧❌",en:"The book is yours, not your little sister's.",zh:"这本书是你的，不是妹妹的。",options:[
+ {jp:"これは いもうとの ほんじゃないです。",ok:true},
+ {jp:"これは いもうとの ほんです。",kind:"real",emoji:"👧📖✨  🙋😐",en:"Your little sister accepts your book. No take-backs, apparently.",zh:"妹妹开心地收下了你的书。看起来不能反悔。",teachEn:"Use じゃないです to say it is not your little sister's book.",teachZh:"要说「不是妹妹的书」，使用 じゃないです。"},
+ {jp:"これは わたしの ほんじゃないです。",kind:"real",emoji:"🙋📖❓",en:"You are holding your own book while denying all responsibility for it.",zh:"你拿着自己的书，同时坚决否认和它有任何关系。",teachEn:"The wrong owner to reject is いもうと, not わたし.",teachZh:"要否定的错误主人是 いもうと，不是 わたし。"}
+]},
+{id:"neg-simple-true",group:"negative",scene:"👉📖",en:"Which sentence correctly says what this IS?",zh:"哪一句正确说明它是什么？",options:[
+ {jp:"これは ほんです。",ok:true},
+ {jp:"これは ほんじゃないです。",kind:"real",emoji:"📖💔",en:"You looked the book in the eye and told it: “You are not a book.” Brutal.",zh:"你看着书的眼睛对它说：「你不是书。」太残忍了。",teachEn:"じゃないです is negative. The picture simply identifies the object as a book.",teachZh:"じゃないです 是否定。图片只是要说明它就是一本书。"},
+ {jp:"これは えんぴつです。",emoji:"📖✏️",en:"That pencil has several hundred pages. Suspicious.",zh:"这支铅笔居然有几百页。很可疑。",teachEn:"Use ほん for a book.",teachZh:"书是 ほん。"}
+]},
+{id:"neg-simple-umbrella",group:"negative",scene:"👉☂️",en:"Which sentence correctly identifies the umbrella?",zh:"哪一句正确说明这把雨伞？",options:[
+ {jp:"これは かさです。",ok:true},
+ {jp:"これは かさじゃないです。",kind:"real",emoji:"☂️😶",en:"The umbrella has gone very quiet after hearing that.",zh:"雨伞听完这句话后陷入了沉默。",teachEn:"Use the positive noun sentence when the picture says it IS an umbrella.",teachZh:"图片表示它「就是雨伞」，所以使用肯定名词句。"},
+ {jp:"これは ほんです。",emoji:"☂️📚",en:"Library staff: absolutely not.",zh:"图书馆工作人员：绝对不行。",teachEn:"The object is かさ.",teachZh:"这个东西是 かさ。"}
+]},
+
+/* ---------- ここ / そこ / あれ ---------- */
+{id:"place-koko-library",group:"place",scene:"🙋📍📚",en:"You are standing inside the library. What can you say?",zh:"你正站在图书室里面。你可以怎么说？",options:[
+ {jp:"ここは としょしつです。",ok:true},
+ {jp:"そこは としょしつです。",kind:"real",emoji:"🙋📍   👉📚",en:"そこ points to a place by the listener, not the place where YOU are standing now.",zh:"そこ指靠近听话人的地方，不是你自己现在站着的这里。",teachEn:"ここ means “here”, near the speaker.",teachZh:"ここ表示「这里」，也就是靠近说话人的地方。"},
+ {jp:"あれは としょしつです。",emoji:"📚➡️📦❓",en:"あれ points to a thing over there. You have turned the whole library into one object.",zh:"あれ用来指远处的东西。你把整间图书室变成一个物件了。",teachEn:"For a place where you are standing, use ここ.",teachZh:"说自己所在的地点，用 ここ。"}
+]},
+{id:"place-soko-bank",group:"place",scene:"🙋        👧📍🏦",en:"Your friend is standing beside the bank. Tell your friend: “The bank is there (by you).”",zh:"朋友正站在银行旁边。对朋友说：「银行就在你那里。」",options:[
+ {jp:"ぎんこうは そこです。",ok:true},
+ {jp:"ぎんこうは ここです。",kind:"real",emoji:"🏦➡️🙋",en:"You just teleported the bank from your friend's side to your own feet.",zh:"你刚刚把银行从朋友那边瞬间传送到自己脚下。",teachEn:"そこ means “there by you / near the listener”.",teachZh:"そこ表示「你那里／靠近听话人的地方」。"},
+ {jp:"ぎんこうは あれです。",kind:"real",emoji:"👉🏦",en:"This can mean “that over there is the bank”, but the scene is practising the LOCATION beside your friend.",zh:"这可以表示「远处那个是银行」，但这张图要练的是朋友身边的「那个地方」。",teachEn:"For the location near your friend, use そこ. あれ points out a thing/building itself.",teachZh:"要说朋友附近的地点，用 そこ；あれ是指远处的那个东西／建筑本身。"}
+]},
+{id:"place-are-umbrella",group:"place",scene:"🙋        👧        ☂️",en:"The umbrella is far from both of you. Point to the umbrella itself.",zh:"雨伞离你们两个人都很远。指着那把雨伞本身。",options:[
+ {jp:"おかあさんの かさは あれです。",ok:true},
+ {jp:"おかあさんの かさは そこです。",kind:"real",emoji:"👧📍❓☂️",en:"That tells us the umbrella is at “that place near you”, not which far-away object it is.",zh:"这样是在说雨伞「在你那边那个地方」，而不是指出远处哪一个东西是雨伞。",teachEn:"あれ points to a thing far from both speaker and listener.",teachZh:"あれ用来指离说话人和听话人都比较远的「那个东西」。"},
+ {jp:"ここは おかあさんの かさです。",emoji:"📍➡️☂️",en:"ここ is a place. The floor under your feet has somehow become Mum's umbrella.",zh:"ここ是地点。你脚下这块地突然变成妈妈的雨伞了。",teachEn:"Use あれ to point to the far-away object itself.",teachZh:"要指远处那个物品本身，用 あれ。"}
+]},
+{id:"place-koko-school",group:"place",scene:"🙋📍🏫",en:"You are at school. Say: “Here is the school.”",zh:"你就在学校。说：「这里是学校。」",options:[
+ {jp:"ここは がっこうです。",ok:true},
+ {jp:"そこは がっこうです。",kind:"real",emoji:"🙋➡️👧🏫",en:"そこ would put the school by the listener instead of where you are now.",zh:"そこ会把学校放到听话人那边，不是你现在站的位置。",teachEn:"Use ここ for the place near you, the speaker.",teachZh:"靠近说话人自己的地点，用 ここ。"},
+ {jp:"あれは がっこうです。",kind:"real",emoji:"👉🏫",en:"That sentence points to a school over there. But you are standing inside it right now.",zh:"这句话是在指「远处那个是学校」。可是你现在就站在学校里面。",teac
