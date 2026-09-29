@@ -62,4 +62,56 @@ const TP_QUESTIONS=[
 {id:"no-mum-umbrella",group:"no",scene:"👩 ➜ ☂️",en:"The umbrella belongs to Mum.",zh:"这把雨伞是妈妈的。",options:[
  {jp:"これは おかあさんの かさです。",ok:true},
  {jp:"これは おとうさんの かさです。",emoji:"👨☂️  👩😑",en:"Dad just walked off with Mum's umbrella. Mum has noticed.",zh:"爸爸直接拿走了妈妈的伞。妈妈已经看到了。",teachEn:"AのB means “A's B”. The owner in the picture is おかあさん.",teachZh:"AのB 表示「A的B」。图片里的主人是 おかあさん。"},
- {jp:"これは いもうとの かさです。",emoji:"👧☂️  👩❓",en:"Your littl
+ {jp:"これは いもうとの かさです。",emoji:"👧☂️  👩❓",en:"Your little sister has somehow claimed Mum's umbrella.",zh:"妹妹不知什么时候把妈妈的伞认领走了。",teachEn:"Look at who the item belongs to before の.",teachZh:"看清楚 の 前面是谁，也就是东西的主人。"}
+]},
+{id:"no-dad-book",group:"no",scene:"👨 ➜ 📖",en:"The book belongs to Dad.",zh:"这本书是爸爸的。",options:[
+ {jp:"これは おとうさんの ほんです。",ok:true},
+ {jp:"これは おかあさんの ほんです。",emoji:"👩📖  👨🤨",en:"Mum has been assigned Dad's book. Paperwork scandal.",zh:"妈妈被分配到了爸爸的书。家庭资产登记出错。",teachEn:"Put the owner before の: おとうさんの ほん.",teachZh:"主人放在 の 前面：おとうさんの ほん。"},
+ {jp:"これは いもうとの ほんです。",emoji:"👧📖  👨🙃",en:"Your little sister has acquired another suspiciously familiar book.",zh:"妹妹又得到了一本怎么看都很眼熟的书。",teachEn:"The picture shows Dad as the owner.",teachZh:"图片显示主人是爸爸。"}
+]},
+{id:"no-sister-pencil",group:"no",scene:"👧 ➜ ✏️",en:"The pencil belongs to your little sister.",zh:"这支铅笔是妹妹的。",options:[
+ {jp:"これは いもうとの えんぴつです。",ok:true},
+ {jp:"これは おかあさんの えんぴつです。",emoji:"👩✏️  👧😤",en:"Mum has accidentally stolen the smallest piece of stationery possible.",zh:"妈妈不小心偷走了家里最小件的文具。",teachEn:"Use いもうとの when the owner is your little sister.",teachZh:"主人是妹妹时，用 いもうとの。"},
+ {jp:"これは おとうさんの えんぴつです。",emoji:"👨✏️  👧🙅",en:"Dad, please return the pencil to its tiny owner.",zh:"爸爸，请把铅笔还给它的小主人。",teachEn:"The word before の tells us whose thing it is.",teachZh:"の 前面的词告诉我们东西是谁的。"}
+]},
+{id:"no-my-umbrella",group:"no",scene:"🙋 ➜ ☂️",en:"The umbrella belongs to you.",zh:"这把雨伞是你的。",options:[
+ {jp:"これは わたしの かさです。",ok:true},
+ {jp:"これは おかあさんの かさです。",emoji:"🙋☂️  👩❓",en:"You just donated your umbrella to Mum without asking yourself.",zh:"你刚刚没问过自己，就把自己的伞捐给妈妈了。",teachEn:"わたしの かさ = my umbrella.",teachZh:"わたしの かさ = 我的雨伞。"},
+ {jp:"これは いもうとの かさです。",emoji:"🙋☂️  👧✨",en:"Your little sister accepts this surprise gift with enthusiasm.",zh:"妹妹非常开心地接受了这份突如其来的礼物。",teachEn:"The picture marks you as the owner, so use わたしの.",teachZh:"图片标示主人是你，所以用 わたしの。"}
+]},
+{id:"no-mum-book",group:"no",scene:"👩 ➜ 📖",en:"Choose the sentence that says “Mum's book.”",zh:"选择表示「妈妈的书」的句子。",options:[
+ {jp:"これは おかあさんの ほんです。",ok:true},
+ {jp:"これは おかあさんと ほんです。",emoji:"👩🤝📖",en:"Mum AND a book? The book has become a family member.",zh:"妈妈「和」一本书？这本书正式加入家庭成员名单了。",teachEn:"と joins things or people. Ownership uses の: おかあさんの ほん.",teachZh:"と表示「和／跟」。所属关系要用 の：おかあさんの ほん。"},
+ {jp:"これは おかあさんも ほんです。",emoji:"👩➡️📖😱",en:"You just said Mum is also a book. Please apologise to Mum.",zh:"你刚刚说妈妈也是一本书。请向妈妈道歉。",teachEn:"For “Mum's book”, put の between the owner and the thing.",teachZh:"要说「妈妈的书」，主人和东西中间放 の。"}
+]},
+{id:"no-dad-umbrella",group:"no",scene:"👨 ➜ ☂️",en:"Which one means “Dad's umbrella”?",zh:"哪一句表示「爸爸的雨伞」？",options:[
+ {jp:"これは おとうさんの かさです。",ok:true},
+ {jp:"これは おとうさんと かさです。",emoji:"👨🤝☂️",en:"Dad and Umbrella are apparently attending together.",zh:"爸爸和雨伞看起来要一起出席活动。",teachEn:"Use の for belonging: おとうさんの かさ.",teachZh:"表示所属用 の：おとうさんの かさ。"},
+ {jp:"これは おとうさんも かさです。",emoji:"👨☂️😵",en:"Dad is also an umbrella now. Weather powers unlocked.",zh:"爸爸现在也是一把雨伞了。天气系能力解锁。",teachEn:"も means “also”; it cannot replace の here.",teachZh:"も表示「也」，这里不能代替表示所属的 の。"}
+]},
+{id:"no-sister-book",group:"no",scene:"👧 ➜ 📖",en:"Choose “my little sister's book.”",zh:"选择「妹妹的书」。",options:[
+ {jp:"これは いもうとの ほんです。",ok:true},
+ {jp:"これは いもうとも ほんです。",emoji:"👧📖😨",en:"Your little sister is also a book. That family photo is getting strange.",zh:"妹妹也是一本书。全家福开始变得很奇怪。",teachEn:"Ownership needs の: いもうとの ほん.",teachZh:"表示所属要用 の：いもうとの ほん。"},
+ {jp:"これは いもうとと ほんです。",emoji:"👧🤝📖",en:"Little sister AND book. Both present, ownership missing.",zh:"妹妹「和」书。两个都到了，但所属关系不见了。",teachEn:"と means “and/with”; の means “A's B”.",teachZh:"と表示「和」；の表示「A的B」。"}
+]},
+{id:"no-my-pencil",group:"no",scene:"🙋 ➜ ✏️",en:"Which sentence means “my pencil”?",zh:"哪一句表示「我的铅笔」？",options:[
+ {jp:"これは わたしの えんぴつです。",ok:true},
+ {jp:"これは わたしと えんぴつです。",emoji:"🙋🤝✏️",en:"You and the pencil are now a duo. Cute, but not “my pencil”.",zh:"你和铅笔组成了二人组合。很可爱，但不是「我的铅笔」。",teachEn:"Use の to connect the owner and the thing.",teachZh:"主人和东西之间用 の 连接。"},
+ {jp:"これは わたしも えんぴつです。",emoji:"🙋➡️✏️",en:"You have declared yourself to be a pencil too. Very committed to stationery.",zh:"你宣布自己也是一支铅笔。对文具事业非常投入。",teachEn:"も means “also”. For “my pencil”, use わたしの えんぴつ.",teachZh:"も表示「也」。要说「我的铅笔」，用 わたしの えんぴつ。"}
+]},
+
+/* ---------- じゃないです ---------- */
+{id:"neg-not-book",group:"negative",scene:"👉✏️   📖❌",en:"Say: “This is not a book.”",zh:"说：「这不是书。」",options:[
+ {jp:"これは ほんじゃないです。",ok:true},
+ {jp:"これは ほんです。",kind:"real",emoji:"✏️➡️📖",en:"You looked straight at a pencil and confidently called it a book. Powerful confidence.",zh:"你看着一支铅笔，非常有自信地说它是书。这个自信很强。",teachEn:"じゃないです makes a noun sentence negative: “is not”.",teachZh:"じゃないです 把名词句变成否定，表示「不是」。"},
+ {jp:"これは えんぴつじゃないです。",kind:"real",emoji:"✏️😧",en:"The pencil has just been told it is NOT a pencil. Identity crisis incoming.",zh:"铅笔刚刚被告知「你不是铅笔」。身份危机即将发生。",teachEn:"The target meaning is “not a book”, so negate ほん, not えんぴつ.",teachZh:"目标是「不是书」，所以要否定 ほん，不是否定 えんぴつ。"}
+]},
+{id:"neg-not-pencil",group:"negative",scene:"👉📖   ✏️❌",en:"Say: “This is not a pencil.”",zh:"说：「这不是铅笔。」",options:[
+ {jp:"これは えんぴつじゃないです。",ok:true},
+ {jp:"これは えんぴつです。",kind:"real",emoji:"📖➡️✏️",en:"A book has been sentenced to pencil duty.",zh:"一本书被判去执行铅笔职务。",teachEn:"To say “is not”, add じゃないです after the noun.",teachZh:"要表达「不是」，在名词后面接 じゃないです。"},
+ {jp:"これは ほんじゃないです。",kind:"real",emoji:"📖😱",en:"The book would like to file a complaint: it is definitely a book.",zh:"这本书想提出申诉：它明明就是书。",teachEn:"You need to negate えんぴつ because the meaning is “not a pencil”.",teachZh:"题目要表达「不是铅笔」，所以否定的是 えんぴつ。"}
+]},
+{id:"neg-not-umbrella",group:"negative",scene:"👉📖   ☂️❌",en:"Say: “This is not an umbrella.”",zh:"说：「这不是雨伞。」",options:[
+ {jp:"これは かさじゃないです。",ok:true},
+ {jp:"これは かさです。",kind:"real",emoji:"📖☔💦",en:"Please try holding that “umbrella” over your head in the rain. Report back.",zh:"下雨时请把这把「伞」举在头上试试看。记得回报结果。",teachEn:"じゃないです changes “is” to “is not”.",teachZh:"じゃないです 把「是」变成「不是」。"},
+ {jp:"これは ほんじゃないです。",kind:"real",emoji:"📖😵",en:"You denied the one thing the picture is actually showing.",zh:"图片明明是书，你却偏偏否认了它唯一正确的身份。",t
