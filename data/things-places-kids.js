@@ -161,4 +161,26 @@ const TP_QUESTIONS=[
 {id:"place-koko-school",group:"place",scene:"🙋📍🏫",en:"You are at school. Say: “Here is the school.”",zh:"你就在学校。说：「这里是学校。」",options:[
  {jp:"ここは がっこうです。",ok:true},
  {jp:"そこは がっこうです。",kind:"real",emoji:"🙋➡️👧🏫",en:"そこ would put the school by the listener instead of where you are now.",zh:"そこ会把学校放到听话人那边，不是你现在站的位置。",teachEn:"Use ここ for the place near you, the speaker.",teachZh:"靠近说话人自己的地点，用 ここ。"},
- {jp:"あれは がっこうです。",kind:"real",emoji:"👉🏫",en:"That sentence points to a school over there. But you are standing inside it right now.",zh:"这句话是在指「远处那个是学校」。可是你现在就站在学校里面。",teac
+ {jp:"あれは がっこうです。",kind:"real",emoji:"👉🏫",en:"That sentence points to a school over there. But you are standing inside it right now.",zh:"这句话是在指「远处那个是学校」。可是你现在就站在学校里面。",teachEn:"The scene is “here”, so choose ここ.",teachZh:"这张图表达的是「这里」，所以选 ここ。"}
+]},
+{id:"place-soko-library",group:"place",scene:"🙋        👧📍📚",en:"Your friend is beside the library. Say the library is there by your friend.",zh:"朋友就在图书室旁边。说图书室在朋友那里。",options:[
+ {jp:"としょしつは そこです。",ok:true},
+ {jp:"としょしつは ここです。",kind:"real",emoji:"📚➡️🙋",en:"Library teleportation, round two. It is not beside you in this scene.",zh:"图书室瞬间移动第二回。它在这张图里并不在你旁边。",teachEn:"Use そこ for a place near the listener.",teachZh:"靠近听话人的地方，用 そこ。"},
+ {jp:"としょしつは あれです。",kind:"real",emoji:"👉📚",en:"Possible if you are identifying a far-away building, but here we are answering WHERE it is near your friend.",zh:"如果是在辨认远处建筑，这句可能成立；但这里回答的是「它在哪里」，而且就在朋友附近。",teachEn:"Use そこ for the location by the listener.",teachZh:"表示听话人附近的地点，用 そこ。"}
+]},
+{id:"place-are-book",group:"place",scene:"🙋        👧        📖",en:"A book is far from both of you. Point to the book itself.",zh:"一本书离你们两个人都很远。指着那本书本身。",options:[
+ {jp:"わたしの ほんは あれです。",ok:true},
+ {jp:"わたしの ほんは そこです。",kind:"real",emoji:"👧📍📖?",en:"そこ answers a location near the listener. The picture asks you to point out WHICH far-away object is your book.",zh:"そこ是在回答靠近听话人的地点。这张图要你指出远处「哪一个东西」是你的书。",teachEn:"Use あれ for that far-away object.",teachZh:"要指出远处那个物品，用 あれ。"},
+ {jp:"ここは わたしの ほんです。",emoji:"📍📖",en:"The spot under your shoes has become a book. Impressive but inconvenient.",zh:"你脚下的位置变成了一本书。很厉害，但走路会很不方便。",teachEn:"ここ is a place word; あれ points to the far-away thing.",teachZh:"ここ是地点词；あれ才是指远处的那个东西。"}
+]},
+{id:"place-koko-bank",group:"place",scene:"🙋📍🏦",en:"You are standing at the bank. Which sentence fits?",zh:"你正站在银行这里。哪一句符合图片？",options:[
+ {jp:"ここは ぎんこうです。",ok:true},
+ {jp:"ぎんこうは そこです。",kind:"real",emoji:"🏦➡️👧",en:"That would tell a listener the bank is over by them. But you're standing in it yourself.",zh:"这会变成对听话人说「银行在你那里」。但现在是你自己正站在银行这里。",teachEn:"Use ここ for the place where the speaker is.",teachZh:"说话人自己所在的地方，用 ここ。"},
+ {jp:"ぎんこうは あれです。",kind:"real",emoji:"👉🏦",en:"That points to a bank over there. The bank is not over there. It is under your feet.",zh:"这是指远处那间银行。可是银行不在远处，就在你脚下。",teachEn:"This scene is practising “here”: ここ.",teachZh:"这张图练的是「这里」：ここ。"}
+]},
+{id:"place-are-pencil",group:"place",scene:"🙋        👧        ✏️",en:"The pencil is far away. Point to that pencil.",zh:"铅笔在远处。指着那支铅笔。",options:[
+ {jp:"いもうとの えんぴつは あれです。",ok:true},
+ {jp:"いもうとの えんぴつは そこです。",kind:"real",emoji:"👧📍✏️?",en:"そこ tells us a place near the listener. The picture asks WHICH far object is the pencil.",zh:"そこ是在说听话人附近的地点。图片要问的是远处「哪一个东西」是铅笔。",teachEn:"Use あれ to identify the far-away object.",teachZh:"要辨认远处那个物品，用 あれ。"},
+ {jp:"ここは いもうとの えんぴつです。",emoji:"📍✏️",en:"You have transformed “here” into a pencil again. Geography is suffering.",zh:"你又把「这里」变成一支铅笔了。地理正在受苦。",teachEn:"ここ is a place; あれ is the far-away thing.",teachZh:"ここ是地点；あれ是远处的那个东西。"}
+]}
+];
