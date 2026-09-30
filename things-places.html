@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/bgm.css">
 <style>
 :root{--bg:#0C0E22;--glow:#1B1E45;--panel:rgba(27,30,69,.8);--warm:#F4F1EA;--muted:#D6D2E6;--gold:#D9C48E;--lav:#B6A9DA;--good:#7FBF8F;--bad:#E0879A;--border:rgba(217,196,142,.28)}
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100vh;font-family:Inter,"Zen Kaku Gothic New",sans-serif;color:var(--warm);background:radial-gradient(circle at 20% 8%,rgba(182,169,218,.17),transparent 31rem),linear-gradient(180deg,var(--glow),var(--bg) 44%)}
@@ -27,6 +26,35 @@ button{font:inherit;color:var(--warm);background:rgba(255,255,255,.055);border:1
 .done-btn{position:fixed;right:14px;bottom:14px;z-index:40;min-height:54px;padding:10px 18px;border-radius:999px;background:#D9C48E;color:#14162e;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35);border:0}.done-count{font-size:.8em;opacity:.75;margin-left:4px}.report-overlay{position:fixed;inset:0;z-index:100;background:rgba(6,7,20,.74);display:flex;align-items:center;justify-content:center;padding:14px}.report-box{width:min(560px,100%);max-height:92vh;overflow:auto;background:#F4F1EA;color:#17192d;border-radius:20px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}.report-box h2{text-align:center;margin:0 0 10px;color:#2b2d5c}.report-meta,.report-row{background:#fff;border-radius:11px;padding:8px 12px;margin-bottom:7px}.report-row{display:flex;justify-content:space-between;gap:10px}.report-sub{font-weight:800;margin:10px 0 4px;color:#2b2d5c}.report-mistakes{margin:0;padding-left:20px;font-family:"Zen Kaku Gothic New";line-height:1.65}.report-status{text-align:center;margin-top:9px;min-height:20px;color:#444}.report-box .end-actions button{color:#17192d;background:#fff;border-color:#b9bde0}.report-box .end-actions button.active{background:#2b2d5c;color:#fff}.stamp-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.stamp-cell{aspect-ratio:1;border:1.5px dashed #b9bde0;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}.stamp-cell.on{border-style:solid;border-color:#D9C48E;background:#fff8e6}.stamp-cell img{width:100%;height:100%;object-fit:contain}.toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:200;background:#D9C48E;color:#14162e;font-weight:800;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
 @media(max-width:600px){.place-map{gap:4px;margin-bottom:5px}.place-zone{min-height:82px;padding:4px 3px}.place-label{font-size:.58rem;margin-bottom:2px}.place-target{font-size:1.95rem}.place-person{font-size:1.45rem}.place-word{font-size:.86rem;margin-top:2px}.mini-guide{gap:4px}.mini-guide div{padding:7px 4px;font-size:.72rem}.shell{width:calc(100% - 12px);padding-top:9px}.hero h1{font-size:27px}.hero p{font-size:.84rem}.panel{padding:11px;border-radius:17px;margin-top:10px}.mode-grid{grid-template-columns:repeat(2,1fr)}.mode-card{min-height:116px;padding:9px 6px}.play-title{font-size:.86rem}.progress{margin:7px 0}.scene{min-height:105px;padding:9px;margin-bottom:7px}.scene-emoji{font-size:3.2rem}.scene-text{font-size:.94rem;margin-top:5px}.ask{margin:5px 0 7px}.opts{gap:7px}.opt{font-size:1rem;min-height:51px;padding:7px 9px}.feedback{margin-top:8px}.oops{padding:10px 11px}.fb-emoji{font-size:2.6rem;margin:4px 0}.fb-joke{font-size:1rem}.teach{padding:8px 9px;margin-top:7px}.done-btn{right:7px;bottom:7px;min-height:48px;padding:8px 13px}.lang-row{justify-content:center}}
 </style>
+<link rel="stylesheet" href="practice-light.css">
+<style>
+/* Things & Places components using the shared practice palette. */
+.shell{width:min(980px,calc(100% - 24px))}
+.hero h1{font-size:clamp(28px,4vw,42px)}
+button{font-weight:600}
+.scene{background:#FFFFFF;color:var(--warm);border:1px solid var(--border);box-shadow:var(--shadow)}
+.mode-card:hover{background:var(--soft);border-color:var(--accent)}
+.shell .mode-card.mix{background:var(--pick-bg);border-color:var(--accent)}
+.mini-guide div,.break-item{background:var(--soft)}
+.oops{background:var(--bad-bg);border-color:rgba(208,85,107,.55)}
+.fb-tag{color:var(--gold)}
+.fb-tag.funny,.review-box b{color:#B83A57}
+.teach{background:#FBF6E7}
+.hint-card{background:#EFECF8;border-color:#C8BFDF}
+.shell .explore-btn{background:#EFECF8;border-color:#C8BFDF}
+.review-box{background:var(--bad-bg);border-color:rgba(208,85,107,.35)}
+.fb-emoji{background:#FFFFFF;border:1px solid var(--border);border-radius:18px;padding:4px 16px;width:fit-content;max-width:100%;margin:8px auto}
+.toast{border:1px solid var(--accent);box-shadow:0 10px 30px rgba(30,33,64,.25)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--lav);outline-offset:3px}
+.report-box button:disabled{opacity:.45}
+@media(max-width:600px){
+ .shell{width:calc(100% - 16px);padding-top:0}
+ .hero{padding:26px 0 22px}
+ .hero h1{font-size:clamp(28px,4vw,42px)}
+ .panel{padding:14px;border-radius:18px}
+}
+</style>
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
 <main class="shell">
