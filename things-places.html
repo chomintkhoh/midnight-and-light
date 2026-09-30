@@ -45,7 +45,7 @@ const STAMP_SRC="./assets/images/great-stamp.png";
 const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
 const CODE_KEY="mlStudentCode";
 const STUDENT_CODE=(()=>{const clean=v=>(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);const q=clean(new URLSearchParams(location.search).get("s"));if(q){try{localStorage.setItem(CODE_KEY,q)}catch(e){}return q}try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}})();
-if(STUDENT_CODE)who.className="who-bar",who.innerHTML=`<a href="practice.html">← All practice</a><span class="who-code">Student <b>${STUDENT_CODE}</b></span><a href="practice.html?switch=1">Not you?</a>`;
+if(STUDENT_CODE)who.className="who-bar",who.innerHTML=`<a href="practice.html?s=${encodeURIComponent(STUDENT_CODE)}">← All practice</a><span class="who-code">Student <b>${STUDENT_CODE}</b></span><a href="practice.html?switch=1">Not you?</a>`;
 else who.className="no-code",who.innerHTML=`⚠ I don't know who you are yet. <a href="practice.html">Enter your code</a>`;
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
