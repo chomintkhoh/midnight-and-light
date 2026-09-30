@@ -29,8 +29,9 @@
   <iframe id="vocabFrame" class="practice" src="chinese-vocab.html" title="词语练习"></iframe>
   <iframe id="linkingFrame" class="practice" src="preview/chinese/games/linking-words.html" title="关联词练习"></iframe>
 </div>
-<script src="assets/bgm.js"></script>
+<script src="assets/zh-report.js"></script><script src="assets/bgm.js"></script>
 <script>
+const studentParam=new URLSearchParams(location.search).get("s");if(studentParam){for(const f of [vocabFrame,linkingFrame]){const u=new URL(f.getAttribute("src"),location.href);u.searchParams.set("s",studentParam);f.src=u.href}}
 const KEY="ml.zh.settings",bar=document.getElementById("topbar"),frames=[vocabFrame,linkingFrame];
 function settings(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
 function store(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}

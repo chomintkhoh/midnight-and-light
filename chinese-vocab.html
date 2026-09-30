@@ -230,7 +230,7 @@ body{
   body.in-practice .hearts{font-size:15px}
   body.in-practice .combo{font-size:13px;padding:2px 6px}
 }
-</style></head>
+</style><script defer src="assets/zh-report.js"></script></head>
 <body>
 <!-- 词语练习本体（由 chinese-vocab-practice.html 入口页的「词语」页签载入）。字级跟随入口页的 A-/A/A+ -->
 <script>
@@ -283,7 +283,7 @@ function resetLives(){lives=5;updateHearts();document.getElementById("hearts").c
 function loseLife(){lives=Math.max(0,lives-1);updateHearts();let e=document.getElementById("hearts");if(e){e.classList.remove("heart-hit");void e.offsetWidth;e.classList.add("heart-hit")}playWrong();return lives===0}
 function gameOver(){done=true;$("#feedback").textContent="";$("#next").classList.add("hidden");$("#body").innerHTML=`<div class=gameover><h2>🩶🩶🩶🩶🩶</h2><h2>本轮结束</h2><p>5次机会用完了。再试一次！<br><small>Out of hearts. Try this round again.</small></p><div class="result-weak">${roundMistakes.length?`<b>🧠 再看看 / Review:</b><br>${roundMistakes.join("、")}`:""}</div><button class=next onclick="start(mode)">重新挑战 / Try Again</button></div>`}
 function getWeak(){try{return JSON.parse(localStorage.getItem(WEAKKEY)||"{}")}catch(e){return {}}}
-function markWeak(w,bad){let x=getWeak();x[w]=(x[w]||0)+(bad?2:-1);if(x[w]<=0)delete x[w];localStorage.setItem(WEAKKEY,JSON.stringify(x))}
+function markWeak(w,bad,picked=''){window.MLZhReport.record('词语 · '+mode,w,!bad,picked,mode==='scene'?(items[i]||[])[0]:mode==='match'?w:(items[i]||[])[0]||w);let x=getWeak();x[w]=(x[w]||0)+(bad?2:-1);if(x[w]<=0)delete x[w];localStorage.setItem(WEAKKEY,JSON.stringify(x))}
 function weakWords(){let x=getWeak();return Object.keys(x).sort((a,b)=>x[b]-x[a])}
 const $=s=>document.querySelector(s),sh=a=>[...a].sort(()=>Math.random()-.5);
 let questionLimit=10;
@@ -399,7 +399,7 @@ function render(){$("#feedback").textContent="";$("#next").classList.add("hidden
 }$("#count").textContent=`${i+1} / ${items.length}`;$("#bar").style.width=(i/items.length*100)+"%";mode==="quick"?quick():mode==="meaning"?meaning():mode==="match"?matchGame():mode==="scene"?scene():mode==="classify"?classify():write()}
 function meaning(){let w=items[i],rev=Math.random()<.35,c=rev?w[0]:w[2],pool=currentWords().map(x=>rev?x[0]:x[2]);$("#body").innerHTML=`<div class=q>${rev?w[2]:w[0]}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
 function scene(){let [s,c]=items[i];$("#body").innerHTML=`<div class=scene>${s.replace("____","______")}</div><div class=answers>${sceneChoices(s,c).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;bind(c)}
-function bind(c){document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===c){b.classList.add("good");score++;markWeak(c,false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}else{b.classList.add("bad");markWeak(c,true);comboWrong(c);if(loseLife()){gameOver();return}$("#feedback").textContent="再看看 / Check the answer";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}$("#next").classList.remove("hidden")})}
+function bind(c){document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===c){b.classList.add("good");score++;markWeak(c,false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}else{b.classList.add("bad");markWeak(c,true,b.textContent);comboWrong(c);if(loseLife()){gameOver();return}$("#feedback").textContent="再看看 / Check the answer";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}$("#next").classList.remove("hidden")})}
 
 function quick(){
  let w=items[i], c=w[2], pool=currentWords().map(x=>x[2]);
@@ -409,7 +409,7 @@ function quick(){
 function bindQuick(c,word){
  document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;
  if(b.textContent===c){b.classList.add("good");score++;markWeak(word,false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}
- else{b.classList.add("bad");markWeak(word,true);comboWrong(word);if(loseLife()){gameOver();return}$("#feedback").textContent="这个词稍后会优先复习 / Review again";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}
+ else{b.classList.add("bad");markWeak(word,true,b.textContent);comboWrong(word);if(loseLife()){gameOver();return}$("#feedback").textContent="这个词稍后会优先复习 / Review again";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}
  $("#next").classList.remove("hidden")})
 }
 let matchSelected=null, matchPairs=[], matchDone=0,matchPool=[],matchRound=0;
@@ -446,7 +446,7 @@ function matchTap(b){
        $("#next").onclick=()=>{done=false;matchGame()}
      }
    }
- }else{markWeak(matchSelected.dataset.word,true);comboWrong(matchSelected.dataset.word);if(loseLife()){gameOver();return}$("#feedback").textContent="✗ 再看看 / Try again";matchSelected.classList.remove("selected");matchSelected=null}
+ }else{markWeak(matchSelected.dataset.word,true,b.textContent);comboWrong(matchSelected.dataset.word);if(loseLife()){gameOver();return}$("#feedback").textContent="✗ 再看看 / Try again";matchSelected.classList.remove("selected");matchSelected=null}
 }
 function drawLine(a,b){
  let area=$("#matcharea").getBoundingClientRect(),ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect(),svg=$("#matchsvg");
@@ -457,7 +457,7 @@ function classify(){
  let w=items[i], correct=categoryOf(w[0]);
  $("#body").innerHTML=`<div class=q>${w[0]}</div><div class=weaknote>${w[1]} · ${w[2]}<br>这个词属于哪一类？ / Which group?</div>
  <div class=catbuttons>${["心情 Feeling","态度／性格 Attitude & Character","动作 Action"].map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;
- document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===correct){b.classList.add("good");score++;markWeak(w[0],false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确"}else{b.classList.add("bad");markWeak(w[0],true);comboWrong(w[0]);if(loseLife()){gameOver();return}$("#feedback").textContent="✗ 再看看";document.querySelectorAll(".ans").forEach(x=>x.textContent===correct&&x.classList.add("good"))}$("#next").classList.remove("hidden")})
+ document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;if(b.textContent===correct){b.classList.add("good");score++;markWeak(w[0],false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确"}else{b.classList.add("bad");markWeak(w[0],true,b.textContent);comboWrong(w[0]);if(loseLife()){gameOver();return}$("#feedback").textContent="✗ 再看看";document.querySelectorAll(".ans").forEach(x=>x.textContent===correct&&x.classList.add("good"))}$("#next").classList.remove("hidden")})
 }
 function write(){let w=items[i];$("#body").innerHTML=`<div class=write><div class=big>${w[0]}</div><div>${w[1]} · ${w[2]}</div></div><div class=padbox><canvas id=pad></canvas></div><div class=tools><button onclick=clearPad()>清除 Clear</button><button onclick=toggleWord()>隐藏／显示词语</button></div>`;setup();$("#next").classList.remove("hidden")}
 function toggleWord(){let e=document.querySelector(".big");e.style.visibility=e.style.visibility==="hidden"?"visible":"hidden"}function clearPad(){ctx&&ctx.clearRect(0,0,cv.width,cv.height)}
