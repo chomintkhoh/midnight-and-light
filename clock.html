@@ -149,6 +149,76 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .mall-map.inline{display:none;margin:8px 0}
 @media(max-width:760px){.mall-layout{grid-template-columns:1fr}.mall-map{order:2}.mall-floor{min-height:40px}.mall-layout.picking>.mall-map{display:none}.mall-map.inline{display:flex}}
 .who-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:12px auto 0;font-size:15px;color:var(--muted)}.who-bar a{color:var(--gold);text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 4px}.who-bar a:hover{text-decoration:underline}.who-code b{color:var(--warm);letter-spacing:.06em}.who-bar.no-code{max-width:520px;padding:8px 14px;border-radius:12px;background:rgba(224,135,154,.16);color:#F3B8C4}.who-bar.no-code a{color:#fff;text-decoration:underline}
+
+/* ===== Clock mobile focus layout V1 (2026-10-01) ===== */
+.music-toggle{display:none}
+.mobile-practice-tools{display:none}
+@media(max-width:760px){
+  .shell{width:min(100% - 10px,1180px);padding:8px 0 78px}
+  .hero{position:relative;margin:0 0 8px;padding:7px 54px 7px 8px;text-align:left;border-bottom:1px solid var(--border)}
+  .hero h1{font-size:20px;line-height:1.2;margin:0}
+  .hero p{display:none}
+  .hero .who-bar{justify-content:flex-start;margin:4px 0 0;gap:4px 10px;font-size:12px}
+  .hero .who-bar a{min-height:28px;padding:0}
+  .hero .who-bar.no-code{padding:4px 7px;margin-top:4px}
+  .music-toggle{display:flex;position:absolute;right:6px;top:6px;width:42px;height:42px;min-height:42px;padding:0;align-items:center;justify-content:center;border-radius:50%;font-size:20px;z-index:3}
+  .hero .music-control{display:none;position:absolute;right:0;top:54px;width:min(310px,calc(100vw - 20px));padding:10px;background:rgba(12,14,34,.97);border:1px solid var(--border);border-radius:16px;z-index:20;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+  .hero.music-open .music-control{display:block}
+  .tabs{display:flex;flex-wrap:nowrap;gap:6px;margin:8px 0}
+  .tabs button{flex:1;min-height:42px;padding:7px 8px}
+  .subtabs{display:flex;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:6px;margin:0 0 9px;padding-bottom:2px;scrollbar-width:none}
+  .subtabs::-webkit-scrollbar{display:none}
+  .subtabs button{flex:0 0 auto;min-height:40px;padding:7px 11px;font-size:14px}
+  .panel{padding:10px;border-radius:17px}
+  .toolbar{margin-bottom:8px}
+  .instruction{font-size:18px;line-height:1.35;margin:0 auto 8px}
+  .toolbar .modes{display:none;margin-top:8px}
+  .toolbar.mobile-modes-open .modes{display:flex}
+  .toolbar .modes button{min-height:42px;padding:7px 10px;font-size:14px}
+  .mobile-practice-tools{display:flex;justify-content:center;margin:5px 0 2px}
+  .mobile-change{min-height:38px;padding:6px 11px;font-size:13px}
+  .grid{display:block}
+  .grid>.card{display:none}
+  .grid>.card.mobile-current{display:block;min-height:0;padding:10px 11px}
+  .grid>.bank-wrap{display:none;margin-top:8px;padding:9px}
+  .grid.mobile-match>.bank-wrap{display:block}
+  .card .q{font-size:13px}
+  .card .hint{min-height:0;margin:2px 0 4px;font-size:12px}
+  .card .clock{width:min(58vw,210px);max-width:none}
+  .card .clock-wrap{margin:-2px 0 2px}
+  .answer-zone{min-height:72px}
+  .answer-zone input{min-height:48px;font-size:19px}
+  .writing{height:105px}
+  .grid + .actions{display:none}
+  .score{margin:8px auto 0;font-size:15px}
+  .score strong{font-size:22px}
+  .mobile-read-nav{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;margin-top:8px}
+  .mobile-read-nav button{min-height:44px;padding:7px 10px}
+  .mobile-read-nav .mobile-check{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78)}
+  .mobile-progress{text-align:center;color:var(--muted);font-size:12px;margin-top:5px}
+  .set-layout{display:block}
+  .set-layout>.set-box{padding:10px}
+  .set-layout>.set-box:nth-child(2){display:none}
+  .set-box .jp-big{font-size:27px;margin-bottom:2px}
+  .set-box>.clock{display:block;width:min(61vw,220px);margin:2px auto 4px}
+  .set-box .feedback{min-height:30px;margin-top:2px}
+  .set-box .actions{gap:7px}
+  .set-box .actions button{min-height:44px;padding:7px 11px}
+  .mascot{transform:scale(.78);transform-origin:center top;margin-top:-2px!important;margin-bottom:-12px!important}
+  .done-btn{min-height:48px;right:8px;bottom:8px;padding:8px 13px;font-size:13px}
+}
+@media(max-width:390px){
+  .hero h1{font-size:18px}
+  .subtabs button{font-size:13px;padding:6px 9px}
+  .card .clock{width:min(55vw,190px)}
+  .set-box>.clock{width:min(58vw,205px)}
+}
+@media(max-width:760px) and (orientation:landscape){
+  .card .clock{width:min(31vh,180px)}
+  .set-box>.clock{width:min(35vh,190px)}
+  .hero{padding-top:5px;padding-bottom:5px}
+}
+
 </style>
 <link rel="stylesheet" href="practice-light.css">
 <link rel="stylesheet" href="assets/bgm.css">
@@ -158,7 +228,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 <header class="hero">
 <h1>Japanese Time Practice</h1>
 <p>Clock, calendar, dates and weekdays.</p>
-<div class="music-control" data-shared-bgm aria-label="Background music"></div>
+<button class="music-toggle" type="button" aria-label="Music settings" aria-expanded="false">🎵</button>\n<div class="music-control" data-shared-bgm aria-label="Background music"></div>
 </header>
 <nav class="tabs">
 <button id="clockMain" class="active">🕐 Clock</button>
@@ -1305,6 +1375,58 @@ function renderCalendar(){
 function setNav(){document.getElementById("clockMain").classList.toggle("active",state.main==="clock");document.getElementById("calendarMain").classList.toggle("active",state.main==="calendar");document.getElementById("clockSubs").classList.toggle("hidden",state.main!=="clock");["read","set","fromto","mall","rush"].forEach(x=>document.getElementById(x+"Tab").classList.toggle("active",state.sub===x))}
 function render(){app.innerHTML="";setNav();if(state.main==="calendar")renderCalendar();else if(state.sub==="read")renderRead();else if(state.sub==="set")renderSet();else if(state.sub==="mall")renderMall();else if(state.sub==="rush")renderRush();else renderFromTo()}
 document.getElementById("clockMain").onclick=()=>{state.main="clock";render()};document.getElementById("calendarMain").onclick=()=>{state.main="calendar";render()};document.getElementById("readTab").onclick=()=>{state.sub="read";render()};document.getElementById("setTab").onclick=()=>{state.sub="set";render()};document.getElementById("fromtoTab").onclick=()=>{state.sub="fromto";render()};document.getElementById("mallTab").onclick=()=>{state.sub="mall";render()};document.getElementById("rushTab").onclick=()=>{state.sub="rush";render()};
+
+/* ===== Clock mobile focus behaviour V1 ===== */
+let mobileReadIndex=0,mobileWorksheetKey="";
+function isClockMobile(){return window.matchMedia("(max-width:760px)").matches}
+function mobileCheckReadCard(card,i){
+ const t=state.worksheet[i],fb=card.querySelector(".feedback");if(!t||!fb)return;
+ card.classList.remove("correct","incorrect");card.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());card.querySelectorAll(".has-stamp").forEach(x=>x.classList.remove("has-stamp"));
+ if(i<3){
+   const slot=card.querySelector(".slot"),ok=slot&&norm(slot.dataset.answer)===norm(t.reading);
+   card.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${t.reading}</span>`;
+   if(slot&&slot.dataset.answer)logResult("read",tLabel(t),ok);if(ok){slot.classList.add("has-stamp");stamp(slot);playSuccess()}
+ }else if(i<6){
+   const az=card.querySelector(".answer-zone"),inp=az&&az.querySelector("input"),acc=acceptedReadings(t),ok=inp&&acc.some(r=>norm(r)===norm(inp.value));
+   card.classList.add(ok?"correct":"incorrect");fb.innerHTML=ok?"<strong>Correct!</strong>":`<strong>Check this one.</strong><span class="answer-jp">${acc.join("／")}</span>`;
+   if(inp&&inp.value.trim())logResult("read",tLabel(t),ok);if(ok){az.classList.add("has-stamp");stamp(az);playSuccess()}
+ }else{
+   fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`;
+ }
+}
+function mobileClockUI(){
+ const hero=document.querySelector(".hero"),musicBtn=hero&&hero.querySelector(".music-toggle");
+ if(musicBtn&&!musicBtn.dataset.ready){musicBtn.dataset.ready="1";musicBtn.onclick=()=>{const open=hero.classList.toggle("music-open");musicBtn.setAttribute("aria-expanded",String(open))}}
+ if(!isClockMobile()||state.main!=="clock")return;
+ const toolbar=app.querySelector(".toolbar");
+ if(toolbar&&toolbar.querySelector(".modes")){
+   const tools=el("div","mobile-practice-tools"),change=el("button","mobile-change","⚙ Change practice");
+   change.type="button";change.onclick=()=>toolbar.classList.toggle("mobile-modes-open");tools.append(change);toolbar.insertBefore(tools,toolbar.querySelector(".modes"));
+ }
+ if(state.sub==="read"){
+   const grid=app.querySelector(".grid"),cards=grid?[...grid.querySelectorAll(":scope > .card")]:[];
+   if(!grid||!cards.length)return;
+   const key=state.mode+"|"+state.worksheet.map(t=>t.h+":"+t.m).join(",");
+   if(key!==mobileWorksheetKey){mobileWorksheetKey=key;mobileReadIndex=0}
+   mobileReadIndex=Math.max(0,Math.min(mobileReadIndex,cards.length-1));
+   const paint=()=>{
+     cards.forEach((c,i)=>c.classList.toggle("mobile-current",i===mobileReadIndex));
+     grid.classList.toggle("mobile-match",mobileReadIndex<3);
+     const n=app.querySelector(".mobile-read-nav"),p=app.querySelector(".mobile-progress");
+     if(n){n.querySelector(".mobile-prev").disabled=mobileReadIndex===0;n.querySelector(".mobile-next").textContent=mobileReadIndex===cards.length-1?"New Set":"Next →"}
+     if(p)p.textContent=`Question ${mobileReadIndex+1} of ${cards.length}`;
+   };
+   const nav=el("div","mobile-read-nav"),prev=el("button","mobile-prev","←"),check=el("button","mobile-check","Check"),next=el("button","mobile-next","Next →"),prog=el("div","mobile-progress","");
+   prev.onclick=()=>{if(mobileReadIndex>0){mobileReadIndex--;paint();cards[mobileReadIndex].scrollIntoView({block:"nearest"})}};
+   check.onclick=()=>mobileCheckReadCard(cards[mobileReadIndex],mobileReadIndex);
+   next.onclick=()=>{if(mobileReadIndex<cards.length-1){mobileReadIndex++;paint();cards[mobileReadIndex].scrollIntoView({block:"nearest"})}else{state.worksheet=randomTimes(9);mobileReadIndex=0;render()}};
+   nav.append(prev,check,next);grid.after(nav,prog);paint()
+ }else if(state.sub==="set"){
+   const boxes=app.querySelectorAll(".set-layout>.set-box");
+   if(boxes.length===2){const clock=boxes[1].querySelector(".clock"),title=boxes[0].querySelector(".jp-big");if(clock&&title)title.after(clock)}
+ }
+}
+
 /* ===== Black-cat mascot: one cat per screen, placed next to the feedback ===== */
 let mascotTap=null;
 document.addEventListener("pointerdown",e=>{mascotTap=e.target},true);
@@ -1331,7 +1453,7 @@ function placeMascot(){
  else{const acts=panel.querySelectorAll(":scope > .actions");acts.length?acts[acts.length-1].before(cat):panel.append(cat)}
 }
 const _render=render;
-render=function(){_render();placeMascot()};
+render=function(){_render();placeMascot();mobileClockUI()};
 /* calendar puzzles: a wrong tap flashes red, a finished puzzle gets a stamp */
 const _flashWrong=flashWrong;
 flashWrong=function(...nodes){Mascot.set("confused");return _flashWrong(...nodes)};
