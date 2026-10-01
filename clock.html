@@ -219,6 +219,40 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
   .hero{padding-top:5px;padding-bottom:5px}
 }
 
+
+/* ===== Clock mobile one-viewport refinements V1.1 ===== */
+@media(max-width:760px){
+  body.mobile-read-active{--mobile-nav-h:58px}
+  body.mobile-read-active .shell{padding-bottom:calc(var(--mobile-nav-h) + env(safe-area-inset-bottom,0px) + 14px)}
+  body.mobile-read-active .mobile-read-nav{position:fixed;left:6px;right:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px));z-index:55;margin:0;padding:5px;background:rgba(12,14,34,.96);border:1px solid var(--border);border-radius:16px;box-shadow:0 -8px 26px rgba(0,0,0,.28)}
+  body.mobile-read-active .mobile-progress{position:fixed;left:50%;bottom:calc(55px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:54;margin:0;padding:2px 8px;border-radius:999px;background:rgba(12,14,34,.88);white-space:nowrap}
+  body.mobile-read-active .grid{padding-bottom:8px}
+  body.mobile-read-active .grid>.card.mobile-current{max-width:560px;margin:0 auto}
+  body.mobile-read-active .grid.mobile-match>.bank-wrap{max-width:560px;margin:6px auto 0}
+  body.mobile-read-active .answer-bank{gap:6px}
+  body.mobile-read-active .answer-chip{flex:1 1 30%;min-width:96px;min-height:44px;padding:7px 9px;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
+  body.mobile-read-active .bank-title{margin-bottom:5px;font-size:13px}
+  body.mobile-read-active .bank-wrap .tip{display:none}
+  body.mobile-read-active .writing{height:clamp(86px,14dvh,112px)}
+  .writing-tools{display:flex;justify-content:center;margin-top:5px}
+  .writing-expand{min-height:36px;padding:5px 10px;font-size:12px}
+  .card.writing-expanded .writing{height:min(42dvh,280px)}
+}
+@media(max-width:760px) and (max-height:700px){
+  body.mobile-read-active .hero{margin-bottom:4px}
+  body.mobile-read-active .tabs{margin:4px 0}
+  body.mobile-read-active .subtabs{margin-bottom:5px}
+  body.mobile-read-active .toolbar{margin-bottom:4px}
+  body.mobile-read-active .instruction{font-size:16px;margin-bottom:4px}
+  body.mobile-read-active .mobile-practice-tools{margin:2px 0}
+  body.mobile-read-active .card .clock{width:min(48vw,175px)}
+}
+@media(max-width:760px) and (orientation:landscape){
+  body.mobile-read-active .mobile-read-nav{position:sticky;left:auto;right:auto;bottom:calc(4px + env(safe-area-inset-bottom,0px));margin-top:6px}
+  body.mobile-read-active .mobile-progress{position:static;transform:none;margin:3px auto}
+  body.mobile-read-active .shell{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+}
+
 </style>
 <link rel="stylesheet" href="practice-light.css">
 <link rel="stylesheet" href="assets/bgm.css">
@@ -228,7 +262,8 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 <header class="hero">
 <h1>Japanese Time Practice</h1>
 <p>Clock, calendar, dates and weekdays.</p>
-<button class="music-toggle" type="button" aria-label="Music settings" aria-expanded="false">🎵</button>\n<div class="music-control" data-shared-bgm aria-label="Background music"></div>
+<button class="music-toggle" type="button" aria-label="Music settings" aria-expanded="false">🎵</button>
+<div class="music-control" data-shared-bgm aria-label="Background music"></div>
 </header>
 <nav class="tabs">
 <button id="clockMain" class="active">🕐 Clock</button>
@@ -1394,9 +1429,19 @@ function mobileCheckReadCard(card,i){
    fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`;
  }
 }
+function fitMobileKeyboard(){
+ if(!isClockMobile())return;
+ const vv=window.visualViewport,focused=document.activeElement;
+ const keyboard=vv&&window.innerHeight-vv.height>140;
+ document.body.classList.toggle("mobile-keyboard-open",!!keyboard);
+ if(keyboard&&focused&&focused.tagName==="INPUT")requestAnimationFrame(()=>focused.scrollIntoView({block:"center",behavior:"smooth"}))
+}
+if(window.visualViewport){visualViewport.addEventListener("resize",fitMobileKeyboard);visualViewport.addEventListener("scroll",fitMobileKeyboard)}
+window.addEventListener("resize",fitMobileKeyboard);
 function mobileClockUI(){
  const hero=document.querySelector(".hero"),musicBtn=hero&&hero.querySelector(".music-toggle");
  if(musicBtn&&!musicBtn.dataset.ready){musicBtn.dataset.ready="1";musicBtn.onclick=()=>{const open=hero.classList.toggle("music-open");musicBtn.setAttribute("aria-expanded",String(open))}}
+ document.body.classList.remove("mobile-read-active");
  if(!isClockMobile()||state.main!=="clock")return;
  const toolbar=app.querySelector(".toolbar");
  if(toolbar&&toolbar.querySelector(".modes")){
@@ -1404,6 +1449,7 @@ function mobileClockUI(){
    change.type="button";change.onclick=()=>toolbar.classList.toggle("mobile-modes-open");tools.append(change);toolbar.insertBefore(tools,toolbar.querySelector(".modes"));
  }
  if(state.sub==="read"){
+   document.body.classList.add("mobile-read-active");
    const grid=app.querySelector(".grid"),cards=grid?[...grid.querySelectorAll(":scope > .card")]:[];
    if(!grid||!cards.length)return;
    const key=state.mode+"|"+state.worksheet.map(t=>t.h+":"+t.m).join(",");
@@ -1420,7 +1466,9 @@ function mobileClockUI(){
    prev.onclick=()=>{if(mobileReadIndex>0){mobileReadIndex--;paint();cards[mobileReadIndex].scrollIntoView({block:"nearest"})}};
    check.onclick=()=>mobileCheckReadCard(cards[mobileReadIndex],mobileReadIndex);
    next.onclick=()=>{if(mobileReadIndex<cards.length-1){mobileReadIndex++;paint();cards[mobileReadIndex].scrollIntoView({block:"nearest"})}else{state.worksheet=randomTimes(9);mobileReadIndex=0;render()}};
-   nav.append(prev,check,next);grid.after(nav,prog);paint()
+   nav.append(prev,check,next);grid.after(nav,prog);
+   cards.slice(6).forEach(card=>{if(card.querySelector(".writing")&&!card.querySelector(".writing-tools")){const tools=el("div","writing-tools"),expand=el("button","writing-expand","↕ Expand writing");expand.type="button";expand.onclick=()=>{const open=card.classList.toggle("writing-expanded");expand.textContent=open?"↕ Collapse writing":"↕ Expand writing";const cv=card.querySelector(".writing");if(cv)requestAnimationFrame(()=>drawInit(cv))};tools.append(expand);card.querySelector(".writing").after(tools)}});
+   paint();fitMobileKeyboard()
  }else if(state.sub==="set"){
    const boxes=app.querySelectorAll(".set-layout>.set-box");
    if(boxes.length===2){const clock=boxes[1].querySelector(".clock"),title=boxes[0].querySelector(".jp-big");if(clock&&title)title.after(clock)}
