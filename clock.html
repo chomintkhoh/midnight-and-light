@@ -253,6 +253,21 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
   body.mobile-read-active .shell{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 }
 
+
+/* Read & Write: footer occupies layout space instead of covering answers. */
+@media(max-width:760px){
+ body.mobile-read-active .shell{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+ body.mobile-read-active #app>.panel{display:flex;flex-direction:column;min-height:var(--read-panel-height,auto)}
+ body.mobile-read-active .mobile-read-nav{position:static;flex-shrink:0;margin-top:auto;padding:6px 5px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:none}
+ body.mobile-read-active .mobile-progress{position:static;transform:none;flex-shrink:0;margin:5px auto;background:none;color:var(--muted)}
+ body.mobile-read-active .grid{flex-shrink:0;padding-bottom:12px;scroll-margin-bottom:12px}
+ body.mobile-read-active .done-btn{position:static;display:block;width:fit-content;max-width:calc(100% - 20px);margin:8px auto 12px}
+ body.mobile-read-active .answer-chip{min-width:0;flex:1 1 100%}
+ body.mobile-read-active .bank-wrap{padding:7px}
+ body.mobile-read-active .answer-bank{display:grid;grid-template-columns:1fr;gap:5px}
+ body.mobile-read-active .answer-chip{min-height:44px;padding:6px 9px}
+}
+
 </style>
 <link rel="stylesheet" href="practice-light.css">
 <link rel="stylesheet" href="assets/bgm.css">
@@ -1429,7 +1444,18 @@ function mobileCheckReadCard(card,i){
    fb.innerHTML=`<strong>Compare your writing:</strong><span class="answer-jp">${t.reading}</span>`;
  }
 }
+function fitMobileReadPanel(){
+ const panel=app.querySelector(":scope > .panel");
+ if(!panel||!document.body.classList.contains("mobile-read-active"))return;
+ const viewport=window.visualViewport;
+ const bottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+ const top=panel.getBoundingClientRect().top+window.scrollY;
+ const done=document.getElementById("doneBtn");
+ const reserve=done?done.getBoundingClientRect().height+32:16;
+ panel.style.setProperty("--read-panel-height",Math.max(0,(viewport?viewport.height:window.innerHeight)-top-reserve)+"px");
+}
 function fitMobileKeyboard(){
+ fitMobileReadPanel();
  if(!isClockMobile())return;
  const vv=window.visualViewport,focused=document.activeElement;
  const keyboard=vv&&window.innerHeight-vv.height>140;
@@ -1461,6 +1487,7 @@ function mobileClockUI(){
      const n=app.querySelector(".mobile-read-nav"),p=app.querySelector(".mobile-progress");
      if(n){n.querySelector(".mobile-prev").disabled=mobileReadIndex===0;n.querySelector(".mobile-next").textContent=mobileReadIndex===cards.length-1?"New Set":"Next →"}
      if(p)p.textContent=`Question ${mobileReadIndex+1} of ${cards.length}`;
+     requestAnimationFrame(fitMobileReadPanel);
    };
    const nav=el("div","mobile-read-nav"),prev=el("button","mobile-prev","←"),check=el("button","mobile-check","Check"),next=el("button","mobile-next","Next →"),prog=el("div","mobile-progress","");
    prev.onclick=()=>{if(mobileReadIndex>0){mobileReadIndex--;paint();cards[mobileReadIndex].scrollIntoView({block:"nearest"})}};
