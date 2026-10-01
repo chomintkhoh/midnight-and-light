@@ -193,7 +193,7 @@ const app=document.getElementById("app");
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function playSuccess(){successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}
 function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
-function minsFor(mode){return mode==="oclock"?[0]:mode==="every10"?[0,10,20,30,40,50]:mode==="every5"?[0,5,10,15,20,25,30,35,40,45,50,55]:mode==="minutes1to10"?[1,2,3,4,5,6,7,8,9,10]:[0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55]}
+function minsFor(mode){return mode==="oclock"?[0]:mode==="every10"?[10,20,30,40,50]:mode==="every5"?[5,10,15,20,25,30,35,40,45,50,55]:mode==="minutes1to10"?[1,2,3,4,5,6,7,8,9,10]:[0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55]}
 function minuteReading(n){if(MIN[n]!==undefined)return MIN[n];const tens=Math.floor(n/10)*10,ones=n%10;const tensMap={20:"にじゅう",30:"さんじゅう",40:"よんじゅう",50:"ごじゅう"};return (tensMap[tens]||"")+MIN[ones]}
 function timeObj(h,m){return {h,m,reading:HOUR[h]+(m?" "+minuteReading(m):"")}}
 /* 也算对的其他读法：30分＝はん；10/20/30/40/50分的「じゅっぷん」也可写成「じっぷん」 */
