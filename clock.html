@@ -218,7 +218,7 @@ function clockSVG(time,interactive=false){
    svg.addEventListener("pointermove",e=>{if(!which)return;angles[which]=snap(which,ang(e));set()});svg.addEventListener("pointerup",()=>which=null);svg.addEventListener("pointercancel",()=>which=null)}
  return {svg,get:()=>({...angles}),setTime:t=>{angles={hour:hourAngle(t.h,t.m),minute:minuteAngle(t.m)};set()}}
 }
-function renderModes(parent){const m=el("div","modes");MODES.forEach(([id,label])=>{const b=el("button",state.mode===id?"active":"",label);b.onclick=()=>{state.mode=id;state.worksheet=[];render()};m.append(b)});parent.append(m)}
+function renderModes(parent){const m=el("div","modes");MODES.forEach(([id,label])=>{const b=el("button",state.mode===id?"active":"",label);b.onclick=()=>{state.mode=id;state.worksheet=[];state.setTarget=null;render()};m.append(b)});parent.append(m)}
 function renderRead(){
  if(!state.worksheet.length)state.worksheet=randomTimes(9);const p=el("div","panel"),tb=el("div","toolbar");tb.append(el("div","instruction","Look at the clocks and answer in Japanese."));renderModes(tb);p.append(tb);
  const g=el("div","grid"),cards=[],slots=[];let selectedSlot=null,selectedChip=null;
