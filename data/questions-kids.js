@@ -153,15 +153,6 @@ const Q_SENTENCES=[
     "なに":["🥢🍚","WHAT did you eat dinner WITH? Chopsticks? A spoon?","你用“什么”吃晚饭？筷子？汤匙？","real"],
     "どれ":C_NOLIST}},
   "で ばんごはんを たべ",{k:"end",ok:["ましたか"]},"。"]},
-{scene:"🧒🙅🫑",ans:"ピーマンを たべません。",aEn:"I don't eat green peppers.",aZh:"我不吃青椒。",qEn:"What don't you eat?",qZh:"你不吃什么？",parts:[
-  {k:"qw",ok:["なに"],opts:["なに","だれ","どこ","なん"],wrong:{
-    "だれ":["🧟❓","WHO don't you eat?! So… there ARE people you eat?!","你“不吃谁”？！所以……有些人你会吃？！","real"],
-    "どこ":["🧒🙅🏞️","WHERE don't you eat? You don't eat… the park?","你“不吃哪里”？你不吃……公园？"]}},
-  "を たべ",{k:"end",ok:["ませんか"]},"。"]},
-{scene:"🧒🙅☕",ans:"コーヒーを のみません。",aEn:"I don't drink coffee.",aZh:"我不喝咖啡。",qEn:"What don't you drink?",qZh:"你不喝什么？",parts:[
-  {k:"qw",ok:["なに"],opts:["なに","だれ","どこ","なん"],wrong:{
-    "だれ":["🧛🙅","WHO don't you drink?! So you drink SOME people?!","你“不喝谁”？！所以有些人你会喝？！","real"]}},
-  "を のみ",{k:"end",ok:["ませんか"]},"。"]},
 {scene:"📅⏪ 🧒🙈📚",ans:"しゅくだいを しませんでした。",aEn:"I didn't do my homework.",aZh:"我没有做功课。",qEn:"What didn't you do yesterday?",qZh:"你昨天没有做什么？",parts:[
   "きのう ",{k:"qw",ok:["なに"],opts:["なに","だれ","どこ","なん"],wrong:{
     "だれ":["🧒❓🧍","“WHO didn't you do?” — you can't DO a person!","你“没有做谁”？——人又不能拿来“做”！"]}},

@@ -182,7 +182,6 @@ const VOCAB_AUDIO = {
   "colours-8": "assets/audio/japanese/vocab/179.mp3",
   "colours-9": "assets/audio/japanese/vocab/180.mp3",
   "colours-10": "assets/audio/japanese/vocab/181.mp3",
-  "colours-11": "assets/audio/japanese/vocab/182.mp3",
   "sports-0": "assets/audio/japanese/vocab/183.mp3",
   "sports-1": "assets/audio/japanese/vocab/184.mp3",
   "sports-2": "assets/audio/japanese/vocab/185.mp3",
