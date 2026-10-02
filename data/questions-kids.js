@@ -27,7 +27,7 @@ const ENDING_INFO={
  "ですか":["Is it …? (a thing, a number — no action)","是…吗？（东西、数字——没有动作）"],
  "ますか":["Do you …? (every day, or later)","会…吗？（平常或以后）"],
  "ましたか":["Did you …? (it already happened)","…了吗？（已经发生了）"],
- "ませんか":["Don't you …? (every day, or later)","不…吗？（平常或以后）"],
+ "ませんか":["Don't you …? Also used to invite: “Won't you … (with me)?”","不…吗？也用来邀请：「要不要（一起）…？」"],
  "ませんでしたか":["Didn't you …? (it already happened)","没有…吗？（已经发生了）"]
 };
 const EASY_ENDINGS=["ですか","ますか"];
@@ -36,7 +36,7 @@ const ALL_ENDINGS=["ですか","ますか","ましたか","ませんか","ませ
 const ENDING_CARDS={
  "ますか":["🔁❓","You asked about every day, or later: “Do you …?”","你问的是平常或以后：「会…吗？」","real"],
  "ましたか":["⏪❓","You asked about something that already happened: “Did you …?”","你问的是已经发生的事：「…了吗？」","real"],
- "ませんか":["🙅❓","You asked: “DON'T you …?”","你问的是：「不…吗？」","real"],
+ "ませんか":["🙅❓🤝","You asked: “DON'T you …?” — or you invited them: “Won't you … with me?”","你问的是：「不…吗？」——或是在邀请：「要不要一起…？」","real"],
  "ませんでしたか":["⏪🙅❓","You asked about the past: “DIDN'T you …?”","你问的是过去：「没有…吗？」","real"]
 };
 /* shared cards */

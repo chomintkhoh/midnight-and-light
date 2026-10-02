@@ -4,10 +4,11 @@
    これは〜です / これも〜です / AのB / 〜じゃないです /
    ここ・そこ・あれ
 
-   Keep this file intentionally conservative: do not add それ・あそこ・
-   います・あります until they have been taught.
+   それ・あれ・これ・その・あの・この have now been taught (Oct 2026).
+   Still do not add あそこ・います・あります until they have been taught.
    ===================================================================== */
-// Distractors: literal meaning, playful reaction, accurate explanation.
+// Wrong-answer card (Particles style): what you said → literal meaning → emoji + one joke.
+// teachEn/teachZh only appear after the 2nd wrong try.
 const TP_GROUPS=[
   {
     "id": "this",
@@ -212,8 +213,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは えんぴつです。",
         "emoji": "☂️✏️",
-        "en": "A pencil? No wonder your homework won't fit in the pencil case.",
-        "zh": "铅笔？难怪你的文具盒怎么也关不上。",
+        "en": "No wonder it won't fit in the pencil case.",
+        "zh": "难怪文具盒怎么也关不上。",
         "teachEn": "The grammar works; the object is wrong.",
         "teachZh": "句型成立，东西说错了。",
         "kind": "real",
@@ -341,8 +342,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは おとうさんの かさです。",
         "emoji": "👨☂️  👩😑",
-        "en": "You called it Dad's. Mum is checking the name label.",
-        "zh": "你说这是爸爸的。妈妈已经开始翻名字标签了。",
+        "en": "Mum is checking the name label.",
+        "zh": "妈妈已经开始翻名字标签了。",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -352,8 +353,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは いもうとの かさです。",
         "emoji": "👧☂️  👩❓",
-        "en": "Little sister's umbrella? Mum would like a word.",
-        "zh": "妹妹的伞？妈妈有话要说。",
+        "en": "Mum would like a word.",
+        "zh": "妈妈有话要说。",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -376,8 +377,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは おかあさんの ほんです。",
         "emoji": "👩📖  👨🤨",
-        "en": "You called it Mum's book. Dad is still on page 12.",
-        "zh": "你说是妈妈的书。爸爸还读到第十二页呢。",
+        "en": "Dad is still on page 12.",
+        "zh": "爸爸还读到第十二页呢。",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -387,8 +388,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは いもうとの ほんです。",
         "emoji": "👧📖  👨🙃",
-        "en": "You called it little sister's. Dad's bookmark is protesting.",
-        "zh": "你说是妹妹的。爸爸的书签第一个不服。",
+        "en": "Dad's bookmark is protesting.",
+        "zh": "爸爸的书签第一个不服。",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -411,8 +412,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは おかあさんの えんぴつです。",
         "emoji": "👩✏️  👧😤",
-        "en": "You called it Mum's pencil. Little sister is guarding her pencil case.",
-        "zh": "你说是妈妈的铅笔。妹妹已经抱紧文具盒了。",
+        "en": "Little sister is hugging her pencil case.",
+        "zh": "妹妹已经抱紧文具盒了。",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -422,8 +423,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは おとうさんの えんぴつです。",
         "emoji": "👨✏️  👧🙅",
-        "en": "You called it Dad's. Little sister would like her homework pencil back.",
-        "zh": "你说是爸爸的。妹妹：那我的功课谁帮我写？",
+        "en": "Little sister wants her homework pencil back.",
+        "zh": "妹妹：那我的功课谁帮我写？",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -446,8 +447,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは おかあさんの かさです。",
         "emoji": "🙋☂️  👩❓",
-        "en": "You called your umbrella Mum's. She wasn't expecting presents today.",
-        "zh": "你把自己的伞说成妈妈的。妈妈：今天还有礼物收？",
+        "en": "Mum wasn't expecting a present today.",
+        "zh": "妈妈：今天还有礼物收？",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -457,8 +458,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは いもうとの かさです。",
         "emoji": "🙋☂️  👧✨",
-        "en": "You called it little sister's. She says, “Thank you!” You say, “Wait…”",
-        "zh": "你说是妹妹的。妹妹：「谢谢！」你：「等一下……」",
+        "en": "Little sister: “Thank you!” You: “Wait…”",
+        "zh": "妹妹：「谢谢！」你：「等一下……」",
         "teachEn": "AのB = A’s B. Check who owns it.",
         "teachZh": "看清主人。AのB表示「A的B」。",
         "kind": "real",
@@ -622,8 +623,8 @@ const TP_QUESTIONS=[
         "jp": "これは ほんです。",
         "kind": "real",
         "emoji": "✏️➡️📖",
-        "en": "A book? The pencil is still searching for page two.",
-        "zh": "书？铅笔还在找第二页。",
+        "en": "The pencil is still searching for page two.",
+        "zh": "铅笔还在找第二页。",
         "teachEn": "です = is; じゃないです = is not. Check the picture.",
         "teachZh": "です是「是」；じゃないです是「不是」。看清物品和主人。",
         "meaningEn": "This is a book.",
@@ -762,8 +763,8 @@ const TP_QUESTIONS=[
         "jp": "これは おとうさんの かさです。",
         "kind": "real",
         "emoji": "👨☂️  👩😑",
-        "en": "You called it Dad's umbrella. Mum has raised one eyebrow.",
-        "zh": "你说是爸爸的伞。妈妈的一边眉毛已经抬起来了。",
+        "en": "Mum has raised one eyebrow.",
+        "zh": "妈妈的一边眉毛已经抬起来了。",
         "teachEn": "です = is; じゃないです = is not. Check the picture.",
         "teachZh": "です是「是」；じゃないです是「不是」。看清物品和主人。",
         "meaningEn": "This is Dad's umbrella.",
@@ -797,8 +798,8 @@ const TP_QUESTIONS=[
         "jp": "これは いもうとの ほんです。",
         "kind": "real",
         "emoji": "👧📖✨  🙋😐",
-        "en": "You called it little sister's book. She's already said thank you.",
-        "zh": "你说是妹妹的书。妹妹的「谢谢」都说完了。",
+        "en": "Little sister has already said thank you.",
+        "zh": "妹妹的「谢谢」都说完了。",
         "teachEn": "です = is; じゃないです = is not. Check the picture.",
         "teachZh": "です是「是」；じゃないです是「不是」。看清物品和主人。",
         "meaningEn": "This is my little sister's book.",
@@ -877,8 +878,8 @@ const TP_QUESTIONS=[
       {
         "jp": "これは ほんです。",
         "emoji": "☂️📚",
-        "en": "A book? The librarian is looking for a shelf with a drain.",
-        "zh": "书？图书馆正在找有排水口的书架。",
+        "en": "The librarian is looking for a shelf with a drain.",
+        "zh": "图书馆正在找有排水口的书架。",
         "teachEn": "です = is; じゃないです = is not. Check the picture.",
         "teachZh": "です是「是」；じゃないです是「不是」。看清物品和主人。",
         "kind": "real",
@@ -937,8 +938,8 @@ const TP_QUESTIONS=[
         "jp": "ぎんこうは ここです。",
         "kind": "real",
         "emoji": "🏦➡️🙋",
-        "en": "You said the bank was here. Please make room for the cash machines.",
-        "zh": "你说银行在这里。请给提款机让一点位置。",
+        "en": "Please make room for the cash machines.",
+        "zh": "请给提款机让一点位置。",
         "teachEn": "ここ = here by me; そこ = there by you.",
         "teachZh": "ここ是说话人这里；そこ是听话人那里。あれ指远处的东西或建筑。",
         "meaningEn": "The bank is here.",
@@ -1077,8 +1078,8 @@ const TP_QUESTIONS=[
         "jp": "わたしの ほんは そこです。",
         "kind": "real",
         "emoji": "👧📍📖?",
-        "en": "You said the book was by your friend. Your friend is patting empty pockets.",
-        "zh": "你说书在朋友那边。朋友已经把空口袋拍了一遍。",
+        "en": "Your friend is patting empty pockets.",
+        "zh": "朋友已经把空口袋拍了一遍。",
         "teachEn": "あれ = that distant thing; ここ／そこ = places.",
         "teachZh": "あれ指远离双方的东西；ここ／そこ指地点。",
         "meaningEn": "My book is there, near you.",
@@ -1112,8 +1113,8 @@ const TP_QUESTIONS=[
         "jp": "ぎんこうは そこです。",
         "kind": "real",
         "emoji": "🏦➡️👧",
-        "en": "You sent the bank to your listener's side. The teller beside you is confused.",
-        "zh": "你把银行说到对方那边了。你旁边的柜台职员有点困惑。",
+        "en": "The teller right beside you is confused.",
+        "zh": "你旁边的柜台职员有点困惑。",
         "teachEn": "ここ = here by me; そこ = there by you.",
         "teachZh": "ここ是说话人这里；そこ是听话人那里。あれ指远处的东西或建筑。",
         "meaningEn": "The bank is there, near you.",
@@ -1123,8 +1124,8 @@ const TP_QUESTIONS=[
         "jp": "ぎんこうは あれです。",
         "kind": "real",
         "emoji": "👉🏦",
-        "en": "You picked “that one over there”. The bank you're standing in says, “Ahem.”",
-        "zh": "你选了「远处那个」。你所在的银行轻轻咳了一声。",
+        "en": "The bank you're standing in says, “Ahem.”",
+        "zh": "你所在的银行轻轻咳了一声。",
         "teachEn": "ここ = here by me; そこ = there by you.",
         "teachZh": "ここ是说话人这里；そこ是听话人那里。あれ指远处的东西或建筑。",
         "meaningEn": "The bank is that one over there.",
