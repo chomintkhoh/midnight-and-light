@@ -230,11 +230,13 @@ body{
   body.in-practice .hearts{font-size:15px}
   body.in-practice .combo{font-size:13px;padding:2px 6px}
 }
+
+.embedded .top>div:first-child{display:none}.embedded .top{min-height:0;padding-top:4px;padding-bottom:4px}.embedded .top:not(:has(.hud>:not(.hidden))){display:none}
 </style><script defer src="assets/zh-report.js"></script></head>
 <body>
 <!-- 词语练习本体（由 chinese-vocab-practice.html 入口页的「词语」页签载入）。字级跟随入口页的 A-/A/A+ -->
 <script>
-(()=>{const KEY="ml.zh.settings";function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}try{applyScale(JSON.parse(localStorage.getItem(KEY)||"{}").scale||1)}catch(e){applyScale(1)}window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);})})();
+(()=>{if(window.self!==window.top)document.documentElement.classList.add("embedded");const KEY="ml.zh.settings";function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}try{applyScale(JSON.parse(localStorage.getItem(KEY)||"{}").scale||1)}catch(e){applyScale(1)}window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);})})();
 </script>
 
 

@@ -1,17 +1,27 @@
 <!doctype html>
 <html lang="zh-CN"><head>
-<!-- 华文练习入口：学生一直用的网址。词语练习本体在 chinese-vocab.html，关联词在 preview/chinese/games/linking-words.html --><meta charset="utf-8">
+<!-- 华文练习入口：学生一直用的网址。词语练习本体在 chinese-vocab.html，关联词在 preview/chinese/games/linking-words.html。
+     顶部只留一排：页签 + ⚙。字号、音乐、关联词设定、交作业都在 ⚙ 里。作业在离开页面时自动送出（assets/zh-report.js）。 --><meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow" /><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>华文练习</title>
 <style>
-:root{--ink:#202033;--paper:#f3efe5;--yellow:#ffd75a;--bar-h:64px}
+:root{--ink:#202033;--paper:#f3efe5;--yellow:#ffd75a;--bar-h:56px}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:var(--paper);font-family:Arial,"Microsoft YaHei",sans-serif;color:var(--ink)}
-.topbar{min-height:64px;display:flex;align-items:center;gap:10px;padding:8px 12px;background:#fffdf8;border-bottom:2px solid var(--ink)}
-.tabs{display:flex;flex:1;gap:8px}.tab,.scale button{min-height:48px;border:2px solid var(--ink);border-radius:12px;background:#fff;font:700 18px/1 Arial,"Microsoft YaHei",sans-serif;padding:8px 14px;cursor:pointer}
-.tab{flex:1}.tab.active,.scale button.active{background:var(--yellow)}
-.scale{display:flex;gap:6px;margin-left:auto}.scale button{min-width:52px}
+.topbar{height:56px;display:flex;align-items:center;gap:6px;padding:6px 8px;background:#fffdf8;border-bottom:2px solid var(--ink);position:relative;z-index:20}
+.tabs{display:flex;flex:1;gap:6px;min-width:0}
+.tab,.gear,.panel button{min-height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;font:700 17px/1 Arial,"Microsoft YaHei",sans-serif;padding:6px 10px;cursor:pointer;color:var(--ink)}
+.tab{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tab.active,.gear[aria-expanded=true],.panel button.active{background:var(--yellow)}
+.gear{flex:0 0 48px;padding:0;font-size:22px}
 .frames{height:calc(100dvh - var(--bar-h));overflow:hidden}.practice{display:none;width:100%;height:100%;border:0;background:white}.practice.active{display:block}
-@media(max-width:600px){.topbar{flex-wrap:wrap;padding:8px}.tabs{order:1;flex:0 0 100%;width:100%}.tab{width:50%;padding:8px 6px}.scale{order:2;width:100%;justify-content:flex-end}.scale button{min-width:58px}}
+.panel{position:absolute;right:8px;top:60px;z-index:30;width:min(380px,calc(100vw - 16px));max-height:calc(100dvh - 72px);overflow:auto;background:#fffdf8;border:2px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:12px 14px}
+.panel[hidden]{display:none}
+.panel h3{margin:12px 0 6px;font-size:15px}.panel h3:first-child{margin-top:0}.panel h3 small{font-weight:400;color:#5b5963}
+.row{display:flex;gap:6px;flex-wrap:wrap}.row button{flex:1;font-size:15px;min-height:40px;padding:4px 8px}
+.panel .music-control{justify-content:flex-start;margin:0}
+.panel .note{font-size:13px;color:#5b5963;margin:6px 0 0;line-height:1.4}
+.send{width:100%;margin-top:4px}
+.shade{position:fixed;inset:0;z-index:25;background:transparent}.shade[hidden]{display:none}
+@media(max-width:420px){.tab{font-size:15px;padding:6px 6px}}
 </style><link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
@@ -19,30 +29,60 @@
   <div class="tabs">
     <button class="tab" data-tab="vocab">📚 词语</button>
     <button class="tab" data-tab="linking">🔗 关联词</button>
+    <button class="tab" data-tab="chars">🔍 错字</button>
   </div>
-  <div class="scale" aria-label="字级">
-    <button data-scale="0.85">A-</button><button data-scale="1">A</button><button data-scale="1.25">A+</button>
-  </div>
+  <button class="gear" id="gear" aria-expanded="false" aria-controls="panel" title="Settings · 设定">⚙</button>
 </nav>
-<div class="music-control" data-shared-bgm aria-label="Background music"></div>
+<div class="shade" id="shade" hidden></div>
+<section class="panel" id="panel" hidden aria-label="Settings · 设定">
+  <h3>Text size · 字号</h3>
+  <div class="row"><button data-scale="0.85">A-</button><button data-scale="1">A</button><button data-scale="1.25">A+</button></div>
+  <h3>Music · 音乐</h3>
+  <div class="music-control" data-shared-bgm aria-label="Background music"></div>
+  <div id="linkSet">
+    <h3>Linking words · 关联词 <small>level 难度</small></h3>
+    <div class="row" data-group="difficulty"><button data-v="basic">Basic</button><button data-v="mixed">Mixed</button><button data-v="challenge">Challenge</button></div>
+  </div>
+  <div id="readSet">
+    <h3>Reading · 读法</h3>
+    <div class="row" data-group="reading"><button data-v="ruby">汉字+拼音</button><button data-v="pinyin" id="bigPy">大拼音</button><button data-v="hanzi">只看汉字</button></div>
+    <h3>English · 英文</h3>
+    <div class="row" data-group="english"><button data-v="1">ON</button><button data-v="0">OFF</button></div>
+  </div>
+  <h3>Homework · 作业</h3>
+  <p class="note" id="sendNote">Your answers are sent to the teacher automatically when you leave. 离开时会自动交给老师。</p>
+  <button class="send" id="sendNow">📨 Send now · 现在交</button>
+  <button class="send" id="doneBtn" style="background:var(--yellow);margin-top:10px">Done · 完成</button>
+</section>
 <div class="frames">
   <iframe id="vocabFrame" class="practice" src="chinese-vocab.html" title="词语练习"></iframe>
   <iframe id="linkingFrame" class="practice" src="preview/chinese/games/linking-words.html" title="关联词练习"></iframe>
+  <iframe id="charsFrame" class="practice" data-src="preview/chinese/games/char-detective.html" title="错字侦探"></iframe>
 </div>
 <script src="assets/zh-report.js"></script><script src="assets/bgm.js"></script>
 <script>
-const studentParam=new URLSearchParams(location.search).get("s");if(studentParam){for(const f of [vocabFrame,linkingFrame]){const u=new URL(f.getAttribute("src"),location.href);u.searchParams.set("s",studentParam);f.src=u.href}}
-const KEY="ml.zh.settings",bar=document.getElementById("topbar"),frames=[vocabFrame,linkingFrame];
-function settings(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
+const studentParam=new URLSearchParams(location.search).get("s");if(studentParam){for(const f of [vocabFrame,linkingFrame,charsFrame]){const a=f.getAttribute("src")?"src":"data-src",u=new URL(f.getAttribute(a),location.href);u.searchParams.set("s",studentParam);f.setAttribute(a,u.href)}}
+const KEY="ml.zh.settings",frames=[vocabFrame,linkingFrame,charsFrame],panel=document.getElementById("panel"),gear=document.getElementById("gear"),shade=document.getElementById("shade");
+const DEF={reading:"ruby",english:true,difficulty:"basic",scale:1};
+function settings(){try{return Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){return {...DEF}}}
 function store(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
-function setBar(){document.documentElement.style.setProperty("--bar-h",document.querySelector(".frames").getBoundingClientRect().top+"px")}
-new ResizeObserver(setBar).observe(bar);new ResizeObserver(setBar).observe(document.querySelector("[data-shared-bgm]"));setBar();
-function broadcastScale(v){frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.scale",scale:v},"*")}catch(e){}})}
-function applyScale(v){v=Number(v)||1;document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===v));broadcastScale(v)}
-function selectTab(tab,pushHash=true){tab=tab==="linking"?"linking":"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));vocabFrame.classList.toggle("active",tab==="vocab");linkingFrame.classList.toggle("active",tab==="linking");let s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab);frames.forEach(f=>{try{f.contentWindow.postMessage({type:"ml.zh.tab",tab},"*")}catch(e){}})}
+function post(msg){frames.forEach(f=>{try{f.contentWindow.postMessage(msg,"*")}catch(e){}})}
+function paintPanel(){const s=settings();
+  document.querySelectorAll("[data-scale]").forEach(b=>b.classList.toggle("active",Number(b.dataset.scale)===(Number(s.scale)||1)));
+  document.querySelectorAll("[data-group]").forEach(g=>{const k=g.dataset.group,v=k==="english"?(s.english?"1":"0"):s[k];g.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.v===v))});
+  const r=window.MLZhReport&&MLZhReport.pending?MLZhReport.pending():0;
+  document.getElementById("sendNow").disabled=!r;document.getElementById("sendNow").textContent=r?"📨 Send now · 现在交 ("+r+")":"✓ All sent · 都交了";
+}
+function openPanel(open){panel.hidden=!open;shade.hidden=!open;gear.setAttribute("aria-expanded",String(open));if(open)paintPanel()}
+gear.onclick=()=>openPanel(panel.hidden);document.getElementById("doneBtn").onclick=()=>openPanel(false);shade.onclick=()=>openPanel(false);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")openPanel(false)});
+document.querySelectorAll("[data-scale]").forEach(b=>b.onclick=()=>{const s=settings();s.scale=Number(b.dataset.scale);store(s);post({type:"ml.zh.scale",scale:s.scale});paintPanel()});
+document.querySelectorAll("[data-group] button").forEach(b=>b.onclick=()=>{const s=settings(),k=b.parentElement.dataset.group;s[k]=k==="english"?b.dataset.v==="1":b.dataset.v;store(s);post({type:"ml.zh.link",difficulty:s.difficulty,reading:s.reading,english:s.english});paintPanel()});
+document.getElementById("sendNow").onclick=async()=>{const b=document.getElementById("sendNow");b.disabled=true;b.textContent="…";const ok=await MLZhReport.flush();document.getElementById("sendNote").textContent=ok?"✓ Sent to the teacher. 已交给老师。":"Please enter your student code from My Practice first. 请先从 My Practice 输入学生代码。";paintPanel()};
+const TABS={vocab:vocabFrame,linking:linkingFrame,chars:charsFrame};
+function selectTab(tab,pushHash=true){tab=TABS[tab]?tab:"vocab";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));for(const k in TABS)TABS[k].classList.toggle("active",k===tab);const f=TABS[tab];if(!f.getAttribute("src")&&f.dataset.src)f.src=f.dataset.src;document.getElementById("linkSet").hidden=tab!=="linking";document.getElementById("readSet").hidden=tab==="vocab";document.getElementById("bigPy").hidden=tab==="chars";const s=settings();s.tab=tab;store(s);if(pushHash&&location.hash!=="#"+tab)history.replaceState(null,"","#"+tab);post({type:"ml.zh.tab",tab})}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
-document.querySelectorAll("[data-scale]").forEach(b=>b.onclick=()=>{let s=settings();s.scale=Number(b.dataset.scale);store(s);applyScale(s.scale)});
-frames.forEach(f=>f.addEventListener("load",()=>broadcastScale(settings().scale||1)));
+frames.forEach(f=>f.addEventListener("load",()=>{try{f.contentWindow.postMessage({type:"ml.zh.scale",scale:settings().scale||1},"*")}catch(e){}}));
 window.addEventListener("hashchange",()=>selectTab(location.hash.slice(1),false));
-let s=settings(),initial=["vocab","linking"].includes(location.hash.slice(1))?location.hash.slice(1):(s.tab||"vocab");selectTab(initial,true);applyScale(s.scale||1);
+const s0=settings(),initial=TABS[location.hash.slice(1)]?location.hash.slice(1):(s0.tab||"vocab");selectTab(initial,true);
 </script></body></html>

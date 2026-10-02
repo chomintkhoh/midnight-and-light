@@ -1,0 +1,285 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>错字侦探 Typo Detective</title>
+<!-- 错字侦探：华文练习第 3 个页签。题库 ../data/char-detective.js 由 ../scripts/build_char_detective.py 生成。
+     每轮 8 个案件（每句 1 个错字）＋ 1 个 Boss 短文（2–3 个错字）。读音用浏览器 TTS（Mint 2026-10 同意暂用）。 -->
+<style>
+:root{--ink:#202033;--paper:#f3efe5;--card:#fffdf8;--yellow:#ffd75a;--good:#2d7d46;--goodbg:#d9f2df;--bad:#c43e38;--badbg:#ffd8d4;--muted:#5b5963;--hz:34px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif}
+.app{max-width:820px;margin:auto;padding:12px 12px 40px}
+button{font-family:inherit;color:var(--ink);cursor:pointer;border:2px solid var(--ink);border-radius:14px;background:#fff;font-weight:800;min-height:46px}
+button:disabled{cursor:default}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:20px;box-shadow:5px 5px 0 var(--ink);padding:16px;margin:12px 0}
+h1{font-size:24px;margin:4px 0 2px}.lead{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
+.zh{display:block;font-weight:600;color:var(--muted);font-size:.85em}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.lv{padding:10px 6px;text-align:center;line-height:1.25}.lv b{display:block;font-size:26px}.lv small{display:block;font-weight:600;color:var(--muted);font-size:12px;margin-top:2px}
+.lv.active,.chip.active{background:var(--yellow)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.chip{flex:1;min-height:42px;font-size:14px;padding:4px 8px}
+.start{width:100%;margin-top:14px;background:var(--yellow);font-size:20px;min-height:56px}
+.linkbtn{background:none;border:0;min-height:40px;font-size:15px;text-decoration:underline;color:var(--muted);margin-top:6px;width:100%}
+.hud{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}.hud .sp{flex:1}.hud .quit{min-height:36px;font-size:13px;padding:2px 10px}
+.bar{height:8px;border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin:8px 0 0;background:#fff}.bar i{display:block;height:100%;background:var(--yellow);transition:width .3s}
+.ask{font-weight:800;font-size:16px;margin:0 0 10px}.ask .zh{display:inline;margin-left:4px}
+.sent{font-size:var(--hz);line-height:2.1;letter-spacing:.02em;word-break:break-all}
+.ch{display:inline-block;cursor:pointer;border-radius:8px;padding:0 2px;margin:0 1px;transition:background .15s,transform .15s;position:relative}
+.ch ruby{ruby-position:over}.ch rt{white-space:nowrap;font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}
+.ch:hover{background:#fff3bf}.ch.p{cursor:default}.ch.p:hover{background:none}
+.ch.no{background:var(--badbg);animation:shake .35s}.ch.sel{background:var(--yellow);outline:2px solid var(--ink)}
+.ch.fixed{background:var(--goodbg);outline:2px solid var(--good);animation:pop .4s}
+.ch.reveal{background:var(--badbg);outline:2px dashed var(--bad)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes pop{50%{transform:scale(1.25)}}
+.opts{display:none;margin-top:12px;padding:12px;border:2px dashed var(--ink);border-radius:16px;background:#fff7cf}.opts.show{display:block}
+.opts p{margin:0 0 8px;font-weight:800}.opts .row{display:flex;gap:10px;justify-content:center}
+.opt{font-size:34px;min-width:76px;min-height:70px;font-weight:700}.opt.ok{background:var(--goodbg);border-color:var(--good)}.opt.no{background:var(--badbg);border-color:var(--bad)}
+.msg{min-height:24px;margin-top:8px;font-weight:800}.msg.good{color:var(--good)}.msg.bad{color:var(--bad)}
+.clue{display:none;margin-top:12px}.clue.show{display:block}
+.clue .pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.cl{border:2px solid var(--ink);border-radius:14px;padding:10px;background:#fff}.cl.right{border-color:var(--good);background:#f2fbf4}
+.cl .big{font-size:40px;font-weight:800;line-height:1}.cl .py{color:var(--muted);font-size:15px;margin-left:6px}
+.cl .w{margin-top:6px;font-size:17px;font-weight:700}.cl .w small{font-weight:500;color:var(--muted);font-size:13px;margin-left:4px}
+.cl .tip{margin-top:4px;font-size:14px;line-height:1.4}.cl .en{font-size:13px;color:var(--muted)}
+.say{min-height:34px;padding:0 8px;font-size:14px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.next{width:100%;margin-top:12px;background:var(--yellow);font-size:18px}
+.tools{display:flex;gap:8px;margin-top:10px}.tools button{min-height:38px;font-size:14px;padding:2px 10px}
+.boss .ask{color:var(--bad)}
+.found{font-weight:800}
+.end{text-align:center}.end .rank{font-size:56px;line-height:1.1;margin:6px 0}.end h2{margin:4px 0}.end .stars{font-size:22px;font-weight:800;margin:8px 0}
+.miss{text-align:left;margin-top:10px}.miss li{margin:4px 0}
+.cards .cl{margin:8px 0}
+.hidden{display:none!important}
+.burst{position:fixed;pointer-events:none;font-size:22px;animation:fly .9s ease-out forwards;z-index:50}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+@media(max-width:520px){:root{--hz:28px}.app{padding:8px 8px 40px}.card{padding:12px;border-radius:16px;box-shadow:4px 4px 0 var(--ink)}h1{font-size:21px}.lv b{font-size:22px}.opt{font-size:30px;min-width:64px;min-height:62px}.ch rt{font-size:11px}}
+</style></head><body>
+<audio id="sOk" src="../../../assets/audio/correct.mp3" preload="auto"></audio>
+<audio id="sNo" src="../../../assets/audio/wrong.mp3" preload="auto"></audio>
+<audio id="sWin" src="../../../assets/audio/level-complete.mp3" preload="auto"></audio>
+<main class="app">
+
+<section id="home" class="card">
+  <h1>🔍 Typo Detective <span class="zh" style="display:inline">错字侦探</span></h1>
+  <p class="lead">Every sentence hides one wrong character. Find it and fix it!<span class="zh">每句话藏着一个错字，把它找出来、改正！</span></p>
+  <div class="levels" id="levels">
+    <button class="lv" data-lv="1"><b>🐣</b>Year 1–2<small>一、二年级</small><small class="best"></small></button>
+    <button class="lv" data-lv="2"><b>🦊</b>Year 3–4<small>三、四年级</small><small class="best"></small></button>
+    <button class="lv" data-lv="3"><b>🦉</b>Year 5–6<small>五、六年级·升中</small><small class="best"></small></button>
+  </div>
+  <div class="chips" id="kinds">
+    <button class="chip" data-k="all">All 全部</button>
+    <button class="chip" data-k="same">Same sound 同音字</button>
+    <button class="chip" data-k="look">Look-alike 形近字</button>
+  </div>
+  <button class="start" id="startBtn">Start · 开始破案 🕵️</button>
+  <button class="linkbtn" id="cardsBtn">📖 Clue cards · 看线索卡</button>
+</section>
+
+<section id="game" class="card hidden">
+  <div class="hud"><span id="caseNo"></span><span class="sp"></span><span id="stars">⭐ 0</span><span id="combo"></span><button class="quit" id="quitBtn">✕</button></div>
+  <div class="bar"><i id="barI"></i></div>
+  <div id="play" style="margin-top:12px"></div>
+</section>
+
+<section id="cards" class="card hidden">
+  <div class="hud"><b>📖 Clue cards · 线索卡</b><span class="sp"></span><button class="quit" id="cardsBack">✕</button></div>
+  <div id="cardList" class="cards"></div>
+</section>
+
+<section id="end" class="card end hidden"></section>
+</main>
+<script src="../../../assets/zh-report.js"></script><script src="../core/zh-core.js?v=cd1"></script>
+<script src="../data/char-detective.js?v=cd1"></script>
+<script>
+(()=>{
+"use strict";
+const D=window.CHAR_DETECTIVE,$=id=>document.getElementById(id);
+const LV_NAME={1:"一二年级",2:"三四年级",3:"五六年级"};
+const CASES=8;
+let S=MLZH.settings();
+const prefKey="ml.zh.detective";
+let pref={lv:1,k:"all"};try{Object.assign(pref,JSON.parse(localStorage.getItem(prefKey)||"{}"))}catch(e){}
+function savePref(){try{localStorage.setItem(prefKey,JSON.stringify(pref))}catch(e){}}
+if(window.self!==window.top)document.documentElement.classList.add("embedded");
+function applyScale(v){document.documentElement.style.zoom=String(Number(v)||1)}applyScale(S.scale);
+window.addEventListener("message",e=>{const d=e.data||{};if(d.type==="ml.zh.scale")applyScale(d.scale);
+  if(d.type==="ml.zh.link"){S=MLZH.settings();if(typeof d.english==="boolean")S.english=d.english;if(d.reading)S.reading=d.reading;repaint()}});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.random()*a.length|0];
+const PAIR={};D.pairs.forEach(p=>PAIR[p.id]=p);
+function play(id){try{const a=$(id);a.currentTime=0;a.play().catch(()=>{})}catch(e){}}
+
+/* ── TTS（浏览器语音，只读正确的词/句） ── */
+let zhVoice=null;
+function findVoice(){try{const v=speechSynthesis.getVoices();zhVoice=v.find(x=>/zh[-_]CN/i.test(x.lang))||v.find(x=>/^zh/i.test(x.lang)&&!/HK|yue/i.test(x.lang))||null}catch(e){}document.documentElement.classList.toggle("no-tts",!zhVoice)}
+if("speechSynthesis" in window){findVoice();speechSynthesis.onvoiceschanged=findVoice}
+function say(text){if(!zhVoice)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.voice=zhVoice;u.lang=zhVoice.lang;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+const sayBtn=t=>zhVoice?`<button class="say" data-say="${esc(t)}" aria-label="Listen">🔊</button>`:"";
+document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)say(b.dataset.say)});
+
+/* ── 首页 ── */
+function bestKey(lv){return "ml.zh.detective.best."+lv}
+function paintHome(){
+  document.querySelectorAll(".lv").forEach(b=>{b.classList.toggle("active",+b.dataset.lv===pref.lv);let best=0;try{best=+localStorage.getItem(bestKey(b.dataset.lv))||0}catch(e){}b.querySelector(".best").textContent=best?"Best ⭐"+best:""});
+  document.querySelectorAll(".chip").forEach(b=>b.classList.toggle("active",b.dataset.k===pref.k));
+}
+document.querySelectorAll(".lv").forEach(b=>b.onclick=()=>{pref.lv=+b.dataset.lv;savePref();paintHome()});
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{pref.k=b.dataset.k;savePref();paintHome()});
+function show(id){["home","game","cards","end"].forEach(x=>$(x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
+
+/* ── 出题 ── */
+function pool(){return D.pairs.filter(p=>p.lv===pref.lv&&(pref.k==="all"||p.kind===pref.k))}
+function makeCase(p,avoid){
+  const idxs=p.s.map((_,i)=>i).filter(i=>!avoid.has(p.id+":"+i));
+  const si=idxs.length?pick(idxs):Math.random()*p.s.length|0;avoid.add(p.id+":"+si);
+  const toks=p.s[si].map(t=>t.slice()),ti=toks.findIndex(t=>t[2]),right=toks[ti][0];
+  const wrong=pick(p.m.map(m=>m.c).filter(c=>c!==right));
+  return {p,toks,ti,right,wrong};
+}
+function distractors(right,wrong,p){
+  const same=p.m.map(m=>m.c).filter(c=>c!==right&&c!==wrong);
+  const others=shuffle(D.pairs.filter(q=>q.lv===p.lv&&q.id!==p.id).flatMap(q=>q.m.map(m=>m.c))).filter(c=>c!==right&&c!==wrong&&!same.includes(c));
+  return shuffle([right,...same,...others].slice(0,3));
+}
+let G=null;
+function start(){
+  const ps=pool();if(!ps.length)return;
+  let order=shuffle(ps);while(order.length<CASES)order=order.concat(shuffle(ps));
+  const avoid=new Set();
+  G={queue:order.slice(0,CASES).map(p=>makeCase(p,avoid)),avoid,n:0,stars:0,combo:0,best:0,missed:{},retry:new Set(),total:CASES+1,boss:null,lvName:LV_NAME[pref.lv]};
+  const bs=D.boss.filter(b=>b.lv===pref.lv&&(pref.k==="all"||b.refs.some(r=>PAIR[r[1]].kind===pref.k)));
+  if(bs.length)G.bossSrc=pick(bs);else G.total=CASES;
+  show("game");nextCase();
+}
+function hud(){
+  $("caseNo").textContent=G.boss?"👹 Boss":"Case "+Math.min(G.n+1,CASES)+" / "+CASES;
+  $("stars").textContent="⭐ "+G.stars;$("combo").textContent=G.combo>=2?"🔥×"+G.combo:"";
+  $("barI").style.width=(G.n/G.total*100)+"%";
+}
+function rubyTok(t,i,extra=""){
+  const [c,py]=t,punct=!py;const showPy=S.reading!=="hanzi"&&py;
+  return `<span class="ch${punct?" p":""}${extra}" data-i="${i}">${showPy?`<ruby>${esc(c)}<rt>${esc(py)}</rt></ruby>`:esc(c)}</span>`;
+}
+
+/* ── 一般案件 ── */
+let C=null;
+function nextCase(){
+  if(G.n>=CASES){if(G.bossSrc&&!G.boss)return startBoss();return finish()}
+  C=G.queue[G.n];C.miss=0;C.done=false;C.found=false;C.toks[C.ti][0]=C.wrong;
+  hud();paintCase();
+}
+function paintCase(){
+  const pp=$("play");
+  pp.innerHTML=`<p class="ask">🔎 Tap the wrong character.<span class="zh">点出错字。</span></p>
+   <div class="sent" id="sent">${C.toks.map((t,i)=>rubyTok(t,i,C.found&&i===C.ti?(C.done?" fixed":" sel"):"")).join("")}</div>
+   <div class="opts" id="opts"><p>What should it be? · 应该是哪个字？</p><div class="row" id="optRow"></div></div>
+   <div class="msg" id="msg"></div><div class="clue" id="clue"></div>`;
+  $("sent").onclick=e=>{const el=e.target.closest(".ch");if(!el||el.classList.contains("p")||C.found)return;tapChar(el,+el.dataset.i)};
+  if(C.found&&!C.done)showOpts();
+  if(C.done)showClue();
+}
+function tapChar(el,i){
+  if(i===C.ti){C.found=true;el.classList.add("sel");$("msg").className="msg good";$("msg").textContent="Found it! 找到了！";showOpts()}
+  else{C.miss++;el.classList.remove("no");void el.offsetWidth;el.classList.add("no");setTimeout(()=>el.classList.remove("no"),700);play("sNo");$("msg").className="msg bad";$("msg").textContent="Not this one. Try again. 不是这个，再找找。";
+    if(C.miss>=3){C.found=true;const w=document.querySelector(`.ch[data-i="${C.ti}"]`);w.classList.add("reveal");$("msg").textContent="It's this one! 错字在这里！";showOpts()}}
+}
+function showOpts(){
+  $("opts").classList.add("show");
+  $("optRow").innerHTML=(C.opts||(C.opts=distractors(C.right,C.wrong,C.p))).map(c=>`<button class="opt" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("optRow").onclick=e=>{const b=e.target.closest(".opt");if(!b||C.done)return;choose(b,b.dataset.c)};
+}
+function choose(b,c){
+  const ok=c===C.right;
+  if(!ok){C.miss++;b.classList.add("no");b.disabled=true;play("sNo");$("msg").className="msg bad";$("msg").textContent="Not quite. 再想想。";
+    if(C.miss<4)return;}
+  C.done=true;C.toks[C.ti][0]=C.right;
+  const clean=C.miss===0;
+  if(clean){G.stars++;G.combo++;G.best=Math.max(G.best,G.combo);play("sOk");burst(b)}else{G.combo=0;G.missed[C.p.id]=(G.missed[C.p.id]||0)+1;
+    if(!G.retry.has(C.p.id)){G.retry.add(C.p.id);G.queue.splice(Math.min(G.n+3,G.queue.length),0,makeCase(C.p,G.avoid));G.queue.length=Math.max(CASES,G.queue.length);} }
+  const sentence=C.toks.map(t=>t[0]).join("");
+  window.MLZhReport&&window.MLZhReport.record("错字侦探 · "+G.lvName,C.wrong+"→"+C.right,clean,clean?"":c,sentence);
+  paintCase();
+  $("msg").className="msg good";$("msg").textContent=clean?(G.combo>=3?"🔥 Case closed! 破案！":"✓ Case closed! 破案！"):"✓ Fixed. 改好了。";
+  hud();
+}
+function clueCards(p,right){
+  return `<div class="pair">${p.m.map(m=>`<div class="cl${m.c===right?" right":""}"><span class="big">${esc(m.c)}</span><span class="py">${esc(m.py)}</span>${sayBtn(m.w)}
+    <div class="w">${esc(m.w)}<small>${esc(m.wpy)}</small></div><div class="tip">${esc(m.tip)}</div>${S.english?`<div class="en">${esc(m.en)}</div>`:""}</div>`).join("")}</div>`;
+}
+function showClue(){
+  const sentence=C.toks.map(t=>t[0]).join("");
+  const el=$("clue");el.classList.add("show");
+  el.innerHTML=clueCards(C.p,C.right)+`<div class="tools">${sayBtn(sentence).replace('class="say"','class="say" style="margin:0"').replace("🔊","🔊 Listen 听句子")}</div><button class="next" id="nextBtn">${G.n+1>=CASES?(G.bossSrc&&!G.boss?"Boss case 👹 →":"Finish →"):"Next case →"}</button>`;
+  $("opts").classList.remove("show");
+  $("nextBtn").onclick=()=>{G.n++;G.queue.length>CASES&&(G.queue.length=Math.max(CASES,G.queue.length));nextCase()};
+}
+
+/* ── Boss 短文 ── */
+let B=null;
+function startBoss(){
+  const src=G.bossSrc,refs=src.refs.filter(r=>pref.k==="all"||PAIR[r[1]].kind===pref.k);
+  const n=Math.min(refs.length,pref.lv===1?2:3),chosen=shuffle(refs).slice(0,n);
+  const toks=src.t.map(t=>t.slice());const errs={};
+  chosen.forEach(([i,pid])=>{const p=PAIR[pid],right=toks[i][0],wrong=pick(p.m.map(m=>m.c).filter(c=>c!==right));errs[i]={p,right,wrong,done:false,miss:0};toks[i][0]=wrong});
+  B={toks,errs,n,found:0,sel:null,miss:0};G.boss=true;hud();paintBoss();
+}
+function paintBoss(){
+  const pp=$("play");
+  pp.innerHTML=`<div class="boss"><p class="ask">👹 Boss case: this story hides <b>${B.n}</b> wrong characters!<span class="zh">这段话藏着 ${B.n} 个错字！</span></p>
+   <p class="found" id="found">Found ${B.found} / ${B.n}</p>
+   <div class="sent" id="sent">${B.toks.map((t,i)=>{const e=B.errs[i];return rubyTok(t,i,e&&e.done?" fixed":(B.sel===i?" sel":""))}).join("")}</div>
+   <div class="opts" id="opts"><p>What should it be? · 应该是哪个字？</p><div class="row" id="optRow"></div></div>
+   <div class="msg" id="msg"></div><div class="clue" id="clue"></div></div>`;
+  $("sent").onclick=e=>{const el=e.target.closest(".ch");if(!el||el.classList.contains("p"))return;bossTap(el,+el.dataset.i)};
+  if(B.sel!==null)bossOpts();
+}
+function bossTap(el,i){
+  const e=B.errs[i];if(e&&e.done)return;
+  if(e){B.sel=i;document.querySelectorAll("#sent .sel").forEach(x=>x.classList.remove("sel"));el.classList.add("sel");$("msg").className="msg good";$("msg").textContent="Found one! 找到一个！";bossOpts()}
+  else{B.miss++;el.classList.remove("no");void el.offsetWidth;el.classList.add("no");setTimeout(()=>el.classList.remove("no"),700);play("sNo");$("msg").className="msg bad";$("msg").textContent="Not this one. 不是这个。"}
+}
+function bossOpts(){
+  const e=B.errs[B.sel];$("opts").classList.add("show");
+  $("optRow").innerHTML=(e.opts||(e.opts=distractors(e.right,e.wrong,e.p))).map(c=>`<button class="opt" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("optRow").onclick=ev=>{const b=ev.target.closest(".opt");if(!b)return;
+    if(b.dataset.c!==e.right){e.miss++;b.classList.add("no");b.disabled=true;play("sNo");if(e.miss<2)return}
+    e.done=true;B.toks[B.sel][0]=e.right;B.found++;const clean=e.miss===0;
+    if(clean){G.stars++;play("sOk");burst(b)}else G.missed[e.p.id]=(G.missed[e.p.id]||0)+1;
+    window.MLZhReport&&window.MLZhReport.record("错字侦探 · "+G.lvName+" · Boss",e.wrong+"→"+e.right,clean,clean?"":b.dataset.c,B.toks.map(t=>t[0]).join(""));
+    const last=e;B.sel=null;paintBoss();
+    $("clue").classList.add("show");
+    if(B.found>=B.n){G.n=G.total;hud();$("msg").className="msg good";$("msg").textContent="👹 Boss defeated! 打败 Boss！";
+      const story=B.toks.map(t=>t[0]).join("");
+      $("clue").innerHTML=clueCards(last.p,last.right)+`<div class="tools">${sayBtn(story).replace("🔊","🔊 Listen 听全文")}</div><button class="next" id="nextBtn">Finish →</button>`;
+      $("nextBtn").onclick=finish}
+    else{$("msg").className="msg good";$("msg").textContent=clean?"✓ Fixed! Keep looking. 改好了，继续找！":"✓ Fixed. Keep looking. 继续找。";$("clue").innerHTML=clueCards(last.p,last.right)}
+  };
+}
+
+/* ── 结束 ── */
+function finish(){
+  const max=CASES+(G.bossSrc?B.n:0),r=G.stars/max;
+  const [icon,title,zh]=r>=.85?["🏆","Super Detective!","神探！"]:r>=.6?["🕵️","Great Detective!","好侦探！"]:["🔍","Junior Detective","见习侦探，继续加油！"];
+  let best=0;try{best=+localStorage.getItem(bestKey(pref.lv))||0;if(G.stars>best)localStorage.setItem(bestKey(pref.lv),G.stars)}catch(e){}
+  const miss=Object.keys(G.missed).map(id=>PAIR[id]);
+  play("sWin");
+  $("end").innerHTML=`<div class="rank">${icon}</div><h2>${title}</h2><p class="lead">${zh}</p>
+    <div class="stars">⭐ ${G.stars} / ${max}${G.best>=3?` · 🔥 best combo ×${G.best}`:""}${G.stars>best&&best?" · 🎉 New best!":""}</div>
+    ${miss.length?`<div class="miss"><b>Watch out for · 要小心：</b><ul>${miss.map(p=>`<li>${p.m.map(m=>`<b style="font-size:24px">${esc(m.c)}</b> ${esc(m.w)} <small>${esc(m.wpy)}</small>${sayBtn(m.w)}`).join(" · ")}</li>`).join("")}</ul></div>`:`<p>No mistakes! 全部一次答对！</p>`}
+    <button class="start" id="again">Play again · 再玩一次</button><button class="linkbtn" id="home2">Change level · 换等级</button>`;
+  show("end");$("again").onclick=start;$("home2").onclick=()=>{paintHome();show("home")};
+}
+function burst(from){const r=from.getBoundingClientRect();for(let i=0;i<6;i++){const s=document.createElement("span");s.className="burst";s.textContent=["⭐","✨","🌟"][i%3];s.style.left=(r.left+r.width/2)+"px";s.style.top=(r.top+r.height/2)+"px";s.style.setProperty("--dx",(Math.random()*160-80)+"px");s.style.setProperty("--dy",(-40-Math.random()*90)+"px");document.body.append(s);setTimeout(()=>s.remove(),950)}}
+
+/* ── 线索卡 ── */
+function paintCards(){$("cardList").innerHTML=pool().map(p=>clueCards(p,"")).join('<hr style="border:0;border-top:1px dashed #bbb;margin:10px 0">')}
+function repaint(){if(!$("game").classList.contains("hidden")){G.boss?paintBoss():paintCase()}if(!$("cards").classList.contains("hidden"))paintCards()}
+$("startBtn").onclick=start;
+$("quitBtn").onclick=()=>{paintHome();show("home")};
+$("cardsBtn").onclick=()=>{paintCards();show("cards")};
+$("cardsBack").onclick=()=>show("home");
+paintHome();
+})();
+</script></body></html>
