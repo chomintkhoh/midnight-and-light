@@ -235,7 +235,7 @@ function buildPracticeSet(group, distractorPool) {
   let set, signature, attempts = 0;
   do {
     const listening = spreadAnswerPositions(shuffle(group).map(target => ({
-      target, choices: [target, ...sampleUnique(distractorPool, 4)]
+      target, choices: [target, ...sampleUnique(group, 3, [target])]
     })));
     const oddOneOut = sampleUnique(distractorPool, 3).map((distractor, index) => {
       const omitted = group[(Math.floor(Math.random() * group.length) + index) % group.length];
@@ -441,12 +441,14 @@ const steps = [
   { type: "game1" },
   { type: "game2" },
   { type: "game3" },
+  { type: "readWords" },
   { type: "greetings" },
   { type: "introduce" },
   { type: "finish" }
 ];
 
 let stepIndex = 0;
+let firstRender = true;
 
 function render() {
   document.body.classList.toggle("lesson-active", stepIndex > 0);
@@ -459,6 +461,7 @@ function render() {
     n.replaceWith(details);
     details.appendChild(n);
   });
+  if (firstRender) { firstRender = false; return; }
   const top = app.getBoundingClientRect().top + window.scrollY - 90;
   window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
 }
@@ -596,6 +599,52 @@ const renderers = {
     });
   },
 
+  readWords() {
+    const c = card();
+    c.appendChild(el("div", "exp-slide-kicker", () => L("Surprise!", "惊喜！")));
+    c.appendChild(el("div", "exp-mid", () => L("You Can Already Read Real Words!", "你已经会读真正的日文了！")));
+    c.appendChild(el("div", "exp-subinstruction", () => L(
+      "These words use only あ い う え お. Read each one aloud, then tap to see what it means.",
+      "这些词只用了 あいうえお。先大声读出来，再点一下看意思。")));
+    const words = [
+      { w: "あい", r: "ai", e: "❤️", en: "love", zh: "爱" },
+      { w: "いえ", r: "ie", e: "🏠", en: "house", zh: "家／房子" },
+      { w: "うえ", r: "ue", e: "⬆️", en: "up / on top", zh: "上面" },
+      { w: "あお", r: "ao", e: "🔵", en: "blue", zh: "蓝色" },
+      { w: "いい", r: "ii", e: "👍", en: "good", zh: "好" },
+      { w: "おおい", r: "ōi", e: "📚📚📚", en: "a lot", zh: "很多" }
+    ];
+    const grid = el("div", "exp-vocab-grid exp-read-grid");
+    let opened = 0;
+    const done = el("div", "exp-feedback");
+    words.forEach(v => {
+      const item = el("button", "exp-vocab-card exp-read-card");
+      item.type = "button";
+      item.appendChild(el("div", "word kana", v.w));
+      item.appendChild(el("div", "emoji", v.e));
+      item.appendChild(el("div", "vocab-romaji", v.r));
+      item.appendChild(el("div", "meaning", () => L(v.en, v.zh)));
+      item.addEventListener("click", () => {
+        if (item.classList.contains("revealed")) return;
+        item.classList.add("revealed");
+        cheer(item);
+        opened++;
+        if (opened === words.length) {
+          setT(done, () => L("🎉 Six real Japanese words — after just one lesson!", "🎉 才上了一堂课，你已经会读 6 个日文单词了！"));
+          done.className = "exp-feedback good";
+        }
+      });
+      grid.appendChild(item);
+    });
+    c.appendChild(grid);
+    c.appendChild(done);
+    const n = el("div", "exp-teacher-note");
+    n.appendChild(el("p", "", () => L(
+      "Let the student read first, before tapping. おおい shows that a long vowel is just the same sound held longer.",
+      "先让学生自己读，再点开。おおい 可以顺便带出长音＝同一个音拉长。")));
+    c.appendChild(n);
+    appendNav(c);
+  },
   greetings() {
     const c = card();
     c.appendChild(el("div", "exp-slide-kicker", () => L("A little conversation", "开口说日语")));
@@ -818,6 +867,27 @@ const renderers = {
   }
 };
 
+/* ---------- Small celebration on a correct answer ---------- */
+const CHEER_SOUND = "assets/audio/correct.mp3";
+function cheer(target) {
+  try { const a = new Audio(CHEER_SOUND); a.volume = 0.5; a.play().catch(() => {}); } catch (e) {}
+  if (!target || !target.getBoundingClientRect) return;
+  const r = target.getBoundingClientRect();
+  const bits = ["✨", "⭐", "🌸", "💫", "🎉"];
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement("span");
+    s.className = "exp-cheer";
+    s.textContent = bits[i % bits.length];
+    s.style.left = (r.left + r.width / 2) + "px";
+    s.style.top = (r.top + r.height / 2) + "px";
+    const ang = (Math.PI * 2 * i) / 10, dist = 60 + Math.random() * 50;
+    s.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+    s.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 900);
+  }
+}
+
 /* ---------- Practice 1 — listening ---------- */
 
 function runListeningGame({ questions, onDone, quick = false }) {
@@ -841,6 +911,7 @@ function runListeningGame({ questions, onDone, quick = false }) {
         if (choice === q.target) {
           btn.classList.add("correct");
           setT(feedback, () => L("✓ Correct!", "✓ 答对了！"));
+          cheer(btn);
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           c.appendChild(primaryButton(() => qi === questions.length - 1 ? L("Continue →", "继续 →") : L("Next question →", "下一题 →"), () => {
@@ -888,6 +959,7 @@ function runChoiceGame({ label, instruction, sub, questions, onDone }) {
         if (choice === q.target) {
           btn.classList.add("correct");
           setT(feedback, () => L("✓ Correct!", "✓ 答对了！"));
+          cheer(btn);
           feedback.className = "exp-feedback good";
           grid.querySelectorAll("button").forEach(b => b.disabled = true);
           c.appendChild(primaryButton(() => L("Next question →", "下一题 →"), () => {

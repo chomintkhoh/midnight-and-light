@@ -453,6 +453,27 @@
     .exp-card .exp-map-panel h3{font-size:13px;letter-spacing:0;}
     .exp-mid{font-size:26px;}
   }
+
+  /* correct-answer sparkle */
+  .exp-cheer{position:fixed;z-index:999;pointer-events:none;font-size:22px;transform:translate(-50%,-50%);animation:expCheer .9s ease-out forwards}
+  @keyframes expCheer{to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.6);opacity:0}}
+  /* "You can already read" cards: picture and meaning stay hidden until tapped */
+  .exp-read-grid{margin-top:14px}
+  .exp-read-card{min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .exp-read-card .word{font-size:40px !important}
+  .exp-read-card .emoji,.exp-read-card .vocab-romaji{visibility:hidden}
+  .exp-read-card.revealed .emoji,.exp-read-card.revealed .vocab-romaji{visibility:visible}
+  @media(max-width:600px){.exp-read-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exp-read-card{min-height:124px}}
+  /* fit a whole letter slide on a laptop screen during online lessons */
+  @media(min-width:861px) and (max-height:900px){
+    .exp-learn-sound{min-height:86px}
+    .exp-learn-sound .exp-char{font-size:84px}
+    .exp-learn-info .exp-vocab-card{min-height:50px;padding:3px 12px}
+    .exp-learn-info .exp-vocab-grid{gap:6px}
+    .exp-learn-writing .exp-writing-box{max-width:165px}
+    .exp-learn-slide .exp-nav-row{margin-top:8px}
+    .exp-learn-layout .exp-section-title{margin:2px 0 6px}
+  }
 </style>
 </head>
 <body>

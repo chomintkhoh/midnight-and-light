@@ -1,314 +1,299 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="robots" content="noindex, nofollow" />
+<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pop Quiz</title>
 <style>
 :root{
-  --bg:#f6f4ef; --card:#fff; --text:#242424; --muted:#85817a;
-  --line:#dedad2; --soft:#f5f3ee; --green:#edf6ee; --red:#fbefef;
+  --bg:#f6f4ef;--card:#fff;--text:#242424;--muted:#85817a;--line:#dedad2;--soft:#f3f0ea;
+  --green:#e6f3e8;--greenb:#9cc9a3;--red:#fbeeee;--redb:#e3a9a9;--gold:#b88a1e;--ink:#242424;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;
-}
-.app{width:min(900px,94vw);margin:28px auto 46px}
-header{text-align:center;margin-bottom:18px}
-h1{font-size:clamp(30px,5vw,46px);margin:0;font-weight:800;letter-spacing:-.5px}
-.subtitle{margin-top:4px;color:var(--muted);font-size:14px}
-
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:20px;
-  box-shadow:0 10px 28px rgba(0,0,0,.055);
-}
-.setup{padding:14px;margin-bottom:16px}
-.drop{
-  min-height:92px;border:2px dashed #c5c0b7;border-radius:15px;background:#faf9f6;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  cursor:pointer;transition:.18s;padding:15px;
-}
-.drop:hover,.drop.drag{border-color:#77716a;background:#f4f1eb}
-.drop .plus{font-size:24px;line-height:1;margin-bottom:5px}
-.drop .main{font-weight:700;font-size:16px}
-.drop .minor{font-size:12px;color:var(--muted);margin-top:3px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif}
+.app{width:min(980px,94vw);margin:18px auto 40px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:clamp(26px,4vw,38px);margin:0;font-weight:800}
+.sub{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.setup{padding:12px 14px;margin-bottom:12px}
+.tabs{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:12px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:110px;border:0;background:transparent;padding:9px 10px;border-radius:9px;font-weight:700;font-size:14px;color:#6d6962;cursor:pointer}
+.tabs button.on{background:#fff;color:#222;box-shadow:0 1px 5px rgba(0,0,0,.09)}
+.pane{display:none;margin-top:12px}.pane.on{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:14px;cursor:pointer;font-weight:600}
+.chip.on{background:#242424;color:#fff;border-color:#242424}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.row label{font-size:13px;color:#555;display:flex;align-items:center;gap:6px}
+.note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:12px;padding:10px;font:inherit;font-size:15px;resize:vertical}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 13px;font-weight:700;cursor:pointer;font-size:14px}
+.btn.dark{background:#242424;color:#fff;border-color:#242424}
+.drop{min-height:84px;border:2px dashed #c5c0b7;border-radius:14px;background:#faf9f6;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;padding:12px}
+.drop.drag{border-color:#77716a;background:#f1ede6}
 input[type=file]{display:none}
-
-.ready{
-  display:none;align-items:center;justify-content:space-between;gap:12px;
-  min-height:70px;padding:12px 14px;background:#faf9f6;border-radius:15px;
-}
-.ready strong{font-size:16px}
-.ready .count{font-size:13px;color:var(--muted);margin-top:2px}
-.add-more{
-  border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 11px;
-  cursor:pointer;font-weight:650;color:#444;
-}
-
-.options{
-  display:flex;align-items:center;gap:10px;justify-content:space-between;
-  margin-top:11px;flex-wrap:wrap;
-}
-.mode{
-  display:flex;background:var(--soft);padding:3px;border-radius:11px;gap:2px;
-}
-.mode button{
-  border:0;background:transparent;color:#777;padding:7px 10px;border-radius:8px;
-  cursor:pointer;font-size:12px;font-weight:650;
-}
-.mode button.active{background:#fff;color:#222;box-shadow:0 1px 5px rgba(0,0,0,.08)}
-.utility{display:flex;gap:6px}
-.utility button{
-  border:0;background:transparent;color:#918d86;cursor:pointer;font-size:12px;padding:7px 8px;
-}
-.utility button:hover{color:#333}
-
-.quiz{padding:18px}
-.question{
-  text-align:center;font-weight:750;font-size:clamp(20px,3.2vw,29px);
-  margin:4px 0 15px;
-}
-.stage{
-  min-height:390px;border-radius:16px;background:#faf9f6;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:18px;
-}
-.stage img{display:none;max-width:96%;max-height:410px;object-fit:contain}
-.empty{text-align:center;color:#aaa59e;line-height:1.7}
-.empty .dice{font-size:34px;display:block;margin-bottom:6px}
-
-.progress{
-  display:flex;justify-content:center;align-items:center;min-height:32px;
-  color:#8a867f;font-size:13px;margin-top:8px;
-}
-.actions{
-  display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:4px
-}
-.actions button{
-  min-width:128px;padding:11px 16px;border-radius:12px;border:1px solid var(--line);
-  font-weight:750;font-size:14px;cursor:pointer;background:#fff;color:#222;
-}
+.opts{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.mode{display:flex;background:var(--soft);padding:3px;border-radius:10px;gap:2px}
+.mode button{border:0;background:transparent;color:#777;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700}
+.mode button.on{background:#fff;color:#222;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.pool{font-size:13px;color:#555;font-weight:700}
+.quiz{padding:16px}
+.question{text-align:center;font-weight:800;font-size:clamp(18px,2.6vw,24px);margin:2px 0 10px;color:#444}
+.stage{min-height:min(44vh,380px);border-radius:16px;background:#faf9f6;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:16px;text-align:center;gap:6px}
+.stage img{max-width:96%;max-height:min(46vh,400px);object-fit:contain}
+.big{font-size:clamp(84px,17vw,190px);line-height:1.05;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.big.emoji{font-size:clamp(90px,18vw,200px)}
+.big.text{font-size:clamp(42px,8vw,96px)}
+.swatch{width:min(46vw,260px);height:min(30vh,200px);border-radius:24px;border:1px solid #0002}
+.hint{font-size:clamp(22px,3.4vw,36px);font-weight:700;color:#555}
+.answer{margin-top:8px;font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--gold);min-height:1.3em}
+.answer small{display:block;font-size:.42em;color:var(--muted);font-weight:600;margin-top:2px}
+.empty{color:#aaa59e;line-height:1.7;font-size:18px}
+.empty b{font-size:40px;display:block}
+.progress{text-align:center;color:#8a867f;font-size:13px;margin-top:8px;min-height:20px}
+.actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.actions button{min-width:120px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font-weight:800;font-size:15px;cursor:pointer;background:#fff}
 .actions .draw{background:#242424;color:#fff;border-color:#242424}
-.actions .correct{background:var(--green)}
-.actions .again{background:var(--red)}
-.actions button:disabled{opacity:.38;cursor:not-allowed}
-
-@media(max-width:600px){
-  .app{margin-top:18px}.stage{min-height:300px}.actions button{min-width:100px;flex:1}
-  .options{align-items:flex-start}.ready{align-items:flex-start}
-}
+.actions .ok{background:var(--green);border-color:var(--greenb)}
+.actions .ag{background:var(--red);border-color:var(--redb)}
+.actions button:disabled{opacity:.35;cursor:not-allowed}
+.keys{text-align:center;font-size:11px;color:#aaa;margin-top:8px}
+.missed{margin-top:10px;font-size:13px;color:#7a4b4b;text-align:center}
+@media(max-width:600px){.actions button{min-width:0;flex:1}.tabs button{min-width:0}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <h1>Pop Quiz 🎲</h1>
-    <div class="subtitle">Quick Picture Quiz</div>
-  </header>
+<header><h1>Pop Quiz 🎲</h1><div><span class="sub">Say it in Japanese!</span> <button class="btn" id="hideSet">⚙ Hide settings</button></div></header>
 
-  <section class="card setup">
-    <label class="drop" id="dropZone" for="fileInput">
-      <div>
-        <div class="plus">＋</div>
-        <div class="main">Drop images here</div>
-        <div class="minor">or click to select</div>
-      </div>
-    </label>
+<section class="card setup">
+  <div class="tabs" id="tabs">
+    <button data-tab="numbers" class="on">🔢 Numbers</button>
+    <button data-tab="words">📚 Word sets</button>
+    <button data-tab="type">✏️ Type my own</button>
+    <button data-tab="pics">🖼️ Pictures</button>
+  </div>
 
-    <div class="ready" id="readyBox">
-      <div>
-        <strong id="readyText">✓ 0 images ready</strong>
-        <div class="count" id="readyCount">Remaining 0 / 0</div>
-      </div>
-      <button class="add-more" id="addMoreBtn">＋ Add</button>
+  <div class="pane on" id="pane-numbers">
+    <div class="chips" id="numChips"></div>
+    <div class="row">
+      <label><input type="radio" name="numStyle" value="round" checked> Round numbers only (20, 300, 4000…)</label>
+      <label><input type="radio" name="numStyle" value="any"> Any number in the range (37, 486, 2905…)</label>
     </div>
+    <div class="note">Round: 1–10 = 10 cards · 20–100 = 9 · 100–1000 = 10 · 1000–10000 = 10. “Any number” keeps drawing new numbers — set how many: <input id="anyCount" type="number" min="5" max="100" value="15" style="width:60px"> per range.</div>
+  </div>
 
+  <div class="pane" id="pane-words">
+    <div class="chips" id="wordChips"></div>
+    <div class="row">
+      <label><input type="radio" name="wordShow" value="pic" checked> Show picture</label>
+      <label><input type="radio" name="wordShow" value="en"> Show English</label>
+      <label><input type="radio" name="wordShow" value="both"> Picture + English</label>
+    </div>
+  </div>
+
+  <div class="pane" id="pane-type">
+    <textarea id="typeBox" placeholder="One per line. Examples:
+🐶 dog = いぬ
+umbrella = かさ
+🍎
+red"></textarea>
+    <div class="row"><button class="btn dark" id="typeLoad">Use these</button><span class="note">Write “ = answer” after a line if you want a hidden answer to reveal. Lines starting with an emoji show the emoji big.</span></div>
+  </div>
+
+  <div class="pane" id="pane-pics">
+    <label class="drop" id="dropZone" for="fileInput"><div><b>＋ Drop images here</b><br><span class="note">or click to choose</span></div></label>
     <input id="fileInput" type="file" accept="image/*" multiple>
+  </div>
 
-    <div class="options">
-      <div class="mode" aria-label="Quiz mode">
-        <button id="removeMode" class="active">✓ Remove when correct</button>
-        <button id="randomMode">∞ Keep all</button>
-      </div>
-      <div class="utility">
-        <button id="resetBtn">Reset</button>
-        <button id="clearBtn">Clear</button>
-      </div>
-    </div>
-  </section>
+  <div class="opts">
+    <div class="mode"><button id="mRemove" class="on">✓ Remove when correct</button><button id="mKeep">∞ Keep all</button></div>
+    <span class="pool" id="poolText">No cards yet</span>
+    <button class="btn" id="resetBtn">↺ Start over</button>
+  </div>
+</section>
 
-  <section class="card quiz">
-    <div class="question">この絵は日本語で何ですか？</div>
-
-    <div class="stage">
-      <div class="empty" id="emptyState">
-        <span class="dice">🎲</span>
-        Add pictures to start
-      </div>
-      <img id="quizImage" alt="Quiz picture">
-    </div>
-
-    <div class="progress" id="progress"></div>
-
-    <div class="actions">
-      <button class="draw" id="drawBtn">🎲 Draw</button>
-      <button class="correct" id="correctBtn" disabled>✓ Correct</button>
-      <button class="again" id="wrongBtn" disabled>↻ Again</button>
-    </div>
-  </section>
+<section class="card quiz">
+  <div class="question" id="question">日本語で 言って ください！</div>
+  <div class="stage" id="stage"><div class="empty"><b>🎲</b>Choose a set above, then press Draw</div></div>
+  <div class="progress" id="progress"></div>
+  <div class="actions">
+    <button class="draw" id="drawBtn">🎲 Draw</button>
+    <button id="showBtn" disabled>👀 Answer</button>
+    <button class="ok" id="okBtn" disabled>✓ Correct</button>
+    <button class="ag" id="agBtn" disabled>↻ Again later</button>
+  </div>
+  <div class="missed" id="missed"></div>
+  <div class="keys">Keys: Space = Draw · A = Answer · Enter = Correct · X = Again later</div>
+</section>
 </div>
 
+<script src="../data/vocab-kids.js"></script>
+<script src="../data/vocab-audio.js"></script>
 <script>
-const fileInput=document.getElementById('fileInput');
-const dropZone=document.getElementById('dropZone');
-const readyBox=document.getElementById('readyBox');
-const readyText=document.getElementById('readyText');
-const readyCount=document.getElementById('readyCount');
-const quizImage=document.getElementById('quizImage');
-const emptyState=document.getElementById('emptyState');
-const progress=document.getElementById('progress');
-const correctBtn=document.getElementById('correctBtn');
-const wrongBtn=document.getElementById('wrongBtn');
-const removeMode=document.getElementById('removeMode');
-const randomMode=document.getElementById('randomMode');
+/* ---------- Japanese number readings ---------- */
+const D1=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
+const HUN={1:"ひゃく",3:"さんびゃく",6:"ろっぴゃく",8:"はっぴゃく"};
+const THO={1:"せん",3:"さんぜん",8:"はっせん"};
+function readNum(n){
+  if(n===0)return "ゼロ";
+  let s="";
+  const man=Math.floor(n/10000);n%=10000;
+  if(man)s+=D1[man]+"まん";
+  const th=Math.floor(n/1000);n%=1000;
+  if(th)s+=THO[th]||D1[th]+"せん";
+  const h=Math.floor(n/100);n%=100;
+  if(h)s+=HUN[h]||D1[h]+"ひゃく";
+  const t=Math.floor(n/10);n%=10;
+  if(t)s+=(t===1?"":D1[t])+"じゅう";
+  if(n)s+=D1[n];
+  return s;
+}
+const ALSO={4:"し",7:"しち",9:"く"};   // alternative readings for 1–10 cards
+const TSU=["","ひとつ","ふたつ","みっつ","よっつ","いつつ","むっつ","ななつ","やっつ","ここのつ","とお"];
+const TSU_EMOJI=["🍎","🍙","🍬","⭐","🎈","🍓","🐟","🍩","🌸","🍪"];
 
-let items=[];
-let currentId=null;
-let lastDrawnId=null;
-let mode='remove';
+const NUM_SETS=[
+  {id:"n1",label:"1–10",round:()=>range(1,10),any:()=>range(1,10)},
+  {id:"n2",label:"20–100",round:()=>[20,30,40,50,60,70,80,90,100],any:k=>rand(11,99,k)},
+  {id:"n3",label:"100–1000",round:()=>[100,200,300,400,500,600,700,800,900,1000],any:k=>rand(101,999,k)},
+  {id:"n4",label:"1000–10000",round:()=>[1000,2000,3000,4000,5000,6000,7000,8000,9000,10000],any:k=>rand(1001,9999,k)},
+  {id:"tsu",label:"ひとつ〜とお",tsu:true}
+];
+function range(a,b){const r=[];for(let i=a;i<=b;i++)r.push(i);return r}
+function rand(a,b,k){const s=new Set();while(s.size<Math.min(k,b-a+1))s.add(a+Math.floor(Math.random()*(b-a+1)));return [...s]}
 
-function addFiles(files){
-  [...files].filter(f=>f.type.startsWith('image/')).forEach(file=>{
-    items.push({
-      id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),
-      url:URL.createObjectURL(file),
-      active:true
-    });
+const CATS=typeof VOCAB_CATEGORIES!=="undefined"?VOCAB_CATEGORIES:[];
+const AUD=typeof VOCAB_AUDIO!=="undefined"?VOCAB_AUDIO:{};
+/* ---------- state ---------- */
+let items=[],current=null,lastId=null,mode="remove",shown=false,missedCount={};
+const $=id=>document.getElementById(id);
+const stage=$("stage");
+let tab="numbers";
+const numOn=new Set(["n1"]);
+const wordOn=new Set();
+let typedItems=[],picItems=[];
+
+/* ---------- builders ---------- */
+function buildNumbers(){
+  const style=document.querySelector('input[name=numStyle]:checked').value;
+  const k=Math.max(5,Math.min(100,+$("anyCount").value||15));
+  const out=[];
+  NUM_SETS.filter(s=>numOn.has(s.id)).forEach(s=>{
+    if(s.tsu){for(let i=1;i<=10;i++){const e=TSU_EMOJI[(i-1)%TSU_EMOJI.length];out.push({id:"tsu"+i,kind:"count",emoji:e,n:i,ans:TSU[i],sub:"how many?"})}return}
+    const list=style==="round"?s.round():s.any(k);
+    list.forEach(n=>out.push({id:s.id+"-"+n,kind:"num",n,ans:readNum(n)+(n<=10&&ALSO[n]?"（"+ALSO[n]+"）":"")}));
   });
-  fileInput.value='';
-  updateUI();
+  // de-duplicate (100 / 1000 appear in two ranges)
+  const seen=new Set();return out.filter(x=>seen.has(x.id.replace(/^n\d-/,"n-"))?false:(seen.add(x.id.replace(/^n\d-/,"n-")),true));
+}
+function buildWords(){
+  const show=document.querySelector('input[name=wordShow]:checked').value;
+  const out=[];
+  CATS.filter(c=>wordOn.has(c.id)).forEach(c=>c.words.forEach((w,i)=>{
+    const [jp,pic,en]=w;
+    let s=show;if(!pic&&s!=="en")s="en";
+    out.push({id:c.id+"-"+i,kind:"word",pic,en,show:s,ans:jp,audio:AUD[c.id+"-"+i]});
+  }));
+  return out;
+}
+function parseTyped(){
+  const lines=$("typeBox").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+  return lines.map((l,i)=>{
+    let [q,a]=l.split(/\s*=\s*/);
+    const m=q.match(/^(\p{Extended_Pictographic}[\p{Extended_Pictographic}‍️]*)\s*(.*)$/u);
+    return {id:"t"+i,kind:"typed",emoji:m?m[1]:"",text:m?m[2]:q,ans:a||""};
+  });
+}
+function rebuild(){
+  if(tab==="numbers")items=buildNumbers();
+  else if(tab==="words")items=buildWords();
+  else if(tab==="type")items=typedItems.slice();
+  else items=picItems.slice();
+  items.forEach(x=>x.active=true);
+  current=null;lastId=null;missedCount={};
+  idle(items.length?"Ready! Press Draw":"Choose a set above, then press Draw");
+  update();
 }
 
-function remainingItems(){
-  return mode==='remove'?items.filter(x=>x.active):items;
+/* ---------- UI ---------- */
+function chips(box,list,set,labelOf){
+  box.innerHTML="";
+  list.forEach(s=>{const b=document.createElement("button");b.className="chip"+(set.has(s.id)?" on":"");b.textContent=labelOf(s);
+    b.onclick=()=>{set.has(s.id)?set.delete(s.id):set.add(s.id);b.classList.toggle("on");rebuild()};box.append(b)});
 }
+chips($("numChips"),NUM_SETS,numOn,s=>s.label);
+chips($("wordChips"),CATS,wordOn,c=>(c.icon||"")+" "+c.en);
+document.querySelectorAll('input[name=numStyle],input[name=wordShow]').forEach(r=>r.onchange=rebuild);
+$("anyCount").onchange=rebuild;
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
+  tab=b.dataset.tab;
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="pane-"+tab));
+  rebuild();
+});
+$("typeLoad").onclick=()=>{typedItems=parseTyped();rebuild()};
+function addFiles(files){[...files].filter(f=>f.type.startsWith("image/")).forEach(f=>picItems.push({id:"p"+picItems.length+"-"+Date.now(),kind:"pic",url:URL.createObjectURL(f),ans:""}));$("fileInput").value="";rebuild()}
+$("fileInput").onchange=e=>addFiles(e.target.files);
+const dz=$("dropZone");
+["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("drag")}));
+["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("drag")}));
+dz.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
 
-function updateUI(){
-  const remaining=items.filter(x=>x.active).length;
+function setMode(m){mode=m;$("mRemove").classList.toggle("on",m==="remove");$("mKeep").classList.toggle("on",m==="keep");items.forEach(x=>x.active=true);update()}
+$("mRemove").onclick=()=>setMode("remove");$("mKeep").onclick=()=>setMode("keep");
+$("resetBtn").onclick=rebuild;
 
-  if(items.length){
-    dropZone.style.display='none';
-    readyBox.style.display='flex';
-    readyText.textContent=`✓ ${items.length} images ready`;
-    readyCount.textContent=mode==='remove'
-      ? `Remaining ${remaining} / ${items.length}`
-      : `${items.length} pictures in pool`;
-  }else{
-    dropZone.style.display='flex';
-    readyBox.style.display='none';
-  }
-
-  if(mode==='remove' && items.length){
-    progress.textContent=`Remaining ${remaining} / ${items.length}`;
-  }else if(items.length){
-    progress.textContent=`${items.length} pictures`;
-  }else{
-    progress.textContent='';
-  }
+function pool(){return mode==="remove"?items.filter(x=>x.active):items}
+function update(){
+  const left=items.filter(x=>x.active).length;
+  $("poolText").textContent=items.length?(mode==="remove"?`${left} left / ${items.length}`:`${items.length} cards`):"No cards yet";
+  $("progress").textContent=items.length&&mode==="remove"?`Remaining ${left} / ${items.length}`:"";
+  const m=Object.entries(missedCount).filter(([,v])=>v>0).map(([k])=>items.find(x=>x.id===k)).filter(Boolean);
+  $("missed").textContent=m.length?"Needed another try: "+m.map(x=>x.kind==="pic"?"🖼️":(x.ans||x.en||x.text||x.n)).join("、"):"";
 }
+function idle(msg,icon){stage.innerHTML=`<div class="empty"><b>${icon||"🎲"}</b>${msg}</div>`;["showBtn","okBtn","agBtn"].forEach(id=>$(id).disabled=true)}
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
 
 function draw(){
-  const pool=remainingItems();
-
-  if(!pool.length){
-    quizImage.style.display='none';
-    emptyState.style.display='block';
-    emptyState.innerHTML='<span class="dice">✓</span>All done!';
-    currentId=null;
-    correctBtn.disabled=true;
-    wrongBtn.disabled=true;
-    return;
+  const p=pool();
+  if(!items.length){idle("Choose a set above first");return}
+  if(!p.length){idle("All done! よくできました！","🎉");current=null;return}
+  let c=p;if(p.length>1&&lastId){const o=p.filter(x=>x.id!==lastId);if(o.length)c=o}
+  current=c[Math.floor(Math.random()*c.length)];lastId=current.id;shown=false;
+  stage.innerHTML="";
+  const it=current;
+  if(it.kind==="num")stage.append(el("div","big",String(it.n)));
+  else if(it.kind==="count"){const e=el("div","big emoji",it.emoji.repeat(it.n));e.style.fontSize=it.n>5?"clamp(46px,7vw,84px)":"";e.style.maxWidth="90%";e.style.wordBreak="break-all";stage.append(e,el("div","hint","いくつ？"))}
+  else if(it.kind==="word"){
+    if(it.show!=="en"){if(it.pic.startsWith("#")){const s=el("div","swatch");s.style.background=it.pic;stage.append(s)}else stage.append(el("div","big emoji",it.pic))}
+    if(it.show!=="pic")stage.append(el("div",it.show==="en"?"big text":"hint",it.en));
   }
-
-  let choices=pool;
-  if(pool.length>1 && lastDrawnId){
-    const other=pool.filter(x=>x.id!==lastDrawnId);
-    if(other.length) choices=other;
-  }
-
-  const item=choices[Math.floor(Math.random()*choices.length)];
-  currentId=item.id;
-  lastDrawnId=item.id;
-  quizImage.src=item.url;
-  quizImage.style.display='block';
-  emptyState.style.display='none';
-  correctBtn.disabled=false;
-  wrongBtn.disabled=false;
+  else if(it.kind==="typed"){if(it.emoji)stage.append(el("div","big emoji",it.emoji));if(it.text)stage.append(el("div",it.emoji?"hint":"big text",it.text))}
+  else if(it.kind==="pic"){const im=el("img");im.src=it.url;stage.append(im)}
+  stage.append(el("div","answer",""));
+  $("showBtn").disabled=!it.ans;$("okBtn").disabled=false;$("agBtn").disabled=false;
 }
-
-function correct(){
-  if(!currentId)return;
-  if(mode==='remove'){
-    const item=items.find(x=>x.id===currentId);
-    if(item)item.active=false;
-    updateUI();
-  }
-  draw();
+function reveal(){
+  if(!current||!current.ans)return;
+  const a=stage.querySelector(".answer");shown=!shown;
+  a.innerHTML="";if(shown){a.textContent=current.ans;if(current.kind==="word"||current.kind==="typed"){}}
+  if(shown&&current.audio){try{new Audio("../"+current.audio).play()}catch(e){}}
 }
-
-function again(){
-  if(!currentId)return;
-  draw();
-}
-
-function reset(){
-  items.forEach(x=>x.active=true);
-  currentId=null;
-  lastDrawnId=null;
-  quizImage.style.display='none';
-  emptyState.style.display='block';
-  emptyState.innerHTML=items.length
-    ? '<span class="dice">🎲</span>Ready to draw'
-    : '<span class="dice">🎲</span>Add pictures to start';
-  correctBtn.disabled=true;
-  wrongBtn.disabled=true;
-  updateUI();
-}
-
-function clearAll(){
-  items.forEach(x=>URL.revokeObjectURL(x.url));
-  items=[];
-  reset();
-}
-
-function setMode(next){
-  mode=next;
-  removeMode.classList.toggle('active',mode==='remove');
-  randomMode.classList.toggle('active',mode==='random');
-  reset();
-}
-
-fileInput.addEventListener('change',e=>addFiles(e.target.files));
-document.getElementById('addMoreBtn').addEventListener('click',()=>fileInput.click());
-
-['dragenter','dragover'].forEach(type=>{
-  dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('drag')});
+function correct(){if(!current)return;if(mode==="remove")current.active=false;update();draw()}
+function again(){if(!current)return;missedCount[current.id]=(missedCount[current.id]||0)+1;update();draw()}
+$("drawBtn").onclick=draw;$("showBtn").onclick=reveal;$("okBtn").onclick=correct;$("agBtn").onclick=again;
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="TEXTAREA"||e.target.tagName==="INPUT")return;
+  if(e.code==="Space"){e.preventDefault();draw()}
+  else if(e.key==="Enter"){e.preventDefault();correct()}
+  else if(e.key==="a"||e.key==="A")reveal();
+  else if(e.key==="x"||e.key==="X")again();
 });
-['dragleave','drop'].forEach(type=>{
-  dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('drag')});
-});
-dropZone.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
-
-document.getElementById('drawBtn').addEventListener('click',draw);
-correctBtn.addEventListener('click',correct);
-wrongBtn.addEventListener('click',again);
-document.getElementById('resetBtn').addEventListener('click',reset);
-document.getElementById('clearBtn').addEventListener('click',clearAll);
-removeMode.addEventListener('click',()=>setMode('remove'));
-randomMode.addEventListener('click',()=>setMode('random'));
-
-updateUI();
+$("hideSet").onclick=()=>{const st=document.querySelector(".setup"),h=st.style.display==="none";st.style.display=h?"":"none";$("hideSet").textContent=h?"⚙ Hide settings":"⚙ Show settings"};
+rebuild();
 </script>
 </body>
 </html>
