@@ -35,6 +35,7 @@ h1{font-size:clamp(26px,5vw,36px);margin:10px 0 4px;text-align:center}
 .task small{display:block;font-size:16px;color:var(--muted);font-weight:600;margin-top:2px}
 .prog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:10px 0 14px}.prog i{display:block;height:100%;background:var(--lav);transition:width .2s}
 .pic{font-size:clamp(84px,22vw,130px);line-height:1.1;text-align:center}
+.pic .lex{width:min(44vw,180px);height:min(44vw,180px);image-rendering:pixelated}
 .pic.txt{font-size:26px;font-weight:800;color:var(--lav);padding:30px 0}
 .word{display:flex;justify-content:center;gap:6px;margin:8px 0 14px;flex-wrap:wrap}
 .word span{width:clamp(52px,13vw,72px);height:clamp(52px,13vw,72px);border:2px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:clamp(32px,8vw,46px);font-weight:700;background:#fffdf8}
@@ -80,6 +81,7 @@ h1{font-size:clamp(26px,5vw,36px);margin:10px 0 4px;text-align:center}
 <script src="data/hiragana-words.js"></script>
 <script src="data/hiragana-strokes.js"></script>
 <script src="data/hiragana-assign.js"></script>
+<script src="data/lexicon-images.js"></script>
 <script>
 const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
 const CODE_KEY="mlStudentCode";
@@ -168,7 +170,8 @@ function partFill(){
     const q=qs[i],ans=q.chars[q.blank];
     const c=header(app,"fill","Which letter is missing?","缺了哪个字？");
     const pr=el("div","prog");pr.append(el("i"));pr.firstChild.style.width=(i/qs.length*100)+"%";c.prepend(pr);
-    c.append(q.w[1]?el("div","pic",q.w[1]):el("div","pic txt",q.w[2]));
+    const im=lexImg(q.w[0],q.w[2]);
+    c.append(im?el("div","pic",`<img class="lex" src="${im}" alt="">`):q.w[1]?el("div","pic",q.w[1]):el("div","pic txt",q.w[2]));
     const word=el("div","word jp");q.chars.forEach((ch,j)=>word.append(el("span",j===q.blank?"blank":"",j===q.blank?"？":ch)));c.append(word);
     const pool=shuffle(learned.filter(x=>x!==ans)),opts=shuffle([ans,...pool.slice(0,3)]);
     const box=el("div","opts"),msg=el("div","msg");

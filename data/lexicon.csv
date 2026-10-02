@@ -1,358 +1,358 @@
-﻿id,jp,en,zh,emoji,category,jp_level,pinyin,zh_level,audio_ja,audio_ja_alt,image,used_in
-C-0001,くま,bear,熊,🐻,animals,,,,assets/audio/japanese/vocab/001.mp3,assets/audio/japanese/hiragana-words/hw-024.mp3,assets/images/lexicon/C-0001.webp,vocab:animals hiragana:く
-C-0002,うさぎ,rabbit,兔子,🐰,animals,,,,assets/audio/japanese/vocab/002.mp3,assets/audio/japanese/hiragana-words/hw-009.mp3,assets/images/lexicon/C-0002.webp,vocab:animals hiragana:う experience
-C-0003,さる,monkey,猴子,🐒,animals,,,,assets/audio/japanese/vocab/003.mp3,assets/audio/japanese/hiragana-words/hw-033.mp3,assets/images/lexicon/C-0003.webp,vocab:animals hiragana:さ hiragana:る
-C-0004,いぬ,dog,狗,🐶,animals,,,,assets/audio/japanese/vocab/004.mp3,assets/audio/japanese/hiragana-words/hw-006.mp3,assets/images/lexicon/C-0004.webp,vocab:animals hiragana:い hiragana:ぬ experience
-C-0005,ねこ,cat,猫,🐱,animals,,,,assets/audio/japanese/vocab/005.mp3,assets/audio/japanese/hiragana-words/hw-069.mp3,assets/images/lexicon/C-0005.webp,vocab:animals hiragana:ね
-C-0006,にわとり,chicken,鸡,🐔,animals,,,,assets/audio/japanese/vocab/006.mp3,assets/audio/japanese/hiragana-words/hw-065.mp3,assets/images/lexicon/C-0006.webp,vocab:animals hiragana:に
-C-0007,ぞう,elephant,大象,🐘,animals,,,,assets/audio/japanese/vocab/007.mp3,,assets/images/lexicon/C-0007.webp,vocab:animals
-C-0008,ぶた,pig,猪,🐷,animals,,,,assets/audio/japanese/vocab/008.mp3,,assets/images/lexicon/C-0008.webp,vocab:animals
-C-0009,うし,cow,牛,🐄,animals,,,,assets/audio/japanese/vocab/009.mp3,,assets/images/lexicon/C-0009.webp,vocab:animals
-C-0010,うま,horse,马,🐴,animals,,,,assets/audio/japanese/vocab/010.mp3,assets/audio/japanese/hiragana-words/hw-007.mp3,assets/images/lexicon/C-0010.webp,vocab:animals hiragana:う experience
-C-0011,ライオン,lion,狮子,🦁,animals,,,,assets/audio/japanese/vocab/011.mp3,,assets/images/lexicon/C-0011.webp,vocab:animals
-C-0012,きりん,giraffe,长颈鹿,🦒,animals,,,,assets/audio/japanese/vocab/012.mp3,,assets/images/lexicon/C-0012.webp,vocab:animals
-C-0013,りんご,apple,苹果,🍎,fruit,,,,assets/audio/japanese/vocab/013.mp3,assets/audio/japanese/hiragana-words/hw-117.mp3,assets/images/lexicon/C-0013.webp,vocab:fruit hiragana:り hiragana:ん
-C-0014,バナナ,banana,香蕉,🍌,fruit,,,,assets/audio/japanese/vocab/014.mp3,,assets/images/lexicon/C-0014.webp,vocab:fruit
-C-0015,いちご,strawberry,草莓,🍓,fruit,,,,assets/audio/japanese/vocab/015.mp3,,assets/images/lexicon/C-0015.webp,vocab:fruit
-C-0016,オレンジ,orange,橙,🍊,fruit,,,,assets/audio/japanese/vocab/016.mp3,,assets/images/lexicon/C-0016.webp,vocab:fruit
-C-0017,ぶどう,grapes,葡萄,🍇,fruit,,,,assets/audio/japanese/vocab/017.mp3,,assets/images/lexicon/C-0017.webp,vocab:fruit
-C-0018,すいか,watermelon,西瓜,🍉,fruit,,,,assets/audio/japanese/vocab/018.mp3,assets/audio/japanese/hiragana-words/hw-038.mp3,assets/images/lexicon/C-0018.webp,vocab:fruit hiragana:す
-C-0019,パイナップル,pineapple,菠萝,🍍,fruit,,,,assets/audio/japanese/vocab/019.mp3,,assets/images/lexicon/C-0019.webp,vocab:fruit
-C-0020,さくらんぼ,cherry,樱桃,🍒,fruit,,,,assets/audio/japanese/vocab/020.mp3,,assets/images/lexicon/C-0020.webp,vocab:fruit
-C-0021,もも,peach,桃子,🍑,fruit,,,,assets/audio/japanese/vocab/021.mp3,assets/audio/japanese/hiragana-words/hw-102.mp3,assets/images/lexicon/C-0021.webp,vocab:fruit hiragana:も
-C-0022,メロン,melon,蜜瓜,🍈,fruit,,,,assets/audio/japanese/vocab/022.mp3,,assets/images/lexicon/C-0022.webp,vocab:fruit
-C-0023,レモン,lemon,柠檬,🍋,fruit,,,,assets/audio/japanese/vocab/023.mp3,,assets/images/lexicon/C-0023.webp,vocab:fruit
-C-0024,グレープフルーツ,grapefruit,葡萄柚,,fruit,,,,assets/audio/japanese/vocab/024.mp3,,assets/images/lexicon/C-0024.webp,vocab:fruit
-C-0025,みかん,mandarin orange,橘子,🍊,fruit,,,,assets/audio/japanese/vocab/025.mp3,,assets/images/lexicon/C-0025.webp,vocab:fruit
-C-0026,にんじん,carrot,胡萝卜,🥕,vegetables,,,,assets/audio/japanese/vocab/026.mp3,assets/audio/japanese/hiragana-words/hw-066.mp3,assets/images/lexicon/C-0026.webp,vocab:vegetables hiragana:に
-C-0027,トマト,tomato,番茄,🍅,vegetables,,,,assets/audio/japanese/vocab/027.mp3,,assets/images/lexicon/C-0027.webp,vocab:vegetables
-C-0028,じゃがいも,potato,马铃薯,🥔,vegetables,,,,assets/audio/japanese/vocab/028.mp3,,assets/images/lexicon/C-0028.webp,vocab:vegetables
-C-0029,たまねぎ,onion,洋葱,🧅,vegetables,,,,assets/audio/japanese/vocab/029.mp3,,assets/images/lexicon/C-0029.webp,vocab:vegetables
-C-0030,かぼちゃ,pumpkin,南瓜,🎃,vegetables,,,,assets/audio/japanese/vocab/030.mp3,,assets/images/lexicon/C-0030.webp,vocab:vegetables
-C-0031,ブロッコリー,broccoli,西兰花,🥦,vegetables,,,,assets/audio/japanese/vocab/031.mp3,,assets/images/lexicon/C-0031.webp,vocab:vegetables
-C-0032,きゅうり,cucumber,黄瓜,🥒,vegetables,,,,assets/audio/japanese/vocab/032.mp3,,assets/images/lexicon/C-0032.webp,vocab:vegetables
-C-0033,アボカド,avocado,牛油果,🥑,vegetables,,,,assets/audio/japanese/vocab/033.mp3,,assets/images/lexicon/C-0033.webp,vocab:vegetables
-C-0034,とうもろこし,corn,玉米,🌽,vegetables,,,,assets/audio/japanese/vocab/034.mp3,,assets/images/lexicon/C-0034.webp,vocab:vegetables
-C-0035,なす,eggplant,茄子,🍆,vegetables,,,,assets/audio/japanese/vocab/035.mp3,assets/audio/japanese/hiragana-words/hw-062.mp3,assets/images/lexicon/C-0035.webp,vocab:vegetables hiragana:な
-C-0036,ピーマン,green pepper,青椒,,vegetables,,,,assets/audio/japanese/vocab/036.mp3,,assets/images/lexicon/C-0036.webp,vocab:vegetables
-C-0037,キャベツ,cabbage,包菜,🥬,vegetables,,,,assets/audio/japanese/vocab/037.mp3,,assets/images/lexicon/C-0037.webp,vocab:vegetables
-C-0038,パン,bread,面包,🍞,food,,,,assets/audio/japanese/vocab/038.mp3,,assets/images/lexicon/C-0038.webp,vocab:food
-C-0039,ごはん,rice,米饭,🍚,food,,,,assets/audio/japanese/vocab/039.mp3,,assets/images/lexicon/C-0039.webp,vocab:food
-C-0040,たまご,egg,鸡蛋,🥚,food,,,,assets/audio/japanese/vocab/040.mp3,assets/audio/japanese/hiragana-words/hw-048.mp3,assets/images/lexicon/C-0040.webp,vocab:food hiragana:た
-C-0041,さかな,fish,鱼,🐟,food,,,,assets/audio/japanese/vocab/041.mp3,assets/audio/japanese/hiragana-words/hw-032.mp3,assets/images/lexicon/C-0041.webp,vocab:food hiragana:さ
-C-0042,にく,meat,肉,🥩,food,,,,assets/audio/japanese/vocab/042.mp3,,assets/images/lexicon/C-0042.webp,vocab:food
-C-0043,チーズ,cheese,奶酪,🧀,food,,,,assets/audio/japanese/vocab/043.mp3,,assets/images/lexicon/C-0043.webp,vocab:food
-C-0044,シリアル,cereal,麦片,🥣,food,,,,assets/audio/japanese/vocab/044.mp3,,assets/images/lexicon/C-0044.webp,vocab:food
-C-0045,ヨーグルト,yogurt,酸奶,,food,,,,assets/audio/japanese/vocab/045.mp3,,assets/images/lexicon/C-0045.webp,vocab:food
-C-0046,ぎゅうにゅう,milk,牛奶,🥛,food,,,,assets/audio/japanese/vocab/046.mp3,,assets/images/lexicon/C-0046.webp,vocab:food
-C-0047,みず,water,水,💧,food,,,,assets/audio/japanese/vocab/047.mp3,assets/audio/japanese/hiragana-words/hw-095.mp3,assets/images/lexicon/C-0047.webp,vocab:food hiragana:み
-C-0048,ジュース,juice,果汁,🧃,food,,,,assets/audio/japanese/vocab/048.mp3,,assets/images/lexicon/C-0048.webp,vocab:food
-C-0049,おちゃ,tea,茶,🍵,food,,,,assets/audio/japanese/vocab/049.mp3,,assets/images/lexicon/C-0049.webp,vocab:food
-C-0050,さゆ,warm water,温开水,,food,,,,assets/audio/japanese/vocab/050.mp3,,assets/images/lexicon/C-0050.webp,vocab:food
-C-0051,おひや,cold water,冰开水,,food,,,,assets/audio/japanese/vocab/051.mp3,,assets/images/lexicon/C-0051.webp,vocab:food
-C-0052,ラーメン,ramen,拉面,🍜,food,,,,assets/audio/japanese/vocab/052.mp3,,assets/images/lexicon/C-0052.webp,vocab:food
-C-0053,カレーライス,curry rice,咖喱饭,🍛,food,,,,assets/audio/japanese/vocab/053.mp3,,assets/images/lexicon/C-0053.webp,vocab:food
-C-0054,サラダ,salad,沙拉,🥗,food,,,,assets/audio/japanese/vocab/054.mp3,,assets/images/lexicon/C-0054.webp,vocab:food
-C-0055,ピザ,pizza,披萨,🍕,food,,,,assets/audio/japanese/vocab/055.mp3,,assets/images/lexicon/C-0055.webp,vocab:food
-C-0056,スープ,soup,汤,,food,,,,assets/audio/japanese/vocab/056.mp3,,assets/images/lexicon/C-0056.webp,vocab:food
-C-0057,カレー,curry,咖喱,,food,,,,assets/audio/japanese/vocab/057.mp3,,assets/images/lexicon/C-0057.webp,vocab:food
-C-0058,サンドイッチ,sandwich,三明治,🥪,food,,,,assets/audio/japanese/vocab/058.mp3,,assets/images/lexicon/C-0058.webp,vocab:food
-C-0059,ハンバーガー,hamburger,汉堡,🍔,food,,,,assets/audio/japanese/vocab/059.mp3,,assets/images/lexicon/C-0059.webp,vocab:food
-C-0060,フライドポテト,french fries,薯条,🍟,food,,,,assets/audio/japanese/vocab/060.mp3,,assets/images/lexicon/C-0060.webp,vocab:food
-C-0061,スパゲッティ,spaghetti,意大利面,🍝,food,,,,assets/audio/japanese/vocab/061.mp3,,assets/images/lexicon/C-0061.webp,vocab:food
-C-0062,ホットドッグ,hot dog,热狗,🌭,food,,,,assets/audio/japanese/vocab/062.mp3,,assets/images/lexicon/C-0062.webp,vocab:food
-C-0063,フライドチキン,fried chicken,炸鸡,🍗,food,,,,assets/audio/japanese/vocab/063.mp3,,assets/images/lexicon/C-0063.webp,vocab:food
-C-0064,チョコレート,chocolate,巧克力,🍫,snacks,,,,assets/audio/japanese/vocab/064.mp3,,assets/images/lexicon/C-0064.webp,vocab:snacks
-C-0065,あめ,candy,糖果,🍬,snacks,,,,assets/audio/japanese/vocab/065.mp3,,assets/images/lexicon/C-0065.webp,vocab:snacks
-C-0066,クッキー,cookie,饼干,🍪,snacks,,,,assets/audio/japanese/vocab/066.mp3,,assets/images/lexicon/C-0066.webp,vocab:snacks
-C-0067,ケーキ,cake,蛋糕,🍰,snacks,,,,assets/audio/japanese/vocab/067.mp3,,assets/images/lexicon/C-0067.webp,vocab:snacks
-C-0068,ドーナツ,doughnut,甜甜圈,🍩,snacks,,,,assets/audio/japanese/vocab/068.mp3,,assets/images/lexicon/C-0068.webp,vocab:snacks
-C-0069,キャラメル,caramel,焦糖,,snacks,,,,assets/audio/japanese/vocab/069.mp3,,assets/images/lexicon/C-0069.webp,vocab:snacks
-C-0070,ゼリー,jelly,果冻,,snacks,,,,assets/audio/japanese/vocab/070.mp3,,assets/images/lexicon/C-0070.webp,vocab:snacks
-C-0071,マシュマロ,marshmallow,棉花糖,,snacks,,,,assets/audio/japanese/vocab/071.mp3,,assets/images/lexicon/C-0071.webp,vocab:snacks
-C-0072,アイスクリーム,ice cream,冰淇淋,🍨,snacks,,,,assets/audio/japanese/vocab/072.mp3,,assets/images/lexicon/C-0072.webp,vocab:snacks
-C-0073,ガム,chewing gum,口香糖,,snacks,,,,assets/audio/japanese/vocab/073.mp3,,assets/images/lexicon/C-0073.webp,vocab:snacks
-C-0074,グミ,gummy,软糖,,snacks,,,,assets/audio/japanese/vocab/074.mp3,,assets/images/lexicon/C-0074.webp,vocab:snacks
-C-0075,ポテトチップス,potato chips,薯片,,snacks,,,,assets/audio/japanese/vocab/075.mp3,,assets/images/lexicon/C-0075.webp,vocab:snacks
-C-0076,ポップコーン,popcorn,爆米花,🍿,snacks,,,,assets/audio/japanese/vocab/076.mp3,,assets/images/lexicon/C-0076.webp,vocab:snacks
-C-0077,えんぴつ,pencil,铅笔,✏️,stationery,,,,assets/audio/japanese/vocab/077.mp3,assets/audio/japanese/hiragana-words/hw-012.mp3,assets/images/lexicon/C-0077.webp,vocab:stationery hiragana:え experience
-C-0078,けしごむ,eraser,橡皮擦,🧽,stationery,,,,assets/audio/japanese/vocab/078.mp3,assets/audio/japanese/hiragana-words/hw-027.mp3,assets/images/lexicon/C-0078.webp,vocab:stationery hiragana:け
-C-0079,いろえんぴつ,coloured pencil,彩色铅笔,,stationery,,,,assets/audio/japanese/vocab/079.mp3,,assets/images/lexicon/C-0079.webp,vocab:stationery
-C-0080,はさみ,scissors,剪刀,✂️,stationery,,,,assets/audio/japanese/vocab/080.mp3,assets/audio/japanese/hiragana-words/hw-077.mp3,assets/images/lexicon/C-0080.webp,vocab:stationery hiragana:は
-C-0081,のり,glue,胶水,,stationery,,,,assets/audio/japanese/vocab/081.mp3,,assets/images/lexicon/C-0081.webp,vocab:stationery
-C-0082,ノート,notebook,笔记本,📓,stationery,,,,assets/audio/japanese/vocab/082.mp3,,assets/images/lexicon/C-0082.webp,vocab:stationery
-C-0083,クリアファイル,clear file,文件夹,,stationery,,,,assets/audio/japanese/vocab/083.mp3,,assets/images/lexicon/C-0083.webp,vocab:stationery
-C-0084,ホチキス,stapler,订书机,,stationery,,,,assets/audio/japanese/vocab/084.mp3,,assets/images/lexicon/C-0084.webp,vocab:stationery
-C-0085,テープ,tape,胶带,,stationery,,,,assets/audio/japanese/vocab/085.mp3,,assets/images/lexicon/C-0085.webp,vocab:stationery
-C-0086,とけい,clock,时钟,⏰,stationery,,,,assets/audio/japanese/vocab/086.mp3,assets/audio/japanese/hiragana-words/hw-060.mp3,assets/images/lexicon/C-0086.webp,vocab:stationery hiragana:と
-C-0087,つくえ,desk,书桌,,stationery,,,,assets/audio/japanese/vocab/087.mp3,assets/audio/japanese/hiragana-words/hw-053.mp3,assets/images/lexicon/C-0087.webp,vocab:stationery hiragana:つ
-C-0088,いす,chair,椅子,🪑,stationery,,,,assets/audio/japanese/vocab/088.mp3,assets/audio/japanese/hiragana-words/hw-005.mp3,assets/images/lexicon/C-0088.webp,vocab:stationery hiragana:い experience
-C-0089,ごみばこ,rubbish bin,垃圾桶,🗑️,stationery,,,,assets/audio/japanese/vocab/089.mp3,,assets/images/lexicon/C-0089.webp,vocab:stationery
-C-0090,シャープペンシル,mechanical pencil,自动铅笔,,stationery,,,,assets/audio/japanese/vocab/090.mp3,,assets/images/lexicon/C-0090.webp,vocab:stationery
-C-0091,かばん,bag,书包,🎒,stationery,,,,assets/audio/japanese/vocab/091.mp3,assets/audio/japanese/hiragana-words/hw-128.mp3,assets/images/lexicon/C-0091.webp,vocab:stationery hiragana:ん
-C-0092,パンや,bakery,面包店,🥐,places,,,,assets/audio/japanese/vocab/092.mp3,,assets/images/lexicon/C-0092.webp,vocab:places
-C-0093,ほんや,bookshop,书店,,places,,,,assets/audio/japanese/vocab/093.mp3,,assets/images/lexicon/C-0093.webp,vocab:places
-C-0094,かだん,flower bed,花坛,🌷,places,,,,assets/audio/japanese/vocab/094.mp3,,assets/images/lexicon/C-0094.webp,vocab:places
-C-0095,こうちょうしつ,principal's office,校长室,,places,,,,assets/audio/japanese/vocab/095.mp3,,assets/images/lexicon/C-0095.webp,vocab:places
-C-0096,たいいくかん,school hall / gym,体育馆,,places,,,,assets/audio/japanese/vocab/096.mp3,,assets/images/lexicon/C-0096.webp,vocab:places
-C-0097,しょうぼうしょ,fire station,消防局,,places,,,,assets/audio/japanese/vocab/097.mp3,,assets/images/lexicon/C-0097.webp,vocab:places
-C-0098,がっこう,school,学校,🏫,places,,,,assets/audio/japanese/vocab/098.mp3,,assets/images/lexicon/C-0098.webp,vocab:places
-C-0099,いえ,house,家,🏠,places,,,,assets/audio/japanese/vocab/099.mp3,assets/audio/japanese/hiragana-words/hw-004.mp3,assets/images/lexicon/C-0099.webp,vocab:places hiragana:い experience
-C-0100,すいぞくかん,aquarium,水族馆,,places,,,,assets/audio/japanese/vocab/100.mp3,,assets/images/lexicon/C-0100.webp,vocab:places
-C-0101,こうえん,park,公园,🏞️,places,,,,assets/audio/japanese/vocab/101.mp3,assets/audio/japanese/hiragana-words/hw-030.mp3,assets/images/lexicon/C-0101.webp,vocab:places hiragana:こ
-C-0102,どうぶつえん,zoo,动物园,,places,,,,assets/audio/japanese/vocab/102.mp3,,assets/images/lexicon/C-0102.webp,vocab:places
-C-0103,くうこう,airport,机场,🛫,places,,,,assets/audio/japanese/vocab/103.mp3,,assets/images/lexicon/C-0103.webp,vocab:places
-C-0104,スーパー,supermarket,超市,🛒,places,,,,assets/audio/japanese/vocab/104.mp3,,assets/images/lexicon/C-0104.webp,vocab:places
-C-0105,びょういん,hospital,医院,🏥,places,,,,assets/audio/japanese/vocab/105.mp3,,assets/images/lexicon/C-0105.webp,vocab:places
-C-0106,としょかん,library,图书馆,,places,,,,assets/audio/japanese/vocab/106.mp3,,assets/images/lexicon/C-0106.webp,vocab:places
-C-0107,えき,station,车站,🚉,places,,,,assets/audio/japanese/vocab/107.mp3,,assets/images/lexicon/C-0107.webp,vocab:places
-C-0108,レストラン,restaurant,餐厅,🍽️,places,,,,assets/audio/japanese/vocab/108.mp3,,assets/images/lexicon/C-0108.webp,vocab:places
-C-0109,ゆうびんきょく,post office,邮局,🏣,places,,,,assets/audio/japanese/vocab/109.mp3,,assets/images/lexicon/C-0109.webp,vocab:places
-C-0110,くすりや,pharmacy,药房,💊,places,,,,assets/audio/japanese/vocab/110.mp3,,assets/images/lexicon/C-0110.webp,vocab:places
-C-0111,こうばん,police box,派出所,👮,places,,,,assets/audio/japanese/vocab/111.mp3,,assets/images/lexicon/C-0111.webp,vocab:places
-C-0112,ぎんこう,bank,银行,🏦,places,,,,assets/audio/japanese/vocab/112.mp3,,assets/images/lexicon/C-0112.webp,vocab:places
-C-0113,ほけんしつ,nurse's room,保健室,,places,,,,assets/audio/japanese/vocab/113.mp3,,assets/images/lexicon/C-0113.webp,vocab:places
-C-0114,ずこうしつ,art room,美术室,,places,,,,assets/audio/japanese/vocab/114.mp3,,assets/images/lexicon/C-0114.webp,vocab:places
-C-0115,きょうしつ,classroom,教室,,places,,,,assets/audio/japanese/vocab/115.mp3,,assets/images/lexicon/C-0115.webp,vocab:places
-C-0116,おんがくしつ,music room,音乐室,,places,,,,assets/audio/japanese/vocab/116.mp3,,assets/images/lexicon/C-0116.webp,vocab:places
-C-0117,しょくいんしつ,staff room,教职员室,,places,,,,assets/audio/japanese/vocab/117.mp3,,assets/images/lexicon/C-0117.webp,vocab:places
-C-0118,トイレ,toilet,厕所,🚻,places,,,,assets/audio/japanese/vocab/118.mp3,,assets/images/lexicon/C-0118.webp,vocab:places
-C-0119,プール,swimming pool,游泳池,,places,,,,assets/audio/japanese/vocab/119.mp3,,assets/images/lexicon/C-0119.webp,vocab:places
-C-0120,りかしつ,science lab,科学室,,places,,,,assets/audio/japanese/vocab/120.mp3,,assets/images/lexicon/C-0120.webp,vocab:places
-C-0121,としょしつ,school library,图书室,,places,,,,assets/audio/japanese/vocab/121.mp3,,assets/images/lexicon/C-0121.webp,vocab:places
-C-0122,くるま,car,车,🚗,transport,,,,assets/audio/japanese/vocab/122.mp3,assets/audio/japanese/hiragana-words/hw-118.mp3,assets/images/lexicon/C-0122.webp,vocab:transport hiragana:る
-C-0123,ちかてつ,subway,地铁,🚇,transport,,,,assets/audio/japanese/vocab/123.mp3,assets/audio/japanese/hiragana-words/hw-051.mp3,assets/images/lexicon/C-0123.webp,vocab:transport hiragana:ち
-C-0124,でんしゃ,train,电车,🚃,transport,,,,assets/audio/japanese/vocab/124.mp3,,assets/images/lexicon/C-0124.webp,vocab:transport
-C-0125,じてんしゃ,bicycle,脚踏车,🚲,transport,,,,assets/audio/japanese/vocab/125.mp3,,assets/images/lexicon/C-0125.webp,vocab:transport
-C-0126,バス,bus,巴士,🚌,transport,,,,assets/audio/japanese/vocab/126.mp3,,assets/images/lexicon/C-0126.webp,vocab:transport
-C-0127,バイク,motorbike,摩托车,🏍️,transport,,,,assets/audio/japanese/vocab/127.mp3,,assets/images/lexicon/C-0127.webp,vocab:transport
-C-0128,タクシー,taxi,德士,🚕,transport,,,,assets/audio/japanese/vocab/128.mp3,,assets/images/lexicon/C-0128.webp,vocab:transport
-C-0129,トラック,truck,卡车,🚚,transport,,,,assets/audio/japanese/vocab/129.mp3,,assets/images/lexicon/C-0129.webp,vocab:transport
-C-0130,ふね,ship,船,🚢,transport,,,,assets/audio/japanese/vocab/130.mp3,assets/audio/japanese/hiragana-words/hw-081.mp3,assets/images/lexicon/C-0130.webp,vocab:transport hiragana:ふ
-C-0131,ひこうき,aeroplane,飞机,✈️,transport,,,,assets/audio/japanese/vocab/131.mp3,,assets/images/lexicon/C-0131.webp,vocab:transport
-C-0132,パトカー,police car,警车,🚓,transport,,,,assets/audio/japanese/vocab/132.mp3,,assets/images/lexicon/C-0132.webp,vocab:transport
-C-0133,しょうぼうしゃ,fire truck,消防车,🚒,transport,,,,assets/audio/japanese/vocab/133.mp3,,assets/images/lexicon/C-0133.webp,vocab:transport
-C-0134,きゅうきゅうしゃ,ambulance,救护车,🚑,transport,,,,assets/audio/japanese/vocab/134.mp3,,assets/images/lexicon/C-0134.webp,vocab:transport
-C-0135,しんかんせん,bullet train,新干线,🚄,transport,,,,assets/audio/japanese/vocab/135.mp3,,assets/images/lexicon/C-0135.webp,vocab:transport
-C-0136,あるいて,on foot,走路,🚶,transport,,,,assets/audio/japanese/vocab/136.mp3,,assets/images/lexicon/C-0136.webp,vocab:transport
-C-0137,ききゅう,hot-air balloon,热气球,,transport,,,,assets/audio/japanese/vocab/137.mp3,,assets/images/lexicon/C-0137.webp,vocab:transport
-C-0138,ヘリコプター,helicopter,直升机,🚁,transport,,,,assets/audio/japanese/vocab/138.mp3,,assets/images/lexicon/C-0138.webp,vocab:transport
-C-0139,ロケット,rocket,火箭,🚀,transport,,,,assets/audio/japanese/vocab/139.mp3,,assets/images/lexicon/C-0139.webp,vocab:transport
-C-0140,ズボン,trousers,裤子,👖,clothes,,,,assets/audio/japanese/vocab/140.mp3,,assets/images/lexicon/C-0140.webp,vocab:clothes
-C-0141,スカート,skirt,裙子,,clothes,,,,assets/audio/japanese/vocab/141.mp3,,assets/images/lexicon/C-0141.webp,vocab:clothes
-C-0142,シャツ,shirt,衬衫,👔,clothes,,,,assets/audio/japanese/vocab/142.mp3,,assets/images/lexicon/C-0142.webp,vocab:clothes
-C-0143,Tシャツ,T-shirt,T恤,👕,clothes,,,,assets/audio/japanese/vocab/143.mp3,,assets/images/lexicon/C-0143.webp,vocab:clothes
-C-0144,セーター,sweater,毛衣,,clothes,,,,assets/audio/japanese/vocab/144.mp3,,assets/images/lexicon/C-0144.webp,vocab:clothes
-C-0145,コート,coat,外套,🧥,clothes,,,,assets/audio/japanese/vocab/145.mp3,,assets/images/lexicon/C-0145.webp,vocab:clothes
-C-0146,くつした,socks,袜子,🧦,clothes,,,,assets/audio/japanese/vocab/146.mp3,,assets/images/lexicon/C-0146.webp,vocab:clothes
-C-0147,くつ,shoes,鞋子,👟,clothes,,,,assets/audio/japanese/vocab/147.mp3,assets/audio/japanese/hiragana-words/hw-023.mp3,assets/images/lexicon/C-0147.webp,vocab:clothes hiragana:く
-C-0148,ぼうし,hat,帽子,🧢,clothes,,,,assets/audio/japanese/vocab/148.mp3,,assets/images/lexicon/C-0148.webp,vocab:clothes
-C-0149,めがね,glasses,眼镜,👓,clothes,,,,assets/audio/japanese/vocab/149.mp3,assets/audio/japanese/hiragana-words/hw-100.mp3,assets/images/lexicon/C-0149.webp,vocab:clothes hiragana:め
-C-0150,かさ,umbrella,雨伞,☂️,clothes,,,,assets/audio/japanese/vocab/150.mp3,assets/audio/japanese/hiragana-words/hw-017.mp3,assets/images/lexicon/C-0150.webp,vocab:clothes hiragana:か
-C-0151,あたま,head,头,,body,,,,assets/audio/japanese/vocab/151.mp3,,assets/images/lexicon/C-0151.webp,vocab:body
-C-0152,かみ,hair,头发,,body,,,,assets/audio/japanese/vocab/152.mp3,,assets/images/lexicon/C-0152.webp,vocab:body
-C-0153,かお,face,脸,🙂,body,,,,assets/audio/japanese/vocab/153.mp3,assets/audio/japanese/hiragana-words/hw-016.mp3,assets/images/lexicon/C-0153.webp,vocab:body hiragana:か
-C-0154,みみ,ear,耳朵,👂,body,,,,assets/audio/japanese/vocab/154.mp3,assets/audio/japanese/hiragana-words/hw-093.mp3,assets/images/lexicon/C-0154.webp,vocab:body hiragana:み
-C-0155,め,eye,眼睛,👁️,body,,,,assets/audio/japanese/vocab/155.mp3,assets/audio/japanese/hiragana-words/hw-099.mp3,assets/images/lexicon/C-0155.webp,vocab:body hiragana:め
-C-0156,はな,nose,鼻子,👃,body,,,,assets/audio/japanese/vocab/156.mp3,,assets/images/lexicon/C-0156.webp,vocab:body
-C-0157,くち,mouth,嘴巴,👄,body,,,,assets/audio/japanese/vocab/157.mp3,assets/audio/japanese/hiragana-words/hw-022.mp3,assets/images/lexicon/C-0157.webp,vocab:body hiragana:く
-C-0158,かた,shoulder,肩膀,,body,,,,assets/audio/japanese/vocab/158.mp3,,assets/images/lexicon/C-0158.webp,vocab:body
-C-0159,せなか,back,背,,body,,,,assets/audio/japanese/vocab/159.mp3,,assets/images/lexicon/C-0159.webp,vocab:body
-C-0160,て,hand,手,✋,body,,,,assets/audio/japanese/vocab/160.mp3,assets/audio/japanese/hiragana-words/hw-055.mp3,assets/images/lexicon/C-0160.webp,vocab:body hiragana:て
-C-0161,あし,foot / leg,脚,🦶,body,,,,assets/audio/japanese/vocab/161.mp3,assets/audio/japanese/hiragana-words/hw-002.mp3,assets/images/lexicon/C-0161.webp,vocab:body hiragana:あ experience
-C-0162,おかあさん,mother,妈妈,👩,family,,,,assets/audio/japanese/vocab/162.mp3,,assets/images/lexicon/C-0162.webp,vocab:family
-C-0163,おとうさん,father,爸爸,👨,family,,,,assets/audio/japanese/vocab/163.mp3,,assets/images/lexicon/C-0163.webp,vocab:family
-C-0164,おじいさん,grandfather,爷爷／外公,👴,family,,,,assets/audio/japanese/vocab/164.mp3,,assets/images/lexicon/C-0164.webp,vocab:family
-C-0165,おばあさん,grandmother,奶奶／外婆,👵,family,,,,assets/audio/japanese/vocab/165.mp3,,assets/images/lexicon/C-0165.webp,vocab:family
-C-0166,おにいさん,older brother,哥哥,,family,,,,assets/audio/japanese/vocab/166.mp3,,assets/images/lexicon/C-0166.webp,vocab:family
-C-0167,おねえさん,older sister,姐姐,,family,,,,assets/audio/japanese/vocab/167.mp3,,assets/images/lexicon/C-0167.webp,vocab:family
-C-0168,わたし,I / me,我,🙋,family,,,,assets/audio/japanese/vocab/168.mp3,,assets/images/lexicon/C-0168.webp,vocab:family
-C-0169,おとうと,younger brother,弟弟,,family,,,,assets/audio/japanese/vocab/169.mp3,,assets/images/lexicon/C-0169.webp,vocab:family
-C-0170,いもうと,younger sister,妹妹,,family,,,,assets/audio/japanese/vocab/170.mp3,,assets/images/lexicon/C-0170.webp,vocab:family
-C-0171,あか,red,红色,#E53935,colours,,,,assets/audio/japanese/vocab/171.mp3,,swatch,vocab:colours
-C-0172,しろ,white,白色,#FFFFFF,colours,,,,assets/audio/japanese/vocab/172.mp3,assets/audio/japanese/hiragana-words/hw-121.mp3,swatch,vocab:colours hiragana:ろ
-C-0173,くろ,black,黑色,#111111,colours,,,,assets/audio/japanese/vocab/173.mp3,assets/audio/japanese/hiragana-words/hw-122.mp3,swatch,vocab:colours hiragana:ろ
-C-0174,はいいろ,grey,灰色,#9E9E9E,colours,,,,assets/audio/japanese/vocab/174.mp3,,swatch,vocab:colours
-C-0175,きいろ,yellow,黄色,#FDD835,colours,,,,assets/audio/japanese/vocab/175.mp3,,swatch,vocab:colours
-C-0176,ちゃいろ,brown,咖啡色,#795548,colours,,,,assets/audio/japanese/vocab/176.mp3,,swatch,vocab:colours
-C-0177,ぎんいろ,silver,银色,#C0C0C0,colours,,,,assets/audio/japanese/vocab/177.mp3,,swatch,vocab:colours
-C-0178,きんいろ,gold,金色,#D4AF37,colours,,,,assets/audio/japanese/vocab/178.mp3,,swatch,vocab:colours
-C-0179,むらさき,purple,紫色,#8E24AA,colours,,,,assets/audio/japanese/vocab/179.mp3,,swatch,vocab:colours
-C-0180,あお,blue,蓝色,#1E88E5,colours,,,,assets/audio/japanese/vocab/180.mp3,,swatch,vocab:colours
-C-0181,みどり,green,绿色,#43A047,colours,,,,assets/audio/japanese/vocab/181.mp3,,swatch,vocab:colours
-C-0182,だいだいいろ,orange,橙色,#FB8C00,colours,,,,assets/audio/japanese/vocab/colours-daidaiiro.mp3,,swatch,vocab:colours
-C-0183,バスケットボール,basketball,篮球,🏀,sports,,,,assets/audio/japanese/vocab/183.mp3,,assets/images/lexicon/C-0183.webp,vocab:sports
-C-0184,ソフトボール,softball,垒球,🥎,sports,,,,assets/audio/japanese/vocab/184.mp3,,assets/images/lexicon/C-0184.webp,vocab:sports
-C-0185,ハンドボール,handball,手球,🤾,sports,,,,assets/audio/japanese/vocab/185.mp3,,assets/images/lexicon/C-0185.webp,vocab:sports
-C-0186,バドミントン,badminton,羽毛球,🏸,sports,,,,assets/audio/japanese/vocab/186.mp3,,assets/images/lexicon/C-0186.webp,vocab:sports
-C-0187,すいえい,swimming,游泳,🏊,sports,,,,assets/audio/japanese/vocab/187.mp3,,assets/images/lexicon/C-0187.webp,vocab:sports
-C-0188,ダンス,dance,跳舞,💃,sports,,,,assets/audio/japanese/vocab/188.mp3,,assets/images/lexicon/C-0188.webp,vocab:sports
-C-0189,スケート,skating,溜冰,⛸️,sports,,,,assets/audio/japanese/vocab/189.mp3,,assets/images/lexicon/C-0189.webp,vocab:sports
-C-0190,スキー,skiing,滑雪,🎿,sports,,,,assets/audio/japanese/vocab/190.mp3,,assets/images/lexicon/C-0190.webp,vocab:sports
-C-0191,やきゅう,baseball,棒球,⚾,sports,,,,assets/audio/japanese/vocab/191.mp3,,assets/images/lexicon/C-0191.webp,vocab:sports
-C-0192,たっきゅう,table tennis,乒乓球,🏓,sports,,,,assets/audio/japanese/vocab/192.mp3,,assets/images/lexicon/C-0192.webp,vocab:sports
-C-0193,サッカー,football,足球,⚽,sports,,,,assets/audio/japanese/vocab/193.mp3,,assets/images/lexicon/C-0193.webp,vocab:sports
-C-0194,ゴルフ,golf,高尔夫,⛳,sports,,,,assets/audio/japanese/vocab/194.mp3,,assets/images/lexicon/C-0194.webp,vocab:sports
-C-0195,バレエ,ballet,芭蕾,🩰,sports,,,,assets/audio/japanese/vocab/195.mp3,,assets/images/lexicon/C-0195.webp,vocab:sports
-C-0196,ボクシング,boxing,拳击,🥊,sports,,,,assets/audio/japanese/vocab/196.mp3,,assets/images/lexicon/C-0196.webp,vocab:sports
-C-0197,テニス,tennis,网球,🎾,sports,,,,assets/audio/japanese/vocab/197.mp3,,assets/images/lexicon/C-0197.webp,vocab:sports
-C-0198,バレーボール,volleyball,排球,🏐,sports,,,,assets/audio/japanese/vocab/198.mp3,,assets/images/lexicon/C-0198.webp,vocab:sports
-C-0199,ランニング,running,跑步,🏃,sports,,,,assets/audio/japanese/vocab/199.mp3,,assets/images/lexicon/C-0199.webp,vocab:sports
-C-0200,リコーダー,recorder (flute),直笛,,others,,,,assets/audio/japanese/vocab/200.mp3,,assets/images/lexicon/C-0200.webp,vocab:others
-C-0201,うわばき,indoor shoes,室内鞋,,others,,,,assets/audio/japanese/vocab/201.mp3,,assets/images/lexicon/C-0201.webp,vocab:others
-C-0202,ほん,book,书,📖,others,,,,assets/audio/japanese/vocab/202.mp3,assets/audio/japanese/hiragana-words/hw-088.mp3,assets/images/lexicon/C-0202.webp,vocab:others hiragana:ほ hiragana:ん
-C-0203,テレビ,TV,电视,📺,others,,,,assets/audio/japanese/vocab/203.mp3,,assets/images/lexicon/C-0203.webp,vocab:others
-C-0204,え,picture,图画,🖼️,others,,,,assets/audio/japanese/vocab/204.mp3,assets/audio/japanese/hiragana-words/hw-010.mp3,assets/images/lexicon/C-0204.webp,vocab:others hiragana:え experience
-C-0205,たいそうふく,PE uniform,运动服,,others,,,,assets/audio/japanese/vocab/205.mp3,,assets/images/lexicon/C-0205.webp,vocab:others
-C-0206,クレヨン,crayon,蜡笔,🖍️,others,,,,assets/audio/japanese/vocab/206.mp3,,assets/images/lexicon/C-0206.webp,vocab:others
-C-0207,しお,salt,盐,🧂,others,,,,assets/audio/japanese/vocab/207.mp3,,assets/images/lexicon/C-0207.webp,vocab:others
-C-0208,さとう,sugar,糖,,others,,,,assets/audio/japanese/vocab/208.mp3,,assets/images/lexicon/C-0208.webp,vocab:others
-C-0209,きゅうしょく,school lunch,学校午餐,🍱,others,,,,assets/audio/japanese/vocab/209.mp3,,assets/images/lexicon/C-0209.webp,vocab:others
-C-0210,あさ,morning,早上,🌅,others,,,,assets/audio/japanese/vocab/210.mp3,assets/audio/japanese/hiragana-words/hw-003.mp3,assets/images/lexicon/C-0210.webp,vocab:others hiragana:あ experience
-C-0211,ひる,noon / daytime,中午,☀️,others,,,,assets/audio/japanese/vocab/211.mp3,,assets/images/lexicon/C-0211.webp,vocab:others
-C-0212,よる,night,晚上,🌃,others,,,,assets/audio/japanese/vocab/212.mp3,assets/audio/japanese/hiragana-words/hw-111.mp3,assets/images/lexicon/C-0212.webp,vocab:others hiragana:よ hiragana:る
-C-0213,スプーン,spoon,汤匙,🥄,others,,,,assets/audio/japanese/vocab/213.mp3,,assets/images/lexicon/C-0213.webp,vocab:others
-C-0214,バター,butter,牛油,🧈,others,,,,assets/audio/japanese/vocab/214.mp3,,assets/images/lexicon/C-0214.webp,vocab:others
-C-0215,ジャム,jam,果酱,,others,,,,assets/audio/japanese/vocab/215.mp3,,assets/images/lexicon/C-0215.webp,vocab:others
-C-0216,ナイフ,knife,刀,🔪,others,,,,assets/audio/japanese/vocab/216.mp3,,assets/images/lexicon/C-0216.webp,vocab:others
-C-0217,フォーク,fork,叉子,,others,,,,assets/audio/japanese/vocab/217.mp3,,assets/images/lexicon/C-0217.webp,vocab:others
-C-0218,まんが,comic,漫画,,others,,,,assets/audio/japanese/vocab/218.mp3,,assets/images/lexicon/C-0218.webp,vocab:others
-C-0219,えいが,movie,电影,🎬,others,,,,assets/audio/japanese/vocab/219.mp3,,assets/images/lexicon/C-0219.webp,vocab:others
-C-0220,しゃしん,photo,照片,📷,others,,,,assets/audio/japanese/vocab/220.mp3,,assets/images/lexicon/C-0220.webp,vocab:others
-C-0221,たかい,tall / high,高,,adjectives,,,,assets/audio/japanese/vocab/221.mp3,,assets/images/lexicon/C-0221.webp,vocab:adjectives
-C-0222,ひくい,short / low,矮・低,,adjectives,,,,assets/audio/japanese/vocab/222.mp3,,assets/images/lexicon/C-0222.webp,vocab:adjectives
-C-0223,たかい,expensive,贵,💰,adjectives,,,,assets/audio/japanese/vocab/223.mp3,,assets/images/lexicon/C-0223.webp,vocab:adjectives
-C-0224,やすい,cheap,便宜,,adjectives,,,,assets/audio/japanese/vocab/224.mp3,,assets/images/lexicon/C-0224.webp,vocab:adjectives
-C-0225,おおきい,big,大,,adjectives,,,,assets/audio/japanese/vocab/225.mp3,,assets/images/lexicon/C-0225.webp,vocab:adjectives
-C-0226,ちいさい,small,小,,adjectives,,,,assets/audio/japanese/vocab/226.mp3,,assets/images/lexicon/C-0226.webp,vocab:adjectives
-C-0227,ながい,long,长,,adjectives,,,,assets/audio/japanese/vocab/227.mp3,,assets/images/lexicon/C-0227.webp,vocab:adjectives
-C-0228,みじかい,short (length),短,,adjectives,,,,assets/audio/japanese/vocab/228.mp3,,assets/images/lexicon/C-0228.webp,vocab:adjectives
-C-0229,あたらしい,new,新,🆕,adjectives,,,,assets/audio/japanese/vocab/229.mp3,,assets/images/lexicon/C-0229.webp,vocab:adjectives
-C-0230,ふるい,old (things),旧,,adjectives,,,,assets/audio/japanese/vocab/230.mp3,,assets/images/lexicon/C-0230.webp,vocab:adjectives
-C-0231,はやい,fast,快,🐇,adjectives,,,,assets/audio/japanese/vocab/231.mp3,,assets/images/lexicon/C-0231.webp,vocab:adjectives
-C-0232,おそい,slow,慢,🐢,adjectives,,,,assets/audio/japanese/vocab/232.mp3,,assets/images/lexicon/C-0232.webp,vocab:adjectives
-C-0233,あつい,hot (weather),热（天气）,🥵,adjectives,,,,assets/audio/japanese/vocab/233.mp3,,assets/images/lexicon/C-0233.webp,vocab:adjectives
-C-0234,さむい,cold (weather),冷（天气）,🥶,adjectives,,,,assets/audio/japanese/vocab/234.mp3,,assets/images/lexicon/C-0234.webp,vocab:adjectives
-C-0235,あつい,hot (to touch),烫,,adjectives,,,,assets/audio/japanese/vocab/235.mp3,,assets/images/lexicon/C-0235.webp,vocab:adjectives
-C-0236,つめたい,cold (to touch),冰,🧊,adjectives,,,,assets/audio/japanese/vocab/236.mp3,,assets/images/lexicon/C-0236.webp,vocab:adjectives
-C-0237,かるい,light (weight),轻,,adjectives,,,,assets/audio/japanese/vocab/237.mp3,,assets/images/lexicon/C-0237.webp,vocab:adjectives
-C-0238,おもい,heavy,重,,adjectives,,,,assets/audio/japanese/vocab/238.mp3,,assets/images/lexicon/C-0238.webp,vocab:adjectives
-C-0239,いい,good,好,👍,adjectives,,,,assets/audio/japanese/vocab/239.mp3,,assets/images/lexicon/C-0239.webp,vocab:adjectives
-C-0240,わるい,bad,坏,👎,adjectives,,,,assets/audio/japanese/vocab/240.mp3,,assets/images/lexicon/C-0240.webp,vocab:adjectives
-C-0241,にがい,bitter,苦,,adjectives,,,,assets/audio/japanese/vocab/241.mp3,,assets/images/lexicon/C-0241.webp,vocab:adjectives
-C-0242,すっぱい,sour,酸,,adjectives,,,,assets/audio/japanese/vocab/242.mp3,,assets/images/lexicon/C-0242.webp,vocab:adjectives
-C-0243,しょっぱい,salty,咸,,adjectives,,,,assets/audio/japanese/vocab/243.mp3,,assets/images/lexicon/C-0243.webp,vocab:adjectives
-C-0244,からい,spicy,辣,🌶️,adjectives,,,,assets/audio/japanese/vocab/244.mp3,,assets/images/lexicon/C-0244.webp,vocab:adjectives
-C-0245,おいしい,delicious,好吃,😋,adjectives,,,,assets/audio/japanese/vocab/245.mp3,,assets/images/lexicon/C-0245.webp,vocab:adjectives
-C-0246,たべます,eat,吃,🍽️,verbs,,,,assets/audio/japanese/vocab/246.mp3,,assets/images/lexicon/C-0246.webp,vocab:verbs
-C-0247,のみます,drink,喝,🥤,verbs,,,,assets/audio/japanese/vocab/247.mp3,,assets/images/lexicon/C-0247.webp,vocab:verbs
-C-0248,します,do,做,,verbs,,,,assets/audio/japanese/vocab/248.mp3,,assets/images/lexicon/C-0248.webp,vocab:verbs
-C-0249,みます,watch / see,看,👀,verbs,,,,assets/audio/japanese/vocab/249.mp3,,assets/images/lexicon/C-0249.webp,vocab:verbs
-C-0250,いきます,go,去,🚶,verbs,,,,assets/audio/japanese/vocab/250.mp3,,assets/images/lexicon/C-0250.webp,vocab:verbs
-C-0251,おきます,wake up,起床,⏰,verbs,,,,assets/audio/japanese/vocab/251.mp3,,assets/images/lexicon/C-0251.webp,vocab:verbs
-C-0252,ねます,sleep,睡觉,😴,verbs,,,,assets/audio/japanese/vocab/252.mp3,,assets/images/lexicon/C-0252.webp,vocab:verbs
-C-0253,きます,come,来,,verbs,,,,assets/audio/japanese/vocab/253.mp3,,assets/images/lexicon/C-0253.webp,vocab:verbs
-C-0254,かえります,go home,回家,🏠,verbs,,,,assets/audio/japanese/vocab/254.mp3,,assets/images/lexicon/C-0254.webp,vocab:verbs
-C-0255,かいます,buy,买,🛍️,verbs,,,,assets/audio/japanese/vocab/255.mp3,,assets/images/lexicon/C-0255.webp,vocab:verbs
-C-0256,かきます,write,写,✍️,verbs,,,,assets/audio/japanese/vocab/256.mp3,,assets/images/lexicon/C-0256.webp,vocab:verbs
-C-0257,ききます,listen,听,🎧,verbs,,,,assets/audio/japanese/vocab/257.mp3,,assets/images/lexicon/C-0257.webp,vocab:verbs
-C-0258,あらいます,wash,洗,🧼,verbs,,,,assets/audio/japanese/vocab/258.mp3,,assets/images/lexicon/C-0258.webp,vocab:verbs
-C-0259,みがきます,brush (teeth),刷（牙）,,verbs,,,,assets/audio/japanese/vocab/259.mp3,,assets/images/lexicon/C-0259.webp,vocab:verbs
-C-0260,はかります,measure,量,📏,verbs,,,,assets/audio/japanese/vocab/260.mp3,,assets/images/lexicon/C-0260.webp,vocab:verbs
-C-0261,よみます,read,读,📖,verbs,,,,assets/audio/japanese/vocab/261.mp3,,assets/images/lexicon/C-0261.webp,vocab:verbs
-C-0262,あめ,rain,雨,🌧️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-001.mp3,,assets/images/lexicon/C-0262.webp,hiragana:あ experience
-C-0263,うみ,sea,海,🌊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-008.mp3,,assets/images/lexicon/C-0263.webp,hiragana:う experience
-C-0264,えび,prawn,虾,🦐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-011.mp3,,assets/images/lexicon/C-0264.webp,hiragana:え experience
-C-0265,おかし,snack / sweets,零食,🍬,hiragana,,,,assets/audio/japanese/hiragana-words/hw-013.mp3,,assets/images/lexicon/C-0265.webp,hiragana:お experience
-C-0266,おの,axe,斧头,🪓,hiragana,,,,assets/audio/japanese/hiragana-words/hw-014.mp3,,assets/images/lexicon/C-0266.webp,hiragana:お experience
-C-0267,おかね,money,钱,💰,hiragana,,,,assets/audio/japanese/hiragana-words/hw-015.mp3,,assets/images/lexicon/C-0267.webp,hiragana:お experience
-C-0268,かめ,turtle,乌龟,🐢,hiragana,,,,assets/audio/japanese/hiragana-words/hw-018.mp3,,assets/images/lexicon/C-0268.webp,hiragana:か
-C-0269,き,tree,树,🌳,hiragana,,,,assets/audio/japanese/hiragana-words/hw-019.mp3,,assets/images/lexicon/C-0269.webp,hiragana:き
-C-0270,きつね,fox,狐狸,🦊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-020.mp3,,assets/images/lexicon/C-0270.webp,hiragana:き
-C-0271,きのこ,mushroom,蘑菇,🍄,hiragana,,,,assets/audio/japanese/hiragana-words/hw-021.mp3,,assets/images/lexicon/C-0271.webp,hiragana:き
-C-0272,けん,sword,剑,🗡️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-025.mp3,,assets/images/lexicon/C-0272.webp,hiragana:け
-C-0273,けむし,caterpillar,毛毛虫,🐛,hiragana,,,,assets/audio/japanese/hiragana-words/hw-026.mp3,,assets/images/lexicon/C-0273.webp,hiragana:け
-C-0274,こま,spinning top,陀螺,🎯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-028.mp3,,assets/images/lexicon/C-0274.webp,hiragana:こ
-C-0275,こうもり,bat,蝙蝠,🦇,hiragana,,,,assets/audio/japanese/hiragana-words/hw-029.mp3,,assets/images/lexicon/C-0275.webp,hiragana:こ
-C-0276,さいふ,wallet,钱包,👛,hiragana,,,,assets/audio/japanese/hiragana-words/hw-031.mp3,,assets/images/lexicon/C-0276.webp,hiragana:さ
-C-0277,しか,deer,鹿,🦌,hiragana,,,,assets/audio/japanese/hiragana-words/hw-034.mp3,,assets/images/lexicon/C-0277.webp,hiragana:し
-C-0278,しま,island,岛,🏝️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-035.mp3,,assets/images/lexicon/C-0278.webp,hiragana:し
-C-0279,した,tongue,舌头,👅,hiragana,,,,assets/audio/japanese/hiragana-words/hw-036.mp3,,assets/images/lexicon/C-0279.webp,hiragana:し
-C-0280,すし,sushi,寿司,🍣,hiragana,,,,assets/audio/japanese/hiragana-words/hw-037.mp3,,assets/images/lexicon/C-0280.webp,hiragana:す
-C-0281,すうじ,numbers,数字,🔢,hiragana,,,,assets/audio/japanese/hiragana-words/hw-039.mp3,,assets/images/lexicon/C-0281.webp,hiragana:す
-C-0282,せみ,cicada,蝉,🦗,hiragana,,,,assets/audio/japanese/hiragana-words/hw-040.mp3,,assets/images/lexicon/C-0282.webp,hiragana:せ
-C-0283,せんぬき,bottle opener,开瓶器,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-041.mp3,,assets/images/lexicon/C-0283.webp,hiragana:せ
-C-0284,せんたくき,washing machine,洗衣机,🧺,hiragana,,,,assets/audio/japanese/hiragana-words/hw-042.mp3,,assets/images/lexicon/C-0284.webp,hiragana:せ
-C-0285,そら,sky,天空,☁️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-043.mp3,,assets/images/lexicon/C-0285.webp,hiragana:そ
-C-0286,そり,sled,雪橇,🛷,hiragana,,,,assets/audio/japanese/hiragana-words/hw-044.mp3,,assets/images/lexicon/C-0286.webp,hiragana:そ
-C-0287,そうじき,vacuum cleaner,吸尘器,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-045.mp3,,assets/images/lexicon/C-0287.webp,hiragana:そ
-C-0288,たこ,octopus,章鱼,🐙,hiragana,,,,assets/audio/japanese/hiragana-words/hw-046.mp3,,assets/images/lexicon/C-0288.webp,hiragana:た
-C-0289,たいこ,drum,鼓,🥁,hiragana,,,,assets/audio/japanese/hiragana-words/hw-047.mp3,,assets/images/lexicon/C-0289.webp,hiragana:た
-C-0290,ちず,map,地图,🗺️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-049.mp3,,assets/images/lexicon/C-0290.webp,hiragana:ち
-C-0291,ちりとり,dustpan,畚箕,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-050.mp3,,assets/images/lexicon/C-0291.webp,hiragana:ち
-C-0292,つえ,walking stick,拐杖,🦯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-052.mp3,,assets/images/lexicon/C-0292.webp,hiragana:つ
-C-0293,つき,moon,月亮,🌕,hiragana,,,,assets/audio/japanese/hiragana-words/hw-054.mp3,,assets/images/lexicon/C-0293.webp,hiragana:つ
-C-0294,てがみ,letter,信,✉️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-056.mp3,,assets/images/lexicon/C-0294.webp,hiragana:て
-C-0295,てんき,weather,天气,☀️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-057.mp3,,assets/images/lexicon/C-0295.webp,hiragana:て
-C-0296,とり,bird,鸟,🐦,hiragana,,,,assets/audio/japanese/hiragana-words/hw-058.mp3,,assets/images/lexicon/C-0296.webp,hiragana:と hiragana:り
-C-0297,とら,tiger,老虎,🐯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-059.mp3,,assets/images/lexicon/C-0297.webp,hiragana:と hiragana:ら
-C-0298,なし,pear,梨,🍐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-061.mp3,,assets/images/lexicon/C-0298.webp,hiragana:な
-C-0299,なべ,pot,锅,🍲,hiragana,,,,assets/audio/japanese/hiragana-words/hw-063.mp3,,assets/images/lexicon/C-0299.webp,hiragana:な
-C-0300,にじ,rainbow,彩虹,🌈,hiragana,,,,assets/audio/japanese/hiragana-words/hw-064.mp3,,assets/images/lexicon/C-0300.webp,hiragana:に
-C-0301,ぬの,cloth,布,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-067.mp3,,assets/images/lexicon/C-0301.webp,hiragana:ぬ
-C-0302,ぬいぐるみ,stuffed toy,布偶,🧸,hiragana,,,,assets/audio/japanese/hiragana-words/hw-068.mp3,,assets/images/lexicon/C-0302.webp,hiragana:ぬ
-C-0303,ねずみ,mouse,老鼠,🐭,hiragana,,,,assets/audio/japanese/hiragana-words/hw-070.mp3,,assets/images/lexicon/C-0303.webp,hiragana:ね
-C-0304,ねぎ,spring onion,葱,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-071.mp3,,assets/images/lexicon/C-0304.webp,hiragana:ね
-C-0305,のり,seaweed,海苔,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-072.mp3,,assets/images/lexicon/C-0305.webp,hiragana:の
-C-0306,のう,brain,脑,🧠,hiragana,,,,assets/audio/japanese/hiragana-words/hw-073.mp3,,assets/images/lexicon/C-0306.webp,hiragana:の
-C-0307,のこぎり,saw,锯子,🪚,hiragana,,,,assets/audio/japanese/hiragana-words/hw-074.mp3,,assets/images/lexicon/C-0307.webp,hiragana:の
-C-0308,は,tooth,牙齿,🦷,hiragana,,,,assets/audio/japanese/hiragana-words/hw-075.mp3,,assets/images/lexicon/C-0308.webp,hiragana:は
-C-0309,はな,flower,花,🌸,hiragana,,,,assets/audio/japanese/hiragana-words/hw-076.mp3,,assets/images/lexicon/C-0309.webp,hiragana:は
-C-0310,ひ,fire,火,🔥,hiragana,,,,assets/audio/japanese/hiragana-words/hw-078.mp3,,assets/images/lexicon/C-0310.webp,hiragana:ひ
-C-0311,ひと,person,人,🧍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-079.mp3,,assets/images/lexicon/C-0311.webp,hiragana:ひ
-C-0312,ひつじ,sheep,羊,🐑,hiragana,,,,assets/audio/japanese/hiragana-words/hw-080.mp3,,assets/images/lexicon/C-0312.webp,hiragana:ひ
-C-0313,ふで,brush,毛笔,🖌️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-082.mp3,,assets/images/lexicon/C-0313.webp,hiragana:ふ
-C-0314,ふく,clothes,衣服,👕,hiragana,,,,assets/audio/japanese/hiragana-words/hw-083.mp3,,assets/images/lexicon/C-0314.webp,hiragana:ふ
-C-0315,へび,snake,蛇,🐍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-084.mp3,,assets/images/lexicon/C-0315.webp,hiragana:へ
-C-0316,へら,spatula,锅铲,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-085.mp3,,assets/images/lexicon/C-0316.webp,hiragana:へ
-C-0317,へい,fence / wall,围墙,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-086.mp3,,assets/images/lexicon/C-0317.webp,hiragana:へ
-C-0318,ほし,star,星星,⭐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-087.mp3,,assets/images/lexicon/C-0318.webp,hiragana:ほ
-C-0319,ほうき,broom,扫把,🧹,hiragana,,,,assets/audio/japanese/hiragana-words/hw-089.mp3,,assets/images/lexicon/C-0319.webp,hiragana:ほ
-C-0320,まめ,beans,豆,🫘,hiragana,,,,assets/audio/japanese/hiragana-words/hw-090.mp3,,assets/images/lexicon/C-0320.webp,hiragana:ま
-C-0321,まど,window,窗户,🪟,hiragana,,,,assets/audio/japanese/hiragana-words/hw-091.mp3,,assets/images/lexicon/C-0321.webp,hiragana:ま
-C-0322,まくら,pillow,枕头,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-092.mp3,,assets/images/lexicon/C-0322.webp,hiragana:ま
-C-0323,みせ,shop,商店,🏪,hiragana,,,,assets/audio/japanese/hiragana-words/hw-094.mp3,,assets/images/lexicon/C-0323.webp,hiragana:み
-C-0324,むし,insect / bug,虫,🐞,hiragana,,,,assets/audio/japanese/hiragana-words/hw-096.mp3,,assets/images/lexicon/C-0324.webp,hiragana:む
-C-0325,むしば,tooth decay,蛀牙,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-097.mp3,,assets/images/lexicon/C-0325.webp,hiragana:む
-C-0326,むぎ,wheat,麦,🌾,hiragana,,,,assets/audio/japanese/hiragana-words/hw-098.mp3,,assets/images/lexicon/C-0326.webp,hiragana:む
-C-0327,めいろ,maze,迷宫,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-101.mp3,,assets/images/lexicon/C-0327.webp,hiragana:め
-C-0328,もり,forest,森林,🌲,hiragana,,,,assets/audio/japanese/hiragana-words/hw-103.mp3,,assets/images/lexicon/C-0328.webp,hiragana:も
-C-0329,もみじ,maple leaves,枫叶,🍁,hiragana,,,,assets/audio/japanese/hiragana-words/hw-104.mp3,,assets/images/lexicon/C-0329.webp,hiragana:も
-C-0330,やま,mountain,山,⛰️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-105.mp3,,assets/images/lexicon/C-0330.webp,hiragana:や
-C-0331,やぎ,goat,山羊,🐐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-106.mp3,,assets/images/lexicon/C-0331.webp,hiragana:や
-C-0332,やしのき,palm tree,椰子树,🌴,hiragana,,,,assets/audio/japanese/hiragana-words/hw-107.mp3,,assets/images/lexicon/C-0332.webp,hiragana:や
-C-0333,ゆき,snow,雪,❄️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-108.mp3,,assets/images/lexicon/C-0333.webp,hiragana:ゆ
-C-0334,ゆびわ,ring,戒指,💍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-109.mp3,,assets/images/lexicon/C-0334.webp,hiragana:ゆ
-C-0335,ゆうれい,ghost,鬼,👻,hiragana,,,,assets/audio/japanese/hiragana-words/hw-110.mp3,,assets/images/lexicon/C-0335.webp,hiragana:ゆ hiragana:れ
-C-0336,よつば,four-leaf clover,四叶草,🍀,hiragana,,,,assets/audio/japanese/hiragana-words/hw-112.mp3,,assets/images/lexicon/C-0336.webp,hiragana:よ
-C-0337,ようせい,fairy,精灵,🧚,hiragana,,,,assets/audio/japanese/hiragana-words/hw-113.mp3,,assets/images/lexicon/C-0337.webp,hiragana:よ
-C-0338,らくだ,camel,骆驼,🐫,hiragana,,,,assets/audio/japanese/hiragana-words/hw-114.mp3,,assets/images/lexicon/C-0338.webp,hiragana:ら
-C-0339,さら,plate,盘子,🍽️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-115.mp3,,assets/images/lexicon/C-0339.webp,hiragana:ら
-C-0340,りす,squirrel,松鼠,🐿️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-116.mp3,,assets/images/lexicon/C-0340.webp,hiragana:り
-C-0341,れいぞうこ,fridge,冰箱,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-119.mp3,,assets/images/lexicon/C-0341.webp,hiragana:れ
-C-0342,ろうそく,candle,蜡烛,🕯️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-120.mp3,,assets/images/lexicon/C-0342.webp,hiragana:ろ
-C-0343,わに,crocodile,鳄鱼,🐊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-123.mp3,,assets/images/lexicon/C-0343.webp,hiragana:わ
-C-0344,わし,eagle,老鹰,🦅,hiragana,,,,assets/audio/japanese/hiragana-words/hw-124.mp3,,assets/images/lexicon/C-0344.webp,hiragana:わ
-C-0345,でんわ,telephone,电话,☎️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-125.mp3,,assets/images/lexicon/C-0345.webp,hiragana:わ
-C-0346,あり,ant,,🐜,worksheet,,,,,,assets/images/lexicon/C-0346.webp,reserve
-C-0347,おに,ogre,,👹,worksheet,,,,,,assets/images/lexicon/C-0347.webp,reserve
-C-0348,おばけ,ghost,,👻,worksheet,,,,,,assets/images/lexicon/C-0348.webp,reserve
-C-0349,おにぎり,rice ball,,🍙,worksheet,,,,,,assets/images/lexicon/C-0349.webp,reserve
-C-0350,かに,crab,,🦀,worksheet,,,,,,assets/images/lexicon/C-0350.webp,reserve
-C-0351,けいさつ,police,,🚓,worksheet,,,,,,assets/images/lexicon/C-0351.webp,reserve
-C-0352,こあら,koala,,🐨,worksheet,,,,,,assets/images/lexicon/C-0352.webp,reserve
-C-0353,こおり,ice,,🧊,worksheet,,,,,,assets/images/lexicon/C-0353.webp,reserve
-C-0354,さくら,cherry blossom,,🌸,worksheet,,,,,,assets/images/lexicon/C-0354.webp,reserve
-C-0355,すずめ,sparrow,,🐦,worksheet,,,,,,assets/images/lexicon/C-0355.webp,reserve
-C-0356,せんせい,teacher,,🧑‍🏫,worksheet,,,,,,assets/images/lexicon/C-0356.webp,reserve
-C-0357,そば,soba,,🍜,worksheet,,,,,,assets/images/lexicon/C-0357.webp,reserve
+﻿id,jp,en,zh,emoji,category,jp_level,pinyin,zh_level,audio_ja,audio_ja_alt,image,has_image,used_in
+C-0001,くま,bear,熊,🐻,animals,,,,assets/audio/japanese/vocab/001.mp3,assets/audio/japanese/hiragana-words/hw-024.mp3,assets/images/lexicon/C-0001.webp,yes,vocab:animals hiragana:く
+C-0002,うさぎ,rabbit,兔子,🐰,animals,,,,assets/audio/japanese/vocab/002.mp3,assets/audio/japanese/hiragana-words/hw-009.mp3,assets/images/lexicon/C-0002.webp,yes,vocab:animals hiragana:う experience
+C-0003,さる,monkey,猴子,🐒,animals,,,,assets/audio/japanese/vocab/003.mp3,assets/audio/japanese/hiragana-words/hw-033.mp3,assets/images/lexicon/C-0003.webp,yes,vocab:animals hiragana:さ hiragana:る
+C-0004,いぬ,dog,狗,🐶,animals,,,,assets/audio/japanese/vocab/004.mp3,assets/audio/japanese/hiragana-words/hw-006.mp3,assets/images/lexicon/C-0004.webp,yes,vocab:animals hiragana:い hiragana:ぬ experience
+C-0005,ねこ,cat,猫,🐱,animals,,,,assets/audio/japanese/vocab/005.mp3,assets/audio/japanese/hiragana-words/hw-069.mp3,assets/images/lexicon/C-0005.webp,yes,vocab:animals hiragana:ね
+C-0006,にわとり,chicken,鸡,🐔,animals,,,,assets/audio/japanese/vocab/006.mp3,assets/audio/japanese/hiragana-words/hw-065.mp3,assets/images/lexicon/C-0006.webp,yes,vocab:animals hiragana:に
+C-0007,ぞう,elephant,大象,🐘,animals,,,,assets/audio/japanese/vocab/007.mp3,,assets/images/lexicon/C-0007.webp,yes,vocab:animals
+C-0008,ぶた,pig,猪,🐷,animals,,,,assets/audio/japanese/vocab/008.mp3,,assets/images/lexicon/C-0008.webp,yes,vocab:animals
+C-0009,うし,cow,牛,🐄,animals,,,,assets/audio/japanese/vocab/009.mp3,,assets/images/lexicon/C-0009.webp,yes,vocab:animals
+C-0010,うま,horse,马,🐴,animals,,,,assets/audio/japanese/vocab/010.mp3,assets/audio/japanese/hiragana-words/hw-007.mp3,assets/images/lexicon/C-0010.webp,yes,vocab:animals hiragana:う experience
+C-0011,ライオン,lion,狮子,🦁,animals,,,,assets/audio/japanese/vocab/011.mp3,,assets/images/lexicon/C-0011.webp,yes,vocab:animals
+C-0012,きりん,giraffe,长颈鹿,🦒,animals,,,,assets/audio/japanese/vocab/012.mp3,,assets/images/lexicon/C-0012.webp,yes,vocab:animals
+C-0013,りんご,apple,苹果,🍎,fruit,,,,assets/audio/japanese/vocab/013.mp3,assets/audio/japanese/hiragana-words/hw-117.mp3,assets/images/lexicon/C-0013.webp,yes,vocab:fruit hiragana:り hiragana:ん
+C-0014,バナナ,banana,香蕉,🍌,fruit,,,,assets/audio/japanese/vocab/014.mp3,,assets/images/lexicon/C-0014.webp,yes,vocab:fruit
+C-0015,いちご,strawberry,草莓,🍓,fruit,,,,assets/audio/japanese/vocab/015.mp3,,assets/images/lexicon/C-0015.webp,yes,vocab:fruit
+C-0016,オレンジ,orange,橙,🍊,fruit,,,,assets/audio/japanese/vocab/016.mp3,,assets/images/lexicon/C-0016.webp,yes,vocab:fruit
+C-0017,ぶどう,grapes,葡萄,🍇,fruit,,,,assets/audio/japanese/vocab/017.mp3,,assets/images/lexicon/C-0017.webp,yes,vocab:fruit
+C-0018,すいか,watermelon,西瓜,🍉,fruit,,,,assets/audio/japanese/vocab/018.mp3,assets/audio/japanese/hiragana-words/hw-038.mp3,assets/images/lexicon/C-0018.webp,yes,vocab:fruit hiragana:す
+C-0019,パイナップル,pineapple,菠萝,🍍,fruit,,,,assets/audio/japanese/vocab/019.mp3,,assets/images/lexicon/C-0019.webp,yes,vocab:fruit
+C-0020,さくらんぼ,cherry,樱桃,🍒,fruit,,,,assets/audio/japanese/vocab/020.mp3,,assets/images/lexicon/C-0020.webp,yes,vocab:fruit
+C-0021,もも,peach,桃子,🍑,fruit,,,,assets/audio/japanese/vocab/021.mp3,assets/audio/japanese/hiragana-words/hw-102.mp3,assets/images/lexicon/C-0021.webp,,vocab:fruit hiragana:も
+C-0022,メロン,melon,蜜瓜,🍈,fruit,,,,assets/audio/japanese/vocab/022.mp3,,assets/images/lexicon/C-0022.webp,yes,vocab:fruit
+C-0023,レモン,lemon,柠檬,🍋,fruit,,,,assets/audio/japanese/vocab/023.mp3,,assets/images/lexicon/C-0023.webp,yes,vocab:fruit
+C-0024,グレープフルーツ,grapefruit,葡萄柚,,fruit,,,,assets/audio/japanese/vocab/024.mp3,,assets/images/lexicon/C-0024.webp,yes,vocab:fruit
+C-0025,みかん,mandarin orange,橘子,🍊,fruit,,,,assets/audio/japanese/vocab/025.mp3,,assets/images/lexicon/C-0025.webp,yes,vocab:fruit
+C-0026,にんじん,carrot,胡萝卜,🥕,vegetables,,,,assets/audio/japanese/vocab/026.mp3,assets/audio/japanese/hiragana-words/hw-066.mp3,assets/images/lexicon/C-0026.webp,yes,vocab:vegetables hiragana:に
+C-0027,トマト,tomato,番茄,🍅,vegetables,,,,assets/audio/japanese/vocab/027.mp3,,assets/images/lexicon/C-0027.webp,yes,vocab:vegetables
+C-0028,じゃがいも,potato,马铃薯,🥔,vegetables,,,,assets/audio/japanese/vocab/028.mp3,,assets/images/lexicon/C-0028.webp,yes,vocab:vegetables
+C-0029,たまねぎ,onion,洋葱,🧅,vegetables,,,,assets/audio/japanese/vocab/029.mp3,,assets/images/lexicon/C-0029.webp,yes,vocab:vegetables
+C-0030,かぼちゃ,pumpkin,南瓜,🎃,vegetables,,,,assets/audio/japanese/vocab/030.mp3,,assets/images/lexicon/C-0030.webp,yes,vocab:vegetables
+C-0031,ブロッコリー,broccoli,西兰花,🥦,vegetables,,,,assets/audio/japanese/vocab/031.mp3,,assets/images/lexicon/C-0031.webp,yes,vocab:vegetables
+C-0032,きゅうり,cucumber,黄瓜,🥒,vegetables,,,,assets/audio/japanese/vocab/032.mp3,,assets/images/lexicon/C-0032.webp,yes,vocab:vegetables
+C-0033,アボカド,avocado,牛油果,🥑,vegetables,,,,assets/audio/japanese/vocab/033.mp3,,assets/images/lexicon/C-0033.webp,yes,vocab:vegetables
+C-0034,とうもろこし,corn,玉米,🌽,vegetables,,,,assets/audio/japanese/vocab/034.mp3,,assets/images/lexicon/C-0034.webp,yes,vocab:vegetables
+C-0035,なす,eggplant,茄子,🍆,vegetables,,,,assets/audio/japanese/vocab/035.mp3,assets/audio/japanese/hiragana-words/hw-062.mp3,assets/images/lexicon/C-0035.webp,yes,vocab:vegetables hiragana:な
+C-0036,ピーマン,green pepper,青椒,,vegetables,,,,assets/audio/japanese/vocab/036.mp3,,assets/images/lexicon/C-0036.webp,yes,vocab:vegetables
+C-0037,キャベツ,cabbage,包菜,🥬,vegetables,,,,assets/audio/japanese/vocab/037.mp3,,assets/images/lexicon/C-0037.webp,yes,vocab:vegetables
+C-0038,パン,bread,面包,🍞,food,,,,assets/audio/japanese/vocab/038.mp3,,assets/images/lexicon/C-0038.webp,yes,vocab:food
+C-0039,ごはん,rice,米饭,🍚,food,,,,assets/audio/japanese/vocab/039.mp3,,assets/images/lexicon/C-0039.webp,yes,vocab:food
+C-0040,たまご,egg,鸡蛋,🥚,food,,,,assets/audio/japanese/vocab/040.mp3,assets/audio/japanese/hiragana-words/hw-048.mp3,assets/images/lexicon/C-0040.webp,yes,vocab:food hiragana:た
+C-0041,さかな,fish,鱼,🐟,food,,,,assets/audio/japanese/vocab/041.mp3,assets/audio/japanese/hiragana-words/hw-032.mp3,assets/images/lexicon/C-0041.webp,yes,vocab:food hiragana:さ
+C-0042,にく,meat,肉,🥩,food,,,,assets/audio/japanese/vocab/042.mp3,,assets/images/lexicon/C-0042.webp,yes,vocab:food
+C-0043,チーズ,cheese,奶酪,🧀,food,,,,assets/audio/japanese/vocab/043.mp3,,assets/images/lexicon/C-0043.webp,yes,vocab:food
+C-0044,シリアル,cereal,麦片,🥣,food,,,,assets/audio/japanese/vocab/044.mp3,,assets/images/lexicon/C-0044.webp,yes,vocab:food
+C-0045,ヨーグルト,yogurt,酸奶,,food,,,,assets/audio/japanese/vocab/045.mp3,,assets/images/lexicon/C-0045.webp,yes,vocab:food
+C-0046,ぎゅうにゅう,milk,牛奶,🥛,food,,,,assets/audio/japanese/vocab/046.mp3,,assets/images/lexicon/C-0046.webp,yes,vocab:food
+C-0047,みず,water,水,💧,food,,,,assets/audio/japanese/vocab/047.mp3,assets/audio/japanese/hiragana-words/hw-095.mp3,assets/images/lexicon/C-0047.webp,yes,vocab:food hiragana:み
+C-0048,ジュース,juice,果汁,🧃,food,,,,assets/audio/japanese/vocab/048.mp3,,assets/images/lexicon/C-0048.webp,yes,vocab:food
+C-0049,おちゃ,tea,茶,🍵,food,,,,assets/audio/japanese/vocab/049.mp3,,assets/images/lexicon/C-0049.webp,yes,vocab:food
+C-0050,さゆ,warm water,温开水,,food,,,,assets/audio/japanese/vocab/050.mp3,,assets/images/lexicon/C-0050.webp,yes,vocab:food
+C-0051,おひや,cold water,冰开水,,food,,,,assets/audio/japanese/vocab/051.mp3,,assets/images/lexicon/C-0051.webp,yes,vocab:food
+C-0052,ラーメン,ramen,拉面,🍜,food,,,,assets/audio/japanese/vocab/052.mp3,,assets/images/lexicon/C-0052.webp,yes,vocab:food
+C-0053,カレーライス,curry rice,咖喱饭,🍛,food,,,,assets/audio/japanese/vocab/053.mp3,,assets/images/lexicon/C-0053.webp,yes,vocab:food
+C-0054,サラダ,salad,沙拉,🥗,food,,,,assets/audio/japanese/vocab/054.mp3,,assets/images/lexicon/C-0054.webp,yes,vocab:food
+C-0055,ピザ,pizza,披萨,🍕,food,,,,assets/audio/japanese/vocab/055.mp3,,assets/images/lexicon/C-0055.webp,yes,vocab:food
+C-0056,スープ,soup,汤,,food,,,,assets/audio/japanese/vocab/056.mp3,,assets/images/lexicon/C-0056.webp,yes,vocab:food
+C-0057,カレー,curry,咖喱,,food,,,,assets/audio/japanese/vocab/057.mp3,,assets/images/lexicon/C-0057.webp,yes,vocab:food
+C-0058,サンドイッチ,sandwich,三明治,🥪,food,,,,assets/audio/japanese/vocab/058.mp3,,assets/images/lexicon/C-0058.webp,yes,vocab:food
+C-0059,ハンバーガー,hamburger,汉堡,🍔,food,,,,assets/audio/japanese/vocab/059.mp3,,assets/images/lexicon/C-0059.webp,yes,vocab:food
+C-0060,フライドポテト,french fries,薯条,🍟,food,,,,assets/audio/japanese/vocab/060.mp3,,assets/images/lexicon/C-0060.webp,yes,vocab:food
+C-0061,スパゲッティ,spaghetti,意大利面,🍝,food,,,,assets/audio/japanese/vocab/061.mp3,,assets/images/lexicon/C-0061.webp,yes,vocab:food
+C-0062,ホットドッグ,hot dog,热狗,🌭,food,,,,assets/audio/japanese/vocab/062.mp3,,assets/images/lexicon/C-0062.webp,yes,vocab:food
+C-0063,フライドチキン,fried chicken,炸鸡,🍗,food,,,,assets/audio/japanese/vocab/063.mp3,,assets/images/lexicon/C-0063.webp,yes,vocab:food
+C-0064,チョコレート,chocolate,巧克力,🍫,snacks,,,,assets/audio/japanese/vocab/064.mp3,,assets/images/lexicon/C-0064.webp,yes,vocab:snacks
+C-0065,あめ,candy,糖果,🍬,snacks,,,,assets/audio/japanese/vocab/065.mp3,,assets/images/lexicon/C-0065.webp,yes,vocab:snacks
+C-0066,クッキー,cookie,饼干,🍪,snacks,,,,assets/audio/japanese/vocab/066.mp3,,assets/images/lexicon/C-0066.webp,yes,vocab:snacks
+C-0067,ケーキ,cake,蛋糕,🍰,snacks,,,,assets/audio/japanese/vocab/067.mp3,,assets/images/lexicon/C-0067.webp,yes,vocab:snacks
+C-0068,ドーナツ,doughnut,甜甜圈,🍩,snacks,,,,assets/audio/japanese/vocab/068.mp3,,assets/images/lexicon/C-0068.webp,yes,vocab:snacks
+C-0069,キャラメル,caramel,焦糖,,snacks,,,,assets/audio/japanese/vocab/069.mp3,,assets/images/lexicon/C-0069.webp,yes,vocab:snacks
+C-0070,ゼリー,jelly,果冻,,snacks,,,,assets/audio/japanese/vocab/070.mp3,,assets/images/lexicon/C-0070.webp,yes,vocab:snacks
+C-0071,マシュマロ,marshmallow,棉花糖,,snacks,,,,assets/audio/japanese/vocab/071.mp3,,assets/images/lexicon/C-0071.webp,yes,vocab:snacks
+C-0072,アイスクリーム,ice cream,冰淇淋,🍨,snacks,,,,assets/audio/japanese/vocab/072.mp3,,assets/images/lexicon/C-0072.webp,yes,vocab:snacks
+C-0073,ガム,chewing gum,口香糖,,snacks,,,,assets/audio/japanese/vocab/073.mp3,,assets/images/lexicon/C-0073.webp,yes,vocab:snacks
+C-0074,グミ,gummy,软糖,,snacks,,,,assets/audio/japanese/vocab/074.mp3,,assets/images/lexicon/C-0074.webp,yes,vocab:snacks
+C-0075,ポテトチップス,potato chips,薯片,,snacks,,,,assets/audio/japanese/vocab/075.mp3,,assets/images/lexicon/C-0075.webp,yes,vocab:snacks
+C-0076,ポップコーン,popcorn,爆米花,🍿,snacks,,,,assets/audio/japanese/vocab/076.mp3,,assets/images/lexicon/C-0076.webp,yes,vocab:snacks
+C-0077,えんぴつ,pencil,铅笔,✏️,stationery,,,,assets/audio/japanese/vocab/077.mp3,assets/audio/japanese/hiragana-words/hw-012.mp3,assets/images/lexicon/C-0077.webp,yes,vocab:stationery hiragana:え experience
+C-0078,けしごむ,eraser,橡皮擦,🧽,stationery,,,,assets/audio/japanese/vocab/078.mp3,assets/audio/japanese/hiragana-words/hw-027.mp3,assets/images/lexicon/C-0078.webp,yes,vocab:stationery hiragana:け
+C-0079,いろえんぴつ,coloured pencil,彩色铅笔,,stationery,,,,assets/audio/japanese/vocab/079.mp3,,assets/images/lexicon/C-0079.webp,yes,vocab:stationery
+C-0080,はさみ,scissors,剪刀,✂️,stationery,,,,assets/audio/japanese/vocab/080.mp3,assets/audio/japanese/hiragana-words/hw-077.mp3,assets/images/lexicon/C-0080.webp,yes,vocab:stationery hiragana:は
+C-0081,のり,glue,胶水,,stationery,,,,assets/audio/japanese/vocab/081.mp3,,assets/images/lexicon/C-0081.webp,yes,vocab:stationery
+C-0082,ノート,notebook,笔记本,📓,stationery,,,,assets/audio/japanese/vocab/082.mp3,,assets/images/lexicon/C-0082.webp,yes,vocab:stationery
+C-0083,クリアファイル,clear file,文件夹,,stationery,,,,assets/audio/japanese/vocab/083.mp3,,assets/images/lexicon/C-0083.webp,yes,vocab:stationery
+C-0084,ホチキス,stapler,订书机,,stationery,,,,assets/audio/japanese/vocab/084.mp3,,assets/images/lexicon/C-0084.webp,yes,vocab:stationery
+C-0085,テープ,tape,胶带,,stationery,,,,assets/audio/japanese/vocab/085.mp3,,assets/images/lexicon/C-0085.webp,yes,vocab:stationery
+C-0086,とけい,clock,时钟,⏰,stationery,,,,assets/audio/japanese/vocab/086.mp3,assets/audio/japanese/hiragana-words/hw-060.mp3,assets/images/lexicon/C-0086.webp,yes,vocab:stationery hiragana:と
+C-0087,つくえ,desk,书桌,,stationery,,,,assets/audio/japanese/vocab/087.mp3,assets/audio/japanese/hiragana-words/hw-053.mp3,assets/images/lexicon/C-0087.webp,yes,vocab:stationery hiragana:つ
+C-0088,いす,chair,椅子,🪑,stationery,,,,assets/audio/japanese/vocab/088.mp3,assets/audio/japanese/hiragana-words/hw-005.mp3,assets/images/lexicon/C-0088.webp,yes,vocab:stationery hiragana:い experience
+C-0089,ごみばこ,rubbish bin,垃圾桶,🗑️,stationery,,,,assets/audio/japanese/vocab/089.mp3,,assets/images/lexicon/C-0089.webp,yes,vocab:stationery
+C-0090,シャープペンシル,mechanical pencil,自动铅笔,,stationery,,,,assets/audio/japanese/vocab/090.mp3,,assets/images/lexicon/C-0090.webp,yes,vocab:stationery
+C-0091,かばん,bag,书包,🎒,stationery,,,,assets/audio/japanese/vocab/091.mp3,assets/audio/japanese/hiragana-words/hw-128.mp3,assets/images/lexicon/C-0091.webp,yes,vocab:stationery hiragana:ん
+C-0092,パンや,bakery,面包店,🥐,places,,,,assets/audio/japanese/vocab/092.mp3,,assets/images/lexicon/C-0092.webp,yes,vocab:places
+C-0093,ほんや,bookshop,书店,,places,,,,assets/audio/japanese/vocab/093.mp3,,assets/images/lexicon/C-0093.webp,yes,vocab:places
+C-0094,かだん,flower bed,花坛,🌷,places,,,,assets/audio/japanese/vocab/094.mp3,,assets/images/lexicon/C-0094.webp,yes,vocab:places
+C-0095,こうちょうしつ,principal's office,校长室,,places,,,,assets/audio/japanese/vocab/095.mp3,,assets/images/lexicon/C-0095.webp,yes,vocab:places
+C-0096,たいいくかん,school hall / gym,体育馆,,places,,,,assets/audio/japanese/vocab/096.mp3,,assets/images/lexicon/C-0096.webp,yes,vocab:places
+C-0097,しょうぼうしょ,fire station,消防局,,places,,,,assets/audio/japanese/vocab/097.mp3,,assets/images/lexicon/C-0097.webp,yes,vocab:places
+C-0098,がっこう,school,学校,🏫,places,,,,assets/audio/japanese/vocab/098.mp3,,assets/images/lexicon/C-0098.webp,yes,vocab:places
+C-0099,いえ,house,家,🏠,places,,,,assets/audio/japanese/vocab/099.mp3,assets/audio/japanese/hiragana-words/hw-004.mp3,assets/images/lexicon/C-0099.webp,yes,vocab:places hiragana:い experience
+C-0100,すいぞくかん,aquarium,水族馆,,places,,,,assets/audio/japanese/vocab/100.mp3,,assets/images/lexicon/C-0100.webp,yes,vocab:places
+C-0101,こうえん,park,公园,🏞️,places,,,,assets/audio/japanese/vocab/101.mp3,assets/audio/japanese/hiragana-words/hw-030.mp3,assets/images/lexicon/C-0101.webp,yes,vocab:places hiragana:こ
+C-0102,どうぶつえん,zoo,动物园,,places,,,,assets/audio/japanese/vocab/102.mp3,,assets/images/lexicon/C-0102.webp,yes,vocab:places
+C-0103,くうこう,airport,机场,🛫,places,,,,assets/audio/japanese/vocab/103.mp3,,assets/images/lexicon/C-0103.webp,yes,vocab:places
+C-0104,スーパー,supermarket,超市,🛒,places,,,,assets/audio/japanese/vocab/104.mp3,,assets/images/lexicon/C-0104.webp,yes,vocab:places
+C-0105,びょういん,hospital,医院,🏥,places,,,,assets/audio/japanese/vocab/105.mp3,,assets/images/lexicon/C-0105.webp,yes,vocab:places
+C-0106,としょかん,library,图书馆,,places,,,,assets/audio/japanese/vocab/106.mp3,,assets/images/lexicon/C-0106.webp,yes,vocab:places
+C-0107,えき,station,车站,🚉,places,,,,assets/audio/japanese/vocab/107.mp3,,assets/images/lexicon/C-0107.webp,yes,vocab:places
+C-0108,レストラン,restaurant,餐厅,🍽️,places,,,,assets/audio/japanese/vocab/108.mp3,,assets/images/lexicon/C-0108.webp,yes,vocab:places
+C-0109,ゆうびんきょく,post office,邮局,🏣,places,,,,assets/audio/japanese/vocab/109.mp3,,assets/images/lexicon/C-0109.webp,yes,vocab:places
+C-0110,くすりや,pharmacy,药房,💊,places,,,,assets/audio/japanese/vocab/110.mp3,,assets/images/lexicon/C-0110.webp,yes,vocab:places
+C-0111,こうばん,police box,派出所,👮,places,,,,assets/audio/japanese/vocab/111.mp3,,assets/images/lexicon/C-0111.webp,yes,vocab:places
+C-0112,ぎんこう,bank,银行,🏦,places,,,,assets/audio/japanese/vocab/112.mp3,,assets/images/lexicon/C-0112.webp,yes,vocab:places
+C-0113,ほけんしつ,nurse's room,保健室,,places,,,,assets/audio/japanese/vocab/113.mp3,,assets/images/lexicon/C-0113.webp,yes,vocab:places
+C-0114,ずこうしつ,art room,美术室,,places,,,,assets/audio/japanese/vocab/114.mp3,,assets/images/lexicon/C-0114.webp,yes,vocab:places
+C-0115,きょうしつ,classroom,教室,,places,,,,assets/audio/japanese/vocab/115.mp3,,assets/images/lexicon/C-0115.webp,yes,vocab:places
+C-0116,おんがくしつ,music room,音乐室,,places,,,,assets/audio/japanese/vocab/116.mp3,,assets/images/lexicon/C-0116.webp,yes,vocab:places
+C-0117,しょくいんしつ,staff room,教职员室,,places,,,,assets/audio/japanese/vocab/117.mp3,,assets/images/lexicon/C-0117.webp,yes,vocab:places
+C-0118,トイレ,toilet,厕所,🚻,places,,,,assets/audio/japanese/vocab/118.mp3,,assets/images/lexicon/C-0118.webp,yes,vocab:places
+C-0119,プール,swimming pool,游泳池,,places,,,,assets/audio/japanese/vocab/119.mp3,,assets/images/lexicon/C-0119.webp,yes,vocab:places
+C-0120,りかしつ,science lab,科学室,,places,,,,assets/audio/japanese/vocab/120.mp3,,assets/images/lexicon/C-0120.webp,yes,vocab:places
+C-0121,としょしつ,school library,图书室,,places,,,,assets/audio/japanese/vocab/121.mp3,,assets/images/lexicon/C-0121.webp,yes,vocab:places
+C-0122,くるま,car,车,🚗,transport,,,,assets/audio/japanese/vocab/122.mp3,assets/audio/japanese/hiragana-words/hw-118.mp3,assets/images/lexicon/C-0122.webp,yes,vocab:transport hiragana:る
+C-0123,ちかてつ,subway,地铁,🚇,transport,,,,assets/audio/japanese/vocab/123.mp3,assets/audio/japanese/hiragana-words/hw-051.mp3,assets/images/lexicon/C-0123.webp,yes,vocab:transport hiragana:ち
+C-0124,でんしゃ,train,电车,🚃,transport,,,,assets/audio/japanese/vocab/124.mp3,,assets/images/lexicon/C-0124.webp,yes,vocab:transport
+C-0125,じてんしゃ,bicycle,脚踏车,🚲,transport,,,,assets/audio/japanese/vocab/125.mp3,,assets/images/lexicon/C-0125.webp,yes,vocab:transport
+C-0126,バス,bus,巴士,🚌,transport,,,,assets/audio/japanese/vocab/126.mp3,,assets/images/lexicon/C-0126.webp,yes,vocab:transport
+C-0127,バイク,motorbike,摩托车,🏍️,transport,,,,assets/audio/japanese/vocab/127.mp3,,assets/images/lexicon/C-0127.webp,yes,vocab:transport
+C-0128,タクシー,taxi,德士,🚕,transport,,,,assets/audio/japanese/vocab/128.mp3,,assets/images/lexicon/C-0128.webp,yes,vocab:transport
+C-0129,トラック,truck,卡车,🚚,transport,,,,assets/audio/japanese/vocab/129.mp3,,assets/images/lexicon/C-0129.webp,yes,vocab:transport
+C-0130,ふね,ship,船,🚢,transport,,,,assets/audio/japanese/vocab/130.mp3,assets/audio/japanese/hiragana-words/hw-081.mp3,assets/images/lexicon/C-0130.webp,yes,vocab:transport hiragana:ふ
+C-0131,ひこうき,aeroplane,飞机,✈️,transport,,,,assets/audio/japanese/vocab/131.mp3,,assets/images/lexicon/C-0131.webp,yes,vocab:transport
+C-0132,パトカー,police car,警车,🚓,transport,,,,assets/audio/japanese/vocab/132.mp3,,assets/images/lexicon/C-0132.webp,,vocab:transport
+C-0133,しょうぼうしゃ,fire truck,消防车,🚒,transport,,,,assets/audio/japanese/vocab/133.mp3,,assets/images/lexicon/C-0133.webp,,vocab:transport
+C-0134,きゅうきゅうしゃ,ambulance,救护车,🚑,transport,,,,assets/audio/japanese/vocab/134.mp3,,assets/images/lexicon/C-0134.webp,,vocab:transport
+C-0135,しんかんせん,bullet train,新干线,🚄,transport,,,,assets/audio/japanese/vocab/135.mp3,,assets/images/lexicon/C-0135.webp,,vocab:transport
+C-0136,あるいて,on foot,走路,🚶,transport,,,,assets/audio/japanese/vocab/136.mp3,,assets/images/lexicon/C-0136.webp,,vocab:transport
+C-0137,ききゅう,hot-air balloon,热气球,,transport,,,,assets/audio/japanese/vocab/137.mp3,,assets/images/lexicon/C-0137.webp,,vocab:transport
+C-0138,ヘリコプター,helicopter,直升机,🚁,transport,,,,assets/audio/japanese/vocab/138.mp3,,assets/images/lexicon/C-0138.webp,,vocab:transport
+C-0139,ロケット,rocket,火箭,🚀,transport,,,,assets/audio/japanese/vocab/139.mp3,,assets/images/lexicon/C-0139.webp,,vocab:transport
+C-0140,ズボン,trousers,裤子,👖,clothes,,,,assets/audio/japanese/vocab/140.mp3,,assets/images/lexicon/C-0140.webp,,vocab:clothes
+C-0141,スカート,skirt,裙子,,clothes,,,,assets/audio/japanese/vocab/141.mp3,,assets/images/lexicon/C-0141.webp,,vocab:clothes
+C-0142,シャツ,shirt,衬衫,👔,clothes,,,,assets/audio/japanese/vocab/142.mp3,,assets/images/lexicon/C-0142.webp,,vocab:clothes
+C-0143,Tシャツ,T-shirt,T恤,👕,clothes,,,,assets/audio/japanese/vocab/143.mp3,,assets/images/lexicon/C-0143.webp,,vocab:clothes
+C-0144,セーター,sweater,毛衣,,clothes,,,,assets/audio/japanese/vocab/144.mp3,,assets/images/lexicon/C-0144.webp,,vocab:clothes
+C-0145,コート,coat,外套,🧥,clothes,,,,assets/audio/japanese/vocab/145.mp3,,assets/images/lexicon/C-0145.webp,,vocab:clothes
+C-0146,くつした,socks,袜子,🧦,clothes,,,,assets/audio/japanese/vocab/146.mp3,,assets/images/lexicon/C-0146.webp,,vocab:clothes
+C-0147,くつ,shoes,鞋子,👟,clothes,,,,assets/audio/japanese/vocab/147.mp3,assets/audio/japanese/hiragana-words/hw-023.mp3,assets/images/lexicon/C-0147.webp,,vocab:clothes hiragana:く
+C-0148,ぼうし,hat,帽子,🧢,clothes,,,,assets/audio/japanese/vocab/148.mp3,,assets/images/lexicon/C-0148.webp,,vocab:clothes
+C-0149,めがね,glasses,眼镜,👓,clothes,,,,assets/audio/japanese/vocab/149.mp3,assets/audio/japanese/hiragana-words/hw-100.mp3,assets/images/lexicon/C-0149.webp,,vocab:clothes hiragana:め
+C-0150,かさ,umbrella,雨伞,☂️,clothes,,,,assets/audio/japanese/vocab/150.mp3,assets/audio/japanese/hiragana-words/hw-017.mp3,assets/images/lexicon/C-0150.webp,,vocab:clothes hiragana:か
+C-0151,あたま,head,头,,body,,,,assets/audio/japanese/vocab/151.mp3,,assets/images/lexicon/C-0151.webp,,vocab:body
+C-0152,かみ,hair,头发,,body,,,,assets/audio/japanese/vocab/152.mp3,,assets/images/lexicon/C-0152.webp,,vocab:body
+C-0153,かお,face,脸,🙂,body,,,,assets/audio/japanese/vocab/153.mp3,assets/audio/japanese/hiragana-words/hw-016.mp3,assets/images/lexicon/C-0153.webp,,vocab:body hiragana:か
+C-0154,みみ,ear,耳朵,👂,body,,,,assets/audio/japanese/vocab/154.mp3,assets/audio/japanese/hiragana-words/hw-093.mp3,assets/images/lexicon/C-0154.webp,,vocab:body hiragana:み
+C-0155,め,eye,眼睛,👁️,body,,,,assets/audio/japanese/vocab/155.mp3,assets/audio/japanese/hiragana-words/hw-099.mp3,assets/images/lexicon/C-0155.webp,,vocab:body hiragana:め
+C-0156,はな,nose,鼻子,👃,body,,,,assets/audio/japanese/vocab/156.mp3,,assets/images/lexicon/C-0156.webp,,vocab:body
+C-0157,くち,mouth,嘴巴,👄,body,,,,assets/audio/japanese/vocab/157.mp3,assets/audio/japanese/hiragana-words/hw-022.mp3,assets/images/lexicon/C-0157.webp,,vocab:body hiragana:く
+C-0158,かた,shoulder,肩膀,,body,,,,assets/audio/japanese/vocab/158.mp3,,assets/images/lexicon/C-0158.webp,,vocab:body
+C-0159,せなか,back,背,,body,,,,assets/audio/japanese/vocab/159.mp3,,assets/images/lexicon/C-0159.webp,,vocab:body
+C-0160,て,hand,手,✋,body,,,,assets/audio/japanese/vocab/160.mp3,assets/audio/japanese/hiragana-words/hw-055.mp3,assets/images/lexicon/C-0160.webp,,vocab:body hiragana:て
+C-0161,あし,foot / leg,脚,🦶,body,,,,assets/audio/japanese/vocab/161.mp3,assets/audio/japanese/hiragana-words/hw-002.mp3,assets/images/lexicon/C-0161.webp,,vocab:body hiragana:あ experience
+C-0162,おかあさん,mother,妈妈,👩,family,,,,assets/audio/japanese/vocab/162.mp3,,assets/images/lexicon/C-0162.webp,,vocab:family
+C-0163,おとうさん,father,爸爸,👨,family,,,,assets/audio/japanese/vocab/163.mp3,,assets/images/lexicon/C-0163.webp,,vocab:family
+C-0164,おじいさん,grandfather,爷爷／外公,👴,family,,,,assets/audio/japanese/vocab/164.mp3,,assets/images/lexicon/C-0164.webp,,vocab:family
+C-0165,おばあさん,grandmother,奶奶／外婆,👵,family,,,,assets/audio/japanese/vocab/165.mp3,,assets/images/lexicon/C-0165.webp,,vocab:family
+C-0166,おにいさん,older brother,哥哥,,family,,,,assets/audio/japanese/vocab/166.mp3,,assets/images/lexicon/C-0166.webp,,vocab:family
+C-0167,おねえさん,older sister,姐姐,,family,,,,assets/audio/japanese/vocab/167.mp3,,assets/images/lexicon/C-0167.webp,,vocab:family
+C-0168,わたし,I / me,我,🙋,family,,,,assets/audio/japanese/vocab/168.mp3,,assets/images/lexicon/C-0168.webp,,vocab:family
+C-0169,おとうと,younger brother,弟弟,,family,,,,assets/audio/japanese/vocab/169.mp3,,assets/images/lexicon/C-0169.webp,,vocab:family
+C-0170,いもうと,younger sister,妹妹,,family,,,,assets/audio/japanese/vocab/170.mp3,,assets/images/lexicon/C-0170.webp,,vocab:family
+C-0171,あか,red,红色,#E53935,colours,,,,assets/audio/japanese/vocab/171.mp3,,swatch,,vocab:colours
+C-0172,しろ,white,白色,#FFFFFF,colours,,,,assets/audio/japanese/vocab/172.mp3,assets/audio/japanese/hiragana-words/hw-121.mp3,swatch,,vocab:colours hiragana:ろ
+C-0173,くろ,black,黑色,#111111,colours,,,,assets/audio/japanese/vocab/173.mp3,assets/audio/japanese/hiragana-words/hw-122.mp3,swatch,,vocab:colours hiragana:ろ
+C-0174,はいいろ,grey,灰色,#9E9E9E,colours,,,,assets/audio/japanese/vocab/174.mp3,,swatch,,vocab:colours
+C-0175,きいろ,yellow,黄色,#FDD835,colours,,,,assets/audio/japanese/vocab/175.mp3,,swatch,,vocab:colours
+C-0176,ちゃいろ,brown,咖啡色,#795548,colours,,,,assets/audio/japanese/vocab/176.mp3,,swatch,,vocab:colours
+C-0177,ぎんいろ,silver,银色,#C0C0C0,colours,,,,assets/audio/japanese/vocab/177.mp3,,swatch,,vocab:colours
+C-0178,きんいろ,gold,金色,#D4AF37,colours,,,,assets/audio/japanese/vocab/178.mp3,,swatch,,vocab:colours
+C-0179,むらさき,purple,紫色,#8E24AA,colours,,,,assets/audio/japanese/vocab/179.mp3,,swatch,,vocab:colours
+C-0180,あお,blue,蓝色,#1E88E5,colours,,,,assets/audio/japanese/vocab/180.mp3,,swatch,,vocab:colours
+C-0181,みどり,green,绿色,#43A047,colours,,,,assets/audio/japanese/vocab/181.mp3,,swatch,,vocab:colours
+C-0182,だいだいいろ,orange,橙色,#FB8C00,colours,,,,assets/audio/japanese/vocab/colours-daidaiiro.mp3,,swatch,,vocab:colours
+C-0183,バスケットボール,basketball,篮球,🏀,sports,,,,assets/audio/japanese/vocab/183.mp3,,assets/images/lexicon/C-0183.webp,,vocab:sports
+C-0184,ソフトボール,softball,垒球,🥎,sports,,,,assets/audio/japanese/vocab/184.mp3,,assets/images/lexicon/C-0184.webp,,vocab:sports
+C-0185,ハンドボール,handball,手球,🤾,sports,,,,assets/audio/japanese/vocab/185.mp3,,assets/images/lexicon/C-0185.webp,,vocab:sports
+C-0186,バドミントン,badminton,羽毛球,🏸,sports,,,,assets/audio/japanese/vocab/186.mp3,,assets/images/lexicon/C-0186.webp,,vocab:sports
+C-0187,すいえい,swimming,游泳,🏊,sports,,,,assets/audio/japanese/vocab/187.mp3,,assets/images/lexicon/C-0187.webp,,vocab:sports
+C-0188,ダンス,dance,跳舞,💃,sports,,,,assets/audio/japanese/vocab/188.mp3,,assets/images/lexicon/C-0188.webp,,vocab:sports
+C-0189,スケート,skating,溜冰,⛸️,sports,,,,assets/audio/japanese/vocab/189.mp3,,assets/images/lexicon/C-0189.webp,,vocab:sports
+C-0190,スキー,skiing,滑雪,🎿,sports,,,,assets/audio/japanese/vocab/190.mp3,,assets/images/lexicon/C-0190.webp,,vocab:sports
+C-0191,やきゅう,baseball,棒球,⚾,sports,,,,assets/audio/japanese/vocab/191.mp3,,assets/images/lexicon/C-0191.webp,,vocab:sports
+C-0192,たっきゅう,table tennis,乒乓球,🏓,sports,,,,assets/audio/japanese/vocab/192.mp3,,assets/images/lexicon/C-0192.webp,,vocab:sports
+C-0193,サッカー,football,足球,⚽,sports,,,,assets/audio/japanese/vocab/193.mp3,,assets/images/lexicon/C-0193.webp,,vocab:sports
+C-0194,ゴルフ,golf,高尔夫,⛳,sports,,,,assets/audio/japanese/vocab/194.mp3,,assets/images/lexicon/C-0194.webp,,vocab:sports
+C-0195,バレエ,ballet,芭蕾,🩰,sports,,,,assets/audio/japanese/vocab/195.mp3,,assets/images/lexicon/C-0195.webp,,vocab:sports
+C-0196,ボクシング,boxing,拳击,🥊,sports,,,,assets/audio/japanese/vocab/196.mp3,,assets/images/lexicon/C-0196.webp,,vocab:sports
+C-0197,テニス,tennis,网球,🎾,sports,,,,assets/audio/japanese/vocab/197.mp3,,assets/images/lexicon/C-0197.webp,,vocab:sports
+C-0198,バレーボール,volleyball,排球,🏐,sports,,,,assets/audio/japanese/vocab/198.mp3,,assets/images/lexicon/C-0198.webp,,vocab:sports
+C-0199,ランニング,running,跑步,🏃,sports,,,,assets/audio/japanese/vocab/199.mp3,,assets/images/lexicon/C-0199.webp,,vocab:sports
+C-0200,リコーダー,recorder (flute),直笛,,others,,,,assets/audio/japanese/vocab/200.mp3,,assets/images/lexicon/C-0200.webp,,vocab:others
+C-0201,うわばき,indoor shoes,室内鞋,,others,,,,assets/audio/japanese/vocab/201.mp3,,assets/images/lexicon/C-0201.webp,,vocab:others
+C-0202,ほん,book,书,📖,others,,,,assets/audio/japanese/vocab/202.mp3,assets/audio/japanese/hiragana-words/hw-088.mp3,assets/images/lexicon/C-0202.webp,,vocab:others hiragana:ほ hiragana:ん
+C-0203,テレビ,TV,电视,📺,others,,,,assets/audio/japanese/vocab/203.mp3,,assets/images/lexicon/C-0203.webp,,vocab:others
+C-0204,え,picture,图画,🖼️,others,,,,assets/audio/japanese/vocab/204.mp3,assets/audio/japanese/hiragana-words/hw-010.mp3,assets/images/lexicon/C-0204.webp,,vocab:others hiragana:え experience
+C-0205,たいそうふく,PE uniform,运动服,,others,,,,assets/audio/japanese/vocab/205.mp3,,assets/images/lexicon/C-0205.webp,,vocab:others
+C-0206,クレヨン,crayon,蜡笔,🖍️,others,,,,assets/audio/japanese/vocab/206.mp3,,assets/images/lexicon/C-0206.webp,,vocab:others
+C-0207,しお,salt,盐,🧂,others,,,,assets/audio/japanese/vocab/207.mp3,,assets/images/lexicon/C-0207.webp,,vocab:others
+C-0208,さとう,sugar,糖,,others,,,,assets/audio/japanese/vocab/208.mp3,,assets/images/lexicon/C-0208.webp,,vocab:others
+C-0209,きゅうしょく,school lunch,学校午餐,🍱,others,,,,assets/audio/japanese/vocab/209.mp3,,assets/images/lexicon/C-0209.webp,,vocab:others
+C-0210,あさ,morning,早上,🌅,others,,,,assets/audio/japanese/vocab/210.mp3,assets/audio/japanese/hiragana-words/hw-003.mp3,assets/images/lexicon/C-0210.webp,,vocab:others hiragana:あ experience
+C-0211,ひる,noon / daytime,中午,☀️,others,,,,assets/audio/japanese/vocab/211.mp3,,assets/images/lexicon/C-0211.webp,,vocab:others
+C-0212,よる,night,晚上,🌃,others,,,,assets/audio/japanese/vocab/212.mp3,assets/audio/japanese/hiragana-words/hw-111.mp3,assets/images/lexicon/C-0212.webp,,vocab:others hiragana:よ hiragana:る
+C-0213,スプーン,spoon,汤匙,🥄,others,,,,assets/audio/japanese/vocab/213.mp3,,assets/images/lexicon/C-0213.webp,,vocab:others
+C-0214,バター,butter,牛油,🧈,others,,,,assets/audio/japanese/vocab/214.mp3,,assets/images/lexicon/C-0214.webp,,vocab:others
+C-0215,ジャム,jam,果酱,,others,,,,assets/audio/japanese/vocab/215.mp3,,assets/images/lexicon/C-0215.webp,,vocab:others
+C-0216,ナイフ,knife,刀,🔪,others,,,,assets/audio/japanese/vocab/216.mp3,,assets/images/lexicon/C-0216.webp,,vocab:others
+C-0217,フォーク,fork,叉子,,others,,,,assets/audio/japanese/vocab/217.mp3,,assets/images/lexicon/C-0217.webp,,vocab:others
+C-0218,まんが,comic,漫画,,others,,,,assets/audio/japanese/vocab/218.mp3,,assets/images/lexicon/C-0218.webp,,vocab:others
+C-0219,えいが,movie,电影,🎬,others,,,,assets/audio/japanese/vocab/219.mp3,,assets/images/lexicon/C-0219.webp,,vocab:others
+C-0220,しゃしん,photo,照片,📷,others,,,,assets/audio/japanese/vocab/220.mp3,,assets/images/lexicon/C-0220.webp,,vocab:others
+C-0221,たかい,tall / high,高,,adjectives,,,,assets/audio/japanese/vocab/221.mp3,,assets/images/lexicon/C-0221.webp,,vocab:adjectives
+C-0222,ひくい,short / low,矮・低,,adjectives,,,,assets/audio/japanese/vocab/222.mp3,,assets/images/lexicon/C-0222.webp,,vocab:adjectives
+C-0223,たかい,expensive,贵,💰,adjectives,,,,assets/audio/japanese/vocab/223.mp3,,assets/images/lexicon/C-0223.webp,,vocab:adjectives
+C-0224,やすい,cheap,便宜,,adjectives,,,,assets/audio/japanese/vocab/224.mp3,,assets/images/lexicon/C-0224.webp,,vocab:adjectives
+C-0225,おおきい,big,大,,adjectives,,,,assets/audio/japanese/vocab/225.mp3,,assets/images/lexicon/C-0225.webp,,vocab:adjectives
+C-0226,ちいさい,small,小,,adjectives,,,,assets/audio/japanese/vocab/226.mp3,,assets/images/lexicon/C-0226.webp,,vocab:adjectives
+C-0227,ながい,long,长,,adjectives,,,,assets/audio/japanese/vocab/227.mp3,,assets/images/lexicon/C-0227.webp,,vocab:adjectives
+C-0228,みじかい,short (length),短,,adjectives,,,,assets/audio/japanese/vocab/228.mp3,,assets/images/lexicon/C-0228.webp,,vocab:adjectives
+C-0229,あたらしい,new,新,🆕,adjectives,,,,assets/audio/japanese/vocab/229.mp3,,assets/images/lexicon/C-0229.webp,,vocab:adjectives
+C-0230,ふるい,old (things),旧,,adjectives,,,,assets/audio/japanese/vocab/230.mp3,,assets/images/lexicon/C-0230.webp,,vocab:adjectives
+C-0231,はやい,fast,快,🐇,adjectives,,,,assets/audio/japanese/vocab/231.mp3,,assets/images/lexicon/C-0231.webp,,vocab:adjectives
+C-0232,おそい,slow,慢,🐢,adjectives,,,,assets/audio/japanese/vocab/232.mp3,,assets/images/lexicon/C-0232.webp,,vocab:adjectives
+C-0233,あつい,hot (weather),热（天气）,🥵,adjectives,,,,assets/audio/japanese/vocab/233.mp3,,assets/images/lexicon/C-0233.webp,,vocab:adjectives
+C-0234,さむい,cold (weather),冷（天气）,🥶,adjectives,,,,assets/audio/japanese/vocab/234.mp3,,assets/images/lexicon/C-0234.webp,,vocab:adjectives
+C-0235,あつい,hot (to touch),烫,,adjectives,,,,assets/audio/japanese/vocab/235.mp3,,assets/images/lexicon/C-0235.webp,,vocab:adjectives
+C-0236,つめたい,cold (to touch),冰,🧊,adjectives,,,,assets/audio/japanese/vocab/236.mp3,,assets/images/lexicon/C-0236.webp,,vocab:adjectives
+C-0237,かるい,light (weight),轻,,adjectives,,,,assets/audio/japanese/vocab/237.mp3,,assets/images/lexicon/C-0237.webp,,vocab:adjectives
+C-0238,おもい,heavy,重,,adjectives,,,,assets/audio/japanese/vocab/238.mp3,,assets/images/lexicon/C-0238.webp,,vocab:adjectives
+C-0239,いい,good,好,👍,adjectives,,,,assets/audio/japanese/vocab/239.mp3,,assets/images/lexicon/C-0239.webp,,vocab:adjectives
+C-0240,わるい,bad,坏,👎,adjectives,,,,assets/audio/japanese/vocab/240.mp3,,assets/images/lexicon/C-0240.webp,,vocab:adjectives
+C-0241,にがい,bitter,苦,,adjectives,,,,assets/audio/japanese/vocab/241.mp3,,assets/images/lexicon/C-0241.webp,,vocab:adjectives
+C-0242,すっぱい,sour,酸,,adjectives,,,,assets/audio/japanese/vocab/242.mp3,,assets/images/lexicon/C-0242.webp,,vocab:adjectives
+C-0243,しょっぱい,salty,咸,,adjectives,,,,assets/audio/japanese/vocab/243.mp3,,assets/images/lexicon/C-0243.webp,,vocab:adjectives
+C-0244,からい,spicy,辣,🌶️,adjectives,,,,assets/audio/japanese/vocab/244.mp3,,assets/images/lexicon/C-0244.webp,,vocab:adjectives
+C-0245,おいしい,delicious,好吃,😋,adjectives,,,,assets/audio/japanese/vocab/245.mp3,,assets/images/lexicon/C-0245.webp,,vocab:adjectives
+C-0246,たべます,eat,吃,🍽️,verbs,,,,assets/audio/japanese/vocab/246.mp3,,assets/images/lexicon/C-0246.webp,,vocab:verbs
+C-0247,のみます,drink,喝,🥤,verbs,,,,assets/audio/japanese/vocab/247.mp3,,assets/images/lexicon/C-0247.webp,,vocab:verbs
+C-0248,します,do,做,,verbs,,,,assets/audio/japanese/vocab/248.mp3,,assets/images/lexicon/C-0248.webp,,vocab:verbs
+C-0249,みます,watch / see,看,👀,verbs,,,,assets/audio/japanese/vocab/249.mp3,,assets/images/lexicon/C-0249.webp,,vocab:verbs
+C-0250,いきます,go,去,🚶,verbs,,,,assets/audio/japanese/vocab/250.mp3,,assets/images/lexicon/C-0250.webp,,vocab:verbs
+C-0251,おきます,wake up,起床,⏰,verbs,,,,assets/audio/japanese/vocab/251.mp3,,assets/images/lexicon/C-0251.webp,,vocab:verbs
+C-0252,ねます,sleep,睡觉,😴,verbs,,,,assets/audio/japanese/vocab/252.mp3,,assets/images/lexicon/C-0252.webp,,vocab:verbs
+C-0253,きます,come,来,,verbs,,,,assets/audio/japanese/vocab/253.mp3,,assets/images/lexicon/C-0253.webp,,vocab:verbs
+C-0254,かえります,go home,回家,🏠,verbs,,,,assets/audio/japanese/vocab/254.mp3,,assets/images/lexicon/C-0254.webp,,vocab:verbs
+C-0255,かいます,buy,买,🛍️,verbs,,,,assets/audio/japanese/vocab/255.mp3,,assets/images/lexicon/C-0255.webp,,vocab:verbs
+C-0256,かきます,write,写,✍️,verbs,,,,assets/audio/japanese/vocab/256.mp3,,assets/images/lexicon/C-0256.webp,,vocab:verbs
+C-0257,ききます,listen,听,🎧,verbs,,,,assets/audio/japanese/vocab/257.mp3,,assets/images/lexicon/C-0257.webp,,vocab:verbs
+C-0258,あらいます,wash,洗,🧼,verbs,,,,assets/audio/japanese/vocab/258.mp3,,assets/images/lexicon/C-0258.webp,,vocab:verbs
+C-0259,みがきます,brush (teeth),刷（牙）,,verbs,,,,assets/audio/japanese/vocab/259.mp3,,assets/images/lexicon/C-0259.webp,,vocab:verbs
+C-0260,はかります,measure,量,📏,verbs,,,,assets/audio/japanese/vocab/260.mp3,,assets/images/lexicon/C-0260.webp,,vocab:verbs
+C-0261,よみます,read,读,📖,verbs,,,,assets/audio/japanese/vocab/261.mp3,,assets/images/lexicon/C-0261.webp,,vocab:verbs
+C-0262,あめ,rain,雨,🌧️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-001.mp3,,assets/images/lexicon/C-0262.webp,,hiragana:あ experience
+C-0263,うみ,sea,海,🌊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-008.mp3,,assets/images/lexicon/C-0263.webp,,hiragana:う experience
+C-0264,えび,prawn,虾,🦐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-011.mp3,,assets/images/lexicon/C-0264.webp,,hiragana:え experience
+C-0265,おかし,snack / sweets,零食,🍬,hiragana,,,,assets/audio/japanese/hiragana-words/hw-013.mp3,,assets/images/lexicon/C-0265.webp,,hiragana:お experience
+C-0266,おの,axe,斧头,🪓,hiragana,,,,assets/audio/japanese/hiragana-words/hw-014.mp3,,assets/images/lexicon/C-0266.webp,,hiragana:お experience
+C-0267,おかね,money,钱,💰,hiragana,,,,assets/audio/japanese/hiragana-words/hw-015.mp3,,assets/images/lexicon/C-0267.webp,,hiragana:お experience
+C-0268,かめ,turtle,乌龟,🐢,hiragana,,,,assets/audio/japanese/hiragana-words/hw-018.mp3,,assets/images/lexicon/C-0268.webp,,hiragana:か
+C-0269,き,tree,树,🌳,hiragana,,,,assets/audio/japanese/hiragana-words/hw-019.mp3,,assets/images/lexicon/C-0269.webp,,hiragana:き
+C-0270,きつね,fox,狐狸,🦊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-020.mp3,,assets/images/lexicon/C-0270.webp,,hiragana:き
+C-0271,きのこ,mushroom,蘑菇,🍄,hiragana,,,,assets/audio/japanese/hiragana-words/hw-021.mp3,,assets/images/lexicon/C-0271.webp,,hiragana:き
+C-0272,けん,sword,剑,🗡️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-025.mp3,,assets/images/lexicon/C-0272.webp,,hiragana:け
+C-0273,けむし,caterpillar,毛毛虫,🐛,hiragana,,,,assets/audio/japanese/hiragana-words/hw-026.mp3,,assets/images/lexicon/C-0273.webp,,hiragana:け
+C-0274,こま,spinning top,陀螺,🎯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-028.mp3,,assets/images/lexicon/C-0274.webp,,hiragana:こ
+C-0275,こうもり,bat,蝙蝠,🦇,hiragana,,,,assets/audio/japanese/hiragana-words/hw-029.mp3,,assets/images/lexicon/C-0275.webp,,hiragana:こ
+C-0276,さいふ,wallet,钱包,👛,hiragana,,,,assets/audio/japanese/hiragana-words/hw-031.mp3,,assets/images/lexicon/C-0276.webp,,hiragana:さ
+C-0277,しか,deer,鹿,🦌,hiragana,,,,assets/audio/japanese/hiragana-words/hw-034.mp3,,assets/images/lexicon/C-0277.webp,,hiragana:し
+C-0278,しま,island,岛,🏝️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-035.mp3,,assets/images/lexicon/C-0278.webp,,hiragana:し
+C-0279,した,tongue,舌头,👅,hiragana,,,,assets/audio/japanese/hiragana-words/hw-036.mp3,,assets/images/lexicon/C-0279.webp,,hiragana:し
+C-0280,すし,sushi,寿司,🍣,hiragana,,,,assets/audio/japanese/hiragana-words/hw-037.mp3,,assets/images/lexicon/C-0280.webp,,hiragana:す
+C-0281,すうじ,numbers,数字,🔢,hiragana,,,,assets/audio/japanese/hiragana-words/hw-039.mp3,,assets/images/lexicon/C-0281.webp,,hiragana:す
+C-0282,せみ,cicada,蝉,🦗,hiragana,,,,assets/audio/japanese/hiragana-words/hw-040.mp3,,assets/images/lexicon/C-0282.webp,,hiragana:せ
+C-0283,せんぬき,bottle opener,开瓶器,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-041.mp3,,assets/images/lexicon/C-0283.webp,,hiragana:せ
+C-0284,せんたくき,washing machine,洗衣机,🧺,hiragana,,,,assets/audio/japanese/hiragana-words/hw-042.mp3,,assets/images/lexicon/C-0284.webp,,hiragana:せ
+C-0285,そら,sky,天空,☁️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-043.mp3,,assets/images/lexicon/C-0285.webp,,hiragana:そ
+C-0286,そり,sled,雪橇,🛷,hiragana,,,,assets/audio/japanese/hiragana-words/hw-044.mp3,,assets/images/lexicon/C-0286.webp,,hiragana:そ
+C-0287,そうじき,vacuum cleaner,吸尘器,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-045.mp3,,assets/images/lexicon/C-0287.webp,,hiragana:そ
+C-0288,たこ,octopus,章鱼,🐙,hiragana,,,,assets/audio/japanese/hiragana-words/hw-046.mp3,,assets/images/lexicon/C-0288.webp,,hiragana:た
+C-0289,たいこ,drum,鼓,🥁,hiragana,,,,assets/audio/japanese/hiragana-words/hw-047.mp3,,assets/images/lexicon/C-0289.webp,,hiragana:た
+C-0290,ちず,map,地图,🗺️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-049.mp3,,assets/images/lexicon/C-0290.webp,,hiragana:ち
+C-0291,ちりとり,dustpan,畚箕,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-050.mp3,,assets/images/lexicon/C-0291.webp,,hiragana:ち
+C-0292,つえ,walking stick,拐杖,🦯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-052.mp3,,assets/images/lexicon/C-0292.webp,,hiragana:つ
+C-0293,つき,moon,月亮,🌕,hiragana,,,,assets/audio/japanese/hiragana-words/hw-054.mp3,,assets/images/lexicon/C-0293.webp,,hiragana:つ
+C-0294,てがみ,letter,信,✉️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-056.mp3,,assets/images/lexicon/C-0294.webp,,hiragana:て
+C-0295,てんき,weather,天气,☀️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-057.mp3,,assets/images/lexicon/C-0295.webp,,hiragana:て
+C-0296,とり,bird,鸟,🐦,hiragana,,,,assets/audio/japanese/hiragana-words/hw-058.mp3,,assets/images/lexicon/C-0296.webp,,hiragana:と hiragana:り
+C-0297,とら,tiger,老虎,🐯,hiragana,,,,assets/audio/japanese/hiragana-words/hw-059.mp3,,assets/images/lexicon/C-0297.webp,,hiragana:と hiragana:ら
+C-0298,なし,pear,梨,🍐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-061.mp3,,assets/images/lexicon/C-0298.webp,,hiragana:な
+C-0299,なべ,pot,锅,🍲,hiragana,,,,assets/audio/japanese/hiragana-words/hw-063.mp3,,assets/images/lexicon/C-0299.webp,,hiragana:な
+C-0300,にじ,rainbow,彩虹,🌈,hiragana,,,,assets/audio/japanese/hiragana-words/hw-064.mp3,,assets/images/lexicon/C-0300.webp,,hiragana:に
+C-0301,ぬの,cloth,布,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-067.mp3,,assets/images/lexicon/C-0301.webp,,hiragana:ぬ
+C-0302,ぬいぐるみ,stuffed toy,布偶,🧸,hiragana,,,,assets/audio/japanese/hiragana-words/hw-068.mp3,,assets/images/lexicon/C-0302.webp,,hiragana:ぬ
+C-0303,ねずみ,mouse,老鼠,🐭,hiragana,,,,assets/audio/japanese/hiragana-words/hw-070.mp3,,assets/images/lexicon/C-0303.webp,,hiragana:ね
+C-0304,ねぎ,spring onion,葱,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-071.mp3,,assets/images/lexicon/C-0304.webp,,hiragana:ね
+C-0305,のり,seaweed,海苔,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-072.mp3,,assets/images/lexicon/C-0305.webp,,hiragana:の
+C-0306,のう,brain,脑,🧠,hiragana,,,,assets/audio/japanese/hiragana-words/hw-073.mp3,,assets/images/lexicon/C-0306.webp,,hiragana:の
+C-0307,のこぎり,saw,锯子,🪚,hiragana,,,,assets/audio/japanese/hiragana-words/hw-074.mp3,,assets/images/lexicon/C-0307.webp,,hiragana:の
+C-0308,は,tooth,牙齿,🦷,hiragana,,,,assets/audio/japanese/hiragana-words/hw-075.mp3,,assets/images/lexicon/C-0308.webp,,hiragana:は
+C-0309,はな,flower,花,🌸,hiragana,,,,assets/audio/japanese/hiragana-words/hw-076.mp3,,assets/images/lexicon/C-0309.webp,,hiragana:は
+C-0310,ひ,fire,火,🔥,hiragana,,,,assets/audio/japanese/hiragana-words/hw-078.mp3,,assets/images/lexicon/C-0310.webp,,hiragana:ひ
+C-0311,ひと,person,人,🧍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-079.mp3,,assets/images/lexicon/C-0311.webp,,hiragana:ひ
+C-0312,ひつじ,sheep,羊,🐑,hiragana,,,,assets/audio/japanese/hiragana-words/hw-080.mp3,,assets/images/lexicon/C-0312.webp,,hiragana:ひ
+C-0313,ふで,brush,毛笔,🖌️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-082.mp3,,assets/images/lexicon/C-0313.webp,,hiragana:ふ
+C-0314,ふく,clothes,衣服,👕,hiragana,,,,assets/audio/japanese/hiragana-words/hw-083.mp3,,assets/images/lexicon/C-0314.webp,,hiragana:ふ
+C-0315,へび,snake,蛇,🐍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-084.mp3,,assets/images/lexicon/C-0315.webp,,hiragana:へ
+C-0316,へら,spatula,锅铲,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-085.mp3,,assets/images/lexicon/C-0316.webp,,hiragana:へ
+C-0317,へい,fence / wall,围墙,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-086.mp3,,assets/images/lexicon/C-0317.webp,,hiragana:へ
+C-0318,ほし,star,星星,⭐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-087.mp3,,assets/images/lexicon/C-0318.webp,,hiragana:ほ
+C-0319,ほうき,broom,扫把,🧹,hiragana,,,,assets/audio/japanese/hiragana-words/hw-089.mp3,,assets/images/lexicon/C-0319.webp,,hiragana:ほ
+C-0320,まめ,beans,豆,🫘,hiragana,,,,assets/audio/japanese/hiragana-words/hw-090.mp3,,assets/images/lexicon/C-0320.webp,,hiragana:ま
+C-0321,まど,window,窗户,🪟,hiragana,,,,assets/audio/japanese/hiragana-words/hw-091.mp3,,assets/images/lexicon/C-0321.webp,,hiragana:ま
+C-0322,まくら,pillow,枕头,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-092.mp3,,assets/images/lexicon/C-0322.webp,,hiragana:ま
+C-0323,みせ,shop,商店,🏪,hiragana,,,,assets/audio/japanese/hiragana-words/hw-094.mp3,,assets/images/lexicon/C-0323.webp,,hiragana:み
+C-0324,むし,insect / bug,虫,🐞,hiragana,,,,assets/audio/japanese/hiragana-words/hw-096.mp3,,assets/images/lexicon/C-0324.webp,,hiragana:む
+C-0325,むしば,tooth decay,蛀牙,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-097.mp3,,assets/images/lexicon/C-0325.webp,,hiragana:む
+C-0326,むぎ,wheat,麦,🌾,hiragana,,,,assets/audio/japanese/hiragana-words/hw-098.mp3,,assets/images/lexicon/C-0326.webp,,hiragana:む
+C-0327,めいろ,maze,迷宫,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-101.mp3,,assets/images/lexicon/C-0327.webp,,hiragana:め
+C-0328,もり,forest,森林,🌲,hiragana,,,,assets/audio/japanese/hiragana-words/hw-103.mp3,,assets/images/lexicon/C-0328.webp,,hiragana:も
+C-0329,もみじ,maple leaves,枫叶,🍁,hiragana,,,,assets/audio/japanese/hiragana-words/hw-104.mp3,,assets/images/lexicon/C-0329.webp,,hiragana:も
+C-0330,やま,mountain,山,⛰️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-105.mp3,,assets/images/lexicon/C-0330.webp,,hiragana:や
+C-0331,やぎ,goat,山羊,🐐,hiragana,,,,assets/audio/japanese/hiragana-words/hw-106.mp3,,assets/images/lexicon/C-0331.webp,,hiragana:や
+C-0332,やしのき,palm tree,椰子树,🌴,hiragana,,,,assets/audio/japanese/hiragana-words/hw-107.mp3,,assets/images/lexicon/C-0332.webp,,hiragana:や
+C-0333,ゆき,snow,雪,❄️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-108.mp3,,assets/images/lexicon/C-0333.webp,,hiragana:ゆ
+C-0334,ゆびわ,ring,戒指,💍,hiragana,,,,assets/audio/japanese/hiragana-words/hw-109.mp3,,assets/images/lexicon/C-0334.webp,,hiragana:ゆ
+C-0335,ゆうれい,ghost,鬼,👻,hiragana,,,,assets/audio/japanese/hiragana-words/hw-110.mp3,,assets/images/lexicon/C-0335.webp,,hiragana:ゆ hiragana:れ
+C-0336,よつば,four-leaf clover,四叶草,🍀,hiragana,,,,assets/audio/japanese/hiragana-words/hw-112.mp3,,assets/images/lexicon/C-0336.webp,,hiragana:よ
+C-0337,ようせい,fairy,精灵,🧚,hiragana,,,,assets/audio/japanese/hiragana-words/hw-113.mp3,,assets/images/lexicon/C-0337.webp,,hiragana:よ
+C-0338,らくだ,camel,骆驼,🐫,hiragana,,,,assets/audio/japanese/hiragana-words/hw-114.mp3,,assets/images/lexicon/C-0338.webp,,hiragana:ら
+C-0339,さら,plate,盘子,🍽️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-115.mp3,,assets/images/lexicon/C-0339.webp,,hiragana:ら
+C-0340,りす,squirrel,松鼠,🐿️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-116.mp3,,assets/images/lexicon/C-0340.webp,,hiragana:り
+C-0341,れいぞうこ,fridge,冰箱,,hiragana,,,,assets/audio/japanese/hiragana-words/hw-119.mp3,,assets/images/lexicon/C-0341.webp,,hiragana:れ
+C-0342,ろうそく,candle,蜡烛,🕯️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-120.mp3,,assets/images/lexicon/C-0342.webp,,hiragana:ろ
+C-0343,わに,crocodile,鳄鱼,🐊,hiragana,,,,assets/audio/japanese/hiragana-words/hw-123.mp3,,assets/images/lexicon/C-0343.webp,,hiragana:わ
+C-0344,わし,eagle,老鹰,🦅,hiragana,,,,assets/audio/japanese/hiragana-words/hw-124.mp3,,assets/images/lexicon/C-0344.webp,,hiragana:わ
+C-0345,でんわ,telephone,电话,☎️,hiragana,,,,assets/audio/japanese/hiragana-words/hw-125.mp3,,assets/images/lexicon/C-0345.webp,,hiragana:わ
+C-0346,あり,ant,,🐜,worksheet,,,,,,assets/images/lexicon/C-0346.webp,,reserve
+C-0347,おに,ogre,,👹,worksheet,,,,,,assets/images/lexicon/C-0347.webp,,reserve
+C-0348,おばけ,ghost,,👻,worksheet,,,,,,assets/images/lexicon/C-0348.webp,,reserve
+C-0349,おにぎり,rice ball,,🍙,worksheet,,,,,,assets/images/lexicon/C-0349.webp,,reserve
+C-0350,かに,crab,,🦀,worksheet,,,,,,assets/images/lexicon/C-0350.webp,,reserve
+C-0351,けいさつ,police,,🚓,worksheet,,,,,,assets/images/lexicon/C-0351.webp,,reserve
+C-0352,こあら,koala,,🐨,worksheet,,,,,,assets/images/lexicon/C-0352.webp,,reserve
+C-0353,こおり,ice,,🧊,worksheet,,,,,,assets/images/lexicon/C-0353.webp,,reserve
+C-0354,さくら,cherry blossom,,🌸,worksheet,,,,,,assets/images/lexicon/C-0354.webp,,reserve
+C-0355,すずめ,sparrow,,🐦,worksheet,,,,,,assets/images/lexicon/C-0355.webp,,reserve
+C-0356,せんせい,teacher,,🧑‍🏫,worksheet,,,,,,assets/images/lexicon/C-0356.webp,,reserve
+C-0357,そば,soba,,🍜,worksheet,,,,,,assets/images/lexicon/C-0357.webp,,reserve

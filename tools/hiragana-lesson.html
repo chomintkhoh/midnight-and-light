@@ -44,8 +44,8 @@ button{font:inherit;cursor:pointer}
  linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat,linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat,#fffdf8}
 .stroke-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .stroke-svg .g{stroke:#e4dfd3;stroke-width:5}
-.stroke-svg .s{stroke:var(--ink);stroke-width:5;stroke-dasharray:1;stroke-dashoffset:1}
-.stroke-svg .s.on{stroke-dashoffset:0;transition:stroke-dashoffset .9s ease}
+.stroke-svg .s{stroke:var(--ink);stroke-width:5;stroke-dasharray:1;stroke-dashoffset:1;opacity:0}
+.stroke-svg .s.on{stroke-dashoffset:0;opacity:1;transition:stroke-dashoffset .9s ease}
 .stroke-svg .s.now{stroke:#d1495b}
 .stroke-svg text{font-size:8px;font-weight:800;fill:#d1495b;font-family:Inter,sans-serif}
 .srow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
@@ -55,6 +55,8 @@ button{font:inherit;cursor:pointer}
 .wcard{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;background:#fff;padding:8px 14px;text-align:left}
 .wcard:hover{border-color:var(--lav)}
 .wcard .em{font-size:48px;text-align:center}
+.wcard .lex{width:64px;height:64px;image-rendering:pixelated;display:block;margin:auto}
+.q-pic .lex{width:min(40vw,200px);height:min(40vw,200px);image-rendering:pixelated}
 .wcard .em.noimg{font-size:15px;color:var(--muted);font-weight:700}
 .wcard .w{font-size:clamp(34px,3.6vw,46px);font-weight:700}
 .wcard .w b{color:#d1495b}
@@ -98,6 +100,7 @@ button{font:inherit;cursor:pointer}
 
 <script src="../data/hiragana-words.js"></script>
 <script src="../data/hiragana-strokes.js"></script>
+<script src="../data/lexicon-images.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
@@ -153,7 +156,8 @@ learn(c,s){
   (KANA[k]||[]).forEach(([w,pic,en])=>{
     const b=el("button","wcard");
     const hl=w.replace(k,`<b>${k}</b>`);
-    b.append(el("div","em"+(pic?"":" noimg"),pic||"🖼️"),el("div","w jp",hl),el("div","m",en));
+    const im=lexImg(w,en,"../");
+    b.append(im?el("div","em",`<img class="lex" src="${im}" alt="">`):el("div","em"+(pic?"":" noimg"),pic||"🖼️"),el("div","w jp",hl),el("div","m",en));
     b.onclick=()=>{b.classList.add("on");play(HW_AUDIO[w])};ws.append(b)});
   right.append(ws,pad(k));
   wrap.append(left,right);c.append(wrap);
@@ -182,13 +186,13 @@ check(c,s){
 first(c){
   c.append(el("div","kicker","Word game"),el("div","title","Which letter does it start with?"),el("div","sub","Look at the picture and say the word, then tap its first letter."));
   const area=el("div","q-area");c.append(area);
-  const pool=block.kana.flatMap(k=>(KANA[k]||[]).filter(w=>w[0].startsWith(k)&&w[1]).map(w=>({k,w})));
+  const pool=block.kana.flatMap(k=>(KANA[k]||[]).filter(w=>w[0].startsWith(k)&&(w[1]||lexImg(w[0],w[2]))).map(w=>({k,w})));
   let order=shuffle(pool),i=0;
   const ask=()=>{
     area.innerHTML="";if(i>=order.length){order=shuffle(pool);i=0}
     const {k,w}=order[i++];
     const opts=shuffle([k,...shuffle(block.kana.filter(x=>x!==k)).slice(0,4)]);
-    const pic=el("div","q-pic",w[1]),en=el("div","sub",w[2]),box=el("div","q-opts"),msg=el("div","q-msg");
+    const qi=lexImg(w[0],w[2],"../"),pic=el("div","q-pic",qi?`<img class="lex" src="${qi}" alt="">`:w[1]),en=el("div","sub",w[2]),box=el("div","q-opts"),msg=el("div","q-msg");
     opts.forEach(o=>{const b=el("button","q-opt jp",o);b.onclick=()=>{
       if(o===k){b.classList.add("ok");msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${w[0]}</span>`;play(HW_AUDIO[w[0]]);box.querySelectorAll("button").forEach(x=>x.disabled=true);
         const nx=el("button","big-btn","Next picture →");nx.style.marginTop="10px";nx.onclick=ask;area.append(nx)}

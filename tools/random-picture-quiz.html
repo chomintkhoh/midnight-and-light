@@ -46,6 +46,7 @@ input[type=file]{display:none}
 .big{font-size:clamp(84px,17vw,190px);line-height:1.05;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .big.emoji{font-size:clamp(90px,18vw,200px)}
 .big.text{font-size:clamp(42px,8vw,96px)}
+.lex{width:min(46vw,300px);height:min(40vh,300px);image-rendering:pixelated;object-fit:contain}
 .swatch{width:min(46vw,260px);height:min(30vh,200px);border-radius:24px;border:1px solid #0002}
 .hint{font-size:clamp(22px,3.4vw,36px);font-weight:700;color:#555}
 .answer{margin-top:8px;font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--gold);min-height:1.3em}
@@ -161,6 +162,7 @@ red"></textarea>
 <script src="../data/vocab-audio.js"></script>
 <script src="../data/hiragana-words.js"></script>
 <script src="../data/greetings.js"></script>
+<script src="../data/lexicon-images.js"></script>
 <script>
 /* ---------- Japanese number readings ---------- */
 const D1=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
@@ -229,7 +231,7 @@ function buildWords(){
   const out=[];
   CATS.filter(c=>wordOn.has(c.id)).forEach(c=>c.words.forEach((w,i)=>{
     const [jp,pic,en]=w;
-    let s=show;if(!pic&&s!=="en")s="en";
+    let s=show;if(!pic&&s!=="en"&&!(typeof lexImg==="function"&&lexImg(jp,en)))s="en";
     out.push({id:c.id+"-"+i,kind:"word",pic,en,show:s,ans:jp,audio:AUD[c.id+"-"+i]});
   }));
   return out;
@@ -243,7 +245,7 @@ function buildHira(){
     const it={id:"hw-"+jp,ans:jp,audio:HWA[jp],en,pic};
     if(show==="listen"){it.kind="listen";it.pool=words.map(w=>w[0]);it.ans=jp}
     else if(show==="read"){it.kind="typed";it.emoji="";it.text=jp;it.ans=(pic?pic+" ":"")+en}
-    else{it.kind="word";it.show=pic&&show==="pic"?"pic":"en"}
+    else{it.kind="word";it.show=(pic||(typeof lexImg==="function"&&lexImg(jp,en)))&&show==="pic"?"pic":"en"}
     return it;
   });
 }
@@ -331,7 +333,9 @@ function draw(){
   if(it.kind==="num")stage.append(el("div","big",String(it.n)));
   else if(it.kind==="count"){const e=el("div","big emoji",it.emoji.repeat(it.n));e.style.fontSize=it.n>5?"clamp(46px,7vw,84px)":"";e.style.maxWidth="90%";e.style.wordBreak="break-all";stage.append(e,el("div","hint","いくつ？"))}
   else if(it.kind==="word"){
-    if(it.show!=="en"){if(it.pic.startsWith("#")){const s=el("div","swatch");s.style.background=it.pic;stage.append(s)}else stage.append(el("div","big emoji",it.pic))}
+    const im=typeof lexImg==="function"?lexImg(it.ans,it.en,"../"):"";
+    if(it.show!=="en"&&im){const i=el("img","lex");i.src=im;i.alt=it.en;stage.append(i)}
+    else if(it.show!=="en"){if(it.pic.startsWith("#")){const s=el("div","swatch");s.style.background=it.pic;stage.append(s)}else stage.append(el("div","big emoji",it.pic))}
     if(it.show!=="pic")stage.append(el("div",it.show==="en"?"big text":"hint",it.en));
   }
   else if(it.kind==="typed"){if(it.emoji)stage.append(el("div","big emoji",it.emoji));if(it.text)stage.append(el("div",it.emoji?"hint":"big text",it.text))}
