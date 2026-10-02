@@ -59,6 +59,11 @@ input[type=file]{display:none}
 .actions .ok{background:var(--green);border-color:var(--greenb)}
 .actions .ag{background:var(--red);border-color:var(--redb)}
 .actions button:disabled{opacity:.35;cursor:not-allowed}
+.lgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:min(640px,96%)}
+.lopt{border:2px solid var(--line);border-radius:16px;background:#fff;padding:10px;font-family:"Noto Sans JP",sans-serif;font-size:clamp(28px,5vw,52px);font-weight:700;display:flex;align-items:center;gap:12px;justify-content:center}
+.lopt b{font-size:.5em;color:#999;font-family:system-ui}
+.lopt.right{border-color:#3d9a52;background:#e6f3e8}
+.replay{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;font-size:18px;font-weight:800;cursor:pointer}
 .keys{text-align:center;font-size:11px;color:#aaa;margin-top:8px}
 .missed{margin-top:10px;font-size:13px;color:#7a4b4b;text-align:center}
 @media(max-width:600px){.actions button{min-width:0;flex:1}.tabs button{min-width:0}}
@@ -71,6 +76,7 @@ input[type=file]{display:none}
 <section class="card setup">
   <div class="tabs" id="tabs">
     <button data-tab="numbers" class="on">🔢 Numbers</button>
+    <button data-tab="hira">あ Hiragana words</button>
     <button data-tab="words">📚 Word sets</button>
     <button data-tab="type">✏️ Type my own</button>
     <button data-tab="pics">🖼️ Pictures</button>
@@ -83,6 +89,17 @@ input[type=file]{display:none}
       <label><input type="radio" name="numStyle" value="any"> Any number in the range (37, 486, 2905…)</label>
     </div>
     <div class="note">Round: 1–10 = 10 cards · 20–100 = 9 · 100–1000 = 10 · 1000–10000 = 10. “Any number” keeps drawing new numbers — set how many: <input id="anyCount" type="number" min="5" max="100" value="15" style="width:60px"> per range.</div>
+  </div>
+
+  <div class="pane" id="pane-hira">
+    <div class="chips" id="hiraChips"></div>
+    <div class="row">
+      <label><input type="radio" name="hiraShow" value="pic" checked> Show picture → say the word</label>
+      <label><input type="radio" name="hiraShow" value="en"> Show English → say the word</label>
+      <label><input type="radio" name="hiraShow" value="read"> Show hiragana → read it aloud</label>
+      <label><input type="radio" name="hiraShow" value="listen"> 🔊 Listen → which word? (A–D)</label>
+    </div>
+    <div class="note">Words with no picture yet show the English instead. 👀 Answer plays your recording.</div>
   </div>
 
   <div class="pane" id="pane-words">
@@ -132,6 +149,7 @@ red"></textarea>
 
 <script src="../data/vocab-kids.js"></script>
 <script src="../data/vocab-audio.js"></script>
+<script src="../data/hiragana-words.js"></script>
 <script>
 /* ---------- Japanese number readings ---------- */
 const D1=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
@@ -167,6 +185,9 @@ function rand(a,b,k){const s=new Set();while(s.size<Math.min(k,b-a+1))s.add(a+Ma
 
 const CATS=typeof VOCAB_CATEGORIES!=="undefined"?VOCAB_CATEGORIES:[];
 const AUD=typeof VOCAB_AUDIO!=="undefined"?VOCAB_AUDIO:{};
+const HWK=typeof HW_KANA!=="undefined"?HW_KANA:[],HWB=typeof HW_BLOCKS!=="undefined"?HW_BLOCKS:[],HWA=typeof HW_AUDIO!=="undefined"?HW_AUDIO:{};
+const hiraOn=new Set();
+let player=null;function play(src){if(!src)return;try{if(player)player.pause();player=new Audio("../"+src);player.play().catch(()=>{})}catch(e){}}
 /* ---------- state ---------- */
 let items=[],current=null,lastId=null,mode="remove",shown=false,missedCount={};
 const $=id=>document.getElementById(id);
@@ -199,6 +220,19 @@ function buildWords(){
   }));
   return out;
 }
+function buildHira(){
+  const show=document.querySelector('input[name=hiraShow]:checked').value;
+  const kana=new Set(HWB.filter(b=>hiraOn.has(b.id)).flatMap(b=>b.kana));
+  const seen=new Set(),words=[];
+  HWK.filter(k=>kana.has(k.kana)).forEach(k=>k.words.forEach(w=>{if(!seen.has(w[0])){seen.add(w[0]);words.push(w)}}));
+  return words.map(([jp,pic,en])=>{
+    const it={id:"hw-"+jp,ans:jp,audio:HWA[jp],en,pic};
+    if(show==="listen"){it.kind="listen";it.pool=words.map(w=>w[0]);it.ans=jp}
+    else if(show==="read"){it.kind="typed";it.emoji="";it.text=jp;it.ans=(pic?pic+" ":"")+en}
+    else{it.kind="word";it.show=pic&&show==="pic"?"pic":"en"}
+    return it;
+  });
+}
 function parseTyped(){
   const lines=$("typeBox").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
   return lines.map((l,i)=>{
@@ -210,6 +244,7 @@ function parseTyped(){
 function rebuild(){
   if(tab==="numbers")items=buildNumbers();
   else if(tab==="words")items=buildWords();
+  else if(tab==="hira")items=buildHira();
   else if(tab==="type")items=typedItems.slice();
   else items=picItems.slice();
   items.forEach(x=>x.active=true);
@@ -226,7 +261,8 @@ function chips(box,list,set,labelOf){
 }
 chips($("numChips"),NUM_SETS,numOn,s=>s.label);
 chips($("wordChips"),CATS,wordOn,c=>(c.icon||"")+" "+c.en);
-document.querySelectorAll('input[name=numStyle],input[name=wordShow]').forEach(r=>r.onchange=rebuild);
+chips($("hiraChips"),HWB,hiraOn,b=>b.label);
+document.querySelectorAll('input[name=numStyle],input[name=wordShow],input[name=hiraShow]').forEach(r=>r.onchange=rebuild);
 $("anyCount").onchange=rebuild;
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
   tab=b.dataset.tab;
@@ -265,6 +301,7 @@ function draw(){
   current=c[Math.floor(Math.random()*c.length)];lastId=current.id;shown=false;
   stage.innerHTML="";
   const it=current;
+  $("question").textContent=it.kind==="listen"?"よく きいて ください！ Which word is it?":(it.kind==="typed"&&tab==="hira"?"よんで ください！ Read it aloud.":"日本語で 言って ください！");
   if(it.kind==="num")stage.append(el("div","big",String(it.n)));
   else if(it.kind==="count"){const e=el("div","big emoji",it.emoji.repeat(it.n));e.style.fontSize=it.n>5?"clamp(46px,7vw,84px)":"";e.style.maxWidth="90%";e.style.wordBreak="break-all";stage.append(e,el("div","hint","いくつ？"))}
   else if(it.kind==="word"){
@@ -273,14 +310,23 @@ function draw(){
   }
   else if(it.kind==="typed"){if(it.emoji)stage.append(el("div","big emoji",it.emoji));if(it.text)stage.append(el("div",it.emoji?"hint":"big text",it.text))}
   else if(it.kind==="pic"){const im=el("img");im.src=it.url;stage.append(im)}
+  else if(it.kind==="listen"){
+    const others=it.pool.filter(w=>w!==it.ans).sort(()=>Math.random()-.5).slice(0,3);
+    const opts=[it.ans,...others].sort(()=>Math.random()-.5);
+    const rb=el("button","replay","🔊 Listen again");rb.onclick=()=>play(it.audio);stage.append(rb);
+    const g=el("div","lgrid");opts.forEach((w,i)=>{const o=el("div","lopt");o.dataset.w=w;o.append(el("b","","ABCD"[i]),document.createTextNode(w));g.append(o)});stage.append(g);
+    play(it.audio);
+  }
   stage.append(el("div","answer",""));
   $("showBtn").disabled=!it.ans;$("okBtn").disabled=false;$("agBtn").disabled=false;
 }
 function reveal(){
   if(!current||!current.ans)return;
   const a=stage.querySelector(".answer");shown=!shown;
-  a.innerHTML="";if(shown){a.textContent=current.ans;if(current.kind==="word"||current.kind==="typed"){}}
-  if(shown&&current.audio){try{new Audio("../"+current.audio).play()}catch(e){}}
+  a.innerHTML="";
+  if(current.kind==="listen"){stage.querySelectorAll(".lopt").forEach(o=>o.classList.toggle("right",shown&&o.dataset.w===current.ans));if(shown)play(current.audio);return}
+  if(shown)a.textContent=current.ans;
+  if(shown&&current.audio)play(current.audio);
 }
 function correct(){if(!current)return;if(mode==="remove")current.active=false;update();draw()}
 function again(){if(!current)return;missedCount[current.id]=(missedCount[current.id]||0)+1;update();draw()}
