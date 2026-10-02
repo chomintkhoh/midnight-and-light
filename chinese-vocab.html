@@ -234,6 +234,11 @@ body{
 .embedded .top>div:first-child{display:none}.embedded .top{min-height:0;padding-top:4px;padding-bottom:4px}.embedded .top:not(:has(.hud>:not(.hidden))){display:none}
 
 .learncard{text-align:center;padding:10px 0}.learncard .big{font-size:56px;font-weight:800;line-height:1.2}.learncard .lpy{font-size:22px;color:#6d7489;margin:4px 0}.learncard .len{font-size:20px;font-weight:700;margin:6px 0 12px}.saybox{text-align:center;margin-top:10px}
+.lpic{display:block;margin:0 auto 6px;width:140px;height:140px;image-rendering:pixelated;object-fit:contain}.lpic.swatch{border-radius:24px;border:3px solid #20243a}.lpic.emo{font-size:96px;line-height:140px;text-align:center}
+.qpic{width:150px;height:150px;image-rendering:pixelated;object-fit:contain;display:inline-block}.qpic.swatch{border-radius:24px;border:3px solid #20243a}.qpic.emo{font-size:100px;line-height:150px}
+.picans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.picans .ans{min-height:120px;display:flex;align-items:center;justify-content:center;padding:8px}
+.opic{width:96px;height:96px;image-rendering:pixelated;object-fit:contain}.opic.swatch{display:inline-block;border-radius:18px;border:3px solid #20243a}.opic.emo{font-size:64px;line-height:96px}
+.lowgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}.pick.low{min-height:auto;padding:12px 8px}
 </style><script defer src="assets/zh-report.js"></script></head>
 <body>
 <!-- 词语练习本体（由 chinese-vocab-practice.html 入口页的「词语」页签载入）。字级跟随入口页的 A-/A/A+ -->
@@ -255,8 +260,11 @@ body{
 <div class=grid><button class=pick data-mode=learn>📖 认识词语<small>Learn, then check · 先看卡再考</small></button><button class=pick data-mode=scene>💬 情境填空<small>Use the word in a sentence · 选词填句子</small></button><button class=pick data-mode=write>✏️ 写字练习<small>Writing Practice · 练习写字</small></button></div></section>
 <section id=quiz class="card hidden"><b id=count></b><div class=progress><div id=bar class=bar></div></div><div id=body></div><div id=feedback class=feedback></div><button id=next class="next hidden">下一题 / Next →</button></section></main>
 <script src="assets/zh-tts.js"></script>
+<script src="data/zh-vocab-lower.js"></script>
 <script>
-const G={"feeling": {"title": "心情 Feeling", "icon": "☺", "words": [["委屈", "wěi qū", "feel wronged"], ["后悔", "hòu huǐ", "regret"], ["感激", "gǎn jī", "grateful"], ["感动", "gǎn dòng", "moved"], ["害怕", "hài pà", "scared"], ["紧张", "jǐn zhāng", "nervous"], ["兴奋", "xīng fèn", "excited"], ["欣慰", "xīn wèi", "relieved"], ["失望", "shī wàng", "disappointed"], ["担心", "dān xīn", "worried"], ["焦急", "jiāo jí", "anxious"], ["惊讶", "jīng yà", "surprised"], ["疑惑", "yí huò", "confused"], ["羞愧", "xiū kuì", "ashamed"], ["内疚", "nèi jiù", "guilty"]], "scenes": [["比赛输了以后，小明低着头，觉得很____。", "失望"], ["妈妈很久还没回家，小丽开始____起来。", "担心"], ["妈妈听到老师称赞我的华文进步时，觉得很____。", "欣慰"], ["我误会了朋友，知道真相后感到很____。", "内疚"], ["明天就要上台演讲了，他有一点____。", "紧张"], ["别人帮助了我，我心里非常____。", "感激"], ["听到自己得到比赛第一名，她非常____。", "兴奋"], ["突然听见门外一声巨响，大家都很____。", "惊讶"], ["明明不是我的错，却被大家责怪，我觉得很____。", "委屈"], ["做了不应该做的事以后，他非常____。", "后悔"]]}, "attitude": {"title": "态度／性格 Attitude & Character", "icon": "★", "words": [["耐心", "nài xīn", "patient"], ["诚实", "chéng shí", "honest"], ["负责", "fù zé", "responsible"], ["认真", "rèn zhēn", "serious / conscientious"], ["积极", "jī jí", "positive"], ["冷静", "lěng jìng", "calm"], ["冲动", "chōng dòng", "impulsive"], ["谦虚", "qiān xū", "humble"], ["善良", "shàn liáng", "kind"], ["宽容", "kuān róng", "tolerant"], ["固执", "gù zhí", "stubborn"], ["粗心", "cū xīn", "careless"], ["坚定", "jiān dìng", "determined"], ["诚恳", "chéng kěn", "sincere"], ["自律", "zì lǜ", "self-disciplined"]], "scenes": [["妹妹不会做功课，姐姐慢慢教她，没有发脾气。姐姐很____。", "耐心"], ["小华打破花瓶后主动告诉妈妈真相。他很____。", "诚实"], ["组长按时完成自己的工作，也检查大家的进度。他很____。", "负责"], ["考试时，她仔细读题和检查答案，态度十分____。", "认真"], ["遇到问题时，他先想清楚再处理，非常____。", "冷静"], ["还没听完解释，他就生气地冲出去，做事太____。", "冲动"], ["虽然她得了第一名，却说自己还有很多要学习，很____。", "谦虚"], ["朋友犯错后真心道歉，他愿意原谅对方，很____。", "宽容"], ["明知道方法不对，他还是不肯听别人的意见，十分____。", "固执"], ["他每天先完成学习计划才玩游戏，非常____。", "自律"]]}, "action": {"title": "动作 Action", "icon": "→", "words": [["观察", "guān chá", "observe"], ["提醒", "tí xǐng", "remind"], ["鼓励", "gǔ lì", "encourage"], ["劝告", "quàn gào", "advise"], ["拒绝", "jù jué", "refuse"], ["承认", "chéng rèn", "admit"], ["解释", "jiě shì", "explain"], ["道歉", "dào qiàn", "apologize"], ["原谅", "yuán liàng", "forgive"], ["帮助", "bāng zhù", "help"], ["解决", "jiě jué", "solve"], ["阻止", "zǔ zhǐ", "stop / prevent"], ["坚持", "jiān chí", "persist"], ["放弃", "fàng qì", "give up"], ["努力", "nǔ lì", "work hard"]], "scenes": [["科学课上，他仔细____植物每天的变化。", "观察"], ["出门前，妈妈____我记得带雨伞。", "提醒"], ["比赛失败后，同学们不断____他再试一次。", "鼓励"], ["朋友想做危险的事，我马上____他不要这样做。", "劝告"], ["陌生人请她做不合理的事情，她立刻____了。", "拒绝"], ["老师问是谁打破花盆，小明主动____是自己做的。", "承认"], ["同学误会了我，我把事情的经过____给他听。", "解释"], ["我不小心撞到同学，马上向他____。", "道歉"], ["两个人讨论以后，终于找到办法____这个问题。", "解决"], ["虽然练习很困难，她还是每天____，没有半途而废。", "坚持"]]}};let topic,mode,items=[],i=0,score=0,done=false,ctx,cv,drawing=false;
+const G={"feeling": {"title": "心情 Feeling", "icon": "☺", "words": [["委屈", "wěi qū", "feel wronged"], ["后悔", "hòu huǐ", "regret"], ["感激", "gǎn jī", "grateful"], ["感动", "gǎn dòng", "moved"], ["害怕", "hài pà", "scared"], ["紧张", "jǐn zhāng", "nervous"], ["兴奋", "xīng fèn", "excited"], ["欣慰", "xīn wèi", "relieved"], ["失望", "shī wàng", "disappointed"], ["担心", "dān xīn", "worried"], ["焦急", "jiāo jí", "anxious"], ["惊讶", "jīng yà", "surprised"], ["疑惑", "yí huò", "confused"], ["羞愧", "xiū kuì", "ashamed"], ["内疚", "nèi jiù", "guilty"]], "scenes": [["比赛输了以后，小明低着头，觉得很____。", "失望"], ["妈妈很久还没回家，小丽开始____起来。", "担心"], ["妈妈听到老师称赞我的华文进步时，觉得很____。", "欣慰"], ["我误会了朋友，知道真相后感到很____。", "内疚"], ["明天就要上台演讲了，他有一点____。", "紧张"], ["别人帮助了我，我心里非常____。", "感激"], ["听到自己得到比赛第一名，她非常____。", "兴奋"], ["突然听见门外一声巨响，大家都很____。", "惊讶"], ["明明不是我的错，却被大家责怪，我觉得很____。", "委屈"], ["做了不应该做的事以后，他非常____。", "后悔"]]}, "attitude": {"title": "态度／性格 Attitude & Character", "icon": "★", "words": [["耐心", "nài xīn", "patient"], ["诚实", "chéng shí", "honest"], ["负责", "fù zé", "responsible"], ["认真", "rèn zhēn", "serious / conscientious"], ["积极", "jī jí", "positive"], ["冷静", "lěng jìng", "calm"], ["冲动", "chōng dòng", "impulsive"], ["谦虚", "qiān xū", "humble"], ["善良", "shàn liáng", "kind"], ["宽容", "kuān róng", "tolerant"], ["固执", "gù zhí", "stubborn"], ["粗心", "cū xīn", "careless"], ["坚定", "jiān dìng", "determined"], ["诚恳", "chéng kěn", "sincere"], ["自律", "zì lǜ", "self-disciplined"]], "scenes": [["妹妹不会做功课，姐姐慢慢教她，没有发脾气。姐姐很____。", "耐心"], ["小华打破花瓶后主动告诉妈妈真相。他很____。", "诚实"], ["组长按时完成自己的工作，也检查大家的进度。他很____。", "负责"], ["考试时，她仔细读题和检查答案，态度十分____。", "认真"], ["遇到问题时，他先想清楚再处理，非常____。", "冷静"], ["还没听完解释，他就生气地冲出去，做事太____。", "冲动"], ["虽然她得了第一名，却说自己还有很多要学习，很____。", "谦虚"], ["朋友犯错后真心道歉，他愿意原谅对方，很____。", "宽容"], ["明知道方法不对，他还是不肯听别人的意见，十分____。", "固执"], ["他每天先完成学习计划才玩游戏，非常____。", "自律"]]}, "action": {"title": "动作 Action", "icon": "→", "words": [["观察", "guān chá", "observe"], ["提醒", "tí xǐng", "remind"], ["鼓励", "gǔ lì", "encourage"], ["劝告", "quàn gào", "advise"], ["拒绝", "jù jué", "refuse"], ["承认", "chéng rèn", "admit"], ["解释", "jiě shì", "explain"], ["道歉", "dào qiàn", "apologize"], ["原谅", "yuán liàng", "forgive"], ["帮助", "bāng zhù", "help"], ["解决", "jiě jué", "solve"], ["阻止", "zǔ zhǐ", "stop / prevent"], ["坚持", "jiān chí", "persist"], ["放弃", "fàng qì", "give up"], ["努力", "nǔ lì", "work hard"]], "scenes": [["科学课上，他仔细____植物每天的变化。", "观察"], ["出门前，妈妈____我记得带雨伞。", "提醒"], ["比赛失败后，同学们不断____他再试一次。", "鼓励"], ["朋友想做危险的事，我马上____他不要这样做。", "劝告"], ["陌生人请她做不合理的事情，她立刻____了。", "拒绝"], ["老师问是谁打破花盆，小明主动____是自己做的。", "承认"], ["同学误会了我，我把事情的经过____给他听。", "解释"], ["我不小心撞到同学，马上向他____。", "道歉"], ["两个人讨论以后，终于找到办法____这个问题。", "解决"], ["虽然练习很困难，她还是每天____，没有半途而废。", "坚持"]]}};if(window.ZH_LOWER)Object.assign(G,window.ZH_LOWER);
+const LOWER_TOPICS=Object.keys(window.ZH_LOWER||{});
+let topic,mode,items=[],i=0,score=0,done=false,ctx,cv,drawing=false;
 let comboCount=0, roundMistakes=[];
 function resetCombo(){comboCount=0;renderCombo()}
 function renderCombo(){
@@ -303,7 +311,7 @@ function categoryOf(word){
 function currentWords(){
  if(topic==="mixed")return allWords();
  if(topic==="weak"){
-   const ws=weakWords(), map=new Map(allWords().map(x=>[x[0],x]));
+   const ws=weakWords(), map=new Map(Object.values(G).flatMap(v=>v.words).map(x=>[x[0],x]));
    return ws.map(w=>map.get(w)).filter(Boolean);
  }
  return G[topic].words;
@@ -320,7 +328,8 @@ function currentScenes(){
 function show(x){["home","modes","quiz"].forEach(y=>$("#"+y).classList.toggle("hidden",x!==y));$("#homeBtn").classList.toggle("hidden",x==="home");document.body.classList.toggle("in-practice",x!=="home")}
 function renderHome(){
  const weakCount=weakWords().length;
- $("#topics").innerHTML=CORE_TOPICS.map(k=>{const v=G[k];return `<button class=pick data-topic=${k}>${v.icon} ${v.title}<small>15 words</small></button>`}).join("")+
+ $("#topics").innerHTML=(LOWER_TOPICS.length?`<div class="special-tools" style="grid-column:1/-1"><h3>🐣 一至三年级 / Year 1–3</h3><div class="grid lowgrid">${LOWER_TOPICS.map(k=>{const v=G[k];return `<button class="pick low" data-topic=${k}>${v.icon} ${v.title}<small>${v.words.length} words</small></button>`}).join("")}</div></div><div class="special-tools" style="grid-column:1/-1"><h3>🦉 四至六年级 / Year 4–6</h3></div>`:"")+
+ CORE_TOPICS.map(k=>{const v=G[k];return `<button class=pick data-topic=${k}>${v.icon} ${v.title}<small>${v.words.length} words</small></button>`}).join("")+
  `<div class="special-tools" style="grid-column:1/-1"><h3>综合复习 / Review Tools</h3><div class=grid>
  <button class="pick special" data-topic=mixed>🔀 综合挑战<small>Mixed Challenge · 45 words</small></button>
  <button class="pick weak-special" data-topic=weak>🧠 专练错词<small>Practice Mistakes · ${weakCount} word${weakCount===1?"":"s"}</small></button>
@@ -330,6 +339,7 @@ function renderHome(){
    if(topic==="weak" && weakWords().length===0){alert("目前没有错词 🎉\nNo missed words yet.");return}
    $("#topicTitle").textContent=topic==="mixed"?"🔀 综合挑战 Mixed Challenge":topic==="weak"?"🧠 专练错词 Practice Mistakes":G[topic].title;
    show("modes");
+   const sb=document.querySelector('[data-mode=scene]');if(sb)sb.hidden=!currentScenes().length;
  });
 }
 renderHome();
@@ -409,19 +419,32 @@ function meaning(){let w=items[i],rev=Math.random()<.35,c=rev?w[0]:w[2],pool=cur
 function scene(){let [s,c]=items[i];$("#body").innerHTML=`<div class=scene>${s.replace("____","______")}</div><div class=answers>${sceneChoices(s,c).map(x=>`<button class=ans>${x}</button>`).join("")}</div><div class=saybox id=saybox></div>`;bind(c,()=>{const full=s.replace("____",c);$("#saybox").innerHTML=window.MLTTS?MLTTS.btn(full,"🔊 Listen 听句子"):"";window.MLTTS&&MLTTS.say(full)})}
 function bind(c,after){document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;after&&after();if(b.textContent===c){b.classList.add("good");score++;markWeak(c,false);comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}else{b.classList.add("bad");markWeak(c,true,b.textContent);comboWrong(c);if(loseLife()){gameOver();return}$("#feedback").textContent="再看看 / Check the answer";document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}$("#next").classList.remove("hidden")})}
 
+function pic(w,cls="pic"){if(w[3])return `<img class="${cls}" src="${w[3]}" alt="">`;if(/^#[0-9a-f]{6}$/i.test(w[4]||""))return `<span class="${cls} swatch" style="background:${w[4]}"></span>`;if(w[4])return `<span class="${cls} emo">${w[4]}</span>`;return ""}
 function learn(){
  const st=items[i],w=st.w,T=window.MLTTS;
  if(st.t==="card"){
-   $("#body").innerHTML=`<div class=learncard><div class=big>${w[0]}</div><div class=lpy>${w[1]}</div><div class=len>${w[2]}</div>${T?T.btn(w[0],"🔊 Listen 听"):""}</div><div class=weaknote>Read it, listen, remember the meaning. 看一看、听一听、记住意思。</div>`;
+   $("#body").innerHTML=`<div class=learncard>${pic(w,"lpic")}<div class=big>${w[0]}</div><div class=lpy>${w[1]}</div><div class=len>${w[2]}</div>${T?T.btn(w[0],"🔊 Listen 听"):""}</div><div class=weaknote>Read it, listen, remember the meaning. 看一看、听一听、记住意思。</div>`;
    T&&T.say(w[0]);
    $("#next").textContent=st.last?"Quiz me! 考考我 →":"Next card →";$("#next").classList.remove("hidden");return;
  }
  $("#next").textContent="下一题 / Next →";
- const c=st.rev?w[0]:w[2],pool=currentWords().map(x=>st.rev?x[0]:x[2]);
+ const pool0=currentWords();
+ if(pic(w)&&pool0.filter(x=>pic(x)).length>=4){return picQuiz(st,w,pool0.filter(x=>pic(x)))}
+ const c=st.rev?w[0]:w[2],pool=pool0.map(x=>st.rev?x[0]:x[2]);
  $("#body").innerHTML=`<div class=q>${st.rev?w[2]:w[0]}</div>${st.rev?"":`<div class=weaknote>${T?T.btn(w[0]):""}</div>`}<div class=weaknote>${st.rev?"Which word means this? 哪个词是这个意思？":"What does it mean? 这个词是什么意思？"}</div><div class=answers>${choices(c,pool).map(x=>`<button class=ans>${x}</button>`).join("")}</div>`;
  document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;
   if(b.textContent===c){b.classList.add("good");score++;markWeak(w[0],false,"");comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}
   else{b.classList.add("bad");markWeak(w[0],true,b.textContent);comboWrong(w[0]);if(loseLife()){gameOver();return}$("#feedback").textContent=`${w[0]} (${w[1]}) = ${w[2]}`;document.querySelectorAll(".ans").forEach(x=>x.textContent===c&&x.classList.add("good"))}
+  T&&T.say(w[0]);$("#next").classList.remove("hidden")})
+}
+function picQuiz(st,w,pool){const T=window.MLTTS;
+ const CONF={"银色":["灰色","白色"],"灰色":["银色"],"白色":["银色"],"金色":["黄色","咖啡色","橙色"],"黄色":["金色"],"咖啡色":["金色"],"橙色":["金色"]};
+ const opts=sh([w,...sh(pool.filter(x=>x[0]!==w[0]&&!(CONF[w[0]]||[]).includes(x[0]))).slice(0,3)]);
+ if(st.rev){$("#body").innerHTML=`<div class="q picq">${pic(w,"qpic")}</div><div class=weaknote>Which word is this? 这是哪个词？</div><div class="answers">${opts.map(x=>`<button class=ans data-v="${x[0]}"><b>${x[0]}</b> <small>${x[1]}</small></button>`).join("")}</div>`}
+ else{$("#body").innerHTML=`<div class=q>${w[0]}</div><div class=weaknote>${w[1]} ${T?T.btn(w[0]):""}<br>Tap the right picture. 选出对的图。</div><div class="picans">${opts.map(x=>`<button class="ans pa" data-v="${x[0]}">${pic(x,"opic")}</button>`).join("")}</div>`;T&&T.say(w[0])}
+ document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{if(done)return;done=true;
+  if(b.dataset.v===w[0]){b.classList.add("good");score++;markWeak(w[0],false,"");comboCorrect();playCorrect();$("#feedback").textContent="✓ 正确 / Correct"}
+  else{b.classList.add("bad");markWeak(w[0],true,b.dataset.v);comboWrong(w[0]);if(loseLife()){gameOver();return}$("#feedback").textContent=`${w[0]} (${w[1]})`;document.querySelectorAll(".ans").forEach(x=>x.dataset.v===w[0]&&x.classList.add("good"))}
   T&&T.say(w[0]);$("#next").classList.remove("hidden")})
 }
 function quick(){
