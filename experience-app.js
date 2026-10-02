@@ -647,15 +647,17 @@ const renderers = {
     const c = card();
     c.appendChild(el("div", "exp-slide-kicker", () => L("A little conversation", "开口说日语")));
     c.appendChild(el("div", "exp-mid", () => L("Say Hello — and Thank You", "打个招呼，说声谢谢")));
-    c.appendChild(note(() => L("Say each phrase out loud. Try them with a friend!", "每一句都大声说出来，也可以找朋友一起练！")));
+    c.appendChild(note(() => L("Tap a phrase to hear it, then say it out loud.", "点一下听发音，再大声说出来。")));
     const grid = el("div", "exp-phrase-grid");
     [
-      ["こんにちは", "konnichiwa", "Hello / Good afternoon", "你好／下午好"],
-      ["ありがとうございます", "arigatō gozaimasu", "Thank you (polite)", "谢谢（礼貌表达）"],
-      ["またね", "mata ne", "See you! (casual)", "再见！（朋友间）"]
-    ].forEach(([ja, romaji, en, zh]) => {
-      const box = el("div", "exp-phrase");
-      box.append(el("div", "kana", ja), el("div", "exp-phrase-romaji", romaji), note(() => L(en, zh)));
+      ["こんにちは", "konnichiwa", "Hello / Good afternoon", "你好／下午好", "konnichiwa"],
+      ["ありがとうございます", "arigatō gozaimasu", "Thank you (polite)", "谢谢（礼貌表达）", "arigatou"],
+      ["またね", "mata ne", "See you! (casual)", "再见！（朋友间）", "matane"]
+    ].forEach(([ja, romaji, en, zh, file]) => {
+      const box = el("button", "exp-phrase exp-phrase-btn");
+      box.type = "button";
+      box.append(el("div", "exp-phrase-speaker", "🔊"), el("div", "kana", ja), el("div", "exp-phrase-romaji", romaji), note(() => L(en, zh)));
+      box.addEventListener("click", () => playPhrase([file]));
       grid.appendChild(box);
     });
     c.appendChild(grid);
@@ -683,7 +685,10 @@ const renderers = {
       out.textContent = n ? `わたしは　${n}　です。` : "わたしは　＿＿＿　です。";
       out.classList.toggle("filled", !!n);
     });
-    nameRow.append(el("div", "exp-instruction", () => L("Type your name and read your sentence aloud:", "输入名字，然后大声读出你的句子：")), input, out);
+    const hear = el("button", "exp-clear-btn", () => L("🔊 Hear it", "🔊 听一听"));
+    hear.type = "button";
+    hear.addEventListener("click", () => playPhrase(["watashiwa", "desu"]));
+    nameRow.append(el("div", "exp-instruction", () => L("Type your name and read your sentence aloud:", "输入名字，然后大声读出你的句子：")), input, out, hear);
     c.appendChild(nameRow);
     c.appendChild(note(() => L("Now put it together: こんにちは。わたしは ___ です。ありがとうございます！", "连起来说说看：こんにちは。わたしは ___ です。ありがとうございます！")));
     appendNav(c, {nextLabel: () => L("Finish the lesson →", "完成体验课 →")});
@@ -876,6 +881,16 @@ function playWordAudio(word) {
   const map = typeof HW_AUDIO !== "undefined" ? HW_AUDIO : {};
   if (!map[word]) return;
   try { if (currentAudio) currentAudio.pause(); currentAudio = new Audio(map[word]); currentAudio.play().catch(() => {}); } catch (e) {}
+}
+
+function playPhrase(files) {
+  const list = files.slice();
+  if (currentAudio) currentAudio.pause();
+  const next = () => {
+    const f = list.shift(); if (!f) return;
+    try { currentAudio = new Audio(`assets/audio/japanese/greetings/${f}.mp3`); currentAudio.onended = () => setTimeout(next, 450); currentAudio.play().catch(() => {}); } catch (e) {}
+  };
+  next();
 }
 
 /* ---------- Small celebration on a correct answer ---------- */
