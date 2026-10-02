@@ -117,6 +117,12 @@
     /* K4FUX、46PXW、AFZUQ 两科都学，不用写 */
   };
 
+  /* 只开放指定练习的学生（其他练习从列表隐藏）。没写的学生照上面的规则显示。
+     例："FRD9J":["hiragana-homework.html"] */
+  const STUDENT_ONLY = {
+    "FRD9J":["hiragana-homework.html"]
+  };
+
   /* stars: true = this page gives stamps and sends results to the teacher */
   const SECTIONS = [
     { title:"Japanese", sub:"日本語", note:"", lang:"ja", items:[
@@ -169,12 +175,12 @@
     const q = "?s=" + encodeURIComponent(code);   /* works even if this device can't remember the code */
     const lang = STUDENT_LANGS[code] || "all";
     const adult = ADULTS.includes(code);
-    document.getElementById("lists").innerHTML = SECTIONS.filter(sec => !sec.lang || lang === "all" || sec.lang === lang).map(sec => `
+    document.getElementById("lists").innerHTML = SECTIONS.filter(sec => (!sec.lang || lang === "all" || sec.lang === lang) && (!STUDENT_ONLY[code] || sec.items.some(it => STUDENT_ONLY[code].includes(it.href)))).map(sec => `
       <section class="pr-sec">
         <h2>${esc(sec.title)}${sec.sub ? `<span>${esc(sec.sub)}</span>` : ""}</h2>
         ${sec.note ? `<p>${esc(sec.note)}</p>` : ""}
         <div class="pr-grid">
-          ${sec.items.filter(it => !it.adult || adult).map(it => `
+          ${sec.items.filter(it => (!it.adult || adult) && (!STUDENT_ONLY[code] || STUDENT_ONLY[code].includes(it.href))).map(it => `
             <a class="pr-card" ${it.locked ? 'role="link" aria-disabled="true" style="opacity:.65;cursor:not-allowed"' : `href="${it.href}${q}"`}>
               <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${it.locked ? "🔒" : esc(it.ic)}</span>
               <span class="pr-txt">

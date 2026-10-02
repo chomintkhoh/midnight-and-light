@@ -101,8 +101,13 @@ function doneMap(){try{return JSON.parse(localStorage.getItem(DONE_KEY)||"{}")}c
 function markDone(id,score){try{const d=doneMap();d[id]=score;localStorage.setItem(DONE_KEY,JSON.stringify(d))}catch(e){}}
 
 /* ---------- which sets this student can open ---------- */
-function mySets(){const a=HW_ASSIGN[STUDENT_CODE];return a&&a.length?HW_BLOCKS.filter(b=>a.includes(b.id)):HW_BLOCKS}
-function learnedUpTo(block){const i=HW_BLOCKS.findIndex(b=>b.id===block.id);return HW_BLOCKS.slice(0,i+1).flatMap(b=>b.kana)}
+/* HW_ASSIGN 可写组别清单 ["a-ko","sa-to"]，或写「学到哪个字」"も"（只开到那个字，最后一组自动截短） */
+function mySets(){const a=HW_ASSIGN[STUDENT_CODE];
+  if(typeof a==="string"&&a){const all=HW_BLOCKS.flatMap(b=>b.kana),last=all.indexOf(a);if(last<0)return HW_BLOCKS;
+    return HW_BLOCKS.map(b=>{const k=b.kana.filter(x=>all.indexOf(x)<=last);return k.length===b.kana.length?b:{...b,kana:k,label:k[0]+"〜"+k[k.length-1]}}).filter(b=>b.kana.length)}
+  return a&&a.length?HW_BLOCKS.filter(b=>a.includes(b.id)):HW_BLOCKS}
+function allowedKana(){const a=HW_ASSIGN[STUDENT_CODE];return typeof a==="string"&&a?mySets().flatMap(b=>b.kana):HW_BLOCKS.flatMap(b=>b.kana)}
+function learnedUpTo(block){const a=HW_ASSIGN[STUDENT_CODE],L=typeof a==="string"&&a?mySets():HW_BLOCKS,i=L.findIndex(b=>b.id===block.id);return L.slice(0,i+1).flatMap(b=>b.kana)}
 
 /* ---------- results (auto-sent) ---------- */
 let run=null;
@@ -209,7 +214,7 @@ function partListen(){
 /* Part 3 — tap the letters in order (like the ant maze) */
 function partMaze(){
   const b=run.block,order=b.kana;
-  const others=shuffle(HW_BLOCKS.flatMap(x=>x.kana).filter(k=>!order.includes(k)));
+  const others=shuffle(allowedKana().filter(k=>!order.includes(k)));
   const cells=shuffle([...order,...others.slice(0,20-order.length)]);
   const app=$("app");app.innerHTML="";
   const c=header(app,"maze","Tap the letters in order!","按顺序点字！");
