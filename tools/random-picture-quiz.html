@@ -365,7 +365,7 @@ document.addEventListener("keydown",e=>{
   else if(e.key==="x"||e.key==="X")again();
 });
 $("hideSet").onclick=()=>{const st=document.querySelector(".setup"),h=st.style.display==="none";st.style.display=h?"":"none";$("hideSet").textContent=h?"⚙ Hide settings":"⚙ Show settings"};
-rebuild();
+(function(){const h=new URLSearchParams(location.search).get("hira");if(h&&HWB.some(b=>b.id===h)){hiraOn.add(h);chips($("hiraChips"),HWB,hiraOn,b=>b.label);document.querySelector('#tabs button[data-tab=hira]').click();return}rebuild()})();
 </script>
 </body>
 </html>

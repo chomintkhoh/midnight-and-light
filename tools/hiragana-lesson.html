@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hiragana Lesson | ミッドナイトとライト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#23263a;--muted:#7a7686;--line:#e2dccf;--gold:#b88a1e;--lav:#6f5aa8;--lavbg:#efeaf8;--good:#2f8a46;--goodbg:#e4f3e7;--bad:#c2475d;--badbg:#fbe9ec}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Zen Kaku Gothic New",system-ui,sans-serif}
+button{font:inherit;cursor:pointer}
+.jp{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top h1{font-size:18px;margin:0 8px 0 0;font-weight:800}
+.blocks{display:flex;gap:6px;flex-wrap:wrap}
+.blocks button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-weight:700;font-size:15px}
+.blocks button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count{margin-left:auto;color:var(--muted);font-weight:700;font-size:14px}
+.bar{height:5px;background:var(--line)}.bar i{display:block;height:100%;background:var(--lav);transition:width .25s}
+.stage{width:min(1180px,96vw);margin:14px auto 0;min-height:calc(100vh - 170px)}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 26px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.kicker{color:var(--gold);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:14px;text-align:center}
+.title{font-size:clamp(28px,3.4vw,42px);font-weight:800;text-align:center;margin:6px 0 4px}
+.sub{color:var(--muted);text-align:center;font-size:clamp(17px,1.8vw,20px);margin:4px 0 14px}
+.nav{display:flex;justify-content:center;gap:10px;margin:14px 0 24px}
+.nav button{min-width:150px;padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:800;font-size:17px}
+.nav .next{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nav button:disabled{opacity:.35;cursor:default}
+/* title slide */
+.kgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:760px;margin:18px auto}
+.ktile{border:2px solid var(--line);border-radius:18px;background:#fff;font-size:clamp(46px,6vw,74px);padding:8px 0;line-height:1.2}
+.ktile:hover{border-color:var(--lav);background:var(--lavbg)}
+/* learn slide */
+.learn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:26px;align-items:start}
+.lhead{display:flex;align-items:center;justify-content:center;gap:18px}
+.bigk{font-size:clamp(110px,13vw,170px);line-height:1;font-weight:700}
+.snd{width:72px;height:72px;border-radius:50%;border:2px solid var(--line);background:var(--lavbg);font-size:30px}
+.stroke-box{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:6px}
+.stroke-svg{width:min(240px,60vw);aspect-ratio:1;border:2px solid var(--line);border-radius:18px;background:
+ linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat,linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat,#fffdf8}
+.stroke-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.stroke-svg .g{stroke:#e4dfd3;stroke-width:5}
+.stroke-svg .s{stroke:var(--ink);stroke-width:5;stroke-dasharray:1;stroke-dashoffset:1}
+.stroke-svg .s.on{stroke-dashoffset:0;transition:stroke-dashoffset .9s ease}
+.stroke-svg .s.now{stroke:#d1495b}
+.stroke-svg text{font-size:8px;font-weight:800;fill:#d1495b;font-family:Inter,sans-serif}
+.srow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.srow button,.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:15px}
+.snote{color:var(--muted);font-size:15px;min-height:1.4em}
+.words{display:grid;gap:10px}
+.wcard{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;background:#fff;padding:8px 14px;text-align:left}
+.wcard:hover{border-color:var(--lav)}
+.wcard .em{font-size:48px;text-align:center}
+.wcard .em.noimg{font-size:15px;color:var(--muted);font-weight:700}
+.wcard .w{font-size:clamp(34px,3.6vw,46px);font-weight:700}
+.wcard .w b{color:#d1495b}
+.wcard .m{color:var(--lav);font-weight:800;font-size:18px;visibility:hidden;text-align:right}
+.wcard.on{background:var(--lavbg);border-color:var(--lav)}.wcard.on .m{visibility:visible}
+.pad-wrap{margin-top:14px}
+.pad-title{font-weight:800;color:var(--gold);font-size:15px;margin:0 0 6px}
+.pad{position:relative;width:100%;height:210px;border:2px dashed var(--line);border-radius:18px;background:#fffdf8;touch-action:none;overflow:hidden}
+.pad canvas{position:absolute;inset:0;width:100%;height:100%}
+.pad .ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;font-size:150px;color:#ece6d8;pointer-events:none}
+/* quiz slides */
+.q-area{text-align:center}
+.q-pic{font-size:clamp(90px,12vw,140px);line-height:1.1}
+.q-opts{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:18px auto;max-width:900px}
+.q-opt{border:2px solid var(--line);border-radius:18px;background:#fff;font-size:clamp(46px,6vw,70px);min-width:120px;padding:4px 18px}
+.q-opt.ok{background:var(--goodbg);border-color:var(--good)}
+.q-opt.no{background:var(--badbg);border-color:var(--bad);opacity:.6}
+.q-msg{font-size:22px;font-weight:800;min-height:1.5em}
+.q-msg.ok{color:var(--good)}.q-msg.no{color:var(--bad)}
+.big-btn{border:none;background:var(--lav);color:#fff;border-radius:999px;padding:12px 24px;font-size:19px;font-weight:800}
+.score{color:var(--muted);font-weight:700}
+/* homework slide */
+.hw{max-width:760px;margin:10px auto;display:grid;gap:14px}
+.hw-item{display:flex;gap:14px;align-items:flex-start;border:2px solid var(--line);border-radius:18px;padding:14px 18px;background:#fff;font-size:20px}
+.hw-item .ic{font-size:36px}
+.hw-item b{display:block;margin-bottom:4px}
+.hw-item a{color:var(--lav);font-weight:800}
+.credit{text-align:center;font-size:11px;color:var(--muted);margin:6px 0 0}
+.credit a{color:inherit}
+@media(max-width:860px){.learn{grid-template-columns:1fr}.kgrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.wcard{grid-template-columns:56px 1fr}.wcard .m{grid-column:1/-1;text-align:left}}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>✍️ Hiragana Lesson</h1>
+  <div class="blocks" id="blocks"></div>
+  <span class="count" id="count"></span>
+</div>
+<div class="bar"><i id="barFill"></i></div>
+<main class="stage" id="stage"></main>
+
+<script src="../data/hiragana-words.js"></script>
+<script src="../data/hiragana-strokes.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let audio=null;
+function play(src){if(!src)return;try{if(audio)audio.pause();audio=new Audio("../"+src);audio.play().catch(()=>{})}catch(e){}}
+const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
+
+/* ---------- slide list for a block ---------- */
+let block=HW_BLOCKS[0],slides=[],idx=0;
+function buildSlides(){
+  const ks=block.kana;slides=[{type:"title"}];
+  ks.forEach((k,i)=>{
+    slides.push({type:"learn",kana:k});
+    if((i+1)%5===0&&i<ks.length-1)slides.push({type:"check",upto:ks.slice(0,i+1)});
+  });
+  slides.push({type:"check",upto:ks,final:true});
+  slides.push({type:"first"});
+  slides.push({type:"homework"});
+}
+function go(i){idx=Math.max(0,Math.min(slides.length-1,i));render();
+  const u=new URL(location.href);u.searchParams.set("b",block.id);u.searchParams.set("p",idx+1);history.replaceState(null,"",u)}
+function nav(st){const n=el("div","nav"),p=el("button","","← Back"),x=el("button","next",idx===slides.length-1?"Done ✓":"Next →");
+  p.disabled=idx===0;p.onclick=()=>go(idx-1);x.onclick=()=>idx<slides.length-1?go(idx+1):go(0);n.append(p,x);st.append(n)}
+function render(){
+  if(audio)audio.pause();
+  const s=slides[idx],st=$("stage");st.innerHTML="";
+  $("count").textContent=`${idx+1} / ${slides.length}`;
+  $("barFill").style.width=((idx+1)/slides.length*100)+"%";
+  document.querySelectorAll("#blocks button").forEach(b=>b.classList.toggle("on",b.dataset.id===block.id));
+  const card=el("section","slide");st.append(card);
+  R[s.type](card,s);nav(st);
+  window.scrollTo(0,0);
+}
+
+/* ---------- renderers ---------- */
+const R={
+title(c){
+  c.append(el("div","kicker","Today's hiragana"),el("div","title jp",block.label),el("div","sub","Tap a letter to jump to it. Press → to start."));
+  const g=el("div","kgrid");
+  block.kana.forEach(k=>{const b=el("button","ktile jp",k);b.onclick=()=>go(slides.findIndex(s=>s.kana===k));g.append(b)});
+  c.append(g);
+},
+learn(c,s){
+  const k=s.kana,n=block.kana.indexOf(k)+1;
+  c.append(el("div","kicker",`Letter ${n} of ${block.kana.length}`));
+  const wrap=el("div","learn"),left=el("div"),right=el("div");
+  const head=el("div","lhead"),big=el("div","bigk jp",k),snd=el("button","snd","🔊");
+  snd.title="Play the sound";snd.onclick=()=>play(KANA_AUDIO[k]);head.append(big,snd);left.append(head);
+  left.append(strokeBox(k));
+  right.append(el("div","sub",'Tap a word: hear it, then see what it means.'));
+  const ws=el("div","words");
+  (KANA[k]||[]).forEach(([w,pic,en])=>{
+    const b=el("button","wcard");
+    const hl=w.replace(k,`<b>${k}</b>`);
+    b.append(el("div","em"+(pic?"":" noimg"),pic||"🖼️"),el("div","w jp",hl),el("div","m",en));
+    b.onclick=()=>{b.classList.add("on");play(HW_AUDIO[w])};ws.append(b)});
+  right.append(ws,pad(k));
+  wrap.append(left,right);c.append(wrap);
+  c.append(el("div","credit",KANA_CREDIT));
+  setTimeout(()=>play(KANA_AUDIO[k]),250);
+},
+check(c,s){
+  c.append(el("div","kicker",s.final?"Review · all letters":"Quick check"),el("div","title","Listen. Which letter is it?"),el("div","sub","Say it out loud first, then tap."));
+  const area=el("div","q-area");c.append(area);
+  let score=0,asked=0,last=null;
+  const ask=()=>{
+    area.innerHTML="";
+    let t;do{t=s.upto[Math.floor(Math.random()*s.upto.length)]}while(s.upto.length>1&&t===last);last=t;
+    const opts=shuffle([t,...shuffle(s.upto.filter(x=>x!==t)).slice(0,Math.min(4,s.upto.length-1))]);
+    const again=el("button","big-btn","🔊 Listen again");again.onclick=()=>play(KANA_AUDIO[t]);
+    const box=el("div","q-opts"),msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`);
+    let first=true;
+    opts.forEach(o=>{const b=el("button","q-opt jp",o);b.onclick=()=>{
+      if(o===t){b.classList.add("ok");msg.className="q-msg ok";msg.textContent="✓ That's right!";if(first)score++;asked++;sc.textContent=`${score} / ${asked}`;
+        box.querySelectorAll("button").forEach(x=>x.disabled=true);const nx=el("button","big-btn","Next question →");nx.style.marginTop="10px";nx.onclick=ask;area.append(nx)}
+      else{b.classList.add("no");b.disabled=true;first=false;msg.className="q-msg no";msg.textContent="↻ Try again";play(KANA_AUDIO[t])}}
+      ;box.append(b)});
+    area.append(again,box,msg,sc);setTimeout(()=>play(KANA_AUDIO[t]),200);
+  };ask();
+},
+first(c){
+  c.append(el("div","kicker","Word game"),el("div","title","Which letter does it start with?"),el("div","sub","Look at the picture and say the word, then tap its first letter."));
+  const area=el("div","q-area");c.append(area);
+  const pool=block.kana.flatMap(k=>(KANA[k]||[]).filter(w=>w[0].startsWith(k)&&w[1]).map(w=>({k,w})));
+  let order=shuffle(pool),i=0;
+  const ask=()=>{
+    area.innerHTML="";if(i>=order.length){order=shuffle(pool);i=0}
+    const {k,w}=order[i++];
+    const opts=shuffle([k,...shuffle(block.kana.filter(x=>x!==k)).slice(0,4)]);
+    const pic=el("div","q-pic",w[1]),en=el("div","sub",w[2]),box=el("div","q-opts"),msg=el("div","q-msg");
+    opts.forEach(o=>{const b=el("button","q-opt jp",o);b.onclick=()=>{
+      if(o===k){b.classList.add("ok");msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${w[0]}</span>`;play(HW_AUDIO[w[0]]);box.querySelectorAll("button").forEach(x=>x.disabled=true);
+        const nx=el("button","big-btn","Next picture →");nx.style.marginTop="10px";nx.onclick=ask;area.append(nx)}
+      else{b.classList.add("no");b.disabled=true;msg.className="q-msg no";msg.textContent="↻ Try again"}};box.append(b)});
+    area.append(pic,en,box,msg);
+  };ask();
+},
+homework(c){
+  c.append(el("div","kicker","Homework"),el("div","title","This week's homework"),el("div","sub jp",block.label));
+  const hw=el("div","hw");
+  hw.append(el("div","hw-item",`<span class="ic">📄</span><span><b>Paper worksheet</b>Write ${block.kana.join(" ")} on your worksheet. Take a photo when you finish.</span>`));
+  hw.append(el("div","hw-item",`<span class="ic">💻</span><span><b>Online homework</b>Open <i>Midnight &amp; Light → Practice</i> with your code, then choose <b>Hiragana Homework</b> → <span class="jp">${block.label}</span>.<br>It sends your answers to your teacher automatically.</span>`));
+  hw.append(el("div","hw-item",`<span class="ic">🎲</span><span><b>Teacher: pop quiz now</b><a href="random-picture-quiz.html?hira=${block.id}" target="_blank" rel="noopener">Open Pop Quiz with ${block.label} →</a></span>`));
+  c.append(hw);
+}
+};
+
+/* ---------- stroke order ---------- */
+function strokeBox(k){
+  const box=el("div","stroke-box"),paths=KANA_STROKES[k]||[];
+  const svgNS="http://www.w3.org/2000/svg",svg=document.createElementNS(svgNS,"svg");
+  svg.setAttribute("viewBox","0 0 109 109");svg.setAttribute("class","stroke-svg");
+  const ink=[];
+  paths.forEach(d=>{const g=document.createElementNS(svgNS,"path");g.setAttribute("d",d);g.setAttribute("class","g");svg.append(g)});
+  paths.forEach((d,i)=>{const p=document.createElementNS(svgNS,"path");p.setAttribute("d",d);p.setAttribute("class","s");p.setAttribute("pathLength","1");svg.append(p);ink.push(p);
+    const t=document.createElementNS(svgNS,"text");const m=d.match(/M\s*([\d.]+)[ ,]([\d.]+)/);if(m){t.setAttribute("x",+m[1]-7);t.setAttribute("y",+m[2]-2);t.textContent=i+1;t.style.opacity=0;svg.append(t);p._num=t}});
+  let shown=0,timer=null;
+  const note=el("div","snote",`${paths.length} stroke${paths.length>1?"s":""}`);
+  const show=n=>{ink.forEach((p,i)=>{p.classList.toggle("now",i===n-1);if(i<n){p.classList.add("on");p._num&&(p._num.style.opacity=1)}else{p.classList.remove("on");p._num&&(p._num.style.opacity=0)}});shown=n;note.textContent=n?`Stroke ${n} of ${paths.length}`:`${paths.length} stroke${paths.length>1?"s":""}`};
+  const reset=()=>{clearInterval(timer);ink.forEach(p=>{p.style.transition="none";p.classList.remove("on","now");p._num&&(p._num.style.opacity=0)});svg.getBoundingClientRect();ink.forEach(p=>p.style.transition="");shown=0};
+  const row=el("div","srow"),playAll=el("button","","▶ Play"),step=el("button","","Next stroke"),clr=el("button","","↺");
+  playAll.onclick=()=>{reset();let n=0;timer=setInterval(()=>{n++;show(n);if(n>=paths.length)clearInterval(timer)},1000);show(0)};
+  step.onclick=()=>{clearInterval(timer);if(shown>=paths.length)reset();show(shown+1)};
+  clr.onclick=()=>{reset();show(0)};
+  row.append(playAll,step,clr);box.append(svg,note,row);
+  setTimeout(()=>playAll.onclick(),500);
+  return box;
+}
+
+/* ---------- writing pad (teacher demo) ---------- */
+function pad(k){
+  const w=el("div","pad-wrap");w.append(el("div","pad-title","✏️ Write it together"));
+  const p=el("div","pad"),ghost=el("div","ghost jp",`<span>${k}</span><span></span><span></span>`),cv=document.createElement("canvas");
+  p.append(ghost,cv);w.append(p);
+  const row=el("div","srow"),clr=el("button","","Clear"),gh=el("button","","Hide guide");row.style.marginTop="8px";
+  clr.onclick=()=>{const c=cv.getContext("2d");c.clearRect(0,0,cv.width,cv.height)};
+  gh.onclick=()=>{const h=ghost.style.visibility==="hidden";ghost.style.visibility=h?"":"hidden";gh.textContent=h?"Hide guide":"Show guide"};
+  row.append(clr,gh);w.append(row);
+  requestAnimationFrame(()=>{const r=p.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;
+    const c=cv.getContext("2d");c.scale(dpr,dpr);c.lineWidth=7;c.lineCap="round";c.lineJoin="round";c.strokeStyle="#23263a";
+    let down=false;const pt=e=>{const b=cv.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top]};
+    cv.addEventListener("pointerdown",e=>{down=true;cv.setPointerCapture(e.pointerId);const [x,y]=pt(e);c.beginPath();c.moveTo(x,y)});
+    cv.addEventListener("pointermove",e=>{if(!down)return;const [x,y]=pt(e);c.lineTo(x,y);c.stroke()});
+    ["pointerup","pointercancel"].forEach(t=>cv.addEventListener(t,()=>down=false));
+  });
+  return w;
+}
+
+/* ---------- start ---------- */
+HW_BLOCKS.forEach(b=>{const x=el("button","jp",b.label);x.dataset.id=b.id;x.onclick=()=>{block=b;buildSlides();go(0)};$("blocks").append(x)});
+document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(idx-1)}});
+(function(){const q=new URLSearchParams(location.search);const b=HW_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1)})();
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hiragana Homework | ミッドナイトとライト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#23263a;--muted:#77737f;--line:#e2dccf;--gold:#b88a1e;--lav:#6f5aa8;--lavbg:#efeaf8;--good:#2f8a46;--goodbg:#e4f3e7;--bad:#c2475d;--badbg:#fbe9ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Zen Kaku Gothic New",system-ui,sans-serif}
+button{font:inherit;cursor:pointer;color:inherit}
+.jp{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif}
+.shell{width:min(760px,calc(100% - 24px));margin:0 auto;padding:16px 0 60px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;color:var(--muted);font-weight:600}
+.topline a{color:var(--lav);font-weight:800;text-decoration:none}
+h1{font-size:clamp(26px,5vw,36px);margin:10px 0 4px;text-align:center}
+.lead{text-align:center;color:var(--muted);font-size:18px;margin:0 0 16px}
+.lead small{display:block;font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+.sets{display:grid;gap:10px}
+.set{display:flex;align-items:center;gap:14px;border:2px solid var(--line);border-radius:18px;background:#fff;padding:14px 16px;text-align:left;width:100%}
+.set:hover{border-color:var(--lav)}
+.set .lb{font-size:30px;font-weight:700;min-width:120px}
+.set .kn{color:var(--muted);font-size:20px;letter-spacing:.08em}
+.set .st{margin-left:auto;font-weight:800;font-size:15px;color:var(--good);white-space:nowrap}
+.steps{display:flex;gap:6px;justify-content:center;margin:4px 0 14px;flex-wrap:wrap}
+.steps span{border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.steps span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.steps span.done{background:var(--goodbg);color:var(--good);border-color:var(--good)}
+.task{font-size:clamp(20px,3.6vw,24px);font-weight:800;text-align:center;margin:2px 0}
+.task small{display:block;font-size:16px;color:var(--muted);font-weight:600;margin-top:2px}
+.prog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:10px 0 14px}.prog i{display:block;height:100%;background:var(--lav);transition:width .2s}
+.pic{font-size:clamp(84px,22vw,130px);line-height:1.1;text-align:center}
+.pic.txt{font-size:26px;font-weight:800;color:var(--lav);padding:30px 0}
+.word{display:flex;justify-content:center;gap:6px;margin:8px 0 14px;flex-wrap:wrap}
+.word span{width:clamp(52px,13vw,72px);height:clamp(52px,13vw,72px);border:2px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:clamp(32px,8vw,46px);font-weight:700;background:#fffdf8}
+.word span.blank{border:3px dashed var(--lav);background:var(--lavbg);color:var(--lav)}
+.word span.filled{border-color:var(--good);background:var(--goodbg);color:var(--good)}
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:6px}
+.opts.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.opt{border:2px solid var(--line);border-radius:16px;background:#fff;font-size:clamp(36px,9vw,54px);padding:6px 0;line-height:1.3}
+.opt.ok{background:var(--goodbg);border-color:var(--good)}
+.opt.no{background:var(--badbg);border-color:var(--bad);opacity:.55}
+.msg{text-align:center;font-weight:800;font-size:20px;min-height:1.6em;margin-top:10px}
+.msg.ok{color:var(--good)}.msg.no{color:var(--bad)}
+.listen{display:block;margin:6px auto 12px;border:none;background:var(--lav);color:#fff;border-radius:999px;padding:14px 28px;font-size:20px;font-weight:800}
+.order{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin:6px 0 12px}
+.order span{width:42px;height:42px;border-radius:10px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:#c9c3b6;background:#fff}
+.order span.got{color:var(--good);border-color:var(--good);background:var(--goodbg)}
+.order span.next{border-color:var(--lav);color:var(--lav);background:var(--lavbg)}
+.maze{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.cell{aspect-ratio:1;border:2px solid var(--line);border-radius:14px;background:#fff;font-size:clamp(28px,8vw,44px)}
+.cell.ok{background:var(--goodbg);border-color:var(--good);color:var(--good)}
+.cell.shake{animation:shake .35s;background:var(--badbg);border-color:var(--bad)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.main-btn{display:block;margin:16px auto 0;border:none;background:var(--ink);color:#fff;border-radius:999px;padding:14px 30px;font-size:19px;font-weight:800;min-width:220px}
+.end{text-align:center}
+.end .big{font-size:64px}
+.end .sent{font-weight:800;color:var(--good);font-size:18px;margin:8px 0}
+.end .sent.wait{color:var(--muted)}
+.paper{border:2px dashed var(--gold);border-radius:18px;padding:14px;margin:14px 0;background:#fffaf0;font-size:18px;text-align:left}
+.paper b{display:block;margin-bottom:4px}
+.gate{text-align:center;font-size:18px}
+.gate a{color:var(--lav);font-weight:800}
+@media(max-width:480px){.opts.five{grid-template-columns:repeat(3,minmax(0,1fr))}.set .lb{min-width:90px;font-size:26px}.set .kn{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topline"><a id="back" href="practice.html">← All practice</a><span id="who"></span></div>
+  <h1>✍️ Hiragana Homework</h1>
+  <p class="lead" id="lead">Choose the set your teacher gave you.<small>选择老师给你的那一组。</small></p>
+  <div id="app"></div>
+</div>
+
+<script src="data/hiragana-words.js"></script>
+<script src="data/hiragana-strokes.js"></script>
+<script src="data/hiragana-assign.js"></script>
+<script>
+const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
+const CODE_KEY="mlStudentCode";
+const STUDENT_CODE=(function(){
+ const clean=v=>(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+ const fromUrl=clean(new URLSearchParams(location.search).get("s"));
+ if(fromUrl){try{localStorage.setItem(CODE_KEY,fromUrl)}catch(e){}return fromUrl}
+ try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}
+})();
+const $=id=>document.getElementById(id);
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let audio=null;function play(src){if(!src)return;try{if(audio)audio.pause();audio=new Audio(src);audio.play().catch(()=>{})}catch(e){}}
+const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
+const DONE_KEY="hwHiraDone_"+STUDENT_CODE;
+function doneMap(){try{return JSON.parse(localStorage.getItem(DONE_KEY)||"{}")}catch(e){return {}}}
+function markDone(id,score){try{const d=doneMap();d[id]=score;localStorage.setItem(DONE_KEY,JSON.stringify(d))}catch(e){}}
+
+/* ---------- which sets this student can open ---------- */
+function mySets(){const a=HW_ASSIGN[STUDENT_CODE];return a&&a.length?HW_BLOCKS.filter(b=>a.includes(b.id)):HW_BLOCKS}
+function learnedUpTo(block){const i=HW_BLOCKS.findIndex(b=>b.id===block.id);return HW_BLOCKS.slice(0,i+1).flatMap(b=>b.kana)}
+
+/* ---------- results (auto-sent) ---------- */
+let run=null;
+function newRun(block){return {block,start:Date.now(),parts:{},sent:false,dirty:false}}
+function log(part,item,ok,picked){
+  const p=run.parts[part]||(run.parts[part]={items:{}});
+  const it=p.items[item]||(p.items[item]={wrong:0,solved:false,picks:[]});
+  if(ok)it.solved=true;else{it.wrong++;if(picked)it.picks.push(picked)}
+  run.dirty=true;
+}
+const PART_ZH={fill:"看图补字",listen:"听音选字（累积）",maze:"顺序迷宫"};
+function payload(finished){
+  const sum=[],mis=[],det={};
+  Object.entries(run.parts).forEach(([k,p])=>{
+    const items=Object.entries(p.items),n=items.length,first=items.filter(([,v])=>v.solved&&!v.wrong).length,later=items.filter(([,v])=>v.solved&&v.wrong).length,not=items.filter(([,v])=>!v.solved).length;
+    sum.push(`${PART_ZH[k]}：${first}/${n} 一次答對`+(later?`，${later} 題改對`:"")+(not?`，${not} 題沒答完`:""));
+    items.filter(([,v])=>v.wrong).forEach(([i,v])=>mis.push(`${PART_ZH[k]}：${i}（錯${v.wrong}次${v.picks.length?"，選了 "+v.picks.join("、"):""}）`));
+    det[k]={questions:n,firstTry:first,fixedLater:later,notSolved:not};
+  });
+  return {code:STUDENT_CODE,page:"hiragana-homework.html · "+run.block.label,minutes:Math.max(1,Math.round((Date.now()-run.start)/60000)),
+    summary:(finished?"✅ 全部完成｜":"⏸ 中途離開｜")+(sum.join("；")||"（沒有做題）"),mistakes:mis.join("\n"),detail:JSON.stringify(det)};
+}
+function send(finished){
+  if(!run||!STUDENT_CODE||!Object.keys(run.parts).length)return Promise.resolve(false);
+  const body=JSON.stringify(payload(finished));run.dirty=false;run.sent=true;
+  return fetch(REPORT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body}).then(()=>true).catch(()=>false);
+}
+/* leaving in the middle still sends what was done */
+window.addEventListener("pagehide",()=>{
+  if(run&&run.dirty&&STUDENT_CODE){try{navigator.sendBeacon(REPORT_URL,new Blob([JSON.stringify(payload(false))],{type:"text/plain;charset=utf-8"}));run.dirty=false}catch(e){}}
+});
+
+/* ---------- screens ---------- */
+function home(){
+  run=null;$("lead").style.display="";
+  const app=$("app");app.innerHTML="";
+  if(!STUDENT_CODE){app.append(el("div","card gate",`Please open this page from <a href="practice.html">your practice page</a> with your student code.<br><small>请从练习页面用你的代号进来。</small>`));return}
+  const done=doneMap(),box=el("div","card sets");
+  mySets().forEach(b=>{const x=el("button","set",`<span class="lb jp">${b.label}</span><span class="kn jp">${b.kana.join(" ")}</span>${done[b.id]!=null?`<span class="st">✓ Done</span>`:""}`);x.onclick=()=>start(b);box.append(x)});
+  app.append(box);
+}
+const PARTS=[["fill","1 Fill in"],["listen","2 Listen"],["maze","3 Maze"],["paper","4 Paper"]];
+function header(app,part,title,sub){
+  $("lead").style.display="none";
+  const st=el("div","steps");const i=PARTS.findIndex(p=>p[0]===part);
+  PARTS.forEach(([id,lb],j)=>st.append(el("span",j<i?"done":(j===i?"on":""),lb)));
+  app.append(el("div","jp",""),st);
+  const c=el("div","card");c.append(el("div","task",`${title}<small>${sub}</small>`));app.append(c);return c;
+}
+function start(block){run=newRun(block);partFill()}
+
+/* Part 1 — picture + word with one missing kana (like the paper worksheet) */
+function partFill(){
+  const b=run.block,learned=learnedUpTo(b);
+  const words=[];const seen=new Set();
+  b.kana.forEach(k=>(KANA[k]||[]).forEach(w=>{if(!seen.has(w[0])){seen.add(w[0]);words.push(w)}}));
+  const qs=shuffle(words).slice(0,10).map(w=>{
+    const chars=[...w[0]],pos=chars.map((c,i)=>b.kana.includes(c)?i:-1).filter(i=>i>=0);
+    return {w,chars,blank:pos[Math.floor(Math.random()*pos.length)]};
+  });
+  let i=0;
+  const ask=()=>{
+    const app=$("app");app.innerHTML="";
+    if(i>=qs.length){partListen();return}
+    const q=qs[i],ans=q.chars[q.blank];
+    const c=header(app,"fill","Which letter is missing?","缺了哪个字？");
+    const pr=el("div","prog");pr.append(el("i"));pr.firstChild.style.width=(i/qs.length*100)+"%";c.prepend(pr);
+    c.append(q.w[1]?el("div","pic",q.w[1]):el("div","pic txt",q.w[2]));
+    const word=el("div","word jp");q.chars.forEach((ch,j)=>word.append(el("span",j===q.blank?"blank":"",j===q.blank?"？":ch)));c.append(word);
+    const pool=shuffle(learned.filter(x=>x!==ans)),opts=shuffle([ans,...pool.slice(0,3)]);
+    const box=el("div","opts"),msg=el("div","msg");
+    opts.forEach(o=>{const bt=el("button","opt jp",o);bt.onclick=()=>{
+      if(o===ans){log("fill",q.w[0],true);bt.classList.add("ok");const s=word.children[q.blank];s.textContent=ans;s.className="filled";
+        box.querySelectorAll("button").forEach(x=>x.disabled=true);msg.className="msg ok";msg.textContent="✓ "+q.w[0];play(HW_AUDIO[q.w[0]]);
+        setTimeout(()=>{i++;ask()},1500)}
+      else{log("fill",q.w[0],false,o);bt.classList.add("no");bt.disabled=true;msg.className="msg no";msg.textContent="↻ Try again";}};box.append(bt)});
+    c.append(box,msg);
+  };ask();
+}
+
+/* Part 2 — listen and choose; mixes this set with everything learned before (like the reading sheet) */
+function partListen(){
+  const b=run.block,learned=learnedUpTo(b),N=12;
+  const qs=[];let last=null;
+  for(let n=0;n<N;n++){const src=(n%2===0||learned.length===b.kana.length)?b.kana:learned;let t;do{t=src[Math.floor(Math.random()*src.length)]}while(t===last);last=t;qs.push(t)}
+  let i=0;
+  const ask=()=>{
+    const app=$("app");app.innerHTML="";
+    if(i>=qs.length){partMaze();return}
+    const t=qs[i];
+    const c=header(app,"listen","Listen. Which letter is it?","听一听，是哪个字？");
+    const pr=el("div","prog");pr.append(el("i"));pr.firstChild.style.width=(i/qs.length*100)+"%";c.prepend(pr);
+    const ls=el("button","listen","🔊 Listen");ls.onclick=()=>play(KANA_AUDIO[t]);c.append(ls);
+    const opts=shuffle([t,...shuffle(learned.filter(x=>x!==t)).slice(0,4)]);
+    const box=el("div","opts five"),msg=el("div","msg");
+    opts.forEach(o=>{const bt=el("button","opt jp",o);bt.onclick=()=>{
+      if(o===t){log("listen",t+"（第"+(i+1)+"题）",true);bt.classList.add("ok");box.querySelectorAll("button").forEach(x=>x.disabled=true);msg.className="msg ok";msg.textContent="✓";setTimeout(()=>{i++;ask()},900)}
+      else{log("listen",t+"（第"+(i+1)+"题）",false,o);bt.classList.add("no");bt.disabled=true;msg.className="msg no";msg.textContent="↻ Listen again";play(KANA_AUDIO[t])}};box.append(bt)});
+    c.append(box,msg);setTimeout(()=>play(KANA_AUDIO[t]),250);
+  };ask();
+}
+
+/* Part 3 — tap the letters in order (like the ant maze) */
+function partMaze(){
+  const b=run.block,order=b.kana;
+  const others=shuffle(HW_BLOCKS.flatMap(x=>x.kana).filter(k=>!order.includes(k)));
+  const cells=shuffle([...order,...others.slice(0,20-order.length)]);
+  const app=$("app");app.innerHTML="";
+  const c=header(app,"maze","Tap the letters in order!","按顺序点字！");
+  const row=el("div","order jp");order.forEach((k,j)=>row.append(el("span",j===0?"next":"",k)));c.append(row);
+  const grid=el("div","maze"),msg=el("div","msg");let n=0;
+  cells.forEach(k=>{const bt=el("button","cell jp",k);bt.onclick=()=>{
+    if(bt.classList.contains("ok"))return;
+    if(k===order[n]){log("maze",k,true);bt.classList.add("ok");play(KANA_AUDIO[k]);row.children[n].className="got";n++;if(n<order.length)row.children[n].className="next";
+      if(n===order.length){msg.className="msg ok";msg.textContent="🎉 You found them all!";setTimeout(partPaper,1400)}}
+    else{log("maze",order[n],false,k);bt.classList.remove("shake");void bt.offsetWidth;bt.classList.add("shake");msg.className="msg no";msg.innerHTML=`Look for <span class="jp">${order[n]}</span>`}};grid.append(bt)});
+  c.append(grid,msg);
+}
+
+/* Part 4 — paper worksheet reminder, then send */
+function partPaper(){
+  const app=$("app");app.innerHTML="";
+  const c=header(app,"paper","Last step: your paper worksheet","最后一步：纸本作业");
+  c.append(el("div","paper",`<b>📄 Paper worksheet · <span class="jp">${run.block.label}</span></b>Finish writing <span class="jp">${run.block.kana.join(" ")}</span> on your paper worksheet, then show it to your teacher.<br><small>在纸本作业上写完 <span class="jp">${run.block.kana.join(" ")}</span>，上课时拿给老师看。</small>`));
+  const done=el("button","main-btn","✓ I finished — send to my teacher");
+  done.onclick=finish;c.append(done);
+}
+function finish(){
+  const app=$("app");app.innerHTML="";
+  const parts=Object.values(run.parts),total=parts.reduce((s,p)=>s+Object.keys(p.items).length,0),first=parts.reduce((s,p)=>s+Object.values(p.items).filter(v=>v.solved&&!v.wrong).length,0);
+  markDone(run.block.id,first+"/"+total);
+  const c=el("div","card end");
+  const st=el("div","sent wait","Sending to your teacher…");
+  c.append(el("div","big","🌟"),el("div","task",`Great job!<small>${first} / ${total} right on the first try</small>`),st);
+  const back=el("button","main-btn","Back to my sets");back.onclick=home;c.append(back);app.append(c);
+  const trySend=()=>send(true).then(ok=>{st.className=ok?"sent":"sent wait";st.textContent=ok?"✓ Sent to your teacher":"Could not send — check your internet, then tap “Send again”.";
+    if(!ok&&!c.querySelector(".retry")){const r=el("button","main-btn retry","Send again");r.onclick=()=>{r.remove();st.textContent="Sending…";trySend()};c.insertBefore(r,back)}});
+  trySend();
+}
+
+(function(){
+  if(STUDENT_CODE){$("who").textContent="Code: "+STUDENT_CODE;$("back").href="practice.html?s="+encodeURIComponent(STUDENT_CODE)}
+  home();
+})();
+</script>
+</body>
+</html>
