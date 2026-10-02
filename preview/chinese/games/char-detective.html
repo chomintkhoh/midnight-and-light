@@ -36,7 +36,7 @@ h1{font-size:24px;margin:4px 0 2px}.lead{margin:0;color:var(--muted);font-size:1
 .opt{font-size:34px;min-width:76px;min-height:70px;font-weight:700}.opt.ok{background:var(--goodbg);border-color:var(--good)}.opt.no{background:var(--badbg);border-color:var(--bad)}
 .msg{min-height:24px;margin-top:8px;font-weight:800}.msg.good{color:var(--good)}.msg.bad{color:var(--bad)}
 .clue{display:none;margin-top:12px}.clue.show{display:block}
-.clue .pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
 .cl{border:2px solid var(--ink);border-radius:14px;padding:10px;background:#fff}.cl.right{border-color:var(--good);background:#f2fbf4}
 .cl .big{font-size:40px;font-weight:800;line-height:1}.cl .py{color:var(--muted);font-size:15px;margin-left:6px}
 .cl .w{margin-top:6px;font-size:17px;font-weight:700}.cl .w small{font-weight:500;color:var(--muted);font-size:13px;margin-left:4px}
@@ -52,6 +52,11 @@ h1{font-size:24px;margin:4px 0 2px}.lead{margin:0;color:var(--muted);font-size:1
 .hidden{display:none!important}
 .burst{position:fixed;pointer-events:none;font-size:22px;animation:fly .9s ease-out forwards;z-index:50}
 @keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+.rule{background:#fff3bf;border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-weight:800;font-size:16px;line-height:1.45;margin-bottom:8px}
+.cl .lbl{margin-top:8px;font-size:12px;font-weight:800;color:var(--muted)}.cl .lbl .say{min-height:28px;padding:0 6px;font-size:13px}
+.cl .ws{font-size:18px;line-height:1.9}.cl .ex{font-size:18px;line-height:2}.cl rt{font-size:11px;color:var(--muted);font-weight:500}.cl .hl{color:var(--bad);font-weight:800}.cl.right .hl{color:var(--good)}
+.cl .en{font-size:13px;color:var(--muted)}
+.cl .wd{white-space:nowrap;display:inline-block}.cl ruby{margin:0 .06em}.cl .sep{margin:0 .1em}
 @media(max-width:520px){:root{--hz:28px}.app{padding:8px 8px 40px}.card{padding:12px;border-radius:16px;box-shadow:4px 4px 0 var(--ink)}h1{font-size:21px}.lv b{font-size:22px}.opt{font-size:30px;min-width:64px;min-height:62px}.ch rt{font-size:11px}}
 </style></head><body>
 <audio id="sOk" src="../../../assets/audio/correct.mp3" preload="auto"></audio>
@@ -90,7 +95,7 @@ h1{font-size:24px;margin:4px 0 2px}.lead{margin:0;color:var(--muted);font-size:1
 <section id="end" class="card end hidden"></section>
 </main>
 <script src="../../../assets/zh-report.js"></script><script src="../core/zh-core.js?v=cd1"></script>
-<script src="../data/char-detective.js?v=cd1"></script>
+<script src="../data/char-detective.js?v=cd2"></script>
 <script>
 (()=>{
 "use strict";
@@ -204,9 +209,14 @@ function choose(b,c){
   $("msg").className="msg good";$("msg").textContent=clean?(G.combo>=3?"🔥 Case closed! 破案！":"✓ Case closed! 破案！"):"✓ Fixed. 改好了。";
   hud();
 }
+function inl(toks){return toks.map(t=>{const c=esc(t[0]),h=t[2]?' class="hl"':'';return S.reading!=="hanzi"&&t[1]?`<ruby${h}>${c}<rt>${esc(t[1])}</rt></ruby>`:(t[2]?`<span class="hl">${c}</span>`:c)}).join("")}
+function words(toks){const out=[];let cur=[];toks.forEach(t=>{if(t[0]==="、"){out.push(cur);cur=[]}else cur.push(t)});out.push(cur);return out.map(w=>`<span class="wd">${inl(w)}</span>`).join('<span class="sep">、</span>')}
+const txt=toks=>toks.map(t=>t[0]).join("");
 function clueCards(p,right){
-  return `<div class="pair">${p.m.map(m=>`<div class="cl${m.c===right?" right":""}"><span class="big">${esc(m.c)}</span><span class="py">${esc(m.py)}</span>${sayBtn(m.w)}
-    <div class="w">${esc(m.w)}<small>${esc(m.wpy)}</small></div><div class="tip">${esc(m.tip)}</div>${S.english?`<div class="en">${esc(m.en)}</div>`:""}</div>`).join("")}</div>`;
+  return `<div class="rule">📌 ${esc(p.r)}</div><div class="pair">${p.m.map(m=>`<div class="cl${m.c===right?" right":""}"><span class="big">${esc(m.c)}</span><span class="py">${esc(m.py)}</span>${S.english?`<span class="en"> ${esc(m.en)}</span>`:""}
+    <div class="tip">${esc(m.tip)}</div>
+    <div class="lbl">组词 Words ${sayBtn(txt(m.ws))}</div><div class="ws">${words(m.ws)}</div>
+    <div class="lbl">例句 Example ${sayBtn(txt(m.ex))}</div><div class="ex">${inl(m.ex)}</div></div>`).join("")}</div>`;
 }
 function showClue(){
   const sentence=C.toks.map(t=>t[0]).join("");
@@ -267,7 +277,7 @@ function finish(){
   play("sWin");
   $("end").innerHTML=`<div class="rank">${icon}</div><h2>${title}</h2><p class="lead">${zh}</p>
     <div class="stars">⭐ ${G.stars} / ${max}${G.best>=3?` · 🔥 best combo ×${G.best}`:""}${G.stars>best&&best?" · 🎉 New best!":""}</div>
-    ${miss.length?`<div class="miss"><b>Watch out for · 要小心：</b><ul>${miss.map(p=>`<li>${p.m.map(m=>`<b style="font-size:24px">${esc(m.c)}</b> ${esc(m.w)} <small>${esc(m.wpy)}</small>${sayBtn(m.w)}`).join(" · ")}</li>`).join("")}</ul></div>`:`<p>No mistakes! 全部一次答对！</p>`}
+    ${miss.length?`<div class="miss"><b>Watch out for · 要小心：</b><ul>${miss.map(p=>`<li>${p.m.map(m=>`<b style="font-size:24px">${esc(m.c)}</b> ${esc(m.w)} <small>${esc(m.wpy)}</small>${sayBtn(m.w)}`).join(" · ")}<div class="rule" style="margin:4px 0 8px">📌 ${esc(p.r)}</div></li>`).join("")}</ul></div>`:`<p>No mistakes! 全部一次答对！</p>`}
     <button class="start" id="again">Play again · 再玩一次</button><button class="linkbtn" id="home2">Change level · 换等级</button>`;
   show("end");$("again").onclick=start;$("home2").onclick=()=>{paintHome();show("home")};
 }

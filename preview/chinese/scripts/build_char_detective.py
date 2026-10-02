@@ -23,7 +23,7 @@ PY_FIX = {
  "教导":"jiào dǎo","教室":"jiào shì","请教":"qǐng jiào","教我":"jiāo wǒ","了解":"liǎo jiě","为了":"wèi le","因为":"yīn wèi","为什么":"wèi shén me","作为":"zuò wéi","成为":"chéng wéi",
  "处理":"chǔ lǐ","到处":"dào chù","相处":"xiāng chǔ","空气":"kōng qì","空地":"kòng dì","没有":"méi yǒu","种田":"zhòng tián","种植":"zhòng zhí","种了":"zhòng le","种小":"zhòng xiǎo","种满":"zhòng mǎn","各种":"gè zhǒng","一种":"yì zhǒng","不同":"bù tóng",
  "地写":"de xiě","地跳":"de tiào","地走":"de zǒu","地跑":"de pǎo","地种":"de zhòng","地说":"de shuō","地听":"de tīng","地在":"de zài","地教":"de jiào","地指":"de zhǐ","地点":"dì diǎn","地方":"dì fang",
- "背着":"bēi zhe","答应":"dā ying","当地":"dāng dì","挣得":"zhèng dé","种着":"zhòng zhe","获得":"huò dé","实地":"shí dì","书包":"shū bāo","落叶":"luò yè","降落":"jiàng luò","参加":"cān jiā","参观":"cān guān","便利":"biàn lì","方便":"fāng biàn","发现":"fā xiàn","头发":"tóu fa","正确":"zhèng què",
+ "背着":"bēi zhe","长时间":"cháng shí jiān","系上":"jì shàng","答应":"dā ying","当地":"dāng dì","挣得":"zhèng dé","种着":"zhòng zhe","获得":"huò dé","实地":"shí dì","书包":"shū bāo","落叶":"luò yè","降落":"jiàng luò","参加":"cān jiā","参观":"cān guān","便利":"biàn lì","方便":"fāng biàn","发现":"fā xiàn","头发":"tóu fa","正确":"zhèng què",
 }
 for k,v in PY_FIX.items(): assert len(k)==len(v.split()),(k,v)
 load_phrases_dict({k:[[p] for p in v.split()] for k,v in PY_FIX.items()})
@@ -103,6 +103,7 @@ pairs = SRC.PAIRS + old_pairs
 boss = SRC.BOSS + old_boss
 # 检查：每句目标字必须是该组成员；Boss 目标字必须在同级某组里
 out_pairs=[]
+assert set(SRC.CLUE)=={p["id"] for p in pairs},set(SRC.CLUE)^{p["id"] for p in pairs}
 for p in pairs:
     mem=[m[0] for m in p["members"]]
     sents=[]
@@ -110,8 +111,9 @@ for p in pairs:
         t=re.findall(r"\{(.)\}",s); assert len(t)==1 and t[0] in mem,(p["id"],s)
         sents.append(tokens(s))
     out_pairs.append(dict(id=p["id"],lv=p["lv"],kind=p["kind"],hard=bool(p.get("hard")),
-        m=[dict(c=c,py=py,en=en,tip=tip,w=w,wpy=" ".join(x for x in py_of(w) if x)) for c,py,en,tip,w in p["members"]],
-        s=sents))
+        m=[dict(c=c,py=py,en=en,tip=tip,w=w,wpy=" ".join(x for x in py_of(w) if x),
+                ws=tokens(SRC.CLUE[p["id"]][1][c][0]),ex=tokens(SRC.CLUE[p["id"]][1][c][1])) for c,py,en,tip,w in p["members"]],
+        r=SRC.CLUE[p["id"]][0],s=sents))
 out_boss=[]
 for b in boss:
     toks=tokens(b["text"]); refs=[]
