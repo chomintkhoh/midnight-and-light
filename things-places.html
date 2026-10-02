@@ -183,9 +183,24 @@ function reportPayload(acts){const st=loadStamps();const summary=Object.entries(
 function stampCardEl(){const st=loadStamps(),g=el("div","stamp-grid");for(let i=0;i<STAMP_CARD;i++){const c=el("div","stamp-cell"+(i<st.count?" on":""));if(i<st.count){const im=new Image();im.src=STAMP_SRC;im.onerror=()=>{im.remove();c.textContent="⭐"};c.append(im)}g.append(c)}return g}
 function updateDoneBtn(){const b=document.getElementById("doneBtn");if(!b)return;const st=loadStamps();b.querySelector(".done-count").textContent=`⭐ ${st.count}/${STAMP_CARD}`}
 function openReport(){const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0),ov=el("div","report-overlay"),box=el("div","report-box");box.append(el("h2","","📋 Homework Report"));const meta=el("div","report-meta");meta.innerHTML=`<b>Student code:</b> ${STUDENT_CODE||"—"}<br><b>Time spent:</b> ${minutesSpent()} min`;box.append(meta);if(!total)box.append(el("p","","You haven't answered any questions yet."));else{Object.entries(acts).forEach(([k,a])=>{const r=el("div","report-row");r.innerHTML=`<span>${ACT_EN[k]||k}</span><span><b>${a.first}/${a.n}</b> first try</span>`;box.append(r)});const ms=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>({k,m})));if(ms.length){box.append(el("div","report-sub","Practice these again:"));const ul=el("ul","report-mistakes");ms.slice(0,12).forEach(({m})=>ul.append(el("li","",(TP_QUESTIONS.find(q=>q.id===m.item)?.options.find(o=>o.ok)?.jp)||m.item)));box.append(ul)}else box.append(el("div","report-sub","No mistakes — amazing! 🎉"))}box.append(el("div","report-sub","⭐ Stamp Card"),stampCardEl());const status=el("div","report-status"),actions=el("div","end-actions"),send=el("button","active","📨 Send to Teacher"),close=el("button","","Keep Practicing");close.onclick=()=>ov.remove();send.disabled=!(REPORT_URL&&STUDENT_CODE&&total)||session.sent;if(!STUDENT_CODE)status.textContent="Your student code is missing, so this cannot be sent.";if(session.sent){status.textContent="This practice session has already been sent.";send.textContent="✓ Already sent"}send.onclick=async()=>{if(session.sent)return;send.disabled=true;close.disabled=true;status.textContent="Sending…";try{await fetch(REPORT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(reportPayload(acts))});session.sent=true;saveSession();status.innerHTML="<b>✓ Submission request sent.</b>";send.textContent="✓ Sent";close.textContent="Close";close.disabled=false}catch(e){status.textContent="Could not send. Please check the internet.";send.disabled=false;close.disabled=false}};actions.append(send,close);box.append(Mascot.card(total?"stamp":"sleep",total?"Here are your stamps!":"Nothing yet… answer a few questions first."),actions,status);ov.append(box);document.body.append(ov);ov.onclick=e=>{if(e.target===ov&&!close.disabled)ov.remove()}}
-function initReport(){const b=el("button","done-btn");b.id="doneBtn";b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;b.onclick=openReport;document.body.append(b);updateDoneBtn()}
+function initReport(){const b=el("button","done-btn");b.id="doneBtn";b.innerHTML=`⭐ Stamps &amp; Report <span class="done-count"></span>`;b.onclick=openReport;document.body.append(b);updateDoneBtn()}
 initReport();render();
 </script>
 <script src="assets/bgm.js"></script>
+<script>
+/* 自动交作业（2026-10）：学生离开页面或切到别的 app 时，自动送出还没交的作答，送出后重新开始计算，不会重复。
+   右下角按钮仍可打开报告看印章、手动送出。 */
+(()=>{function auto(beacon){try{
+  if(typeof REPORT_URL==="undefined"||!REPORT_URL||!STUDENT_CODE)return false;
+  const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0);if(!total)return false;
+  const body=JSON.stringify(reportPayload(acts));let ok=false;
+  if(beacon&&navigator.sendBeacon){try{ok=navigator.sendBeacon(REPORT_URL,new Blob([body],{type:"text/plain;charset=utf-8"}))}catch(e){}}
+  if(!ok){fetch(REPORT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body}).catch(()=>{});ok=true}
+  session=newSession();saveSession();if(typeof updateDoneBtn==="function")updateDoneBtn();return true;
+}catch(e){return false}}
+addEventListener("pagehide",()=>auto(true));
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")auto(true)});
+window.MLAutoSend=auto;})();
+</script>
 </body>
 </html>

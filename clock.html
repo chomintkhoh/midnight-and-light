@@ -756,7 +756,7 @@ function openReport(){
 }
 function initReport(){
  const b=el("button","done-btn");b.id="doneBtn";b.type="button";
- b.innerHTML=`✅ Finish &amp; Send <span class="done-count"></span>`;
+ b.innerHTML=`⭐ Stamps &amp; Report <span class="done-count"></span>`;
  b.onclick=openReport;document.body.append(b);updateDoneBtn();
  /* who is practising + way back to the practice list */
  const who=el("div","who-bar");
@@ -1538,4 +1538,19 @@ initReport();
 render();
 </script>
 <script src="assets/bgm.js"></script>
+<script>
+/* 自动交作业（2026-10）：学生离开页面或切到别的 app 时，自动送出还没交的作答，送出后重新开始计算，不会重复。
+   右下角按钮仍可打开报告看印章、手动送出。 */
+(()=>{function auto(beacon){try{
+  if(typeof REPORT_URL==="undefined"||!REPORT_URL||!STUDENT_CODE)return false;
+  const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0);if(!total)return false;
+  const body=JSON.stringify(reportPayload(acts));let ok=false;
+  if(beacon&&navigator.sendBeacon){try{ok=navigator.sendBeacon(REPORT_URL,new Blob([body],{type:"text/plain;charset=utf-8"}))}catch(e){}}
+  if(!ok){fetch(REPORT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body}).catch(()=>{});ok=true}
+  session=newSession();saveSession();if(typeof updateDoneBtn==="function")updateDoneBtn();return true;
+}catch(e){return false}}
+addEventListener("pagehide",()=>auto(true));
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")auto(true)});
+window.MLAutoSend=auto;})();
+</script>
 </body></html>
