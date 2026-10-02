@@ -474,6 +474,23 @@
     .exp-learn-slide .exp-nav-row{margin-top:8px}
     .exp-learn-layout .exp-section-title{margin:2px 0 6px}
   }
+
+  /* Self-guided visitors: bigger, clearer instructions on every screen size */
+  .exp-card .exp-instruction{font-size:clamp(20px,2.4vw,24px);font-weight:700;line-height:1.5}
+  .exp-card .exp-note,.exp-card .exp-subinstruction{font-size:clamp(18px,2.1vw,21px);line-height:1.6;color:#3E4560}
+  .exp-card .exp-slide-kicker{font-size:clamp(13px,1.4vw,15px)}
+  .exp-card .exp-section-title{font-size:clamp(17px,1.9vw,20px)}
+  .exp-card .exp-writing-label,.exp-card .exp-phrase-romaji{font-size:clamp(15px,1.7vw,17px)}
+  .exp-card .exp-step-count{font-size:15px}
+  .exp-card button{font-size:clamp(16px,1.8vw,18px)}
+  .exp-card .exp-choice{font-size:clamp(40px,7vw,56px)}
+  .exp-learn-sound-actions{max-width:190px}
+  .exp-card .exp-speaker{font-size:30px}
+  .exp-credits{font-size:11px;opacity:.7;margin-top:10px;text-align:center}
+  .exp-name-row{margin:14px auto 6px;max-width:560px;text-align:center}
+  .exp-name-input{width:100%;max-width:360px;font-size:20px;padding:12px 14px;border-radius:14px;border:2px solid #B6A9DA;text-align:center;margin:8px 0 14px;background:#fff;color:#252B45}
+  .exp-name-out{font-size:clamp(28px,5vw,40px);color:#8B8FA8}
+  .exp-name-out.filled{color:#252B45;font-weight:600}
 </style>
 </head>
 <body>
@@ -502,6 +519,7 @@
 
   <script src="stars.js"></script>
   <script src="nav.js"></script>
-  <script src="experience-app.js"></script>
+  <script src="data/hiragana-words.js"></script>
+<script src="experience-app.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* Teacher-led trial: introduction, five vowels with short checkpoints,
+/* Self-guided trial (open to visitors): introduction, five vowels with short checkpoints,
    recognition practice, greetings and a first self-introduction. */
 
 const app = document.getElementById("exp-app");
@@ -74,8 +74,8 @@ function langToggle() {
 const CHARS = [
   { char: "あ", vocab: [
       { word: "あめ", romaji: "ame", emoji: "🌧️", en: "Rain", zh: "雨" },
-      { word: "あさ", romaji: "asa", emoji: "🌅", en: "Morning", zh: "早上" },
-      { word: "あか", romaji: "aka", emoji: "🔴", en: "Red", zh: "红色" }
+      { word: "あし", romaji: "ashi", emoji: "🦶", en: "Foot / leg", zh: "脚" },
+      { word: "あさ", romaji: "asa", emoji: "🌅", en: "Morning", zh: "早上" }
     ] },
   { char: "い", vocab: [
       { word: "いぬ", romaji: "inu", emoji: "🐶", en: "Dog", zh: "狗" },
@@ -83,19 +83,19 @@ const CHARS = [
       { word: "いす", romaji: "isu", emoji: "🪑", en: "Chair", zh: "椅子" }
     ] },
   { char: "う", vocab: [
+      { word: "うま", romaji: "uma", emoji: "🐴", en: "Horse", zh: "马" },
       { word: "うみ", romaji: "umi", emoji: "🌊", en: "Sea", zh: "海" },
-      { word: "うし", romaji: "ushi", emoji: "🐄", en: "Cow", zh: "牛" },
-      { word: "うた", romaji: "uta", emoji: "🎵", en: "Song", zh: "歌" }
+      { word: "うさぎ", romaji: "usagi", emoji: "🐰", en: "Rabbit", zh: "兔子" }
     ] },
   { char: "え", vocab: [
-      { word: "えき", romaji: "eki", emoji: "🚉", en: "Station", zh: "车站" },
-      { word: "えんぴつ", romaji: "enpitsu", emoji: "✏️", en: "Pencil", zh: "铅笔" },
-      { word: "えほん", romaji: "ehon", emoji: "📖", en: "Picture book", zh: "绘本" }
+      { word: "え", romaji: "e", emoji: "🖼️", en: "Picture", zh: "画" },
+      { word: "えび", romaji: "ebi", emoji: "🦐", en: "Prawn", zh: "虾" },
+      { word: "えんぴつ", romaji: "enpitsu", emoji: "✏️", en: "Pencil", zh: "铅笔" }
     ] },
   { char: "お", vocab: [
-      { word: "おちゃ", romaji: "ocha", emoji: "🍵", en: "Tea", zh: "茶" },
-      { word: "おかし", romaji: "okashi", emoji: "🍪", en: "Snacks", zh: "零食" },
-      { word: "おと", romaji: "oto", emoji: "🔊", en: "Sound", zh: "声音" }
+      { word: "おかし", romaji: "okashi", emoji: "🍬", en: "Snacks / sweets", zh: "零食" },
+      { word: "おの", romaji: "ono", emoji: "🪓", en: "Axe", zh: "斧头" },
+      { word: "おかね", romaji: "okane", emoji: "💰", en: "Money", zh: "钱" }
     ] }
 ];
 
@@ -454,12 +454,10 @@ function render() {
   document.body.classList.toggle("lesson-active", stepIndex > 0);
   const step = steps[stepIndex];
   renderers[step.type](step);
-  app.querySelectorAll(".exp-teacher-note:not(details)").forEach(n => {
-    const details = el("details", "exp-teacher-note");
-    details.appendChild(el("summary", "", () => L("Teacher notes", "教师备注")));
-    n.className = "exp-teacher-note-body";
-    n.replaceWith(details);
-    details.appendChild(n);
+  // Self-guided page: teacher notes are not shown (credits inside them are kept).
+  app.querySelectorAll(".exp-teacher-note").forEach(n => {
+    n.querySelectorAll(".exp-credits").forEach(cr => n.after(cr));
+    n.remove();
   });
   if (firstRender) { firstRender = false; return; }
   const top = app.getBoundingClientRect().top + window.scrollY - 90;
@@ -488,8 +486,8 @@ const renderers = {
     c.appendChild(el("div", "exp-slide-kicker", () => L("Before we begin", "开始之前")));
     c.appendChild(el("div", "exp-mid", () => L("Why Japanese?", "为什么想学日语？")));
     c.appendChild(note(() => L(
-      "Choose anything that interests you. There is no right answer — this helps your teacher understand you.",
-      "选择你感兴趣的项目。没有标准答案——这能帮助老师了解你。"
+      "What makes you curious about Japanese? Pick as many as you like — there is no wrong answer.",
+      "你为什么对日语感兴趣？想选几个都可以，没有错误答案。"
     )));
 
     const topics = [
@@ -569,7 +567,7 @@ const renderers = {
     infoCol.appendChild(soundHead);
 
     infoCol.appendChild(el("div", "exp-section-title", () => L(`Words with ${k(char)}`, `有 ${k(char)} 的词`), true));
-    infoCol.appendChild(el("div", "exp-subinstruction", () => L("Tap a word to reveal its meaning.", "点一下词语，显示意思。")));
+    infoCol.appendChild(el("div", "exp-subinstruction", () => L("Tap a word to hear it and see what it means.", "点一下词语，听发音、看意思。")));
     const grid = el("div", "exp-vocab-grid");
     vocab.forEach(v => {
       const item = el("button", "exp-vocab-card");
@@ -580,7 +578,7 @@ const renderers = {
       wordBlock.appendChild(el("div", "vocab-romaji", v.romaji));
       item.appendChild(wordBlock);
       item.appendChild(el("div", "meaning", () => L(v.en, v.zh)));
-      item.addEventListener("click", () => item.classList.toggle("revealed"));
+      item.addEventListener("click", () => { item.classList.add("revealed"); playWordAudio(v.word); });
       grid.appendChild(item);
     });
     infoCol.appendChild(grid);
@@ -649,7 +647,7 @@ const renderers = {
     const c = card();
     c.appendChild(el("div", "exp-slide-kicker", () => L("A little conversation", "开口说日语")));
     c.appendChild(el("div", "exp-mid", () => L("Say Hello — and Thank You", "打个招呼，说声谢谢")));
-    c.appendChild(note(() => L("Listen to your teacher, then try saying each phrase.", "先听老师说，再试着跟读。")));
+    c.appendChild(note(() => L("Say each phrase out loud. Try them with a friend!", "每一句都大声说出来，也可以找朋友一起练！")));
     const grid = el("div", "exp-phrase-grid");
     [
       ["こんにちは", "konnichiwa", "Hello / Good afternoon", "你好／下午好"],
@@ -675,13 +673,19 @@ const renderers = {
       el("div", "exp-phrase-romaji", "watashi wa [your name] desu"),
       note(() => L("I’m [your name]. Here, は is pronounced “wa”.", "我是［你的名字］。这里的「は」读作 wa。")));
     c.appendChild(phrase);
-    const prompt = el("details", "exp-dialogue");
-    prompt.appendChild(el("summary", "", () => L("Try a short conversation", "试一段小对话")));
-    prompt.appendChild(note(() => L("Teacher: こんにちは。 → You: こんにちは。", "老师：こんにちは。→ 你：こんにちは。")));
-    prompt.appendChild(el("div", "kana exp-dialogue-line", "わたしは　＿＿＿　です。"));
-    prompt.appendChild(note(() => L("Finish with a thank-you: ありがとうございます。", "最后说声谢谢：ありがとうございます。")));
-    c.appendChild(prompt);
-    c.appendChild(el("div", "exp-teacher-note", () => L("Model your own introduction first. Support the student's pronunciation; no need to teach all the grammar or memorise every phrase today.", "先示范老师自己的自我介绍，再帮助学生发音。今天不需要解释全部文法，也不用背熟每一句。")));
+    const nameRow = el("div", "exp-name-row");
+    const input = el("input", "exp-name-input");
+    input.type = "text"; input.maxLength = 20; input.autocomplete = "off";
+    input.placeholder = "Type your name";
+    const out = el("div", "kana exp-name-out", "わたしは　＿＿＿　です。");
+    input.addEventListener("input", () => {
+      const n = input.value.trim();
+      out.textContent = n ? `わたしは　${n}　です。` : "わたしは　＿＿＿　です。";
+      out.classList.toggle("filled", !!n);
+    });
+    nameRow.append(el("div", "exp-instruction", () => L("Type your name and read your sentence aloud:", "输入名字，然后大声读出你的句子：")), input, out);
+    c.appendChild(nameRow);
+    c.appendChild(note(() => L("Now put it together: こんにちは。わたしは ___ です。ありがとうございます！", "连起来说说看：こんにちは。わたしは ___ です。ありがとうございます！")));
     appendNav(c, {nextLabel: () => L("Finish the lesson →", "完成体验课 →")});
   },
 
@@ -866,6 +870,13 @@ const renderers = {
     c.appendChild(shortcut);
   }
 };
+
+/* ---------- Word recordings (data/hiragana-words.js) ---------- */
+function playWordAudio(word) {
+  const map = typeof HW_AUDIO !== "undefined" ? HW_AUDIO : {};
+  if (!map[word]) return;
+  try { if (currentAudio) currentAudio.pause(); currentAudio = new Audio(map[word]); currentAudio.play().catch(() => {}); } catch (e) {}
+}
 
 /* ---------- Small celebration on a correct answer ---------- */
 const CHEER_SOUND = "assets/audio/correct.mp3";
