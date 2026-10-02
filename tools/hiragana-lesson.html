@@ -87,12 +87,14 @@ button{font:inherit;cursor:pointer}
 .credit{text-align:center;font-size:11px;color:var(--muted);margin:6px 0 0}
 .credit a{color:inherit}
 @media(max-width:860px){.learn{grid-template-columns:1fr}.kgrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.wcard{grid-template-columns:56px 1fr}.wcard .m{grid-column:1/-1;text-align:left}}
+.mnem{display:flex;gap:12px;align-items:center;margin:12px auto 0;max-width:520px;background:#fff7d6;border:1px solid #e9d38a;border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.45}.mnem .me{font-size:38px;line-height:1}
 </style>
 </head>
 <body>
 <div class="top">
   <h1>✍️ Hiragana Lesson</h1>
   <div class="blocks" id="blocks"></div>
+  <div class="blocks" id="modes"><button data-m="lesson" title="Teach every letter">📖 Lesson</button><button data-m="review" title="Skip the learning pages: quiz only">🔁 Review</button></div>
   <span class="count" id="count"></span>
 </div>
 <div class="bar"><i id="barFill"></i></div>
@@ -101,6 +103,7 @@ button{font:inherit;cursor:pointer}
 <script src="../data/hiragana-words.js"></script>
 <script src="../data/hiragana-strokes.js"></script>
 <script src="../data/lexicon-images.js"></script>
+<script src="../data/hiragana-mnemonics.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
@@ -111,8 +114,10 @@ const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
 
 /* ---------- slide list for a block ---------- */
 let block=HW_BLOCKS[0],slides=[],idx=0;
+let lessonMode="lesson";
 function buildSlides(){
   const ks=block.kana;slides=[{type:"title"}];
+  if(lessonMode==="review"){slides.push({type:"check",upto:ks,final:true},{type:"first"},{type:"homework"});return}
   ks.forEach((k,i)=>{
     slides.push({type:"learn",kana:k});
     if((i+1)%5===0&&i<ks.length-1)slides.push({type:"check",upto:ks.slice(0,i+1)});
@@ -122,7 +127,7 @@ function buildSlides(){
   slides.push({type:"homework"});
 }
 function go(i){idx=Math.max(0,Math.min(slides.length-1,i));render();
-  const u=new URL(location.href);u.searchParams.set("b",block.id);u.searchParams.set("p",idx+1);history.replaceState(null,"",u)}
+  const u=new URL(location.href);u.searchParams.set("b",block.id);u.searchParams.set("p",idx+1);u.searchParams.set("m",lessonMode);history.replaceState(null,"",u)}
 function nav(st){const n=el("div","nav"),p=el("button","","← Back"),x=el("button","next",idx===slides.length-1?"Done ✓":"Next →");
   p.disabled=idx===0;p.onclick=()=>go(idx-1);x.onclick=()=>idx<slides.length-1?go(idx+1):go(0);n.append(p,x);st.append(n)}
 function render(){
@@ -131,6 +136,7 @@ function render(){
   $("count").textContent=`${idx+1} / ${slides.length}`;
   $("barFill").style.width=((idx+1)/slides.length*100)+"%";
   document.querySelectorAll("#blocks button").forEach(b=>b.classList.toggle("on",b.dataset.id===block.id));
+  document.querySelectorAll("#modes button").forEach(b=>b.classList.toggle("on",b.dataset.m===lessonMode));
   const card=el("section","slide");st.append(card);
   R[s.type](card,s);nav(st);
   window.scrollTo(0,0);
@@ -150,6 +156,8 @@ learn(c,s){
   const wrap=el("div","learn"),left=el("div"),right=el("div");
   const head=el("div","lhead"),big=el("div","bigk jp",k),snd=el("button","snd","🔊");
   snd.title="Play the sound";snd.onclick=()=>play(KANA_AUDIO[k]);head.append(big,snd);left.append(head);
+  const mn=(typeof HIRA_MNEMONIC!=="undefined")&&HIRA_MNEMONIC[k];
+  if(mn)left.append(el("div","mnem",`<span class="me">${mn[0]}</span><span><b>${mn[1]}</b><br>${mn[2]}</span>`));
   left.append(strokeBox(k));
   right.append(el("div","sub",'Tap a word: hear it, then see what it means.'));
   const ws=el("div","words");
@@ -254,7 +262,8 @@ function pad(k){
 /* ---------- start ---------- */
 HW_BLOCKS.forEach(b=>{const x=el("button","jp",b.label);x.dataset.id=b.id;x.onclick=()=>{block=b;buildSlides();go(0)};$("blocks").append(x)});
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(idx-1)}});
-(function(){const q=new URLSearchParams(location.search);const b=HW_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1)})();
+document.querySelectorAll("#modes button").forEach(b=>b.onclick=()=>{lessonMode=b.dataset.m;buildSlides();go(0)});
+(function(){const q=new URLSearchParams(location.search);if(q.get("m")==="review")lessonMode="review";const b=HW_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1)})();
 </script>
 </body>
 </html>
