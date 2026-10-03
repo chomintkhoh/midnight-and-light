@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第33課 Live | ミッドナイトとライト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<!--
+  大家的日本語 第33課 线上课件（Live：老师和学生各用自己的装置）
+  - 一堂 60 分钟：单词 → 命令形／禁止形 → 看板挑战 → 传话游戏 → 课本（会话・听解）→ 情景＋总结
+  - 课本的会话、练习、听解、問題都不放进来（版权）：上课时翻课本。这里的句子、情景都是自己写的。
+  - 「看板」和「传话」是信息差活动：两台装置看到的不一样，要开口问对方。
+    每台装置自己选角色（不同步）。两人用同一台装置时：老师选一边，学生选另一边。
+-->
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#23263a;--muted:#7a7686;--line:#e2dccf;--gold:#b88a1e;--lav:#6f5aa8;--lavbg:#efeaf8;--good:#2f8a46;--goodbg:#e4f3e7;--bad:#c2475d;--badbg:#fbe9ec;--warn:#fff7d6}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Zen Kaku Gothic New",system-ui,sans-serif}
+button{font:inherit;cursor:pointer;color:inherit}
+.jp,.slide{font-family:"Zen Kaku Gothic New","Noto Sans JP",Inter,sans-serif}
+rt{font-size:.5em;color:var(--muted)}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top h1{font-size:18px;margin:0 8px 0 0;font-weight:800}
+.blocks{display:flex;gap:6px;flex-wrap:wrap}
+.blocks button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.blocks button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count{margin-left:auto;color:var(--muted);font-weight:700;font-size:14px}
+.bar{height:5px;background:var(--line)}.bar i{display:block;height:100%;background:var(--lav);transition:width .25s}
+.stage{width:min(1100px,96vw);margin:14px auto 0;min-height:calc(100vh - 170px)}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 24px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.kicker{color:var(--gold);font-weight:800;letter-spacing:.12em;font-size:14px;text-align:center}
+.title{font-size:clamp(26px,3.2vw,40px);font-weight:800;text-align:center;margin:6px 0 4px}
+.sub{color:var(--muted);text-align:center;font-size:clamp(16px,1.7vw,19px);margin:4px 0 14px}
+.nav{display:flex;justify-content:center;gap:10px;margin:14px 0 24px}
+.nav button{min-width:140px;padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:800;font-size:17px}
+.nav .next{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nav button:disabled{opacity:.35;cursor:default}
+.btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-weight:800;font-size:16px}
+.btn.main{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.soft{background:var(--lavbg);border-color:#d9d0ee}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:10px 0}
+.tip{background:var(--warn);border:1px solid #eedc9a;border-radius:14px;padding:10px 14px;font-size:16px;margin:12px auto;max-width:760px}
+.note{color:var(--muted);font-size:14px;text-align:center}
+/* vocab */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.vcard{border:2px solid var(--line);border-radius:16px;background:#fff;padding:10px 12px;text-align:left;display:grid;gap:2px}
+.vcard:hover{border-color:var(--lav)}
+.vcard .k{font-size:24px;font-weight:700}.vcard .r{color:var(--muted);font-size:15px}
+.vcard .m{font-size:15px;color:var(--lav);font-weight:700;visibility:hidden}
+.vcard.show .m{visibility:visible}
+.vcard .g{font-size:12px;color:var(--gold);font-weight:800}
+/* grammar table */
+.gt{border-collapse:collapse;margin:10px auto;font-size:clamp(17px,1.9vw,22px)}
+.gt td,.gt th{border:1px solid var(--line);padding:8px 14px;text-align:center}
+.gt th{background:var(--lavbg);font-size:15px}
+.gt .hl{color:var(--bad);font-weight:800}
+.scenes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+.scene{border:2px solid var(--line);border-radius:18px;padding:14px;background:#fff;text-align:center}
+.scene .em{font-size:44px}.scene .say{font-size:24px;font-weight:700;margin:6px 0}
+.scene .m{color:var(--muted);font-size:14px}
+/* quiz */
+.q{max-width:720px;margin:0 auto;text-align:center}
+.q .stem{font-size:clamp(24px,3vw,34px);font-weight:700;margin:10px 0}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:14px 0}
+.opt{border:2px solid var(--line);border-radius:16px;background:#fff;padding:14px;font-size:22px;font-weight:700}
+.opt.ok{background:var(--goodbg);border-color:var(--good)}.opt.ng{background:var(--badbg);border-color:var(--bad)}
+.fb{min-height:1.6em;font-weight:800;font-size:18px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.chip{border-radius:999px;padding:4px 12px;font-weight:800;font-size:14px;background:var(--lavbg)}
+.chip.ok{background:var(--goodbg);color:var(--good)}.chip.ng{background:var(--badbg);color:var(--bad)}
+/* signs */
+.street{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;background:linear-gradient(#dfe8ef,#eef2f4);border-radius:18px;padding:16px}
+.sign{border-radius:10px;padding:12px 6px;font-weight:800;font-size:clamp(20px,2.4vw,28px);text-align:center;border:3px solid currentColor;background:#fff;line-height:1.25}
+.sign.red{color:#c0262d}.sign.green{color:#17804a}.sign.blue{color:#1e5aa8}.sign.black{color:#23263a}.sign.orange{color:#c56a00}
+.sign.tri{clip-path:none}
+.sign.pick{outline:4px solid var(--gold);outline-offset:3px}
+.sign.done{opacity:.45}
+.big-sign{font-size:clamp(44px,7vw,80px);padding:22px 10px;max-width:520px;margin:10px auto}
+/* roles */
+.roles{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 10px}
+.roles button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:10px 14px;font-weight:800;font-size:16px}
+.roles button.on{border-color:var(--lav);background:var(--lavbg)}
+.card2{border:2px dashed #d9d0ee;border-radius:18px;padding:14px 16px;background:#fbf9ff;max-width:720px;margin:10px auto;text-align:left;font-size:20px;line-height:1.7}
+.card2 b{color:var(--lav)}
+.secret{background:#fff;border:2px solid var(--gold);border-radius:18px;padding:14px 16px;max-width:720px;margin:10px auto;font-size:20px;line-height:1.7}
+.phone{max-width:520px;margin:10px auto;background:#23263a;color:#fff;border-radius:22px;padding:16px 18px;font-size:22px;line-height:1.6}
+.phone .who{font-size:14px;color:#c9c3e6;font-weight:800}
+.phrase{font-size:20px}
+.hide{filter:blur(7px);user-select:none}
+.book{max-width:720px;margin:10px auto;font-size:20px;line-height:1.9}
+.book li{margin:6px 0}
+@media (max-width:640px){.slide{padding:16px 12px}.gt{font-size:16px}.gt td,.gt th{padding:6px 8px}}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1 class="jp">第33課</h1>
+  <div class="blocks" id="blocks"></div>
+  <span id="liveMount"></span>
+  <span class="count" id="count"></span>
+</div>
+<div class="bar"><i id="barFill"></i></div>
+<main class="stage" id="stage"></main>
+
+<script src="live.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+/* {漢字|かんじ} → ruby；画面用 */
+const R=s=>String(s).replace(/\{([^{}|]+)\|([^{}]+)\}/g,"<ruby>$1<rt>$2</rt></ruby>");
+/* 念出来用：去掉 ruby，换成读音 */
+/* 只要汉字（看板：提问方不能看到读音）*/
+const K=s=>String(s).replace(/\{([^{}|]+)\|[^{}]+\}/g,"$1");
+const SPK=s=>String(s).replace(/\{([^{}|]+)\|([^{}]+)\}/g,"$2").replace(/<[^>]+>/g,"");
+let jaVoice=null;
+function pickVoice(){try{jaVoice=speechSynthesis.getVoices().find(x=>/^ja/i.test(x.lang))||null}catch(e){}}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function say(t){try{if(Live.muted||!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(SPK(t));u.lang="ja-JP";if(jaVoice)u.voice=jaVoice;u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+/* 两台装置一样的随机 */
+let rnd=Math.random;
+function setSeed(a){a>>>=0;rnd=function(){a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* =====================================================================
+   内容（全部自己写的）
+   ===================================================================== */
+/* 单词：课本第33课 单词表。[读音, 汉字, 中文, English, 组] */
+const VOCAB=[
+ ["にげます","{逃|に}げます","逃跑","run away","动词 II"],["さわぎます","{騒|さわ}ぎます","吵闹","make a noise","动词 I"],
+ ["あきらめます","あきらめます","放弃","give up","动词 II"],["なげます","{投|な}げます","丢、投","throw","动词 II"],
+ ["まもります","{守|まも}ります","遵守","keep, obey","动词 I"],["はじまります","{始|はじ}まります","（仪式）开始","[a ceremony] begin","动词 I"],
+ ["しゅっせきします","{出席|しゅっせき}します","出席（会议）","attend","动词 III"],["つたえます","{伝|つた}えます","转告","convey","动词 II"],
+ ["ちゅういします","{注意|ちゅうい}します","小心（车）","be careful","动词 III"],["はずします","{外|はず}します","离开（座位）","be away [from one's desk]","动词 I"],
+ ["もどります","{戻|もど}ります","回来","come back","动词 I"],["[でんわが]あります","[{電話|でんわ}が]あります","有（电话）","have [a phone call]","动词 I"],
+ ["リサイクルします","リサイクルします","回收","recycle","动词 III"],
+ ["だめ[な]","だめ[な]","不行","no good, not allowed","な形"],["おなじ","{同|おな}じ","一样","same","な形"],
+ ["けいさつ","{警察|けいさつ}","警察","police","名词"],["せき","{席|せき}","座位","seat","名词"],["マーク","マーク","记号","mark, symbol","名词"],["ボール","ボール","球","ball","名词"],
+ ["しめきり","{締|し}め{切|き}り","截止日期","deadline","名词"],["きそく","{規則|きそく}","规则","rule","名词"],
+ ["きけん","{危険|きけん}","危险","danger","看板"],["しようきんし","{使用禁止|しようきんし}","禁止使用","do not use","看板"],["たちいりきんし","{立入禁止|たちいりきんし}","禁止进入","keep out","看板"],
+ ["じょこう","{徐行|じょこう}","慢行","go slow","看板"],["いりぐち","{入口|いりぐち}","入口","entrance","看板"],["でぐち","{出口|でぐち}","出口","exit","看板"],
+ ["ひじょうぐち","{非常口|ひじょうぐち}","紧急出口","emergency exit","看板"],["むりょう","{無料|むりょう}","免费","free of charge","看板"],["わりびき","{割引|わりびき}","折扣","discount","看板"],
+ ["のみほうだい","{飲|の}み{放題|ほうだい}","无限畅饮","all you can drink","看板"],["しようちゅう","{使用中|しようちゅう}","使用中","in use","看板"],["ぼしゅうちゅう","{募集中|ぼしゅうちゅう}","招募中","applications wanted","看板"],
+ ["〜ちゅう","〜{中|ちゅう}","正在〜","-ing","其他"],["どういう〜","どういう〜","什么样的〜","what kind of","其他"],["いくら[〜ても]","いくら[〜ても]","不管多少〜都","however ~","其他"],
+ ["もう[〜ない]","もう[〜ない]","已经不〜","(not) any longer","其他"],["あと〜","あと〜","还剩〜","~ left","其他"],["〜ほど","〜ほど","大约〜","about ~","其他"]
+];
+/* 命令形・禁止形：变形练习用的动词 [ます形, 组, 命令形, 禁止形] */
+const VERBS=[
+ ["{急|いそ}ぎます",1,"{急|いそ}げ","{急|いそ}ぐな"],["{走|はし}ります",1,"{走|はし}れ","{走|はし}るな"],["{頑張|がんば}ります",1,"{頑張|がんば}れ","{頑張|がんば}るな"],
+ ["{止|と}まります",1,"{止|と}まれ","{止|と}まるな"],["{守|まも}ります",1,"{守|まも}れ","{守|まも}るな"],["{騒|さわ}ぎます",1,"{騒|さわ}げ","{騒|さわ}ぐな"],
+ ["{待|ま}ちます",1,"{待|ま}て","{待|ま}つな"],["{遊|あそ}びます",1,"{遊|あそ}べ","{遊|あそ}ぶな"],["{飲|の}みます",1,"{飲|の}め","{飲|の}むな"],
+ ["{触|さわ}ります",1,"{触|さわ}れ","{触|さわ}るな"],["{逃|に}げます",2,"{逃|に}げろ","{逃|に}げるな"],["{投|な}げます",2,"{投|な}げろ","{投|な}げるな"],
+ ["{寝|ね}ます",2,"{寝|ね}ろ","{寝|ね}るな"],["{見|み}ます",2,"{見|み}ろ","{見|み}るな"],["あきらめます",2,"あきらめろ","あきらめるな"],
+ ["{来|き}ます",3,"{来|こ}い","{来|く}るな"],["します",3,"しろ","するな"],["{注意|ちゅうい}します",3,"{注意|ちゅうい}しろ","{注意|ちゅうい}するな"]
+];
+/* 什么时候真的会听到／看到 */
+const WHEN=[
+ ["⚽","{頑張|がんば}れ！{走|はし}れ！","比赛加油（球场上的观众）","Cheering at a match"],
+ ["🌋","{逃|に}げろ！","地震、火灾，紧急的时候","Emergencies"],
+ ["🚦","{止|と}まれ","马路上的交通标识","Road signs"],
+ ["🚧","{触|さわ}るな　{入|はい}るな","警告牌、告示","Warning signs"],
+ ["👨‍👦","{早|はや}く{寝|ね}ろ！","爸爸对孩子（很凶）","A dad to his kid (strict)"],
+ ["🗣️","「{入|はい}るな」と{書|か}いてあります","引用看板、规则的时候","Quoting a sign or rule"]
+];
+/* 看板挑战（信息差）：[看板, 颜色, 读音, 意思（用这课的说法）, 中文, 在哪里看到] */
+const SIGNS=[
+ ["{土足禁止|どそくきんし}","red","どそくきんし","くつで{入|はい}るな","不能穿鞋进去","旅館、お寺"],
+ ["{撮影禁止|さつえいきんし}","red","さつえいきんし","{写真|しゃしん}を{撮|と}ってはいけない","不能拍照","{美術館|びじゅつかん}、お寺"],
+ ["{禁煙|きんえん}","red","きんえん","たばこを{吸|す}ってはいけない","禁止吸烟","レストラン、{駅|えき}"],
+ ["{立入禁止|たちいりきんし}","red","たちいりきんし","{入|はい}るな","禁止进入","{工事|こうじ}の{場所|ばしょ}"],
+ ["{営業中|えいぎょうちゅう}","green","えいぎょうちゅう","{店|みせ}が{開|あ}いている","营业中","{店|みせ}のドア"],
+ ["{準備中|じゅんびちゅう}","orange","じゅんびちゅう","まだ{開|あ}いていない","准备中（还没开）","{店|みせ}のドア"],
+ ["{使用中|しようちゅう}","orange","しようちゅう","{今|いま}{使|つか}っている","使用中","トイレ"],
+ ["{故障中|こしょうちゅう}","orange","こしょうちゅう","{壊|こわ}れていて、{使|つか}えない","坏了，不能用","{自動販売機|じどうはんばいき}"],
+ ["{無料|むりょう}","blue","むりょう","お{金|かね}を{払|はら}わなくてもいい","免费","Wi-Fi、お{茶|ちゃ}"],
+ ["{飲|の}み{放題|ほうだい}","blue","のみほうだい","いくら{飲|の}んでも、{値段|ねだん}は{同|おな}じ","无限畅饮","{居酒屋|いざかや}"],
+ ["{予約席|よやくせき}","black","よやくせき","{予約|よやく}した{人|ひと}の{席|せき}","预约席","レストラン"],
+ ["{非常口|ひじょうぐち}","green","ひじょうぐち","{危|あぶ}ないとき、ここから{逃|に}げる","紧急出口","ホテル、{駅|えき}"],
+ ["{止|と}まれ","red","とまれ","{止|と}まれ","停","{道|みち}"],
+ ["{徐行|じょこう}","orange","じょこう","ゆっくり{運転|うんてん}しろ","慢行","{道|みち}"]
+];
+/* 传话 A：〜と言っていました（普通形！）[谁, 留言（丁寧形）, 转告时（普通形）, 错的选项×2] */
+const MSGS=[
+ ["{旅館|りょかん}の{人|ひと}","{晩|ばん}ごはんは７{時|じ}からです。","{晩|ばん}ごはんは７{時|じ}からだ",["{晩|ばん}ごはんは６{時|じ}からだ","{朝|あさ}ごはんは７{時|じ}からだ"]],
+ ["ガイドさん","あしたは８{時|じ}にホテルを{出|で}ます。","あしたは８{時|じ}にホテルを{出|で}る",["あしたは９{時|じ}にホテルを{出|で}る","あしたは８{時|じ}にホテルに{戻|もど}る"]],
+ ["{友達|ともだち}","ちょっと{遅|おく}れます。","ちょっと{遅|おく}れる",["{今日|きょう}は{来|こ}られない","もう{駅|えき}に{着|つ}いた"]],
+ ["{店|みせ}の{人|ひと}","この{店|みせ}は{月曜日|げつようび}が{休|やす}みです。","この{店|みせ}は{月曜日|げつようび}が{休|やす}みだ",["この{店|みせ}は{日曜日|にちようび}が{休|やす}みだ","この{店|みせ}は{毎日|まいにち}{開|あ}いている"]],
+ ["タクシーの{運転手|うんてんしゅ}さん","{空港|くうこう}まで１{時間|じかん}ぐらいかかります。","{空港|くうこう}まで１{時間|じかん}ぐらいかかる",["{空港|くうこう}まで３０{分|ぷん}ぐらいかかる","{駅|えき}まで１{時間|じかん}ぐらいかかる"]],
+ ["{友達|ともだち}","{雨|あめ}だから、{今日|きょう}は{行|い}けません。","{雨|あめ}だから、{今日|きょう}は{行|い}けない",["{雨|あめ}でも、{今日|きょう}は{行|い}く","{雨|あめ}だから、あした{行|い}けない"]]
+];
+/* 传话 B：〜と伝えていただけませんか [打电话找谁, 不在的理由, 要转告的话（中文提示）, 转告（普通形）] */
+const ASKS=[
+ ["{田中|たなか}さん","{今|いま}、{席|せき}を{外|はず}しています","明天的会议从 2 点开始","あしたの{会議|かいぎ}は２{時|じ}からだ"],
+ ["リンさん（ホテルの{部屋|へや}）","{今|いま}、{出|で}かけています","明天早上 9 点在大厅等","あしたの{朝|あさ}９{時|じ}にロビーで{待|ま}っている"],
+ ["{山田先生|やまだせんせい}","{今|いま}、{授業中|じゅぎょうちゅう}です","今天的课不能去了","{今日|きょう}の{授業|じゅぎょう}に{行|い}けない"]
+];
+/* 总结：每个文型一题 [题目, 正确, 错×2] */
+const CHECK=[
+ ["（サッカーの{試合|しあい}で）がんばれ！ もっと（　）！","{走|はし}れ","{走|はし}るな","{走|はし}ります"],
+ ["（{美術館|びじゅつかん}で）ここは{写真|しゃしん}を（　）。","{撮|と}ってはいけません","{撮|と}れ","{撮|と}ってください"],
+ ["あそこに「{禁煙|きんえん}」と（　）。","{書|か}いてあります","{書|か}いています","{書|か}きました"],
+ ["この{漢字|かんじ}は{何|なん}と（　）んですか。","{読|よ}む","{読|よ}め","{読|よ}んで"],
+ ["「{無料|むりょう}」は お{金|かね}を{払|はら}わなくてもいい（　）{意味|いみ}です。","という","と{言|い}って","と{書|か}いて"],
+ ["{友達|ともだち}は ちょっと{遅|おく}れる（　）。","と{言|い}っていました","と{伝|つた}えていただけませんか","という{意味|いみ}です"],
+ ["{田中|たなか}さんに{会議|かいぎ}は２{時|じ}からだ（　）。","と{伝|つた}えていただけませんか","と{言|い}っていました","と{読|よ}みます"]
+];
+/* 情景角色扮演（老师对学生／学生对学生）*/
+const ROLEPLAY=[
+ {title:"🏯 {温泉旅館|おんせんりょかん}に{着|つ}きました",
+  a:{name:"お{客|きゃく}さん（学生）",lines:["{入口|いりぐち}に「{土足禁止|どそくきんし}」と{書|か}いてあります。<br>→ {何|なん}と{読|よ}むか、どういう{意味|いみ}か{聞|き}いてください。","{友達|ともだち}は{晩|ばん}ごはんが{何時|なんじ}からか{知|し}りません。<br>→ {旅館|りょかん}の{人|ひと}に{聞|き}いて、あとで{友達|ともだち}に{伝|つた}えてください。"]},
+  b:{name:"{旅館|りょかん}の{人|ひと}（老师）",lines:["「どそくきんし」です。くつで{入|はい}るなという{意味|いみ}です。","{晩|ばん}ごはんは６{時|じ}{半|はん}からです。お{風呂|ふろ}は１１{時|じ}までです。"]}},
+ {title:"📞 {会社|かいしゃ}に{電話|でんわ}します",
+  a:{name:"{電話|でんわ}する{人|ひと}（学生）",lines:["{鈴木|すずき}さんと{話|はな}したいです。","{鈴木|すずき}さんがいなかったら、「あしたの{約束|やくそく}は３{時|じ}にしたい」と{伝|つた}えてもらってください。"]},
+  b:{name:"{会社|かいしゃ}の{人|ひと}（老师）",lines:["{鈴木|すずき}は{今|いま}、{会議中|かいぎちゅう}です。","{伝言|でんごん}を{聞|き}いて、「はい、わかりました」と{言|い}ってください。"]}}
+];
+
+/* =====================================================================
+   投影片
+   ===================================================================== */
+const BLOCKS=[
+ {id:"vocab",label:"📖 単語",min:10},
+ {id:"form",label:"🔁 命令・禁止",min:10},
+ {id:"sign",label:"🪧 看板",min:12},
+ {id:"msg",label:"📞 伝言",min:12},
+ {id:"book",label:"📘 教科書",min:10},
+ {id:"end",label:"🎭 まとめ",min:6}
+];
+let S={b:"vocab",i:0,seed:1,item:0,reveal:false,picked:{}};   /* 同步的状态 */
+let role={};          /* 每台装置自己的角色（不同步）：role.sign / role.msg = "ask" | "answer" */
+let myName="";try{myName=localStorage.getItem("m33name")||""}catch(e){}
+let answers={};       /* 小测验：谁答了什么（同步，仅显示） */
+
+function slidesOf(b){switch(b){
+ case "vocab":return ["vTitle","vVerbs","vSigns","vOther","vQuiz"];
+ case "form":return ["fRule","fWhen","fRace"];
+ case "sign":return ["sStreet","sGap","sQuiz"];
+ case "msg":return ["mRule","mGapA","mRuleB","mGapB"];
+ case "book":return ["bBook"];
+ case "end":return ["eRole","eCheck","eBye"];}}
+function share(){Live.send({t:"st",s:S})}
+function set(p){Object.assign(S,p);render();share()}
+function go(i){const n=slidesOf(S.b).length;if(i>=n){const k=BLOCKS.findIndex(x=>x.id===S.b);if(k<BLOCKS.length-1){set({b:BLOCKS[k+1].id,i:0,item:0,reveal:false,picked:{}});answers={};return}i=n-1}
+  if(i<0){const k=BLOCKS.findIndex(x=>x.id===S.b);if(k>0){const pb=BLOCKS[k-1].id;set({b:pb,i:slidesOf(pb).length-1,item:0,reveal:false,picked:{}});answers={};return}i=0}
+  answers={};set({i,item:0,reveal:false,picked:{}})}
+function nav(st){const n=el("div","nav"),p=el("button","","← Back"),x=el("button","next","Next →");p.onclick=()=>go(S.i-1);x.onclick=()=>go(S.i+1);n.append(p,x);st.append(n)}
+function head(sl,k,t,sub){sl.append(el("div","kicker",R(k)),el("div","title",R(t)));if(sub)sl.append(el("div","sub",R(sub)))}
+
+/* 角色选择（不同步）*/
+function rolePicker(sl,key,askLabel,ansLabel){
+  const r=el("div","roles");r.dataset.local="1";
+  [["ask",askLabel],["answer",ansLabel]].forEach(([v,l])=>{const b=el("button",role[key]===v?"on":"",l);b.onclick=()=>{role[key]=v;render()};r.append(b)});
+  const sw=el("button","","🔄 交换 Swap");sw.onclick=()=>{role[key]=role[key]==="ask"?"answer":"ask";render()};if(role[key])r.append(sw);
+  sl.append(r,el("div","note","每台装置自己选。两人用同一台装置时：老师选一边，学生选另一边。 · Each device picks its own side."));
+}
+/* 小测验（两边都可以答，看到对方答对没有）*/
+function quiz(sl,key,stem,right,wrongs,opt){
+  const box=el("div","q");box.append(el("div","stem",R(stem)));
+  const order=shuffle([right,...wrongs]);const os=el("div","opts"),fb=el("div","fb");
+  const mine=answers[key]&&answers[key][myName||"me"];
+  order.forEach(o=>{const b=el("button","opt",R(o));b.dataset.local="1";
+    if(mine){if(o===right)b.classList.add("ok");else if(o===mine)b.classList.add("ng")}
+    b.onclick=()=>{if(answers[key]&&answers[key][myName||"me"])return;const ok=o===right;(answers[key]=answers[key]||{})[myName||"me"]=o;
+      Live.send({t:"ans",k:key,who:myName||"?",ok});if(ok)say(opt&&opt.speak?opt.speak:o);render()};os.append(b)});
+  box.append(os);
+  if(mine)fb.innerHTML=mine===right?"✓ 正解！":"✗ "+R(right);
+  box.append(fb);
+  const ch=el("div","chips");Object.entries(answers[key]||{}).forEach(([w,v])=>{if(w===(myName||"me"))return;ch.append(el("span","chip "+(v===true?"ok":v===false?"ng":""),`${w} ${v===true?"✓":v===false?"✗":"…"}`))});
+  box.append(ch);sl.append(box);
+}
+function nameBox(sl){const r=el("div","row");r.dataset.local="1";const i=el("input");i.placeholder="你的名字 Your name";i.value=myName;i.style.cssText="padding:8px 12px;border:1px solid var(--line);border-radius:999px;font:inherit;font-size:16px";
+  i.oninput=()=>{myName=i.value.trim();try{localStorage.setItem("m33name",myName)}catch(e){}};r.append(el("span","note","小测验显示的名字："),i);sl.append(r)}
+function itemNav(sl,n,label){const r=el("div","row");const p=el("button","btn","◀");p.onclick=()=>set({item:(S.item-1+n)%n,reveal:false});
+  const x=el("button","btn main",label||"下一题 Next ▶");x.onclick=()=>set({item:(S.item+1)%n,reveal:false});r.append(p,el("span","note",`${S.item+1} / ${n}`),x);sl.append(r)}
+
+const V={
+ /* ---------- 単語 ---------- */
+ vTitle(sl){head(sl,"大家的日本語 · 第33課","これは どういう {意味|いみ}ですか","今天学：命令形・禁止形 / 〜と書いてあります・読みます / 〜という意味です / 〜と言っていました / 〜と伝えていただけませんか");
+  const sc=el("div","scenes");[["🪧","看懂日本的看板","Read signs in Japan"],["📞","帮别人传话","Pass on messages"],["⚽","听懂「頑張れ！」","Understand commands you hear"]].forEach(([e,a,b])=>sc.append(el("div","scene",`<div class="em">${e}</div><div class="say">${a}</div><div class="m">${b}</div>`)));sl.append(sc);
+  nameBox(sl);sl.append(el("div","tip","老师按 📡 Live 开房间，把连结给学生。学生用自己的装置点。"))},
+ vVerbs(sl){vocabSlide(sl,"动词","{動詞|どうし}",v=>/动词/.test(v[4]))},
+ vSigns(sl){vocabSlide(sl,"看板的字","{看板|かんばん}のことば",v=>v[4]==="看板")},
+ vOther(sl){vocabSlide(sl,"其他","そのほか",v=>!/动词|看板/.test(v[4]))},
+ vQuiz(sl){head(sl,"単語クイズ","{意味|いみ}は？");const pool=VOCAB.filter(v=>v[4]!=="其他");const qs=shuffle(pool).slice(0,8),q=qs[S.item%qs.length];
+  const wr=shuffle(pool.filter(v=>v!==q)).slice(0,2).map(v=>v[2]);quiz(sl,"v"+S.item,q[1],q[2],wr,{speak:q[0]});itemNav(sl,qs.length)},
+ /* ---------- 命令・禁止 ---------- */
+ fRule(sl){head(sl,"文型 1・2","{命令形|めいれいけい}・{禁止形|きんしけい}","强烈的「去做！」「不准做！」");
+  sl.append(el("div","",`<table class="gt jp"><tr><th>组</th><th>ます形</th><th>命令形</th><th>禁止形</th><th>变法</th></tr>
+  <tr><td>I</td><td>${R("{急|いそ}ぎます")}</td><td>${R("{急|いそ}")}<span class="hl">げ</span></td><td>${R("{急|いそ}ぐ")}<span class="hl">な</span></td><td>い段 → <b>え段</b></td></tr>
+  <tr><td>I</td><td>${R("{頑張|がんば}ります")}</td><td>${R("{頑張|がんば}")}<span class="hl">れ</span></td><td>${R("{頑張|がんば}る")}<span class="hl">な</span></td><td></td></tr>
+  <tr><td>II</td><td>${R("{逃|に}げます")}</td><td>${R("{逃|に}げ")}<span class="hl">ろ</span></td><td>${R("{逃|に}げる")}<span class="hl">な</span></td><td>ます → <b>ろ</b></td></tr>
+  <tr><td>III</td><td>${R("{来|き}ます")}</td><td><span class="hl">${R("{来|こ}い")}</span></td><td><span class="hl">${R("{来|く}るな")}</span></td><td>要背</td></tr>
+  <tr><td>III</td><td>します</td><td><span class="hl">しろ</span></td><td><span class="hl">するな</span></td><td>要背</td></tr></table>`));
+  sl.append(el("div","tip",R("禁止形最简单：<b>辞书形 ＋ な</b>（{行|い}く→{行|い}くな、{食|た}べる→{食|た}べるな）。")))},
+ fWhen(sl){head(sl,"いつ {使|つか}う？","什么时候会听到？","大人平常<b>不会</b>对人用命令形，很不礼貌。重点是：<b>看得懂、听得懂</b>。");
+  const sc=el("div","scenes");WHEN.forEach(([e,j,zh,en])=>{const b=el("button","scene",`<div class="em">${e}</div><div class="say jp">${R(j)}</div><div class="m">${zh}<br>${en}</div>`);b.onclick=()=>say(j);sc.append(b)});sl.append(sc);
+  sl.append(el("div","tip",R("自己要请别人做／不要做：用 <b>〜てください</b>・<b>〜ないでください</b>。")))},
+ fRace(sl){const kind=S.item%2===0?"cmd":"neg";head(sl,"スピード {勝負|しょうぶ}","变变看！ "+(kind==="cmd"?"→ <b>命令形</b>":"→ <b>禁止形</b>"),"两人同时答，看谁快又对");
+  const vs=shuffle(VERBS),v=vs[Math.floor(S.item/2)%vs.length],right=kind==="cmd"?v[2]:v[3];
+  /* 错的选项：常见错误（I 组误用「ろ」、II/III 组误用「れ」、ます形＋な）*/
+  const wrong=kind==="cmd"?[v[3],v[0].replace(/ます$/,v[1]===1?"ろ":"れ")]:[v[2],v[0].replace(/ます$/,"な")];
+  quiz(sl,"f"+S.item,v[0],right,[...new Set(wrong)].filter(x=>x!==right).slice(0,2));itemNav(sl,VERBS.length*2)},
+ /* ---------- 看板（信息差）---------- */
+ sStreet(sl){head(sl,"文型 3・4","「〜」と{書|か}いてあります・{読|よ}みます　〜という{意味|いみ}です","日本的街上到处都是这些字");
+  sl.append(el("div","card2",R(`A：あそこに{何|なん}と{書|か}いてありますか。<br>B：「{禁煙|きんえん}」と{書|か}いてあります。<br>A：{何|なん}と{読|よ}むんですか。<br>B：「きんえん」と{読|よ}みます。<br>A：どういう{意味|いみ}ですか。<br>B：たばこを{吸|す}ってはいけない<b>という{意味|いみ}です</b>。`)));
+  sl.append(el("div","tip",R("「という{意味|いみ}です」前面用<b>普通形</b>：{吸|す}ってはいけない、{入|はい}るな、{使|つか}えない…")))},
+ sGap(sl){head(sl,"看板チャレンジ","これは どういう {意味|いみ}ですか","提问方只看到看板；回答方看到答案。用日语问、用日语答！");
+  rolePicker(sl,"sign","👀 提问方（只看看板）","📖 回答方（看答案）");
+  const g=SIGNS[S.item%SIGNS.length];
+  sl.append(el("div",`sign big-sign ${g[1]} jp`,role.sign==="answer"||S.reveal?R(g[0]):K(g[0])));
+  if(role.sign==="ask")sl.append(el("div","card2",R(`<b>你问：</b><br>これは{何|なん}と{読|よ}むんですか。<br>どういう{意味|いみ}ですか。<br>どこで{見|み}ますか。`)));
+  else if(role.sign==="answer")sl.append(el("div","secret",R(`<b>读音：</b>「${g[2]}」と{読|よ}みます。<br><b>意思：</b>${g[3]}という{意味|いみ}です。<br><b>在哪里：</b>${g[5]}<br><span class="note">中文：${g[4]}</span>`)));
+  else sl.append(el("div","tip","先选你是哪一方 ↑"));
+  const r=el("div","row");const rv=el("button","btn soft",S.reveal?"🙈 盖起来":"👁️ 大家都看答案");rv.onclick=()=>set({reveal:!S.reveal});r.append(rv);sl.append(r);
+  if(S.reveal&&role.sign!=="answer")sl.append(el("div","secret",R(`「${g[2]}」 — ${g[3]}（${g[4]}）`)));
+  itemNav(sl,SIGNS.length,"下一个看板 ▶")},
+ sQuiz(sl){head(sl,"どの {看板|かんばん}？","听意思，选看板");const qs=shuffle(SIGNS),g=qs[S.item%qs.length];const wr=shuffle(SIGNS.filter(x=>x!==g)).slice(0,2).map(x=>K(x[0]));/* 选项只显示汉字：要认得看板 */
+  quiz(sl,"s"+S.item,g[3]+" という{意味|いみ}です。",K(g[0]),wr,{speak:g[2]});itemNav(sl,qs.length)},
+ /* ---------- 伝言 ---------- */
+ mRule(sl){head(sl,"文型 5","〜と{言|い}っていました","把别人的话转告给第三个人。前面要变成<b>普通形</b>！");
+  sl.append(el("div","",`<table class="gt jp"><tr><th>别人说</th><th>你转告</th></tr>
+  <tr><td>${R("{晩|ばん}ごはんは７{時|じ}から<b>です</b>。")}</td><td>${R("{晩|ばん}ごはんは７{時|じ}から<span class='hl'>だ</span>と{言|い}っていました。")}</td></tr>
+  <tr><td>${R("ちょっと{遅|おく}れ<b>ます</b>。")}</td><td>${R("ちょっと{遅|おく}れ<span class='hl'>る</span>と{言|い}っていました。")}</td></tr>
+  <tr><td>${R("{今日|きょう}は{行|い}け<b>ません</b>。")}</td><td>${R("{今日|きょう}は{行|い}け<span class='hl'>ない</span>と{言|い}っていました。")}</td></tr></table>`))},
+ mGapA(sl){head(sl,"伝言ゲーム ①","〜と{言|い}っていました","传话人收到留言 → 用日语转告 → 听的人选出内容");
+  rolePicker(sl,"msg","📱 传话人（收到留言）","👂 听的人（选答案）");
+  const m=MSGS[S.item%MSGS.length];
+  if(role.msg==="ask"){sl.append(el("div","phone",`<div class="who">📞 ${R(m[0])}から</div>${R(m[1])}`));
+    sl.append(el("div","card2",R(`<b>你说：</b>${m[0]}は、＿＿＿と{言|い}っていました。`)));
+    const h=el("button","btn soft","💡 普通形提示");h.dataset.local="1";const hb=el("div","secret hide",R(`${m[0]}は、${m[2]}と{言|い}っていました。`));h.onclick=()=>hb.classList.toggle("hide");const hr=el("div","row");hr.append(h);sl.append(hr,hb)}
+  else if(role.msg==="answer"){sl.append(el("div","tip",R(`${m[0]}は {何|なん}と{言|い}っていましたか。听完选：`)));quiz(sl,"m"+S.item,"",m[2],m[3])}
+  else sl.append(el("div","tip","先选你是哪一方 ↑"));
+  itemNav(sl,MSGS.length,"下一则留言 ▶")},
+ mRuleB(sl){head(sl,"文型 6","〜と{伝|つた}えていただけませんか","打电话找人，对方不在 → 请对方帮你转告（很客气）");
+  sl.append(el("div","card2",R(`A：{田中|たなか}さん、いらっしゃいますか。<br>B：すみません、{今|いま}、{席|せき}を{外|はず}しています。<br>A：じゃ、すみませんが、あしたの{会議|かいぎ}は２{時|じ}からだと{伝|つた}えていただけませんか。<br>B：はい、わかりました。<br><span class="note">（あとで）B → {田中|たなか}さん：○○さんが、あしたの{会議|かいぎ}は２{時|じ}からだと{言|い}っていました。</span>`)))},
+ mGapB(sl){head(sl,"伝言ゲーム ②","{電話|でんわ}で お{願|ねが}い","打电话的人有任务卡；接电话的人看不到，要听清楚，最后再转告给本人");
+  rolePicker(sl,"msg","📞 打电话的人","☎️ 接电话的人");
+  const a=ASKS[S.item%ASKS.length];
+  if(role.msg==="ask")sl.append(el("div","secret",R(`<b>任务：</b>你打电话找 <b>${a[0]}</b>。<br>如果不在，请对方转告：<b>${a[2]}</b><br><br>${a[0]}、いらっしゃいますか。<br>じゃ、すみませんが、＿＿＿と{伝|つた}えていただけませんか。`)));
+  else if(role.msg==="answer"){sl.append(el("div","secret",R(`<b>你接电话。</b>${a[0]}不在：「すみません、${a[1]}。」<br>听完后说：「はい、わかりました。」<br><br>然后转告给本人：<br>「○○さんが、＿＿＿と{言|い}っていました。」`)));
+    const h=el("button","btn soft","💡 答案");h.dataset.local="1";const hb=el("div","secret hide",R(`${a[3]}と{言|い}っていました。`));h.onclick=()=>hb.classList.toggle("hide");const hr=el("div","row");hr.append(h);sl.append(hr,hb)}
+  else sl.append(el("div","tip","先选你是哪一方 ↑"));
+  itemNav(sl,ASKS.length,"下一个任务 ▶")},
+ /* ---------- 教科書 ---------- */
+ bBook(sl){head(sl,"教科書","{教科書|きょうかしょ}を {開|ひら}いてください","这部分用课本和课本的音档");
+  sl.append(el("ol","book",R(`<li>会話「これは どういう {意味|いみ}ですか」— 先听一次 → 一起读 → 两人分角色读</li><li>聴解（{問題|もんだい} 1・2）— 用课本音档，对错题</li><li>{問題|もんだい}的其他题：下一堂课慢慢做</li>`)));
+  sl.append(el("div","tip",R("读会话时想一想：ワットさんの{車|くるま}に はってあった{紙|かみ}は、どういう{意味|いみ}でしたか。")))},
+ /* ---------- まとめ ---------- */
+ eRole(sl){const rp=ROLEPLAY[S.item%ROLEPLAY.length];head(sl,"ロールプレイ",rp.title,"老师演店员；学生演客人。两个学生也可以轮流演。");
+  rolePicker(sl,"rp",rp.a.name.replace(/{([^|]+)\|[^}]+}/g,"$1"),rp.b.name.replace(/{([^|]+)\|[^}]+}/g,"$1"));
+  const side=role.rp==="ask"?rp.a:role.rp==="answer"?rp.b:null;
+  if(side)sl.append(el("div","secret",`<b>${R(side.name)}</b><br>`+side.lines.map(x=>"・"+R(x)).join("<br>")));else sl.append(el("div","tip","先选你演哪一边 ↑"));
+  itemNav(sl,ROLEPLAY.length,"下一个情景 ▶")},
+ eCheck(sl){head(sl,"まとめ","{今日|きょう}の チェック");const q=CHECK[S.item%CHECK.length];quiz(sl,"c"+S.item,q[0],q[1],[q[2],q[3]]);itemNav(sl,CHECK.length)},
+ eBye(sl){head(sl,"おつかれさまでした","{今日|きょう}できるようになったこと");
+  sl.append(el("div","card2",R(`✅ {看板|かんばん}を{読|よ}んで、{意味|いみ}を{聞|き}ける・{説明|せつめい}できる<br>✅ 「{頑張|がんば}れ！」「{入|はい}るな」が わかる<br>✅ {人|ひと}の{話|はなし}を{伝|つた}えられる（〜と{言|い}っていました）<br>✅ {電話|でんわ}で {伝言|でんごん}を {頼|たの}める（〜と{伝|つた}えていただけませんか）`)));
+  sl.append(el("div","tip",R("回家作业：在 Google Maps 或照片里找一个日本的看板，下次用「これは〜と{読|よ}みます。〜という{意味|いみ}です。」介绍给大家。")))}
+};
+function vocabSlide(sl,zh,ja,f){head(sl,"単語 · "+zh,ja,"点卡片：听发音，看意思");const g=el("div","vgrid");
+  VOCAB.filter(f).forEach((v,i)=>{const k="v"+v[0];const c=el("button","vcard"+(S.picked[k]?" show":""),`<span class="g">${v[4]}</span><span class="k jp">${R(v[1])}</span><span class="r">${v[0]}</span><span class="m">${v[2]} · ${v[3]}</span>`);
+    c.onclick=()=>{say(v[0].replace(/[\[\]〜]/g,""));set({picked:{...S.picked,[k]:1}})};g.append(c)});sl.append(g);
+  const r=el("div","row");const all=el("button","btn soft","👁️ 全部显示意思");all.onclick=()=>{const p={...S.picked};VOCAB.filter(f).forEach(v=>p["v"+v[0]]=1);set({picked:p})};
+  const hide=el("button","btn","🙈 全部盖起来");hide.onclick=()=>set({picked:{}});r.append(all,hide);sl.append(r)}
+
+function render(){
+  try{speechSynthesis.cancel()}catch(e){}
+  setSeed(S.seed+(S.b.charCodeAt(0)*31)+S.i*7);
+  const list=slidesOf(S.b),st=$("stage");st.innerHTML="";
+  const sl=el("section","slide");V[list[S.i]](sl);st.append(sl);nav(st);
+  document.querySelectorAll("#blocks button").forEach(b=>b.classList.toggle("on",b.dataset.id===S.b));
+  const k=BLOCKS.findIndex(x=>x.id===S.b),tot=BLOCKS.reduce((a,b)=>a+slidesOf(b.id).length,0),done=BLOCKS.slice(0,k).reduce((a,b)=>a+slidesOf(b.id).length,0)+S.i+1;
+  $("count").textContent=`${BLOCKS[k].label} ${S.i+1}/${list.length} · ~${BLOCKS[k].min} 分`;$("barFill").style.width=(done/tot*100)+"%";
+  const u=new URL(location.href);u.searchParams.set("b",S.b);u.searchParams.set("p",S.i+1);history.replaceState(null,"",u);
+}
+BLOCKS.forEach(b=>{const x=el("button","",b.label);x.dataset.id=b.id;x.onclick=()=>{answers={};set({b:b.id,i:0,item:0,reveal:false,picked:{}})};$("blocks").append(x)});
+document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(S.i+1)}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(S.i-1)}});
+Live.init({room:"m33",mount:$("liveMount"),
+  onHello(){Live.send({t:"st",s:S})},
+  onData(m){
+    if(m.t==="st"){if(m.s.b!==S.b||m.s.i!==S.i)answers={};S=m.s;render()}
+    else if(m.t==="ans"){(answers[m.k]=answers[m.k]||{})[m.who||("学生"+(m._from||""))]=m.ok;render()}
+  }});
+(function(){const q=new URLSearchParams(location.search);const b=BLOCKS.find(x=>x.id===q.get("b"));if(b)S.b=b.id;S.i=Math.max(0,Math.min(slidesOf(S.b).length-1,(+q.get("p")||1)-1));S.seed=Math.floor(Math.random()*1e9);render()})();
+</script>
+</body>
+</html>
