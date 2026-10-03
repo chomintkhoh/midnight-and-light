@@ -175,6 +175,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <section id="app" aria-live="polite"></section>
 </main>
 <script src="./data/particles-kids.js"></script>
+<script src="./data/units.js"></script>
 <script src="mascot.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
@@ -337,10 +338,15 @@ function initReport(){
 }
 
 /* ===== Particle practice (reads PARTICLE_SENTENCES / PARTICLE_INFO) ===== */
-const ALL_P=["は","が","を","で","へ","に","から","まで","と","も"];
+const UP=(typeof unitParams==="function")?unitParams():{focus:[],upto:null,groups:[]};
+const UP_ON=UP.focus.length>0||UP.upto!=null;   /* 从 My Practice 的单元卡打开：只出这几组、只出学到的单元 */
+function sentText(s){return s.parts.map(p=>typeof p==="string"?p:"["+p.ok[0]+"]").join("")}
+function sentOK(s){return UP.upto==null||typeof unitOfJa!=="function"||unitOfJa(sentText(s))<=UP.upto}
+const ALL_P=(()=>{const base=["は","が","を","で","へ","に","から","まで","と","も"];if(!UP_ON)return base;
+ const k=base.filter(p=>(!UP.focus.length||UP.focus.includes(p))&&PARTICLE_SENTENCES.some(s=>sentOK(s)&&s.parts.some(x=>typeof x!=="string"&&x.ok.includes(p))));return k.length?k:base})();
 const P_MODES=[["fill","✏️","Fill the Particle"],["judge","⭕❌","Right or Wrong?"]];
 const PR={level:"easy",focus:new Set(ALL_P),mode:"fill",screen:"menu",lang:"en"};
-try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("particlePrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(!UP_ON&&Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus.filter(x=>ALL_P.includes(x)));if(!PR.focus.size)PR.focus=new Set(ALL_P);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
 function savePPrefs(){try{localStorage.setItem("particlePrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode,lang:PR.lang}))}catch(e){}}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
@@ -365,7 +371,7 @@ function langToggle(){
 let rerender=()=>render();
 function pPool(){
  const out=[];
- PARTICLE_SENTENCES.forEach((s,si)=>slotsOf(s).forEach(i=>{if(s.parts[i].ok.some(p=>PR.focus.has(p)))out.push({s,si,i})}));
+ PARTICLE_SENTENCES.forEach((s,si)=>sentOK(s)&&slotsOf(s).forEach(i=>{if(s.parts[i].ok.some(p=>PR.focus.has(p)))out.push({s,si,i})}));
  return out
 }
 function renderPMenu(){
@@ -379,7 +385,7 @@ function renderPMenu(){
    b.onclick=()=>{PR.focus.has(k)?PR.focus.delete(k):PR.focus.add(k);savePPrefs();render()};g.append(b)});
  p.append(g);
  const q=el("div","modes small"),all=el("button","",t("all")),dh=el("button","",t("deh")),none=el("button","",t("clear"));
- all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ"]);savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
+ all.onclick=()=>{PR.focus=new Set(ALL_P);savePPrefs();render()};dh.onclick=()=>{PR.focus=new Set(["で","へ"].filter(x=>ALL_P.includes(x)));savePPrefs();render()};none.onclick=()=>{PR.focus.clear();savePPrefs();render()};
  q.append(all,dh,none);p.append(q,el("div","step-title",t("game")));
  const md=el("div","mode-grid");
  P_MODES.forEach(([id,ic,label])=>{const b=el("button","mode-card"+(PR.mode===id?" on":""),"");b.innerHTML=`<span class="mode-ic">${ic}</span><span>${L(label,MODE_ZH[id])}</span>`;b.onclick=()=>{PR.mode=id;savePPrefs();render()};md.append(b)});
