@@ -362,11 +362,12 @@ const VIEWS={
     mi.onclick=()=>{if(me.age>1){me.age--;draw()}};pl.onclick=()=>{if(me.age<99){me.age++;draw()}};sp.append(mi,v,pl);ag.append(sp);
     f.append(nm,cn,ag);
     const out=el("div","out jp"),row=el("div","nav-row"),hear=el("button","btn","🔊 "+L("Listen","听一次"));row.style.paddingTop="12px";
-    const lines=()=>["はじめまして。",`わたしは ${me.name.trim()||"＿＿"} です。`,`${JT_COUNTRIES[me.country][0]}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"];
+    /* 名字每个人不一样，没有录音，所以「听一次」跳过名字那句，让学生自己说 */
+    const lines=()=>["はじめまして。",`${JT_COUNTRIES[me.country][0]}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"];
     function draw(){v.innerHTML=`<b>${me.age}</b> · ${jtAge(me.age)}`;const c=JT_COUNTRIES[me.country];
       out.innerHTML=["はじめまして。",`わたしは ${esc(me.name.trim())||"＿＿"} です。`,`${jtCountryHTML(c)}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"].map(x=>`<div>${x}</div>`).join("")}
     inp.oninput=()=>{me.name=inp.value;draw()};hear.onclick=()=>say(lines().join("　"));
-    row.append(hear);b.append(f,out,row);draw();voiceNote(b,!!me.name.trim()||me.age>60);nav(b);
+    row.append(hear);b.append(f,out,row,el("div","tip",L("🔊 “Listen” skips the name line — say your name yourself!","🔊「听一次」会跳过名字那一句，名字自己说！")));draw();nav(b);
   },
   finish(b){
     b.append(el("div","kicker",L("Finished","完成")),el("div","h",L("You can introduce yourself in Japanese!","你会用日语自我介绍了！")),el("div","big-jp jp","🎉"));
