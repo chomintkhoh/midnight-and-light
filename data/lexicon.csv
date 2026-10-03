@@ -356,16 +356,16 @@ C-0354,さくら,cherry blossom,,🌸,worksheet,,,,,,assets/images/lexicon/C-035
 C-0355,すずめ,sparrow,,🐦,worksheet,,,,,,assets/images/lexicon/C-0355.webp,,reserve
 C-0356,せんせい,teacher,,🧑‍🏫,worksheet,,,,,,assets/images/lexicon/C-0356.webp,,reserve
 C-0357,そば,soba,,🍜,worksheet,,,,,,assets/images/lexicon/C-0357.webp,,reserve
-C-0358,おもちゃや,toy shop,玩具店,🧸,places,,,,,,assets/images/lexicon/C-0358.webp,yes,clock:mall
-C-0359,はなや,flower shop,花店,💐,places,,,,,,assets/images/lexicon/C-0359.webp,yes,clock:mall
-C-0360,はいしゃ,dentist,牙医,🦷,places,,,,,,assets/images/lexicon/C-0360.webp,yes,clock:mall
-C-0361,ペットショップ,pet shop,宠物店,🐶,places,,,,,,assets/images/lexicon/C-0361.webp,yes,clock:mall
-C-0362,ジム,gym,健身房,🏋️,places,,,,,,assets/images/lexicon/C-0362.webp,yes,clock:mall
-C-0363,ダンススクール,dance school,舞蹈学校,💃,places,,,,,,assets/images/lexicon/C-0363.webp,yes,clock:mall
-C-0364,めがねや,optician,眼镜店,👓,places,,,,,,assets/images/lexicon/C-0364.webp,yes,clock:mall
-C-0365,えいがかん,cinema,电影院,🎬,places,,,,,,assets/images/lexicon/C-0365.webp,yes,clock:mall
-C-0366,すしや,sushi restaurant,寿司店,🍣,places,,,,,,assets/images/lexicon/C-0366.webp,yes,clock:mall
-C-0367,カラオケ,karaoke,卡拉OK,🎤,places,,,,,,assets/images/lexicon/C-0367.webp,yes,clock:mall
-C-0368,アイスクリームや,ice cream shop,冰淇淋店,🍦,places,,,,,,assets/images/lexicon/C-0368.webp,yes,clock:mall
+C-0358,おもちゃや,toy shop,玩具店,🧸,places,,,,,,assets/images/lexicon/C-0358.webp,yes,vocab:places clock:mall
+C-0359,はなや,flower shop,花店,💐,places,,,,,,assets/images/lexicon/C-0359.webp,yes,vocab:places clock:mall
+C-0360,はいしゃ,dentist,牙医,🦷,places,,,,,,assets/images/lexicon/C-0360.webp,yes,vocab:places clock:mall
+C-0361,ペットショップ,pet shop,宠物店,🐶,places,,,,,,assets/images/lexicon/C-0361.webp,yes,vocab:places clock:mall
+C-0362,ジム,gym,健身房,🏋️,places,,,,,,assets/images/lexicon/C-0362.webp,yes,vocab:places clock:mall
+C-0363,ダンススクール,dance school,舞蹈学校,💃,places,,,,,,assets/images/lexicon/C-0363.webp,yes,vocab:places clock:mall
+C-0364,めがねや,optician,眼镜店,👓,places,,,,,,assets/images/lexicon/C-0364.webp,yes,vocab:places clock:mall
+C-0365,えいがかん,cinema,电影院,🎬,places,,,,,,assets/images/lexicon/C-0365.webp,yes,vocab:places clock:mall
+C-0366,すしや,sushi restaurant,寿司店,🍣,places,,,,,,assets/images/lexicon/C-0366.webp,yes,vocab:places clock:mall
+C-0367,カラオケ,karaoke,卡拉OK,🎤,places,,,,,,assets/images/lexicon/C-0367.webp,yes,vocab:places clock:mall
+C-0368,アイスクリームや,ice cream shop,冰淇淋店,🍦,places,,,,,,assets/images/lexicon/C-0368.webp,yes,vocab:places clock:mall
 C-0369,あつい,hot (food),烫（食物）,,adjectives,,,,,,assets/images/lexicon/C-0369.webp,yes,vocab:adjectives
 C-0370,つめたい,cold (drink),冰（饮料）,,adjectives,,,,,,assets/images/lexicon/C-0370.webp,yes,vocab:adjectives
