@@ -306,12 +306,14 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;","
 function wordObj(cat,w,i){return {id:`${cat.id}-${i}`,cat:cat.id,jp:w[0],pic:w[1]||"",en:w[2],zh:w[3]}}
 function allWords(){return VOCAB_CATEGORIES.flatMap(c=>c.words.map((w,i)=>wordObj(c,w,i)))}
 function selectedWords(){return VOCAB_CATEGORIES.filter(c=>V.cats.has(c.id)).flatMap(c=>c.words.map((w,i)=>wordObj(c,w,i)))}
-function picKey(w){return w.pic||("m:"+w.en)}
+/* a drawn picture wins; then the emoji; words with neither show the meaning as text */
+const wImg=w=>typeof lexImg==="function"?lexImg(w.jp,w.en):"";
+function picKey(w){return wImg(w)||w.pic||("m:"+w.en)}
 function picHTML(w,big=false){
  const cls=big?"pic big":"pic";
- if(!w.pic)return `<div class="${cls} meaning"><span class="m-en">${esc(w.en)}</span><span class="m-zh">${esc(w.zh)}</span></div>`;
- const img=typeof lexImg==="function"?lexImg(w.jp,w.en):"";
+ const img=wImg(w);
  if(img)return `<div class="${cls}"><img class="lex-img" src="${img}" alt="${esc(w.en)}"></div>`;
+ if(!w.pic)return `<div class="${cls} meaning"><span class="m-en">${esc(w.en)}</span><span class="m-zh">${esc(w.zh)}</span></div>`;
  if(w.pic[0]==="#")return `<div class="${cls}"><span class="swatch" style="background:${w.pic}"></span></div>`;
  return `<div class="${cls}"><span class="emoji">${w.pic}</span></div>`
 }
