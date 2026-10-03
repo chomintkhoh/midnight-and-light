@@ -186,6 +186,7 @@ ruby{ruby-position:over}rt{font-size:.5em;color:var(--muted);font-weight:500}
 <section id="app" aria-live="polite"></section>
 </main>
 <script src="./data/questions-kids.js"></script>
+<script src="./data/units.js"></script>
 <script>
 const STAMP_SRC="./assets/images/great-stamp.png";
 const app=document.getElementById("app");
@@ -346,11 +347,16 @@ function initReport(){
 }
 
 /* ===== Question-word practice (reads Q_SENTENCES / QW_INFO / ENDING_INFO) ===== */
-const ALL_QW=["だれ","どこ","なに","なん","どれ","なんで"];
+const UP=(typeof unitParams==="function")?unitParams():{focus:[],upto:null,groups:[]};
+const UP_ON=UP.focus.length>0||UP.upto!=null;   /* 从 My Practice 的单元卡打开：只出这几组、只出学到的单元 */
+function sentText(s){return s.parts.map(p=>typeof p==="string"?p:"["+p.ok[0]+"]").join("")}
+function sentOK(s){return UP.upto==null||typeof unitOfJa!=="function"||unitOfJa(sentText(s))<=UP.upto}
+const ALL_QW=(()=>{const base=["だれ","どこ","なに","なん","どれ","なんで"];if(!UP_ON)return base;
+ const k=base.filter(w=>(!UP.focus.length||UP.focus.includes(w))&&Q_SENTENCES.some(s=>sentOK(s)&&s.parts.some(x=>typeof x!=="string"&&x.k==="qw"&&x.ok.includes(w))));return k.length?k:base})();
 const Q_MODES=[["word","❓","Question Word"],["end","🔚","Question Ending"]];
 const MODE_ZH={word:"选疑问词",end:"选句尾"};
 const PR={level:"easy",focus:new Set(ALL_QW),mode:"word",screen:"menu",lang:"en"};
-try{const s=JSON.parse(localStorage.getItem("questionPrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus.filter(x=>ALL_QW.includes(x)));if(!PR.focus.size)PR.focus=new Set(ALL_QW);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("questionPrefsV1")||"null");if(s){PR.level=s.level||PR.level;if(!UP_ON&&Array.isArray(s.focus)&&s.focus.length)PR.focus=new Set(s.focus.filter(x=>ALL_QW.includes(x)));if(!PR.focus.size)PR.focus=new Set(ALL_QW);PR.mode=s.mode||PR.mode;PR.lang=s.lang||PR.lang}}catch(e){}
 function saveQPrefs(){try{localStorage.setItem("questionPrefsV1",JSON.stringify({level:PR.level,focus:[...PR.focus],mode:PR.mode,lang:PR.lang}))}catch(e){}}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 function kataToHira(s){return (s||"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
@@ -385,7 +391,7 @@ function langToggle(){
 let rerender=()=>render();
 function qPool(){
  const kind=PR.mode==="word"?"qw":"end",out=[];
- Q_SENTENCES.forEach((s,si)=>{if(levelOK(s)&&PR.focus.has(qwOf(s)))out.push({s,si,i:slotIdx(s,kind)})});
+ Q_SENTENCES.forEach((s,si)=>{if(sentOK(s)&&levelOK(s)&&PR.focus.has(qwOf(s)))out.push({s,si,i:slotIdx(s,kind)})});
  return out
 }
 function renderQMenu(){
