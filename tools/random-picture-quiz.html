@@ -67,12 +67,17 @@ input[type=file]{display:none}
 .replay{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;font-size:18px;font-weight:800;cursor:pointer}
 .keys{text-align:center;font-size:11px;color:#aaa;margin-top:8px}
 .missed{margin-top:10px;font-size:13px;color:#7a4b4b;text-align:center}
+/* live class: student view = only the card */
+body.live-student .setup,body.live-student .actions,body.live-student .keys,body.live-student #hideSet{display:none!important}
+body.live-student .lopt{cursor:pointer}
+.lopt.picked{outline:4px solid #6f5aa8;outline-offset:2px}
+.pickmsg{font-weight:800;color:#6f5aa8;font-size:18px;min-height:1.3em}
 @media(max-width:600px){.lgrid{grid-template-columns:1fr}.actions button{min-width:0;flex:1}.tabs button{min-width:0}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><h1>Pop Quiz 🎲</h1><div><span class="sub">Say it in Japanese!</span> <button class="btn" id="hideSet">⚙ Hide settings</button></div></header>
+<header><h1>Pop Quiz 🎲</h1><div><span class="sub">Say it in Japanese!</span> <button class="btn" id="hideSet">⚙ Hide settings</button> <span id="liveMount"></span></div></header>
 
 <section class="card setup">
   <div class="tabs" id="tabs">
@@ -163,6 +168,7 @@ red"></textarea>
 <script src="../data/hiragana-words.js"></script>
 <script src="../data/greetings.js"></script>
 <script src="../data/lexicon-images.js"></script>
+<script src="live.js"></script>
 <script>
 /* ---------- Japanese number readings ---------- */
 const D1=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
@@ -202,7 +208,7 @@ const HWK=typeof HW_KANA!=="undefined"?HW_KANA:[],HWB=typeof HW_BLOCKS!=="undefi
 const hiraOn=new Set();
 const GRT=typeof GREETINGS!=="undefined"?GREETINGS:[];
 let player=null;
-function play(src){if(!src)return;const list=Array.isArray(src)?src.slice():[src];try{if(player)player.pause()}catch(e){}
+function play(src){if(!src)return;if(Live.role==="host"&&!Live.applying)Live.send({t:"audio",src});if(Live.muted)return;const list=Array.isArray(src)?src.slice():[src];try{if(player)player.pause()}catch(e){}
   const next=()=>{const f=list.shift();if(!f)return;try{player=new Audio("../"+f);player.onended=()=>setTimeout(next,350);player.play().catch(()=>{})}catch(e){}};next()}
 /* ---------- state ---------- */
 let items=[],current=null,lastId=null,mode="remove",shown=false,missedCount={};
@@ -363,12 +369,36 @@ function again(){if(!current)return;missedCount[current.id]=(missedCount[current
 $("drawBtn").onclick=draw;$("showBtn").onclick=reveal;$("okBtn").onclick=correct;$("agBtn").onclick=again;
 document.addEventListener("keydown",e=>{
   if(e.target.tagName==="TEXTAREA"||e.target.tagName==="INPUT")return;
+  if(Live.role==="guest")return;
   if(e.code==="Space"){e.preventDefault();draw()}
   else if(e.key==="Enter"){e.preventDefault();correct()}
   else if(e.key==="a"||e.key==="A")reveal();
   else if(e.key==="x"||e.key==="X")again();
 });
 $("hideSet").onclick=()=>{const st=document.querySelector(".setup"),h=st.style.display==="none";st.style.display=h?"":"none";$("hideSet").textContent=h?"⚙ Hide settings":"⚙ Show settings"};
+/* ---------- LIVE CLASS (connection itself is in live.js) ----------
+   Teacher works the quiz as normal; the student's device shows the same card.
+   In listening questions the student can tap A–D on their own device. */
+const SNAP_IDS=["question","stage","progress","missed"];
+let snapT=null;
+function sendSnap(){if(Live.role!=="host"||!Live.on)return;const m={t:"snap"};SNAP_IDS.forEach(id=>m[id]=$(id).innerHTML);Live.send(m)}
+new MutationObserver(()=>{clearTimeout(snapT);snapT=setTimeout(sendSnap,60)}).observe(document.querySelector(".quiz"),{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["class"]});
+function markPick(w){stage.querySelectorAll(".lopt").forEach(o=>o.classList.toggle("picked",o.dataset.w===w));
+  let pm=stage.querySelector(".pickmsg");if(!pm){pm=el("div","pickmsg","");stage.insertBefore(pm,stage.querySelector(".answer"))}
+  const o=[...stage.querySelectorAll(".lopt")].find(x=>x.dataset.w===w);pm.textContent=o?"Student picked "+o.querySelector("b").textContent:""}
+stage.addEventListener("click",e=>{if(Live.role==="guest"&&Live.on&&e.target.closest(".replay")){Live.send({t:"replay"});return}
+  const o=e.target.closest(".lopt");if(!o||Live.role!=="guest"||!Live.on)return;
+  stage.querySelectorAll(".lopt").forEach(x=>x.classList.toggle("picked",x===o));Live.send({t:"pick",w:o.dataset.w})});
+Live.init({room:"quiz",mount:$("liveMount"),
+  onHello:sendSnap,
+  onStatus(){document.body.classList.toggle("live-student",Live.role==="guest")},
+  onData(m){
+    if(m.t==="snap"&&Live.role==="guest"){SNAP_IDS.forEach(id=>{if(m[id]!=null)$(id).innerHTML=m[id]});
+      if(/blob:/.test(m.stage||""))stage.querySelectorAll('img[src^="blob:"]').forEach(i=>i.replaceWith(el("div","hint","🖼️ (picture on teacher's screen)")))}
+    else if(m.t==="audio")play(m.src);
+    else if(m.t==="pick"&&Live.role==="host")markPick(m.w);
+    else if(m.t==="replay"&&Live.role==="host"&&current&&current.audio){Live.applying=false;play(current.audio)}
+  }});
 (function(){const h=new URLSearchParams(location.search).get("hira");if(h&&HWB.some(b=>b.id===h)){hiraOn.add(h);chips($("hiraChips"),HWB,hiraOn,b=>b.label);document.querySelector('#tabs button[data-tab=hira]').click();return}rebuild()})();
 </script>
 </body>

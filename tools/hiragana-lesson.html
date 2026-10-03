@@ -64,9 +64,9 @@ button{font:inherit;cursor:pointer}
 .wcard.on{background:var(--lavbg);border-color:var(--lav)}.wcard.on .m{visibility:visible}
 .pad-wrap{margin-top:14px}
 .pad-title{font-weight:800;color:var(--gold);font-size:15px;margin:0 0 6px}
-.pad{position:relative;width:100%;height:210px;border:2px dashed var(--line);border-radius:18px;background:#fffdf8;touch-action:none;overflow:hidden}
+.pad{position:relative;width:100%;aspect-ratio:14/5;border:2px dashed var(--line);border-radius:18px;background:#fffdf8;touch-action:none;overflow:hidden}
 .pad canvas{position:absolute;inset:0;width:100%;height:100%}
-.pad .ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;font-size:150px;color:#ece6d8;pointer-events:none}
+.pad .ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;font-size:min(150px,30vw);color:#ece6d8;pointer-events:none}
 /* quiz slides */
 .q-area{text-align:center}
 .q-pic{font-size:clamp(90px,12vw,140px);line-height:1.1}
@@ -121,18 +121,22 @@ button{font:inherit;cursor:pointer}
 .srow .big-btn:disabled{opacity:.35;cursor:default}
 .tip{max-width:760px;margin:10px auto 0;color:var(--muted);font-size:14px;text-align:center}
 @media(max-width:860px){.phr{grid-template-columns:1fr}}
-/* live class */
-.live-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:15px}
-.live-btn.on{background:var(--goodbg);border-color:var(--good);color:var(--good)}.live-btn.wait{background:#fff7d6;border-color:#e9d38a}
-.lp{position:fixed;top:60px;right:14px;z-index:20;width:min(380px,92vw);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.15);padding:16px 18px;display:none}
-.lp.open{display:block}
-.lp h3{margin:0 0 6px;font-size:18px}.lp p{margin:6px 0;color:var(--muted);font-size:14px;line-height:1.45}
-.lp .code{font-size:40px;font-weight:800;letter-spacing:.15em;text-align:center;color:var(--lav);margin:4px 0}
-.lp input{width:100%;font:inherit;font-size:13px;padding:8px;border:1px solid var(--line);border-radius:10px}
-.lp .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.lp .row button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px}
-.lp .row .main{background:var(--ink);color:#fff;border-color:var(--ink)}
-.lp .st{font-weight:800;margin:8px 0 0}.lp .st.ok{color:var(--good)}.lp .st.no{color:var(--bad)}
+/* whiteboard */
+.pad.board{border-style:solid;margin:0 auto;background-color:#fffdf8;background-image:linear-gradient(to right,#e9e2d3 1px,transparent 1px),linear-gradient(to bottom,#e9e2d3 1px,transparent 1px)}
+.pad.g6x3{aspect-ratio:2/1;width:min(100%,calc(52vh * 2));background-size:calc(100% / 6) calc(100% / 3)}
+.pad.g8x6{aspect-ratio:4/3;width:min(100%,calc(66vh * 4 / 3));background-size:calc(100% / 8) calc(100% / 6)}
+.chipbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;align-items:center;margin:4px 0 10px}
+.chipbar span{font-weight:800;color:var(--muted);font-size:14px}
+.chipbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-weight:700;font-size:15px}
+.chipbar button.on{background:var(--lav);border-color:var(--lav);color:#fff}
+.dict{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 10px}
+.dict .ans{min-width:96px;height:96px;border:2px dashed var(--line);border-radius:18px;font-size:68px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.dict .ans.shown{border-style:solid;border-color:var(--good);color:var(--good);background:var(--goodbg)}
+.dict .num{font-weight:800;color:var(--muted)}
+.chart{display:grid;gap:6px;justify-content:center;margin:12px auto 0}
+.chart div{display:flex;gap:6px;justify-content:center}
+.chart span{width:56px;height:56px;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;background:#fff}
+.hist{font-size:30px;font-weight:700;letter-spacing:.25em;text-align:center;color:var(--good);min-height:1.2em;margin-top:8px}
 .mnem{display:flex;gap:12px;align-items:center;margin:12px auto 0;max-width:520px;background:#fff7d6;border:1px solid #e9d38a;border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.45}.mnem .me{font-size:38px;line-height:1}
 </style>
 </head>
@@ -142,16 +146,16 @@ button{font:inherit;cursor:pointer}
   <div class="blocks" id="blocks"></div>
   <div class="blocks" id="modes"><button data-m="lesson" title="Teach every letter">📖 Lesson</button><button data-m="review" title="Skip the learning pages: quiz only">🔁 Review</button></div>
   <span class="count" id="count"></span>
-  <button class="live-btn" id="liveBtn" data-local title="Do the lesson together on two devices — no screen sharing">📡 Live</button>
+  <span id="liveMount"></span>
 </div>
 <div class="bar"><i id="barFill"></i></div>
 <main class="stage" id="stage"></main>
-<div class="lp" id="lp" data-local></div>
 
 <script src="../data/hiragana-words.js"></script>
 <script src="../data/hiragana-strokes.js"></script>
 <script src="../data/lexicon-images.js"></script>
 <script src="../data/hiragana-mnemonics.js"></script>
+<script src="live.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
@@ -166,6 +170,9 @@ const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
 /* ---------- slide list for a block ---------- */
 /* ---------- Extra topic: shopping (uses ひとつ〜とお + いくつ) ---------- */
 const SHOP_BLOCK={id:"shop",label:"🛒 おみせ",extra:true};
+const BOARD_BLOCK={id:"board",label:"✏️ ボード",extra:true};
+const boardOn=new Set(["a-ko"]);   // which hiragana blocks the whiteboard uses
+const boardKana=()=>HW_BLOCKS.filter(b=>boardOn.has(b.id)).flatMap(b=>b.kana);
 const TSU=["","ひとつ","ふたつ","みっつ","よっつ","いつつ","むっつ","ななつ","やっつ","ここのつ","とお"];
 const SHOP_ITEMS=[["りんご","apple"],["みかん","mandarin orange"],["いちご","strawberry"],["あめ","candy"],["たまご","egg"],["えんぴつ","pencil"]];
 const shopImg=it=>lexImg(it[0],it[1],"../");
@@ -180,6 +187,7 @@ const orderText=o=>`${o.it[0]}を ${TSU[o.n]} ください`;
 let block=HW_BLOCKS[0],slides=[],idx=0;
 let lessonMode="lesson";
 function buildSlides(){
+  if(block.id==="board"){slides=[{type:"boardDict"},{type:"boardAll"}];return}
   if(block.id==="shop"){slides=lessonMode==="review"
     ?[{type:"shopTitle"},{type:"shopOrder"},{type:"shopClerk"},{type:"shopPlay"}]
     :[{type:"shopTitle"},{type:"shopPhrases"},{type:"shopDialogue"},{type:"shopOrder"},{type:"shopClerk"},{type:"shopPlay"}];return}
@@ -209,6 +217,11 @@ function render(){
   R[s.type](card,s);nav(st);
   window.scrollTo(0,0);
 }
+
+/* whiteboard: choose which hiragana blocks to practise */
+function chipBar(){const bar=el("div","chipbar");bar.append(el("span","","Letters:"));
+  HW_BLOCKS.forEach(b=>{const x=el("button","jp"+(boardOn.has(b.id)?" on":""),b.label);
+    x.onclick=()=>{if(boardOn.has(b.id)){if(boardOn.size>1)boardOn.delete(b.id)}else boardOn.add(b.id);render()};bar.append(x)});return bar}
 
 /* ---------- renderers ---------- */
 const R={
@@ -283,6 +296,29 @@ homework(c){
   hw.append(el("div","hw-item",`<span class="ic">💻</span><span><b>Online homework</b>Open <i>Midnight &amp; Light → Practice</i> with your code, then choose <b>Hiragana Homework</b> → <span class="jp">${block.label}</span>.<br>It sends your answers to your teacher automatically.</span>`));
   hw.append(el("div","hw-item",`<span class="ic">🎲</span><span><b>Teacher: pop quiz now</b><a href="random-picture-quiz.html?hira=${block.id}" target="_blank" rel="noopener">Open Pop Quiz with ${block.label} →</a></span>`));
   c.append(hw);
+},
+
+/* ===== whiteboard ===== */
+boardDict(c){
+  c.append(el("div","kicker","Whiteboard · Listen and write"),el("div","title","Listen. Write the letter in a box."),el("div","sub","One letter per box. Then check the answer together."));
+  c.append(chipBar());
+  let queue=[],cur=null,n=0,hist=[];const total=boardKana().length;
+  const d=el("div","dict"),num=el("span","num",`0 / ${total}`),ans=el("div","ans jp","?"),nx=el("button","big-btn","🎲 Next letter"),ag=el("button","pill","🔊 Again"),sh=el("button","pill","👀 Answer");
+  const hi=el("div","hist jp","");const all=el("button","pill","📋 All answers");
+  nx.onclick=()=>{if(!queue.length){queue=shuffle(boardKana());if(n>=total){n=0;hist=[];hi.textContent=""}}cur=queue.pop();n++;num.textContent=`${n} / ${total}`;ans.textContent="?";ans.classList.remove("shown");play(KANA_AUDIO[cur]);hist.push(cur)};
+  ag.onclick=()=>cur&&play(KANA_AUDIO[cur]);
+  sh.onclick=()=>{if(!cur)return;ans.textContent=cur;ans.classList.add("shown");play(KANA_AUDIO[cur])};
+  all.onclick=()=>{hi.textContent=hi.textContent?"":hist.join(" ")};
+  d.append(num,nx,ag,sh,ans,all);c.append(d,pad("",{board:"g6x3"}),hi);
+},
+boardAll(c){
+  c.append(el("div","kicker","Whiteboard · Write them all"),el("div","title","Write all the hiragana you know!"),el("div","sub","In order, one letter per box. Then press Check."));
+  c.append(chipBar());
+  const ch=el("div","chart jp"),ck=el("button","big-btn","👀 Check");ch.style.display="none";
+  HW_BLOCKS.filter(b=>boardOn.has(b.id)).forEach(b=>{for(let i=0;i<b.kana.length;i+=5){const r=el("div");b.kana.slice(i,i+5).forEach(k=>r.append(el("span","",k)));ch.append(r)}});
+  ck.onclick=()=>{const h=ch.style.display==="none";ch.style.display=h?"":"none";ck.textContent=h?"🙈 Hide":"👀 Check"};
+  const r=el("div","srow");r.style.margin="0 0 10px";r.append(ck);
+  c.append(r,pad("",{board:"g8x6"}),ch);
 },
 
 /* ===== shop extra ===== */
@@ -399,17 +435,17 @@ function strokeBox(k){
 }
 
 /* ---------- writing pad (teacher demo) ---------- */
-function pad(k){
-  const w=el("div","pad-wrap");w.append(el("div","pad-title","✏️ Write it together"));
-  const p=el("div","pad"),ghost=el("div","ghost jp",`<span>${k}</span><span></span><span></span>`),cv=document.createElement("canvas");
+function pad(k,o){o=o||{};
+  const w=el("div","pad-wrap");if(!o.board)w.append(el("div","pad-title","✏️ Write it together"));
+  const p=el("div","pad"+(o.board?" board "+o.board:"")),ghost=el("div","ghost jp",o.board?"":`<span>${k}</span><span></span><span></span>`),cv=document.createElement("canvas");
   p.append(ghost,cv);w.append(p);
-  const row=el("div","srow"),clr=el("button","","Clear"),gh=el("button","","Hide guide");row.style.marginTop="8px";
+  const row=el("div","srow"),clr=el("button","",o.board?"🧽 Clear board":"Clear"),gh=el("button","","Hide guide");row.style.marginTop="8px";if(o.board)gh.style.display="none";
   clr.onclick=()=>{const c=cv.getContext("2d");c.clearRect(0,0,cv.width,cv.height)};
   cv._draw=()=>{};
   gh.onclick=()=>{const h=ghost.style.visibility==="hidden";ghost.style.visibility=h?"":"hidden";gh.textContent=h?"Hide guide":"Show guide"};
   row.append(clr,gh);w.append(row);
   requestAnimationFrame(()=>{const r=p.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;
-    const c=cv.getContext("2d");c.scale(dpr,dpr);c.lineWidth=7;c.lineCap="round";c.lineJoin="round";c.strokeStyle="#23263a";
+    const c=cv.getContext("2d");c.scale(dpr,dpr);c.lineWidth=o.board?5:7;c.lineCap="round";c.lineJoin="round";c.strokeStyle="#23263a";
     let down=false;const pt=e=>{const b=cv.getBoundingClientRect();return [(e.clientX-b.left)/b.width,(e.clientY-b.top)/b.height]};
     const pens={};
     /* nx,ny = 0..1 so drawings line up on screens of different sizes */
@@ -423,71 +459,28 @@ function pad(k){
   return w;
 }
 
-/* ---------- LIVE CLASS: two devices, one lesson (no screen sharing) ----------
-   Teacher presses 📡 Live → gets a link → sends it to the student.
+/* ---------- LIVE CLASS adapter (connection itself is in live.js) ----------
    Every tap, page turn and drawing is copied to the other device.
-   Uses PeerJS (free, no account): devices connect directly to each other. */
-const Live={peer:null,conn:null,role:null,code:null,applying:false,muted:false,status:"off",
-  send(m){if(this.applying||!this.conn||!this.conn.open)return;try{this.conn.send(m)}catch(e){}},
-  buttons(){return [...document.querySelectorAll("button")].filter(b=>!b.closest("[data-local]"))},
-  opts(){const h=new URLSearchParams(location.search).get("peerhost");if(!h)return {};const [host,port]=h.split(":");return {host,port:+port||443,path:"/",secure:location.protocol==="https:"}},
-  loadLib(){return new Promise((ok,bad)=>{if(window.Peer)return ok();const srcs=["https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js","https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"];
-    const tryN=i=>{if(i>=srcs.length)return bad();const sc=document.createElement("script");sc.src=srcs[i];sc.onload=()=>ok();sc.onerror=()=>tryN(i+1);document.head.append(sc)};tryN(0)})},
-  set(st,msg){this.status=st;const b=$("liveBtn");b.classList.toggle("on",st==="on");b.classList.toggle("wait",st==="wait");
-    b.textContent=st==="on"?(this.role==="host"?"🟢 Live: student here":"🟢 Live with teacher"):st==="wait"?"🟡 Live: waiting":"📡 Live";this.msg=msg||"";this.draw()},
-  draw(){const p=$("lp");if(!p.classList.contains("open"))return;p.innerHTML="";
-    if(!this.role){p.innerHTML=`<h3>📡 Live class</h3><p>Do this lesson together on two devices. The student opens your link on their own tablet or computer: no screen sharing. Every tap, page and drawing shows on both screens.</p>`;
-      const r=el("div","row"),st=el("button","main","Start live class"),cl=el("button","","Close");st.onclick=()=>this.host();cl.onclick=()=>p.classList.remove("open");r.append(st,cl);p.append(r);return}
-    if(this.role==="host"&&this.code){const link=location.origin+location.pathname+"?live="+this.code;
-      p.append(el("h3","","📡 Live class"),el("p","","Send this link to your student (WhatsApp / chat):"));
-      const inp=el("input");inp.readOnly=true;inp.value=link;inp.onclick=()=>inp.select();p.append(inp,el("p","","Room code"),el("div","code",this.code))}
-    else p.append(el("h3","","📡 Live class"));
-    p.append(el("div","st "+(this.status==="on"?"ok":this.status==="err"?"no":""),this.msg));
-    const r=el("div","row");
-    if(this.role==="host"&&this.code){const cp=el("button","main","Copy link");cp.onclick=()=>{const v=location.origin+location.pathname+"?live="+this.code;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>cp.textContent="Copied ✓").catch(()=>{p.querySelector("input").select()})};r.append(cp)}
-    if(this.status==="on"){const rs=el("button","","🔄 Re-sync");rs.title="Use if the two screens look different";rs.onclick=()=>this.role==="host"?this.sync():this.send({t:"hello"});r.append(rs)}
-    if(this.role==="guest"&&this.status==="err"){const rt=el("button","main","Try again");rt.onclick=()=>this.join(this.code);r.append(rt)}
-    const mu=el("button","",this.muted?"🔇 Sound off here":"🔊 Sound on here");mu.title="Turn off sound on this device (stops echo in the call)";mu.onclick=()=>{this.muted=!this.muted;this.draw()};r.append(mu);
-    const en=el("button","","End");en.onclick=()=>this.end();const cl=el("button","","Close");cl.onclick=()=>p.classList.remove("open");r.append(en,cl);p.append(r)},
-  async start(){try{await this.loadLib()}catch(e){this.set("err","Could not load the live tool. Check the internet and refresh.");return false}return true},
-  async host(){this.role="host";this.set("wait","Starting…");if(!await this.start())return;
-    const code=String(1000+Math.floor(Math.random()*9000));this.code=code;
-    const peer=this.peer=new Peer("mnl-hira-"+code,this.opts());
-    peer.on("open",()=>this.set("wait","Waiting for the student to open the link…"));
-    peer.on("connection",c=>{if(this.conn)try{this.conn.close()}catch(e){}this.wire(c)});
-    peer.on("error",e=>{if(e.type==="unavailable-id"){peer.destroy();this.host();return}this.set("err","Connection problem: "+e.type)});
-    peer.on("disconnected",()=>{try{peer.reconnect()}catch(e){}})},
-  async join(code){this.role="guest";this.code=code;$("lp").classList.add("open");this.set("wait","Joining class "+code+"…");if(!await this.start())return;
-    if(this.peer)try{this.peer.destroy()}catch(e){}
-    const peer=this.peer=new Peer(this.opts());
-    peer.on("open",()=>this.wire(peer.connect("mnl-hira-"+code,{serialization:"json",reliable:true})));
-    peer.on("error",e=>this.set("err",e.type==="peer-unavailable"?"Teacher's class is not open yet. Ask your teacher, then press Try again.":"Connection problem: "+e.type))},
-  wire(c){this.conn=c;
-    c.on("open",()=>{this.set("on",this.role==="host"?"✓ Student connected. Teach as normal: both screens move together.":"✓ Connected to your teacher!");if(this.role==="guest"){this.send({t:"hello"});setTimeout(()=>$("lp").classList.remove("open"),1500)}});
-    c.on("data",m=>this.recv(m));
-    c.on("close",()=>{if(this.conn===c){this.conn=null;this.set(this.role==="host"?"wait":"err",this.role==="host"?"Student left. Waiting for them to open the link again…":"Disconnected. Press Try again.")}})},
-  sync(){const seed=Math.floor(Math.random()*2**31);setSeed(seed);buildSlides();go(idx);this.send({t:"state",b:block.id,m:lessonMode,i:idx,seed})},
-  recv(m){if(!m||!m.t)return;this.applying=true;try{
-    if(m.t==="hello"&&this.role==="host"){this.applying=false;this.sync()}
-    else if(m.t==="state"){const b=ALL_BLOCKS.find(x=>x.id===m.b);if(b)block=b;lessonMode=m.m;setSeed(m.seed);buildSlides();go(m.i)}
-    else if(m.t==="c"){const b=this.buttons()[m.i];if(b&&!b.disabled)b.click()}
-    else if(m.t==="go"){go(m.i)}
-    else if(m.t==="d"){const cv=document.querySelectorAll(".pad canvas")[m.p];cv&&cv._draw&&cv._draw("them",m.k,m.x,m.y)}
-  }finally{this.applying=false}},
-  end(){try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=this.peer=null;this.role=null;this.code=null;this.set("off");
-    const u=new URL(location.href);u.searchParams.delete("live");history.replaceState(null,"",u);this.draw()}
-};
+   Both devices use the same random seed, so they get the same questions. */
+const liveButtons=()=>[...document.querySelectorAll("button")].filter(b=>!b.closest("[data-local]"));
+function liveSync(){const seed=Math.floor(Math.random()*2**31);setSeed(seed);buildSlides();go(idx);
+  Live.send({t:"state",b:block.id,m:lessonMode,i:idx,seed,board:[...boardOn]})}
 /* copy every tap (capture phase = before the page changes) */
-document.addEventListener("click",e=>{if(Live.applying||!Live.conn)return;const b=e.target.closest("button");if(!b||b.closest("[data-local]"))return;
-  const i=Live.buttons().indexOf(b);if(i>=0)Live.send({t:"c",i})},true);
+document.addEventListener("click",e=>{if(Live.applying||!Live.on)return;const b=e.target.closest("button");if(!b||b.closest("[data-local]"))return;
+  const i=liveButtons().indexOf(b);if(i>=0)Live.send({t:"c",i})},true);
 
 /* ---------- start ---------- */
-const ALL_BLOCKS=HW_BLOCKS.concat([SHOP_BLOCK]);
+const ALL_BLOCKS=HW_BLOCKS.concat([SHOP_BLOCK,BOARD_BLOCK]);
 ALL_BLOCKS.forEach(b=>{const x=el("button","jp"+(b.extra?" extra":""),b.label);x.dataset.id=b.id;x.onclick=()=>{block=b;buildSlides();go(0)};$("blocks").append(x)});
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(idx+1);Live.send({t:"go",i:idx})}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(idx-1);Live.send({t:"go",i:idx})}});
 document.querySelectorAll("#modes button").forEach(b=>b.onclick=()=>{lessonMode=b.dataset.m;buildSlides();go(0)});
-$("liveBtn").onclick=()=>{const p=$("lp");p.classList.toggle("open");Live.draw()};
-(function(){const q=new URLSearchParams(location.search);if(q.get("m")==="review")lessonMode="review";const b=ALL_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1);if(/^\d{4}$/.test(q.get("live")||""))Live.join(q.get("live"))})();
+Live.init({room:"hira",mount:$("liveMount"),onHello:liveSync,onData(m){
+  if(m.t==="state"){const b=ALL_BLOCKS.find(x=>x.id===m.b);if(b)block=b;lessonMode=m.m;if(m.board){boardOn.clear();m.board.forEach(x=>boardOn.add(x))}setSeed(m.seed);buildSlides();go(m.i)}
+  else if(m.t==="c"){const b=liveButtons()[m.i];if(b&&!b.disabled)b.click()}
+  else if(m.t==="go"){go(m.i)}
+  else if(m.t==="d"){const cv=document.querySelectorAll(".pad canvas")[m.p];cv&&cv._draw&&cv._draw("them",m.k,m.x,m.y)}
+}});
+(function(){const q=new URLSearchParams(location.search);if(q.get("m")==="review")lessonMode="review";const b=ALL_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1)})();
 </script>
 </body>
 </html>
