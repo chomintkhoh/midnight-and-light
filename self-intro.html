@@ -163,7 +163,7 @@ const $=id=>document.getElementById(id);
 function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-const say=t=>JTSpeak.say(t);
+const say=(t,o)=>JTSpeak.say(t,o);
 
 /* kid or adult: decides the age range. Students get it from My Practice (&adult=1). */
 let who=PARAMS.get("adult")==="1"?"adult":"kid";
@@ -274,7 +274,7 @@ function nav(body,{next=true,nextLabel,nextDisabled=false}={}){
   if(next){const b=el("button","btn",nextLabel||L("Next →","下一页 →"));b.disabled=nextDisabled;b.onclick=()=>go(1);r.append(b)}
   card.append(r);
 }
-function voiceNote(body){if(JTSpeak.supported()&&JTSpeak.hasVoice())return;body.append(el("div","voice-warn",L("🔇 This device has no Japanese voice, so you may not hear the sound. Try another browser or phone.","🔇 这台装置没有日文语音，可能听不到声音。可以换浏览器或手机试试。")))}
+function voiceNote(body,need=true){if(!need||(JTSpeak.supported()&&JTSpeak.hasVoice()))return;body.append(el("div","voice-warn",L("🔇 This device has no Japanese voice, so you may not hear the sound. Try another browser or phone.","🔇 这台装置没有日文语音，可能听不到声音。可以换浏览器或手机试试。")))}
 function whoSeg(onChange){const s=el("div","seg");[["kid",L("Child","小孩")],["adult",L("Adult","大人")]].forEach(([v,n])=>{const b=el("button",who===v?"active":"",n);b.type="button";b.onclick=()=>{if(who===v)return;who=v;me.age=v==="adult"?30:10;Q.age=ageQuiz();QS.age={i:0,tries:0,done:false};onChange()};s.append(b)});return s}
 
 /* generic one-question-at-a-time quiz */
@@ -305,7 +305,7 @@ const VIEWS={
     b.append(el("div","kicker",L("Unit 1 · Nice to meet you","单元 1 · 初次见面")),el("div","h",L("Today you will learn to say:","今天要学会说：")),el("div","big-jp jp","じこしょうかい"));
     const g=el("div","grid wide");
     [["🙋",L("Your name","你的名字")],["🌏",L("Your country","你的国家")],["🎂",L("Your age","你的年龄")]].forEach(([e,t])=>g.append(el("div","tap row",`<span class="em">${e}</span><span class="j">${t}</span>`)));
-    b.append(g,el("div","tip",L("Tap anything in Japanese to hear it. 🔊","点任何日文都可以听发音。🔊")));voiceNote(b);
+    b.append(g,el("div","tip",L("Tap anything in Japanese to hear it. 🔊","点任何日文都可以听发音。🔊")));
     nav(b,{nextLabel:L("Let's begin →","开始 →")});
   },
   model(b){
@@ -313,10 +313,10 @@ const VIEWS={
     const A=[["👩","はじめまして。","Nice to meet you.","初次见面。"],["👩",`わたしは ${jtRuby(NAME_DEMO,NAME_DEMO_R)}です。`,"I am Rina.","我是 Rina。","わたしは リナです。"],
       ["👩",`${jtCountryHTML(MY)}じんです。`,"I am Malaysian.","我是马来西亚人。","マレーシアじんです。"],["👩",who==="adult"?"さんじゅうごさいです。":"じゅっさいです。",who==="adult"?"I am 35 years old.":"I am 10 years old.",who==="adult"?"我 35 岁。":"我 10 岁。"],
       ["👩","どうぞ よろしく おねがいします。","Nice to meet you.","请多多指教。"],
-      ["🧑","はじめまして。わたしは けんです。","Nice to meet you. I am Ken.","初次见面。我是 Ken。"],["🧑","にほんじんです。","I am Japanese.","我是日本人。"],["🧑","よろしく おねがいします。","Nice to meet you.","请多多指教。"]];
+      ["🧑","はじめまして。わたしは さとしです。","Nice to meet you. I am Satoshi.","初次见面。我是 Satoshi。"],["🧑","にほんじんです。","I am Japanese.","我是日本人。"],["🧑","よろしく おねがいします。","Nice to meet you.","请多多指教。"]];
     const ch=el("div","chat");
-    A.forEach(([f,j,en,zh,v])=>{const r=el("div","line"+(f==="🧑"?" r":"")),bb=el("button","bub jp",`${j}<span class="m">${L(en,zh)}</span>`);bb.type="button";bb.onclick=()=>{bb.classList.add("on");say(v||j.replace(/<rt>.*?<\/rt>/g,"").replace(/<[^>]+>/g,""))};r.append(el("span","face",f),bb);ch.append(r)});
-    const all=el("button","btn sec","▶ "+L("Play all","全部播放"));all.style.marginTop="14px";all.onclick=()=>{ch.querySelectorAll(".bub").forEach(x=>x.classList.add("on"));say(A.map(a=>a[4]||a[1].replace(/<rt>.*?<\/rt>/g,"").replace(/<[^>]+>/g,"")).join("　"))};
+    A.forEach(([f,j,en,zh,v])=>{const r=el("div","line"+(f==="🧑"?" r":"")),bb=el("button","bub jp",`${j}<span class="m">${L(en,zh)}</span>`);bb.type="button";bb.onclick=()=>{bb.classList.add("on");say(v||j,{voice:f==="🧑"?"satoshi":""})};r.append(el("span","face",f),bb);ch.append(r)});
+    const all=el("button","btn sec","▶ "+L("Play all","全部播放"));all.style.marginTop="14px";all.onclick=()=>{ch.querySelectorAll(".bub").forEach(x=>x.classList.add("on"));say(A.map(a=>({text:a[4]||a[1],voice:a[0]==="🧑"?"satoshi":""})))};
     b.append(ch,all,el("div","tip",L("〜じん = a person from that country.","〜じん（〜人）＝那个国家的人。")));nav(b);
   },
   phrases(b){
@@ -366,7 +366,7 @@ const VIEWS={
     function draw(){v.innerHTML=`<b>${me.age}</b> · ${jtAge(me.age)}`;const c=JT_COUNTRIES[me.country];
       out.innerHTML=["はじめまして。",`わたしは ${esc(me.name.trim())||"＿＿"} です。`,`${jtCountryHTML(c)}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"].map(x=>`<div>${x}</div>`).join("")}
     inp.oninput=()=>{me.name=inp.value;draw()};hear.onclick=()=>say(lines().join("　"));
-    row.append(hear);b.append(f,out,row);draw();voiceNote(b);nav(b);
+    row.append(hear);b.append(f,out,row);draw();voiceNote(b,!!me.name.trim()||me.age>60);nav(b);
   },
   finish(b){
     b.append(el("div","kicker",L("Finished","完成")),el("div","h",L("You can introduce yourself in Japanese!","你会用日语自我介绍了！")),el("div","big-jp jp","🎉"));
