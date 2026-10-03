@@ -116,6 +116,7 @@ const EXTRAS = [
 /* ===== 学生进度（只管日文单元；中文照 practice.html 原本的设定） ===== */
 const STUDENT_UNITS = {
   "FRD9J": { book:"minna", lesson:0 },   /* Yixuan：还在学平假名，只开单元 0 */
+  "T8MNL": { book:"minna", lesson:50 },  /* 老师自己：全部单元开放，用来预览 */
 };
 
 /* 这个单元在这本书第几课开始教（没有就是 Infinity） */
