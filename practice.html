@@ -219,7 +219,7 @@
     const withTasks = UNITS.filter(u => unitOpen(u, prog) && u.tasks.length).sort((a, b) => prog.all ? a.n - b.n : (start(b) - start(a) || b.n - a.n));
     const bookName = BOOK_NAMES[prog.book] || prog.book;
     const next = UNITS.filter(u => !unitOpen(u, prog) && u.tasks.length).slice(0, 3);
-    const extras = EXTRAS.concat(adult && (prog.all || prog.lesson > 0) ? [{ href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT", stars:false }] : []);
+    const extras = EXTRAS.concat(adult && prog.jlpt !== false && (prog.all || prog.lesson > 0) ? [{ href:"jlpt-n5-n4-practice-v7-standalone.html", ic:"📘", name:"JLPT N5–N4", desc:"Practice questions for the JLPT", stars:false }] : []);
     return `
       <section class="pr-sec">
         <h2>Japanese<span>日本語</span></h2>
