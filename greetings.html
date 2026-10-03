@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Japanese Greetings | ミッドナイトとライト</title>
+<meta name="description" content="Japanese greetings practice: when to say おはよう or おはようございます, いってきます or いってらっしゃい — with scenes, audio and funny feedback." />
+<link rel="canonical" href="https://midnightandlight.com/greetings.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+JP:wght@500;600;700&family=Noto+Sans+SC:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* ── Unit 1 · あいさつ — same step-by-step style as self-intro.html ── */
+  :root{ --card:#E7E3DA; --ink:#252A45; --ink-soft:#4A4F6E; --line:rgba(37,42,69,.14); --plum:#3E3560; --good:#2F7D5B; --bad:#B4485E; --gold-ink:#7A6230; }
+  .si-wrap{ position:relative; z-index:1; max-width:860px; margin:0 auto; padding:calc(var(--nav-h) + 16px) 16px 60px; }
+  .si-head{ text-align:center; margin:8px 0 20px; }
+  .si-eyebrow{ color:var(--pale-gold); font-size:13px; letter-spacing:.18em; text-transform:uppercase; }
+  .si-title{ font-family:var(--font-sans); font-weight:700; font-size:clamp(28px,5vw,40px); color:var(--warm-white); margin:10px 0 6px; }
+  .si-lead{ color:var(--service-primary); font-size:16px; }
+  .who-bar{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 14px; font-size:15px; color:var(--muted-bluegrey); margin-top:10px; }
+  .who-bar a{ color:var(--pale-gold); font-weight:600; }
+  .card{ background:var(--card); color:var(--ink); border-radius:24px; padding:22px 26px 26px; min-height:560px; display:flex; flex-direction:column; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+  .card-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .step-count{ font-size:13px; font-weight:600; color:var(--ink-soft); }
+  .lang-toggle{ display:flex; gap:4px; padding:3px; border-radius:999px; border:1px solid var(--line); }
+  .lang-toggle button{ border:0; background:transparent; color:var(--ink-soft); font:500 15px var(--font-sans); padding:8px 14px; border-radius:999px; cursor:pointer; min-height:40px; }
+  .lang-toggle button.active{ background:rgba(62,53,96,.12); color:var(--ink); font-weight:600; }
+  .progress{ height:3px; border-radius:3px; background:var(--line); margin:12px 0 20px; overflow:hidden; }
+  .progress i{ display:block; height:100%; background:var(--plum); opacity:.6; transition:width .3s; }
+  .body{ flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .kicker{ color:var(--gold-ink); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; }
+  .h{ font-size:clamp(22px,4vw,28px); font-weight:700; margin:8px 0 6px; }
+  .jp, .jp *{ font-family:"Noto Sans JP","Noto Sans SC",sans-serif; }
+  .big-jp{ font-size:clamp(40px,9vw,64px); font-weight:700; margin:10px 0; }
+  .sub{ color:var(--ink-soft); font-size:16px; line-height:1.6; max-width:620px; }
+  .tip{ margin-top:14px; padding:10px 14px; border-radius:12px; background:rgba(62,53,96,.07); color:var(--ink-soft); font-size:15px; max-width:620px; }
+  ruby rt{ font-size:.5em; color:var(--ink-soft); }
+  .nav-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:auto; padding-top:24px; width:100%; }
+  .btn{ border:0; border-radius:999px; background:var(--plum); color:#fff; font:600 16px var(--font-sans); padding:12px 26px; min-height:48px; cursor:pointer; }
+  .btn.sec{ background:transparent; color:var(--ink); border:1.5px solid rgba(37,42,69,.3); }
+  .btn:disabled{ opacity:.35; cursor:default; }
+  .btn:focus-visible, .tap:focus-visible, .opt:focus-visible{ outline:2px solid var(--plum); outline-offset:3px; }
+
+  /* dialogue */
+  .chat{ width:100%; max-width:600px; display:grid; gap:10px; margin-top:14px; text-align:left; }
+  .line{ display:flex; gap:10px; align-items:flex-start; }
+  .line.r{ flex-direction:row-reverse; }
+  .face{ font-size:34px; line-height:1; flex:none; margin-top:4px; }
+  .bub{ border:1px solid var(--line); background:#F5F2EC; border-radius:16px; padding:10px 14px; font-size:20px; cursor:pointer; text-align:left; color:var(--ink); max-width:440px; }
+  .bub .m{ display:none; font:400 14.5px var(--font-sans); color:var(--ink-soft); margin-top:4px; }
+  .bub.on .m{ display:block; }
+  .bub:hover{ border-color:var(--plum); }
+
+  /* tap cards / grids */
+  .grid{ width:100%; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-top:16px; }
+  .grid.wide{ grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
+  .tap{ border:1px solid var(--line); background:#F5F2EC; border-radius:16px; padding:12px; cursor:pointer; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:4px; min-height:84px; justify-content:center; }
+  .tap:hover{ border-color:var(--plum); }
+  .tap .em{ font-size:28px; }
+  .tap .j{ font-size:19px; font-weight:600; }
+  .tap .m{ font-size:13.5px; color:var(--ink-soft); }
+  .tap.irr{ background:#FBF1D4; border-color:#E2C877; }
+  .tap.row{ flex-direction:row; justify-content:flex-start; text-align:left; gap:12px; }
+  .seg{ display:inline-flex; gap:4px; padding:3px; border-radius:999px; border:1px solid var(--line); margin-top:12px; }
+  .seg button{ border:0; background:transparent; font:500 15px var(--font-sans); padding:8px 16px; border-radius:999px; cursor:pointer; color:var(--ink-soft); min-height:40px; }
+  .seg button.active{ background:rgba(62,53,96,.12); color:var(--ink); font-weight:600; }
+
+  /* quiz */
+  .q-scene{ font-size:56px; margin:10px 0 4px; }
+  .q-text{ font-size:18px; color:var(--ink); margin-bottom:6px; }
+  .opts{ width:100%; max-width:560px; display:grid; gap:10px; margin-top:12px; }
+  .opt{ border:1.5px solid var(--line); background:#F5F2EC; border-radius:14px; padding:12px 14px; font-size:20px; cursor:pointer; color:var(--ink); min-height:54px; }
+  .opt:hover:not(:disabled){ border-color:var(--plum); }
+  .opt.ok{ background:#DDEFE5; border-color:var(--good); }
+  .opt.no{ background:#F6DDE2; border-color:var(--bad); opacity:.8; }
+  .fb{ min-height:28px; margin-top:12px; font-weight:600; }
+  .fb.ok{ color:var(--good); } .fb.no{ color:var(--bad); }
+  .stamp{ width:84px; height:84px; object-fit:contain; animation:pop .35s ease; }
+  @keyframes pop{ from{ transform:scale(.4); opacity:0 } to{ transform:scale(1); opacity:1 } }
+
+  /* build */
+  .form{ width:100%; max-width:600px; display:grid; gap:14px; margin-top:14px; text-align:left; }
+  .form label{ font-size:14.5px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px; }
+  .form input{ width:100%; min-height:48px; padding:10px 14px; border-radius:12px; border:1.5px solid var(--line); background:#F5F2EC; font:500 18px "Noto Sans JP",var(--font-sans); color:var(--ink); }
+  .form input:focus{ outline:none; border-color:var(--plum); }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chips button{ border:1.5px solid var(--line); background:#F5F2EC; border-radius:999px; padding:8px 12px; font-size:16px; cursor:pointer; color:var(--ink); min-height:44px; }
+  .chips button.on{ border-color:var(--plum); background:rgba(62,53,96,.12); font-weight:600; }
+  .stepper{ display:flex; align-items:center; gap:12px; }
+  .stepper button{ width:48px; height:48px; border-radius:50%; border:1.5px solid var(--line); background:#F5F2EC; font-size:24px; cursor:pointer; color:var(--ink); }
+  .stepper .v{ font-size:20px; font-weight:600; min-width:150px; text-align:center; }
+  .out{ width:100%; max-width:600px; margin-top:16px; padding:16px 18px; border-radius:16px; background:#FFFCF4; border:2px dashed #D9C48E; font-size:22px; line-height:1.9; text-align:left; }
+  .voice-warn{ margin-top:10px; font-size:14px; color:var(--bad); }
+
+  /* report button (same idea as other practice pages) */
+  .done-btn{ position:fixed; right:14px; bottom:14px; z-index:50; border:0; border-radius:999px; background:var(--pale-gold); color:#14162e; font:700 15px var(--font-sans); padding:12px 18px; box-shadow:0 8px 24px rgba(0,0,0,.35); cursor:pointer; }
+  .overlay{ position:fixed; inset:0; background:rgba(8,9,20,.7); z-index:100; display:flex; align-items:center; justify-content:center; padding:16px; }
+  .rbox{ background:#fff; color:#222; border-radius:20px; padding:22px; width:100%; max-width:440px; max-height:90vh; overflow:auto; }
+  .rbox h2{ font-size:22px; margin-bottom:10px; }
+  .rrow{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+  .rstatus{ min-height:22px; margin:10px 0; color:#444; font-size:14.5px; text-align:center; }
+  .stamp-grid{ display:grid; grid-template-columns:repeat(10,1fr); gap:4px; margin-top:8px; }
+  .stamp-cell{ aspect-ratio:1; border:1.5px dashed #b9bde0; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; font-size:13px; }
+  .stamp-cell.on{ border-style:solid; border-color:#D9C48E; background:#fff8e6; }
+  .stamp-cell img{ width:100%; height:100%; object-fit:contain; }
+
+  /* greetings */
+  .lvl{ display:inline-block; font-size:11.5px; font-weight:700; border-radius:999px; padding:2px 8px; margin-top:2px; }
+  .lvl.polite{ background:#E4DDF5; color:#3E3560; } .lvl.casual{ background:#FBE7C9; color:#7A4A10; } .lvl.any{ background:#E3EEE8; color:#2F6B4F; }
+  .two{ width:100%; max-width:600px; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+  .who-card{ border:1.5px solid var(--line); border-radius:16px; padding:14px; background:#F5F2EC; text-align:center; }
+  .who-card .em{ font-size:40px; } .who-card b{ display:block; margin:4px 0; font-size:17px; }
+  .roast{ margin-top:10px; padding:12px 14px; border-radius:14px; background:#FFF4E5; border:1.5px solid #F0C98A; color:#5A3A08; font-size:16.5px; max-width:560px; animation:pop .3s ease; }
+  .why{ margin-top:8px; font-size:15px; color:var(--ink-soft); max-width:560px; }
+  .sortbtns{ display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:520px; margin-top:16px; }
+  .sortbtns button{ border:1.5px solid var(--line); background:#F5F2EC; border-radius:16px; padding:14px 8px; font-size:17px; cursor:pointer; color:var(--ink); }
+  .sortbtns button .em{ display:block; font-size:36px; }
+  .sortbtns button.ok{ background:#DDEFE5; border-color:var(--good); } .sortbtns button.no{ background:#F6DDE2; border-color:var(--bad); }
+  .phrase-big{ font-size:clamp(30px,7vw,46px); font-weight:700; margin:14px 0 4px; cursor:pointer; }
+  [hidden]{ display:none !important; }
+  @media (max-width:560px){
+    .card{ padding:18px 16px 20px; border-radius:20px; min-height:520px; }
+    .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid.wide{ grid-template-columns:1fr; }
+    .bub{ font-size:18px; }
+    .out{ font-size:19px; }
+  }
+</style>
+<link rel="stylesheet" href="assets/bgm.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="24"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="si-wrap">
+    <header class="si-head">
+      <div class="si-eyebrow" id="hEyebrow">Unit 1 · Practice</div>
+      <h1 class="si-title" id="hTitle">Greetings</h1>
+      <p class="si-lead jp">あいさつ</p>
+      <div class="who-bar" id="who"></div>
+      <div class="music-control" data-shared-bgm aria-label="Background music"></div>
+    </header>
+    <section class="card" id="card" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
+
+<script src="stars.js"></script>
+<script src="nav.js"></script>
+<script src="data/greetings-scenes.js"></script>
+<script>
+/* ====================================================================
+   Unit 1 · あいさつ — 什么时候说哪一句？
+   公开给访客；有代号（?s=）就盖章、把结果交给老师（跟其他练习页一样）。
+   ==================================================================== */
+const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
+const STAMP_SRC="./assets/images/great-stamp.png";
+const CODE_KEY="mlStudentCode";
+const PARAMS=new URLSearchParams(location.search);
+const STUDENT_CODE=(()=>{const clean=v=>(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);const q=clean(PARAMS.get("s"));if(q){try{localStorage.setItem(CODE_KEY,q)}catch(e){}return q}try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}})();
+
+/* ---------- language ---------- */
+let lang="en";
+try{const s=localStorage.getItem("selfIntroLangV1");if(s==="en"||s==="zh")lang=s;else if(/^zh/i.test(navigator.language||""))lang="zh"}catch(e){}
+const L=(en,zh)=>lang==="zh"?zh:en;
+const $=id=>document.getElementById(id);
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+/* 发音：有 Mint 的录音就用录音，没有才用装置的日文语音 */
+let curAudio=null,jaVoice=null;
+function pickVoice(){try{jaVoice=speechSynthesis.getVoices().find(x=>/^ja/i.test(x.lang))||null}catch(e){}}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function sayKey(k){const p=GP[k];if(!p)return;try{if(curAudio)curAudio.pause();speechSynthesis&&speechSynthesis.cancel()}catch(e){}
+  if(p[1]){curAudio=new Audio("assets/audio/japanese/greetings/"+p[1]+".mp3");curAudio.play().catch(()=>{});return}
+  try{const u=new SpeechSynthesisUtterance(p[0]);u.lang="ja-JP";if(jaVoice)u.voice=jaVoice;u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+
+/* 大人才会出现公司的情景（My Practice 给大人的连结会带 &adult=1） */
+let who=PARAMS.get("adult")==="1"?"adult":"kid";
+
+/* ---------- stamps + report (same format as the other practice pages) ---------- */
+const ACT_EN={"greet-sort":"Friend or teacher?","greet-scene":"Which greeting?"};
+const ACT_ZH={"greet-sort":"打招呼 朋友还是老师","greet-scene":"打招呼 情景"};
+const SESSION_KEY="greetingsSessionV1_"+(STUDENT_CODE||"guest");
+function newSession(){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),code:STUDENT_CODE,start:Date.now(),items:{},sent:false}}
+let session=(()=>{try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000&&x.items)return x}catch(e){}return newSession()})();
+function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+const STAMP_CARD=20;
+function stampKey(){return "timePracticeStamps_"+(STUDENT_CODE||"guest")}
+function loadStamps(){try{const x=JSON.parse(localStorage.getItem(stampKey())||"null");if(x&&typeof x.count==="number")return x}catch(e){}return {count:0,cards:0}}
+function addStamp(){const s=loadStamps();s.count++;if(s.count>=STAMP_CARD){s.count=0;s.cards++}try{localStorage.setItem(stampKey(),JSON.stringify(s))}catch(e){}updateDoneBtn()}
+function logResult(activity,item,ok){
+  if(session.sent)session=newSession();
+  const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
+  it.tries++;if(ok){if(!it.solved&&STUDENT_CODE)addStamp();it.solved=true}else it.wrong++;
+  session.items[k]=it;saveSession();
+}
+function summarize(){const acts={};Object.values(session.items).forEach(it=>{const a=acts[it.activity]||(acts[it.activity]={n:0,first:0,later:0,notyet:0,mistakes:[]});a.n++;if(it.solved&&it.wrong===0)a.first++;else if(it.solved)a.later++;else a.notyet++;if(it.wrong>0)a.mistakes.push(it)});return acts}
+function reportPayload(acts){const st=loadStamps();
+  const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答对`+(a.later?`，${a.later} 题后来改对`:"")+(a.notyet?`，${a.notyet} 题未完成`:"")).join("；")+`；印章卡：已集满 ${st.cards} 张，目前 ${st.count}/${STAMP_CARD}`;
+  const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（错${m.wrong}次${m.solved?"，后来改对":"，未答对"}）`)).join("\n");
+  return {code:STUDENT_CODE,page:"greetings.html",sessionId:session.id,minutes:Math.max(1,Math.round((Date.now()-session.start)/60000)),summary:summary||"（没有做任何题目）",mistakes,detail:JSON.stringify({who,activities:acts})}}
+function stampImg(){const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.replaceWith(el("div","fb ok","⭐ GREAT!"))};return im}
+const SFX=(()=>{const a=new Audio("./assets/audio/ui/success-stamp.mp3");a.preload="auto";a.volume=.7;return {play(){try{a.pause();a.currentTime=.25;a.play().catch(()=>{})}catch(e){}}}})();
+function updateDoneBtn(){const b=$("doneBtn");if(b)b.querySelector("span").textContent=`⭐ ${loadStamps().count}/${STAMP_CARD}`}
+function openReport(){
+  const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0),ov=el("div","overlay"),box=el("div","rbox");
+  box.append(el("h2","","📋 Homework Report"));
+  if(!total)box.append(el("p","",L("You haven't answered any questions yet.","你还没有答题。")));
+  Object.entries(acts).forEach(([k,a])=>box.append(el("div","rrow",`<span>${L(ACT_EN[k],ACT_ZH[k])}</span><span><b>${a.first}/${a.n}</b> ${L("first try","一次答对")}</span>`)));
+  const g=el("div","stamp-grid"),st=loadStamps();for(let i=0;i<STAMP_CARD;i++){const c=el("div","stamp-cell"+(i<st.count?" on":""));if(i<st.count){const im=new Image();im.src=STAMP_SRC;im.onerror=()=>{im.remove();c.textContent="⭐"};c.append(im)}g.append(c)}
+  box.append(el("div","",`<b>⭐ Stamp Card</b>`),g);
+  const status=el("div","rstatus"),row=el("div","nav-row"),send=el("button","btn",L("📨 Send to Teacher","📨 交给老师")),close=el("button","btn sec",L("Keep practising","继续练习"));
+  send.disabled=!(STUDENT_CODE&&total)||session.sent;
+  if(session.sent){status.textContent=L("Already sent.","已经交过了。")}
+  send.onclick=async()=>{send.disabled=true;status.textContent="…";try{await fetch(REPORT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(reportPayload(acts))});session.sent=true;saveSession();status.textContent=L("✓ Sent to your teacher!","✓ 已交给老师！")}catch(e){send.disabled=false;status.textContent=L("Could not send. Try again.","送不出去，请再试一次。")}};
+  close.onclick=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)ov.remove()};
+  row.append(send,close);box.append(status,row);ov.append(box);document.body.append(ov);
+}
+if(STUDENT_CODE){
+  $("who").innerHTML=`<a href="practice.html?s=${encodeURIComponent(STUDENT_CODE)}">← All practice</a><span>Student <b>${esc(STUDENT_CODE)}</b></span>`;
+  const b=el("button","done-btn",`⭐ Stamps &amp; Report <span></span>`);b.id="doneBtn";b.onclick=openReport;document.body.append(b);updateDoneBtn();
+  /* auto-send unsent answers when leaving the page (same as the other practice pages) */
+  const auto=()=>{try{if(!REPORT_URL||session.sent)return;const acts=summarize();if(!Object.keys(acts).length)return;const body=JSON.stringify(reportPayload(acts));let ok=false;if(navigator.sendBeacon){try{ok=navigator.sendBeacon(REPORT_URL,new Blob([body],{type:"text/plain;charset=utf-8"}))}catch(e){}}if(!ok)fetch(REPORT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body}).catch(()=>{});session=newSession();saveSession();updateDoneBtn()}catch(e){}};
+  addEventListener("pagehide",auto);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")auto()});
+}
+
+/* ---------- content (data/greetings-scenes.js) ---------- */
+const jp=k=>GP[k]?GP[k][0]:k;
+const lvlTag=k=>{const v=GP[k][4];return `<span class="lvl ${v}">${v==="polite"?L("👩‍🏫 polite","👩‍🏫 礼貌"):v==="casual"?L("👫 casual","👫 随便"):L("👌 anyone","👌 都可以")}</span>`};
+const sceneList=()=>shuffle(GS.filter(s=>who==="adult"||!s.adult)).slice(0,10).map(s=>({...s,opts:shuffle([s.ok,...s.no.map(n=>n[0])])}));
+const Q={sort:shuffle(GP_SORT),scene:sceneList()};
+const QS={sort:{i:0,tries:0},scene:{i:0,tries:0}};
+let roastBox=null;
+
+/* ---------- steps ---------- */
+const STEPS=["welcome","learn","rule","sort","scene","finish"];
+let step=0;
+const card=$("card");
+function render(){
+  document.documentElement.lang=lang==="zh"?"zh-Hans":"en";
+  $("hEyebrow").textContent=L("Unit 1 · Practice","单元 1 · 练习");
+  $("hTitle").textContent=L("Greetings","打招呼");
+  card.innerHTML="";
+  const top=el("div","card-top");top.append(el("div","step-count",`${step+1} / ${STEPS.length}`));
+  const tg=el("div","lang-toggle");[["en","English"],["zh","中文"]].forEach(([v,n])=>{const b=el("button",lang===v?"active":"",n);b.type="button";b.onclick=()=>{lang=v;try{localStorage.setItem("selfIntroLangV1",v)}catch(e){}render()};tg.append(b)});
+  top.append(tg);card.append(top);
+  const pg=el("div","progress");pg.append(el("i"));pg.firstChild.style.width=`${(step+1)/STEPS.length*100}%`;card.append(pg);
+  const body=el("div","body");card.append(body);
+  VIEWS[STEPS[step]](body);
+}
+function go(d){step=Math.max(0,Math.min(STEPS.length-1,step+d));render();try{window.scrollTo({top:card.offsetTop-80,behavior:"smooth"})}catch(e){}}
+function nav(body,{next=true,nextLabel,nextDisabled=false}={}){
+  const r=el("div","nav-row");
+  if(step>0){const b=el("button","btn sec",L("← Back","← 上一页"));b.onclick=()=>go(-1);r.append(b)}
+  if(next){const b=el("button","btn",nextLabel||L("Next →","下一页 →"));b.disabled=nextDisabled;b.onclick=()=>go(1);r.append(b)}
+  card.append(r);
+}
+function finishBox(body,key,remake){
+  body.append(el("div","kicker",L("Done","完成")),el("div","h",L("Well done!","做得好！")),stampImg());
+  const again=el("button","btn sec",L("Play again (new questions)","再玩一次（换题目）"));again.style.marginTop="14px";
+  again.onclick=()=>{Q[key]=remake();QS[key]={i:0,tries:0};render()};body.append(again);nav(body);
+}
+const VIEWS={
+  welcome(b){
+    b.append(el("div","kicker",L("Unit 1 · Greetings","单元 1 · 打招呼")),el("div","h",L("Which greeting, when?","什么时候说哪一句？")),el("div","big-jp jp","あいさつ"));
+    const g=el("div","grid wide");
+    [["🕐",L("Morning, afternoon, night","早上、下午、晚上")],["🏠",L("Leaving home and coming back","出门、回家")],["👩‍🏫👫",L("Teacher or friend? Polite or casual?","对老师还是对朋友？礼貌还是随便？")]].forEach(([e,t])=>g.append(el("div","tap row",`<span class="em">${e}</span><span class="j">${t}</span>`)));
+    b.append(g,el("div","tip",L("Careful: the black cat teacher 🐱 will tease you when you get it wrong!","小心：答错的话，黑猫老师 🐱 会吐槽你！")));
+    nav(b,{nextLabel:L("Let's begin →","开始 →")});
+  },
+  learn(b){
+    b.append(el("div","kicker",L("Listen","听一听")),el("div","h",L("Tap to hear each greeting","点一下，听每一句")));
+    GP_GROUPS.forEach(([e,en,zh,keys])=>{
+      b.append(el("div","sub",`<b>${e} ${L(en,zh)}</b>`));
+      const g=el("div","grid wide");g.style.marginTop="6px";
+      keys.forEach(k=>{const p=GP[k],t=el("button","tap row",`<span class="em">🔊</span><span><span class="j jp">${p[0]}</span><br><span class="m">${L(p[2],p[3])}</span><br>${lvlTag(k)}</span>`);t.type="button";t.onclick=()=>sayKey(k);g.append(t)});
+      b.append(g);
+    });
+    nav(b);
+  },
+  rule(b){
+    b.append(el("div","kicker",L("The rule","规则")),el("div","h",L("Long = polite · Short = casual","长的＝礼貌 · 短的＝随便")));
+    const two=el("div","two");
+    two.append(el("div","who-card",`<div class="em">👩‍🏫🧓🧑‍💼</div><b>${L("Teachers, adults, strangers","老师、大人、陌生人")}</b><div class="jp">おはようございます<br>ありがとうございます<br>おやすみなさい<br>わかりました</div>`));
+    two.append(el("div","who-card",`<div class="em">👫👨‍👩‍👧</div><b>${L("Friends, family","朋友、家人")}</b><div class="jp">おはよう<br>ありがとう<br>おやすみ<br>わかった</div>`));
+    b.append(two);
+    b.append(el("div","tip",L("Use the casual one with your teacher and they will look at you like this: 😑 Use the polite one with your best friend and they'll think you're angry. 🤨","对老师用随便的，老师会这样看你：😑　对好朋友用礼貌的，朋友会以为你在生气。🤨")));
+    b.append(el("div","tip",L("Watch out for pairs: いってきます (I'm leaving) ↔ いってらっしゃい (to the person leaving) · ただいま (I'm home) ↔ おかえりなさい (to the person coming home).","注意成对的：いってきます（我出门了）↔ いってらっしゃい（送出门的人）· ただいま（我回来了）↔ おかえりなさい（迎接回家的人）。")));
+    nav(b);
+  },
+  sort(b){
+    b.append(el("div","kicker",L("Game 1","游戏 1")),el("div","h",L("Friend or teacher?","对朋友还是对老师？")));
+    const st=QS.sort,list=Q.sort;if(st.i>=list.length)return finishBox(b,"sort",()=>shuffle(GP_SORT));
+    const k=list[st.i],p=GP[k];
+    b.append(el("div","step-count",`${st.i+1} / ${list.length}`));
+    const ph=el("div","phrase-big jp",p[0]+" 🔊");ph.onclick=()=>sayKey(k);b.append(ph,el("div","sub",L(p[2],p[3])));
+    const box=el("div","sortbtns"),fb=el("div","fb");
+    [["casual","👫",L("To a friend","对朋友")],["polite","👩‍🏫",L("To a teacher","对老师")]].forEach(([v,e,t])=>{
+      const btn=el("button","",`<span class="em">${e}</span>${t}`);btn.type="button";
+      btn.onclick=()=>{if(btn.disabled)return;const right=p[4];
+        if(v===right){logResult("greet-sort",p[0],true);box.querySelectorAll("button").forEach(x=>x.disabled=true);btn.classList.add("ok");fb.className="fb ok";fb.innerHTML=L("✓ Correct!","✓ 答对了！");sayKey(k);SFX.play();
+          const n=el("button","btn",L("Next →","下一题 →"));n.style.marginTop="10px";n.onclick=()=>{st.i++;render()};fb.append(document.createElement("br"),n)}
+        else{logResult("greet-sort",p[0],false);btn.disabled=true;btn.classList.add("no");fb.className="fb no";const r=GP_SORT_ROAST[right][v==="casual"?0:1];fb.innerHTML="";fb.append(el("div","roast","🐱 "+(r?L(r[0],r[1]):L("Hmm, try the other one!","嗯……选另一边吧！"))))}};
+      box.append(btn)});
+    b.append(box,fb);nav(b,{next:false});
+  },
+  scene(b){
+    b.append(el("div","kicker",L("Game 2","游戏 2")),el("div","h",L("What do you say?","这时候要说什么？")));
+    const st=QS.scene,list=Q.scene;if(st.i>=list.length)return finishBox(b,"scene",sceneList);
+    const q=list[st.i];
+    b.append(el("div","step-count",`${st.i+1} / ${list.length}`),el("div","q-scene",q.sc),el("div","q-text",L(q.en,q.zh)));
+    const box=el("div","opts"),fb=el("div","fb");
+    q.opts.forEach(k=>{const o=el("button","opt jp",jp(k));o.type="button";
+      o.onclick=()=>{if(o.disabled)return;
+        if(k===q.ok){logResult("greet-scene",jp(q.ok),true);box.querySelectorAll("button").forEach(x=>x.disabled=true);o.classList.add("ok");sayKey(k);SFX.play();
+          fb.className="fb ok";fb.innerHTML=L("✓ Correct!","✓ 答对了！");fb.append(el("div","why",L(q.why[0],q.why[1])));
+          const n=el("button","btn",L("Next →","下一题 →"));n.style.marginTop="10px";n.onclick=()=>{st.i++;render()};fb.append(n)}
+        else{logResult("greet-scene",jp(q.ok),false);o.disabled=true;o.classList.add("no");const r=q.no.find(x=>x[0]===k);fb.className="fb no";fb.innerHTML="";fb.append(el("div","roast","🐱 "+L(r[1],r[2])))}};
+      box.append(o)});
+    b.append(box,fb);nav(b,{next:false});
+  },
+  finish(b){
+    b.append(el("div","kicker",L("Finished","完成")),el("div","h",L("You know when to say what!","你知道什么时候说什么了！")),el("div","big-jp jp","🎉"));
+    b.append(el("div","sub",L("Try them for real: greet your family tomorrow morning in Japanese!","明天早上，用日语跟家人打招呼试试看！")));
+    const r=el("div","nav-row");
+    const again=el("button","btn sec",L("Start again","从头开始"));again.onclick=()=>{step=0;Q.sort=shuffle(GP_SORT);Q.scene=sceneList();QS.sort={i:0,tries:0};QS.scene={i:0,tries:0};render()};
+    if(STUDENT_CODE){const back=el("button","btn",L("All practice","全部练习"));back.onclick=()=>{location.href="practice.html?s="+encodeURIComponent(STUDENT_CODE)};r.append(back)}
+    else{const c=el("button","btn",L("Next: introduce yourself →","下一步：自我介绍 →"));c.onclick=()=>{location.href="self-intro.html"};r.append(c)}
+    r.append(again);b.append(r);
+  }
+};
+render();
+
+</script>
+<script src="assets/bgm.js"></script>
+</body>
+</html>

@@ -25,6 +25,7 @@ const UNITS = [
  {n:1,  zh:"初次见面",       en:"Nice to meet you",      can:"说名字、国家、职业或年级",
   books:{minna:[1], dekiru:["1-1"], kodomo:[1]},
   tasks:[
+   {href:"greetings.html", ic:"👋", name:"あいさつ", desc:"Greetings: which one, when?"},
    {href:"self-intro.html", ic:"🙋", name:"じこしょうかい", desc:"Name · country · age"}
   ]},
  {n:2,  zh:"家人和生日",     en:"Family & birthdays",    can:"介绍家人，说年龄和生日",
