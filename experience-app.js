@@ -623,9 +623,10 @@ const renderers = {
       item.appendChild(el("div", "vocab-romaji", v.r));
       item.appendChild(el("div", "meaning", () => L(v.en, v.zh)));
       item.addEventListener("click", () => {
+        playIntroWord(v.w);
         if (item.classList.contains("revealed")) return;
         item.classList.add("revealed");
-        cheer(item);
+        setTimeout(() => cheer(item), 700);   /* 先听单字，再响「答对」的音效 */
         opened++;
         if (opened === words.length) {
           setT(done, () => L("🎉 Six real Japanese words — after just one lesson!", "🎉 才上了一堂课，你已经会读 6 个日文单词了！"));
@@ -882,6 +883,13 @@ function playWordAudio(word) {
   const map = typeof HW_AUDIO !== "undefined" ? HW_AUDIO : {};
   if (!map[word]) return;
   try { if (currentAudio) currentAudio.pause(); currentAudio = new Audio(map[word]); currentAudio.play().catch(() => {}); } catch (e) {}
+}
+
+/* あい・いえ・うえ・あお・いい・おおい：Mint 的录音（assets/audio/japanese/intro/） */
+const INTRO_WORDS = {"あい":"word-ai","いえ":"word-ie","うえ":"word-ue","あお":"word-ao","いい":"word-ii","おおい":"word-ooi"};
+function playIntroWord(w) {
+  if (!INTRO_WORDS[w]) return;
+  try { if (currentAudio) currentAudio.pause(); currentAudio = new Audio(`assets/audio/japanese/intro/${INTRO_WORDS[w]}.mp3`); currentAudio.play().catch(() => {}); } catch (e) {}
 }
 
 function playPhrase(files) {
