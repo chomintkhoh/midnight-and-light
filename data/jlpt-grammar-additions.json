@@ -1,7 +1,7 @@
 {
   "_note": "2026-10-03 补进 JLPT 题库的 16 个文法（对照 Mint 的旧 4 级／3 级文法书清单找出缺的）。例句和题目都是自己写的，没有用书里的例句。改这里之后，要重新跑 tools/merge-jlpt-grammar.py 写进 jlpt-n5-n4-practice-v7-standalone.html。",
   "grammar": [
-    {"id":"GRM-300","form":"Vます-stem + ながら","name":"〜ながら","lv":"N5","cat":"Function / Pattern",
+    {"id":"GRM-300","form":"Vます-stem + ながら","name":"〜ながら","lv":"N4","cat":"Function / Pattern",
      "meaning":"while doing ~ (one person doing two things at the same time)",
      "usage":"The main action goes at the end of the sentence. Both actions are done by the same person.",
      "ex":"音楽を聞きながら、勉強します。","pre":"ます-form","mistake":"Using it for two different people (×私が料理しながら、母がそうじをします). Use 〜ているあいだ for that.","contrast":"〜ながら ↔ 〜ているあいだ（に）",
@@ -21,7 +21,7 @@
      "usage":"Someone actively changes the thing. For things that change by themselves, use 〜くなる／〜になる.",
      "ex":"音を小さくしてください。／部屋をきれいにしました。","pre":"Adjective types","mistake":"×小さいして／×きれいくして","contrast":"〜くする（人去改变）↔ 〜くなる（自己变成）",
      "q":{"q":"テレビの音が大きいです。もう少し（　）ください。","o":["小さくして","小さくなって","小さいして","小さにして"],"e":"请对方把声音调小，是人去改变 → 小さくする → 小さくしてください。","e_en":"Asking someone to make it quieter (a person changes it) → 小さくして."}},
-    {"id":"GRM-304","form":"N（＋particle）+ しか + negative","name":"〜しか〜ない","lv":"N5","cat":"Particle",
+    {"id":"GRM-304","form":"N（＋particle）+ しか + negative","name":"〜しか〜ない","lv":"N4","cat":"Particle",
      "meaning":"only ~ (and that's not much / nothing else)",
      "usage":"Always followed by a negative verb or adjective. Feels like \"not enough\".",
      "ex":"財布に百円しかありません。","pre":"ない-form","mistake":"Using a positive verb after しか (×百円しかあります). With a positive verb use だけ.","contrast":"しか〜ない（后面否定）↔ だけ（后面肯定）",
