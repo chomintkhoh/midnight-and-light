@@ -38,10 +38,10 @@ button.active{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78
 .progress-fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,rgba(217,196,142,.45),rgba(182,169,218,.45))}.progress span{position:relative}
 .q-stage{position:relative;text-align:center;padding:6px 0 10px}
 .pic{display:flex;align-items:center;justify-content:center}
-.pic.big{min-height:150px;margin:6px auto;max-width:260px;background:#F4F1EA;color:#17192d;border-radius:18px;padding:10px}
+.pic.big{min-height:150px;margin:6px auto;max-width:320px;background:#F4F1EA;color:#17192d;border-radius:18px;padding:10px}
 .opt.picopt .pic,.match-item .pic{background:#F4F1EA;color:#17192d;border-radius:12px;min-height:84px;padding:6px}.pic.big .emoji{font-size:110px;line-height:1}
 .pic .emoji{font-size:54px;line-height:1}
-/* pictures: square, never cropped, 64/128/192 px only (same on phone and computer) */.lex-img{width:64px;height:64px;aspect-ratio:1;object-fit:contain;image-rendering:auto}.pic.big .lex-img{width:192px;height:192px}.match-item .lex-img{width:64px;height:64px}
+/* pictures: square, never cropped, 64/128/192 px only (same on phone and computer) *//* pictures fill their card (never cropped: object-fit contain keeps the whole picture) */.lex-img{width:128px;height:128px;aspect-ratio:1;object-fit:contain;image-rendering:auto}.pic.big .lex-img{width:min(100%,288px);height:auto}.opt.picopt .pic{padding:0}.opt.picopt .lex-img{width:100%;height:auto}.match-item .pic{padding:0}.match-item .lex-img{width:100%;max-width:180px;height:auto}
 .swatch{display:inline-block;width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,.6)}.pic.big .swatch{width:120px;height:120px}
 .pic.meaning{flex-direction:column;background:#F4F1EA;color:#17192d;border-radius:14px;padding:10px 14px;min-height:74px}
 .pic.big.meaning{max-width:360px;min-height:130px}
@@ -51,10 +51,10 @@ button.active{background:rgba(217,196,142,.17);border-color:rgba(217,196,142,.78
 .speak-btn{min-height:40px;min-width:40px;padding:4px 8px;border-radius:50%;font-size:1.1rem}
 .opt-grid{display:grid;gap:10px;max-width:640px;margin:0 auto}
 .opt-grid.words{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-.opt-grid.pics{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.opt-grid.pics{grid-template-columns:repeat(2,1fr);max-width:900px}@media(min-width:700px){.opt-grid.pics{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
 .opt-grid.kana{grid-template-columns:repeat(auto-fit,minmax(64px,90px));justify-content:center}
 .opt{font-family:"Zen Kaku Gothic New";font-size:1.45rem;min-height:64px}
-.opt.picopt{min-height:110px;padding:8px}
+.opt.picopt{min-height:110px;padding:6px}
 .kana-opt{font-size:1.7rem;min-height:68px}
 .opt.right{border-color:var(--good);background:rgba(127,191,143,.22)}
 .opt.wrong{border-color:var(--bad);background:rgba(224,135,154,.16);opacity:.6}
@@ -306,12 +306,14 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;","
 function wordObj(cat,w,i){return {id:`${cat.id}-${i}`,cat:cat.id,jp:w[0],pic:w[1]||"",en:w[2],zh:w[3]}}
 function allWords(){return VOCAB_CATEGORIES.flatMap(c=>c.words.map((w,i)=>wordObj(c,w,i)))}
 function selectedWords(){return VOCAB_CATEGORIES.filter(c=>V.cats.has(c.id)).flatMap(c=>c.words.map((w,i)=>wordObj(c,w,i)))}
-function picKey(w){return w.pic||("m:"+w.en)}
+/* a drawn picture wins; then the emoji; words with neither show the meaning as text */
+const wImg=w=>typeof lexImg==="function"?lexImg(w.jp,w.en):"";
+function picKey(w){return wImg(w)||w.pic||("m:"+w.en)}
 function picHTML(w,big=false){
  const cls=big?"pic big":"pic";
- if(!w.pic)return `<div class="${cls} meaning"><span class="m-en">${esc(w.en)}</span><span class="m-zh">${esc(w.zh)}</span></div>`;
- const img=typeof lexImg==="function"?lexImg(w.jp,w.en):"";
+ const img=wImg(w);
  if(img)return `<div class="${cls}"><img class="lex-img" src="${img}" alt="${esc(w.en)}"></div>`;
+ if(!w.pic)return `<div class="${cls} meaning"><span class="m-en">${esc(w.en)}</span><span class="m-zh">${esc(w.zh)}</span></div>`;
  if(w.pic[0]==="#")return `<div class="${cls}"><span class="swatch" style="background:${w.pic}"></span></div>`;
  return `<div class="${cls}"><span class="emoji">${w.pic}</span></div>`
 }
