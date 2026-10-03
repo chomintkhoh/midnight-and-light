@@ -72,6 +72,7 @@
     .gate form{ grid-template-columns:1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
   <div class="stars" aria-hidden="true" data-density="14"></div>
@@ -79,6 +80,7 @@
   <main class="pr">
     <div class="pr-brand">ミッドナイトとライト</div>
     <h1 class="pr-title">My Practice</h1>
+    <div class="music-control" data-shared-bgm aria-label="Background music"></div>
 
     <!-- shown when the student is known -->
     <div id="known" hidden>
@@ -272,5 +274,6 @@
   });
   </script>
   <script src="stars.js"></script>
+<script src="assets/bgm.js"></script>
 </body>
 </html>

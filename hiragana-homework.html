@@ -69,11 +69,13 @@ h1{font-size:clamp(26px,5vw,36px);margin:10px 0 4px;text-align:center}
 .gate a{color:var(--lav);font-weight:800}
 @media(max-width:480px){.opts.five{grid-template-columns:repeat(3,minmax(0,1fr))}.set .lb{min-width:90px;font-size:26px}.set .kn{font-size:16px}}
 </style>
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
 <div class="shell">
   <div class="topline"><a id="back" href="practice.html">← All practice</a><span id="who"></span></div>
   <h1>✍️ Hiragana Homework</h1>
+  <div class="music-control" data-shared-bgm aria-label="Background music"></div>
   <p class="lead" id="lead">Choose the set your teacher gave you.<small>选择老师给你的那一组。</small></p>
   <div id="app"></div>
 </div>
@@ -254,5 +256,6 @@ function finish(){
   home();
 })();
 </script>
+<script src="assets/bgm.js"></script>
 </body>
 </html>

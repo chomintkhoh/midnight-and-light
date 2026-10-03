@@ -5,6 +5,8 @@
   const tracks = {lofi:"study-lofi.mp3", classical:"classical-6.mp3"};
   const scriptUrl = document.currentScript.src;
   const key = "timePracticeBgm", volumeKey = "timePracticeBgmVolume";
+  /* 换页不中断：离开页面时记下「正在播、播到第几秒」，下一页接着播 */
+  const stateKey = "timePracticeBgmState";
   const audio = new Audio();
   audio.loop = true;
   audio.preload = "metadata";
@@ -50,7 +52,33 @@
   }
   function pause() {
     ++playRequest;
-    audio.pause(); playing = false; update();
+    audio.pause(); playing = false; update(); keepState();
+  }
+  function keepState() {
+    try { localStorage.setItem(stateKey, JSON.stringify({playing, track:selection, t:audio.currentTime || 0, at:Date.now()})); } catch (_) {}
+  }
+  addEventListener("pagehide", keepState);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") keepState(); });
+  /* 上一页还在播 → 从同一个位置接着播（30 分钟内） */
+  function resume() {
+    let st = null;
+    try { st = JSON.parse(localStorage.getItem(stateKey) || "null"); } catch (_) {}
+    if (!st || !st.playing || !tracks[st.track] || Date.now() - st.at > 30 * 60 * 1000) return;
+    selection = st.track;
+    const source = new URL("audio/" + tracks[selection], scriptUrl).href;
+    audio.src = source; audio.preload = "auto"; audio.volume = volume;
+    const seek = () => { const d = audio.duration; if (d && isFinite(d)) audio.currentTime = (st.t + (Date.now() - st.at) / 1000) % d; };
+    if (audio.readyState >= 1) seek(); else audio.addEventListener("loadedmetadata", seek, {once:true});
+    const request = ++playRequest;
+    playing = true; update();
+    audio.play().catch(() => {
+      if (request !== playRequest) return;
+      /* 浏览器不让自动播放 → 学生一碰画面就接着播 */
+      playing = false; update();
+      const go = () => { if (!playing && selection !== "off" && request === playRequest) play(); };
+      document.addEventListener("pointerdown", go, {once:true, capture:true});
+      document.addEventListener("keydown", go, {once:true, capture:true});
+    });
   }
   root.addEventListener("click", event => {
     const button = event.target.closest("button");
@@ -66,4 +94,5 @@
   slider.addEventListener("input", () => { volume = Number(slider.value) / 100; audio.volume = volume; save(); });
   window.sharedBgm = {pause};
   update();
+  resume();
 })();

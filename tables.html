@@ -59,6 +59,7 @@
     .opts{ grid-template-columns:1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/bgm.css">
 </head>
 <body>
   <div class="stars" aria-hidden="true" data-density="20"></div>
@@ -68,6 +69,7 @@
       <h1 class="tb-title" id="hTitle">Reference Tables</h1>
       <p class="tb-lead" id="hLead">Tap to hear. Use these any time to review.</p>
       <div class="who-bar" id="who"></div>
+      <div class="music-control" data-shared-bgm aria-label="Background music"></div>
     </header>
     <div class="tabs" id="tabs" role="tablist"></div>
     <section class="card" id="card" aria-live="polite"></section>
@@ -154,5 +156,6 @@ function render(){
 render();
 addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h)){tab=h;render()}});
 </script>
+<script src="assets/bgm.js"></script>
 </body>
 </html>

@@ -120,9 +120,9 @@ const STUDENT_UNITS = {
   "FRD9J": { book:"minna", lesson:1, jlpt:false },   /* Yixuan：平假名学到「も」，加开自我介绍（单元 1、2） */
   "T8MNL": { book:"minna", lesson:50 },  /* 老师自己：全部单元开放，用来预览 */
   /* 妈妈团（线下）：大家的日本語 第 14 课 */
-  "PMXNR": { book:"minna", lesson:14 },  /* Belle */
-  "AWE3J": { book:"minna", lesson:14 },  /* Hyungi */
-  "2C5XD": { book:"minna", lesson:14 },  /* Shaun */
+  "PMXNR": { book:"minna", lesson:14, jlpt:false },  /* Belle */
+  "AWE3J": { book:"minna", lesson:14, jlpt:false },  /* Hyungi */
+  "2C5XD": { book:"minna", lesson:14, jlpt:false },  /* Shaun */
   /* 小孩：单元里的练习都做过了，全部开放 */
   "K4FUX": { all:true },   /* Zenn */
   "46PXW": { all:true },   /* Jinn */
