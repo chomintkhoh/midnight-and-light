@@ -123,7 +123,7 @@ const VIEWS={
     for(let n=a;n<=z;n++){const t=el("button","tap"+(jtAgeIrr(n)?" irr":""),`<span class="n">${n}</span><span class="j jp">${jtAge(n)}</span>`);t.type="button";t.onclick=()=>say(jtAge(n));g.append(t)}
     c.append(g);
     c.append(quizBox(()=>{const n=a+Math.floor(Math.random()*(z-a+1)),right=jtAge(n),naive=n===20?"にじゅっさい":jtNum(n)+"さい";
-      const near=[n-1,n+1].filter(x=>x>=a&&x<=z).map(jtAge);return {show:n+L(" years old"," 岁"),right,opts:three(right,[naive,...near].filter(x=>x!==right)),speak:right+"です"}}));
+      const near=[n-1,n+1].filter(x=>x>=a&&x<=z).map(jtAge);return {show:n+L(" years old"," 岁"),right,opts:three(right,[naive,...near].filter(x=>x!==right)),speak:right}}));
   },
   countries(c){
     c.append(el("div","sub",L("Country + じん = a person from that country. Tap to hear.","国家 ＋ じん ＝ 那国人。点一下听发音。")));

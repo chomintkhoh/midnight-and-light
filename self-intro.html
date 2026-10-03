@@ -313,7 +313,7 @@ const VIEWS={
   model(b){
     b.append(el("div","kicker",L("Listen","听一听")),el("div","h",L("Two people meet for the first time","两个人第一次见面")),el("div","sub",L("Tap each line to hear it and see what it means.","点每一句，听发音、看意思。")));
     const A=[["👩","はじめまして。","Nice to meet you.","初次见面。"],["👩",`わたしは ${jtRuby(NAME_DEMO,NAME_DEMO_R)}です。`,"I am Rina.","我是 Rina。","わたしは リナです。"],
-      ["👩",`${jtCountryHTML(MY)}じんです。`,"I am Malaysian.","我是马来西亚人。","マレーシアじんです。"],["👩",who==="adult"?"さんじゅうごさいです。":"じゅっさいです。",who==="adult"?"I am 35 years old.":"I am 10 years old.",who==="adult"?"我 35 岁。":"我 10 岁。"],
+      ["👩",`${jtCountryHTML(MY)}じんです。`,"I am Malaysian.","我是马来西亚人。","マレーシアじんです。"],["👩",who==="adult"?"さんじゅうごさいです。":"にじゅうごさいです。",who==="adult"?"I am 35 years old.":"I am 25 years old.",who==="adult"?"我 35 岁。":"我 25 岁。"],
       ["👩","どうぞ よろしく おねがいします。","Nice to meet you.","请多多指教。"],
       ["🧑","はじめまして。わたしは さとしです。","Nice to meet you. I am Satoshi.","初次见面。我是 Satoshi。"],["🧑","にほんじんです。","I am Japanese.","我是日本人。"],["🧑","よろしく おねがいします。","Nice to meet you.","请多多指教。"]];
     const ch=el("div","chat");
@@ -336,7 +336,7 @@ const VIEWS={
   countryQuiz(b){
     b.append(el("div","kicker",L("Quiz · Countries","小测验 · 国家")));
     quiz(b,"country","intro-country",q=>({scene:q.c[2],text:L(`A person from ${q.c[3]}. How do you say it?`,`${q.c[4]}人，怎么说？`),right:q.c,item:q.c[0]+"じん",
-      label:o=>`${jtCountryHTML(o)}じんです`,speak:q.c[0]+"じんです"}));
+      label:o=>`${jtCountryHTML(o)}じんです`,speak:q.c[0]+"じん"}));
   },
   ages(b){
     b.append(el("div","kicker",L("Ages","年龄")),el("div","h jp","なんさいですか？"),el("div","sub",L("Tap to hear. ⚠ The yellow ones change their sound!","点一下听发音。⚠ 黄色的会变音！")));
@@ -348,7 +348,7 @@ const VIEWS={
   },
   ageQuiz(b){
     b.append(el("div","kicker",L("Quiz · Ages","小测验 · 年龄")));
-    quiz(b,"age","intro-age",q=>({scene:"🎂",text:`<b style="font-size:34px">${q.n}</b> ${L("years old","岁")}`,right:jtAge(q.n),item:q.n+"さい",label:o=>o,speak:jtAge(q.n)+"です"}));
+    quiz(b,"age","intro-age",q=>({scene:"🎂",text:`<b style="font-size:34px">${q.n}</b> ${L("years old","岁")}`,right:jtAge(q.n),item:q.n+"さい",label:o=>o,speak:jtAge(q.n)}));
   },
   check(b){
     b.append(el("div","kicker",L("Quiz · Choose the sentence","小测验 · 选句子")));
