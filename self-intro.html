@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Introduce Yourself in Japanese | ミッドナイトとライト</title>
+<meta name="description" content="A short interactive Japanese practice: introduce yourself — your name, country and age — with audio. In English or Chinese." />
+<link rel="canonical" href="https://chomintkhoh.github.io/midnight-and-light/self-intro.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+JP:wght@500;600;700&family=Noto+Sans+SC:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cosmic.css" />
+<style>
+  /* ── Unit 1 · じこしょうかい — same step-by-step style as experience.html ── */
+  :root{ --card:#E7E3DA; --ink:#252A45; --ink-soft:#4A4F6E; --line:rgba(37,42,69,.14); --plum:#3E3560; --good:#2F7D5B; --bad:#B4485E; --gold-ink:#7A6230; }
+  .si-wrap{ position:relative; z-index:1; max-width:860px; margin:0 auto; padding:calc(var(--nav-h) + 16px) 16px 60px; }
+  .si-head{ text-align:center; margin:8px 0 20px; }
+  .si-eyebrow{ color:var(--pale-gold); font-size:13px; letter-spacing:.18em; text-transform:uppercase; }
+  .si-title{ font-family:var(--font-sans); font-weight:700; font-size:clamp(28px,5vw,40px); color:var(--warm-white); margin:10px 0 6px; }
+  .si-lead{ color:var(--service-primary); font-size:16px; }
+  .who-bar{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 14px; font-size:15px; color:var(--muted-bluegrey); margin-top:10px; }
+  .who-bar a{ color:var(--pale-gold); font-weight:600; }
+  .card{ background:var(--card); color:var(--ink); border-radius:24px; padding:22px 26px 26px; min-height:560px; display:flex; flex-direction:column; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+  .card-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .step-count{ font-size:13px; font-weight:600; color:var(--ink-soft); }
+  .lang-toggle{ display:flex; gap:4px; padding:3px; border-radius:999px; border:1px solid var(--line); }
+  .lang-toggle button{ border:0; background:transparent; color:var(--ink-soft); font:500 15px var(--font-sans); padding:8px 14px; border-radius:999px; cursor:pointer; min-height:40px; }
+  .lang-toggle button.active{ background:rgba(62,53,96,.12); color:var(--ink); font-weight:600; }
+  .progress{ height:3px; border-radius:3px; background:var(--line); margin:12px 0 20px; overflow:hidden; }
+  .progress i{ display:block; height:100%; background:var(--plum); opacity:.6; transition:width .3s; }
+  .body{ flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .kicker{ color:var(--gold-ink); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; }
+  .h{ font-size:clamp(22px,4vw,28px); font-weight:700; margin:8px 0 6px; }
+  .jp, .jp *{ font-family:"Noto Sans JP","Noto Sans SC",sans-serif; }
+  .big-jp{ font-size:clamp(40px,9vw,64px); font-weight:700; margin:10px 0; }
+  .sub{ color:var(--ink-soft); font-size:16px; line-height:1.6; max-width:620px; }
+  .tip{ margin-top:14px; padding:10px 14px; border-radius:12px; background:rgba(62,53,96,.07); color:var(--ink-soft); font-size:15px; max-width:620px; }
+  ruby rt{ font-size:.5em; color:var(--ink-soft); }
+  .nav-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:auto; padding-top:24px; width:100%; }
+  .btn{ border:0; border-radius:999px; background:var(--plum); color:#fff; font:600 16px var(--font-sans); padding:12px 26px; min-height:48px; cursor:pointer; }
+  .btn.sec{ background:transparent; color:var(--ink); border:1.5px solid rgba(37,42,69,.3); }
+  .btn:disabled{ opacity:.35; cursor:default; }
+  .btn:focus-visible, .tap:focus-visible, .opt:focus-visible{ outline:2px solid var(--plum); outline-offset:3px; }
+
+  /* dialogue */
+  .chat{ width:100%; max-width:600px; display:grid; gap:10px; margin-top:14px; text-align:left; }
+  .line{ display:flex; gap:10px; align-items:flex-start; }
+  .line.r{ flex-direction:row-reverse; }
+  .face{ font-size:34px; line-height:1; flex:none; margin-top:4px; }
+  .bub{ border:1px solid var(--line); background:#F5F2EC; border-radius:16px; padding:10px 14px; font-size:20px; cursor:pointer; text-align:left; color:var(--ink); max-width:440px; }
+  .bub .m{ display:none; font:400 14.5px var(--font-sans); color:var(--ink-soft); margin-top:4px; }
+  .bub.on .m{ display:block; }
+  .bub:hover{ border-color:var(--plum); }
+
+  /* tap cards / grids */
+  .grid{ width:100%; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-top:16px; }
+  .grid.wide{ grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
+  .tap{ border:1px solid var(--line); background:#F5F2EC; border-radius:16px; padding:12px; cursor:pointer; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:4px; min-height:84px; justify-content:center; }
+  .tap:hover{ border-color:var(--plum); }
+  .tap .em{ font-size:28px; }
+  .tap .j{ font-size:19px; font-weight:600; }
+  .tap .m{ font-size:13.5px; color:var(--ink-soft); }
+  .tap.irr{ background:#FBF1D4; border-color:#E2C877; }
+  .tap.row{ flex-direction:row; justify-content:flex-start; text-align:left; gap:12px; }
+  .seg{ display:inline-flex; gap:4px; padding:3px; border-radius:999px; border:1px solid var(--line); margin-top:12px; }
+  .seg button{ border:0; background:transparent; font:500 15px var(--font-sans); padding:8px 16px; border-radius:999px; cursor:pointer; color:var(--ink-soft); min-height:40px; }
+  .seg button.active{ background:rgba(62,53,96,.12); color:var(--ink); font-weight:600; }
+
+  /* quiz */
+  .q-scene{ font-size:56px; margin:10px 0 4px; }
+  .q-text{ font-size:18px; color:var(--ink); margin-bottom:6px; }
+  .opts{ width:100%; max-width:560px; display:grid; gap:10px; margin-top:12px; }
+  .opt{ border:1.5px solid var(--line); background:#F5F2EC; border-radius:14px; padding:12px 14px; font-size:20px; cursor:pointer; color:var(--ink); min-height:54px; }
+  .opt:hover:not(:disabled){ border-color:var(--plum); }
+  .opt.ok{ background:#DDEFE5; border-color:var(--good); }
+  .opt.no{ background:#F6DDE2; border-color:var(--bad); opacity:.8; }
+  .fb{ min-height:28px; margin-top:12px; font-weight:600; }
+  .fb.ok{ color:var(--good); } .fb.no{ color:var(--bad); }
+  .stamp{ width:84px; height:84px; object-fit:contain; animation:pop .35s ease; }
+  @keyframes pop{ from{ transform:scale(.4); opacity:0 } to{ transform:scale(1); opacity:1 } }
+
+  /* build */
+  .form{ width:100%; max-width:600px; display:grid; gap:14px; margin-top:14px; text-align:left; }
+  .form label{ font-size:14.5px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px; }
+  .form input{ width:100%; min-height:48px; padding:10px 14px; border-radius:12px; border:1.5px solid var(--line); background:#F5F2EC; font:500 18px "Noto Sans JP",var(--font-sans); color:var(--ink); }
+  .form input:focus{ outline:none; border-color:var(--plum); }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chips button{ border:1.5px solid var(--line); background:#F5F2EC; border-radius:999px; padding:8px 12px; font-size:16px; cursor:pointer; color:var(--ink); min-height:44px; }
+  .chips button.on{ border-color:var(--plum); background:rgba(62,53,96,.12); font-weight:600; }
+  .stepper{ display:flex; align-items:center; gap:12px; }
+  .stepper button{ width:48px; height:48px; border-radius:50%; border:1.5px solid var(--line); background:#F5F2EC; font-size:24px; cursor:pointer; color:var(--ink); }
+  .stepper .v{ font-size:20px; font-weight:600; min-width:150px; text-align:center; }
+  .out{ width:100%; max-width:600px; margin-top:16px; padding:16px 18px; border-radius:16px; background:#FFFCF4; border:2px dashed #D9C48E; font-size:22px; line-height:1.9; text-align:left; }
+  .voice-warn{ margin-top:10px; font-size:14px; color:var(--bad); }
+
+  /* report button (same idea as other practice pages) */
+  .done-btn{ position:fixed; right:14px; bottom:14px; z-index:50; border:0; border-radius:999px; background:var(--pale-gold); color:#14162e; font:700 15px var(--font-sans); padding:12px 18px; box-shadow:0 8px 24px rgba(0,0,0,.35); cursor:pointer; }
+  .overlay{ position:fixed; inset:0; background:rgba(8,9,20,.7); z-index:100; display:flex; align-items:center; justify-content:center; padding:16px; }
+  .rbox{ background:#fff; color:#222; border-radius:20px; padding:22px; width:100%; max-width:440px; max-height:90vh; overflow:auto; }
+  .rbox h2{ font-size:22px; margin-bottom:10px; }
+  .rrow{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+  .rstatus{ min-height:22px; margin:10px 0; color:#444; font-size:14.5px; text-align:center; }
+  .stamp-grid{ display:grid; grid-template-columns:repeat(10,1fr); gap:4px; margin-top:8px; }
+  .stamp-cell{ aspect-ratio:1; border:1.5px dashed #b9bde0; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; font-size:13px; }
+  .stamp-cell.on{ border-style:solid; border-color:#D9C48E; background:#fff8e6; }
+  .stamp-cell img{ width:100%; height:100%; object-fit:contain; }
+  [hidden]{ display:none !important; }
+  @media (max-width:560px){
+    .card{ padding:18px 16px 20px; border-radius:20px; min-height:520px; }
+    .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid.wide{ grid-template-columns:1fr; }
+    .bub{ font-size:18px; }
+    .out{ font-size:19px; }
+  }
+</style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true" data-density="24"></div>
+
+  <nav class="site-nav">
+    <a class="nav-mark" href="index.html">ミッドナイトとライト</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="experience.html">Experience</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="si-wrap">
+    <header class="si-head">
+      <div class="si-eyebrow" id="hEyebrow">Unit 1 · Practice</div>
+      <h1 class="si-title" id="hTitle">Introduce Yourself</h1>
+      <p class="si-lead jp">じこしょうかい</p>
+      <div class="who-bar" id="who"></div>
+    </header>
+    <section class="card" id="card" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">ミッドナイトとライト · Midnight &amp; Light</footer>
+
+<script src="stars.js"></script>
+<script src="nav.js"></script>
+<script src="data/ja-tables.js"></script>
+<script>
+/* ====================================================================
+   Unit 1 · じこしょうかい  — name, country, age
+   Open to visitors (no code needed). With a student code (?s=) it gives
+   stamps and sends the result to the teacher like the other practice pages.
+   ==================================================================== */
+const REPORT_URL="https://script.google.com/macros/s/AKfycbyudegTYiMN3lR_DccPITENYKQfAEimsJqsigTqj3ea8slXMCGN1Q0OrSu8UTv_kYs/exec";
+const STAMP_SRC="./assets/images/great-stamp.png";
+const CODE_KEY="mlStudentCode";
+const PARAMS=new URLSearchParams(location.search);
+const STUDENT_CODE=(()=>{const clean=v=>(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);const q=clean(PARAMS.get("s"));if(q){try{localStorage.setItem(CODE_KEY,q)}catch(e){}return q}try{return clean(localStorage.getItem(CODE_KEY))}catch(e){return ""}})();
+
+/* ---------- language ---------- */
+let lang="en";
+try{const s=localStorage.getItem("selfIntroLangV1");if(s==="en"||s==="zh")lang=s;else if(/^zh/i.test(navigator.language||""))lang="zh"}catch(e){}
+const L=(en,zh)=>lang==="zh"?zh:en;
+const $=id=>document.getElementById(id);
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const say=t=>JTSpeak.say(t);
+
+/* kid or adult: decides the age range. Students get it from My Practice (&adult=1). */
+let who=PARAMS.get("adult")==="1"?"adult":"kid";
+const me={name:"",country:0,age:who==="adult"?30:10};
+
+/* ---------- stamps + report (same format as the other practice pages) ---------- */
+const ACT_EN={"intro-country":"Countries","intro-age":"Ages","intro-check":"Choose the sentence"};
+const ACT_ZH={"intro-country":"自我介绍 国家","intro-age":"自我介绍 年龄","intro-check":"自我介绍 选句子"};
+const SESSION_KEY="selfIntroSessionV1_"+(STUDENT_CODE||"guest");
+function newSession(){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),code:STUDENT_CODE,start:Date.now(),items:{},sent:false}}
+let session=(()=>{try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");if(x&&x.code===STUDENT_CODE&&Date.now()-x.start<6*3600*1000&&x.items)return x}catch(e){}return newSession()})();
+function saveSession(){try{localStorage.setItem(SESSION_KEY,JSON.stringify(session))}catch(e){}}
+const STAMP_CARD=20;
+function stampKey(){return "timePracticeStamps_"+(STUDENT_CODE||"guest")}
+function loadStamps(){try{const x=JSON.parse(localStorage.getItem(stampKey())||"null");if(x&&typeof x.count==="number")return x}catch(e){}return {count:0,cards:0}}
+function addStamp(){const s=loadStamps();s.count++;if(s.count>=STAMP_CARD){s.count=0;s.cards++}try{localStorage.setItem(stampKey(),JSON.stringify(s))}catch(e){}updateDoneBtn()}
+function logResult(activity,item,ok){
+  if(session.sent)session=newSession();
+  const k=activity+"||"+item,it=session.items[k]||{activity,item,tries:0,wrong:0,solved:false};
+  it.tries++;if(ok){if(!it.solved&&STUDENT_CODE)addStamp();it.solved=true}else it.wrong++;
+  session.items[k]=it;saveSession();
+}
+function summarize(){const acts={};Object.values(session.items).forEach(it=>{const a=acts[it.activity]||(acts[it.activity]={n:0,first:0,later:0,notyet:0,mistakes:[]});a.n++;if(it.solved&&it.wrong===0)a.first++;else if(it.solved)a.later++;else a.notyet++;if(it.wrong>0)a.mistakes.push(it)});return acts}
+function reportPayload(acts){const st=loadStamps();
+  const summary=Object.entries(acts).map(([k,a])=>`${ACT_ZH[k]||k}：${a.first}/${a.n} 一次答对`+(a.later?`，${a.later} 题后来改对`:"")+(a.notyet?`，${a.notyet} 题未完成`:"")).join("；")+`；印章卡：已集满 ${st.cards} 张，目前 ${st.count}/${STAMP_CARD}`;
+  const mistakes=Object.entries(acts).flatMap(([k,a])=>a.mistakes.map(m=>`${ACT_ZH[k]||k}：${m.item}（错${m.wrong}次${m.solved?"，后来改对":"，未答对"}）`)).join("\n");
+  return {code:STUDENT_CODE,page:"self-intro.html",sessionId:session.id,minutes:Math.max(1,Math.round((Date.now()-session.start)/60000)),summary:summary||"（没有做任何题目）",mistakes,detail:JSON.stringify({who,activities:acts})}}
+function stampImg(){const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.replaceWith(el("div","fb ok","⭐ GREAT!"))};return im}
+const SFX=(()=>{const a=new Audio("./assets/audio/ui/success-stamp.mp3");a.preload="auto";a.volume=.7;return {play(){try{a.pause();a.currentTime=.25;a.play().catch(()=>{})}catch(e){}}}})();
+function updateDoneBtn(){const b=$("doneBtn");if(b)b.querySelector("span").textContent=`⭐ ${loadStamps().count}/${STAMP_CARD}`}
+function openReport(){
+  const acts=summarize(),total=Object.values(acts).reduce((s,a)=>s+a.n,0),ov=el("div","overlay"),box=el("div","rbox");
+  box.append(el("h2","","📋 Homework Report"));
+  if(!total)box.append(el("p","",L("You haven't answered any questions yet.","你还没有答题。")));
+  Object.entries(acts).forEach(([k,a])=>box.append(el("div","rrow",`<span>${L(ACT_EN[k],ACT_ZH[k])}</span><span><b>${a.first}/${a.n}</b> ${L("first try","一次答对")}</span>`)));
+  const g=el("div","stamp-grid"),st=loadStamps();for(let i=0;i<STAMP_CARD;i++){const c=el("div","stamp-cell"+(i<st.count?" on":""));if(i<st.count){const im=new Image();im.src=STAMP_SRC;im.onerror=()=>{im.remove();c.textContent="⭐"};c.append(im)}g.append(c)}
+  box.append(el("div","",`<b>⭐ Stamp Card</b>`),g);
+  const status=el("div","rstatus"),row=el("div","nav-row"),send=el("button","btn",L("📨 Send to Teacher","📨 交给老师")),close=el("button","btn sec",L("Keep practising","继续练习"));
+  send.disabled=!(STUDENT_CODE&&total)||session.sent;
+  if(session.sent){status.textContent=L("Already sent.","已经交过了。")}
+  send.onclick=async()=>{send.disabled=true;status.textContent="…";try{await fetch(REPORT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(reportPayload(acts))});session.sent=true;saveSession();status.textContent=L("✓ Sent to your teacher!","✓ 已交给老师！")}catch(e){send.disabled=false;status.textContent=L("Could not send. Try again.","送不出去，请再试一次。")}};
+  close.onclick=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)ov.remove()};
+  row.append(send,close);box.append(status,row);ov.append(box);document.body.append(ov);
+}
+if(STUDENT_CODE){
+  $("who").innerHTML=`<a href="practice.html?s=${encodeURIComponent(STUDENT_CODE)}">← All practice</a><span>Student <b>${esc(STUDENT_CODE)}</b></span>`;
+  const b=el("button","done-btn",`⭐ Stamps &amp; Report <span></span>`);b.id="doneBtn";b.onclick=openReport;document.body.append(b);updateDoneBtn();
+  /* auto-send unsent answers when leaving the page (same as the other practice pages) */
+  const auto=()=>{try{if(!REPORT_URL||session.sent)return;const acts=summarize();if(!Object.keys(acts).length)return;const body=JSON.stringify(reportPayload(acts));let ok=false;if(navigator.sendBeacon){try{ok=navigator.sendBeacon(REPORT_URL,new Blob([body],{type:"text/plain;charset=utf-8"}))}catch(e){}}if(!ok)fetch(REPORT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body}).catch(()=>{});session=newSession();saveSession();updateDoneBtn()}catch(e){}};
+  addEventListener("pagehide",auto);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")auto()});
+}
+
+/* ---------- content ---------- */
+const MY=JT_COUNTRIES[0];
+const NAME_DEMO="リナ",NAME_DEMO_R="りな";
+const PHRASES=[
+  ["👋","はじめまして。","Nice to meet you. (said the first time you meet)","初次见面。（第一次见面时说）"],
+  ["🙋","わたしは ＿＿ です。","I am ＿＿. (your name)","我是＿＿。（你的名字）"],
+  ["🌏",`${jtCountryHTML(MY)}じん です。`,"I am Malaysian. (country + じん = a person from there)","我是马来西亚人。（国家＋じん＝那个国家的人）","マレーシアじんです。"],
+  ["🎂","＿＿さい です。","I am ＿＿ years old.","我＿＿岁。"],
+  ["🙇","どうぞ よろしく おねがいします。","Nice to meet you. (please be kind to me)","请多多指教。"]
+];
+/* Choose-the-sentence questions. Only unit-1 grammar: は・です・じゃありません・か・も */
+const CHECK=[
+  {id:"hajime",sc:"🤝",en:"You meet someone for the first time. What do you say first?",zh:"第一次见到别人，先说什么？",ok:"はじめまして。",no:["おやすみなさい。","いただきます。"]},
+  {id:"name",sc:"🙋",en:"Say your name is Rina.",zh:"说你的名字是 Rina。",ok:"わたしは リナです。",no:["わたしも リナですか。","リナは わたしじゃありません。"],r:true},
+  {id:"jin",sc:"🇲🇾",en:"Say you are Malaysian.",zh:"说你是马来西亚人。",ok:"マレーシアじんです。",no:["マレーシアです。","マレーシアさいです。"],r:true},
+  {id:"not",sc:"🙅",en:"Someone thinks you are Japanese. Say you are NOT Japanese.",zh:"对方以为你是日本人。说你「不是」日本人。",ok:"にほんじんじゃありません。",no:["にほんじんです。","にほんじんですか。"]},
+  {id:"ka",sc:"❓",en:"Ask: “Are you Japanese?”",zh:"问对方：「你是日本人吗？」",ok:"にほんじんですか。",no:["にほんじんです。","にほんじんじゃありません。"]},
+  {id:"mo",sc:"👯",en:"Your new friend is Malaysian. You are Malaysian too. Say “I am Malaysian too.”",zh:"新朋友是马来西亚人，你也是。说「我也是马来西亚人」。",ok:"わたしも マレーシアじんです。",no:["わたしは マレーシアじんですか。","わたしの マレーシアじんです。"],r:true},
+  {id:"yoro",sc:"🙇",en:"End your self-introduction.",zh:"自我介绍的最后一句。",ok:"どうぞ よろしく おねがいします。",no:["ごちそうさまでした。","いってきます。"]}
+];
+/* katakana in answers gets hiragana on top (some students read hiragana only) */
+const KANA_R={"リナ":"りな","マレーシア":"まれーしあ"};
+const rubyKana=s=>esc(s).replace(/リナ|マレーシア/g,m=>jtRuby(m,KANA_R[m]));
+
+/* quizzes: built once, kept while switching language */
+function countryQuiz(){return shuffle(JT_COUNTRIES).slice(0,5).map(c=>({c,opts:shuffle([c,...shuffle(JT_COUNTRIES.filter(x=>x!==c)).slice(0,2)])}))}
+function ageQuiz(){const [a,b]=JT_AGE_RANGE[who];const pool=[];for(let n=a;n<=b;n++)pool.push(n);
+  const pick=shuffle(pool.filter(jtAgeIrr)).slice(0,3).concat(shuffle(pool.filter(n=>!jtAgeIrr(n))).slice(0,2));
+  return shuffle(pick).map(n=>{const right=jtAge(n),naive=n===20?"にじゅっさい":jtNum(n)+"さい",near=jtAge(n<b?n+1:n-1);
+    const wrong=[naive!==right?naive:jtAge(n>a?n-1:n+2),near].filter((x,i,arr)=>x!==right&&arr.indexOf(x)===i);
+    while(wrong.length<2)wrong.push(jtAge(a+Math.floor(Math.random()*(b-a+1))));
+    return {n,opts:shuffle([right,...wrong.slice(0,2)].filter((x,i,arr)=>arr.indexOf(x)===i))}})}
+const Q={country:countryQuiz(),age:ageQuiz(),check:shuffle(CHECK).map(q=>({...q,opts:shuffle([q.ok,...q.no])}))};
+const QS={country:{i:0,tries:0,done:false},age:{i:0,tries:0,done:false},check:{i:0,tries:0,done:false}};
+
+/* ---------- steps ---------- */
+const STEPS=["welcome","model","phrases","countries","countryQuiz","ages","ageQuiz","check","build","finish"];
+let step=0;
+const card=$("card");
+function render(){
+  document.documentElement.lang=lang==="zh"?"zh-Hans":"en";
+  $("hEyebrow").textContent=L("Unit 1 · Practice","单元 1 · 练习");
+  $("hTitle").textContent=L("Introduce Yourself","自我介绍");
+  card.innerHTML="";
+  const top=el("div","card-top");top.append(el("div","step-count",`${step+1} / ${STEPS.length}`));
+  const tg=el("div","lang-toggle");[["en","English"],["zh","中文"]].forEach(([v,n])=>{const b=el("button",lang===v?"active":"",n);b.type="button";b.onclick=()=>{lang=v;try{localStorage.setItem("selfIntroLangV1",v)}catch(e){}render()};tg.append(b)});
+  top.append(tg);card.append(top);
+  const pg=el("div","progress");pg.append(el("i"));pg.firstChild.style.width=`${(step+1)/STEPS.length*100}%`;card.append(pg);
+  const body=el("div","body");card.append(body);
+  VIEWS[STEPS[step]](body);
+}
+function go(d){step=Math.max(0,Math.min(STEPS.length-1,step+d));render();try{window.scrollTo({top:card.offsetTop-80,behavior:"smooth"})}catch(e){}}
+function nav(body,{next=true,nextLabel,nextDisabled=false}={}){
+  const r=el("div","nav-row");
+  if(step>0){const b=el("button","btn sec",L("← Back","← 上一页"));b.onclick=()=>go(-1);r.append(b)}
+  if(next){const b=el("button","btn",nextLabel||L("Next →","下一页 →"));b.disabled=nextDisabled;b.onclick=()=>go(1);r.append(b)}
+  card.append(r);
+}
+function voiceNote(body){if(JTSpeak.supported()&&JTSpeak.hasVoice())return;body.append(el("div","voice-warn",L("🔇 This device has no Japanese voice, so you may not hear the sound. Try another browser or phone.","🔇 这台装置没有日文语音，可能听不到声音。可以换浏览器或手机试试。")))}
+function whoSeg(onChange){const s=el("div","seg");[["kid",L("Child","小孩")],["adult",L("Adult","大人")]].forEach(([v,n])=>{const b=el("button",who===v?"active":"",n);b.type="button";b.onclick=()=>{if(who===v)return;who=v;me.age=v==="adult"?30:10;Q.age=ageQuiz();QS.age={i:0,tries:0,done:false};onChange()};s.append(b)});return s}
+
+/* generic one-question-at-a-time quiz */
+function quiz(body,key,activity,draw){
+  const st=QS[key],list=Q[key];
+  if(st.i>=list.length){
+    body.append(el("div","kicker",L("Done","完成")),el("div","h",L("Well done!","做得好！")),stampImg());
+    const again=el("button","btn sec",L("Do it again","再做一次"));again.style.marginTop="14px";
+    again.onclick=()=>{Q[key]=key==="country"?countryQuiz():key==="age"?ageQuiz():shuffle(CHECK).map(q=>({...q,opts:shuffle([q.ok,...q.no])}));QS[key]={i:0,tries:0,done:false};render()};
+    body.append(again);nav(body);return;
+  }
+  const q=list[st.i];
+  body.append(el("div","step-count",`${L("Question","第")} ${st.i+1} / ${list.length}${lang==="zh"?" 题":""}`));
+  const {scene,text,right,label,item,speak}=draw(q);
+  body.append(el("div","q-scene",scene),el("div","q-text",text));
+  const box=el("div","opts"),fb=el("div","fb");
+  q.opts.forEach(o=>{const b=el("button","opt jp",label(o));b.type="button";
+    b.onclick=()=>{if(b.disabled)return;
+      if(o===right){logResult(activity,item,true);box.querySelectorAll("button").forEach(x=>x.disabled=true);b.classList.add("ok");fb.className="fb ok";fb.innerHTML=L("✓ Correct!","✓ 答对了！");say(speak);SFX.play();fb.append(document.createElement("br"),stampImg());
+        const n=el("button","btn",L("Next question →","下一题 →"));n.style.marginTop="10px";n.onclick=()=>{st.i++;st.tries=0;render()};fb.append(document.createElement("br"),n)}
+      else{st.tries++;logResult(activity,item,false);b.disabled=true;b.classList.add("no");fb.className="fb no";fb.textContent=L("Not quite — try again!","不太对，再选一次！")}};
+    box.append(b)});
+  body.append(box,fb);nav(body,{next:false});
+}
+
+const VIEWS={
+  welcome(b){
+    b.append(el("div","kicker",L("Unit 1 · Nice to meet you","单元 1 · 初次见面")),el("div","h",L("Today you will learn to say:","今天要学会说：")),el("div","big-jp jp","じこしょうかい"));
+    const g=el("div","grid wide");
+    [["🙋",L("Your name","你的名字")],["🌏",L("Your country","你的国家")],["🎂",L("Your age","你的年龄")]].forEach(([e,t])=>g.append(el("div","tap row",`<span class="em">${e}</span><span class="j">${t}</span>`)));
+    b.append(g,el("div","tip",L("Tap anything in Japanese to hear it. 🔊","点任何日文都可以听发音。🔊")));voiceNote(b);
+    nav(b,{nextLabel:L("Let's begin →","开始 →")});
+  },
+  model(b){
+    b.append(el("div","kicker",L("Listen","听一听")),el("div","h",L("Two people meet for the first time","两个人第一次见面")),el("div","sub",L("Tap each line to hear it and see what it means.","点每一句，听发音、看意思。")));
+    const A=[["👩","はじめまして。","Nice to meet you.","初次见面。"],["👩",`わたしは ${jtRuby(NAME_DEMO,NAME_DEMO_R)}です。`,"I am Rina.","我是 Rina。","わたしは リナです。"],
+      ["👩",`${jtCountryHTML(MY)}じんです。`,"I am Malaysian.","我是马来西亚人。","マレーシアじんです。"],["👩",who==="adult"?"さんじゅうごさいです。":"じゅっさいです。",who==="adult"?"I am 35 years old.":"I am 10 years old.",who==="adult"?"我 35 岁。":"我 10 岁。"],
+      ["👩","どうぞ よろしく おねがいします。","Nice to meet you.","请多多指教。"],
+      ["🧑","はじめまして。わたしは けんです。","Nice to meet you. I am Ken.","初次见面。我是 Ken。"],["🧑","にほんじんです。","I am Japanese.","我是日本人。"],["🧑","よろしく おねがいします。","Nice to meet you.","请多多指教。"]];
+    const ch=el("div","chat");
+    A.forEach(([f,j,en,zh,v])=>{const r=el("div","line"+(f==="🧑"?" r":"")),bb=el("button","bub jp",`${j}<span class="m">${L(en,zh)}</span>`);bb.type="button";bb.onclick=()=>{bb.classList.add("on");say(v||j.replace(/<rt>.*?<\/rt>/g,"").replace(/<[^>]+>/g,""))};r.append(el("span","face",f),bb);ch.append(r)});
+    const all=el("button","btn sec","▶ "+L("Play all","全部播放"));all.style.marginTop="14px";all.onclick=()=>{ch.querySelectorAll(".bub").forEach(x=>x.classList.add("on"));say(A.map(a=>a[4]||a[1].replace(/<rt>.*?<\/rt>/g,"").replace(/<[^>]+>/g,"")).join("　"))};
+    b.append(ch,all,el("div","tip",L("〜じん = a person from that country.","〜じん（〜人）＝那个国家的人。")));nav(b);
+  },
+  phrases(b){
+    b.append(el("div","kicker",L("Five sentences","五句话")),el("div","h",L("Say these about you","用这几句介绍自己")));
+    const g=el("div","grid wide");
+    PHRASES.forEach(([e,j,en,zh,v])=>{const t=el("button","tap row",`<span class="em">${e}</span><span><span class="j jp">${j}</span><br><span class="m">${L(en,zh)}</span></span>`);t.type="button";t.onclick=()=>say(v||j);g.append(t)});
+    b.append(g,el("div","tip",L("わたしは… is “I am…”. The は here is read “wa”.","わたしは…＝我是……。这里的「は」念「wa」。")));nav(b);
+  },
+  countries(b){
+    b.append(el("div","kicker",L("Countries","国家")),el("div","h",L("Where are you from?","你是哪国人？")),el("div","sub",L("Tap a country to hear “___じん” (a person from there).","点国家，听「＿＿じん」（那国人）。")));
+    const g=el("div","grid");
+    JT_COUNTRIES.forEach(c=>{const t=el("button","tap",`<span class="em">${c[2]}</span><span class="j jp">${jtCountryHTML(c)}じん</span><span class="m">${L(c[3],c[4]+"人")}</span>`);t.type="button";t.onclick=()=>say(c[0]+"じん");g.append(t)});
+    b.append(g,el("div","tip",L("All countries in the reference tables: Extra → Tables.","完整的表在「额外练习 → 参考表」。")));nav(b);
+  },
+  countryQuiz(b){
+    b.append(el("div","kicker",L("Quiz · Countries","小测验 · 国家")));
+    quiz(b,"country","intro-country",q=>({scene:q.c[2],text:L(`A person from ${q.c[3]}. How do you say it?`,`${q.c[4]}人，怎么说？`),right:q.c,item:q.c[0]+"じん",
+      label:o=>`${jtCountryHTML(o)}じんです`,speak:q.c[0]+"じんです"}));
+  },
+  ages(b){
+    b.append(el("div","kicker",L("Ages","年龄")),el("div","h jp","なんさいですか？"),el("div","sub",L("Tap to hear. ⚠ The yellow ones change their sound!","点一下听发音。⚠ 黄色的会变音！")));
+    b.append(whoSeg(render));
+    const [a,z]=JT_AGE_RANGE[who],g=el("div","grid");
+    for(let n=a;n<=z;n++){if(who==="adult"&&n>20&&n%10!==0&&n%10!==1&&n%10!==5&&n%10!==8)continue;
+      const t=el("button","tap"+(jtAgeIrr(n)?" irr":""),`<span class="j">${n}</span><span class="m jp">${jtAge(n)}</span>`);t.type="button";t.onclick=()=>say(jtAge(n));g.append(t)}
+    b.append(g,el("div","tip",L("Ages ending in 1, 8 or 0 change sound (いっさい・はっさい・じゅっさい). 20 is はたち. Full table: Extra → Tables.","尾数 1、8、0 会变音（いっさい・はっさい・じゅっさい），20 岁是 はたち。完整的表在「额外练习 → 参考表」。")));nav(b);
+  },
+  ageQuiz(b){
+    b.append(el("div","kicker",L("Quiz · Ages","小测验 · 年龄")));
+    quiz(b,"age","intro-age",q=>({scene:"🎂",text:`<b style="font-size:34px">${q.n}</b> ${L("years old","岁")}`,right:jtAge(q.n),item:q.n+"さい",label:o=>o,speak:jtAge(q.n)+"です"}));
+  },
+  check(b){
+    b.append(el("div","kicker",L("Quiz · Choose the sentence","小测验 · 选句子")));
+    quiz(b,"check","intro-check",q=>({scene:q.sc,text:L(q.en,q.zh),right:q.ok,item:q.ok,label:o=>rubyKana(o),speak:q.ok}));
+  },
+  build(b){
+    b.append(el("div","kicker",L("Your turn","轮到你")),el("div","h",L("Make your self-introduction","做你的自我介绍")),el("div","sub",L("Choose your answers, listen, then say it out loud.","选好答案，听一次，再大声说出来。")));
+    const f=el("div","form");
+    const nm=el("div","");nm.append(el("label","",L("Your name (any letters)","你的名字（用什么字都可以）")));const inp=el("input");inp.maxLength=20;inp.value=me.name;inp.placeholder=L("e.g. リナ / Rina","例如：りな／Rina");inp.setAttribute("aria-label",L("Your name","你的名字"));nm.append(inp);
+    const cn=el("div","");cn.append(el("label","",L("Your country","你的国家")));const chips=el("div","chips");
+    JT_COUNTRIES.forEach((c,i)=>{const x=el("button",i===me.country?"on":"",`${c[2]} <span class="jp">${jtCountryHTML(c)}</span>`);x.type="button";x.onclick=()=>{me.country=i;chips.querySelectorAll("button").forEach((y,j)=>y.classList.toggle("on",j===i));draw()};chips.append(x)});cn.append(chips);
+    const ag=el("div","");ag.append(el("label","",L("Your age","你的年龄")));const sp=el("div","stepper"),mi=el("button","","−"),v=el("div","v jp"),pl=el("button","","＋");mi.type=pl.type="button";mi.setAttribute("aria-label","−1");pl.setAttribute("aria-label","+1");
+    mi.onclick=()=>{if(me.age>1){me.age--;draw()}};pl.onclick=()=>{if(me.age<99){me.age++;draw()}};sp.append(mi,v,pl);ag.append(sp);
+    f.append(nm,cn,ag);
+    const out=el("div","out jp"),row=el("div","nav-row"),hear=el("button","btn","🔊 "+L("Listen","听一次"));row.style.paddingTop="12px";
+    const lines=()=>["はじめまして。",`わたしは ${me.name.trim()||"＿＿"} です。`,`${JT_COUNTRIES[me.country][0]}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"];
+    function draw(){v.innerHTML=`<b>${me.age}</b> · ${jtAge(me.age)}`;const c=JT_COUNTRIES[me.country];
+      out.innerHTML=["はじめまして。",`わたしは ${esc(me.name.trim())||"＿＿"} です。`,`${jtCountryHTML(c)}じん です。`,`${jtAge(me.age)} です。`,"どうぞ よろしく おねがいします。"].map(x=>`<div>${x}</div>`).join("")}
+    inp.oninput=()=>{me.name=inp.value;draw()};hear.onclick=()=>say(lines().join("　"));
+    row.append(hear);b.append(f,out,row);draw();voiceNote(b);nav(b);
+  },
+  finish(b){
+    b.append(el("div","kicker",L("Finished","完成")),el("div","h",L("You can introduce yourself in Japanese!","你会用日语自我介绍了！")),el("div","big-jp jp","🎉"));
+    b.append(el("div","sub",L("Say your introduction to your teacher in the next lesson.","下一堂课，把你的自我介绍说给老师听。")));
+    const r=el("div","nav-row");
+    const tables=el("button","btn sec","📋 "+L("Reference tables","参考表"));tables.onclick=()=>{location.href="tables.html"+(STUDENT_CODE?"?s="+encodeURIComponent(STUDENT_CODE):"")};
+    const again=el("button","btn sec",L("Start again","从头开始"));again.onclick=()=>{step=0;render()};
+    if(STUDENT_CODE){const back=el("button","btn",L("All practice","全部练习"));back.onclick=()=>{location.href="practice.html?s="+encodeURIComponent(STUDENT_CODE)};r.append(back)}
+    else{const c=el("button","btn",L("Ask about lessons","了解课程"));c.onclick=()=>{location.href="contact.html"};r.append(c)}
+    r.append(tables,again);card.append(r);
+  }
+};
+render();
+</script>
+</body>
+</html>
