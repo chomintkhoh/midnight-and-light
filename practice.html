@@ -188,7 +188,8 @@
 
 
   function cardHTML(it, code, defStars){
-    const href = it.href + (it.href.includes("?") ? "&" : "?") + "s=" + encodeURIComponent(code);
+    const [path, hash] = it.href.split("#");
+    const href = path + (path.includes("?") ? "&" : "?") + "s=" + encodeURIComponent(code) + (ADULTS.includes(code) ? "&adult=1" : "") + (hash ? "#" + hash : "");
     return `
             <a class="pr-card" ${it.locked ? 'role="link" aria-disabled="true" style="opacity:.65;cursor:not-allowed"' : `href="${esc(href)}"`}>
               <span class="pr-ic${it.cn ? " cn" : ""}" aria-hidden="true">${it.locked ? "🔒" : esc(it.ic)}</span>

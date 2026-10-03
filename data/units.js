@@ -22,9 +22,14 @@ const UNITS = [
   ]},
  {n:1,  zh:"初次见面",       en:"Nice to meet you",      can:"说名字、国家、职业或年级",
   books:{minna:[1], dekiru:["1-1"], kodomo:[1]},
- tasks:[]},
+  tasks:[
+   {href:"self-intro.html", ic:"🙋", name:"じこしょうかい", desc:"Name · country · age"}
+  ]},
  {n:2,  zh:"家人和生日",     en:"Family & birthdays",    can:"介绍家人，说年龄和生日",
-  books:{minna:[1,5], dekiru:["1-2"], kodomo:[1,5]}, tasks:[]},
+  books:{minna:[1,5], dekiru:["1-2"], kodomo:[1,5]},
+  tasks:[
+   {href:"tables.html#ages", ic:"🎂", name:"Ages table", desc:"なんさいですか？", stars:false}
+  ]},
  {n:3,  zh:"这是谁的？",     en:"Whose is this?",        can:"问东西的名称和主人",
   books:{minna:[2], dekiru:["2-2"], kodomo:[2]},
   tasks:[
@@ -104,6 +109,7 @@ const BOOK_NAMES = { minna:"大家的日本語", kodomo:"こどものにほん�
 
 /* ===== 额外练习：不绑课本进度，所有学生都看得到 ===== */
 const EXTRAS = [
+ {href:"tables.html", ic:"📋", name:"Reference Tables", desc:"Numbers · ages · countries · ひとつ〜とお", stars:false},
  {href:"vocab.html", ic:"🍎", name:"Words", desc:"Pictures and words in 16 topics"}
 ];
 

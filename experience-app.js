@@ -861,6 +861,7 @@ const renderers = {
 
     const actions = el("div", "exp-nav-row");
     actions.appendChild(primaryButton(() => L("Contact Me", "联系我"), () => { window.location.href = "contact.html"; }));
+    actions.appendChild(primaryButton(() => L("Next: Introduce Yourself →", "下一步：自我介绍 →"), () => { window.location.href = "self-intro.html"; }, { secondary: true }));
     actions.appendChild(primaryButton(() => L("Practice Again", "再练一次"), goToPractice, { secondary: true }));
     actions.appendChild(primaryButton(() => L("Start Again", "从头开始"), () => { stepIndex = 0; render(); }, { secondary: true }));
     c.appendChild(actions);
