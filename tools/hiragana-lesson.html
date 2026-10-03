@@ -126,6 +126,10 @@ button{font:inherit;cursor:pointer}
 .tens{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:900px;margin:6px auto}
 .tens button{border:2px solid var(--line);border-radius:14px;background:#fff;padding:6px 12px;font-size:24px;font-weight:800;display:flex;flex-direction:column;align-items:center;min-width:80px}
 .tens small{font-size:13px;color:var(--muted);font-weight:700}
+.tens button.irr{background:#fff7d6;border-color:#e9d38a}
+.item .tag{font-size:15px;font-weight:800;color:var(--gold)}
+.till{font-size:clamp(22px,2.4vw,28px);font-weight:700;margin:6px 0}.till b{color:var(--lav);font-size:1.2em}
+.tile.small{font-size:clamp(18px,2vw,24px)}
 /* whiteboard */
 .pad.board{border-style:solid;margin:0 auto;background-color:#fffdf8;background-image:linear-gradient(to right,#e9e2d3 1px,transparent 1px),linear-gradient(to bottom,#e9e2d3 1px,transparent 1px)}
 .pad.g6x3{aspect-ratio:2/1;width:min(100%,calc(52vh * 2));background-size:calc(100% / 6) calc(100% / 3)}
@@ -183,7 +187,8 @@ const BOARD_ROWS=[["a","あいうえお"],["ka","かきくけこ"],["sa","さし
 const boardOn=new Set(["a","ka","sa","ta","na","ha","ma"]);
 const boardKana=()=>BOARD_ROWS.filter(r=>boardOn.has(r.id)).flatMap(r=>r.kana);
 const TSU=["","ひとつ","ふたつ","みっつ","よっつ","いつつ","むっつ","ななつ","やっつ","ここのつ","とお"];
-const SHOP_ITEMS=[["りんご","apple"],["みかん","mandarin orange"],["いちご","strawberry"],["あめ","candy"],["たまご","egg"],["えんぴつ","pencil"]];
+/* [word, English (for the picture), price for ONE in えん]. Max total = 100 × 10 = 1000えん */
+const SHOP_ITEMS=[["りんご","apple",100],["みかん","mandarin orange",50],["いちご","strawberry",80],["あめ","candy",10],["たまご","egg",30],["えんぴつ","pencil",60]];
 const shopImg=it=>lexImg(it[0],it[1],"../");
 const imgTag=it=>`<img src="${shopImg(it)}" alt="${it[1]}">`;
 let jaVoice=null;
@@ -192,11 +197,18 @@ if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pick
 function say(t){try{if(!("speechSynthesis" in window)||Live.muted)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/〇〇/g,""));u.lang="ja-JP";if(jaVoice)u.voice=jaVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
 function randOrder(){return {it:SHOP_ITEMS[Math.floor(rnd()*SHOP_ITEMS.length)],n:1+Math.floor(rnd()*10)}}
 const orderText=o=>`${o.it[0]}を ${TSU[o.n]} ください`;
-/* everything costs 10えん each, so the price is n × 10 (10–100えん: uses only じゅう and ひゃく) */
-const YEN=["","じゅうえん","にじゅうえん","さんじゅうえん","よんじゅうえん","ごじゅうえん","ろくじゅうえん","ななじゅうえん","はちじゅうえん","きゅうじゅうえん","ひゃくえん"];
-const yenText=n=>`${YEN[n]}です`;
+/* prices: total = price of one × how many (10–1000えん) */
+const D1=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
+const HUN={1:"ひゃく",3:"さんびゃく",6:"ろっぴゃく",8:"はっぴゃく"},THO={1:"せん",3:"さんぜん",8:"はっせん"};
+function readNum(n){let s="";const th=Math.floor(n/1000);n%=1000;if(th)s+=THO[th]||D1[th]+"せん";const h=Math.floor(n/100);n%=100;if(h)s+=HUN[h]||D1[h]+"ひゃく";
+  const t=Math.floor(n/10);n%=10;if(t)s+=(t===1?"":D1[t])+"じゅう";if(n)s+=D1[n];return s}
+const total=o=>o.it[2]*o.n;
+const yenText=v=>`${readNum(v)}えんです`;
+/* 2 wrong prices that are easy to mix up: other amounts of the same thing, ×10 / ÷10 */
+function wrongPrices(o){const t=total(o),c=new Set();for(let m=1;m<=10;m++)c.add(o.it[2]*m);if(t*10<=1000)c.add(t*10);if(t%100===0&&t>=100)c.add(t/10);if(t+100<=1000)c.add(t+100);if(t-100>=10)c.add(t-100);
+  c.delete(t);return shuffle([...c]).slice(0,2)}
 function dialogue(o,hide){return [["s","🧑‍🍳","いらっしゃいませ。"],["c","🙋",`${o.it[0]}を ください。`],["s","🧑‍🍳","おいくつですか？"],
-  ["c","🙋",(hide?"？？？":TSU[o.n])+" ください。"],["c","🙋","いくらですか？"],["s","🧑‍🍳",(hide?"？？？えん":(o.n*10)+"えん")+"です。"],
+  ["c","🙋",(hide?"？？？":TSU[o.n])+" ください。"],["c","🙋","いくらですか？"],["s","🧑‍🍳",(hide?"？？？えん":total(o)+"えん")+"です。"],
   ["s","🧑‍🍳","ありがとうございます。"],["c","🙋","ありがとうございます。"]]}
 
 let block=HW_BLOCKS[0],slides=[],idx=0;
@@ -341,18 +353,18 @@ boardAll(c){
 /* ===== shop extra ===== */
 shopTitle(c){
   c.append(el("div","kicker","Extra · Let's go shopping"),el("div","title jp","おみせ ごっこ"),el("div","sub","Tap a picture: hear the word. Can you read it?"));
-  c.append(el("div","sign jp","ぜんぶ ひとつ 10えん！"),el("div","tip","Everything costs 10えん each."));
   const sh=el("div","shelf");
-  SHOP_ITEMS.forEach(it=>{const b=el("button","item",`${imgTag(it)}<span class="w jp">${it[0]}</span><span class="m">${it[1]} · 10えん</span>`);b.onclick=()=>say(it[0]);sh.append(b)});
+  SHOP_ITEMS.forEach(it=>{const b=el("button","item",`${imgTag(it)}<span class="w jp">${it[0]}</span><span class="m">${it[1]}</span><span class="tag jp">ひとつ ${it[2]}えん</span>`);b.onclick=()=>say(it[0]);sh.append(b)});
   c.append(sh);
-  const nb=el("div","tens jp");for(let n=1;n<=10;n++){const b=el("button","",`${n*10}<small>${YEN[n]}</small>`);b.onclick=()=>say(YEN[n]);nb.append(b)}
-  c.append(el("div","tlabel","Prices: tap to hear"),nb);
+  const nb=el("div","tens jp");[10,30,50,60,80,100,300,600,800,1000].forEach(v=>{const irr=[300,600,800].includes(v);
+    const b=el("button",irr?"irr":"",`${v}<small>${readNum(v)}えん</small>`);b.onclick=()=>say(readNum(v)+"えん");nb.append(b)});
+  c.append(el("div","tlabel","Prices: tap to hear · ⚠ yellow = the sound changes"),nb);
   if(!jaVoice)c.append(el("div","tip","No Japanese voice found on this device, so 🔊 may be silent. Teacher reads aloud instead."));
 },
 shopPhrases(c){
   c.append(el("div","kicker","Shop words"),el("div","title","What do we say in a shop?"),el("div","sub","Tap a card: hear it, then see the meaning."));
   const P=[["🧑‍🍳","いらっしゃいませ。","Welcome!"],["🙋","りんごを ください。","An apple, please."],["🧑‍🍳","おいくつですか？","How many? (polite)"],["🙋","みっつ ください。","Three, please."],
-    ["🙋","いくらですか？","How much is it?"],["🧑‍🍳","30えんです。","It's 30 yen."],["🧑‍🍳","ありがとうございます。","Thank you very much."],["🙋","ありがとうございます。","Thank you very much."]];
+    ["🙋","いくらですか？","How much is it?"],["🧑‍🍳","450えんです。","It's 450 yen."],["🧑‍🍳","ありがとうございます。","Thank you very much."],["🙋","ありがとうございます。","Thank you very much."]];
   const g=el("div","phr");
   P.forEach(([w,j,m])=>{const b=el("button","pcard",`<span class="who">${w}</span><span><span class="jp">${j}</span><span class="m">${m}</span></span>`);b.onclick=()=>{b.classList.add("on");say(j)};g.append(b)});
   c.append(g,el("div","tip","🧑‍🍳 = shop · 🙋 = you · In a shop, everyone speaks politely: おいくつですか・ありがとうございます"));
@@ -382,14 +394,14 @@ shopOrder(c){
     /* step 2: ask the price, listen, pick it */
     const price=()=>{step.innerHTML="";msg.textContent="";
       const q=el("button","big-btn jp","🙋 いくらですか？");step.append(el("div","tlabel","Now ask the price"),q);
-      q.onclick=()=>{say("いくらですか");q.disabled=true;setTimeout(()=>say(yenText(o.n)),900);
-        const ag=el("button","pill","🔊 🧑‍🍳 Again");ag.onclick=()=>say(yenText(o.n));
+      q.onclick=()=>{say("いくらですか");q.disabled=true;setTimeout(()=>say(yenText(total(o))),900);
+        const ag=el("button","pill","🔊 🧑‍🍳 Again");ag.onclick=()=>say(yenText(total(o)));
         step.append(el("div","tlabel","🧑‍🍳 says… how much?"),ag);
-        const tl=el("div","tiles");shuffle([o.n,...shuffle([1,2,3,4,5,6,7,8,9,10].filter(x=>x!==o.n)).slice(0,2)]).forEach(v=>{const b=el("button","tile jp",`${v*10}えん`);
-          b.onclick=()=>{if(v===o.n){b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);done2()}else{wrong(b);say(yenText(o.n))}};tl.append(b)});
+        const tl=el("div","tiles");shuffle([total(o),...wrongPrices(o)]).forEach(v=>{const b=el("button","tile jp",`${v}えん`);
+          b.onclick=()=>{if(v===total(o)){b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);done2()}else{wrong(b);say(yenText(total(o)))}};tl.append(b)});
         step.append(tl)}};
     /* step 3: pay and say thank you */
-    const done2=()=>{asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${YEN[o.n]}</span>`;
+    const done2=()=>{asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${total(o)}えん · ${readNum(total(o))}えん</span>`;
       const t=el("button","big-btn jp","🙋 ありがとうございます！");t.onclick=()=>{say("ありがとうございます");setTimeout(ask,1600)};
       const r=el("div","srow");r.style.marginTop="10px";r.append(t);step.append(r);say("ありがとうございます")};
     const finish=()=>{if(!(done[0]&&done[1]))return;msg.className="q-msg ok";msg.textContent="✓ Now say it out loud!";say(orderText(o));
@@ -423,10 +435,10 @@ shopClerk(c){
       if(!ok){first=false;msg.className="q-msg no";msg.textContent=bag.some(x=>x!==o.it)?"↻ Wrong thing. Listen again!":"↻ Count again! いくつ？";say(orderText(o));return}
       msg.className="q-msg ok";msg.textContent="✓ Good!";row.innerHTML="";sh.querySelectorAll("button").forEach(b=>b.disabled=true);
       setTimeout(()=>say("いくらですか"),300);
-      row.append(el("div","tlabel","🙋 いくらですか？  Everything is 10えん each. Say the price!"));
-      const tl=el("div","tiles");shuffle([o.n,...shuffle([1,2,3,4,5,6,7,8,9,10].filter(x=>x!==o.n)).slice(0,2)]).forEach(v=>{const b=el("button","tile jp",`${v*10}えんです`);
-        b.onclick=()=>{if(v!==o.n){b.classList.add("no");b.disabled=true;first=false;return}
-          b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);say(yenText(o.n));asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;
+      area.insertBefore(el("div","tlabel","🙋 いくらですか？  Read the price and say it!"),msg);area.insertBefore(el("div","till jp",`🧾 ${o.it[2]}えん × ${o.n} = <b>${total(o)}えん</b>`),msg);
+      const tl=el("div","tiles");shuffle([total(o),...wrongPrices(o)]).forEach(v=>{const b=el("button","tile jp small",yenText(v));
+        b.onclick=()=>{if(v!==total(o)){b.classList.add("no");b.disabled=true;first=false;return}
+          b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);say(yenText(total(o)));asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;
           const t=el("button","big-btn jp","🧑‍🍳 ありがとうございます！");t.onclick=()=>{say("ありがとうございます");setTimeout(ask,1600)};
           const r=el("div","srow");r.style.marginTop="10px";r.append(t);area.insertBefore(r,msg)};tl.append(b)});
       area.insertBefore(tl,msg)};
@@ -438,11 +450,11 @@ shopPlay(c){
   c.append(el("div","kicker","Role play"),el("div","title","Shop time!"),el("div","sub","Take turns: one is the shop 🧑‍🍳, one is the customer 🙋. Use the order card."));
   const area=el("div","q-area");c.append(area);
   const card=()=>{area.innerHTML="";const o=randOrder();
-    area.append(el("div","pics",imgTag(o.it).repeat(o.n)));
+    area.append(el("div","pics",imgTag(o.it).repeat(o.n)),el("div","till jp",`🏷️ ${o.it[0]} ひとつ ${o.it[2]}えん`));
     const ch=el("div","chat");
     dialogue(o,true).forEach(([k,w,t])=>ch.append(el("div","line show "+k,`<span class="who">${w}</span><span class="bub jp">${t}</span>`)));
     const row=el("div","srow"),nx=el("button","big-btn","🎲 New order card"),ans=el("button","","👀 Answer");
-    nx.onclick=card;ans.onclick=()=>{ans.textContent=`${TSU[o.n]} · ${YEN[o.n]}`;say(orderText(o))};row.style.marginTop="12px";row.append(ans,nx);
+    nx.onclick=card;ans.onclick=()=>{ans.textContent=`${TSU[o.n]} · ${total(o)}えん（${readNum(total(o))}えん）`;say(orderText(o))};row.style.marginTop="12px";row.append(ans,nx);
     area.append(ch,row)};
   card();
   c.append(el("div","tip","Swap roles after each card."));
