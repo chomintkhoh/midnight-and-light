@@ -328,6 +328,7 @@ function idle(msg,icon){stage.innerHTML=`<div class="empty"><b>${icon||"🎲"}</
 function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
 
 function draw(){
+  for(const k in picks)delete picks[k];
   const p=pool();
   if(!items.length){idle("Choose a set above first");return}
   if(!p.length){idle("All done! よくできました！","🎉");current=null;return}
@@ -383,20 +384,23 @@ const SNAP_IDS=["question","stage","progress","missed"];
 let snapT=null;
 function sendSnap(){if(Live.role!=="host"||!Live.on)return;const m={t:"snap"};SNAP_IDS.forEach(id=>m[id]=$(id).innerHTML);Live.send(m)}
 new MutationObserver(()=>{clearTimeout(snapT);snapT=setTimeout(sendSnap,60)}).observe(document.querySelector(".quiz"),{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["class"]});
-function markPick(w){stage.querySelectorAll(".lopt").forEach(o=>o.classList.toggle("picked",o.dataset.w===w));
+const picks={};
+function markPick(w,n){picks[n||1]=w;const all=Object.values(picks);stage.querySelectorAll(".lopt").forEach(o=>o.classList.toggle("picked",all.includes(o.dataset.w)));
   let pm=stage.querySelector(".pickmsg");if(!pm){pm=el("div","pickmsg","");stage.insertBefore(pm,stage.querySelector(".answer"))}
-  const o=[...stage.querySelectorAll(".lopt")].find(x=>x.dataset.w===w);pm.textContent=o?"Student picked "+o.querySelector("b").textContent:""}
+  const L=x=>{const o=[...stage.querySelectorAll(".lopt")].find(y=>y.dataset.w===x);return o?o.querySelector("b").textContent:"?"};
+  const ks=Object.keys(picks);pm.textContent=ks.length===1&&Live.count()<2?"Student picked "+L(picks[ks[0]]):ks.map(k=>"Student "+k+": "+L(picks[k])).join("  ·  ")}
 stage.addEventListener("click",e=>{if(Live.role==="guest"&&Live.on&&e.target.closest(".replay")){Live.send({t:"replay"});return}
   const o=e.target.closest(".lopt");if(!o||Live.role!=="guest"||!Live.on)return;
   stage.querySelectorAll(".lopt").forEach(x=>x.classList.toggle("picked",x===o));Live.send({t:"pick",w:o.dataset.w})});
 Live.init({room:"quiz",mount:$("liveMount"),
+  links:[{label:"📖 Back to lesson",url:()=>{try{return localStorage.getItem("mnl-last-lesson")||"hiragana-lesson.html"}catch(e){return "hiragana-lesson.html"}}}],
   onHello:sendSnap,
   onStatus(){document.body.classList.toggle("live-student",Live.role==="guest")},
   onData(m){
     if(m.t==="snap"&&Live.role==="guest"){SNAP_IDS.forEach(id=>{if(m[id]!=null)$(id).innerHTML=m[id]});
       if(/blob:/.test(m.stage||""))stage.querySelectorAll('img[src^="blob:"]').forEach(i=>i.replaceWith(el("div","hint","🖼️ (picture on teacher's screen)")))}
     else if(m.t==="audio")play(m.src);
-    else if(m.t==="pick"&&Live.role==="host")markPick(m.w);
+    else if(m.t==="pick"&&Live.role==="host")markPick(m.w,m._from);
     else if(m.t==="replay"&&Live.role==="host"&&current&&current.audio){Live.applying=false;play(current.audio)}
   }});
 (function(){const h=new URLSearchParams(location.search).get("hira");if(h&&HWB.some(b=>b.id===h)){hiraOn.add(h);chips($("hiraChips"),HWB,hiraOn,b=>b.label);document.querySelector('#tabs button[data-tab=hira]').click();return}rebuild()})();

@@ -421,12 +421,17 @@ boardDict(c){
   c.append(chipBar());
   let queue=[],cur=null,n=0,hist=[];const total=boardKana().length;
   const d=el("div","dict"),num=el("span","num",`0 / ${total}`),ans=el("div","ans jp","?"),nx=el("button","big-btn","🎲 Next letter"),ag=el("button","pill","🔊 Again"),sh=el("button","pill","👀 Answer");
-  const hi=el("div","hist jp","");const all=el("button","pill","📋 All answers");
-  nx.onclick=()=>{if(!queue.length){queue=shuffle(boardKana());if(n>=total){n=0;hist=[];hi.textContent=""}}cur=queue.pop();n++;num.textContent=`${n} / ${total}`;ans.textContent="?";ans.classList.remove("shown");play(KANA_AUDIO[cur]);hist.push(cur)};
+  const hi=el("div","hist jp","");const all=el("button","pill","📋 All answers"),bk=el("button","pill","◀ Back"),rs=el("button","pill","↺ Start over");
+  const show=()=>{num.textContent=`${n} / ${total}`;ans.textContent="?";ans.classList.remove("shown");if(hi.textContent)hi.textContent=hist.join(" ")};
+  nx.onclick=()=>{if(!queue.length){queue=shuffle(boardKana());if(n>=total){n=0;hist=[];hi.textContent=""}}cur=queue.pop();n++;hist.push(cur);show();play(KANA_AUDIO[cur])};
+  /* pressed Next by mistake → go back one letter (it goes back into the pile) */
+  bk.onclick=()=>{if(hist.length<2)return;queue.push(hist.pop());n--;cur=hist[hist.length-1];show();play(KANA_AUDIO[cur])};
+  /* start again from letter 1 and clean the board */
+  rs.onclick=()=>{queue=[];hist=[];cur=null;n=0;hi.textContent="";show();const cl=c.querySelector(".pad-wrap .srow button:nth-child(2)");cl&&cl.click()};
   ag.onclick=()=>cur&&play(KANA_AUDIO[cur]);
   sh.onclick=()=>{if(!cur)return;ans.textContent=cur;ans.classList.add("shown");play(KANA_AUDIO[cur])};
   all.onclick=()=>{hi.textContent=hi.textContent?"":hist.join(" ")};
-  d.append(num,nx,ag,sh,ans,all);c.append(d,pad("",{board:"g6x3"}),hi);
+  d.append(bk,num,nx,ag,sh,ans,all,rs);c.append(d,pad("",{board:"g6x3"}),hi);
 },
 boardAll(c){
   c.append(el("div","kicker","Whiteboard · Write them all"),el("div","title","Write all the hiragana you know!"),el("div","sub","One letter per box: あ行 then か行 on the first line, and so on. Then press Check."));
@@ -623,7 +628,9 @@ const ALL_BLOCKS=HW_BLOCKS.concat([INTRO_BLOCK,SHOP_BLOCK,BOARD_BLOCK]);
 ALL_BLOCKS.forEach(b=>{const x=el("button","jp"+(b.extra?" extra":""),b.label);x.dataset.id=b.id;x.onclick=()=>{block=b;buildSlides();go(0)};$("blocks").append(x)});
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(idx+1);Live.send({t:"go",i:idx})}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(idx-1);Live.send({t:"go",i:idx})}});
 document.querySelectorAll("#modes button").forEach(b=>b.onclick=()=>{lessonMode=b.dataset.m;buildSlides();go(0)});
-Live.init({room:"hira",mount:$("liveMount"),onHello:liveSync,onData(m){
+Live.init({room:"hira",mount:$("liveMount"),onHello:liveSync,
+  links:[{label:"🎲 Pop Quiz together",url:()=>{try{localStorage.setItem("mnl-last-lesson",location.href)}catch(e){}return "random-picture-quiz.html"}}],
+  onData(m){
   if(m.t==="state"){const b=ALL_BLOCKS.find(x=>x.id===m.b);if(b)block=b;lessonMode=m.m;if(m.board){boardOn.clear();m.board.forEach(x=>boardOn.add(x))}if(m.me)Object.assign(me,m.me);setSeed(m.seed);buildSlides();go(m.i)}
   else if(m.t==="c"){const b=liveButtons()[m.i];if(b&&!b.disabled)b.click()}
   else if(m.t==="go"){go(m.i)}
