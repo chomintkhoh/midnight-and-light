@@ -130,6 +130,14 @@ button{font:inherit;cursor:pointer}
 .item .tag{font-size:15px;font-weight:800;color:var(--gold)}
 .till{font-size:clamp(22px,2.4vw,28px);font-weight:700;margin:6px 0}.till b{color:var(--lav);font-size:1.2em}
 .tile.small{font-size:clamp(18px,2vw,24px)}
+/* self-introduction */
+rt{font-size:.45em;color:var(--muted);font-weight:700}
+.bub .mean{display:none;font-size:15px;color:var(--lav);font-weight:800;margin-top:2px}.bub.on .mean{display:block}
+.iform{max-width:760px;margin:0 auto}
+.iname{display:block;margin:0 auto;font:inherit;font-size:24px;font-weight:700;text-align:center;padding:8px 14px;border:2px solid var(--line);border-radius:14px;width:min(320px,90%)}
+.agebox{display:flex;justify-content:center;align-items:center;gap:14px;font-size:26px}.agebox .pill{font-size:22px;min-width:52px}.agebox b{color:var(--lav)}
+.intro-out{max-width:760px;margin:14px auto 0;background:var(--lavbg);border:2px solid var(--lav);border-radius:18px;padding:14px 20px;font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.7}
+.big-q{display:inline-block;font-size:clamp(30px,3.4vw,42px);margin:10px 0}
 /* whiteboard */
 .pad.board{border-style:solid;margin:0 auto;background-color:#fffdf8;background-image:linear-gradient(to right,#e9e2d3 1px,transparent 1px),linear-gradient(to bottom,#e9e2d3 1px,transparent 1px)}
 .pad.g6x3{aspect-ratio:2/1;width:min(100%,calc(52vh * 2));background-size:calc(100% / 6) calc(100% / 3)}
@@ -182,6 +190,18 @@ const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
 /* ---------- Extra topic: shopping (uses ひとつ〜とお + いくつ) ---------- */
 const SHOP_BLOCK={id:"shop",label:"🛒 おみせ",extra:true};
 const BOARD_BLOCK={id:"board",label:"✏️ ボード",extra:true};
+const INTRO_BLOCK={id:"intro",label:"🙋 じこしょうかい",extra:true};
+/* self-introduction. Katakana words get a small hiragana reading on top (she reads hiragana only) */
+const rb=(k,h)=>`<ruby>${k}<rt>${h}</rt></ruby>`;
+const COUNTRIES=[["マレーシア","まれーしあ"],["シンガポール","しんがぽーる"],["にほん",""],["ちゅうごく",""],["たいわん",""]];
+const CITIES=[["クアラルンプール","くあらるんぷーる"],["セランゴール","せらんごーる"],["ペナン","ぺなん"],["ジョホール","じょほーる"],["イポー","いぽー"],["マラッカ","まらっか"]];
+const cw=x=>x[1]?rb(x[0],x[1]):x[0];     // word for the screen (with reading)
+const ct=x=>x[0];                        // word for the voice
+/* ages: 1 いっさい, 8 はっさい, 10 じゅっさい, 20 はたち */
+function ageRead(n){if(n===20)return "はたち";const b=readNum(n),d=n%10;
+  if(d===1)return b.slice(0,-2)+"いっさい";if(d===8)return b.slice(0,-2)+"はっさい";if(d===0)return b.slice(0,-3)+"じゅっさい";return b+"さい"}
+const ageIrr=n=>n===20||n%10===1||n%10===8||n%10===0;
+const me={name:"",age:10,country:0,city:0};
 /* whiteboard letters are chosen by row (あ行, か行 …). Default = あ〜ま行 (up to も) */
 const BOARD_ROWS=[["a","あいうえお"],["ka","かきくけこ"],["sa","さしすせそ"],["ta","たちつてと"],["na","なにぬねの"],["ha","はひふへほ"],["ma","まみむめも"],["ya","やゆよ"],["ra","らりるれろ"],["wa","わをん"]].map(([id,k])=>({id,label:k[0]+"行",kana:[...k]}));
 const boardOn=new Set(["a","ka","sa","ta","na","ha","ma"]);
@@ -214,6 +234,7 @@ function dialogue(o,hide){return [["s","🧑‍🍳","いらっしゃいませ�
 let block=HW_BLOCKS[0],slides=[],idx=0;
 let lessonMode="lesson";
 function buildSlides(){
+  if(block.id==="intro"){slides=[{type:"introModel"},{type:"introPhrases"},{type:"introAge"},{type:"introBuild"},{type:"introAsk"}];return}
   if(block.id==="board"){slides=[{type:"boardDict"},{type:"boardAll"}];return}
   if(block.id==="shop"){slides=lessonMode==="review"
     ?[{type:"shopTitle"},{type:"shopOrder"},{type:"shopClerk"},{type:"shopPlay"}]
@@ -323,6 +344,75 @@ homework(c){
   hw.append(el("div","hw-item",`<span class="ic">💻</span><span><b>Online homework</b>Open <i>Midnight &amp; Light → Practice</i> with your code, then choose <b>Hiragana Homework</b> → <span class="jp">${block.label}</span>.<br>It sends your answers to your teacher automatically.</span>`));
   hw.append(el("div","hw-item",`<span class="ic">🎲</span><span><b>Teacher: pop quiz now</b><a href="random-picture-quiz.html?hira=${block.id}" target="_blank" rel="noopener">Open Pop Quiz with ${block.label} →</a></span>`));
   c.append(hw);
+},
+
+/* ===== self-introduction ===== */
+introModel(c){
+  c.append(el("div","kicker","Extra · Self-introduction"),el("div","title jp","じこしょうかい"),el("div","sub","Listen to Sakura. Tap a line to hear it again and see the meaning."));
+  const L=[["こんにちは。","Hello."],["はじめまして。","Nice to meet you. (first time)"],["わたしは さくらです。","I am Sakura."],["じゅっさいです。","I am 10 years old."],
+    ["にほんじんです。","I am Japanese."],[`${rb("トウキョウ","とうきょう")}から きました。`,"I come from Tokyo.","とうきょうから きました。"],["どうぞ よろしく おねがいします。","Nice to meet you. (please be kind to me)"]];
+  c.append(el("div","pics","<span style='font-size:72px'>👧</span>"));
+  const ch=el("div","chat");
+  const rows=L.map(([j,m,v])=>{const r=el("div","line show s"),b=el("button","bub jp",`${j}<span class="mean">${m}</span>`);b.onclick=()=>{b.classList.add("on");say(v||j)};r.append(el("span","who","👧"),b);ch.append(r);return v||j});
+  const row=el("div","srow"),all=el("button","big-btn","▶ Play all");all.onclick=()=>say(rows.join(" "));row.style.marginTop="12px";row.append(all);c.append(ch,row);
+},
+introPhrases(c){
+  c.append(el("div","kicker","Self-introduction words"),el("div","title","Say these about you"),el("div","sub","Tap a card: hear it, then see the meaning."));
+  const P=[["👋","こんにちは。はじめまして。","Hello. Nice to meet you."],["🙋","わたしは ＿＿ です。","I am ＿＿. (your name)"],["🎂","＿＿さい です。","I am ＿＿ years old."],
+    ["🌏",`${rb("マレーシア","まれーしあ")}じん です。`,"I am Malaysian.","マレーシアじんです"],["🏠",`＿＿から きました。`,"I come from ＿＿."],["🙇","どうぞ よろしく おねがいします。","Please be kind to me. / Nice to meet you."]];
+  const g=el("div","phr");
+  P.forEach(([w,j,m,v])=>{const b=el("button","pcard",`<span class="who">${w}</span><span><span class="jp">${j}</span><span class="m">${m}</span></span>`);b.onclick=()=>{b.classList.add("on");say((v||j).replace(/＿＿/g,""))};g.append(b)});
+  c.append(g,el("div","tip","〜じん = a person from that country · 〜から = from"));
+},
+introAge(c){
+  c.append(el("div","kicker","How old?"),el("div","title jp","なんさいですか？"),el("div","sub","Tap to hear. ⚠ Yellow ones change their sound!"));
+  const g=el("div","tens jp");
+  for(let n=1;n<=20;n++){const b=el("button",ageIrr(n)?"irr":"",`${n}<small>${ageRead(n)}</small>`);b.onclick=()=>say(ageRead(n));g.append(b)}
+  c.append(g);
+  const area=el("div","q-area");area.style.marginTop="14px";c.append(el("div","tlabel","Quiz: how do you say it?"),area);
+  let score=0,asked=0,last=0;
+  const ask=()=>{area.innerHTML="";let n;do{n=1+Math.floor(rnd()*20)}while(n===last);last=n;let first=true;
+    const q=el("div","till jp",`🎂 <b>${n}</b>`),tl=el("div","tiles"),msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`);
+    /* wrong answers: the "regular" (wrong) reading, and a nearby age */
+    const naive=readNum(n)+"さい",near=ageRead(n<20?n+1:n-1);
+    const opts=[...new Set([ageRead(n),naive!==ageRead(n)?naive:ageRead(n>1?n-1:n+2),near])];
+    shuffle(opts).forEach(o=>{const b=el("button","tile jp small",o);b.onclick=()=>{
+      if(o===ageRead(n)){b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;msg.className="q-msg ok";msg.textContent="✓ "+ageRead(n)+"です";say(ageRead(n)+"です");
+        const nx=el("button","big-btn","Next age →");nx.style.marginTop="8px";nx.onclick=ask;area.insertBefore(nx,sc)}
+      else{b.classList.add("no");b.disabled=true;first=false;msg.className="q-msg no";msg.textContent="↻ Try again"}};tl.append(b)});
+    area.append(q,tl,msg,sc)};ask();
+},
+introBuild(c){
+  c.append(el("div","kicker","Your turn"),el("div","title","Make your self-introduction"),el("div","sub","Choose your answers. Then read it out loud."));
+  const form=el("div","iform");
+  const nm=el("input");nm.className="iname";nm.placeholder="your name";nm.value=me.name;nm.maxLength=20;nm.setAttribute("aria-label","Your name");
+  const ageBox=el("div","agebox"),minus=el("button","pill","−"),plus=el("button","pill","＋"),ageV=el("span","jp","");ageBox.append(minus,ageV,plus);
+  const cBar=el("div","chipbar"),tBar=el("div","chipbar");
+  const out=el("div","intro-out jp"),row=el("div","srow"),hear=el("button","big-btn","🔊 Listen"),cnt=el("button","pill","🗣️ I said it: 0");let said=0;
+  const lines=()=>[["こんにちは。はじめまして。"],[`わたしは ${me.name||"＿＿"}です。`],[`${ageRead(me.age)}です。`],
+    [`${cw(COUNTRIES[me.country])}じんです。`,`${ct(COUNTRIES[me.country])}じんです。`],[`${cw(CITIES[me.city])}から きました。`,`${ct(CITIES[me.city])}から きました。`],["どうぞ よろしく おねがいします。"]];
+  const draw=()=>{ageV.innerHTML=`<b>${me.age}</b> ${ageRead(me.age)}`;
+    cBar.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("on",i===me.country));tBar.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("on",i===me.city));
+    tBar.style.display=me.country===0?"":"none";
+    out.innerHTML=lines().filter((l,i)=>i!==4||me.country===0).map(l=>`<div>${l[0]}</div>`).join("")};
+  minus.onclick=()=>{if(me.age>1)me.age--;draw()};plus.onclick=()=>{if(me.age<99)me.age++;draw()};
+  cBar.append(el("span","","Country:"));COUNTRIES.forEach((x,i)=>{const b=el("button","jp",cw(x));b.onclick=()=>{me.country=i;draw()};cBar.append(b)});
+  tBar.append(el("span","","From:"));CITIES.forEach((x,i)=>{const b=el("button","jp",cw(x));b.onclick=()=>{me.city=i;draw()};tBar.append(b)});
+  nm.oninput=()=>{me.name=nm.value;draw()};
+  hear.onclick=()=>say(lines().filter((l,i)=>i!==4||me.country===0).map(l=>(l[1]||l[0]).replace("＿＿","")).join(" "));
+  cnt.onclick=()=>{said++;cnt.textContent=`🗣️ I said it: ${said}`+(said>=3?" 🎉":"")};
+  form.append(el("div","tlabel","Name"),nm,el("div","tlabel","Age"),ageBox,cBar,tBar);
+  row.append(hear,cnt);c.append(form,out,row,el("div","tip","Say it 3 times without looking, then press 🗣️ each time."));draw();
+},
+introAsk(c){
+  c.append(el("div","kicker","Interview"),el("div","title","Answer the questions!"),el("div","sub","Teacher asks. You answer in Japanese. Then swap!"));
+  const Q=[["おなまえは？","What's your name?","わたしは ＿＿です。"],["なんさいですか？","How old are you?","＿＿さいです。"],["おくには どちらですか？","Which country are you from?",`${rb("マレーシア","まれーしあ")}じんです。`],["どこから きましたか？","Where are you from?","＿＿から きました。"]];
+  const area=el("div","q-area");c.append(area);let order=[],i=0;
+  const ask=()=>{area.innerHTML="";if(i>=order.length){order=shuffle(Q);i=0}const [q,m,a]=order[i++];
+    const qb=el("button","bub jp big-q",`🧑‍🏫 ${q}`);qb.onclick=()=>say(q);
+    const hint=el("div","reveal jp",""),hb=el("button","pill","💡 Hint"),nx=el("button","big-btn","Next question →");
+    hb.onclick=()=>{hint.innerHTML=`${a} <small style="font-size:15px">(${m})</small>`};nx.onclick=ask;
+    const r=el("div","srow");r.append(hb,nx);r.style.marginTop="12px";area.append(qb,hint,r);setTimeout(()=>say(q),250)};ask();
 },
 
 /* ===== whiteboard ===== */
@@ -520,20 +610,24 @@ function pad(k,o){o=o||{};
    Both devices use the same random seed, so they get the same questions. */
 const liveButtons=()=>[...document.querySelectorAll("button")].filter(b=>!b.closest("[data-local]"));
 function liveSync(){const seed=Math.floor(Math.random()*2**31);setSeed(seed);buildSlides();go(idx);
-  Live.send({t:"state",b:block.id,m:lessonMode,i:idx,seed,board:[...boardOn]})}
+  Live.send({t:"state",b:block.id,m:lessonMode,i:idx,seed,board:[...boardOn],me})}
+/* copy typing in text boxes (the name box) */
+document.addEventListener("input",e=>{if(Live.applying||!Live.on||e.target.tagName!=="INPUT"||e.target.closest("[data-local]"))return;
+  const i=[...document.querySelectorAll(".stage input")].indexOf(e.target);if(i>=0)Live.send({t:"in",i,v:e.target.value})});
 /* copy every tap (capture phase = before the page changes) */
 document.addEventListener("click",e=>{if(Live.applying||!Live.on)return;const b=e.target.closest("button");if(!b||b.closest("[data-local]"))return;
   const i=liveButtons().indexOf(b);if(i>=0)Live.send({t:"c",i})},true);
 
 /* ---------- start ---------- */
-const ALL_BLOCKS=HW_BLOCKS.concat([SHOP_BLOCK,BOARD_BLOCK]);
+const ALL_BLOCKS=HW_BLOCKS.concat([INTRO_BLOCK,SHOP_BLOCK,BOARD_BLOCK]);
 ALL_BLOCKS.forEach(b=>{const x=el("button","jp"+(b.extra?" extra":""),b.label);x.dataset.id=b.id;x.onclick=()=>{block=b;buildSlides();go(0)};$("blocks").append(x)});
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();go(idx+1);Live.send({t:"go",i:idx})}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(idx-1);Live.send({t:"go",i:idx})}});
 document.querySelectorAll("#modes button").forEach(b=>b.onclick=()=>{lessonMode=b.dataset.m;buildSlides();go(0)});
 Live.init({room:"hira",mount:$("liveMount"),onHello:liveSync,onData(m){
-  if(m.t==="state"){const b=ALL_BLOCKS.find(x=>x.id===m.b);if(b)block=b;lessonMode=m.m;if(m.board){boardOn.clear();m.board.forEach(x=>boardOn.add(x))}setSeed(m.seed);buildSlides();go(m.i)}
+  if(m.t==="state"){const b=ALL_BLOCKS.find(x=>x.id===m.b);if(b)block=b;lessonMode=m.m;if(m.board){boardOn.clear();m.board.forEach(x=>boardOn.add(x))}if(m.me)Object.assign(me,m.me);setSeed(m.seed);buildSlides();go(m.i)}
   else if(m.t==="c"){const b=liveButtons()[m.i];if(b&&!b.disabled)b.click()}
   else if(m.t==="go"){go(m.i)}
+  else if(m.t==="in"){const f=document.querySelectorAll(".stage input")[m.i];if(f){f.value=m.v;f.dispatchEvent(new Event("input"))}}
   else if(m.t==="d"){const cv=document.querySelectorAll(".pad canvas")[m.p];cv&&cv._draw&&cv._draw("them",m.k,m.x,m.y)}
 }});
 (function(){const q=new URLSearchParams(location.search);if(q.get("m")==="review")lessonMode="review";const b=ALL_BLOCKS.find(x=>x.id===q.get("b"));if(b)block=b;buildSlides();go((+q.get("p")||1)-1)})();
