@@ -121,10 +121,17 @@ button{font:inherit;cursor:pointer}
 .srow .big-btn:disabled{opacity:.35;cursor:default}
 .tip{max-width:760px;margin:10px auto 0;color:var(--muted);font-size:14px;text-align:center}
 @media(max-width:860px){.phr{grid-template-columns:1fr}}
+.sign{display:inline-block;margin:6px auto 0;background:#fff7d6;border:2px solid #e9d38a;border-radius:14px;padding:6px 18px;font-size:clamp(24px,2.6vw,32px);font-weight:800}
+.slide>.sign{display:table}
+.tens{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:900px;margin:6px auto}
+.tens button{border:2px solid var(--line);border-radius:14px;background:#fff;padding:6px 12px;font-size:24px;font-weight:800;display:flex;flex-direction:column;align-items:center;min-width:80px}
+.tens small{font-size:13px;color:var(--muted);font-weight:700}
 /* whiteboard */
 .pad.board{border-style:solid;margin:0 auto;background-color:#fffdf8;background-image:linear-gradient(to right,#e9e2d3 1px,transparent 1px),linear-gradient(to bottom,#e9e2d3 1px,transparent 1px)}
 .pad.g6x3{aspect-ratio:2/1;width:min(100%,calc(52vh * 2));background-size:calc(100% / 6) calc(100% / 3)}
-.pad.g8x6{aspect-ratio:4/3;width:min(100%,calc(66vh * 4 / 3));background-size:calc(100% / 8) calc(100% / 6)}
+.pad.g10x5{aspect-ratio:2/1;width:min(100%,calc(60vh * 2));background-size:calc(100% / 10) calc(100% / 5);background-image:linear-gradient(to right,#e9e2d3 1px,transparent 1px),linear-gradient(to bottom,#e9e2d3 1px,transparent 1px),linear-gradient(to right,transparent calc(50% - 1px),#cfc5ad calc(50% - 1px),#cfc5ad calc(50% + 1px),transparent calc(50% + 1px))}
+.pad.g10x5{background-size:calc(100% / 10) calc(100% / 5),calc(100% / 10) calc(100% / 5),100% 100%}
+.chart div{gap:6px}.chart i{width:18px}
 .chipbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;align-items:center;margin:4px 0 10px}
 .chipbar span{font-weight:800;color:var(--muted);font-size:14px}
 .chipbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-weight:700;font-size:15px}
@@ -171,8 +178,10 @@ const KANA=Object.fromEntries(HW_KANA.map(k=>[k.kana,k.words]));
 /* ---------- Extra topic: shopping (uses ひとつ〜とお + いくつ) ---------- */
 const SHOP_BLOCK={id:"shop",label:"🛒 おみせ",extra:true};
 const BOARD_BLOCK={id:"board",label:"✏️ ボード",extra:true};
-const boardOn=new Set(["a-ko"]);   // which hiragana blocks the whiteboard uses
-const boardKana=()=>HW_BLOCKS.filter(b=>boardOn.has(b.id)).flatMap(b=>b.kana);
+/* whiteboard letters are chosen by row (あ行, か行 …). Default = あ〜ま行 (up to も) */
+const BOARD_ROWS=[["a","あいうえお"],["ka","かきくけこ"],["sa","さしすせそ"],["ta","たちつてと"],["na","なにぬねの"],["ha","はひふへほ"],["ma","まみむめも"],["ya","やゆよ"],["ra","らりるれろ"],["wa","わをん"]].map(([id,k])=>({id,label:k[0]+"行",kana:[...k]}));
+const boardOn=new Set(["a","ka","sa","ta","na","ha","ma"]);
+const boardKana=()=>BOARD_ROWS.filter(r=>boardOn.has(r.id)).flatMap(r=>r.kana);
 const TSU=["","ひとつ","ふたつ","みっつ","よっつ","いつつ","むっつ","ななつ","やっつ","ここのつ","とお"];
 const SHOP_ITEMS=[["りんご","apple"],["みかん","mandarin orange"],["いちご","strawberry"],["あめ","candy"],["たまご","egg"],["えんぴつ","pencil"]];
 const shopImg=it=>lexImg(it[0],it[1],"../");
@@ -183,6 +192,12 @@ if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pick
 function say(t){try{if(!("speechSynthesis" in window)||Live.muted)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/〇〇/g,""));u.lang="ja-JP";if(jaVoice)u.voice=jaVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
 function randOrder(){return {it:SHOP_ITEMS[Math.floor(rnd()*SHOP_ITEMS.length)],n:1+Math.floor(rnd()*10)}}
 const orderText=o=>`${o.it[0]}を ${TSU[o.n]} ください`;
+/* everything costs 10えん each, so the price is n × 10 (10–100えん: uses only じゅう and ひゃく) */
+const YEN=["","じゅうえん","にじゅうえん","さんじゅうえん","よんじゅうえん","ごじゅうえん","ろくじゅうえん","ななじゅうえん","はちじゅうえん","きゅうじゅうえん","ひゃくえん"];
+const yenText=n=>`${YEN[n]}です`;
+function dialogue(o,hide){return [["s","🧑‍🍳","いらっしゃいませ。"],["c","🙋",`${o.it[0]}を ください。`],["s","🧑‍🍳","おいくつですか？"],
+  ["c","🙋",(hide?"？？？":TSU[o.n])+" ください。"],["c","🙋","いくらですか？"],["s","🧑‍🍳",(hide?"？？？えん":(o.n*10)+"えん")+"です。"],
+  ["s","🧑‍🍳","ありがとうございます。"],["c","🙋","ありがとうございます。"]]}
 
 let block=HW_BLOCKS[0],slides=[],idx=0;
 let lessonMode="lesson";
@@ -220,7 +235,7 @@ function render(){
 
 /* whiteboard: choose which hiragana blocks to practise */
 function chipBar(){const bar=el("div","chipbar");bar.append(el("span","","Letters:"));
-  HW_BLOCKS.forEach(b=>{const x=el("button","jp"+(boardOn.has(b.id)?" on":""),b.label);
+  BOARD_ROWS.forEach(b=>{const x=el("button","jp"+(boardOn.has(b.id)?" on":""),b.label);
     x.onclick=()=>{if(boardOn.has(b.id)){if(boardOn.size>1)boardOn.delete(b.id)}else boardOn.add(b.id);render()};bar.append(x)});return bar}
 
 /* ---------- renderers ---------- */
@@ -312,36 +327,41 @@ boardDict(c){
   d.append(num,nx,ag,sh,ans,all);c.append(d,pad("",{board:"g6x3"}),hi);
 },
 boardAll(c){
-  c.append(el("div","kicker","Whiteboard · Write them all"),el("div","title","Write all the hiragana you know!"),el("div","sub","In order, one letter per box. Then press Check."));
+  c.append(el("div","kicker","Whiteboard · Write them all"),el("div","title","Write all the hiragana you know!"),el("div","sub","One letter per box: あ行 then か行 on the first line, and so on. Then press Check."));
   c.append(chipBar());
   const ch=el("div","chart jp"),ck=el("button","big-btn","👀 Check");ch.style.display="none";
-  HW_BLOCKS.filter(b=>boardOn.has(b.id)).forEach(b=>{for(let i=0;i<b.kana.length;i+=5){const r=el("div");b.kana.slice(i,i+5).forEach(k=>r.append(el("span","",k)));ch.append(r)}});
+  /* two rows (行) per line, same as the board: あ行 | か行, さ行 | た行 … */
+  const on=BOARD_ROWS.filter(b=>boardOn.has(b.id));
+  for(let i=0;i<on.length;i+=2){const r=el("div");[on[i],on[i+1]].forEach((b,j)=>{if(j)r.append(el("i"));for(let n=0;n<5;n++){const t=b?(b.kana[n]||""):"",sp=el("span","",t);if(!t)sp.style.visibility="hidden";r.append(sp)}});ch.append(r)}
   ck.onclick=()=>{const h=ch.style.display==="none";ch.style.display=h?"":"none";ck.textContent=h?"🙈 Hide":"👀 Check"};
   const r=el("div","srow");r.style.margin="0 0 10px";r.append(ck);
-  c.append(r,pad("",{board:"g8x6"}),ch);
+  c.append(r,pad("",{board:"g10x5"}),ch);
 },
 
 /* ===== shop extra ===== */
 shopTitle(c){
   c.append(el("div","kicker","Extra · Let's go shopping"),el("div","title jp","おみせ ごっこ"),el("div","sub","Tap a picture: hear the word. Can you read it?"));
+  c.append(el("div","sign jp","ぜんぶ ひとつ 10えん！"),el("div","tip","Everything costs 10えん each."));
   const sh=el("div","shelf");
-  SHOP_ITEMS.forEach(it=>{const b=el("button","item",`${imgTag(it)}<span class="w jp">${it[0]}</span><span class="m">${it[1]}</span>`);b.onclick=()=>say(it[0]);sh.append(b)});
+  SHOP_ITEMS.forEach(it=>{const b=el("button","item",`${imgTag(it)}<span class="w jp">${it[0]}</span><span class="m">${it[1]} · 10えん</span>`);b.onclick=()=>say(it[0]);sh.append(b)});
   c.append(sh);
+  const nb=el("div","tens jp");for(let n=1;n<=10;n++){const b=el("button","",`${n*10}<small>${YEN[n]}</small>`);b.onclick=()=>say(YEN[n]);nb.append(b)}
+  c.append(el("div","tlabel","Prices: tap to hear"),nb);
   if(!jaVoice)c.append(el("div","tip","No Japanese voice found on this device, so 🔊 may be silent. Teacher reads aloud instead."));
 },
 shopPhrases(c){
   c.append(el("div","kicker","Shop words"),el("div","title","What do we say in a shop?"),el("div","sub","Tap a card: hear it, then see the meaning."));
-  const P=[["🧑‍🍳","いらっしゃいませ！","Welcome!"],["🙋","りんごを ください","An apple, please."],["🧑‍🍳","いくつですか？","How many?"],["🙋","みっつ ください","Three, please."],["🧑‍🍳","はい、どうぞ","Here you are."],["🙋","ありがとう！","Thank you!"]];
+  const P=[["🧑‍🍳","いらっしゃいませ。","Welcome!"],["🙋","りんごを ください。","An apple, please."],["🧑‍🍳","おいくつですか？","How many? (polite)"],["🙋","みっつ ください。","Three, please."],
+    ["🙋","いくらですか？","How much is it?"],["🧑‍🍳","30えんです。","It's 30 yen."],["🧑‍🍳","ありがとうございます。","Thank you very much."],["🙋","ありがとうございます。","Thank you very much."]];
   const g=el("div","phr");
   P.forEach(([w,j,m])=>{const b=el("button","pcard",`<span class="who">${w}</span><span><span class="jp">${j}</span><span class="m">${m}</span></span>`);b.onclick=()=>{b.classList.add("on");say(j)};g.append(b)});
-  c.append(g,el("div","tip","🧑‍🍳 = shop · 🙋 = you"));
+  c.append(g,el("div","tip","🧑‍🍳 = shop · 🙋 = you · In a shop, everyone speaks politely: おいくつですか・ありがとうございます"));
 },
 shopDialogue(c){
   const o={it:SHOP_ITEMS[0],n:3};
-  c.append(el("div","kicker","Listen and read"),el("div","title","At the fruit shop"),el("div","sub","Press Next line. Then read it together, taking turns."));
+  c.append(el("div","kicker","Listen and read"),el("div","title","At the shop"),el("div","sub","Press Next line. Then read it together, taking turns."));
   c.append(el("div","pics",imgTag(o.it).repeat(o.n)));
-  const L=[["s","🧑‍🍳","いらっしゃいませ！"],["c","🙋",`${o.it[0]}を ください。`],["s","🧑‍🍳","いくつですか？"],["c","🙋",`${TSU[o.n]} ください。`],["s","🧑‍🍳","はい、どうぞ。"],["c","🙋","ありがとう！"]];
-  const ch=el("div","chat"),rows=L.map(([k,w,t])=>{const r=el("div","line "+k,`<span class="who">${w}</span>`),b=el("span","bub jp",t);b.onclick=()=>say(t);r.append(b);ch.append(r);return [r,t]});
+  const ch=el("div","chat"),rows=dialogue(o).map(([k,w,t])=>{const r=el("div","line "+k,`<span class="who">${w}</span>`),b=el("span","bub jp",t);b.onclick=()=>say(t);r.append(b);ch.append(r);return [r,t]});
   let n=0;const row=el("div","srow"),nx=el("button","big-btn","▶ Next line"),all=el("button","","Show all"),rs=el("button","","↺");
   nx.onclick=()=>{if(n<rows.length){rows[n][0].classList.add("show");say(rows[n][1]);n++}if(n>=rows.length)nx.disabled=true};
   all.onclick=()=>{rows.forEach(r=>r[0].classList.add("show"));n=rows.length;nx.disabled=true};
@@ -349,49 +369,67 @@ shopDialogue(c){
   row.append(nx,all,rs);row.style.marginTop="12px";c.append(ch,row);
 },
 shopOrder(c){
-  c.append(el("div","kicker","You are the customer 🙋"),el("div","title","Make your order"),el("div","sub","Look at the picture. Tap the right words, then say the whole sentence."));
+  c.append(el("div","kicker","You are the customer 🙋"),el("div","title","Buy it!"),el("div","sub","Look at the picture. Tap the right words, then say the whole sentence."));
   const area=el("div","q-area");c.append(area);
   let score=0,asked=0,last=null;
   const ask=()=>{
-    area.innerHTML="";let o;do{o=randOrder()}while(last&&o.it===last.it&&o.n===last.n);last=o;
+    area.innerHTML="";let o;do{o=randOrder()}while(last&&o.it===last.it&&o.n===last.n);last=o;let first=true;
     area.append(el("div","pics",imgTag(o.it).repeat(o.n)),el("div","jp sub","いくつ？"));
     const s1=el("span","slot jp","？"),s2=el("span","slot jp","？"),sent=el("div","sent jp");
     sent.append(s1,el("span","","を"),s2,el("span","","ください"));area.append(sent);
-    const msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`);let done=[false,false],first=true;
-    const finish=()=>{if(!(done[0]&&done[1]))return;asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;
-      msg.className="q-msg ok";msg.textContent="✓ Now say it out loud!";say(orderText(o));
-      const r=el("div","srow"),hear=el("button","","🔊 Hear it"),nx=el("button","big-btn","🧑‍🍳 はい、どうぞ →");hear.onclick=()=>say(orderText(o));
-      nx.onclick=()=>{say("はい、どうぞ");area.querySelectorAll(".srow").forEach(x=>x.remove());const t=el("button","big-btn jp","ありがとう！");t.onclick=()=>{say("ありがとう");setTimeout(ask,900)};const rr=el("div","srow");rr.style.marginTop="10px";rr.append(t);area.append(rr)};
-      r.style.marginTop="10px";r.append(hear,nx);area.append(r)};
+    const msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`),step=el("div","");let done=[false,false];
+    const wrong=b=>{b.classList.add("no");b.disabled=true;first=false;msg.className="q-msg no";msg.textContent="↻ Try again"};
+    /* step 2: ask the price, listen, pick it */
+    const price=()=>{step.innerHTML="";msg.textContent="";
+      const q=el("button","big-btn jp","🙋 いくらですか？");step.append(el("div","tlabel","Now ask the price"),q);
+      q.onclick=()=>{say("いくらですか");q.disabled=true;setTimeout(()=>say(yenText(o.n)),900);
+        const ag=el("button","pill","🔊 🧑‍🍳 Again");ag.onclick=()=>say(yenText(o.n));
+        step.append(el("div","tlabel","🧑‍🍳 says… how much?"),ag);
+        const tl=el("div","tiles");shuffle([o.n,...shuffle([1,2,3,4,5,6,7,8,9,10].filter(x=>x!==o.n)).slice(0,2)]).forEach(v=>{const b=el("button","tile jp",`${v*10}えん`);
+          b.onclick=()=>{if(v===o.n){b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);done2()}else{wrong(b);say(yenText(o.n))}};tl.append(b)});
+        step.append(tl)}};
+    /* step 3: pay and say thank you */
+    const done2=()=>{asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${YEN[o.n]}</span>`;
+      const t=el("button","big-btn jp","🙋 ありがとうございます！");t.onclick=()=>{say("ありがとうございます");setTimeout(ask,1600)};
+      const r=el("div","srow");r.style.marginTop="10px";r.append(t);step.append(r);say("ありがとうございます")};
+    const finish=()=>{if(!(done[0]&&done[1]))return;msg.className="q-msg ok";msg.textContent="✓ Now say it out loud!";say(orderText(o));
+      const r=el("div","srow"),hear=el("button","","🔊 Hear it"),nx=el("button","big-btn","💰 Price →");hear.onclick=()=>say(orderText(o));nx.onclick=price;
+      r.style.marginTop="10px";r.append(hear,nx);step.innerHTML="";step.append(r)};
     const group=(label,opts,right,slot,i)=>{area.append(el("div","tlabel",label));const tl=el("div","tiles");
       shuffle(opts).forEach(x=>{const b=el("button","tile jp",x);b.onclick=()=>{if(done[i])return;
         if(x===right){b.classList.add("ok");slot.textContent=x;slot.classList.add("ok");done[i]=true;tl.querySelectorAll("button").forEach(y=>y.disabled=true);finish()}
-        else{b.classList.add("no");b.disabled=true;first=false;msg.className="q-msg no";msg.textContent="↻ Try again"}};tl.append(b)});area.append(tl)};
+        else wrong(b)};tl.append(b)});area.append(tl)};
     const others=shuffle(SHOP_ITEMS.filter(x=>x!==o.it)).slice(0,2).map(x=>x[0]);
     const nums=shuffle([1,2,3,4,5,6,7,8,9,10].filter(x=>x!==o.n)).slice(0,2).map(x=>TSU[x]);
     group("What is it?",[o.it[0],...others],o.it[0],s1,0);
     group("How many?",[TSU[o.n],...nums],TSU[o.n],s2,1);
-    area.append(msg,sc);
+    area.append(step,msg,sc);
   };ask();
 },
 shopClerk(c){
-  c.append(el("div","kicker","You are the shop 🧑‍🍳"),el("div","title","Listen to the order"),el("div","sub","Listen. Tap the right thing the right number of times, then press はい、どうぞ."));
+  c.append(el("div","kicker","You are the shop 🧑‍🍳"),el("div","title","Listen to the order"),el("div","sub","Listen. Tap the right thing the right number of times. Then tell the price."));
   const area=el("div","q-area");c.append(area);
   let score=0,asked=0;
   const ask=()=>{
-    area.innerHTML="";const o=randOrder();let bag=[];
+    area.innerHTML="";const o=randOrder();let bag=[],first=true;
     const top=el("div","srow"),hear=el("button","big-btn","🔊 Listen"),show=el("button","","👀 Show words"),rv=el("div","reveal jp","");
     hear.onclick=()=>say(orderText(o));show.onclick=()=>{rv.textContent=orderText(o)};top.append(hear,show);
     const sh=el("div","shelf"),bk=el("div","basket");
     const draw=()=>{bk.innerHTML=bag.length?bag.map(imgTag).join(""):'<span class="empty">🧺 basket</span>'};draw();
     SHOP_ITEMS.forEach(it=>{const b=el("button","item",`${imgTag(it)}<span class="w jp">${it[0]}</span>`);b.onclick=()=>{if(bag.length<12){bag.push(it);draw()}};sh.append(b)});
-    const msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`),row=el("div","srow"),clr=el("button","","↺ Empty basket"),give=el("button","big-btn jp","はい、どうぞ！");
+    const msg=el("div","q-msg"),sc=el("div","score",`${score} / ${asked}`),row=el("div","srow"),clr=el("button","","↺ Empty basket"),give=el("button","big-btn","✓ Done");
     clr.onclick=()=>{bag=[];draw();msg.textContent=""};
-    let first=true;
     give.onclick=()=>{const ok=bag.length===o.n&&bag.every(x=>x===o.it);
-      if(ok){say("はい、どうぞ");asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;msg.className="q-msg ok";msg.innerHTML=`✓ <span class="jp">${orderText(o)}</span>`;
-        row.innerHTML="";const nx=el("button","big-btn","Next customer →");nx.onclick=ask;row.append(nx)}
-      else{first=false;msg.className="q-msg no";msg.textContent=bag.some(x=>x!==o.it)?"↻ Wrong thing. Listen again!":"↻ Count again! いくつ？";say(orderText(o))}};
+      if(!ok){first=false;msg.className="q-msg no";msg.textContent=bag.some(x=>x!==o.it)?"↻ Wrong thing. Listen again!":"↻ Count again! いくつ？";say(orderText(o));return}
+      msg.className="q-msg ok";msg.textContent="✓ Good!";row.innerHTML="";sh.querySelectorAll("button").forEach(b=>b.disabled=true);
+      setTimeout(()=>say("いくらですか"),300);
+      row.append(el("div","tlabel","🙋 いくらですか？  Everything is 10えん each. Say the price!"));
+      const tl=el("div","tiles");shuffle([o.n,...shuffle([1,2,3,4,5,6,7,8,9,10].filter(x=>x!==o.n)).slice(0,2)]).forEach(v=>{const b=el("button","tile jp",`${v*10}えんです`);
+        b.onclick=()=>{if(v!==o.n){b.classList.add("no");b.disabled=true;first=false;return}
+          b.classList.add("ok");tl.querySelectorAll("button").forEach(y=>y.disabled=true);say(yenText(o.n));asked++;if(first)score++;sc.textContent=`${score} / ${asked}`;
+          const t=el("button","big-btn jp","🧑‍🍳 ありがとうございます！");t.onclick=()=>{say("ありがとうございます");setTimeout(ask,1600)};
+          const r=el("div","srow");r.style.marginTop="10px";r.append(t);area.insertBefore(r,msg)};tl.append(b)});
+      area.insertBefore(tl,msg)};
     row.append(clr,give);row.style.marginTop="8px";
     area.append(top,rv,sh,bk,row,msg,sc);setTimeout(()=>say(orderText(o)),300);
   };ask();
@@ -402,10 +440,9 @@ shopPlay(c){
   const card=()=>{area.innerHTML="";const o=randOrder();
     area.append(el("div","pics",imgTag(o.it).repeat(o.n)));
     const ch=el("div","chat");
-    [["s","🧑‍🍳","いらっしゃいませ！"],["c","🙋",`${o.it[0]}を ください。`],["s","🧑‍🍳","いくつですか？"],["c","🙋","？？？ ください。"],["s","🧑‍🍳","はい、どうぞ。"],["c","🙋","ありがとう！"]]
-      .forEach(([k,w,t])=>{const r=el("div","line show "+k,`<span class="who">${w}</span><span class="bub jp">${t}</span>`);ch.append(r)});
+    dialogue(o,true).forEach(([k,w,t])=>ch.append(el("div","line show "+k,`<span class="who">${w}</span><span class="bub jp">${t}</span>`)));
     const row=el("div","srow"),nx=el("button","big-btn","🎲 New order card"),ans=el("button","","👀 Answer");
-    nx.onclick=card;ans.onclick=()=>{ans.textContent=TSU[o.n];say(orderText(o))};row.style.marginTop="12px";row.append(ans,nx);
+    nx.onclick=card;ans.onclick=()=>{ans.textContent=`${TSU[o.n]} · ${YEN[o.n]}`;say(orderText(o))};row.style.marginTop="12px";row.append(ans,nx);
     area.append(ch,row)};
   card();
   c.append(el("div","tip","Swap roles after each card."));
@@ -439,18 +476,25 @@ function pad(k,o){o=o||{};
   const w=el("div","pad-wrap");if(!o.board)w.append(el("div","pad-title","✏️ Write it together"));
   const p=el("div","pad"+(o.board?" board "+o.board:"")),ghost=el("div","ghost jp",o.board?"":`<span>${k}</span><span></span><span></span>`),cv=document.createElement("canvas");
   p.append(ghost,cv);w.append(p);
-  const row=el("div","srow"),clr=el("button","",o.board?"🧽 Clear board":"Clear"),gh=el("button","","Hide guide");row.style.marginTop="8px";if(o.board)gh.style.display="none";
-  clr.onclick=()=>{const c=cv.getContext("2d");c.clearRect(0,0,cv.width,cv.height)};
-  cv._draw=()=>{};
+  const row=el("div","srow"),un=el("button","","↶ Undo"),clr=el("button","",o.board?"🧽 Clear board":"Clear"),gh=el("button","","Hide guide");row.style.marginTop="8px";if(o.board)gh.style.display="none";
+  un.title="Take back your last stroke";
+  /* every stroke is kept (in 0..1 coordinates) so Undo can redraw the rest */
+  const strokes=[],pens={};let c=null;
+  const redraw=()=>{if(!c)return;const b=cv.getBoundingClientRect();c.clearRect(0,0,b.width,b.height);
+    strokes.forEach(st=>{c.strokeStyle=st.who==="me"?"#23263a":"#6f5aa8";c.beginPath();st.pts.forEach(([x,y],i)=>i?c.lineTo(x*b.width,y*b.height):c.moveTo(x*b.width,y*b.height));if(st.pts.length===1)c.lineTo(st.pts[0][0]*b.width+.1,st.pts[0][1]*b.height);c.stroke()})};
+  clr.onclick=()=>{strokes.length=0;redraw()};
+  /* Undo removes the last stroke of whoever pressed it (in a live class the other device presses it "as them") */
+  un.onclick=()=>{const who=Live.applying?"them":"me";for(let i=strokes.length-1;i>=0;i--)if(strokes[i].who===who){strokes.splice(i,1);break}redraw()};
+  cv._draw=(who,k,nx,ny)=>{
+    if(k==="d"){const st={who,pts:[[nx,ny]]};strokes.push(st);pens[who]=st}
+    else if(k==="m"&&pens[who]){const st=pens[who],[px,py]=st.pts[st.pts.length-1];st.pts.push([nx,ny]);
+      if(c){const b=cv.getBoundingClientRect();c.strokeStyle=who==="me"?"#23263a":"#6f5aa8";c.beginPath();c.moveTo(px*b.width,py*b.height);c.lineTo(nx*b.width,ny*b.height);c.stroke()}}
+    else if(k==="u"){delete pens[who]}};
   gh.onclick=()=>{const h=ghost.style.visibility==="hidden";ghost.style.visibility=h?"":"hidden";gh.textContent=h?"Hide guide":"Show guide"};
-  row.append(clr,gh);w.append(row);
+  row.append(un,clr,gh);w.append(row);
   requestAnimationFrame(()=>{const r=p.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;
-    const c=cv.getContext("2d");c.scale(dpr,dpr);c.lineWidth=o.board?5:7;c.lineCap="round";c.lineJoin="round";c.strokeStyle="#23263a";
+    c=cv.getContext("2d");c.scale(dpr,dpr);c.lineWidth=o.board?5:7;c.lineCap="round";c.lineJoin="round";redraw();
     let down=false;const pt=e=>{const b=cv.getBoundingClientRect();return [(e.clientX-b.left)/b.width,(e.clientY-b.top)/b.height]};
-    const pens={};
-    /* nx,ny = 0..1 so drawings line up on screens of different sizes */
-    cv._draw=(who,k,nx,ny)=>{const b=cv.getBoundingClientRect(),x=nx*b.width,y=ny*b.height;c.strokeStyle=who==="me"?"#23263a":"#6f5aa8";
-      if(k==="d"){pens[who]=[x,y]}else if(k==="m"&&pens[who]){c.beginPath();c.moveTo(pens[who][0],pens[who][1]);c.lineTo(x,y);c.stroke();pens[who]=[x,y]}else if(k==="u"){delete pens[who]}};
     const local=(k,e)=>{const [nx,ny]=e?pt(e):[0,0];cv._draw("me",k,nx,ny);Live.send({t:"d",p:[...document.querySelectorAll(".pad canvas")].indexOf(cv),k,x:+nx.toFixed(4),y:+ny.toFixed(4)})};
     cv.addEventListener("pointerdown",e=>{down=true;cv.setPointerCapture(e.pointerId);local("d",e)});
     cv.addEventListener("pointermove",e=>{if(down)local("m",e)});
