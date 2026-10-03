@@ -1,38 +1,38 @@
 /* =====================================================================
    Midnight & Light — あいさつ（打招呼）练习：短句、情景、吐槽
    greetings.html 读这个档。录音在 assets/audio/japanese/greetings/（Mint 的声音）；
-   没录到的短句（おはよう、ありがとう 这类随便的说法）用装置的日文语音。
+   全部都有录音（2026-10-03 补录了随便的说法）；万一没有档案才用装置的日文语音。
    ===================================================================== */
 
 /* 每一句：jp, 录音档名（没有就留空）, English, 中文, 对谁说（polite = 老师・大人・陌生人；casual = 朋友・家人；any = 都可以） */
 const GP = {
   ohayou_p:   ["おはようございます", "ohayou", "Good morning (polite)", "早安（礼貌）", "polite"],
-  ohayou_c:   ["おはよう", "", "Morning! (casual)", "早！（随便）", "casual"],
+  ohayou_c:   ["おはよう", "ohayou_c", "Morning! (casual)", "早！（随便）", "casual"],
   konnichiwa: ["こんにちは", "konnichiwa", "Hello / Good afternoon", "你好／午安", "any"],
   konbanwa:   ["こんばんは", "konbanwa", "Good evening", "晚上好", "any"],
   oyasumi_p:  ["おやすみなさい", "oyasumi", "Good night (polite)", "晚安（礼貌）", "polite"],
-  oyasumi_c:  ["おやすみ", "", "Night! (casual)", "晚安～（随便）", "casual"],
+  oyasumi_c:  ["おやすみ", "oyasumi_c", "Night! (casual)", "晚安～（随便）", "casual"],
   arigatou_p: ["ありがとうございます", "arigatou", "Thank you (polite)", "谢谢（礼貌）", "polite"],
-  arigatou_c: ["ありがとう", "", "Thanks! (casual)", "谢啦（随便）", "casual"],
+  arigatou_c: ["ありがとう", "arigatou_c", "Thanks! (casual)", "谢啦（随便）", "casual"],
   gomen_p:    ["ごめんなさい", "gomennasai", "I'm sorry", "对不起", "any"],
-  gomen_c:    ["ごめん", "", "Sorry! (casual)", "抱歉啦（随便）", "casual"],
+  gomen_c:    ["ごめん", "gomen_c", "Sorry! (casual)", "抱歉啦（随便）", "casual"],
   sumimasen:  ["すみません", "sumimasen", "Excuse me / Sorry", "不好意思", "polite"],
   sayounara:  ["さようなら", "sayounara", "Goodbye", "再见", "polite"],
   matane:     ["またね", "matane", "See you! (casual)", "拜拜！（随便）", "casual"],
-  shitsurei:  ["しつれいします", "", "Excuse me (entering / leaving a room)", "打扰了／告辞了", "polite"],
-  osaki:      ["おさきに しつれいします", "", "Excuse me for leaving first", "我先走了（对同事、上司）", "polite"],
+  shitsurei:  ["しつれいします", "shitsurei", "Excuse me (entering / leaving a room)", "打扰了／告辞了", "polite"],
+  osaki:      ["おさきに しつれいします", "osaki", "Excuse me for leaving first", "我先走了（对同事、上司）", "polite"],
   itadakimasu:["いただきます", "itadakimasu", "(before eating)", "我开动了", "any"],
   gochisou:   ["ごちそうさまでした", "gochisousama", "(after eating) Thank you for the meal", "我吃饱了／谢谢款待", "any"],
   ittekimasu: ["いってきます", "ittekimasu", "I'm off! (leaving home)", "我出门了", "any"],
   itterasshai:["いってらっしゃい", "itterasshai", "Have a good day! (to someone leaving)", "慢走／路上小心", "any"],
   tadaima:    ["ただいま", "tadaima", "I'm home!", "我回来了", "any"],
   okaeri:     ["おかえりなさい", "okaerinasai", "Welcome home", "你回来啦", "any"],
-  wakatta:    ["わかった", "", "Got it (casual)", "懂了（随便）", "casual"],
+  wakatta:    ["わかった", "wakatta", "Got it (casual)", "懂了（随便）", "casual"],
   wakarimashita:["わかりました", "wakarimashita", "I understand (polite)", "我明白了（礼貌）", "polite"],
   daijoubuka: ["だいじょうぶですか", "daijoubuka", "Are you OK?", "你还好吗？", "polite"],
   daijoubu:   ["だいじょうぶです", "daijoubu", "I'm OK.", "我没事。", "polite"],
   chottomatte:["ちょっと まって ください", "chottomatte", "Please wait a moment", "请等一下", "polite"],
-  nee:        ["ねえ！", "", "Hey! (casual)", "喂！（随便）", "casual"]
+  nee:        ["ねえ！", "nee", "Hey! (casual)", "喂！（随便）", "casual"]
 };
 
 /* 学习卡：分组 */
