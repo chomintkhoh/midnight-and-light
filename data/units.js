@@ -7,6 +7,7 @@
      "代号": { book: "dekiru", lesson: 2 },   できる日本語 第 2 课
      lesson: 0 = 还在学假名，只开放单元 0。
      "代号": { all: true },                    全部单元都开放（不看课本）
+     加 jlpt:false ＝ 大人也先不显示 JLPT（例：{ book:"minna", lesson:1, jlpt:false }）
    上完一课就把 lesson 的数字改大。没写在这里的学生，My Practice 跟以前一样全部显示。
 
    单元开放规则：学生的课本里，第一次教到这个单元的那一课上到了，单元就开放。
@@ -116,7 +117,7 @@ const EXTRAS = [
 
 /* ===== 学生进度（只管日文单元；中文照 practice.html 原本的设定） ===== */
 const STUDENT_UNITS = {
-  "FRD9J": { book:"minna", lesson:1 },   /* Yixuan：平假名学到「も」，加开自我介绍（单元 1、2） */
+  "FRD9J": { book:"minna", lesson:1, jlpt:false },   /* Yixuan：平假名学到「も」，加开自我介绍（单元 1、2） */
   "T8MNL": { book:"minna", lesson:50 },  /* 老师自己：全部单元开放，用来预览 */
   /* 妈妈团（线下）：大家的日本語 第 14 课 */
   "PMXNR": { book:"minna", lesson:14 },  /* Belle */
