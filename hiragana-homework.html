@@ -35,7 +35,7 @@ h1{font-size:clamp(26px,5vw,36px);margin:10px 0 4px;text-align:center}
 .task small{display:block;font-size:16px;color:var(--muted);font-weight:600;margin-top:2px}
 .prog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:10px 0 14px}.prog i{display:block;height:100%;background:var(--lav);transition:width .2s}
 .pic{font-size:clamp(84px,22vw,130px);line-height:1.1;text-align:center}
-.pic .lex{width:min(44vw,180px);height:min(44vw,180px);image-rendering:pixelated}
+/* pictures: square, never cropped, 64/128/192 px only (same on phone and computer) */.pic .lex{width:192px;height:192px;object-fit:contain;image-rendering:auto}
 .pic.txt{font-size:26px;font-weight:800;color:var(--lav);padding:30px 0}
 .word{display:flex;justify-content:center;gap:6px;margin:8px 0 14px;flex-wrap:wrap}
 .word span{width:clamp(52px,13vw,72px);height:clamp(52px,13vw,72px);border:2px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:clamp(32px,8vw,46px);font-weight:700;background:#fffdf8}

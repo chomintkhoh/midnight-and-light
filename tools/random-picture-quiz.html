@@ -46,7 +46,7 @@ input[type=file]{display:none}
 .big{font-size:clamp(84px,17vw,190px);line-height:1.05;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .big.emoji{font-size:clamp(90px,18vw,200px)}
 .big.text{font-size:clamp(42px,8vw,96px)}
-.lex{width:min(46vw,300px);height:min(40vh,300px);image-rendering:pixelated;object-fit:contain}
+/* pictures: square, never cropped; 256 = the picture's real size, so it stays sharp */.lex{width:256px;height:256px;max-width:100%;aspect-ratio:1;image-rendering:pixelated;object-fit:contain}
 .swatch{width:min(46vw,260px);height:min(30vh,200px);border-radius:24px;border:1px solid #0002}
 .hint{font-size:clamp(22px,3.4vw,36px);font-weight:700;color:#555}
 .answer{margin-top:8px;font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--gold);min-height:1.3em}

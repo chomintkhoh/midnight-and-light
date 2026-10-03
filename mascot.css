@@ -12,8 +12,8 @@
   text-align:left;
 }
 .mascot-pic{
-  flex:0 0 auto; width:112px; height:112px;
-  image-rendering:pixelated; object-fit:contain;
+  flex:0 0 auto; width:128px; height:128px;      /* 128 = half the picture size, so it stays sharp */
+  image-rendering:auto; object-fit:contain;
 }
 .mascot-say{
   min-width:0; font-weight:700; font-size:1.05rem; line-height:1.45;
@@ -25,11 +25,11 @@
 @media (prefers-reduced-motion: reduce){ .mascot.pop .mascot-pic{ animation:none } }
 @media (max-width:600px){
   .mascot{ gap:10px; padding:6px 12px 6px 6px; border-radius:16px; }
-  .mascot-pic{ width:96px; height:96px; }
+  .mascot-pic{ width:128px; height:128px; }   /* same size on phone and computer */
   .mascot-say{ font-size:.98rem; }
 }
 /* inside the cream report box it needs no second card */
 .report-box .mascot{ box-shadow:none; background:#fff; margin:6px auto 4px; }
 
-/* any pixel-art image stays crisp when scaled */
-img.pixel, .mascot img{ image-rendering:pixelated; }
+/* pixel art: "pixelated" only when shown BIGGER than the picture; shrinking with it drops lines */
+img.pixel{ image-rendering:pixelated; }
