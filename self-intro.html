@@ -304,7 +304,7 @@ function quiz(body,key,activity,draw){
 
 const VIEWS={
   welcome(b){
-    b.append(el("div","kicker",L("Unit 1 · Nice to meet you","单元 1 · 初次见面")),el("div","h",L("Today you will learn to say:","今天要学会说：")),el("div","big-jp jp","じこしょうかい"));
+    b.append(el("div","kicker",L("Unit 1 · Nice to meet you","单元 1 · 初次见面")),el("div","h",L("Today you will learn to say:","今天要学会说：")),(()=>{const t=el("div","big-jp jp","じこしょうかい 🔊");t.style.cursor="pointer";t.onclick=()=>say("じこしょうかい");return t})());
     const g=el("div","grid wide");
     [["🙋",L("Your name","你的名字")],["🌏",L("Your country","你的国家")],["🎂",L("Your age","你的年龄")]].forEach(([e,t])=>g.append(el("div","tap row",`<span class="em">${e}</span><span class="j">${t}</span>`)));
     b.append(g,el("div","tip",L("Tap anything in Japanese to hear it. 🔊","点任何日文都可以听发音。🔊")));
