@@ -138,16 +138,16 @@ C-0136,あるいて,on foot,走路,🚶,transport,,,,assets/audio/japanese/vocab
 C-0137,ききゅう,hot-air balloon,热气球,,transport,,,,assets/audio/japanese/vocab/137.mp3,,assets/images/lexicon/C-0137.webp,,vocab:transport
 C-0138,ヘリコプター,helicopter,直升机,🚁,transport,,,,assets/audio/japanese/vocab/138.mp3,,assets/images/lexicon/C-0138.webp,,vocab:transport
 C-0139,ロケット,rocket,火箭,🚀,transport,,,,assets/audio/japanese/vocab/139.mp3,,assets/images/lexicon/C-0139.webp,,vocab:transport
-C-0140,ズボン,trousers,裤子,👖,clothes,,,,assets/audio/japanese/vocab/140.mp3,,assets/images/lexicon/C-0140.webp,,vocab:clothes
-C-0141,スカート,skirt,裙子,,clothes,,,,assets/audio/japanese/vocab/141.mp3,,assets/images/lexicon/C-0141.webp,,vocab:clothes
-C-0142,シャツ,shirt,衬衫,👔,clothes,,,,assets/audio/japanese/vocab/142.mp3,,assets/images/lexicon/C-0142.webp,,vocab:clothes
-C-0143,Tシャツ,T-shirt,T恤,👕,clothes,,,,assets/audio/japanese/vocab/143.mp3,,assets/images/lexicon/C-0143.webp,,vocab:clothes
-C-0144,セーター,sweater,毛衣,,clothes,,,,assets/audio/japanese/vocab/144.mp3,,assets/images/lexicon/C-0144.webp,,vocab:clothes
-C-0145,コート,coat,外套,🧥,clothes,,,,assets/audio/japanese/vocab/145.mp3,,assets/images/lexicon/C-0145.webp,,vocab:clothes
-C-0146,くつした,socks,袜子,🧦,clothes,,,,assets/audio/japanese/vocab/146.mp3,,assets/images/lexicon/C-0146.webp,,vocab:clothes
-C-0147,くつ,shoes,鞋子,👟,clothes,,,,assets/audio/japanese/vocab/147.mp3,assets/audio/japanese/hiragana-words/hw-023.mp3,assets/images/lexicon/C-0147.webp,,vocab:clothes hiragana:く
-C-0148,ぼうし,hat,帽子,🧢,clothes,,,,assets/audio/japanese/vocab/148.mp3,,assets/images/lexicon/C-0148.webp,,vocab:clothes
-C-0149,めがね,glasses,眼镜,👓,clothes,,,,assets/audio/japanese/vocab/149.mp3,assets/audio/japanese/hiragana-words/hw-100.mp3,assets/images/lexicon/C-0149.webp,,vocab:clothes hiragana:め
+C-0140,ズボン,trousers,裤子,👖,clothes,,,,assets/audio/japanese/vocab/140.mp3,,assets/images/lexicon/C-0140.webp,yes,vocab:clothes
+C-0141,スカート,skirt,裙子,,clothes,,,,assets/audio/japanese/vocab/141.mp3,,assets/images/lexicon/C-0141.webp,yes,vocab:clothes
+C-0142,シャツ,shirt,衬衫,👔,clothes,,,,assets/audio/japanese/vocab/142.mp3,,assets/images/lexicon/C-0142.webp,yes,vocab:clothes
+C-0143,Tシャツ,T-shirt,T恤,👕,clothes,,,,assets/audio/japanese/vocab/143.mp3,,assets/images/lexicon/C-0143.webp,yes,vocab:clothes
+C-0144,セーター,sweater,毛衣,,clothes,,,,assets/audio/japanese/vocab/144.mp3,,assets/images/lexicon/C-0144.webp,yes,vocab:clothes
+C-0145,コート,coat,外套,🧥,clothes,,,,assets/audio/japanese/vocab/145.mp3,,assets/images/lexicon/C-0145.webp,yes,vocab:clothes
+C-0146,くつした,socks,袜子,🧦,clothes,,,,assets/audio/japanese/vocab/146.mp3,,assets/images/lexicon/C-0146.webp,yes,vocab:clothes
+C-0147,くつ,shoes,鞋子,👟,clothes,,,,assets/audio/japanese/vocab/147.mp3,assets/audio/japanese/hiragana-words/hw-023.mp3,assets/images/lexicon/C-0147.webp,yes,vocab:clothes hiragana:く
+C-0148,ぼうし,hat,帽子,🧢,clothes,,,,assets/audio/japanese/vocab/148.mp3,,assets/images/lexicon/C-0148.webp,yes,vocab:clothes
+C-0149,めがね,glasses,眼镜,👓,clothes,,,,assets/audio/japanese/vocab/149.mp3,assets/audio/japanese/hiragana-words/hw-100.mp3,assets/images/lexicon/C-0149.webp,yes,vocab:clothes hiragana:め
 C-0150,かさ,umbrella,雨伞,☂️,clothes,,,,assets/audio/japanese/vocab/150.mp3,assets/audio/japanese/hiragana-words/hw-017.mp3,assets/images/lexicon/C-0150.webp,,vocab:clothes hiragana:か
 C-0151,あたま,head,头,,body,,,,assets/audio/japanese/vocab/151.mp3,,assets/images/lexicon/C-0151.webp,,vocab:body
 C-0152,かみ,hair,头发,,body,,,,assets/audio/japanese/vocab/152.mp3,,assets/images/lexicon/C-0152.webp,,vocab:body
@@ -219,30 +219,30 @@ C-0217,フォーク,fork,叉子,,others,,,,assets/audio/japanese/vocab/217.mp3,,
 C-0218,まんが,comic,漫画,,others,,,,assets/audio/japanese/vocab/218.mp3,,assets/images/lexicon/C-0218.webp,,vocab:others
 C-0219,えいが,movie,电影,🎬,others,,,,assets/audio/japanese/vocab/219.mp3,,assets/images/lexicon/C-0219.webp,,vocab:others
 C-0220,しゃしん,photo,照片,📷,others,,,,assets/audio/japanese/vocab/220.mp3,,assets/images/lexicon/C-0220.webp,,vocab:others
-C-0221,たかい,tall / high,高,,adjectives,,,,assets/audio/japanese/vocab/221.mp3,,assets/images/lexicon/C-0221.webp,,vocab:adjectives
-C-0222,ひくい,short / low,矮・低,,adjectives,,,,assets/audio/japanese/vocab/222.mp3,,assets/images/lexicon/C-0222.webp,,vocab:adjectives
-C-0223,たかい,expensive,贵,💰,adjectives,,,,assets/audio/japanese/vocab/223.mp3,,assets/images/lexicon/C-0223.webp,,vocab:adjectives
-C-0224,やすい,cheap,便宜,,adjectives,,,,assets/audio/japanese/vocab/224.mp3,,assets/images/lexicon/C-0224.webp,,vocab:adjectives
-C-0225,おおきい,big,大,,adjectives,,,,assets/audio/japanese/vocab/225.mp3,,assets/images/lexicon/C-0225.webp,,vocab:adjectives
-C-0226,ちいさい,small,小,,adjectives,,,,assets/audio/japanese/vocab/226.mp3,,assets/images/lexicon/C-0226.webp,,vocab:adjectives
-C-0227,ながい,long,长,,adjectives,,,,assets/audio/japanese/vocab/227.mp3,,assets/images/lexicon/C-0227.webp,,vocab:adjectives
-C-0228,みじかい,short (length),短,,adjectives,,,,assets/audio/japanese/vocab/228.mp3,,assets/images/lexicon/C-0228.webp,,vocab:adjectives
-C-0229,あたらしい,new,新,🆕,adjectives,,,,assets/audio/japanese/vocab/229.mp3,,assets/images/lexicon/C-0229.webp,,vocab:adjectives
-C-0230,ふるい,old (things),旧,,adjectives,,,,assets/audio/japanese/vocab/230.mp3,,assets/images/lexicon/C-0230.webp,,vocab:adjectives
-C-0231,はやい,fast,快,🐇,adjectives,,,,assets/audio/japanese/vocab/231.mp3,,assets/images/lexicon/C-0231.webp,,vocab:adjectives
-C-0232,おそい,slow,慢,🐢,adjectives,,,,assets/audio/japanese/vocab/232.mp3,,assets/images/lexicon/C-0232.webp,,vocab:adjectives
-C-0233,あつい,hot (weather),热（天气）,🥵,adjectives,,,,assets/audio/japanese/vocab/233.mp3,,assets/images/lexicon/C-0233.webp,,vocab:adjectives
-C-0234,さむい,cold (weather),冷（天气）,🥶,adjectives,,,,assets/audio/japanese/vocab/234.mp3,,assets/images/lexicon/C-0234.webp,,vocab:adjectives
-C-0235,あつい,hot (to touch),烫,,adjectives,,,,assets/audio/japanese/vocab/235.mp3,,assets/images/lexicon/C-0235.webp,,vocab:adjectives
-C-0236,つめたい,cold (to touch),冰,🧊,adjectives,,,,assets/audio/japanese/vocab/236.mp3,,assets/images/lexicon/C-0236.webp,,vocab:adjectives
-C-0237,かるい,light (weight),轻,,adjectives,,,,assets/audio/japanese/vocab/237.mp3,,assets/images/lexicon/C-0237.webp,,vocab:adjectives
-C-0238,おもい,heavy,重,,adjectives,,,,assets/audio/japanese/vocab/238.mp3,,assets/images/lexicon/C-0238.webp,,vocab:adjectives
-C-0239,いい,good,好,👍,adjectives,,,,assets/audio/japanese/vocab/239.mp3,,assets/images/lexicon/C-0239.webp,,vocab:adjectives
-C-0240,わるい,bad,坏,👎,adjectives,,,,assets/audio/japanese/vocab/240.mp3,,assets/images/lexicon/C-0240.webp,,vocab:adjectives
+C-0221,たかい,tall / high,高,,adjectives,,,,assets/audio/japanese/vocab/221.mp3,,assets/images/lexicon/C-0221.webp,yes,vocab:adjectives
+C-0222,ひくい,short / low,矮・低,,adjectives,,,,assets/audio/japanese/vocab/222.mp3,,assets/images/lexicon/C-0222.webp,yes,vocab:adjectives
+C-0223,たかい,expensive,贵,💰,adjectives,,,,assets/audio/japanese/vocab/223.mp3,,assets/images/lexicon/C-0223.webp,yes,vocab:adjectives
+C-0224,やすい,cheap,便宜,,adjectives,,,,assets/audio/japanese/vocab/224.mp3,,assets/images/lexicon/C-0224.webp,yes,vocab:adjectives
+C-0225,おおきい,big,大,,adjectives,,,,assets/audio/japanese/vocab/225.mp3,,assets/images/lexicon/C-0225.webp,yes,vocab:adjectives
+C-0226,ちいさい,small,小,,adjectives,,,,assets/audio/japanese/vocab/226.mp3,,assets/images/lexicon/C-0226.webp,yes,vocab:adjectives
+C-0227,ながい,long,长,,adjectives,,,,assets/audio/japanese/vocab/227.mp3,,assets/images/lexicon/C-0227.webp,yes,vocab:adjectives
+C-0228,みじかい,short (length),短,,adjectives,,,,assets/audio/japanese/vocab/228.mp3,,assets/images/lexicon/C-0228.webp,yes,vocab:adjectives
+C-0229,あたらしい,new,新,🆕,adjectives,,,,assets/audio/japanese/vocab/229.mp3,,assets/images/lexicon/C-0229.webp,yes,vocab:adjectives
+C-0230,ふるい,old (things),旧,,adjectives,,,,assets/audio/japanese/vocab/230.mp3,,assets/images/lexicon/C-0230.webp,yes,vocab:adjectives
+C-0231,はやい,fast,快,🐇,adjectives,,,,assets/audio/japanese/vocab/231.mp3,,assets/images/lexicon/C-0231.webp,yes,vocab:adjectives
+C-0232,おそい,slow,慢,🐢,adjectives,,,,assets/audio/japanese/vocab/232.mp3,,assets/images/lexicon/C-0232.webp,yes,vocab:adjectives
+C-0233,あつい,hot (weather),热（天气）,🥵,adjectives,,,,assets/audio/japanese/vocab/233.mp3,,assets/images/lexicon/C-0233.webp,yes,vocab:adjectives
+C-0234,さむい,cold (weather),冷（天气）,🥶,adjectives,,,,assets/audio/japanese/vocab/234.mp3,,assets/images/lexicon/C-0234.webp,yes,vocab:adjectives
+C-0235,あつい,hot (to touch),烫,,adjectives,,,,assets/audio/japanese/vocab/235.mp3,,assets/images/lexicon/C-0235.webp,yes,vocab:adjectives
+C-0236,つめたい,cold (to touch),冰,🧊,adjectives,,,,assets/audio/japanese/vocab/236.mp3,,assets/images/lexicon/C-0236.webp,yes,vocab:adjectives
+C-0237,かるい,light (weight),轻,,adjectives,,,,assets/audio/japanese/vocab/237.mp3,,assets/images/lexicon/C-0237.webp,yes,vocab:adjectives
+C-0238,おもい,heavy,重,,adjectives,,,,assets/audio/japanese/vocab/238.mp3,,assets/images/lexicon/C-0238.webp,yes,vocab:adjectives
+C-0239,いい,good,好,👍,adjectives,,,,assets/audio/japanese/vocab/239.mp3,,assets/images/lexicon/C-0239.webp,yes,vocab:adjectives
+C-0240,わるい,bad,坏,👎,adjectives,,,,assets/audio/japanese/vocab/240.mp3,,assets/images/lexicon/C-0240.webp,yes,vocab:adjectives
 C-0241,にがい,bitter,苦,,adjectives,,,,assets/audio/japanese/vocab/241.mp3,,assets/images/lexicon/C-0241.webp,,vocab:adjectives
-C-0242,すっぱい,sour,酸,,adjectives,,,,assets/audio/japanese/vocab/242.mp3,,assets/images/lexicon/C-0242.webp,,vocab:adjectives
+C-0242,すっぱい,sour,酸,,adjectives,,,,assets/audio/japanese/vocab/242.mp3,,assets/images/lexicon/C-0242.webp,yes,vocab:adjectives
 C-0243,しょっぱい,salty,咸,,adjectives,,,,assets/audio/japanese/vocab/243.mp3,,assets/images/lexicon/C-0243.webp,,vocab:adjectives
-C-0244,からい,spicy,辣,🌶️,adjectives,,,,assets/audio/japanese/vocab/244.mp3,,assets/images/lexicon/C-0244.webp,,vocab:adjectives
+C-0244,からい,spicy,辣,🌶️,adjectives,,,,assets/audio/japanese/vocab/244.mp3,,assets/images/lexicon/C-0244.webp,yes,vocab:adjectives
 C-0245,おいしい,delicious,好吃,😋,adjectives,,,,assets/audio/japanese/vocab/245.mp3,,assets/images/lexicon/C-0245.webp,,vocab:adjectives
 C-0246,たべます,eat,吃,🍽️,verbs,,,,assets/audio/japanese/vocab/246.mp3,,assets/images/lexicon/C-0246.webp,,vocab:verbs
 C-0247,のみます,drink,喝,🥤,verbs,,,,assets/audio/japanese/vocab/247.mp3,,assets/images/lexicon/C-0247.webp,,vocab:verbs
@@ -356,3 +356,16 @@ C-0354,さくら,cherry blossom,,🌸,worksheet,,,,,,assets/images/lexicon/C-035
 C-0355,すずめ,sparrow,,🐦,worksheet,,,,,,assets/images/lexicon/C-0355.webp,,reserve
 C-0356,せんせい,teacher,,🧑‍🏫,worksheet,,,,,,assets/images/lexicon/C-0356.webp,,reserve
 C-0357,そば,soba,,🍜,worksheet,,,,,,assets/images/lexicon/C-0357.webp,,reserve
+C-0358,おもちゃや,toy shop,玩具店,🧸,places,,,,,,assets/images/lexicon/C-0358.webp,yes,clock:mall
+C-0359,はなや,flower shop,花店,💐,places,,,,,,assets/images/lexicon/C-0359.webp,yes,clock:mall
+C-0360,はいしゃ,dentist,牙医,🦷,places,,,,,,assets/images/lexicon/C-0360.webp,yes,clock:mall
+C-0361,ペットショップ,pet shop,宠物店,🐶,places,,,,,,assets/images/lexicon/C-0361.webp,yes,clock:mall
+C-0362,ジム,gym,健身房,🏋️,places,,,,,,assets/images/lexicon/C-0362.webp,yes,clock:mall
+C-0363,ダンススクール,dance school,舞蹈学校,💃,places,,,,,,assets/images/lexicon/C-0363.webp,yes,clock:mall
+C-0364,めがねや,optician,眼镜店,👓,places,,,,,,assets/images/lexicon/C-0364.webp,yes,clock:mall
+C-0365,えいがかん,cinema,电影院,🎬,places,,,,,,assets/images/lexicon/C-0365.webp,yes,clock:mall
+C-0366,すしや,sushi restaurant,寿司店,🍣,places,,,,,,assets/images/lexicon/C-0366.webp,yes,clock:mall
+C-0367,カラオケ,karaoke,卡拉OK,🎤,places,,,,,,assets/images/lexicon/C-0367.webp,yes,clock:mall
+C-0368,アイスクリームや,ice cream shop,冰淇淋店,🍦,places,,,,,,assets/images/lexicon/C-0368.webp,yes,clock:mall
+C-0369,あつい,hot (food),烫（食物）,,adjectives,,,,,,assets/images/lexicon/C-0369.webp,yes,vocab:adjectives
+C-0370,つめたい,cold (drink),冰（饮料）,,adjectives,,,,,,assets/images/lexicon/C-0370.webp,yes,vocab:adjectives

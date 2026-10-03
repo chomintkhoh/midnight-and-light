@@ -63,7 +63,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 @keyframes ftShake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .question-no{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;background:rgba(217,196,142,.16);color:var(--gold);font-weight:800}
 .ft-scene{display:flex;align-items:center;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin:.2rem auto .8rem}
-.ft-place{text-align:center}.ft-place img{width:150px;height:112px;object-fit:contain;display:block;margin:0 auto .3rem;background:#F4F1EA;border-radius:16px;padding:6px}
+.ft-place{text-align:center}.ft-place img{image-rendering:pixelated;width:150px;height:112px;object-fit:contain;display:block;margin:0 auto .3rem;background:#F4F1EA;border-radius:16px;padding:6px}
 .ft-place .jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;font-weight:700;color:var(--gold)}
 .ft-clocks{display:flex;align-items:center;gap:.8rem}
 .ft-clock{text-align:center}.ft-clock .clock{width:140px;display:block;margin:0 auto}
@@ -120,7 +120,7 @@ button{border:1px solid var(--border);color:var(--warm);background:rgba(255,255,
 .mall-stage{min-width:0}
 .mall-progress{margin-top:10px;color:var(--muted);font-weight:700}
 .mall-task{display:flex;gap:14px;align-items:center;background:rgba(217,196,142,.1);border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:12px}
-.mall-emoji{font-size:44px}.mall-task-en{font-size:1.05rem}.mall-task-jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;color:var(--gold);font-weight:700}
+.mall-emoji{font-size:44px}.mall-emoji .shop-ic{width:80px;height:80px}.shop-ic{width:30px;height:30px;vertical-align:middle;image-rendering:pixelated;object-fit:contain}.mf-icons .shop-ic{width:24px;height:24px}.mall-task-en{font-size:1.05rem}.mall-task-jp{font-family:"Zen Kaku Gothic New";font-size:1.5rem;color:var(--gold);font-weight:700}
 .mall-bubble{display:flex;gap:10px;align-items:baseline;margin:8px 0;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05)}
 .mall-bubble.staff{background:rgba(182,169,218,.14)}.mall-bubble.me{background:rgba(217,196,142,.12)}
 .mall-who{flex:0 0 auto;font-size:.85rem;color:var(--muted);font-weight:700}.mall-say{font-family:"Zen Kaku Gothic New";font-size:1.25rem;line-height:1.9}
@@ -310,6 +310,7 @@ const MONTHS=["いちがつ","にがつ","さんがつ","しがつ","ごがつ",
 const DATE_READ={1:"ついたち",2:"ふつか",3:"みっか",4:"よっか",5:"いつか",6:"むいか",7:"なのか",8:"ようか",9:"ここのか",10:"とおか",11:"じゅういちにち",12:"じゅうににち",13:"じゅうさんにち",14:"じゅうよっか",15:"じゅうごにち",16:"じゅうろくにち",17:"じゅうしちにち",18:"じゅうはちにち",19:"じゅうくにち",20:"はつか",21:"にじゅういちにち",22:"にじゅうににち",23:"にじゅうさんにち",24:"にじゅうよっか",25:"にじゅうごにち",26:"にじゅうろくにち",27:"にじゅうしちにち",28:"にじゅうはちにち",29:"にじゅうくにち",30:"さんじゅうにち",31:"さんじゅういちにち"};
 const state={main:"clock",sub:"read",mode:"mixed",worksheet:[],calendarDifficulty:"easy",calendarDate:new Date(),calendarQuestions:[],calendarPage:0,furigana:true,setTarget:null,setClock:null,fromToDifficulty:"easy",fromToQuestions:[]};
 const app=document.getElementById("app");
+function shopIcon(s,c){return s.img?`<img class="${c||"shop-ic"}" src="${s.img}" alt="${s.jp}" onerror="this.outerHTML='${s.emoji}'">`:s.emoji}
 function el(t,c,txt){const x=document.createElement(t);if(c)x.className=c;if(txt!==undefined)x.textContent=txt;return x}
 function playSuccess(){successSound.pause();successSound.currentTime=0;successSound.play().catch(()=>{})}
 function stamp(host){host.querySelectorAll(".stamp,.fallback").forEach(x=>x.remove());const im=new Image();im.className="stamp";im.src=STAMP_SRC;im.alt="Great!";im.onerror=()=>{im.remove();host.appendChild(el("div","fallback","GREAT!"))};host.appendChild(im)}
@@ -385,15 +386,15 @@ function playSuccess(){SFX.play()}
 
 /* ===== から／まで 练习（V4：合并修正版） ===== */
 const CONTEXT_PLACES=[
- {jp:"がっこう",img:"./assets/images/japanese/places/school.png",open:[7,9],close:[14,17]},
- {jp:"ぎんこう",img:"./assets/images/japanese/places/bank.png",open:[8,10],close:[15,17]},
- {jp:"としょかん",img:"./assets/images/japanese/places/library.png",open:[9,11],close:[17,20]},
- {jp:"びょういん",img:"./assets/images/japanese/places/hospital.png",open:[8,10],close:[16,19]},
- {jp:"スーパー",img:"./assets/images/japanese/places/supermarket.png",open:[8,10],close:[19,22]},
- {jp:"ほんや",img:"./assets/images/japanese/places/bookstore.png",open:[9,11],close:[18,21]},
- {jp:"くすりや",img:"./assets/images/japanese/places/pharmacy.png",open:[8,10],close:[18,21]},
- {jp:"プール",img:"./assets/images/japanese/places/pool.png",open:[7,10],close:[17,21]},
- {jp:"ゆうびんきょく",img:"./assets/images/japanese/places/post-office.png",open:[8,10],close:[16,18]}
+ {jp:"がっこう",img:"./assets/images/lexicon/C-0098.webp",open:[7,9],close:[14,17]},
+ {jp:"ぎんこう",img:"./assets/images/lexicon/C-0112.webp",open:[8,10],close:[15,17]},
+ {jp:"としょかん",img:"./assets/images/lexicon/C-0106.webp",open:[9,11],close:[17,20]},
+ {jp:"びょういん",img:"./assets/images/lexicon/C-0105.webp",open:[8,10],close:[16,19]},
+ {jp:"スーパー",img:"./assets/images/lexicon/C-0104.webp",open:[8,10],close:[19,22]},
+ {jp:"ほんや",img:"./assets/images/lexicon/C-0093.webp",open:[9,11],close:[18,21]},
+ {jp:"くすりや",img:"./assets/images/lexicon/C-0110.webp",open:[8,10],close:[18,21]},
+ {jp:"プール",img:"./assets/images/lexicon/C-0119.webp",open:[7,10],close:[17,21]},
+ {jp:"ゆうびんきょく",img:"./assets/images/lexicon/C-0109.webp",open:[8,10],close:[16,18]}
 ];
 const FT_TYPES=[["arrange","🧩 Card Builder"],["fill","✏️ Fill"],["type","⌨ Type"],["write","✍ Write"]];
 let fromToPracticeType="arrange",lastFromToSignature="";
@@ -771,24 +772,24 @@ const MALL_FLOORS=[
  {code:"1F",read:"いっかい"},{code:"G",read:"グラウンドフロア"},{code:"B1",read:"ちかいっかい"},{code:"B2",read:"ちかにかい"}
 ];
 const MALL_SHOPS=[
- {jp:"ほんや",emoji:"📚",task:"You want to buy a book.",floor:"2F",open:{h:10,m:0},close:{h:21,m:30}},
- {jp:"おもちゃや",emoji:"🧸",task:"You want to buy a toy.",floor:"2F",open:{h:10,m:0},close:{h:21,m:0}},
+ {jp:"ほんや",img:"./assets/images/lexicon/C-0093.webp",emoji:"📚",task:"You want to buy a book.",floor:"2F",open:{h:10,m:0},close:{h:21,m:30}},
+ {jp:"おもちゃや",img:"./assets/images/lexicon/C-0358.webp",emoji:"🧸",task:"You want to buy a toy.",floor:"2F",open:{h:10,m:0},close:{h:21,m:0}},
  {jp:"ぶんぼうぐや",emoji:"✏️",task:"You need a new eraser.",floor:"2F",open:{h:10,m:0},close:{h:21,m:0}},
- {jp:"ぎんこう",emoji:"🏦",task:"You need to go to the bank.",floor:"G",open:{h:9,m:30},close:{h:16,m:30}},
- {jp:"はなや",emoji:"💐",task:"You want to buy flowers for Mum.",floor:"G",open:{h:9,m:0},close:{h:19,m:0}},
- {jp:"やっきょく",emoji:"💊",task:"You need some medicine.",floor:"G",open:{h:8,m:30},close:{h:22,m:0}},
- {jp:"ゆうびんきょく",emoji:"📮",task:"You want to send a letter.",floor:"B1",open:{h:9,m:0},close:{h:17,m:0}},
- {jp:"スーパー",emoji:"🛒",task:"You need to buy vegetables.",floor:"B1",open:{h:8,m:0},close:{h:22,m:0}},
- {jp:"パンや",emoji:"🥐",task:"You want to buy bread.",floor:"B1",open:{h:7,m:0},close:{h:20,m:0}},
- {jp:"はいしゃ",emoji:"🦷",task:"You have a toothache.",floor:"3F",open:{h:9,m:0},close:{h:18,m:0}},
- {jp:"ペットショップ",emoji:"🐶",task:"You want to buy dog food.",floor:"3F",open:{h:11,m:0},close:{h:20,m:0}},
- {jp:"ジム",emoji:"🏋️",task:"You want to exercise.",floor:"3F",open:{h:7,m:0},close:{h:22,m:0}},
- {jp:"ダンススクール",emoji:"💃",task:"You have a dance class.",floor:"3F",open:{h:15,m:0},close:{h:21,m:0}},
- {jp:"めがねや",emoji:"👓",task:"You need new glasses.",floor:"1F",open:{h:10,m:0},close:{h:21,m:0}},
- {jp:"えいがかん",emoji:"🎬",task:"You want to watch a movie.",floor:"4F",open:{h:11,m:0},close:{h:23,m:0}},
- {jp:"すしや",emoji:"🍣",task:"You want to eat sushi.",floor:"4F",open:{h:11,m:30},close:{h:21,m:30}},
- {jp:"カラオケ",emoji:"🎤",task:"You want to sing karaoke.",floor:"4F",open:{h:13,m:0},close:{h:23,m:0}},
- {jp:"アイスクリームや",emoji:"🍦",task:"You want some ice cream.",floor:"4F",open:{h:14,m:0},close:{h:22,m:0}}
+ {jp:"ぎんこう",img:"./assets/images/lexicon/C-0112.webp",emoji:"🏦",task:"You need to go to the bank.",floor:"G",open:{h:9,m:30},close:{h:16,m:30}},
+ {jp:"はなや",img:"./assets/images/lexicon/C-0359.webp",emoji:"💐",task:"You want to buy flowers for Mum.",floor:"G",open:{h:9,m:0},close:{h:19,m:0}},
+ {jp:"やっきょく",img:"./assets/images/lexicon/C-0110.webp",emoji:"💊",task:"You need some medicine.",floor:"G",open:{h:8,m:30},close:{h:22,m:0}},
+ {jp:"ゆうびんきょく",img:"./assets/images/lexicon/C-0109.webp",emoji:"📮",task:"You want to send a letter.",floor:"B1",open:{h:9,m:0},close:{h:17,m:0}},
+ {jp:"スーパー",img:"./assets/images/lexicon/C-0104.webp",emoji:"🛒",task:"You need to buy vegetables.",floor:"B1",open:{h:8,m:0},close:{h:22,m:0}},
+ {jp:"パンや",img:"./assets/images/lexicon/C-0092.webp",emoji:"🥐",task:"You want to buy bread.",floor:"B1",open:{h:7,m:0},close:{h:20,m:0}},
+ {jp:"はいしゃ",img:"./assets/images/lexicon/C-0360.webp",emoji:"🦷",task:"You have a toothache.",floor:"3F",open:{h:9,m:0},close:{h:18,m:0}},
+ {jp:"ペットショップ",img:"./assets/images/lexicon/C-0361.webp",emoji:"🐶",task:"You want to buy dog food.",floor:"3F",open:{h:11,m:0},close:{h:20,m:0}},
+ {jp:"ジム",img:"./assets/images/lexicon/C-0362.webp",emoji:"🏋️",task:"You want to exercise.",floor:"3F",open:{h:7,m:0},close:{h:22,m:0}},
+ {jp:"ダンススクール",img:"./assets/images/lexicon/C-0363.webp",emoji:"💃",task:"You have a dance class.",floor:"3F",open:{h:15,m:0},close:{h:21,m:0}},
+ {jp:"めがねや",img:"./assets/images/lexicon/C-0364.webp",emoji:"👓",task:"You need new glasses.",floor:"1F",open:{h:10,m:0},close:{h:21,m:0}},
+ {jp:"えいがかん",img:"./assets/images/lexicon/C-0365.webp",emoji:"🎬",task:"You want to watch a movie.",floor:"4F",open:{h:11,m:0},close:{h:23,m:0}},
+ {jp:"すしや",img:"./assets/images/lexicon/C-0366.webp",emoji:"🍣",task:"You want to eat sushi.",floor:"4F",open:{h:11,m:30},close:{h:21,m:30}},
+ {jp:"カラオケ",img:"./assets/images/lexicon/C-0367.webp",emoji:"🎤",task:"You want to sing karaoke.",floor:"4F",open:{h:13,m:0},close:{h:23,m:0}},
+ {jp:"アイスクリームや",img:"./assets/images/lexicon/C-0368.webp",emoji:"🍦",task:"You want some ice cream.",floor:"4F",open:{h:14,m:0},close:{h:22,m:0}}
 ];
 const MALL_ROUND=5;
 let mall=null;
@@ -844,8 +845,8 @@ function renderMallMap(level,clickable,onPick,inline=false){
  MALL_FLOORS.forEach(f=>{
    const b=el("button","mall-floor"+(mall.lit.has(f.code)?" lit":""),"");
    b.innerHTML=`<span class="mf-code">${f.code}</span>`+(level==="easy"?`<span class="mf-read">${jpHTML(f.read,level)}</span>`:"");
-   const here=mall.shops.filter((s,idx)=>idx<mall.i&&s.floor===f.code).map(s=>s.emoji).join("");
-   if(here)b.append(el("span","mf-icons",here));
+   const here=mall.shops.filter((s,idx)=>idx<mall.i&&s.floor===f.code).map(s=>shopIcon(s)).join("");
+   if(here){const ic=el("span","mf-icons");ic.innerHTML=here;b.append(ic)}
    if(clickable){b.classList.add("pick");b.onclick=()=>onPick(f.code,b)}else b.disabled=true;
    map.append(b)
  });
@@ -872,7 +873,7 @@ function renderMall(){
  }
  const s=mall.shops[mall.i],K=kataToHira(s.jp),shopH=jpHTML(s.jp,level);
  const next=st=>{mall.step=st;mall.fails=0;render()};
- const card=el("div","mall-task");card.innerHTML=`<div class="mall-emoji">${s.emoji}</div><div><div class="mall-task-en">${s.task}</div><div class="mall-task-jp">${shopH}</div></div>`;
+ const card=el("div","mall-task");card.innerHTML=`<div class="mall-emoji">${shopIcon(s)}</div><div><div class="mall-task-en">${s.task}</div><div class="mall-task-jp">${shopH}</div></div>`;
  stage.append(card);
  const staff="🧑‍💼 Information";
  const floorQ=`すみません。${s.jp}は なんがいですか。`;
@@ -931,8 +932,8 @@ function renderMall(){
    else{now=Math.random()<.5?{h:Math.max(6,s.open.h-rand(1,2)),m:0}:{h:Math.min(23,s.close.h+1),m:0}}
    const open=(now.h*60+now.m)>=(s.open.h*60+s.open.m)&&(now.h*60+now.m)<(s.close.h*60+s.close.m);
    stage.append(setHTML(el("div","mall-step"),`Step 5: It is now ${ftTimeJP(now,level)}. Is ${jpHTML(s.jp,level)} open?`));
-   const c=el("div","mall-now");c.append(ftClock(now,level),el("div","mall-hours-card",`${s.emoji} ${jpHTML(s.jp,level)}<br>${hoursText(s)}`));
-   c.querySelector(".mall-hours-card").innerHTML=`${s.emoji} ${jpHTML(s.jp,level)}<br>${hoursText(s)}`;
+   const c=el("div","mall-now");c.append(ftClock(now,level),el("div","mall-hours-card"));
+   c.querySelector(".mall-hours-card").innerHTML=`${shopIcon(s)} ${jpHTML(s.jp,level)}<br>${hoursText(s)}`;
    stage.append(c);
    mallChoices(stage,[{val:"yes",html:"はい 🟢"},{val:"no",html:"いいえ 🔴"}],open?"yes":"no","mall-open",`${s.jp} @ ${ftTimeJP(now,"normal")}`,()=>next("thanks"),"Look at the clock and the opening hours again.")
  }else if(mall.step==="thanks"){
