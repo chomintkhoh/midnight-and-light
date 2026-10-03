@@ -32,6 +32,7 @@
   .jp, .jp *{ font-family:"Noto Sans JP",sans-serif; }
   ruby rt{ font-size:.5em; color:var(--ink-soft); }
   .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; margin-top:14px; }
+  .tap.row{ flex-direction:row; gap:10px; min-height:0; width:100%; padding:12px 14px; }
   .tap{ border:1px solid var(--line); background:#F5F2EC; border-radius:16px; padding:12px 8px; cursor:pointer; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:3px; min-height:88px; justify-content:center; text-align:center; }
   .tap:hover{ border-color:var(--plum); }
   .tap:focus-visible, .opt:focus-visible{ outline:2px solid var(--plum); outline-offset:3px; }
@@ -108,7 +109,7 @@ const VIEWS={
   numbers(c){
     c.append(el("div","sub",L("0–10, then the tens up to 100. 11–99 are built from these: 35 = さんじゅう + ご.","0〜10，再加上 20〜100 的整十。11〜99 用这些组合：35 ＝ さんじゅう ＋ ご。")));
     const g=el("div","grid");
-    JT_NUMBERS.forEach(x=>{const t=el("button","tap",`<span class="n">${x.n}</span><span class="j jp">${jtNum(x.n)}</span>${x.alt?`<span class="alt jp">${L("also","也念")} ${x.alt}</span>`:""}`);t.type="button";t.onclick=()=>say(jtNum(x.n));g.append(t)});
+    JT_NUMBERS.forEach(x=>{const t=el("button","tap",`<span class="n">${x.n}</span><span class="j jp">${jtNum(x.n)}</span>${x.alt?`<span class="alt jp">${L("also","也念")} ${x.alt}</span>`:""}`);t.type="button";t.onclick=()=>say(x.alt?jtNum(x.n)+"、"+x.alt:jtNum(x.n));g.append(t)});
     c.append(g,el("div","tip",L("4, 7, 9 have two readings. For time and counting you will meet し・しち・く later.","4、7、9 有两种念法。以后学时间、数东西时会用到 し・しち・く。")));
     const all=JT_NUMBERS.map(x=>x.n);
     c.append(quizBox(()=>{const n=all[Math.floor(Math.random()*all.length)];const right=jtNum(n);return {show:String(n),right,opts:three(right,all.map(jtNum)),speak:right}}));
@@ -125,12 +126,13 @@ const VIEWS={
   countries(c){
     c.append(el("div","sub",L("Country + じん = a person from that country. Tap to hear.","国家 ＋ じん ＝ 那国人。点一下听发音。")));
     const g=el("div","grid");
-    JT_COUNTRIES.forEach(x=>{const t=el("button","tap",`<span class="em">${x[2]}</span><span class="j jp">${jtCountryHTML(x)}</span><span class="m">${L(x[3],x[4])}</span><span class="alt jp">${jtCountryHTML(x)}じん</span>`);t.type="button";t.onclick=()=>say(x[0]+"、"+x[0]+"じん");g.append(t)});
+    JT_COUNTRIES.forEach(x=>{const t=el("button","tap",`<span class="em">${x[2]}</span><span class="j jp">${jtCountryHTML(x)}</span><span class="m">${L(x[3],x[4])}</span><span class="alt jp">${jtCountryHTML(x)}じん</span>${JT_COUNTRY_ALT[x[0]]?`<span class="alt jp">${L("also","也念")} ${JT_COUNTRY_ALT[x[0]]}</span>`:""}`);t.type="button";t.onclick=()=>say(x[0]+(JT_COUNTRY_ALT[x[0]]?"、"+JT_COUNTRY_ALT[x[0]]:"")+"、"+x[0]+"じん");g.append(t)});
     c.append(g);
     c.append(quizBox(()=>{const x=JT_COUNTRIES[Math.floor(Math.random()*JT_COUNTRIES.length)];return {show:x[2],right:x,opts:three(x,JT_COUNTRIES),label:o=>jtCountryHTML(o)+"じん",speak:x[0]+"じん"}}));
   },
   tsu(c){
     c.append(el("div","sub",L("Counting things 1–10 (apples, sweets…). いくつですか？ = How many?","数东西 1〜10（苹果、糖果……）。いくつですか？＝有几个？")));
+    const ask=el("button","tap row",`<span class="em">🔊</span><span class="j jp">これは いくつですか。</span><span class="m">${L("How many are these?","这是几个？")}</span>`);ask.type="button";ask.style.marginBottom="12px";ask.onclick=()=>say("これはいくつですか");c.append(ask);
     const g=el("div","grid");
     for(let n=1;n<=10;n++){const t=el("button","tap",`<span class="n">${n}</span><span class="j jp">${JT_TSU[n]}</span><span class="m">${"🍎".repeat(Math.min(n,5))}${n>5?"…":""}</span>`);t.type="button";t.onclick=()=>say(JT_TSU[n]);g.append(t)}
     c.append(g,el("div","tip",L("More counters (まい・ほん…) will be added when we learn them.","其他量词（まい・ほん……）学到时再加进来。")));
@@ -147,7 +149,7 @@ function render(){
   const tg=el("div","lang-toggle");[["en","English"],["zh","中文"]].forEach(([v,n])=>{const b=el("button",lang===v?"active":"",n);b.type="button";b.onclick=()=>{lang=v;try{localStorage.setItem("selfIntroLangV1",v)}catch(e){}render()};tg.append(b)});
   top.append(tg);c.append(top);
   VIEWS[tab](c);
-  if(!(JTSpeak.supported()&&JTSpeak.hasVoice()))c.append(el("div","voice-warn",L("🔇 If you hear nothing: this device has no Japanese voice. Try another browser or phone.","🔇 如果听不到声音：这台装置没有日文语音，可以换浏览器或手机试试。")));
+  if(tab==="numbers"&&!(JTSpeak.supported()&&JTSpeak.hasVoice()))c.append(el("div","voice-warn",L("🔇 If you hear nothing: this device has no Japanese voice. Try another browser or phone.","🔇 如果听不到声音：这台装置没有日文语音，可以换浏览器或手机试试。")));
 }
 render();
 addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h)){tab=h;render()}});
